@@ -149,12 +149,12 @@ export default function StudentDashboard() {
             </p>
           </a>
 
-          <div className="rounded-xl border p-4 opacity-80">
-            <div className="text-lg font-semibold">Wkrótce</div>
-            <p className="mt-1 text-sm">
-              Streak, XP, zadania, statystyki, itp.
+          <a className="rounded-xl border p-4 hover:bg-black/5 transition" href="/app/status">
+            <div className="text-lg font-semibold">Status</div>
+            <p className="mt-1 text-sm opacity-80">
+              Szybki sanity-check: logowanie, profil, liczniki vocab/lekcji.
             </p>
-          </div>
+          </a>
         </section>
 
         {/* Notatki użytkownika */}
@@ -213,9 +213,7 @@ export default function StudentDashboard() {
                 {checkoutLoading ? "Przekierowuję…" : "Aktywuj"}
               </button>
             ) : (
-              <span className="rounded-lg border px-3 py-2 text-sm font-medium">
-                Aktywna
-              </span>
+              <span className="rounded-lg border px-3 py-2 text-sm font-medium">Aktywna</span>
             )}
           </div>
 
