@@ -28,6 +28,26 @@ function shuffle<T>(input: T[]): T[] {
   return arr;
 }
 
+// ETAP 2: normalizacja + sprawdzanie wielu dopuszczalnych tłumaczeń po ";"
+function normPL(input: string) {
+  return input.trim().toLowerCase();
+}
+
+function parseTranslationsPl(raw: string | null | undefined): string[] {
+  return (raw ?? "")
+    .split(";")
+    .map(normPL)
+    .filter(Boolean);
+}
+
+function isCorrectTranslation(userAnswerRaw: string, translationPlRaw: string | null | undefined) {
+  const user = normPL(userAnswerRaw);
+  if (!user) return false;
+
+  const variants = parseTranslationsPl(translationPlRaw);
+  return variants.includes(user);
+}
+
 export default function VocabTestPage() {
   return (
     <Suspense fallback={<main className="min-h-screen p-8">Ładuję test…</main>}>
@@ -148,7 +168,7 @@ function VocabTestInner() {
     setChecked(true);
 
     const expectedRaw = current.translation_pl;
-    const given = answer.trim();
+    const givenRaw = answer;
 
     if (!expectedRaw) {
       setFeedback("Brak tłumaczenia w bazie – to pytanie nie liczy się do wyniku.");
@@ -156,10 +176,9 @@ function VocabTestInner() {
       return;
     }
 
-    const expected = expectedRaw.trim().toLowerCase();
-    const normalizedGiven = given.toLowerCase();
+    const isCorrect = isCorrectTranslation(givenRaw, expectedRaw);
 
-    if (normalizedGiven === expected) {
+    if (isCorrect) {
       setFeedback("Poprawnie!");
       setFeedbackTone("good");
       setCorrectCount((c) => c + 1);
@@ -171,7 +190,7 @@ function VocabTestInner() {
         {
           term: current.term_en,
           expected: expectedRaw,
-          given: given || "(pusto)",
+          given: normPL(givenRaw) ? givenRaw.trim() : "(pusto)",
         },
       ]);
     }
