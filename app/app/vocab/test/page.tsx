@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
@@ -27,6 +30,14 @@ function shuffle<T>(input: T[]): T[] {
 }
 
 export default function VocabTestPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen p-8">Ładuję test…</main>}>
+      <VocabTestInner />
+    </Suspense>
+  );
+}
+
+function VocabTestInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
