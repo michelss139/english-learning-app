@@ -48,6 +48,12 @@ function isCorrectTranslation(userAnswerRaw: string, translationPlRaw: string | 
   return variants.includes(user);
 }
 
+function pill(tone: "neutral" | "good" | "bad") {
+  if (tone === "good") return "border-emerald-400/30 bg-emerald-400/10 text-emerald-100";
+  if (tone === "bad") return "border-rose-400/30 bg-rose-400/10 text-rose-100";
+  return "border-white/15 bg-white/5 text-white/80";
+}
+
 export default function VocabTestPage() {
   return (
     <Suspense fallback={<main>Ładuję test…</main>}>
@@ -211,21 +217,27 @@ function VocabTestInner() {
   if (loading) return <main>Ładuję test…</main>;
 
   return (
-    <main className="space-y-5">
-      <header className="rounded-2xl border p-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <main className="space-y-6">
+      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold">Test słówek</h1>
-            <p className="text-sm opacity-80">
-              Tryb: <span className="font-medium">{modeParam || "en-pl"}</span>
+            <h1 className="text-2xl font-semibold tracking-tight text-white">Test słówek</h1>
+            <p className="text-sm text-white/75">
+              Tryb: <span className="font-medium text-white">{modeParam || "en-pl"}</span>
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <a className="rounded-lg border px-4 py-2 text-sm font-medium" href="/app/vocab">
+            <a
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              href="/app/vocab"
+            >
               ← Trening słówek
             </a>
-            <a className="rounded-lg border px-4 py-2 text-sm font-medium" href="/app">
+            <a
+              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              href="/app"
+            >
               Panel
             </a>
           </div>
@@ -233,8 +245,8 @@ function VocabTestInner() {
       </header>
 
       {error ? (
-        <div className="rounded-2xl border p-4">
-          <p className="text-sm">
+        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+          <p className="text-sm text-rose-100">
             <span className="font-semibold">Błąd: </span>
             {error}
           </p>
@@ -242,16 +254,18 @@ function VocabTestInner() {
       ) : null}
 
       {!error && !completed && current ? (
-        <section className="rounded-2xl border p-5 space-y-4">
-          <div className="flex items-center justify-between text-sm opacity-80">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+          <div className="flex items-center justify-between text-sm text-white/75">
             <span>
-              Pytanie {currentIndex + 1}/{total}
+              Pytanie <span className="font-medium text-white">{currentIndex + 1}</span>/{total}
             </span>
-            <span>Poprawne: {correctCount}</span>
+            <span>
+              Poprawne: <span className="font-medium text-white">{correctCount}</span>
+            </span>
           </div>
 
-          <div className="space-y-3">
-            <div className="text-lg font-semibold">{current.term_en}</div>
+          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
+            <div className="text-xl font-semibold tracking-tight text-white">{current.term_en}</div>
 
             <form
               className="space-y-3"
@@ -262,7 +276,7 @@ function VocabTestInner() {
               }}
             >
               <input
-                className="w-full rounded-lg border bg-transparent px-3 py-2"
+                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                 placeholder="Twoja odpowiedź (PL)"
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
@@ -270,27 +284,30 @@ function VocabTestInner() {
               />
 
               {checked ? (
-                <div
-                  className={`rounded-xl border px-3 py-2 text-sm ${
-                    feedbackTone === "good"
-                      ? "border-green-500 text-green-700"
-                      : feedbackTone === "bad"
-                      ? "border-red-500 text-red-700"
-                      : "opacity-80"
-                  }`}
-                >
-                  <p>{feedback}</p>
+                <div className={`rounded-2xl border-2 px-4 py-3 text-sm ${pill(feedbackTone)}`}>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="font-medium">{feedback}</p>
+                    <span className="rounded-xl border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold">
+                      {feedbackTone === "good" ? "OK" : feedbackTone === "bad" ? "BŁĄD" : "INFO"}
+                    </span>
+                  </div>
+
                   {feedbackTone === "bad" ? (
-                    <p className="mt-1">
+                    <p className="mt-2">
                       Poprawna odpowiedź:{" "}
-                      <span className="font-medium">{current.translation_pl ?? "-"}</span>
+                      <span className="font-medium text-white">{current.translation_pl ?? "-"}</span>
                     </p>
                   ) : null}
                 </div>
-              ) : null}
+              ) : (
+                <p className="text-xs text-white/60">
+                  Wskazówka: jeśli jest kilka poprawnych tłumaczeń, wpisz jedno z nich (w bazie są oddzielone średnikiem
+                  <span className="font-medium text-white"> ;</span>).
+                </p>
+              )}
 
               <button
-                className="rounded-lg border px-4 py-2 font-medium disabled:opacity-60"
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
                 type="submit"
                 disabled={!current}
               >
@@ -302,25 +319,31 @@ function VocabTestInner() {
       ) : null}
 
       {!error && completed ? (
-        <section className="rounded-2xl border p-5 space-y-3">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Wynik</h2>
-            <span className="text-sm">
+            <h2 className="text-lg font-semibold tracking-tight text-white">Wynik</h2>
+            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-white">
               {correctCount} / {total}
             </span>
           </div>
 
           {mistakes.length === 0 ? (
-            <p className="text-sm opacity-80">Brak błędów. Świetnie!</p>
+            <div className="rounded-2xl border-2 border-emerald-400/30 bg-emerald-400/10 p-4 text-sm text-emerald-100">
+              Brak błędów. Świetnie!
+            </div>
           ) : (
             <div className="space-y-2">
-              <p className="text-sm font-medium">Twoje błędy:</p>
+              <p className="text-sm font-medium text-white">Twoje błędy:</p>
               <ul className="space-y-2">
                 {mistakes.map((m, idx) => (
-                  <li key={`${m.term}-${idx}`} className="rounded-xl border px-4 py-3 text-sm">
-                    <div className="font-medium">{m.term}</div>
-                    <div className="opacity-80">
-                      Poprawna: {m.expected} • Twoja: {m.given}
+                  <li
+                    key={`${m.term}-${idx}`}
+                    className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 text-sm"
+                  >
+                    <div className="font-medium text-white">{m.term}</div>
+                    <div className="text-white/75">
+                      Poprawna: <span className="text-white">{m.expected}</span> • Twoja:{" "}
+                      <span className="text-white">{m.given}</span>
                     </div>
                   </li>
                 ))}
@@ -328,16 +351,21 @@ function VocabTestInner() {
             </div>
           )}
 
-          {saveError ? (
-            <p className="text-sm text-red-700">Błąd zapisu wyniku: {saveError}</p>
-          ) : savingResult ? (
-            <p className="text-sm opacity-80">Zapisuję wynik…</p>
-          ) : (
-            <p className="text-sm opacity-80">Wynik zapisany.</p>
-          )}
+          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+            {saveError ? (
+              <p className="text-sm text-rose-100">Błąd zapisu wyniku: {saveError}</p>
+            ) : savingResult ? (
+              <p className="text-sm text-white/75">Zapisuję wynik…</p>
+            ) : (
+              <p className="text-sm text-white/75">Wynik zapisany.</p>
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-2">
-            <a className="rounded-lg border px-4 py-2 text-sm font-medium" href="/app/vocab">
+            <a
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+              href="/app/vocab"
+            >
               Wróć do treningu
             </a>
           </div>
