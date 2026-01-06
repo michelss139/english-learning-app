@@ -9,11 +9,11 @@ import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 
 function badgeClass(status?: string | null) {
   const s = (status ?? "").toLowerCase();
-  if (s === "active") return "border-green-500 text-green-700";
-  if (s === "trialing") return "border-green-500 text-green-700";
-  if (s === "past_due") return "border-yellow-500 text-yellow-700";
-  if (s === "canceled" || s === "cancelled") return "border-red-500 text-red-700";
-  return "opacity-80";
+  if (s === "active") return "border-emerald-400/40 text-emerald-200 bg-emerald-400/10";
+  if (s === "trialing") return "border-emerald-400/40 text-emerald-200 bg-emerald-400/10";
+  if (s === "past_due") return "border-amber-400/40 text-amber-200 bg-amber-400/10";
+  if (s === "canceled" || s === "cancelled") return "border-rose-400/40 text-rose-200 bg-rose-400/10";
+  return "border-white/20 text-white/80 bg-white/5";
 }
 
 export default function StudentDashboardPage() {
@@ -136,32 +136,31 @@ export default function StudentDashboardPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-2xl border p-5">
+      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold">Panel ucznia</h1>
-            <p className="text-sm opacity-80">
-              Zalogowany jako: <span className="font-medium">{profile?.email ?? "-"}</span>
+            <h1 className="text-3xl font-semibold tracking-tight">Panel ucznia</h1>
+            <p className="text-sm text-white/75">
+              Zalogowany jako: <span className="font-medium text-white">{profile?.email ?? "-"}</span>
             </p>
             <div className="pt-2 flex flex-wrap items-center gap-2">
-              <span
-                className={`rounded-lg border px-3 py-1 text-sm font-medium ${badgeClass(
-                  profile?.subscription_status
-                )}`}
-              >
+              <span className={`rounded-xl border px-3 py-1 text-sm font-medium ${badgeClass(profile?.subscription_status)}`}>
                 Subskrypcja: {subscriptionLabel}
               </span>
-              <a className="rounded-lg border px-3 py-1 text-sm font-medium" href="/app/status">
+              <a className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-medium hover:bg-white/10 transition" href="/app/status">
                 Status
               </a>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <a className="rounded-lg border px-4 py-2 font-medium" href="/app/vocab">
+            <a
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium hover:bg-white/15 transition"
+              href="/app/vocab"
+            >
               Trening słówek
             </a>
-            <a className="rounded-lg border px-4 py-2 font-medium" href="/logout">
+            <a className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium hover:bg-white/10 transition" href="/logout">
               Wyloguj
             </a>
           </div>
@@ -169,66 +168,80 @@ export default function StudentDashboardPage() {
       </header>
 
       {error ? (
-        <div className="rounded-2xl border p-4">
-          <p className="text-sm">
+        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+          <p className="text-sm text-rose-100">
             <span className="font-semibold">Błąd: </span>
             {error}
           </p>
         </div>
       ) : null}
 
-      {/* Szybkie kafelki */}
+      {/* KAFELKI */}
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <a className="rounded-2xl border p-5 hover:bg-black/5 transition" href="/app/vocab">
+        <a
+          className="group rounded-3xl border-2 border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-5 shadow-lg hover:shadow-2xl hover:bg-white/10 transition"
+          href="/app/vocab"
+        >
           <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="text-lg font-semibold">Trening słówek</div>
-              <p className="mt-1 text-sm opacity-80">
+            <div className="space-y-1">
+              <div className="text-lg font-semibold tracking-tight">Trening słówek</div>
+              <p className="text-sm text-white/75">
                 Lekcje (daty), cała pula, własne słówka, testy.
               </p>
             </div>
-            <span className="rounded-lg border px-2 py-1 text-sm font-medium">MVP</span>
+            <span className="rounded-xl border border-white/15 bg-white/5 px-2 py-1 text-xs font-semibold text-white/80">
+              MVP
+            </span>
           </div>
-          <div className="mt-4 text-sm underline">Otwórz →</div>
+
+          <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-white/85 group-hover:text-white transition">
+            Otwórz <span className="translate-x-0 group-hover:translate-x-0.5 transition">→</span>
+          </div>
         </a>
 
-        <a className="rounded-2xl border p-5 hover:bg-black/5 transition" href="/app/status">
-          <div className="text-lg font-semibold">Status</div>
-          <p className="mt-1 text-sm opacity-80">
-            Sanity-check: auth, profil, RLS, liczniki vocab/lekcji.
-          </p>
-          <div className="mt-4 text-sm underline">Sprawdź →</div>
+        <a
+          className="group rounded-3xl border-2 border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-5 shadow-lg hover:shadow-2xl hover:bg-white/10 transition"
+          href="/app/status"
+        >
+          <div className="space-y-1">
+            <div className="text-lg font-semibold tracking-tight">Status</div>
+            <p className="text-sm text-white/75">
+              Sanity-check: auth, profil, RLS, liczniki vocab/lekcji.
+            </p>
+          </div>
+
+          <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-white/85 group-hover:text-white transition">
+            Sprawdź <span className="translate-x-0 group-hover:translate-x-0.5 transition">→</span>
+          </div>
         </a>
 
-        <div className="rounded-2xl border p-5">
-          <div className="text-lg font-semibold">Subskrypcja</div>
-          <p className="mt-1 text-sm opacity-80">
-            Nie blokuje panelu. Odblokowuje funkcje premium w przyszłości.
+        <div className="rounded-3xl border-2 border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-5 shadow-lg">
+          <div className="text-lg font-semibold tracking-tight">Subskrypcja</div>
+          <p className="mt-1 text-sm text-white/75">
+            Nie blokuje panelu. Odblokuje wybrane funkcje premium później.
           </p>
 
           <div className="mt-4 flex items-center justify-between gap-3">
-            <span
-              className={`rounded-lg border px-3 py-2 text-sm font-medium ${badgeClass(
-                profile?.subscription_status
-              )}`}
-            >
+            <span className={`rounded-xl border px-3 py-2 text-sm font-medium ${badgeClass(profile?.subscription_status)}`}>
               {subscriptionLabel}
             </span>
 
             {profile?.subscription_status !== "active" ? (
               <button
-                className="rounded-lg border px-4 py-2 font-medium disabled:opacity-60"
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium hover:bg-white/15 transition disabled:opacity-60"
                 onClick={startCheckout}
                 disabled={checkoutLoading}
               >
                 {checkoutLoading ? "Przekierowuję…" : "Aktywuj"}
               </button>
             ) : (
-              <span className="rounded-lg border px-4 py-2 text-sm font-medium">Aktywna</span>
+              <span className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-100">
+                Aktywna
+              </span>
             )}
           </div>
 
-          <p className="mt-3 text-sm opacity-80">
+          <p className="mt-3 text-sm text-white/70">
             {profile?.subscription_status !== "active"
               ? "Masz dostęp do treningu bez subskrypcji."
               : "Premium funkcje będą pojawiać się w odpowiednich miejscach."}
@@ -236,28 +249,28 @@ export default function StudentDashboardPage() {
         </div>
       </section>
 
-      {/* Notatki użytkownika */}
-      <section className="rounded-2xl border p-5 space-y-3">
+      {/* Notatki */}
+      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="text-lg font-semibold">Notatki</p>
-            <p className="text-sm opacity-80">
+            <p className="text-lg font-semibold tracking-tight">Notatki</p>
+            <p className="text-sm text-white/75">
               Prywatne. Zapisuj tematy lekcji, zadania, linki, pomysły.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             {notesStatus ? (
-              <span className="rounded-lg border px-3 py-1 text-sm font-medium border-green-500 text-green-700">
+              <span className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-100">
                 {notesStatus}
               </span>
             ) : null}
-            <span className="text-sm opacity-70">{notes.length}/5000</span>
+            <span className="text-sm text-white/60">{notes.length}/5000</span>
           </div>
         </div>
 
         <textarea
-          className="w-full rounded-xl border bg-transparent px-3 py-2"
+          className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
           rows={7}
           value={notes}
           onChange={(e) => {
@@ -269,13 +282,13 @@ export default function StudentDashboardPage() {
 
         <div className="flex flex-wrap items-center gap-2">
           <button
-            className="rounded-lg border px-4 py-2 font-medium disabled:opacity-60"
+            className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium hover:bg-white/15 transition disabled:opacity-60"
             onClick={saveNotes}
             disabled={savingNotes}
           >
             {savingNotes ? "Zapisuję…" : "Zapisz"}
           </button>
-          <span className="text-sm opacity-70">
+          <span className="text-sm text-white/60">
             Wskazówka: możesz trzymać tu listę słówek do dodania później lub plan nauki.
           </span>
         </div>
