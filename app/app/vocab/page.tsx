@@ -28,6 +28,14 @@ function todayISO() {
   return `${yyyy}-${mm}-${dd}`;
 }
 
+function tabBtn(active: boolean) {
+  return `rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
+    active
+      ? "border-white/20 bg-white/15 text-white"
+      : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+  }`;
+}
+
 export default function VocabHomePage() {
   const router = useRouter();
 
@@ -94,9 +102,7 @@ export default function VocabHomePage() {
       .from("vocab_items")
       .select("id,term_en,translation_pl,is_personal");
 
-    if (studentId) {
-      query.eq("student_id", studentId);
-    }
+    if (studentId) query.eq("student_id", studentId);
 
     const poolRes = await query.order("term_en", { ascending: true });
 
@@ -274,20 +280,26 @@ export default function VocabHomePage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-2xl border p-5">
+      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold">Trening słówek</h1>
-            <p className="text-sm opacity-80">
-              Zalogowany jako: <span className="font-medium">{profile?.email ?? "-"}</span>
+            <h1 className="text-2xl font-semibold tracking-tight text-white">Trening słówek</h1>
+            <p className="text-sm text-white/75">
+              Zalogowany jako: <span className="font-medium text-white">{profile?.email ?? "-"}</span>
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <a className="rounded-lg border px-4 py-2 font-medium" href="/app">
+            <a
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              href="/app"
+            >
               ← Panel ucznia
             </a>
-            <a className="rounded-lg border px-4 py-2 font-medium" href="/app/status">
+            <a
+              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              href="/app/status"
+            >
               Status
             </a>
           </div>
@@ -295,8 +307,8 @@ export default function VocabHomePage() {
       </header>
 
       {error ? (
-        <div className="rounded-2xl border p-4">
-          <p className="text-sm">
+        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+          <p className="text-sm text-rose-100">
             <span className="font-semibold">Błąd: </span>
             {error}
           </p>
@@ -304,47 +316,33 @@ export default function VocabHomePage() {
       ) : null}
 
       <nav className="flex flex-wrap gap-2">
-        <button
-          className={`rounded-lg border px-3 py-2 text-sm font-medium ${
-            tab === "lessons" ? "opacity-100" : "opacity-70"
-          }`}
-          onClick={() => setTab("lessons")}
-        >
+        <button className={tabBtn(tab === "lessons")} onClick={() => setTab("lessons")}>
           Lekcje (daty)
         </button>
-        <button
-          className={`rounded-lg border px-3 py-2 text-sm font-medium ${
-            tab === "pool" ? "opacity-100" : "opacity-70"
-          }`}
-          onClick={() => setTab("pool")}
-        >
+        <button className={tabBtn(tab === "pool")} onClick={() => setTab("pool")}>
           Cała pula
         </button>
-        <button
-          className={`rounded-lg border px-3 py-2 text-sm font-medium ${
-            tab === "personal" ? "opacity-100" : "opacity-70"
-          }`}
-          onClick={() => setTab("personal")}
-        >
+        <button className={tabBtn(tab === "personal")} onClick={() => setTab("personal")}>
           Własne słówka ({personalCount})
         </button>
       </nav>
 
+      {/* LEKCJE */}
       {tab === "lessons" ? (
-        <section className="rounded-2xl border p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
           <div>
-            <h2 className="text-lg font-semibold">Lekcje</h2>
-            <p className="text-sm opacity-80">
+            <h2 className="text-lg font-semibold tracking-tight text-white">Lekcje</h2>
+            <p className="text-sm text-white/75">
               Utwórz „Lekcja + data”, a potem dodaj do niej słówka.
             </p>
           </div>
 
-          <div className="rounded-2xl border p-4 space-y-3">
+          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="space-y-1">
-                <label className="text-sm font-medium">Data</label>
+                <label className="text-sm font-medium text-white/85">Data</label>
                 <input
-                  className="w-full rounded-lg border bg-transparent px-3 py-2"
+                  className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                   type="date"
                   value={lessonDate}
                   onChange={(e) => setLessonDate(e.target.value)}
@@ -352,9 +350,9 @@ export default function VocabHomePage() {
               </div>
 
               <div className="space-y-1 sm:col-span-2">
-                <label className="text-sm font-medium">Notatki (opcjonalnie)</label>
+                <label className="text-sm font-medium text-white/85">Notatki (opcjonalnie)</label>
                 <input
-                  className="w-full rounded-lg border bg-transparent px-3 py-2"
+                  className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                   value={lessonNotes}
                   onChange={(e) => setLessonNotes(e.target.value)}
                   placeholder="np. temat lekcji, co robiliśmy..."
@@ -363,7 +361,7 @@ export default function VocabHomePage() {
             </div>
 
             <button
-              className="rounded-lg border px-4 py-2 font-medium disabled:opacity-60"
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
               onClick={createLesson}
               disabled={creatingLesson}
             >
@@ -372,18 +370,21 @@ export default function VocabHomePage() {
           </div>
 
           {formattedLessons.length === 0 ? (
-            <p className="text-sm opacity-80">Na razie nie masz jeszcze żadnych lekcji.</p>
+            <p className="text-sm text-white/75">Na razie nie masz jeszcze żadnych lekcji.</p>
           ) : (
             <ul className="space-y-2">
               {formattedLessons.map((l) => (
                 <li
                   key={l.id}
-                  className="rounded-xl border px-4 py-3 flex items-center justify-between gap-3"
+                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
                 >
                   <div className="min-w-0">
-                    <div className="font-medium truncate">{l.label}</div>
+                    <div className="font-medium text-white truncate">{l.label}</div>
                   </div>
-                  <a className="underline text-sm" href={`/app/vocab/lesson/${l.id}`}>
+                  <a
+                    className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+                    href={`/app/vocab/lesson/${l.id}`}
+                  >
                     Otwórz →
                   </a>
                 </li>
@@ -393,25 +394,32 @@ export default function VocabHomePage() {
         </section>
       ) : null}
 
+      {/* PULA */}
       {tab === "pool" ? (
-        <section className="rounded-2xl border p-5 space-y-3">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-lg font-semibold">Cała pula</h2>
-              <p className="text-sm opacity-80">
+              <h2 className="text-lg font-semibold tracking-tight text-white">Cała pula</h2>
+              <p className="text-sm text-white/75">
                 Wszystkie Twoje słówka (z lekcji + własne). Hover → tłumaczenie.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button className="rounded-lg border px-3 py-2 text-sm" onClick={selectAllPool}>
+              <button
+                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+                onClick={selectAllPool}
+              >
                 Zaznacz wszystkie
               </button>
-              <button className="rounded-lg border px-3 py-2 text-sm" onClick={clearPoolSelection}>
+              <button
+                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+                onClick={clearPoolSelection}
+              >
                 Wyczyść
               </button>
               <button
-                className="rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-60"
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
                 onClick={startPoolTest}
                 disabled={poolSelectedCount === 0}
               >
@@ -421,13 +429,13 @@ export default function VocabHomePage() {
           </div>
 
           {pool.length === 0 ? (
-            <p className="text-sm opacity-80">Nie masz jeszcze żadnych słówek w puli.</p>
+            <p className="text-sm text-white/75">Nie masz jeszcze żadnych słówek w puli.</p>
           ) : (
             <ul className="space-y-2">
               {pool.map((w) => (
                 <li
                   key={w.id}
-                  className="rounded-xl border px-4 py-3 flex items-center justify-between gap-3"
+                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
                   title={w.translation_pl ?? ""}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -439,8 +447,8 @@ export default function VocabHomePage() {
                     />
 
                     <div className="min-w-0">
-                      <div className="font-medium truncate">{w.term_en}</div>
-                      <div className="text-xs opacity-70">
+                      <div className="font-medium text-white truncate">{w.term_en}</div>
+                      <div className="text-xs text-white/70">
                         {w.translation_pl ? "hover → PL" : "brak tłumaczenia"}
                         {w.is_personal ? " • własne" : ""}
                       </div>
@@ -448,7 +456,7 @@ export default function VocabHomePage() {
                   </div>
 
                   <button
-                    className="rounded-lg border px-3 py-2 text-sm disabled:opacity-60"
+                    className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
                     onClick={() => deletePoolWord(w)}
                     disabled={deletingWordId === w.id}
                     title="Usuń słówko z puli"
@@ -462,56 +470,56 @@ export default function VocabHomePage() {
         </section>
       ) : null}
 
+      {/* WŁASNE */}
       {tab === "personal" ? (
-        <section className="rounded-2xl border p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
           <div>
-            <h2 className="text-lg font-semibold">Własne słówka</h2>
-            <p className="text-sm opacity-80">
+            <h2 className="text-lg font-semibold tracking-tight text-white">Własne słówka</h2>
+            <p className="text-sm text-white/75">
               Dodaj swoje słówko. Tłumaczenie jest pokazywane na hover.
             </p>
-            <p className="text-sm opacity-80">
-              Wiele poprawnych tłumaczeń wpisuj po polsku i oddzielaj średnikiem{" "}
-              <span className="font-medium">;</span> (np.{" "}
-              <span className="font-medium">kwiat; kwiatek; kwiatuszek</span>).
+            <p className="text-sm text-white/70">
+              Wiele poprawnych tłumaczeń oddzielaj średnikiem <span className="font-medium text-white">;</span>{" "}
+              (np. <span className="font-medium text-white">kwiat; kwiatek; kwiatuszek</span>).
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <input
-              className="rounded-lg border bg-transparent px-3 py-2"
-              placeholder="EN (np. achieve)"
-              value={newWord}
-              onChange={(e) => setNewWord(e.target.value)}
-            />
-            <input
-              className="rounded-lg border bg-transparent px-3 py-2"
-              placeholder="PL (np. kwiat; kwiatek)"
-              value={newTranslation}
-              onChange={(e) => setNewTranslation(e.target.value)}
-            />
-            <button
-              className="rounded-lg border px-3 py-2 font-medium disabled:opacity-60"
-              onClick={addPersonalWord}
-              disabled={savingWord}
-            >
-              {savingWord ? "Dodaję…" : "Dodaj"}
-            </button>
+          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <input
+                className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                placeholder="EN (np. achieve)"
+                value={newWord}
+                onChange={(e) => setNewWord(e.target.value)}
+              />
+              <input
+                className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                placeholder="PL (np. kwiat; kwiatek)"
+                value={newTranslation}
+                onChange={(e) => setNewTranslation(e.target.value)}
+              />
+              <button
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+                onClick={addPersonalWord}
+                disabled={savingWord}
+              >
+                {savingWord ? "Dodaję…" : "Dodaj"}
+              </button>
+            </div>
           </div>
 
           {personal.length === 0 ? (
-            <p className="text-sm opacity-80">Nie masz jeszcze własnych słówek.</p>
+            <p className="text-sm text-white/75">Nie masz jeszcze własnych słówek.</p>
           ) : (
             <ul className="space-y-2">
               {personal.map((w) => (
                 <li
                   key={w.id}
-                  className="rounded-xl border px-4 py-3 flex items-center justify-between"
+                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between"
                   title={w.translation_pl ?? ""}
                 >
-                  <span className="font-medium">{w.term_en}</span>
-                  <span className="text-sm opacity-70">
-                    {w.translation_pl ? "hover → PL" : "brak tłumaczenia"}
-                  </span>
+                  <span className="font-medium text-white">{w.term_en}</span>
+                  <span className="text-sm text-white/70">{w.translation_pl ? "hover → PL" : "brak tłumaczenia"}</span>
                 </li>
               ))}
             </ul>
