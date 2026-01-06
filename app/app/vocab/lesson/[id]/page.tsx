@@ -294,6 +294,11 @@ export default function VocabLessonPage() {
           <p className="text-sm opacity-80">
             Dodane słówko trafia do tej lekcji i do Twojej ogólnej puli. Jeśli już istnieje, system go nie dubluje.
           </p>
+          <p className="text-sm opacity-80">
+            Wiele poprawnych tłumaczeń wpisuj po polsku i oddzielaj średnikiem{" "}
+            <span className="font-medium">;</span> (np.{" "}
+            <span className="font-medium">kwiat; kwiatek; kwiatuszek</span>).
+          </p>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <input
@@ -304,7 +309,7 @@ export default function VocabLessonPage() {
             />
             <input
               className="rounded-lg border bg-transparent px-3 py-2"
-              placeholder="PL (opcjonalnie)"
+              placeholder="PL (np. kwiat; kwiatek)"
               value={newTranslation}
               onChange={(e) => setNewTranslation(e.target.value)}
             />
@@ -323,9 +328,7 @@ export default function VocabLessonPage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold">Słówka w tej lekcji</h2>
-              <p className="text-sm opacity-80">
-                Hover → tłumaczenie. 🔊 → wymowa.
-              </p>
+              <p className="text-sm opacity-80">Hover → tłumaczenie. 🔊 → wymowa.</p>
             </div>
 
             <div className="flex flex-wrap gap-2">
