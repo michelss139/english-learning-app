@@ -52,6 +52,9 @@ export default function VocabHomePage() {
   const [lessonNotes, setLessonNotes] = useState("");
   const [creatingLesson, setCreatingLesson] = useState(false);
 
+  // Usuwanie słówka z puli
+  const [deletingWordId, setDeletingWordId] = useState<string | null>(null);
+
   const personalCount = personal.length;
   const poolSelectedCount = useMemo(
     () => Object.values(poolSelected).filter(Boolean).length,
@@ -213,6 +216,40 @@ export default function VocabHomePage() {
       setError(e?.message ?? "Nie udało się dodać słówka.");
     } finally {
       setSavingWord(false);
+    }
+  };
+
+  const deletePoolWord = async (word: VocabItem) => {
+    if (!profile?.id) {
+      setError("Brak profilu. Zaloguj się ponownie.");
+      return;
+    }
+
+    const ok = window.confirm(
+      `Usunąć słówko z puli?\n\nEN: ${word.term_en}\nPL: ${word.translation_pl ?? "-"}\n\nTej operacji nie da się cofnąć.`
+    );
+    if (!ok) return;
+
+    setDeletingWordId(word.id);
+    setError("");
+
+    try {
+      const { error: delError } = await supabase.from("vocab_items").delete().eq("id", word.id);
+      if (delError) throw delError;
+
+      // po usunięciu odświeżamy listy
+      await refreshPool(profile.id);
+      await refreshPersonal();
+    } catch (e: any) {
+      // Najczęstsze przyczyny:
+      // - brak policy DELETE w RLS
+      // - FK bez ON DELETE CASCADE w student_lesson_vocab
+      const msg = e?.message ?? "Nie udało się usunąć słówka.";
+      setError(
+        `${msg} Jeśli to słówko jest przypięte do lekcji, upewnij się, że w bazie FK ma ON DELETE CASCADE (student_lesson_vocab → vocab_items) i że RLS pozwala na DELETE swoich rekordów.`
+      );
+    } finally {
+      setDeletingWordId(null);
     }
   };
 
@@ -395,6 +432,7 @@ export default function VocabHomePage() {
                         type="checkbox"
                         checked={!!poolSelected[w.id]}
                         onChange={() => togglePoolSelected(w.id)}
+                        disabled={deletingWordId === w.id}
                       />
 
                       <div className="min-w-0">
@@ -405,6 +443,15 @@ export default function VocabHomePage() {
                         </div>
                       </div>
                     </div>
+
+                    <button
+                      className="rounded-lg border px-3 py-2 text-sm disabled:opacity-60"
+                      onClick={() => deletePoolWord(w)}
+                      disabled={deletingWordId === w.id}
+                      title="Usuń słówko z puli"
+                    >
+                      {deletingWordId === w.id ? "Usuwam…" : "Usuń"}
+                    </button>
                   </li>
                 ))}
               </ul>
