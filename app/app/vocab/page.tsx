@@ -162,17 +162,14 @@ export default function VocabHomePage() {
         .single();
 
       if (insertRes.error) {
-        // Jeśli próbujesz stworzyć drugi raz tę samą datę, zadziała unique constraint
         throw insertRes.error;
       }
 
       await refreshLessons();
 
-      // po utworzeniu od razu przechodzimy do lekcji
       router.push(`/app/vocab/lesson/${insertRes.data.id}`);
       router.refresh();
     } catch (e: any) {
-      // przyjazny komunikat dla duplikatu daty
       const msg = String(e?.message ?? "");
       if (msg.toLowerCase().includes("duplicate") || msg.toLowerCase().includes("unique")) {
         setError("Masz już utworzoną lekcję dla tej daty. Wybierz inną datę.");
@@ -237,16 +234,12 @@ export default function VocabHomePage() {
       const { error: delError } = await supabase.from("vocab_items").delete().eq("id", word.id);
       if (delError) throw delError;
 
-      // po usunięciu odświeżamy listy
       await refreshPool(profile.id);
       await refreshPersonal();
     } catch (e: any) {
-      // Najczęstsze przyczyny:
-      // - brak policy DELETE w RLS
-      // - FK bez ON DELETE CASCADE w student_lesson_vocab
       const msg = e?.message ?? "Nie udało się usunąć słówka.";
       setError(
-        `${msg} Jeśli to słówko jest przypięte do lekcji, upewnij się, że w bazie FK ma ON DELETE CASCADE (student_lesson_vocab → vocab_items) i że RLS pozwala na DELETE swoich rekordów.`
+        `${msg} Jeśli to słówko jest przypięte do lekcji, upewnij się, że FK ma ON DELETE CASCADE (student_lesson_vocab → vocab_items) i że RLS pozwala na DELETE swoich rekordów.`
       );
     } finally {
       setDeletingWordId(null);
@@ -464,7 +457,12 @@ export default function VocabHomePage() {
             <div>
               <h2 className="text-lg font-semibold">Własne słówka</h2>
               <p className="text-sm opacity-80">
-                Dodaj swoje słówko. Tłumaczenie będzie pokazywane na hover.
+                Dodaj swoje słówko. Tłumaczenie jest pokazywane na hover.
+              </p>
+              <p className="text-sm opacity-80">
+                Wiele poprawnych tłumaczeń wpisuj po polsku i oddzielaj średnikiem{" "}
+                <span className="font-medium">;</span> (np.{" "}
+                <span className="font-medium">kwiat; kwiatek; kwiatuszek</span>).
               </p>
             </div>
 
@@ -477,7 +475,7 @@ export default function VocabHomePage() {
               />
               <input
                 className="rounded-lg border bg-transparent px-3 py-2"
-                placeholder="PL (opcjonalnie)"
+                placeholder="PL (np. kwiat; kwiatek)"
                 value={newTranslation}
                 onChange={(e) => setNewTranslation(e.target.value)}
               />
