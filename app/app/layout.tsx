@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen relative overflow-hidden text-slate-100">
-      {/* Tło: ciemny niebiesko-szary gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#020617]" />
+      {/* Tło: ciemny niebiesko-szary gradient – DELIKATNIE jaśniejszy */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1e293b] via-[#1f2a44] to-[#020617]" />
 
       {/* Subtelny grid */}
       <div
@@ -16,9 +16,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         }}
       />
 
-      {/* Niebieskie plamy – bardzo stonowane */}
-      <div className="absolute -top-48 -left-48 h-[520px] w-[520px] rounded-full bg-sky-500/20 blur-3xl" />
-      <div className="absolute top-1/3 -right-48 h-[520px] w-[520px] rounded-full bg-indigo-500/20 blur-3xl" />
+      {/* Niebieskie plamy – delikatnie jaśniejsze */}
+      <div className="absolute -top-48 -left-48 h-[520px] w-[520px] rounded-full bg-sky-400/25 blur-3xl" />
+      <div className="absolute top-1/3 -right-48 h-[520px] w-[520px] rounded-full bg-indigo-400/25 blur-3xl" />
 
       {/* Content shell */}
       <div className="relative mx-auto max-w-6xl px-6 py-8">
