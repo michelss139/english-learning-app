@@ -246,22 +246,28 @@ export default function VocabLessonPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-2xl border p-5">
+      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold">
+            <h1 className="text-2xl font-semibold tracking-tight text-white">
               {lesson ? `${lesson.title} ${lesson.lesson_date}` : "Lekcja"}
             </h1>
-            <p className="text-sm opacity-80">
-              Zalogowany jako: <span className="font-medium">{profile?.email ?? "-"}</span>
+            <p className="text-sm text-white/75">
+              Zalogowany jako: <span className="font-medium text-white">{profile?.email ?? "-"}</span>
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <a className="rounded-lg border px-4 py-2 font-medium" href="/app/vocab">
+            <a
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              href="/app/vocab"
+            >
               ← Trening słówek
             </a>
-            <a className="rounded-lg border px-4 py-2 font-medium" href="/app">
+            <a
+              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              href="/app"
+            >
               Panel
             </a>
           </div>
@@ -269,8 +275,8 @@ export default function VocabLessonPage() {
       </header>
 
       {error ? (
-        <div className="rounded-2xl border p-4">
-          <p className="text-sm">
+        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+          <p className="text-sm text-rose-100">
             <span className="font-semibold">Błąd: </span>
             {error}
           </p>
@@ -278,64 +284,71 @@ export default function VocabLessonPage() {
       ) : null}
 
       {lesson?.notes ? (
-        <section className="rounded-2xl border p-5">
-          <div className="text-sm opacity-80">Notatki:</div>
-          <div className="mt-1 whitespace-pre-wrap">{lesson.notes}</div>
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+          <div className="text-sm text-white/70">Notatki:</div>
+          <div className="mt-1 whitespace-pre-wrap text-white">{lesson.notes}</div>
         </section>
       ) : null}
 
-      <section className="rounded-2xl border p-5 space-y-3">
+      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold">Dodaj słówko do tej lekcji</h2>
-          <p className="text-sm opacity-80">
+          <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj słówko do tej lekcji</h2>
+          <p className="text-sm text-white/75">
             Dodane słówko trafia do tej lekcji i do Twojej ogólnej puli. Jeśli już istnieje, system go nie dubluje.
           </p>
-          <p className="text-sm opacity-80">
-            Wiele poprawnych tłumaczeń wpisuj po polsku i oddzielaj średnikiem{" "}
-            <span className="font-medium">;</span> (np.{" "}
-            <span className="font-medium">kwiat; kwiatek; kwiatuszek</span>).
+          <p className="text-sm text-white/70">
+            Wiele poprawnych tłumaczeń oddzielaj średnikiem <span className="font-medium text-white">;</span>{" "}
+            (np. <span className="font-medium text-white">kwiat; kwiatek; kwiatuszek</span>).
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <input
-            className="rounded-lg border bg-transparent px-3 py-2"
-            placeholder="EN (np. go)"
-            value={newWord}
-            onChange={(e) => setNewWord(e.target.value)}
-          />
-          <input
-            className="rounded-lg border bg-transparent px-3 py-2"
-            placeholder="PL (np. kwiat; kwiatek)"
-            value={newTranslation}
-            onChange={(e) => setNewTranslation(e.target.value)}
-          />
-          <button
-            className="rounded-lg border px-3 py-2 font-medium disabled:opacity-60"
-            onClick={addWordToLesson}
-            disabled={adding}
-          >
-            {adding ? "Dodaję…" : "Dodaj do lekcji"}
-          </button>
+        <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <input
+              className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              placeholder="EN (np. go)"
+              value={newWord}
+              onChange={(e) => setNewWord(e.target.value)}
+            />
+            <input
+              className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              placeholder="PL (np. kwiat; kwiatek)"
+              value={newTranslation}
+              onChange={(e) => setNewTranslation(e.target.value)}
+            />
+            <button
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+              onClick={addWordToLesson}
+              disabled={adding}
+            >
+              {adding ? "Dodaję…" : "Dodaj do lekcji"}
+            </button>
+          </div>
         </div>
       </section>
 
-      <section className="rounded-2xl border p-5 space-y-3">
+      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-lg font-semibold">Słówka w tej lekcji</h2>
-            <p className="text-sm opacity-80">Hover → tłumaczenie. 🔊 → wymowa.</p>
+            <h2 className="text-lg font-semibold tracking-tight text-white">Słówka w tej lekcji</h2>
+            <p className="text-sm text-white/75">Hover → tłumaczenie. 🔊 → wymowa.</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button className="rounded-lg border px-3 py-2 text-sm" onClick={selectAll}>
+            <button
+              className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+              onClick={selectAll}
+            >
               Zaznacz wszystkie
             </button>
-            <button className="rounded-lg border px-3 py-2 text-sm" onClick={clearAll}>
+            <button
+              className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+              onClick={clearAll}
+            >
               Wyczyść
             </button>
             <button
-              className="rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-60"
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
               onClick={startTest}
               disabled={selectedCount === 0}
             >
@@ -345,21 +358,25 @@ export default function VocabLessonPage() {
         </div>
 
         {words.length === 0 ? (
-          <p className="text-sm opacity-80">Ta lekcja nie ma jeszcze przypisanych słówek.</p>
+          <p className="text-sm text-white/75">Ta lekcja nie ma jeszcze przypisanych słówek.</p>
         ) : (
           <ul className="space-y-2">
             {words.map((w) => (
               <li
                 key={w.id}
-                className="rounded-xl border px-4 py-3 flex items-center justify-between gap-3"
+                className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
                 title={w.translation_pl ?? ""}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <input type="checkbox" checked={!!selected[w.id]} onChange={() => toggleSelected(w.id)} />
+                  <input
+                    type="checkbox"
+                    checked={!!selected[w.id]}
+                    onChange={() => toggleSelected(w.id)}
+                  />
 
                   <div className="min-w-0">
-                    <div className="font-medium truncate">{w.term_en}</div>
-                    <div className="text-xs opacity-70">
+                    <div className="font-medium text-white truncate">{w.term_en}</div>
+                    <div className="text-xs text-white/70">
                       {w.translation_pl ? "hover → PL" : "brak tłumaczenia"}
                       {w.is_personal ? " • własne" : ""}
                     </div>
@@ -368,14 +385,14 @@ export default function VocabLessonPage() {
 
                 <div className="flex gap-2">
                   <button
-                    className="rounded-lg border px-3 py-2 text-sm"
+                    className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
                     onClick={() => speak(w.term_en)}
                     title="Odtwórz wymowę"
                   >
                     🔊
                   </button>
                   <button
-                    className="rounded-lg border px-3 py-2 text-sm"
+                    className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
                     onClick={() => detachWordFromLesson(w.id)}
                     title="Usuń z tej lekcji"
                   >
