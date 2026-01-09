@@ -214,6 +214,31 @@ export default function VocabLessonPage() {
         }
       }
 
+      // Automatycznie dodaj słówko do "całej puli" (global_vocab_items + user_vocab)
+      try {
+        const sess = await supabase.auth.getSession();
+        const token = sess.data.session?.access_token;
+        if (token) {
+          const res = await fetch("/api/vocab/add-to-pool", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ term_en: term }),
+          });
+
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+            console.warn("Failed to add word to pool:", res.status, errorData);
+          }
+          // Ignoruj błędy - jeśli coś pójdzie nie tak, nie blokujemy dodawania do lekcji
+        }
+      } catch (e) {
+        // Silent fail - nie blokujemy głównej operacji
+        console.warn("Failed to add word to pool:", e);
+      }
+
       setNewWord("");
       setNewTranslation("");
 
