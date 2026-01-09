@@ -222,6 +222,27 @@ export default function StudentDashboardPage() {
 
         <a
           className="group rounded-3xl border-2 border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-5 shadow-lg hover:shadow-2xl hover:bg-white/10 transition"
+          href="/app/grammar"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <div className="text-lg font-semibold tracking-tight">Gramatyka</div>
+              <p className="text-sm text-white/75">
+                Teoria czasów gramatycznych, przykłady, porównania.
+              </p>
+            </div>
+            <span className="rounded-xl border border-white/15 bg-white/5 px-2 py-1 text-xs font-semibold text-white/80">
+              MVP
+            </span>
+          </div>
+
+          <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-white/85 group-hover:text-white transition">
+            Otwórz <span className="translate-x-0 group-hover:translate-x-0.5 transition">→</span>
+          </div>
+        </a>
+
+        <a
+          className="group rounded-3xl border-2 border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-5 shadow-lg hover:shadow-2xl hover:bg-white/10 transition"
           href="/app/status"
         >
           <div className="space-y-1">
