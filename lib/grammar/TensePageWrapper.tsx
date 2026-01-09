@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
-import { getGrammarTenseBySlug, GrammarTenseSlug } from "./content";
+import { getGrammarTenseBySlug } from "./content";
+import type { GrammarTenseSlug } from "./types";
 import { TensePageContent } from "./TensePageContent";
 import Link from "next/link";
 
