@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
+import PoolTab from "./PoolTab";
 
 type StudentLesson = {
   id: string;
@@ -18,7 +19,7 @@ type VocabItem = {
   is_personal: boolean;
 };
 
-type Tab = "lessons" | "personal";
+type Tab = "lessons" | "pool" | "personal";
 
 function todayISO() {
   const d = new Date();
@@ -38,12 +39,15 @@ function tabBtn(active: boolean) {
 
 export default function VocabHomePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [tab, setTab] = useState<Tab>("lessons");
+  // Initialize tab from URL query param or default to "lessons"
+  const initialTab = (searchParams.get("tab") as Tab) || "lessons";
+  const [tab, setTab] = useState<Tab>(initialTab);
 
   const [lessons, setLessons] = useState<StudentLesson[]>([]);
   const [personal, setPersonal] = useState<VocabItem[]>([]);
@@ -239,13 +243,9 @@ export default function VocabHomePage() {
           Lekcje (daty)
         </button>
 
-        <a
-          className={tabBtn(false)}
-          href="/app/vocab/pool"
-          title="Przejdź do Całej puli (nowy system)"
-        >
-          Cała pula →
-        </a>
+        <button className={tabBtn(tab === "pool")} onClick={() => setTab("pool")}>
+          Cała pula
+        </button>
 
         <button className={tabBtn(tab === "personal")} onClick={() => setTab("personal")}>
           Własne słówka ({personalCount})
@@ -316,6 +316,9 @@ export default function VocabHomePage() {
           )}
         </section>
       ) : null}
+
+      {/* CAŁA PULA */}
+      {tab === "pool" ? <PoolTab /> : null}
 
       {/* WŁASNE */}
       {tab === "personal" ? (
