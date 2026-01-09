@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import type { GrammarTenseSlug } from "@/lib/grammar/types";
 
 function requiredEnv(key: string): string {
   const value = process.env[key];
@@ -232,7 +233,7 @@ export async function POST(req: Request) {
     if (tense1 === "stative-verbs") {
       tense1Title = "Stative Verbs";
     } else {
-      const tense1Data = getGrammarTenseBySlug(tense1 as any);
+      const tense1Data = getGrammarTenseBySlug(tense1 as GrammarTenseSlug);
       if (!tense1Data) {
         return NextResponse.json({ error: `Invalid tense slug: ${tense1}` }, { status: 400 });
       }
@@ -242,7 +243,7 @@ export async function POST(req: Request) {
     if (tense2 === "stative-verbs") {
       tense2Title = "Stative Verbs";
     } else {
-      const tense2Data = getGrammarTenseBySlug(tense2 as any);
+      const tense2Data = getGrammarTenseBySlug(tense2 as GrammarTenseSlug);
       if (!tense2Data) {
         return NextResponse.json({ error: `Invalid tense slug: ${tense2}` }, { status: 400 });
       }
