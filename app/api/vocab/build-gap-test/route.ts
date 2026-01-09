@@ -16,6 +16,22 @@ function shuffle<T>(arr: T[]): T[] {
 
 export async function POST(req: Request) {
   try {
+    // Auth: verify JWT token
+    const authHeader = req.headers.get("authorization") ?? "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
+
+    if (!token) {
+      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    }
+
+    const supabase = createSupabaseAdmin();
+
+    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+    if (userErr || !userData?.user?.id) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
+    }
+
+    // Continue with build-gap-test logic
     const body = await req.json();
     const term_en = body?.term_en?.toString().trim();
 
@@ -24,7 +40,6 @@ export async function POST(req: Request) {
     }
 
     const term_norm = normTerm(term_en);
-    const supabase = createSupabaseAdmin();
 
     // get example from enrichments
     const { data: enrich, error: enrichErr } = await supabase

@@ -33,15 +33,16 @@ function getSupabaseServer() {
 export default async function LessonPage({
   params,
 }: {
-  params: { slug: string; lessonSlug: string };
+  params: Promise<{ slug: string; lessonSlug: string }>;
 }) {
+  const { slug, lessonSlug } = await params;
   const supabase = getSupabaseServer();
 
   // Kurs po slug
   const courseRes = await supabase
     .from("courses")
     .select("id,title,slug")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .single();
 
   if (courseRes.error || !courseRes.data) {
@@ -66,7 +67,7 @@ export default async function LessonPage({
       "id,course_id,title,slug,content,video_url,is_free_preview,is_published,position"
     )
     .eq("course_id", course.id)
-    .eq("slug", params.lessonSlug)
+    .eq("slug", lessonSlug)
     .single();
 
   if (lessonRes.error || !lessonRes.data) {

@@ -197,6 +197,22 @@ async function fetchJsonWithDiag(url: string): Promise<ProviderFetchResult> {
 
 export async function POST(req: Request) {
   try {
+    // Auth: verify JWT token
+    const authHeader = req.headers.get("authorization") ?? "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
+
+    if (!token) {
+      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    }
+
+    const supabase = createSupabaseAdmin();
+
+    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+    if (userErr || !userData?.user?.id) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
+    }
+
+    // Continue with enrich logic
     const body = await req.json().catch(() => null);
     const term_en = (body?.term_en ?? "").toString();
 
@@ -245,8 +261,6 @@ export async function POST(req: Request) {
 
       updated_at: new Date().toISOString(),
     };
-
-    const supabase = createSupabaseAdmin();
 
     const { error } = await supabase
       .from("vocab_enrichments")

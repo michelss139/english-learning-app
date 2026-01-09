@@ -7,28 +7,25 @@ function normQ(q: string) {
 
 export async function GET(req: Request) {
   try {
-    const url = new URL(req.url);
-    const q = normQ(url.searchParams.get("q") ?? "");
+    // Auth: verify JWT token (replacing unsafe x-user-id header)
+    const authHeader = req.headers.get("authorization") ?? "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
+
+    if (!token) {
+      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    }
 
     const supabase = createSupabaseAdmin();
 
-    // NOTE: This is a sanity endpoint using service role.
-    // It returns GLOBAL pool (all users) unless we scope to the current user.
-    // To keep it safe, we will scope by the authenticated user id via header.
-    // For now, we will require x-user-id header. Next step we will wire it properly.
-    //
-    // Since you already have Auth in /app, we will in the next step replace this with your
-    // real server auth. For now, this endpoint will return only words linked to any user
-    // if no header is provided, which is NOT acceptable for production.
-    //
-    // Therefore we block unless x-user-id is provided.
-    const userId = req.headers.get("x-user-id");
-    if (!userId) {
-      return NextResponse.json(
-        { error: "Missing x-user-id header (temporary sanity endpoint)" },
-        { status: 401 }
-      );
+    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+    if (userErr || !userData?.user?.id) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
     }
+
+    const userId = userData.user.id;
+
+    const url = new URL(req.url);
+    const q = normQ(url.searchParams.get("q") ?? "");
 
     const { data: links, error: linkErr } = await supabase
       .from("user_vocab")

@@ -89,6 +89,7 @@ export default function PoolPage() {
       }
 
       const token = sess.session.access_token;
+      const userId = sess.session.user.id;
 
       // 1) dociągnij repeat suggestions (oddzielnie, tanio)
       // Jeśli coś pójdzie nie tak, NIE blokujemy całej puli — pokażemy błąd tylko w konsoli
@@ -100,10 +101,11 @@ export default function PoolPage() {
         setRepeatSet(new Set());
       }
 
-      // 2) dociągnij pulę słów
+      // 2) dociągnij pulę słów (z filtrowaniem po student_id dla bezpieczeństwa)
       const { data: links, error: linkErr } = await supabase
         .from("user_vocab")
         .select("global_vocab_item_id, global_vocab_items(term_en, term_en_norm)")
+        .eq("student_id", userId)
         .order("created_at", { ascending: false });
 
       if (linkErr) throw linkErr;
@@ -170,9 +172,19 @@ export default function PoolPage() {
     try {
       setLoadingNorm(term_en_norm);
 
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+
       const res = await fetch("/api/vocab/enrich", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ term_en }),
       });
 
@@ -241,29 +253,39 @@ export default function PoolPage() {
     try {
       setAnswerResult(null);
 
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+
       const res = await fetch("/api/vocab/build-gap-test", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ term_en: term }),
       });
 
-      const data = await res.json().catch(() => null);
+      const responseData = await res.json().catch(() => null);
 
       if (!res.ok) {
-        const msg = data?.error ?? `HTTP ${res.status}`;
+        const msg = responseData?.error ?? `HTTP ${res.status}`;
         throw new Error(msg);
       }
 
-      if (!data?.masked || !data?.correct || !Array.isArray(data?.options)) {
+      if (!responseData?.masked || !responseData?.correct || !Array.isArray(responseData?.options)) {
         throw new Error("Niepoprawna odpowiedź z /api/vocab/build-gap-test");
       }
 
       setActiveTest({
         term,
         term_norm,
-        masked: data.masked,
-        correct: data.correct,
-        options: data.options,
+        masked: responseData.masked,
+        correct: responseData.correct,
+        options: responseData.options,
         source,
       });
 
