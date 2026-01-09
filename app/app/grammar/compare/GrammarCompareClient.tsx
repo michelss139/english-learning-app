@@ -1,17 +1,15 @@
-import { Suspense } from "react";
-import GrammarCompareClient from "./GrammarCompareClient";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
+import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
+import { getComparison, getComparisonCacheKey } from "@/lib/grammar/compare";
+import { GlossaryTooltip } from "@/lib/grammar/components";
+import Link from "next/link";
+import type { GrammarTenseSlug } from "@/lib/grammar/types";
 
-export default function GrammarComparePage() {
-  return (
-    <Suspense fallback={<main>Ładuję…</main>}>
-      <GrammarCompareClient />
-    </Suspense>
-  );
-}
-
-function GrammarCompareInner() {
+export default function GrammarCompareClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -24,6 +22,7 @@ function GrammarCompareInner() {
 
   const [aiDialogLoading, setAiDialogLoading] = useState(false);
   const [aiDialog, setAiDialog] = useState<string | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   useEffect(() => {
     const run = async () => {
@@ -51,13 +50,13 @@ function GrammarCompareInner() {
     if (!tense1Slug || !tense2Slug) return;
 
     setAiDialogLoading(true);
-    setError("");
+    setAiError(null);
     try {
       const session = await supabase.auth.getSession();
       const token = session?.data?.session?.access_token;
 
       if (!token) {
-        setError("Musisz być zalogowany");
+        setAiError("Musisz być zalogowany");
         setAiDialogLoading(false);
         return;
       }
@@ -105,7 +104,7 @@ function GrammarCompareInner() {
         throw new Error("Nie udało się wygenerować dialogu");
       }
     } catch (e: any) {
-      setError(e?.message || "Błąd generowania dialogu AI");
+      setAiError(e?.message || "Błąd generowania dialogu AI");
     } finally {
       setAiDialogLoading(false);
     }
@@ -360,9 +359,9 @@ function GrammarCompareInner() {
           </button>
         </div>
 
-        {error && (
+        {aiError && (
           <div className="mt-3 rounded-xl border-2 border-rose-400/30 bg-rose-400/10 p-3 text-rose-100 text-sm">
-            {error}
+            {aiError}
           </div>
         )}
         {aiDialog && (
@@ -379,7 +378,7 @@ function GrammarCompareInner() {
           </div>
         )}
 
-        {!aiDialog && (
+        {!aiDialog && !aiError && (
           <div className="text-white/60 text-sm">
             Kliknij przycisk powyżej, aby wygenerować dialog kontrastowy pokazujący różnice między tymi czasami.
             Dialog będzie zapisany w cache i dostępny przy następnych odwiedzinach.
