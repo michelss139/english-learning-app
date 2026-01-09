@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
@@ -38,6 +38,14 @@ function tabBtn(active: boolean) {
 }
 
 export default function VocabHomePage() {
+  return (
+    <Suspense fallback={<main>Ładuję…</main>}>
+      <VocabHomeInner />
+    </Suspense>
+  );
+}
+
+function VocabHomeInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

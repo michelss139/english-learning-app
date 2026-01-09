@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
@@ -10,6 +10,14 @@ import Link from "next/link";
 import type { GrammarTenseSlug } from "@/lib/grammar/types";
 
 export default function GrammarComparePage() {
+  return (
+    <Suspense fallback={<main>Ładuję…</main>}>
+      <GrammarCompareInner />
+    </Suspense>
+  );
+}
+
+function GrammarCompareInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
