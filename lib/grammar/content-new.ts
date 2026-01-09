@@ -5,7 +5,7 @@
  * All content is authored and transferred 1:1 from provided materials.
  */
 
-import { GrammarContent } from "./types";
+import { GrammarContent, GrammarTenseSlug } from "./types";
 
 // Helper to create structure text
 function createStructure(affirmative: string, negative: string, question: string): {
