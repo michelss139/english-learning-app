@@ -18,7 +18,7 @@ type VocabItem = {
   is_personal: boolean;
 };
 
-type Tab = "lessons" | "pool" | "personal";
+type Tab = "lessons" | "personal";
 
 function todayISO() {
   const d = new Date();
@@ -47,8 +47,6 @@ export default function VocabHomePage() {
 
   const [lessons, setLessons] = useState<StudentLesson[]>([]);
   const [personal, setPersonal] = useState<VocabItem[]>([]);
-  const [pool, setPool] = useState<VocabItem[]>([]);
-  const [poolSelected, setPoolSelected] = useState<Record<string, boolean>>({});
 
   // Dodawanie własnych słówek
   const [newWord, setNewWord] = useState("");
@@ -60,14 +58,7 @@ export default function VocabHomePage() {
   const [lessonNotes, setLessonNotes] = useState("");
   const [creatingLesson, setCreatingLesson] = useState(false);
 
-  // Usuwanie słówka z puli
-  const [deletingWordId, setDeletingWordId] = useState<string | null>(null);
-
   const personalCount = personal.length;
-  const poolSelectedCount = useMemo(
-    () => Object.values(poolSelected).filter(Boolean).length,
-    [poolSelected]
-  );
 
   const formattedLessons = useMemo(() => {
     return lessons.map((l) => ({
@@ -97,20 +88,6 @@ export default function VocabHomePage() {
     setPersonal((personalRes.data ?? []) as VocabItem[]);
   };
 
-  const refreshPool = async (studentId?: string) => {
-    const query = supabase
-      .from("vocab_items")
-      .select("id,term_en,translation_pl,is_personal");
-
-    if (studentId) query.eq("student_id", studentId);
-
-    const poolRes = await query.order("term_en", { ascending: true });
-
-    if (poolRes.error) throw poolRes.error;
-    setPool((poolRes.data ?? []) as VocabItem[]);
-    setPoolSelected({});
-  };
-
   useEffect(() => {
     const run = async () => {
       try {
@@ -130,7 +107,6 @@ export default function VocabHomePage() {
 
         await refreshLessons();
         await refreshPersonal();
-        await refreshPool(p.id);
       } catch (e: any) {
         setError(e?.message ?? "Nieznany błąd");
       } finally {
@@ -209,7 +185,6 @@ export default function VocabHomePage() {
       if (error) throw error;
 
       await refreshPersonal();
-      await refreshPool(profile.id);
 
       setNewWord("");
       setNewTranslation("");
@@ -218,62 +193,6 @@ export default function VocabHomePage() {
     } finally {
       setSavingWord(false);
     }
-  };
-
-  const deletePoolWord = async (word: VocabItem) => {
-    if (!profile?.id) {
-      setError("Brak profilu. Zaloguj się ponownie.");
-      return;
-    }
-
-    const ok = window.confirm(
-      `Usunąć słówko z puli?\n\nEN: ${word.term_en}\nPL: ${word.translation_pl ?? "-"}\n\nTej operacji nie da się cofnąć.`
-    );
-    if (!ok) return;
-
-    setDeletingWordId(word.id);
-    setError("");
-
-    try {
-      const { error: delError } = await supabase.from("vocab_items").delete().eq("id", word.id);
-      if (delError) throw delError;
-
-      await refreshPool(profile.id);
-      await refreshPersonal();
-    } catch (e: any) {
-      const msg = e?.message ?? "Nie udało się usunąć słówka.";
-      setError(
-        `${msg} Jeśli to słówko jest przypięte do lekcji, upewnij się, że FK ma ON DELETE CASCADE (student_lesson_vocab → vocab_items) i że RLS pozwala na DELETE swoich rekordów.`
-      );
-    } finally {
-      setDeletingWordId(null);
-    }
-  };
-
-  const togglePoolSelected = (id: string) => {
-    setPoolSelected((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const selectAllPool = () => {
-    const next: Record<string, boolean> = {};
-    for (const w of pool) next[w.id] = true;
-    setPoolSelected(next);
-  };
-
-  const clearPoolSelection = () => setPoolSelected({});
-
-  const startPoolTest = () => {
-    const ids = Object.entries(poolSelected)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-
-    if (ids.length === 0) {
-      setError("Zaznacz przynajmniej jedno słówko z puli do testu.");
-      return;
-    }
-
-    const q = encodeURIComponent(ids.join(","));
-    router.push(`/app/vocab/test?ids=${q}`);
   };
 
   if (loading) return <main>Ładuję…</main>;
@@ -319,9 +238,15 @@ export default function VocabHomePage() {
         <button className={tabBtn(tab === "lessons")} onClick={() => setTab("lessons")}>
           Lekcje (daty)
         </button>
-        <button className={tabBtn(tab === "pool")} onClick={() => setTab("pool")}>
-          Cała pula
-        </button>
+
+        <a
+          className={tabBtn(false)}
+          href="/app/vocab/pool"
+          title="Przejdź do Całej puli (nowy system)"
+        >
+          Cała pula →
+        </a>
+
         <button className={tabBtn(tab === "personal")} onClick={() => setTab("personal")}>
           Własne słówka ({personalCount})
         </button>
@@ -332,9 +257,7 @@ export default function VocabHomePage() {
         <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-white">Lekcje</h2>
-            <p className="text-sm text-white/75">
-              Utwórz „Lekcja + data”, a potem dodaj do niej słówka.
-            </p>
+            <p className="text-sm text-white/75">Utwórz „Lekcja + data”, a potem dodaj do niej słówka.</p>
           </div>
 
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
@@ -394,90 +317,12 @@ export default function VocabHomePage() {
         </section>
       ) : null}
 
-      {/* PULA */}
-      {tab === "pool" ? (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-lg font-semibold tracking-tight text-white">Cała pula</h2>
-              <p className="text-sm text-white/75">
-                Wszystkie Twoje słówka (z lekcji + własne). Hover → tłumaczenie.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
-                onClick={selectAllPool}
-              >
-                Zaznacz wszystkie
-              </button>
-              <button
-                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
-                onClick={clearPoolSelection}
-              >
-                Wyczyść
-              </button>
-              <button
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
-                onClick={startPoolTest}
-                disabled={poolSelectedCount === 0}
-              >
-                Stwórz test ({poolSelectedCount})
-              </button>
-            </div>
-          </div>
-
-          {pool.length === 0 ? (
-            <p className="text-sm text-white/75">Nie masz jeszcze żadnych słówek w puli.</p>
-          ) : (
-            <ul className="space-y-2">
-              {pool.map((w) => (
-                <li
-                  key={w.id}
-                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
-                  title={w.translation_pl ?? ""}
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <input
-                      type="checkbox"
-                      checked={!!poolSelected[w.id]}
-                      onChange={() => togglePoolSelected(w.id)}
-                      disabled={deletingWordId === w.id}
-                    />
-
-                    <div className="min-w-0">
-                      <div className="font-medium text-white truncate">{w.term_en}</div>
-                      <div className="text-xs text-white/70">
-                        {w.translation_pl ? "hover → PL" : "brak tłumaczenia"}
-                        {w.is_personal ? " • własne" : ""}
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
-                    onClick={() => deletePoolWord(w)}
-                    disabled={deletingWordId === w.id}
-                    title="Usuń słówko z puli"
-                  >
-                    {deletingWordId === w.id ? "Usuwam…" : "Usuń"}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      ) : null}
-
       {/* WŁASNE */}
       {tab === "personal" ? (
         <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-white">Własne słówka</h2>
-            <p className="text-sm text-white/75">
-              Dodaj swoje słówko. Tłumaczenie jest pokazywane na hover.
-            </p>
+            <p className="text-sm text-white/75">Dodaj swoje słówko. Tłumaczenie jest pokazywane na hover.</p>
             <p className="text-sm text-white/70">
               Wiele poprawnych tłumaczeń oddzielaj średnikiem <span className="font-medium text-white">;</span>{" "}
               (np. <span className="font-medium text-white">kwiat; kwiatek; kwiatuszek</span>).
