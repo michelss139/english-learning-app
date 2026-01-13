@@ -15,6 +15,7 @@ type LexiconEntry = {
     sense_order: number;
     translation_pl: string | null;
     example_en: string | null;
+    pos?: string; // Part of speech for this specific sense (may differ from entry.pos when multiple POS)
   }>;
   verb_forms: {
     present_simple_i: string;
@@ -392,7 +393,7 @@ export default function SenseSelectionModal({
                     <div className="flex items-center gap-3 flex-wrap">
                       <span className="text-2xl font-bold text-white">{entry.lemma}</span>
                       <span className="px-3 py-1 rounded-lg border-2 border-emerald-400/40 bg-emerald-400/20 text-emerald-200 text-sm font-semibold">
-                        [{entry.pos}]
+                        [{sense.pos || entry.pos}]
                       </span>
                       {sense.domain && (
                         <span className="px-2 py-1 rounded-lg border border-white/20 bg-white/10 text-white/70 text-xs">

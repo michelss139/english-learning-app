@@ -66,6 +66,45 @@ function pickExampleEn(embed: any): string | null {
 }
 
 /**
+ * Check if Polish translation matches the part of speech.
+ * Returns true if matches, false if doesn't match.
+ */
+function translationMatchesPos(translation_pl: string, pos: string): boolean {
+  if (!translation_pl || !pos) return false;
+  
+  const trimmed = translation_pl.trim().toLowerCase();
+  
+  // Polish verb infinitives typically end in: -ć, -ować, -ić, -yć, -eć, -ąć, -ść
+  const verbEndings = ["ć", "ować", "ić", "yć", "eć", "ąć", "ść"];
+  const isVerb = verbEndings.some((ending) => trimmed.endsWith(ending));
+  
+  // Polish nouns typically don't end in verb endings (but some exceptions exist)
+  // We'll use a simple heuristic: if it ends in verb ending, it's likely a verb
+  const isNoun = !isVerb && trimmed.length > 0;
+  
+  if (pos === "verb") {
+    // For verb, translation should be a verb (infinitive)
+    return isVerb;
+  }
+  
+  if (pos === "noun") {
+    // For noun, translation should NOT be a verb infinitive
+    return !isVerb;
+  }
+  
+  // For other POS (adjective, adverb, etc.), we can't easily validate
+  // So we'll just check that it's not obviously wrong
+  if (pos === "adjective") {
+    // Adjectives often end in -y, -i, -a, -e, but this is not reliable
+    // Just make sure it's not a verb
+    return !isVerb;
+  }
+  
+  // For other POS, accept it (we can't easily validate)
+  return true;
+}
+
+/**
  * Validate translation_pl format.
  * Returns true if valid, false if invalid (descriptive/too long/etc).
  */
@@ -472,6 +511,25 @@ type Body = {
   lemma: string; // e.g., "ball"
 };
 
+// New AI response format (word + senses with pos per sense)
+type AILexiconResponseRaw = {
+  word: string;
+  senses: Array<{
+    pos: string; // "noun", "verb", "adjective", "adverb", etc.
+    translation_pl: string;
+    definition_en: string;
+    examples: string[]; // Array of example sentences
+    verb_forms?: {
+      present_simple_i: string;
+      present_simple_you: string;
+      present_simple_he_she_it: string;
+      past_simple: string;
+      past_participle: string;
+    } | null;
+  }>;
+};
+
+// Internal format (normalized, one entry per pos)
 type AILexiconResponse = {
   lemma: string;
   pos: string; // "noun", "verb", "adjective", "adverb", etc.
@@ -490,80 +548,136 @@ type AILexiconResponse = {
   } | null;
 };
 
-async function openaiEnrichLexicon(lemma: string, retryOnInvalidTranslation = false): Promise<AILexiconResponse> {
+async function openaiEnrichLexicon(lemma: string, retryOnInvalidTranslation = false): Promise<AILexiconResponse[]> {
   const apiKey = requiredEnv("OPENAI_API_KEY");
   const model = "gpt-4o";
 
-  const prompt = `You are a lexical data generator for an English learning platform.
+  const prompt = `You are a lexical data generator for a production English learning platform.
+This is NOT a demo. Output must be predictable, didactic, and normalized.
 
 Generate complete lexical data for the English word: "${lemma}"
 
-CRITICAL SEMANTIC RULES:
+OBJECTIVE:
+For the word "${lemma}", you MUST return:
+- ALL major parts of speech that exist for this word (verb, noun, adjective, adverb, etc.)
+- For each part of speech: EXACTLY 1 core, distinct, didactic meaning (MAX 1 per POS)
+- Meanings must be suitable for language learners, not dictionary paraphrases
+- This must work globally for ALL words, not case-by-case
+
+HARD RULES (MUST BE ENFORCED):
+
+1. PARTS OF SPEECH:
+   - You MUST include ALL major parts of speech that apply to this word
+   - Do NOT omit a part of speech if it exists
+   - If "work" is both verb and noun, return BOTH (but only 1 sense per POS)
+   - If "light" is noun, verb, and adjective, return ALL THREE (but only 1 sense per POS)
+   - MAXIMUM 1 sense per part of speech - if a word has multiple meanings as a verb, pick the MOST COMMON, MOST IMPORTANT one
+
+2. MEANINGS:
+   - Return ONLY the MOST IMPORTANT, MOST COMMON meaning for each part of speech
+   - Do NOT return synonyms or near-synonyms as separate senses
+   - Do NOT return multiple senses for the same part of speech
+   - If "work" as verb can mean "pracować" and "działać" (synonyms), return ONLY "pracować" (more common)
+   - Each meaning must be something a learner would consciously learn as a separate concept
+   - Do NOT split the same meaning into multiple senses. If two meanings overlap semantically, merge them
+
+3. FORBIDDEN PATTERNS (DO NOT RETURN):
+   - Usage notes: "used to describe...", "often used when...", "typically used...", "especially when...", "in reference to..."
+   - Definitional descriptions instead of meanings: "a way of...", "the act of...", "something that..."
+   - Room/place senses: "a room with...", "a place containing...", "a building where..." (e.g., "a room with a sink" for "bath")
+   - Metonymy duplicates: if "wing" means the same Polish word for bird and plane, it's ONE sense
+   - Contextual variants: if the Polish translation is the same, it's ONE sense
+
+4. SEMANTIC DISTINCTION:
 - A separate sense exists ONLY when the learner would need a DIFFERENT Polish headword to translate it
-- DO NOT create separate senses for different contexts if the Polish translation is the same headword
 - Different senses must correspond to different Polish headwords (semantically distinct concepts)
-- Metonymy (e.g., "wing of bird" vs "wing of plane", "hover = float" vs "hover = circle") = ONE SENSE, same Polish headword
-- Only create separate senses when concepts are semantically different (e.g., "serve = work for" vs "serve = hit ball in sport")
+   - Example: "serve" = "służyć" (work for) vs "serve" = "serwować" (give food) = TWO senses (different Polish words)
+   - Example: "wing" = "skrzydło" (bird) vs "wing" = "skrzydło" (plane) = ONE sense (same Polish word)
 
-CRITICAL REQUIREMENTS:
-- Return MAXIMUM 8 senses (hard cap - do not exceed)
-- Return COARSE-GRAINED, pedagogically distinct meanings only
-- DO NOT return fine-grained dictionary variations or micro-differences
-- For high-polysemy words (run, get, set, take):
-  * Return 5-8 MOST IMPORTANT, MOST COMMON meanings (A2-B2 level)
-  * DO NOT include idioms or phrasal verbs as separate senses
-  * Focus on core meanings that learners need to distinguish
-- For EACH sense you MUST provide:
-  * English definition (definition_en)
-  * Polish translation (translation_pl) - THIS IS MANDATORY, NEVER OMIT
-  * One natural example sentence (example_en)
-- Part of speech (pos): one of: "noun", "verb", "adjective", "adverb", "preposition", "conjunction", "pronoun", "determiner"
-- If verb: include all verb forms (present simple I/you/he-she-it, past simple, past participle)
-- Examples: natural, A2/B1 level, 8-16 words, must include the exact word "${lemma}"
-- Domain (optional): only if the sense is domain-specific (e.g., "business", "sports", "academic")
+STRUCTURE REQUIREMENTS:
 
-TRANSLATION_PL FORMAT (CRITICAL):
-- translation_pl MUST be a SHORT dictionary headword or lexical equivalent (1-3 words max)
+Output MUST be valid JSON in this exact format:
+{
+  "word": "${lemma}",
+  "senses": [
+    {
+      "pos": "verb",
+      "translation_pl": "serwować",
+      "definition_en": "to give food or drink to someone",
+      "examples": ["They serve dinner at 6 p.m."]
+    },
+    {
+      "pos": "verb",
+      "translation_pl": "służyć",
+      "definition_en": "to be useful or helpful for a purpose",
+      "examples": ["This tool serves a different purpose."]
+    },
+    {
+      "pos": "noun",
+      "translation_pl": "serwis",
+      "definition_en": "the act of serving in sports",
+      "examples": ["He has a powerful serve."]
+    }
+  ]
+}
+
+TRANSLATION RULES (CRITICAL - PART OF SPEECH MATCHING):
+- translation_pl MUST match the part of speech (pos) of the English word
+- translation_pl MUST be 1-3 words, a headword, NOT a definition
 - MAXIMUM 40 characters
 - NO period at the end
 - NO commas (use semicolon ";" to separate synonyms ONLY if same core meaning)
-- FORBIDDEN: descriptive sentences, explanations, phrases like "który/która/które", "używane do", "pomaga", "część, która", "to ... that ...", "which"
-- Examples of CORRECT: "skrzydło", "unosić się", "służyć", "piłka; kula"
-- Examples of FORBIDDEN: "podobna część w samolocie, która pomaga mu latać", "używane do latania", "część, która..."
-- If you cannot provide a short lexical equivalent, return exactly: "__NEEDS_HUMAN__"
 
-TRANSLATION RULES:
-- translation_pl may contain multiple synonyms separated by ";" ONLY if they share the same core meaning (e.g., "hover": "unosić się; krążyć" - OK, same core)
-- DO NOT combine different core meanings in one translation (e.g., "serve": "służyć; serwować" - FORBIDDEN, these are different meanings)
-- Each distinct core meaning must be a separate sense
+PART OF SPEECH MATCHING (CRITICAL):
+- If pos = "verb": translation_pl MUST be a Polish verb (infinitive ending in -ć, -ować, -ić, -yć, -eć)
+  - CORRECT: "pracować", "działać", "służyć", "serwować", "obudzić"
+  - INCORRECT: "praca" (noun), "dzieło" (noun), "pracujący" (adjective)
+- If pos = "noun": translation_pl MUST be a Polish noun (NOT a verb infinitive)
+  - CORRECT: "praca", "dzieło", "serwis", "skrzydło"
+  - INCORRECT: "pracować" (verb), "działać" (verb)
+- If pos = "adjective": translation_pl MUST be a Polish adjective
+  - CORRECT: "lekki", "ciężki", "jasny"
+  - INCORRECT: "lekko" (adverb), "lekkość" (noun)
 
-Output STRICT JSON only:
-{
-  "lemma": "${lemma}",
-  "pos": "noun",
-  "senses": [
-    {
-      "definition_en": "English definition of sense 1",
-      "translation_pl": "skrzydło",
-      "example_en": "Natural example sentence with ${lemma}.",
-      "domain": null
-    }
-  ],
-  "verb_forms": {
-    "present_simple_i": "work",
-    "present_simple_you": "work",
-    "present_simple_he_she_it": "works",
-    "past_simple": "worked",
-    "past_participle": "worked"
-  }
-}
+FORBIDDEN:
+- Descriptive sentences, explanations, phrases like "który/która/które", "używane do", "pomaga", "część, która", "to ... that ...", "which"
+- Translations that don't match the part of speech (e.g., verb with noun translation, noun with verb translation)
 
-If the word is NOT a verb, omit "verb_forms" or set it to null.
-If the word has multiple parts of speech, choose the PRIMARY/MOST COMMON one for "pos".
-MAXIMUM 8 senses. Coarse-grained, pedagogically distinct meanings only.
-Translations must be short lexical equivalents, never descriptive explanations.
+CORRECT examples:
+- verb: "pracować", "służyć", "serwować", "obudzić"
+- noun: "praca", "serwis", "skrzydło", "piłka; kula"
+- adjective: "lekki", "ciężki"
 
-Generate the lexical data with Polish translations for ALL senses:`;
+INCORRECT examples:
+- "używane do opisywania gdy ktoś..." (descriptive)
+- "oznacza, że ktoś jest..." (descriptive)
+- verb with "praca" (noun) - WRONG POS
+- noun with "pracować" (verb) - WRONG POS
+
+If you cannot provide a short lexical equivalent that matches the part of speech, return exactly: "__NEEDS_HUMAN__"
+
+EXAMPLES RULES:
+- Provide 1 example per sense (in "examples" array)
+- Example must clearly match the meaning
+- No placeholders. No generic sentences
+- Natural, A2/B1 level, 8-16 words, must include the exact word "${lemma}"
+
+VERB FORMS (if sense is verb):
+- Include verb_forms object with: present_simple_i, present_simple_you, present_simple_he_she_it, past_simple, past_participle
+- Add verb_forms to each verb sense, not at top level
+
+FINAL CHECK:
+Before returning, verify:
+✓ Does this include ALL major parts of speech for the word?
+✓ Is there EXACTLY 1 sense per part of speech (not more)?
+✓ Does each translation_pl match its part of speech (verb → verb, noun → noun)?
+✓ Are there NO synonyms as separate senses (e.g., "pracować" and "działać" for same verb)?
+✓ Are there NO usage-notes, NO room-senses, NO paraphrases?
+✓ Is each translation_pl a short headword (1-3 words)?
+
+If ANY answer is NO, the response is invalid. Fix it.
+
+Generate the lexical data with Polish translations for ALL senses and ALL parts of speech:`;
 
   // If retry, add specific instruction about translation format
   const retryPrompt = retryOnInvalidTranslation 
@@ -584,7 +698,26 @@ Generate the lexical data with Polish translations for ALL senses:`;
       messages: [
         {
           role: "system",
-          content: "You output strictly valid JSON and nothing else. Always return all senses/meanings of the word.",
+          content: `You are a lexical data generator for a production English learning platform. You output strictly valid JSON and nothing else.
+
+CRITICAL RULES (MUST FOLLOW):
+1. Return ALL major parts of speech for the word (verb, noun, adjective, etc.)
+2. Return EXACTLY 1 sense per part of speech (the most common, most important meaning)
+3. Translation MUST match part of speech:
+   - If pos="verb": translation_pl MUST be a Polish verb infinitive (ends in -ć, -ować, -ić, -yć, -eć)
+   - If pos="noun": translation_pl MUST be a Polish noun (NOT a verb infinitive)
+   - If pos="adjective": translation_pl MUST be a Polish adjective (NOT a verb infinitive)
+4. Do NOT return synonyms as separate senses (e.g., "pracować" and "działać" for same verb = WRONG)
+5. Do NOT return usage notes, room senses, or paraphrases
+
+EXAMPLES OF CORRECT:
+- "work" verb → "pracować" (verb infinitive) ✓
+- "work" noun → "praca" (noun) ✓
+
+EXAMPLES OF WRONG:
+- "work" verb → "praca" (noun) ✗ WRONG POS
+- "work" noun → "pracować" (verb) ✗ WRONG POS
+- "work" verb → "pracować" AND "działać" (synonyms) ✗ DUPLICATE`,
         },
         {
           role: "user",
@@ -620,103 +753,219 @@ Generate the lexical data with Polish translations for ALL senses:`;
   }
   cleanedContent = cleanedContent.trim();
 
-  let parsed: AILexiconResponse;
+  let parsedRaw: AILexiconResponseRaw;
   try {
-    parsed = JSON.parse(cleanedContent);
+    parsedRaw = JSON.parse(cleanedContent);
   } catch (e) {
     throw new Error(`Model did not return valid JSON: ${cleanedContent.substring(0, 200)}`);
   }
 
   // Validation
-  if (!parsed.lemma || !parsed.pos || !Array.isArray(parsed.senses) || parsed.senses.length === 0) {
-    throw new Error("Invalid AI response: missing lemma, pos, or senses");
+  if (!parsedRaw.word || !Array.isArray(parsedRaw.senses) || parsedRaw.senses.length === 0) {
+    throw new Error("Invalid AI response: missing word or senses");
   }
 
-  // Validate that each sense has translation_pl and check format
-  const invalidTranslations: number[] = [];
-  for (let i = 0; i < parsed.senses.length; i++) {
-    const sense = parsed.senses[i];
+  // Validate that each sense has required fields and filter invalid ones
+  const invalidTranslations: Array<{ senseIndex: number; pos: string; reason: string }> = [];
+  const seenPos = new Set<string>(); // Track which POS we've already seen (max 1 per POS)
+  
+  for (let i = 0; i < parsedRaw.senses.length; i++) {
+    const sense = parsedRaw.senses[i];
+    if (!sense.pos || typeof sense.pos !== "string") {
+      throw new Error(`Invalid AI response: sense ${i} missing pos`);
+    }
     if (!sense.translation_pl || typeof sense.translation_pl !== "string" || !sense.translation_pl.trim()) {
       throw new Error(`Invalid AI response: sense ${i} missing translation_pl`);
     }
+    
+    // Check if translation format is valid FIRST (before POS checks)
     if (!isValidTranslationPl(sense.translation_pl)) {
-      invalidTranslations.push(i);
+      invalidTranslations.push({ senseIndex: i, pos: sense.pos, reason: "invalid_format" });
+      continue;
     }
+    
+    // Check if translation matches part of speech SECOND (critical validation)
+    if (!translationMatchesPos(sense.translation_pl, sense.pos)) {
+      invalidTranslations.push({ 
+        senseIndex: i, 
+        pos: sense.pos, 
+        reason: `pos_mismatch: translation "${sense.translation_pl}" does not match pos "${sense.pos}" (e.g., verb with noun translation or vice versa)` 
+      });
+      continue;
+    }
+    
+    // Check if this is a duplicate POS (more than 1 sense per POS) - keep only first
+    // This check comes AFTER pos_mismatch, so we filter wrong POS first
+    if (seenPos.has(sense.pos)) {
+      invalidTranslations.push({ 
+        senseIndex: i, 
+        pos: sense.pos, 
+        reason: `duplicate_pos: already have a sense for pos "${sense.pos}", max 1 allowed` 
+      });
+      continue;
+    }
+    
+    // Mark this POS as seen
+    seenPos.add(sense.pos);
+    
     if (!sense.definition_en || typeof sense.definition_en !== "string" || !sense.definition_en.trim()) {
       throw new Error(`Invalid AI response: sense ${i} missing definition_en`);
     }
-    if (!sense.example_en || typeof sense.example_en !== "string" || !sense.example_en.trim()) {
-      throw new Error(`Invalid AI response: sense ${i} missing example_en`);
+    if (!Array.isArray(sense.examples) || sense.examples.length === 0) {
+      throw new Error(`Invalid AI response: sense ${i} missing examples array`);
+    }
+    // Validate verb_forms if pos is verb
+    if (sense.pos === "verb" && !sense.verb_forms) {
+      throw new Error(`Invalid AI response: sense ${i} is verb but missing verb_forms`);
     }
   }
+  
+  // Filter out invalid senses
+  if (invalidTranslations.length > 0) {
+    const validIndices = new Set(
+      Array.from({ length: parsedRaw.senses.length }, (_, i) => i)
+        .filter((i) => !invalidTranslations.some((inv) => inv.senseIndex === i))
+    );
+    
+    parsedRaw.senses = parsedRaw.senses.filter((_, i) => validIndices.has(i));
+    
+    console.warn(`[lookup-word] Filtered ${invalidTranslations.length} invalid senses:`, 
+      invalidTranslations.map((inv) => `sense ${inv.senseIndex} (${inv.pos}): ${inv.reason}`)
+    );
+  }
 
-  // If invalid translations found and not retrying, retry once
-  if (invalidTranslations.length > 0 && !retryOnInvalidTranslation) {
+  // If we filtered out too many senses or have no valid senses, retry
+  if (parsedRaw.senses.length === 0 && !retryOnInvalidTranslation) {
+    console.warn(`[lookup-word] No valid senses after filtering, retrying...`);
     return openaiEnrichLexicon(lemma, true);
   }
+  
+  if (parsedRaw.senses.length === 0) {
+    throw new Error("No valid senses after filtering invalid translations");
+  }
 
-  // If still invalid after retry, set to __NEEDS_HUMAN__
-  if (invalidTranslations.length > 0) {
-    for (const idx of invalidTranslations) {
-      parsed.senses[idx].translation_pl = "__NEEDS_HUMAN__";
+  // Convert to internal format: group senses by pos, create one AILexiconResponse per pos
+  const responsesByPos = new Map<string, AILexiconResponse>();
+
+  for (const sense of parsedRaw.senses) {
+    if (!responsesByPos.has(sense.pos)) {
+      responsesByPos.set(sense.pos, {
+        lemma: parsedRaw.word,
+        pos: sense.pos,
+        senses: [],
+        verb_forms: sense.pos === "verb" && sense.verb_forms ? sense.verb_forms : undefined,
+      });
     }
+
+    const response = responsesByPos.get(sense.pos)!;
+    
+    // Use first example as primary example_en
+    const primaryExample = sense.examples[0] || "";
+    if (!primaryExample.trim()) {
+      throw new Error(`Invalid AI response: sense with pos ${sense.pos} has empty examples`);
+    }
+
+    response.senses.push({
+      definition_en: sense.definition_en,
+      translation_pl: sense.translation_pl,
+      example_en: primaryExample,
+      domain: null, // Domain not in new format, can be added later if needed
+    });
+
+    // Store additional examples in mergedExamples for later (will be handled in saveToLexicon)
+    // For now, we only use the first example as example_en
   }
 
-  // Validate verb_forms if pos is verb
-  if (parsed.pos === "verb" && !parsed.verb_forms) {
-    throw new Error("Invalid AI response: verb_forms required for verbs");
-  }
-
-  return parsed;
+  // Return array of responses (one per pos)
+  return Array.from(responsesByPos.values());
 }
 
 async function saveToLexicon(
   supabase: ReturnType<typeof createSupabaseAdmin>,
-  data: AILexiconResponse
-): Promise<{ entry_id: string; sense_ids: string[] }> {
+  dataArray: AILexiconResponse[]
+): Promise<Array<{ entry_id: string; sense_ids: string[]; pos: string }>> {
+  const results: Array<{ entry_id: string; sense_ids: string[]; pos: string }> = [];
+
+  for (const data of dataArray) {
   const lemma_norm = normLemma(data.lemma);
 
-  // Apply filters and merges BEFORE saving to DB (clean cache)
-  // Convert AI response senses to SenseData format
-  const aiSenses: SenseData[] = data.senses.map((s, idx) => ({
-    definition_en: s.definition_en,
-    domain: s.domain || null,
-    sense_order: idx,
-    translation_pl: s.translation_pl,
-    example_en: s.example_en,
-  }));
+    // Apply filters and merges BEFORE saving to DB (clean cache)
+    // Convert AI response senses to SenseData format
+    const aiSenses: SenseData[] = data.senses.map((s, idx) => ({
+      definition_en: s.definition_en,
+      domain: s.domain || null,
+      sense_order: idx,
+      translation_pl: s.translation_pl,
+      example_en: s.example_en,
+    }));
 
-  // Apply quality filters and merges
-  const filteredSenses = applyFiltersAndMerges(aiSenses, data.pos);
+    // Apply quality filters and merges
+    const filteredSenses = applyFiltersAndMerges(aiSenses, data.pos);
 
-  // 1. Upsert lexicon_entries
-  const { data: entry, error: entryErr } = await supabase
+    // 1. Upsert lexicon_entries (with lemma_norm + pos as unique key)
+    // Check if entry exists first (for lemma_norm + pos combination)
+    const { data: existingEntry } = await supabase
     .from("lexicon_entries")
-    .upsert(
-      {
+      .select("id")
+      .eq("lemma_norm", lemma_norm)
+      .eq("pos", data.pos)
+      .maybeSingle();
+
+    let entry_id: string;
+
+    if (existingEntry) {
+      // Update existing entry
+      entry_id = existingEntry.id;
+      const { error: updateErr } = await supabase
+        .from("lexicon_entries")
+        .update({ updated_at: new Date().toISOString() })
+        .eq("id", entry_id);
+
+      if (updateErr) {
+        throw new Error(`Failed to update lexicon entry: ${updateErr.message}`);
+      }
+    } else {
+      // Insert new entry
+      const { data: newEntry, error: insertErr } = await supabase
+        .from("lexicon_entries")
+        .insert({
         lemma: data.lemma,
         lemma_norm,
         pos: data.pos,
         updated_at: new Date().toISOString(),
-      },
-      { onConflict: "lemma_norm", ignoreDuplicates: false }
-    )
+        })
     .select("id")
     .single();
 
-  if (entryErr) {
-    throw new Error(`Failed to save lexicon entry: ${entryErr.message}`);
+      if (insertErr) {
+        throw new Error(`Failed to save lexicon entry: ${insertErr.message}`);
   }
 
-  const entry_id = entry.id;
+      entry_id = newEntry.id;
+    }
 
   // 2. Delete existing senses (if re-enriching) and recreate
-  // This ensures we have the latest AI data
   await supabase.from("lexicon_senses").delete().eq("entry_id", entry_id);
 
+    const sense_ids = await saveSensesToDb(supabase, entry_id, filteredSenses, data.verb_forms);
+    results.push({ entry_id, sense_ids, pos: data.pos });
+  }
+
+  return results;
+}
+
+/**
+ * Helper function to save senses, translations, examples, and verb forms to DB
+ */
+async function saveSensesToDb(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  entry_id: string,
+  filteredSenses: SenseData[],
+  verb_forms?: AILexiconResponse["verb_forms"]
+): Promise<string[]> {
   const sense_ids: string[] = [];
 
-  // 3. Insert filtered and merged senses, translations, examples
+  // Insert filtered and merged senses, translations, examples
   for (let i = 0; i < filteredSenses.length; i++) {
     const sense = filteredSenses[i];
 
@@ -764,33 +1013,33 @@ async function saveToLexicon(
     for (const example of examplesToSave) {
       const exampleHash = Buffer.from(example).toString("base64").slice(0, 64);
 
-      const { error: exampleErr } = await supabase.from("lexicon_examples").insert({
-        sense_id,
+    const { error: exampleErr } = await supabase.from("lexicon_examples").insert({
+      sense_id,
         example_en: example,
-        source: "ai",
-        example_hash: exampleHash,
-      });
+      source: "ai",
+      example_hash: exampleHash,
+    });
 
-      if (exampleErr) {
-        // Ignore duplicate hash errors (example already exists)
-        if (!String(exampleErr.message).toLowerCase().includes("unique")) {
-          throw new Error(`Failed to save example for sense ${i}: ${exampleErr.message}`);
+    if (exampleErr) {
+      // Ignore duplicate hash errors (example already exists)
+      if (!String(exampleErr.message).toLowerCase().includes("unique")) {
+        throw new Error(`Failed to save example for sense ${i}: ${exampleErr.message}`);
         }
       }
     }
   }
 
-  // 4. Insert verb_forms if verb
-  if (data.pos === "verb" && data.verb_forms) {
+  // Insert verb_forms if verb
+  if (verb_forms) {
     await supabase.from("lexicon_verb_forms").delete().eq("entry_id", entry_id);
 
     const { error: verbErr } = await supabase.from("lexicon_verb_forms").insert({
       entry_id,
-      present_simple_i: data.verb_forms.present_simple_i,
-      present_simple_you: data.verb_forms.present_simple_you,
-      present_simple_he_she_it: data.verb_forms.present_simple_he_she_it,
-      past_simple: data.verb_forms.past_simple,
-      past_participle: data.verb_forms.past_participle,
+      present_simple_i: verb_forms.present_simple_i,
+      present_simple_you: verb_forms.present_simple_you,
+      present_simple_he_she_it: verb_forms.present_simple_he_she_it,
+      past_simple: verb_forms.past_simple,
+      past_participle: verb_forms.past_participle,
     });
 
     if (verbErr) {
@@ -798,7 +1047,7 @@ async function saveToLexicon(
     }
   }
 
-  return { entry_id, sense_ids };
+  return sense_ids;
 }
 
 export async function POST(req: Request) {
@@ -827,20 +1076,20 @@ export async function POST(req: Request) {
 
     const lemma_norm = normLemma(lemma);
 
-    // Check Lexicon cache first
-    const { data: existingEntry, error: checkErr } = await supabase
+    // Check Lexicon cache first (may have multiple entries for different POS)
+    const { data: existingEntries, error: checkErr } = await supabase
       .from("lexicon_entries")
       .select("id, lemma, pos")
-      .eq("lemma_norm", lemma_norm)
-      .maybeSingle();
+      .eq("lemma_norm", lemma_norm);
 
     if (checkErr) {
       return NextResponse.json({ error: `Failed to check cache: ${checkErr.message}` }, { status: 500 });
     }
 
-    if (existingEntry) {
-      // Fetch all senses with translations and examples
-      const { data: senses, error: sensesErr } = await supabase
+    if (existingEntries && existingEntries.length > 0) {
+      // Fetch all senses for all entries (multiple POS support)
+      const entryIds = existingEntries.map((e) => e.id);
+      const { data: allSenses, error: sensesErr } = await supabase
         .from("lexicon_senses")
         .select(
           `
@@ -848,28 +1097,52 @@ export async function POST(req: Request) {
           definition_en,
           domain,
           sense_order,
+          entry_id,
           lexicon_translations(translation_pl),
           lexicon_examples(example_en, source)
         `
         )
-        .eq("entry_id", existingEntry.id)
+        .in("entry_id", entryIds)
         .order("sense_order", { ascending: true });
 
       if (sensesErr) {
         return NextResponse.json({ error: `Failed to fetch senses: ${sensesErr.message}` }, { status: 500 });
       }
 
+      // Create a map of entry_id -> entry (for pos lookup)
+      const entryMap = new Map(existingEntries.map((e) => [e.id, e]));
+
       // Check if any sense is missing translation_pl - if so, re-enrich
-      const missingTranslations = (senses || []).some(
+      const missingTranslations = (allSenses || []).some(
         (s: any) => !pickTranslationPl(s.lexicon_translations)
       );
 
-      if (missingTranslations) {
-        // Re-enrich to add missing translations
-        const aiData = await openaiEnrichLexicon(lemma);
-        const { entry_id, sense_ids } = await saveToLexicon(supabase, aiData);
+      // Check if we have only one POS but the word might have multiple
+      // This is a heuristic to detect old cache entries that might be missing POS
+      // Common words that often have multiple POS: work, light, break, change, turn, etc.
+      // TODO: Consider adding a `force_reload` parameter to API for explicit re-enrichment
+      const commonMultiPosWords = ["work", "light", "break", "change", "turn", "run", "set", "get", "take", "serve", "wake"];
+      const hasOnlyOnePos = existingEntries.length === 1;
+      const mightHaveMultiplePos = commonMultiPosWords.includes(lemma_norm);
 
-        // Fetch refreshed data
+      // Re-enrich if: missing translations OR (only one POS AND might have multiple)
+      // This ensures we get all POS for words that can have multiple
+      if (missingTranslations || (hasOnlyOnePos && mightHaveMultiplePos)) {
+        // Re-enrich to add missing translations
+        const aiDataArray = await openaiEnrichLexicon(lemma);
+        await saveToLexicon(supabase, aiDataArray);
+
+        // Fetch all refreshed entries and senses
+        const { data: refreshedEntries } = await supabase
+          .from("lexicon_entries")
+          .select("id, lemma, pos")
+          .eq("lemma_norm", lemma_norm);
+
+        if (!refreshedEntries || refreshedEntries.length === 0) {
+          return NextResponse.json({ error: "Failed to fetch refreshed entries" }, { status: 500 });
+        }
+
+        const refreshedEntryIds = refreshedEntries.map((e) => e.id);
         const { data: refreshedSenses, error: refreshedErr } = await supabase
           .from("lexicon_senses")
           .select(
@@ -878,38 +1151,91 @@ export async function POST(req: Request) {
             definition_en,
             domain,
             sense_order,
+            entry_id,
             lexicon_translations(translation_pl),
             lexicon_examples(example_en, source)
           `
           )
-          .eq("entry_id", entry_id)
+          .in("entry_id", refreshedEntryIds)
           .order("sense_order", { ascending: true });
 
         if (refreshedErr) {
           return NextResponse.json({ error: `Failed to fetch refreshed senses: ${refreshedErr.message}` }, { status: 500 });
         }
 
-        const { data: refreshedEntry } = await supabase
-          .from("lexicon_entries")
-          .select("id, lemma, pos")
-          .eq("id", entry_id)
-          .single();
+        // Group senses by entry_id and process
+        const refreshedEntryMap = new Map(refreshedEntries.map((e) => [e.id, e]));
+        const allProcessedSenses: Array<{ pos: string; senses: any[]; verb_forms: any }> = [];
+
+        for (const entry of refreshedEntries) {
+          const entrySenses = (refreshedSenses || []).filter((s: any) => s.entry_id === entry.id);
+          const mappedSenses: SenseData[] = entrySenses.map((s: any) => ({
+            id: s.id,
+            definition_en: s.definition_en,
+            domain: s.domain,
+            sense_order: s.sense_order,
+            translation_pl: pickTranslationPl(s.lexicon_translations),
+            example_en: pickExampleEn(s.lexicon_examples),
+          }));
+
+          const consolidatedSenses = applyFiltersAndMerges(mappedSenses, entry.pos);
 
         let verb_forms = null;
-        if (refreshedEntry?.pos === "verb") {
+          if (entry.pos === "verb") {
           const { data: vf } = await supabase
             .from("lexicon_verb_forms")
             .select("*")
-            .eq("entry_id", entry_id)
+              .eq("entry_id", entry.id)
             .maybeSingle();
-
-          if (vf) {
-            verb_forms = vf;
+            if (vf) verb_forms = vf;
           }
-        }
 
-        // Map and apply filters/merges (in-memory, for old records compatibility)
-        const mappedRefreshedSenses: SenseData[] = (refreshedSenses || []).map((s: any) => ({
+        allProcessedSenses.push({ pos: entry.pos, senses: consolidatedSenses, verb_forms });
+      }
+
+      // Merge all senses from all POS together
+      const allMergedSenses: any[] = [];
+      let mergedVerbForms = null;
+
+      for (const processed of allProcessedSenses) {
+        // Add senses with pos information (for UI to group by POS if needed)
+        allMergedSenses.push(...processed.senses.map((s: any) => ({ ...s, pos: processed.pos })));
+        // Keep verb_forms from verb entry
+        if (processed.pos === "verb" && processed.verb_forms) {
+          mergedVerbForms = processed.verb_forms;
+        }
+      }
+
+      // Sort by pos (verb first, then noun, etc.) and then by sense_order
+      const posOrder = ["verb", "noun", "adjective", "adverb", "preposition", "conjunction", "pronoun", "determiner"];
+      allMergedSenses.sort((a, b) => {
+        const posA = posOrder.indexOf(a.pos) !== -1 ? posOrder.indexOf(a.pos) : 999;
+        const posB = posOrder.indexOf(b.pos) !== -1 ? posOrder.indexOf(b.pos) : 999;
+        if (posA !== posB) return posA - posB;
+        return a.sense_order - b.sense_order;
+      });
+
+      const firstEntry = refreshedEntries[0];
+
+        return NextResponse.json({
+          ok: true,
+        cached: false,
+          entry: {
+          id: firstEntry.id,
+          lemma: firstEntry.lemma,
+          pos: firstEntry.pos, // Keep first POS for backward compatibility
+          senses: allMergedSenses, // All senses from all POS
+          verb_forms: mergedVerbForms,
+          },
+        });
+      }
+
+      // Process all cached entries
+      const allProcessedSenses: Array<{ pos: string; senses: any[]; verb_forms: any }> = [];
+
+      for (const entry of existingEntries) {
+        const entrySenses = (allSenses || []).filter((s: any) => s.entry_id === entry.id);
+        const mappedSenses: SenseData[] = entrySenses.map((s: any) => ({
           id: s.id,
           definition_en: s.definition_en,
           domain: s.domain,
@@ -917,81 +1243,78 @@ export async function POST(req: Request) {
           translation_pl: pickTranslationPl(s.lexicon_translations),
           example_en: pickExampleEn(s.lexicon_examples),
         }));
-        
-        const consolidatedRefreshedSenses = applyFiltersAndMerges(
-          mappedRefreshedSenses,
-          refreshedEntry?.pos || existingEntry.pos
-        );
 
-        return NextResponse.json({
-          ok: true,
-          cached: false, // Was re-enriched
-          entry: {
-            id: refreshedEntry?.id || existingEntry.id,
-            lemma: refreshedEntry?.lemma || existingEntry.lemma,
-            pos: refreshedEntry?.pos || existingEntry.pos,
-            senses: consolidatedRefreshedSenses,
-            verb_forms,
-          },
-        });
-      }
+        const consolidatedSenses = applyFiltersAndMerges(mappedSenses, entry.pos);
 
-      // Fetch verb_forms if verb
       let verb_forms = null;
-      if (existingEntry.pos === "verb") {
+        if (entry.pos === "verb") {
         const { data: vf, error: vfErr } = await supabase
           .from("lexicon_verb_forms")
           .select("*")
-          .eq("entry_id", existingEntry.id)
+            .eq("entry_id", entry.id)
           .maybeSingle();
+          if (!vfErr && vf) verb_forms = vf;
+        }
 
-        if (!vfErr && vf) {
-          verb_forms = vf;
+        allProcessedSenses.push({ pos: entry.pos, senses: consolidatedSenses, verb_forms });
+      }
+
+      // Merge all senses from all POS together
+      const allMergedSenses: any[] = [];
+      let mergedVerbForms = null;
+
+      for (const processed of allProcessedSenses) {
+        // Add senses with pos information (for UI to group by POS if needed)
+        allMergedSenses.push(...processed.senses.map((s: any) => ({ ...s, pos: processed.pos })));
+        // Keep verb_forms from verb entry
+        if (processed.pos === "verb" && processed.verb_forms) {
+          mergedVerbForms = processed.verb_forms;
         }
       }
 
-      // Map and apply filters/merges (in-memory, for old records compatibility)
-      // NOTE: This filters in-memory only, does NOT delete data from DB
-      // Old records may still have ellipsis/usage-note senses, but they won't appear in UI
-      const mappedSenses: SenseData[] = (senses || []).map((s: any) => ({
-        id: s.id,
-        definition_en: s.definition_en,
-        domain: s.domain,
-        sense_order: s.sense_order,
-        translation_pl: pickTranslationPl(s.lexicon_translations),
-        example_en: pickExampleEn(s.lexicon_examples),
-      }));
-      
-      const consolidatedSenses = applyFiltersAndMerges(mappedSenses, existingEntry.pos);
+      // Sort by pos (verb first, then noun, etc.) and then by sense_order
+      const posOrder = ["verb", "noun", "adjective", "adverb", "preposition", "conjunction", "pronoun", "determiner"];
+      allMergedSenses.sort((a, b) => {
+        const posA = posOrder.indexOf(a.pos) !== -1 ? posOrder.indexOf(a.pos) : 999;
+        const posB = posOrder.indexOf(b.pos) !== -1 ? posOrder.indexOf(b.pos) : 999;
+        if (posA !== posB) return posA - posB;
+        return a.sense_order - b.sense_order;
+      });
+
+      const firstEntry = existingEntries[0];
 
       return NextResponse.json({
         ok: true,
         cached: true,
         entry: {
-          id: existingEntry.id,
-          lemma: existingEntry.lemma,
-          pos: existingEntry.pos,
-          senses: consolidatedSenses,
-          verb_forms,
+          id: firstEntry.id,
+          lemma: firstEntry.lemma,
+          pos: firstEntry.pos, // Keep first POS for backward compatibility
+          senses: allMergedSenses, // All senses from all POS
+          verb_forms: mergedVerbForms,
         },
       });
     }
 
     // Not in cache - AI enrichment (SYNCHRONOUS, USER WAITS)
-    const aiData = await openaiEnrichLexicon(lemma);
+    const aiDataArray = await openaiEnrichLexicon(lemma);
 
-    // Save to Lexicon
-    const { entry_id, sense_ids } = await saveToLexicon(supabase, aiData);
+    // Save to Lexicon (all POS entries)
+    const saveResults = await saveToLexicon(supabase, aiDataArray);
 
-    // Fetch saved data to return
-    const { data: savedEntry, error: savedErr } = await supabase
+    if (saveResults.length === 0) {
+      return NextResponse.json({ error: "Failed to save any entries" }, { status: 500 });
+    }
+
+    // Fetch all saved entries and senses
+    const savedEntryIds = saveResults.map((r) => r.entry_id);
+    const { data: savedEntries, error: savedErr } = await supabase
       .from("lexicon_entries")
       .select("id, lemma, pos")
-      .eq("id", entry_id)
-      .single();
+      .in("id", savedEntryIds);
 
-    if (savedErr) {
-      return NextResponse.json({ error: `Failed to fetch saved entry: ${savedErr.message}` }, { status: 500 });
+    if (savedErr || !savedEntries || savedEntries.length === 0) {
+      return NextResponse.json({ error: `Failed to fetch saved entries: ${savedErr?.message}` }, { status: 500 });
     }
 
     const { data: savedSenses, error: savedSensesErr } = await supabase
@@ -1002,53 +1325,80 @@ export async function POST(req: Request) {
         definition_en,
         domain,
         sense_order,
+        entry_id,
         lexicon_translations(translation_pl),
         lexicon_examples(example_en, source)
       `
       )
-      .eq("entry_id", entry_id)
+      .in("entry_id", savedEntryIds)
       .order("sense_order", { ascending: true });
 
     if (savedSensesErr) {
       return NextResponse.json({ error: `Failed to fetch saved senses: ${savedSensesErr.message}` }, { status: 500 });
     }
 
+    // Process all saved entries
+    const allProcessedSenses: Array<{ pos: string; senses: any[]; verb_forms: any }> = [];
+
+    for (const entry of savedEntries) {
+      const entrySenses = (savedSenses || []).filter((s: any) => s.entry_id === entry.id);
+      const mappedSenses: SenseData[] = entrySenses.map((s: any) => ({
+        id: s.id,
+        definition_en: s.definition_en,
+        domain: s.domain,
+        sense_order: s.sense_order,
+        translation_pl: pickTranslationPl(s.lexicon_translations),
+        example_en: pickExampleEn(s.lexicon_examples),
+      }));
+
+      const consolidatedSenses = applyFiltersAndMerges(mappedSenses, entry.pos);
+
     let verb_forms = null;
-    if (savedEntry.pos === "verb") {
+      if (entry.pos === "verb") {
       const { data: vf, error: vfErr } = await supabase
         .from("lexicon_verb_forms")
         .select("*")
-        .eq("entry_id", entry_id)
+          .eq("entry_id", entry.id)
         .maybeSingle();
+        if (!vfErr && vf) verb_forms = vf;
+      }
 
-      if (!vfErr && vf) {
-        verb_forms = vf;
+      allProcessedSenses.push({ pos: entry.pos, senses: consolidatedSenses, verb_forms });
+    }
+
+    // Merge all senses from all POS together
+    const allMergedSenses: any[] = [];
+    let mergedVerbForms = null;
+
+    for (const processed of allProcessedSenses) {
+      // Add senses with pos information (for UI to group by POS if needed)
+      allMergedSenses.push(...processed.senses.map((s: any) => ({ ...s, pos: processed.pos })));
+      // Keep verb_forms from verb entry
+      if (processed.pos === "verb" && processed.verb_forms) {
+        mergedVerbForms = processed.verb_forms;
       }
     }
 
-    // Map and apply filters/merges (in-memory, for consistency)
-    // NOTE: Data was already filtered before save, but we apply filters here too
-    // for consistency and to handle any edge cases
-    const mappedSavedSenses: SenseData[] = (savedSenses || []).map((s: any) => ({
-      id: s.id,
-      definition_en: s.definition_en,
-      domain: s.domain,
-      sense_order: s.sense_order,
-      translation_pl: pickTranslationPl(s.lexicon_translations),
-      example_en: pickExampleEn(s.lexicon_examples),
-    }));
-    
-    const consolidatedSavedSenses = applyFiltersAndMerges(mappedSavedSenses, savedEntry.pos);
+    // Sort by pos (verb first, then noun, etc.) and then by sense_order
+    const posOrder = ["verb", "noun", "adjective", "adverb", "preposition", "conjunction", "pronoun", "determiner"];
+    allMergedSenses.sort((a, b) => {
+      const posA = posOrder.indexOf(a.pos) !== -1 ? posOrder.indexOf(a.pos) : 999;
+      const posB = posOrder.indexOf(b.pos) !== -1 ? posOrder.indexOf(b.pos) : 999;
+      if (posA !== posB) return posA - posB;
+      return a.sense_order - b.sense_order;
+    });
+
+    const firstEntry = savedEntries[0];
 
     return NextResponse.json({
       ok: true,
       cached: false,
       entry: {
-        id: savedEntry.id,
-        lemma: savedEntry.lemma,
-        pos: savedEntry.pos,
-        senses: consolidatedSavedSenses,
-        verb_forms,
+        id: firstEntry.id,
+        lemma: firstEntry.lemma,
+        pos: firstEntry.pos, // Keep first POS for backward compatibility
+        senses: allMergedSenses, // All senses from all POS
+        verb_forms: mergedVerbForms,
       },
     });
   } catch (e: any) {
