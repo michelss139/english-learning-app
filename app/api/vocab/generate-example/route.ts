@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { createHash } from "crypto";
+
+/**
+ * POST /api/vocab/generate-example
+ * 
+ * Generate a new example sentence for a specific sense.
+ * Saves to lexicon_examples pool (limit 10 per sense, LRU rotation).
+ */
 
 function requiredEnv(name: string): string {
   const v = process.env[name];
@@ -7,25 +15,25 @@ function requiredEnv(name: string): string {
   return v;
 }
 
-function normTerm(term: string): string {
-  return term.trim().toLowerCase();
-}
-
 type Body = {
-  term_en: string;
+  sense_id: string; // lexicon_senses.id
   level?: "A2" | "B1" | "B2";
   style?: "neutral" | "business" | "daily";
-  force?: boolean;
+  force?: boolean; // Force regeneration even if limit reached
 };
+
+function hashExample(example: string): string {
+  return createHash("sha256").update(example.trim().toLowerCase()).digest("hex").slice(0, 64);
+}
 
 async function openaiGenerateSentence(params: {
   term: string;
+  definition: string;
   level: "A2" | "B1" | "B2";
   style: "neutral" | "business" | "daily";
-}) {
+}): Promise<string> {
   const apiKey = requiredEnv("OPENAI_API_KEY");
-
-  const model = "gpt-4.1-mini"; // szybki i tani do zdań; łatwo podmienisz w przyszłości :contentReference[oaicite:1]{index=1}
+  const model = "gpt-4o-mini";
 
   const styleHint =
     params.style === "business"
@@ -34,16 +42,19 @@ async function openaiGenerateSentence(params: {
       ? "context: daily life"
       : "context: neutral";
 
-  const prompt = `
-Generate ONE high-quality English example sentence for a language learner.
-Constraints:
+  const prompt = `Generate ONE high-quality English example sentence for a language learner.
+
+Context:
+- Word: "${params.term}"
+- Definition: "${params.definition}"
 - CEFR level: ${params.level}
 - ${styleHint}
-- Must include the exact target term (case-insensitive) as a standalone word/phrase: "${params.term}"
+
+Constraints:
+- Must include the exact target word "${params.term}" (case-insensitive) as a standalone word/phrase
 - Natural, modern, learner-friendly. No idioms, no rare meanings, no slang, no archaic usage.
 - 8–16 words.
-- Output STRICT JSON only: {"sentence":"..."} with no extra keys.
-`;
+- Output STRICT JSON only: {"sentence":"..."} with no extra keys.`;
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -88,26 +99,19 @@ Constraints:
   const sentence = typeof parsed?.sentence === "string" ? parsed.sentence.trim() : "";
   if (!sentence) throw new Error("Missing sentence in model output.");
 
-  return {
-    sentence,
-    model,
-    usage: {
-      // best-effort; different responses may include different token usage fields
-      usage: json?.usage ?? null,
-    },
-  };
+  return sentence;
 }
 
 export async function POST(req: Request) {
   try {
     const body = (await req.json().catch(() => null)) as Body | null;
-    const term_en = (body?.term_en ?? "").toString().trim();
+    const sense_id = body?.sense_id;
     const level = (body?.level ?? "A2") as "A2" | "B1" | "B2";
     const style = (body?.style ?? "neutral") as "neutral" | "business" | "daily";
     const force = Boolean(body?.force);
 
-    if (!term_en) {
-      return NextResponse.json({ error: "term_en is required" }, { status: 400 });
+    if (!sense_id) {
+      return NextResponse.json({ error: "sense_id is required" }, { status: 400 });
     }
 
     // Auth: user token from header, verified via Supabase Admin
@@ -125,14 +129,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid session" }, { status: 401 });
     }
 
-    const userId = userData.user.id;
-    const term_en_norm = normTerm(term_en);
-
-    // Fetch profile for premium gating
+    // Fetch profile for premium gating (optional - can remove if no paywall)
     const { data: profile, error: profErr } = await supabase
       .from("profiles")
       .select("id, subscription_status, role")
-      .eq("id", userId)
+      .eq("id", userData.user.id)
       .maybeSingle();
 
     if (profErr || !profile) {
@@ -142,78 +143,169 @@ export async function POST(req: Request) {
     const isAdmin = profile.role === "admin";
     const isPremium = profile.subscription_status === "active" || isAdmin;
 
-    // Ensure enrichment row exists
-    const { data: existing, error: existingErr } = await supabase
-      .from("vocab_enrichments")
-      .select("term_en_norm, example_en_manual, example_en_ai")
-      .eq("term_en_norm", term_en_norm)
+    // For now, allow all authenticated users (no paywall)
+    // if (!isPremium) {
+    //   return NextResponse.json(
+    //     {
+    //       error: "AI examples are available in Premium.",
+    //       code: "PREMIUM_REQUIRED",
+    //     },
+    //     { status: 402 }
+    //   );
+    // }
+
+    // Fetch sense with entry to get lemma
+    const { data: sense, error: senseErr } = await supabase
+      .from("lexicon_senses")
+      .select(
+        `
+        id,
+        definition_en,
+        lexicon_entries(lemma)
+      `
+      )
+      .eq("id", sense_id)
       .maybeSingle();
 
-    if (existingErr) {
-      return NextResponse.json({ error: existingErr.message }, { status: 500 });
+    if (senseErr) {
+      return NextResponse.json({ error: `Failed to fetch sense: ${senseErr.message}` }, { status: 500 });
     }
 
-    // Rule 1: manual always wins and is free
-    if (existing?.example_en_manual) {
+    if (!sense) {
+      return NextResponse.json({ error: "Sense not found" }, { status: 404 });
+    }
+
+    const lemma = (sense.lexicon_entries as any)?.lemma;
+    if (!lemma) {
+      return NextResponse.json({ error: "Entry not found for sense" }, { status: 404 });
+    }
+
+    // Check current examples count
+    const { data: existingExamples, error: countErr } = await supabase
+      .from("lexicon_examples")
+      .select("id, example_en, example_hash, created_at")
+      .eq("sense_id", sense_id)
+      .order("created_at", { ascending: true });
+
+    if (countErr) {
+      return NextResponse.json({ error: `Failed to check examples: ${countErr.message}` }, { status: 500 });
+    }
+
+    const currentCount = existingExamples?.length || 0;
+    const MAX_EXAMPLES = 10;
+
+    // If limit reached and not forcing, return random existing example
+    if (currentCount >= MAX_EXAMPLES && !force) {
+      const randomExample = existingExamples?.[Math.floor(Math.random() * existingExamples.length)];
       return NextResponse.json({
         ok: true,
-        source: "manual",
-        sentence: existing.example_en_manual,
+        source: "pool_random",
+        sentence: randomExample?.example_en || null,
+        message: "Limit reached. Returning random example from pool.",
       });
     }
 
-    // Rule 2: if cached AI exists and not forcing, return it (no cost)
-    if (existing?.example_en_ai && !force) {
-      return NextResponse.json({
-        ok: true,
-        source: "ai_cache",
-        sentence: existing.example_en_ai,
-      });
+    // Generate new example with retry for duplicates
+    let newSentence: string | null = null;
+    let attempts = 0;
+    const MAX_RETRIES = 2;
+
+    while (attempts < MAX_RETRIES && !newSentence) {
+      attempts++;
+      try {
+        const generated = await openaiGenerateSentence({
+          term: lemma,
+          definition: sense.definition_en,
+          level,
+          style,
+        });
+
+        const newHash = hashExample(generated);
+
+        // Check for duplicate
+        const isDuplicate = existingExamples?.some((ex) => ex.example_hash === newHash);
+
+        if (!isDuplicate) {
+          newSentence = generated;
+        } else if (attempts >= MAX_RETRIES) {
+          // Last attempt, use it anyway or return existing
+          const randomExample = existingExamples?.[Math.floor(Math.random() * existingExamples.length)];
+          return NextResponse.json({
+            ok: true,
+            source: "pool_random",
+            sentence: randomExample?.example_en || null,
+            message: "Generated duplicate after retries. Returning random example from pool.",
+          });
+        }
+      } catch (e: any) {
+        if (attempts >= MAX_RETRIES) {
+          throw e;
+        }
+        // Retry on error
+      }
     }
 
-    // Rule 3: if not premium, block AI generation
-    if (!isPremium) {
-      return NextResponse.json(
-        {
-          error: "AI examples are available in Premium.",
-          code: "PREMIUM_REQUIRED",
-        },
-        { status: 402 }
-      );
+    if (!newSentence) {
+      return NextResponse.json({ error: "Failed to generate unique example after retries" }, { status: 500 });
     }
 
-    // Generate with OpenAI
-    const gen = await openaiGenerateSentence({ term: term_en_norm, level, style });
+    const newHash = hashExample(newSentence);
 
-    // Upsert AI fields into cache
-    const now = new Date().toISOString();
+    // If at limit, delete oldest (LRU - delete by created_at)
+    if (currentCount >= MAX_EXAMPLES && existingExamples && existingExamples.length > 0) {
+      const oldestIds = existingExamples
+        .slice(0, currentCount - MAX_EXAMPLES + 1)
+        .map((ex) => ex.id);
 
-    const { error: upsertErr } = await supabase
-      .from("vocab_enrichments")
-      .upsert(
-        {
-          term_en_norm,
-          example_en_ai: gen.sentence,
-          example_en_ai_generated_at: now,
-          example_en_ai_model: gen.model,
-          example_en_ai_usage: gen.usage,
-          example_en_ai_level: level,
-          example_en_ai_style: style,
-          updated_at: now,
-        },
-        { onConflict: "term_en_norm" }
-      );
+      if (oldestIds.length > 0) {
+        const { error: deleteErr } = await supabase.from("lexicon_examples").delete().in("id", oldestIds);
 
-    if (upsertErr) {
-      return NextResponse.json({ error: upsertErr.message }, { status: 500 });
+        if (deleteErr) {
+          console.warn("[generate-example] Failed to delete old examples:", deleteErr);
+          // Continue anyway
+        }
+      }
+    }
+
+    // Insert new example
+    const { data: newExample, error: insertErr } = await supabase
+      .from("lexicon_examples")
+      .insert({
+        sense_id,
+        example_en: newSentence,
+        source: "ai",
+        example_hash: newHash,
+      })
+      .select("id, example_en")
+      .single();
+
+    if (insertErr) {
+      // If duplicate hash error, return existing
+      if (String(insertErr.message).toLowerCase().includes("unique")) {
+        const randomExample = existingExamples?.[Math.floor(Math.random() * existingExamples.length)];
+        return NextResponse.json({
+          ok: true,
+          source: "pool_random",
+          sentence: randomExample?.example_en || null,
+          message: "Example already exists. Returning random example from pool.",
+        });
+      }
+      return NextResponse.json({ error: `Failed to save example: ${insertErr.message}` }, { status: 500 });
     }
 
     return NextResponse.json({
       ok: true,
       source: "ai_generated",
-      sentence: gen.sentence,
+      sentence: newExample.example_en,
     });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? "Unknown error" }, { status: 500 });
+    console.error("[generate-example] Error:", e);
+    return NextResponse.json(
+      {
+        error: e?.message ?? "Unknown error",
+        stack: process.env.NODE_ENV === "development" ? e?.stack : undefined,
+      },
+      { status: 500 }
+    );
   }
 }

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
+import SenseSelectionModal from "../../SenseSelectionModal";
 
 type StudentLesson = {
   id: string;
@@ -12,15 +13,15 @@ type StudentLesson = {
   notes: string | null;
 };
 
-type VocabItem = {
-  id: string;
-  term_en: string;
+type LessonWord = {
+  user_vocab_item_id: string;
+  lesson_vocab_item_id: string;
+  lemma: string | null;
+  custom_lemma: string | null;
   translation_pl: string | null;
-  is_personal: boolean;
-};
-
-type LessonVocabRow = {
-  vocab_items: VocabItem[] | null;
+  custom_translation_pl: string | null;
+  verified: boolean;
+  source: "lexicon" | "custom";
 };
 
 export default function VocabLessonPage() {
@@ -33,12 +34,16 @@ export default function VocabLessonPage() {
   const [error, setError] = useState("");
 
   const [lesson, setLesson] = useState<StudentLesson | null>(null);
-  const [words, setWords] = useState<VocabItem[]>([]);
+  const [words, setWords] = useState<LessonWord[]>([]);
+  const [availableWords, setAvailableWords] = useState<LessonWord[]>([]); // Words from pool not yet in lesson
 
-  // Dodawanie nowych słówek "do lekcji"
+  // Adding new word (opens modal)
   const [newWord, setNewWord] = useState("");
-  const [newTranslation, setNewTranslation] = useState("");
-  const [adding, setAdding] = useState(false);
+  const [showSenseModal, setShowSenseModal] = useState(false);
+  const [addingWord, setAddingWord] = useState(false);
+
+  // Adding from pool
+  const [pinningWordId, setPinningWordId] = useState<string | null>(null);
 
   const [selected, setSelected] = useState<Record<string, boolean>>({});
 
@@ -48,8 +53,9 @@ export default function VocabLessonPage() {
   );
 
   const loadLessonAndWords = async () => {
-    if (!lessonId) return;
+    if (!lessonId || !profile?.id) return;
 
+    // Load lesson
     const lessonRes = await supabase
       .from("student_lessons")
       .select("id,lesson_date,title,notes")
@@ -59,17 +65,95 @@ export default function VocabLessonPage() {
     if (lessonRes.error) throw lessonRes.error;
     setLesson(lessonRes.data as StudentLesson);
 
-    const vocabRes = await supabase
-      .from("student_lesson_vocab")
-      .select("vocab_items(id,term_en,translation_pl,is_personal)")
+    // Load words pinned to this lesson
+    const lessonVocabRes = await supabase
+      .from("lesson_vocab_items")
+      .select(
+        `
+        id,
+        user_vocab_item_id,
+        user_vocab_items(
+          id,
+          sense_id,
+          custom_lemma,
+          custom_translation_pl,
+          verified,
+          source,
+          lexicon_senses(
+            lexicon_entries(lemma),
+            lexicon_translations(translation_pl)
+          )
+        )
+      `
+      )
       .eq("student_lesson_id", lessonId)
       .order("created_at", { ascending: true });
 
-    if (vocabRes.error) throw vocabRes.error;
+    if (lessonVocabRes.error) throw lessonVocabRes.error;
 
-    const rows = (vocabRes.data ?? []) as unknown as LessonVocabRow[];
-    const list = rows.flatMap((r) => r.vocab_items ?? []) as VocabItem[];
-    setWords(list);
+    const lessonWords: LessonWord[] = (lessonVocabRes.data || []).map((lv: any) => {
+      const uvi = lv.user_vocab_items;
+      const sense = uvi?.lexicon_senses;
+      const entry = sense?.lexicon_entries;
+      const translation = sense?.lexicon_translations?.[0];
+
+      return {
+        user_vocab_item_id: uvi.id,
+        lesson_vocab_item_id: lv.id,
+        lemma: entry?.lemma || null,
+        custom_lemma: uvi.custom_lemma,
+        translation_pl: translation?.translation_pl || null,
+        custom_translation_pl: uvi.custom_translation_pl,
+        verified: uvi.verified,
+        source: uvi.source,
+      };
+    });
+
+    setWords(lessonWords);
+
+    // Load all user vocab items (for "Add from pool" section)
+    const allUserVocabRes = await supabase
+      .from("user_vocab_items")
+      .select(
+        `
+        id,
+        sense_id,
+        custom_lemma,
+        custom_translation_pl,
+        verified,
+        source,
+        lexicon_senses(
+          lexicon_entries(lemma),
+          lexicon_translations(translation_pl)
+        )
+      `
+      )
+      .eq("student_id", profile.id)
+      .order("created_at", { ascending: false });
+
+    if (allUserVocabRes.error) throw allUserVocabRes.error;
+
+    const allWords: LessonWord[] = (allUserVocabRes.data || []).map((uvi: any) => {
+      const sense = uvi.lexicon_senses;
+      const entry = sense?.lexicon_entries;
+      const translation = sense?.lexicon_translations?.[0];
+
+      return {
+        user_vocab_item_id: uvi.id,
+        lesson_vocab_item_id: "", // Not in lesson yet
+        lemma: entry?.lemma || null,
+        custom_lemma: uvi.custom_lemma,
+        translation_pl: translation?.translation_pl || null,
+        custom_translation_pl: uvi.custom_translation_pl,
+        verified: uvi.verified,
+        source: uvi.source,
+      };
+    });
+
+    // Filter out words already in lesson
+    const pinnedIds = new Set(lessonWords.map((w) => w.user_vocab_item_id));
+    const available = allWords.filter((w) => !pinnedIds.has(w.user_vocab_item_id));
+    setAvailableWords(available);
 
     setSelected({});
   };
@@ -124,13 +208,13 @@ export default function VocabLessonPage() {
     }
   };
 
-  const toggleSelected = (id: string) => {
-    setSelected((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleSelected = (userVocabItemId: string) => {
+    setSelected((prev) => ({ ...prev, [userVocabItemId]: !prev[userVocabItemId] }));
   };
 
   const selectAll = () => {
     const next: Record<string, boolean> = {};
-    for (const w of words) next[w.id] = true;
+    for (const w of words) next[w.user_vocab_item_id] = true;
     setSelected(next);
   };
 
@@ -146,126 +230,151 @@ export default function VocabLessonPage() {
       return;
     }
 
+    // TODO: Update test page to work with new model
     const q = encodeURIComponent(ids.join(","));
     router.push(`/app/vocab/test?ids=${q}&fromLesson=${lessonId}`);
   };
 
-  const addWordToLesson = async () => {
+  const handleLookupWord = () => {
+    if (!newWord.trim()) {
+      setError("Wpisz słówko po angielsku.");
+      return;
+    }
+    setError("");
+    setShowSenseModal(true);
+  };
+
+  const handleSenseSelected = async (senseId: string) => {
+    // Modal already handles the API call and pinning to lesson
+    // Just refresh data and close modal
+    setNewWord("");
+    setShowSenseModal(false);
+    await loadLessonAndWords();
+  };
+
+  const handleCustomWord = async (lemma: string, translation: string | null) => {
     if (!profile?.id) {
       setError("Brak profilu. Zaloguj się ponownie.");
       return;
     }
-    const term = newWord.trim();
-    if (!term) {
-      setError("Wpisz słówko po angielsku.");
-      return;
-    }
 
-    setAdding(true);
+    setAddingWord(true);
     setError("");
 
     try {
-      const findRes = await supabase
-        .from("vocab_items")
-        .select("id,term_en,translation_pl,is_personal")
-        .eq("student_id", profile.id)
-        .eq("term_en_norm", term.toLowerCase())
-        .limit(1);
+      // 1. Add custom word to user vocab pool
+      const { data: newItem, error: insertErr } = await supabase
+        .from("user_vocab_items")
+        .insert({
+          student_id: profile.id,
+          sense_id: null,
+          custom_lemma: lemma.trim().toLowerCase(),
+          custom_translation_pl: translation?.trim() || null,
+          source: "custom",
+          verified: false,
+        })
+        .select("id")
+        .single();
 
-      if (findRes.error) throw findRes.error;
-
-      let vocabId: string | null = findRes.data?.[0]?.id ?? null;
-
-      if (!vocabId) {
-        const insertRes = await supabase
-          .from("vocab_items")
-          .insert({
-            student_id: profile.id,
-            term_en: term,
-            translation_pl: newTranslation.trim() || null,
-            is_personal: true,
-          })
-          .select("id")
-          .single();
-
-        if (insertRes.error) {
-          const retry = await supabase
-            .from("vocab_items")
+      if (insertErr) {
+        // Check if duplicate - if so, use existing
+        if (String(insertErr.message).toLowerCase().includes("duplicate")) {
+          const { data: existing } = await supabase
+            .from("user_vocab_items")
             .select("id")
             .eq("student_id", profile.id)
-            .eq("term_en_norm", term.toLowerCase())
-            .single();
+            .eq("custom_lemma", lemma.trim().toLowerCase())
+            .eq("source", "custom")
+            .maybeSingle();
 
-          if (retry.error) throw insertRes.error;
-          vocabId = retry.data.id;
-        } else {
-          vocabId = insertRes.data.id;
+          if (existing) {
+            // 2. Pin to lesson
+            const { error: pinErr } = await supabase.from("lesson_vocab_items").insert({
+              student_lesson_id: lessonId,
+              user_vocab_item_id: existing.id,
+            });
+
+            if (pinErr && !String(pinErr.message).toLowerCase().includes("duplicate")) {
+              throw pinErr;
+            }
+
+            setNewWord("");
+            setShowSenseModal(false);
+            await loadLessonAndWords();
+            return;
+          }
         }
+        throw insertErr;
       }
 
-      const linkRes = await supabase.from("student_lesson_vocab").insert({
+      if (!newItem) {
+        throw new Error("Nie udało się utworzyć słówka");
+      }
+
+      // 2. Pin to lesson
+      const { error: pinErr } = await supabase.from("lesson_vocab_items").insert({
         student_lesson_id: lessonId,
-        vocab_item_id: vocabId,
+        user_vocab_item_id: newItem.id,
       });
 
-      if (linkRes.error) {
-        if (!String(linkRes.error.message).toLowerCase().includes("duplicate")) {
-          throw linkRes.error;
-        }
-      }
-
-      // Automatycznie dodaj słówko do "całej puli" (global_vocab_items + user_vocab)
-      try {
-        const sess = await supabase.auth.getSession();
-        const token = sess.data.session?.access_token;
-        if (token) {
-          const res = await fetch("/api/vocab/add-to-pool", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ term_en: term }),
-          });
-
-          if (!res.ok) {
-            const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
-            console.warn("Failed to add word to pool:", res.status, errorData);
-          }
-          // Ignoruj błędy - jeśli coś pójdzie nie tak, nie blokujemy dodawania do lekcji
-        }
-      } catch (e) {
-        // Silent fail - nie blokujemy głównej operacji
-        console.warn("Failed to add word to pool:", e);
+      if (pinErr && !String(pinErr.message).toLowerCase().includes("duplicate")) {
+        throw pinErr;
       }
 
       setNewWord("");
-      setNewTranslation("");
-
+      setShowSenseModal(false);
       await loadLessonAndWords();
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się dodać słówka.");
     } finally {
-      setAdding(false);
+      setAddingWord(false);
     }
   };
 
-  const detachWordFromLesson = async (vocabItemId: string) => {
+  const pinWordFromPool = async (userVocabItemId: string) => {
+    setPinningWordId(userVocabItemId);
+    setError("");
+
+    try {
+      const { error: pinErr } = await supabase.from("lesson_vocab_items").insert({
+        student_lesson_id: lessonId,
+        user_vocab_item_id: userVocabItemId,
+      });
+
+      if (pinErr) {
+        if (!String(pinErr.message).toLowerCase().includes("duplicate")) {
+          throw pinErr;
+        }
+      }
+
+      await loadLessonAndWords();
+    } catch (e: any) {
+      setError(e?.message ?? "Nie udało się przypiąć słówka.");
+    } finally {
+      setPinningWordId(null);
+    }
+  };
+
+  const detachWordFromLesson = async (lessonVocabItemId: string) => {
     setError("");
     try {
-      const res = await supabase
-        .from("student_lesson_vocab")
-        .delete()
-        .eq("student_lesson_id", lessonId)
-        .eq("vocab_item_id", vocabItemId);
+      const { error } = await supabase.from("lesson_vocab_items").delete().eq("id", lessonVocabItemId);
 
-      if (res.error) throw res.error;
+      if (error) throw error;
 
       await loadLessonAndWords();
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się usunąć słówka z lekcji.");
     }
   };
+
+  function getDisplayLemma(word: LessonWord): string {
+    return word.lemma || word.custom_lemma || "—";
+  }
+
+  function getDisplayTranslation(word: LessonWord): string {
+    return word.translation_pl || word.custom_translation_pl || "—";
+  }
 
   if (loading) return <main>Ładuję…</main>;
 
@@ -315,43 +424,77 @@ export default function VocabLessonPage() {
         </section>
       ) : null}
 
+      {/* Add new word */}
       <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj słówko do tej lekcji</h2>
+          <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj nowe słówko</h2>
           <p className="text-sm text-white/75">
-            Dodane słówko trafia do tej lekcji i do Twojej ogólnej puli. Jeśli już istnieje, system go nie dubluje.
-          </p>
-          <p className="text-sm text-white/70">
-            Wiele poprawnych tłumaczeń oddzielaj średnikiem <span className="font-medium text-white">;</span>{" "}
-            (np. <span className="font-medium text-white">kwiat; kwiatek; kwiatuszek</span>).
+            Wpisz słówko po angielsku. System znajdzie wszystkie znaczenia i pozwoli wybrać właściwe. Słowo trafi do
+            puli i zostanie automatycznie przypięte do tej lekcji.
           </p>
         </div>
 
         <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="flex gap-3">
             <input
-              className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-              placeholder="EN (np. go)"
+              className="flex-1 rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              placeholder="Wpisz słówko po angielsku (np. ball)"
               value={newWord}
               onChange={(e) => setNewWord(e.target.value)}
-            />
-            <input
-              className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-              placeholder="PL (np. kwiat; kwiatek)"
-              value={newTranslation}
-              onChange={(e) => setNewTranslation(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleLookupWord();
+                }
+              }}
             />
             <button
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
-              onClick={addWordToLesson}
-              disabled={adding}
+              className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
+              onClick={handleLookupWord}
+              disabled={addingWord || !newWord.trim()}
             >
-              {adding ? "Dodaję…" : "Dodaj do lekcji"}
+              {addingWord ? "Dodaję…" : "Szukaj / Dodaj"}
             </button>
           </div>
         </div>
+
+        <SenseSelectionModal
+          lemma={newWord}
+          isOpen={showSenseModal}
+          onClose={() => {
+            setShowSenseModal(false);
+            setError("");
+          }}
+          onSelect={handleSenseSelected}
+          onSelectCustom={handleCustomWord}
+          lessonId={lessonId}
+        />
       </section>
 
+      {/* Add from pool */}
+      {availableWords.length > 0 && (
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj z puli</h2>
+            <p className="text-sm text-white/75">Przypnij słówka z Twojej puli do tej lekcji.</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {availableWords.slice(0, 12).map((w) => (
+              <button
+                key={w.user_vocab_item_id}
+                onClick={() => pinWordFromPool(w.user_vocab_item_id)}
+                disabled={pinningWordId === w.user_vocab_item_id}
+                className="rounded-xl border-2 border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 transition disabled:opacity-60"
+              >
+                <div className="font-medium text-white">{getDisplayLemma(w)}</div>
+                <div className="text-xs text-white/70 truncate">{getDisplayTranslation(w)}</div>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Words in lesson */}
       <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -388,22 +531,22 @@ export default function VocabLessonPage() {
           <ul className="space-y-2">
             {words.map((w) => (
               <li
-                key={w.id}
+                key={w.lesson_vocab_item_id}
                 className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
-                title={w.translation_pl ?? ""}
+                title={getDisplayTranslation(w)}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <input
                     type="checkbox"
-                    checked={!!selected[w.id]}
-                    onChange={() => toggleSelected(w.id)}
+                    checked={!!selected[w.user_vocab_item_id]}
+                    onChange={() => toggleSelected(w.user_vocab_item_id)}
                   />
 
                   <div className="min-w-0">
-                    <div className="font-medium text-white truncate">{w.term_en}</div>
+                    <div className="font-medium text-white truncate">{getDisplayLemma(w)}</div>
                     <div className="text-xs text-white/70">
-                      {w.translation_pl ? "hover → PL" : "brak tłumaczenia"}
-                      {w.is_personal ? " • własne" : ""}
+                      {getDisplayTranslation(w) !== "—" ? "hover → PL" : "brak tłumaczenia"}
+                      {w.source === "custom" ? " • własne" : ""}
                     </div>
                   </div>
                 </div>
@@ -411,15 +554,51 @@ export default function VocabLessonPage() {
                 <div className="flex gap-2">
                   <button
                     className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
-                    onClick={() => speak(w.term_en)}
+                    onClick={() => speak(getDisplayLemma(w))}
                     title="Odtwórz wymowę"
                   >
                     🔊
                   </button>
                   <button
                     className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
-                    onClick={() => detachWordFromLesson(w.id)}
+                    onClick={() => detachWordFromLesson(w.lesson_vocab_item_id)}
                     title="Usuń z tej lekcji"
+                  >
+                    Odepnij
+                  </button>
+                  <button
+                    className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-3 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                    onClick={async () => {
+                      if (!confirm(`Czy na pewno chcesz usunąć słówko "${getDisplayLemma(w)}" z puli?`)) return;
+
+                      try {
+                        const session = await supabase.auth.getSession();
+                        const token = session?.data?.session?.access_token;
+                        if (!token) {
+                          setError("Musisz być zalogowany");
+                          return;
+                        }
+
+                        const res = await fetch("/api/vocab/delete-word", {
+                          method: "DELETE",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                          },
+                          body: JSON.stringify({ user_vocab_item_id: w.user_vocab_item_id }),
+                        });
+
+                        if (!res.ok) {
+                          const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+                          throw new Error(errorData.error || `HTTP ${res.status}`);
+                        }
+
+                        await loadLessonAndWords();
+                      } catch (e: any) {
+                        setError(e?.message ?? "Nie udało się usunąć słówka.");
+                      }
+                    }}
+                    title="Usuń słówko z puli (usunie też z wszystkich lekcji)"
                   >
                     Usuń
                   </button>

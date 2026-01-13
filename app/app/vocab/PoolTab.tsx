@@ -5,46 +5,29 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 
 type PoolRow = {
-  global_vocab_item_id: string;
-  term_en: string;
-  term_en_norm: string;
-
-  translation_pl_suggested: string | null;
-
-  // open data example (legacy field)
+  user_vocab_item_id: string;
+  sense_id: string | null;
+  custom_lemma: string | null;
+  custom_translation_pl: string | null;
+  verified: boolean;
+  source: "lexicon" | "custom";
+  // Lexicon data (if verified)
+  lemma: string | null;
+  pos: string | null;
+  definition_en: string | null;
+  translation_pl: string | null;
   example_en: string | null;
-
-  // new fields
-  example_en_manual: string | null;
-  example_en_ai: string | null;
-
-  ipa: string | null;
-  audio_url: string | null;
-};
-
-type ActiveTest = {
-  term: string;
-  term_norm: string;
-  masked: string;
-  correct: string;
-  options: string[];
-  source: "manual" | "ai" | "open" | null;
 };
 
 export default function PoolTab() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
-  const [loadingNorm, setLoadingNorm] = useState<string | null>(null);
-  const [loadingAiNorm, setLoadingAiNorm] = useState<string | null>(null);
+  const [loadingSenseId, setLoadingSenseId] = useState<string | null>(null);
   const [error, setError] = useState<string>("");
 
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<PoolRow[]>([]);
-
-  const [activeTest, setActiveTest] = useState<ActiveTest | null>(null);
-  const [answerResult, setAnswerResult] = useState<"ok" | "bad" | null>(null);
-  const [logging, setLogging] = useState(false);
 
   // term_en_norm -> czy pokazać sugestię powtórki
   const [repeatSet, setRepeatSet] = useState<Set<string>>(new Set());
@@ -88,8 +71,7 @@ export default function PoolTab() {
       const token = sess.session.access_token;
       const userId = sess.session.user.id;
 
-      // 1) dociągnij repeat suggestions (oddzielnie, tanio)
-      // Jeśli coś pójdzie nie tak, NIE blokujemy całej puli — pokażemy błąd tylko w konsoli
+      // 1) Fetch repeat suggestions (separately, cheap)
       try {
         const s = await fetchRepeatSuggestions(token);
         setRepeatSet(s);
@@ -98,56 +80,87 @@ export default function PoolTab() {
         setRepeatSet(new Set());
       }
 
-      // 2) dociągnij pulę słów (z filtrowaniem po student_id dla bezpieczeństwa)
-      const { data: links, error: linkErr } = await supabase
-        .from("user_vocab")
-        .select("global_vocab_item_id, global_vocab_items(term_en, term_en_norm)")
+      // 2) Fetch user vocab items with lexicon data
+      const { data: userItems, error: itemsErr } = await supabase
+        .from("user_vocab_items")
+        .select(
+          `
+          id,
+          sense_id,
+          custom_lemma,
+          custom_translation_pl,
+          verified,
+          source,
+          lexicon_senses(
+            id,
+            definition_en,
+            lexicon_entries(lemma, pos),
+            lexicon_translations(translation_pl),
+            lexicon_examples(example_en)
+          )
+        `
+        )
         .eq("student_id", userId)
         .order("created_at", { ascending: false });
 
-      if (linkErr) throw linkErr;
+      if (itemsErr) throw itemsErr;
 
-      const items = (links ?? [])
-        .map((x: any) => ({
-          global_vocab_item_id: x.global_vocab_item_id as string,
-          term_en: x.global_vocab_items?.term_en as string,
-          term_en_norm: x.global_vocab_items?.term_en_norm as string,
-        }))
-        .filter((x) => x.term_en_norm);
+      // Helper to extract translation_pl from Supabase embed (handles both object and array)
+      const pickTranslationPl = (embed: any): string | null => {
+        if (!embed) return null;
+        if (Array.isArray(embed)) {
+          return embed[0]?.translation_pl || null;
+        }
+        if (typeof embed === "object" && embed.translation_pl) {
+          return embed.translation_pl;
+        }
+        return null;
+      };
 
-      const qn = q.trim().toLowerCase();
-      const filtered = qn ? items.filter((it) => it.term_en_norm.includes(qn)) : items;
+      // Helper to extract example_en from Supabase embed (handles both object and array)
+      const pickExampleEn = (embed: any): string | null => {
+        if (!embed) return null;
+        if (Array.isArray(embed)) {
+          return embed[0]?.example_en || null;
+        }
+        if (typeof embed === "object" && embed.example_en) {
+          return embed.example_en;
+        }
+        return null;
+      };
 
-      const norms = filtered.map((it) => it.term_en_norm);
+      const mapped: PoolRow[] = (userItems || []).map((item: any) => {
+        const sense = item.lexicon_senses;
+        const entry = sense?.lexicon_entries;
+        const translationEmbed = sense?.lexicon_translations;
+        const exampleEmbed = sense?.lexicon_examples;
 
-      let enrichByNorm: Record<string, any> = {};
-      if (norms.length) {
-        const { data: enrich, error: enrichErr } = await supabase
-          .from("vocab_enrichments")
-          .select("term_en_norm, translation_pl_suggested, example_en, example_en_manual, example_en_ai, ipa, audio_url")
-          .in("term_en_norm", norms);
-
-        if (enrichErr) throw enrichErr;
-
-        enrichByNorm = Object.fromEntries((enrich ?? []).map((e: any) => [e.term_en_norm, e]));
-      }
-
-      const merged: PoolRow[] = filtered.map((it) => {
-        const e = enrichByNorm[it.term_en_norm] ?? null;
         return {
-          global_vocab_item_id: it.global_vocab_item_id,
-          term_en: it.term_en,
-          term_en_norm: it.term_en_norm,
-          translation_pl_suggested: e?.translation_pl_suggested ?? null,
-          example_en: e?.example_en ?? null,
-          example_en_manual: e?.example_en_manual ?? null,
-          example_en_ai: e?.example_en_ai ?? null,
-          ipa: e?.ipa ?? null,
-          audio_url: e?.audio_url ?? null,
+          user_vocab_item_id: item.id,
+          sense_id: item.sense_id,
+          custom_lemma: item.custom_lemma,
+          custom_translation_pl: item.custom_translation_pl,
+          verified: item.verified,
+          source: item.source,
+          // Lexicon data
+          lemma: entry?.lemma || null,
+          pos: entry?.pos || null,
+          definition_en: sense?.definition_en || null,
+          translation_pl: pickTranslationPl(translationEmbed),
+          example_en: pickExampleEn(exampleEmbed),
         };
       });
 
-      setRows(merged);
+      // Filter by search query
+      const qn = q.trim().toLowerCase();
+      const filtered = qn
+        ? mapped.filter((r) => {
+            const searchText = (r.lemma || r.custom_lemma || "").toLowerCase();
+            return searchText.includes(qn);
+          })
+        : mapped;
+
+      setRows(filtered);
     } catch (e: any) {
       setError(e?.message ?? "Nieznany błąd ładowania puli.");
     } finally {
@@ -165,47 +178,9 @@ export default function PoolTab() {
     await load();
   }
 
-  async function enrichOpenData(term_en: string, term_en_norm: string) {
+  async function generateAiExample(senseId: string) {
     try {
-      setLoadingNorm(term_en_norm);
-
-      const { data } = await supabase.auth.getSession();
-      const token = data.session?.access_token;
-      if (!token) {
-        router.push("/login");
-        return;
-      }
-
-      const res = await fetch("/api/vocab/enrich", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ term_en }),
-      });
-
-      const ct = res.headers.get("content-type") ?? "";
-      const payload = ct.includes("application/json")
-        ? await res.json().catch(() => null)
-        : await res.text().catch(() => "");
-
-      if (!res.ok) {
-        const msg = typeof payload === "string" ? payload : payload?.error ?? JSON.stringify(payload);
-        throw new Error(`enrich HTTP ${res.status}: ${msg}`);
-      }
-
-      await load();
-    } catch (e: any) {
-      alert(e?.message ?? "Błąd enrich (open data).");
-    } finally {
-      setLoadingNorm(null);
-    }
-  }
-
-  async function generateAiExample(term_en: string, term_en_norm: string) {
-    try {
-      setLoadingAiNorm(term_en_norm);
+      setLoadingSenseId(senseId);
 
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
@@ -221,7 +196,7 @@ export default function PoolTab() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          term_en,
+          sense_id: senseId,
           level: "A2",
           style: "daily",
           force: false,
@@ -242,103 +217,16 @@ export default function PoolTab() {
     } catch (e: any) {
       alert(e?.message ?? "Błąd generowania AI.");
     } finally {
-      setLoadingAiNorm(null);
+      setLoadingSenseId(null);
     }
   }
 
-  async function buildGapTest(term: string, term_norm: string, source: ActiveTest["source"]) {
-    try {
-      setAnswerResult(null);
-
-      const { data } = await supabase.auth.getSession();
-      const token = data.session?.access_token;
-      if (!token) {
-        router.push("/login");
-        return;
-      }
-
-      const res = await fetch("/api/vocab/build-gap-test", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ term_en: term }),
-      });
-
-      const responseData = await res.json().catch(() => null);
-
-      if (!res.ok) {
-        const msg = responseData?.error ?? `HTTP ${res.status}`;
-        throw new Error(msg);
-      }
-
-      if (!responseData?.masked || !responseData?.correct || !Array.isArray(responseData?.options)) {
-        throw new Error("Niepoprawna odpowiedź z /api/vocab/build-gap-test");
-      }
-
-      setActiveTest({
-        term,
-        term_norm,
-        masked: responseData.masked,
-        correct: responseData.correct,
-        options: responseData.options,
-        source,
-      });
-
-      setAnswerResult(null);
-    } catch (e: any) {
-      alert(e?.message ?? "Błąd testu luki");
-    }
+  function getDisplayLemma(row: PoolRow): string {
+    return row.lemma || row.custom_lemma || "—";
   }
 
-  async function logExercise(params: {
-    term_en_norm: string;
-    correct: boolean;
-    chosen: string;
-    masked: string;
-    source: ActiveTest["source"];
-  }) {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    const res = await fetch("/api/vocab/log-exercise", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        mode: "gap",
-        term_en_norm: params.term_en_norm,
-        correct: params.correct,
-        chosen: params.chosen,
-        masked: params.masked,
-        source: params.source,
-      }),
-    });
-
-    const payload = await res.json().catch(() => null);
-    if (!res.ok) {
-      throw new Error(payload?.error ?? `log HTTP ${res.status}`);
-    }
-  }
-
-  function playAudio(url: string | null) {
-    if (!url) return;
-    const audio = new Audio(url);
-    audio.play().catch(() => {});
-  }
-
-  function pickBestExample(r: PoolRow): { label: string; text: string | null; source: ActiveTest["source"] } {
-    if (r.example_en_manual) return { label: "Przykład (manual)", text: r.example_en_manual, source: "manual" };
-    if (r.example_en_ai) return { label: "Przykład (AI)", text: r.example_en_ai, source: "ai" };
-    if (r.example_en) return { label: "Przykład (open data)", text: r.example_en, source: "open" };
-    return { label: "Przykład", text: null, source: null };
+  function getDisplayTranslation(row: PoolRow): string {
+    return row.translation_pl || row.custom_translation_pl || "—";
   }
 
   const content = useMemo(() => rows, [rows]);
@@ -346,17 +234,15 @@ export default function PoolTab() {
   return (
     <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
       <div>
-        <h2 className="text-lg font-semibold tracking-tight text-white">Cała pula</h2>
-        <p className="text-sm text-white/75">
-          Manual → AI cache → open data. AI generuje tylko raz i potem jest używane w testach bez kosztu.
-        </p>
+        <h2 className="text-lg font-semibold tracking-tight text-white">Moja pula</h2>
+        <p className="text-sm text-white/75">Twoje słówka z automatycznymi tłumaczeniami i przykładami.</p>
       </div>
 
       <form onSubmit={onSearchSubmit} className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Szukaj w puli (np. go, take, flow...)"
+          placeholder="Szukaj w puli (np. ball, work, happy...)"
           className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none text-white placeholder:text-white/40"
         />
         <button
@@ -378,92 +264,30 @@ export default function PoolTab() {
         </div>
       ) : null}
 
-      {activeTest ? (
-        <div className="rounded-3xl border-2 border-emerald-400/30 bg-emerald-400/10 p-5 space-y-4">
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
-              <div className="text-sm text-emerald-100 font-semibold">Ćwiczenie – uzupełnij lukę</div>
-              <div className="text-xs text-white/70">
-                Słowo: <span className="font-medium text-white">{activeTest.term}</span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTest(null);
-                setAnswerResult(null);
-              }}
-              className="rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition"
-            >
-              Zamknij
-            </button>
-          </div>
-
-          <div className="text-lg text-white font-medium">{activeTest.masked}</div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {activeTest.options.map((opt) => {
-              const disabled = logging || answerResult !== null;
-              return (
-                <button
-                  key={opt}
-                  type="button"
-                  disabled={disabled}
-                  onClick={async () => {
-                    if (!activeTest) return;
-
-                    const isCorrect = opt === activeTest.correct;
-
-                    try {
-                      setLogging(true);
-                      await logExercise({
-                        term_en_norm: activeTest.term_norm,
-                        correct: isCorrect,
-                        chosen: opt,
-                        masked: activeTest.masked,
-                        source: activeTest.source,
-                      });
-                    } catch (e: any) {
-                      alert(e?.message ?? "Błąd zapisu progresu.");
-                    } finally {
-                      setLogging(false);
-                    }
-
-                    setAnswerResult(isCorrect ? "ok" : "bad");
-                  }}
-                  className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-3 text-white hover:bg-white/15 transition disabled:opacity-60"
-                >
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-
-          {answerResult === "ok" ? <div className="text-emerald-300 font-semibold">Dobrze!</div> : null}
-
-          {answerResult === "bad" ? (
-            <div className="text-rose-300 font-semibold">
-              Błędna odpowiedź. Poprawna: <span className="text-white">{activeTest.correct}</span>
-            </div>
-          ) : null}
-
-          {logging ? <div className="text-xs text-white/70">Zapisuję wynik…</div> : null}
-        </div>
-      ) : null}
-
       <div className="space-y-3">
         {content.map((r) => {
-          const best = pickBestExample(r);
-          const showRepeat = repeatSet.has(r.term_en_norm);
+          const lemma = getDisplayLemma(r);
+          const lemmaNorm = lemma.toLowerCase();
+          const showRepeat = repeatSet.has(lemmaNorm);
+          const isCustom = r.source === "custom" || !r.verified;
 
           return (
-            <div key={r.term_en_norm} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+            <div key={r.user_vocab_item_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
               <div className="flex items-start justify-between gap-4">
-                <div className="space-y-2">
+                <div className="space-y-2 flex-1">
                   <div>
                     <div className="flex items-center gap-2">
-                      <div className="text-lg font-semibold text-white">{r.term_en}</div>
+                      <div className="text-lg font-semibold text-white">{lemma}</div>
+                      {r.pos && (
+                        <span className="px-3 py-1 rounded-lg border-2 border-emerald-400/40 bg-emerald-400/20 text-emerald-200 text-sm font-semibold">
+                          [{r.pos}]
+                        </span>
+                      )}
+                      {isCustom && (
+                        <span className="text-xs px-2 py-0.5 rounded-lg border border-amber-400/30 bg-amber-400/10 text-amber-200">
+                          własne
+                        </span>
+                      )}
 
                       {showRepeat ? (
                         <span className="relative group">
@@ -482,67 +306,80 @@ export default function PoolTab() {
                         </span>
                       ) : null}
                     </div>
-
-                    <div className="text-sm text-white/60">{r.term_en_norm}</div>
                   </div>
 
                   <div className="text-sm">
                     <div className="text-white/70">Tłumaczenie</div>
-                    <div className="text-white">
-                      {r.translation_pl_suggested ?? <span className="text-white/40">—</span>}
+                    <div className="text-white">{getDisplayTranslation(r)}</div>
+                  </div>
+
+                  {r.definition_en && (
+                    <div className="text-sm">
+                      <div className="text-white/70">Definicja</div>
+                      <div className="text-white">{r.definition_en}</div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="text-sm">
-                    <div className="text-white/70">{best.label}</div>
-                    <div className="text-white">{best.text ?? <span className="text-white/40">—</span>}</div>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-3 text-sm">
-                    <div>
-                      <span className="text-white/70">IPA: </span>
-                      <span className="text-white">{r.ipa ?? "—"}</span>
+                  {r.example_en && (
+                    <div className="text-sm">
+                      <div className="text-white/70">Przykład</div>
+                      <div className="text-white italic">"{r.example_en}"</div>
                     </div>
+                  )}
 
-                    <button
-                      type="button"
-                      onClick={() => playAudio(r.audio_url)}
-                      disabled={!r.audio_url}
-                      className="rounded-xl border border-white/15 bg-white/10 px-3 py-1 text-white disabled:opacity-50"
-                      title="Odtwórz wymowę"
-                    >
-                      Głośnik
-                    </button>
-                  </div>
+                  {!r.example_en && r.sense_id && (
+                    <div className="text-xs text-white/50">Brak przykładu. Kliknij "Wygeneruj przykład AI".</div>
+                  )}
                 </div>
 
                 <div className="shrink-0 flex flex-col gap-2">
+                  {r.sense_id && (
+                    <button
+                      type="button"
+                      onClick={() => generateAiExample(r.sense_id!)}
+                      disabled={loadingSenseId === r.sense_id}
+                      className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
+                      title="Wygeneruj nowy przykład zdania (AI). Zostanie zapisany w puli przykładów."
+                    >
+                      {loadingSenseId === r.sense_id ? "Generuję..." : "Wygeneruj przykład AI"}
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={() => enrichOpenData(r.term_en, r.term_en_norm)}
-                    disabled={loadingNorm === r.term_en_norm}
-                    className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
-                  >
-                    {loadingNorm === r.term_en_norm ? "Pobieram..." : "Pobierz dane (open)"}
-                  </button>
+                    onClick={async () => {
+                      if (!confirm(`Czy na pewno chcesz usunąć słówko "${lemma}"?`)) return;
 
-                  <button
-                    type="button"
-                    onClick={() => generateAiExample(r.term_en, r.term_en_norm)}
-                    disabled={loadingAiNorm === r.term_en_norm}
-                    className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
-                    title="Wygeneruj zdanie (Premium). Zostanie zapisane w cache i użyte w testach bez dodatkowego kosztu."
-                  >
-                    {loadingAiNorm === r.term_en_norm ? "Generuję..." : "Wygeneruj zdanie (AI)"}
-                  </button>
+                      try {
+                        const session = await supabase.auth.getSession();
+                        const token = session?.data?.session?.access_token;
+                        if (!token) {
+                          setError("Musisz być zalogowany");
+                          return;
+                        }
 
-                  <button
-                    type="button"
-                    onClick={() => buildGapTest(r.term_en, r.term_en_norm, best.source)}
-                    className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
-                    title="Zbuduj ćwiczenie z istniejącego przykładu (manual/AI/open). Bez dodatkowych kosztów."
+                        const res = await fetch("/api/vocab/delete-word", {
+                          method: "DELETE",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                          },
+                          body: JSON.stringify({ user_vocab_item_id: r.user_vocab_item_id }),
+                        });
+
+                        if (!res.ok) {
+                          const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+                          throw new Error(errorData.error || `HTTP ${res.status}`);
+                        }
+
+                        await load();
+                      } catch (e: any) {
+                        setError(e?.message ?? "Nie udało się usunąć słówka.");
+                      }
+                    }}
+                    className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-4 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                    title="Usuń słówko z puli"
                   >
-                    Testuj lukę
+                    Usuń
                   </button>
                 </div>
               </div>
@@ -550,6 +387,13 @@ export default function PoolTab() {
           );
         })}
       </div>
+
+      {content.length === 0 && !loading && (
+        <div className="text-center py-8">
+          <p className="text-sm text-white/75">Nie masz jeszcze słówek w puli.</p>
+          <p className="text-xs text-white/60 mt-2">Dodaj słówka w sekcji "Dodaj słówko".</p>
+        </div>
+      )}
     </section>
   );
 }

@@ -136,12 +136,13 @@ export default function AdminCourseLessonsPage() {
                 <th className="p-3 text-left">Slug</th>
                 <th className="p-3 text-left">Dostęp</th>
                 <th className="p-3 text-left">Status</th>
+                <th className="p-3 text-left">Akcje</th>
               </tr>
             </thead>
             <tbody>
               {lessons.length === 0 ? (
                 <tr>
-                  <td className="p-3" colSpan={5}>
+                  <td className="p-3" colSpan={6}>
                     Brak lekcji w tym kursie.
                   </td>
                 </tr>
@@ -157,6 +158,35 @@ export default function AdminCourseLessonsPage() {
                       {l.is_free_preview ? "Preview (darmowe)" : "Premium"}
                     </td>
                     <td className="p-3">{l.is_published ? "Opublikowana" : "Szkic"}</td>
+                    <td className="p-3">
+                      <button
+                        className="rounded-lg border-2 border-rose-400/40 bg-rose-400/10 px-3 py-1 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                        onClick={async () => {
+                          if (!confirm(`Czy na pewno chcesz usunąć lekcję "${l.title}"?`)) return;
+
+                          try {
+                            const { error: deleteErr } = await supabase.from("lessons").delete().eq("id", l.id);
+                            if (deleteErr) throw deleteErr;
+
+                            // Reload lessons
+                            const lessonsRes = await supabase
+                              .from("lessons")
+                              .select("id,course_id,title,slug,is_published,is_free_preview,position,created_at")
+                              .eq("course_id", courseId)
+                              .order("position", { ascending: true })
+                              .order("created_at", { ascending: true });
+
+                            if (lessonsRes.error) throw lessonsRes.error;
+                            setLessons((lessonsRes.data ?? []) as Lesson[]);
+                          } catch (e: any) {
+                            setError(e?.message ?? "Nie udało się usunąć lekcji.");
+                          }
+                        }}
+                        title="Usuń lekcję"
+                      >
+                        Usuń
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}

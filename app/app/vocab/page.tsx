@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import PoolTab from "./PoolTab";
+import SenseSelectionModal from "./SenseSelectionModal";
 
 type StudentLesson = {
   id: string;
@@ -60,10 +61,10 @@ function VocabHomeInner() {
   const [lessons, setLessons] = useState<StudentLesson[]>([]);
   const [personal, setPersonal] = useState<VocabItem[]>([]);
 
-  // Dodawanie własnych słówek
+  // Dodawanie własnych słówek (nowy flow z multi-sense selection)
   const [newWord, setNewWord] = useState("");
-  const [newTranslation, setNewTranslation] = useState("");
-  const [savingWord, setSavingWord] = useState(false);
+  const [showSenseModal, setShowSenseModal] = useState(false);
+  const [addingWord, setAddingWord] = useState(false);
 
   // Tworzenie lekcji (data)
   const [lessonDate, setLessonDate] = useState(todayISO());
@@ -90,14 +91,60 @@ function VocabHomeInner() {
   };
 
   const refreshPersonal = async () => {
+    if (!profile?.id) return;
+
+    // Try new model first (user_vocab_items)
     const personalRes = await supabase
-      .from("vocab_items")
-      .select("id,term_en,translation_pl,is_personal")
-      .eq("is_personal", true)
+      .from("user_vocab_items")
+      .select(
+        `
+        id,
+        custom_lemma,
+        custom_translation_pl,
+        lexicon_senses(
+          lexicon_entries(lemma),
+          lexicon_translations(translation_pl)
+        )
+      `
+      )
+      .eq("student_id", profile.id)
+      .or("custom_lemma.not.is.null,source.eq.custom")
       .order("created_at", { ascending: false });
 
-    if (personalRes.error) throw personalRes.error;
-    setPersonal((personalRes.data ?? []) as VocabItem[]);
+    if (personalRes.error) {
+      // Fallback to old model
+      const oldRes = await supabase
+        .from("vocab_items")
+        .select("id,term_en,translation_pl,is_personal")
+        .eq("is_personal", true)
+        .order("created_at", { ascending: false });
+
+      if (oldRes.error) throw oldRes.error;
+      setPersonal(
+        (oldRes.data ?? []).map((v: any) => ({
+          id: v.id,
+          term_en: v.term_en,
+          translation_pl: v.translation_pl,
+          is_personal: v.is_personal,
+        })) as VocabItem[]
+      );
+      return;
+    }
+
+    // Map new model to old format for compatibility
+    const mapped = (personalRes.data ?? []).map((uvi: any) => {
+      const lemma = uvi.custom_lemma || uvi.lexicon_senses?.lexicon_entries?.lemma || "";
+      const translation = uvi.custom_translation_pl || uvi.lexicon_senses?.lexicon_translations?.[0]?.translation_pl || null;
+      return {
+        id: uvi.id,
+        term_en: lemma,
+        translation_pl: translation,
+        is_personal: true,
+        user_vocab_item_id: uvi.id, // Store for deletion
+      };
+    });
+
+    setPersonal(mapped as any);
   };
 
   useEffect(() => {
@@ -173,62 +220,65 @@ function VocabHomeInner() {
     }
   };
 
-  const addPersonalWord = async () => {
-    if (!profile?.id) {
-      setError("Brak profilu. Zaloguj się ponownie.");
-      return;
-    }
+  const handleLookupWord = () => {
     if (!newWord.trim()) {
       setError("Wpisz słówko po angielsku.");
       return;
     }
+    setError("");
+    setShowSenseModal(true);
+  };
 
-    setSavingWord(true);
+  const handleSenseSelected = async (senseId: string) => {
+    // Modal already handles the API call
+    // Just refresh data and close modal
+    setNewWord("");
+    setShowSenseModal(false);
+    await refreshPersonal();
+    // Refresh pool tab if active
+    if (tab === "pool") {
+      // PoolTab will refresh on its own via useEffect
+      router.refresh();
+    }
+  };
+
+  const handleCustomWord = async (lemma: string, translation: string | null) => {
+    if (!profile?.id) {
+      setError("Brak profilu. Zaloguj się ponownie.");
+      return;
+    }
+
+    setAddingWord(true);
     setError("");
 
     try {
-      const { error } = await supabase.from("vocab_items").insert({
+      const { error: insertErr } = await supabase.from("user_vocab_items").insert({
         student_id: profile.id,
-        term_en: newWord.trim(),
-        translation_pl: newTranslation.trim() || null,
-        is_personal: true,
+        sense_id: null,
+        custom_lemma: lemma.trim().toLowerCase(),
+        custom_translation_pl: translation?.trim() || null,
+        source: "custom",
+        verified: false,
       });
 
-      if (error) throw error;
-
-      // Automatycznie dodaj słówko do "całej puli" (global_vocab_items + user_vocab)
-      try {
-        const sess = await supabase.auth.getSession();
-        const token = sess.data.session?.access_token;
-        if (token) {
-          const res = await fetch("/api/vocab/add-to-pool", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ term_en: newWord.trim() }),
-          });
-
-          if (!res.ok) {
-            const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
-            console.warn("Failed to add word to pool:", res.status, errorData);
-          }
-          // Ignoruj błędy - jeśli coś pójdzie nie tak, nie blokujemy dodawania własnego słówka
+      if (insertErr) {
+        // Check if duplicate
+        if (String(insertErr.message).toLowerCase().includes("duplicate")) {
+          setError("To słowo już jest w Twojej puli");
+          setAddingWord(false);
+          return;
         }
-      } catch (e) {
-        // Silent fail - nie blokujemy głównej operacji
-        console.warn("Failed to add word to pool:", e);
+        throw insertErr;
       }
 
       await refreshPersonal();
 
       setNewWord("");
-      setNewTranslation("");
+      setShowSenseModal(false);
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się dodać słówka.");
     } finally {
-      setSavingWord(false);
+      setAddingWord(false);
     }
   };
 
@@ -277,11 +327,11 @@ function VocabHomeInner() {
         </button>
 
         <button className={tabBtn(tab === "pool")} onClick={() => setTab("pool")}>
-          Cała pula
+          Moja pula
         </button>
 
         <button className={tabBtn(tab === "personal")} onClick={() => setTab("personal")}>
-          Własne słówka ({personalCount})
+          Dodaj słówko ({personalCount})
         </button>
       </nav>
 
@@ -337,12 +387,50 @@ function VocabHomeInner() {
                   <div className="min-w-0">
                     <div className="font-medium text-white truncate">{l.label}</div>
                   </div>
-                  <a
-                    className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
-                    href={`/app/vocab/lesson/${l.id}`}
-                  >
-                    Otwórz →
-                  </a>
+                  <div className="flex gap-2">
+                    <a
+                      className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+                      href={`/app/vocab/lesson/${l.id}`}
+                    >
+                      Otwórz →
+                    </a>
+                    <button
+                      className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-3 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                      onClick={async () => {
+                        if (!confirm(`Czy na pewno chcesz usunąć lekcję "${l.label}"?`)) return;
+
+                        try {
+                          const session = await supabase.auth.getSession();
+                          const token = session?.data?.session?.access_token;
+                          if (!token) {
+                            setError("Musisz być zalogowany");
+                            return;
+                          }
+
+                          const res = await fetch("/api/vocab/delete-lesson", {
+                            method: "DELETE",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ lesson_id: l.id }),
+                          });
+
+                          if (!res.ok) {
+                            const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+                            throw new Error(errorData.error || `HTTP ${res.status}`);
+                          }
+
+                          await refreshLessons();
+                        } catch (e: any) {
+                          setError(e?.message ?? "Nie udało się usunąć lekcji.");
+                        }
+                      }}
+                      title="Usuń lekcję"
+                    >
+                      Usuń
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -350,44 +438,52 @@ function VocabHomeInner() {
         </section>
       ) : null}
 
-      {/* CAŁA PULA */}
+      {/* MOJA PULA */}
       {tab === "pool" ? <PoolTab /> : null}
 
-      {/* WŁASNE */}
+      {/* DODAJ SŁÓWKO */}
       {tab === "personal" ? (
         <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-white">Własne słówka</h2>
-            <p className="text-sm text-white/75">Dodaj swoje słówko. Tłumaczenie jest pokazywane na hover.</p>
-            <p className="text-sm text-white/70">
-              Wiele poprawnych tłumaczeń oddzielaj średnikiem <span className="font-medium text-white">;</span>{" "}
-              (np. <span className="font-medium text-white">kwiat; kwiatek; kwiatuszek</span>).
+            <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj słówko</h2>
+            <p className="text-sm text-white/75">
+              Wpisz słówko po angielsku. System znajdzie wszystkie znaczenia i pozwoli wybrać właściwe.
             </p>
           </div>
 
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="flex gap-3">
               <input
-                className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-                placeholder="EN (np. achieve)"
+                className="flex-1 rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                placeholder="Wpisz słówko po angielsku (np. ball)"
                 value={newWord}
                 onChange={(e) => setNewWord(e.target.value)}
-              />
-              <input
-                className="rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-                placeholder="PL (np. kwiat; kwiatek)"
-                value={newTranslation}
-                onChange={(e) => setNewTranslation(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleLookupWord();
+                  }
+                }}
               />
               <button
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
-                onClick={addPersonalWord}
-                disabled={savingWord}
+                className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
+                onClick={handleLookupWord}
+                disabled={addingWord || !newWord.trim()}
               >
-                {savingWord ? "Dodaję…" : "Dodaj"}
+                {addingWord ? "Dodaję…" : "Szukaj / Dodaj"}
               </button>
             </div>
           </div>
+
+          <SenseSelectionModal
+            lemma={newWord}
+            isOpen={showSenseModal}
+            onClose={() => {
+              setShowSenseModal(false);
+              setError("");
+            }}
+            onSelect={handleSenseSelected}
+            onSelectCustom={handleCustomWord}
+          />
 
           {personal.length === 0 ? (
             <p className="text-sm text-white/75">Nie masz jeszcze własnych słówek.</p>
@@ -396,11 +492,59 @@ function VocabHomeInner() {
               {personal.map((w) => (
                 <li
                   key={w.id}
-                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between"
+                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
                   title={w.translation_pl ?? ""}
                 >
-                  <span className="font-medium text-white">{w.term_en}</span>
-                  <span className="text-sm text-white/70">{w.translation_pl ? "hover → PL" : "brak tłumaczenia"}</span>
+                  <div className="min-w-0 flex-1">
+                    <span className="font-medium text-white">{w.term_en}</span>
+                    <span className="text-sm text-white/70 ml-2">{w.translation_pl ? "hover → PL" : "brak tłumaczenia"}</span>
+                  </div>
+                  <button
+                    className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-3 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                    onClick={async () => {
+                      if (!confirm(`Czy na pewno chcesz usunąć słówko "${w.term_en}"?`)) return;
+
+                      try {
+                        const session = await supabase.auth.getSession();
+                        const token = session?.data?.session?.access_token;
+                        if (!token) {
+                          setError("Musisz być zalogowany");
+                          return;
+                        }
+
+                        // Check if we have user_vocab_item_id (new model)
+                        const userVocabItemId = (w as any).user_vocab_item_id;
+
+                        if (userVocabItemId) {
+                          // New model
+                          const res = await fetch("/api/vocab/delete-word", {
+                            method: "DELETE",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ user_vocab_item_id: userVocabItemId }),
+                          });
+
+                          if (!res.ok) {
+                            const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+                            throw new Error(errorData.error || `HTTP ${res.status}`);
+                          }
+                        } else {
+                          // Old model - try to delete from vocab_items
+                          const { error: deleteErr } = await supabase.from("vocab_items").delete().eq("id", w.id);
+                          if (deleteErr) throw deleteErr;
+                        }
+
+                        await refreshPersonal();
+                      } catch (e: any) {
+                        setError(e?.message ?? "Nie udało się usunąć słówka.");
+                      }
+                    }}
+                    title="Usuń słówko"
+                  >
+                    Usuń
+                  </button>
                 </li>
               ))}
             </ul>
