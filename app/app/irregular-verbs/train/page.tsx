@@ -95,6 +95,28 @@ export default function IrregularVerbsTrainPage() {
         const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
         if (res.status === 400 && errorData.error?.includes("No pinned")) {
           setError("Brak przypiętych czasowników. Wróć do listy i przypnij kilka czasowników.");
+        } else if (res.status === 400 && errorData.error?.includes("All pinned verbs have been excluded")) {
+          // Reset exclude_ids and retry once
+          setUsedIds([]);
+          // Retry with empty exclude_ids
+          const retryRes = await fetch("/api/irregular-verbs/next", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ exclude_ids: [] }),
+          });
+
+          if (!retryRes.ok) {
+            const retryErrorData = await retryRes.json().catch(() => ({ error: "Unknown error" }));
+            throw new Error(retryErrorData.error || `HTTP ${retryRes.status}`);
+          }
+
+          const verb: Verb = await retryRes.json();
+          setCurrentVerb(verb);
+          setUsedIds([verb.id]);
+          return;
         } else {
           throw new Error(errorData.error || `HTTP ${res.status}`);
         }

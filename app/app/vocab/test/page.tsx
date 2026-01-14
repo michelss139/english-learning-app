@@ -213,7 +213,9 @@ function VocabTestInner() {
 
         const testItems: TestItem[] = data.items;
         if (testItems.length === 0) {
-          setError("Nie znaleziono słówek do testu.");
+          setError(
+            "Nie znaleziono słówek do testu. Sprawdź, czy zaznaczone słówka istnieją i czy jesteś zalogowany na właściwe konto."
+          );
           return;
         }
 
@@ -222,17 +224,27 @@ function VocabTestInner() {
         setItems(shuffle(itemsWithModes));
 
         // Create test_run record at the start (before events are logged)
-        const { error: runCreateError } = await supabase.from("vocab_test_runs").insert({
-          id: testRunId,
-          student_id: p.id,
-          mode: "mixed",
-          total: testItems.length,
-          correct: 0, // Will be updated at the end
-          item_ids: testItems.map((item) => item.id),
-        });
+        // Check if test_run already exists (e.g., from page refresh)
+        const { data: existingRun } = await supabase
+          .from("vocab_test_runs")
+          .select("id")
+          .eq("id", testRunId)
+          .maybeSingle();
 
-        if (runCreateError) {
-          throw new Error(`Failed to create test run: ${runCreateError.message}`);
+        if (!existingRun) {
+          // Only insert if it doesn't exist
+          const { error: runCreateError } = await supabase.from("vocab_test_runs").insert({
+            id: testRunId,
+            student_id: p.id,
+            mode: "mixed",
+            total: testItems.length,
+            correct: 0, // Will be updated at the end
+            item_ids: testItems.map((item) => item.id),
+          });
+
+          if (runCreateError) {
+            throw new Error(`Failed to create test run: ${runCreateError.message}`);
+          }
         }
 
         setTestRunCreated(true);

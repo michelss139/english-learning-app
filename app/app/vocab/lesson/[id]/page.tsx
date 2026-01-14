@@ -52,8 +52,9 @@ export default function VocabLessonPage() {
     [selected]
   );
 
-  const loadLessonAndWords = async () => {
-    if (!lessonId || !profile?.id) return;
+  const loadLessonAndWords = async (profileId?: string) => {
+    const currentProfileId = profileId || profile?.id;
+    if (!lessonId || !currentProfileId) return;
 
     // Load lesson
     const lessonRes = await supabase
@@ -128,7 +129,7 @@ export default function VocabLessonPage() {
         )
       `
       )
-      .eq("student_id", profile.id)
+      .eq("student_id", currentProfileId)
       .order("created_at", { ascending: false });
 
     if (allUserVocabRes.error) throw allUserVocabRes.error;
@@ -179,7 +180,7 @@ export default function VocabLessonPage() {
         }
         setProfile(p);
 
-        await loadLessonAndWords();
+        await loadLessonAndWords(p.id);
       } catch (e: any) {
         setError(e?.message ?? "Nieznany błąd");
       } finally {
@@ -252,7 +253,7 @@ export default function VocabLessonPage() {
     // Just refresh data and close modal
     setNewWord("");
     setShowSenseModal(false);
-    await loadLessonAndWords();
+    await loadLessonAndWords(profile?.id);
   };
 
   const handleCustomWord = async (lemma: string, translation: string | null) => {
@@ -303,7 +304,7 @@ export default function VocabLessonPage() {
 
             setNewWord("");
             setShowSenseModal(false);
-            await loadLessonAndWords();
+            await loadLessonAndWords(profile?.id);
             return;
           }
         }
@@ -326,7 +327,7 @@ export default function VocabLessonPage() {
 
       setNewWord("");
       setShowSenseModal(false);
-      await loadLessonAndWords();
+      await loadLessonAndWords(profile?.id);
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się dodać słówka.");
     } finally {
@@ -350,7 +351,7 @@ export default function VocabLessonPage() {
         }
       }
 
-      await loadLessonAndWords();
+      await loadLessonAndWords(profile?.id);
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się przypiąć słówka.");
     } finally {
@@ -365,7 +366,7 @@ export default function VocabLessonPage() {
 
       if (error) throw error;
 
-      await loadLessonAndWords();
+      await loadLessonAndWords(profile?.id);
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się usunąć słówka z lekcji.");
     }
@@ -598,7 +599,7 @@ export default function VocabLessonPage() {
                           throw new Error(errorData.error || `HTTP ${res.status}`);
                         }
 
-                        await loadLessonAndWords();
+                        await loadLessonAndWords(profile?.id);
                       } catch (e: any) {
                         setError(e?.message ?? "Nie udało się usunąć słówka.");
                       }

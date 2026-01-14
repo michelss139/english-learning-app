@@ -275,7 +275,10 @@ export async function GET(req: Request) {
     const limited = suggestions.slice(0, 5);
 
     // Remove internal _last_seen field
-    const result = limited.map(({ _last_seen, ...rest }) => rest);
+    const result: SuggestionItem[] = limited.map((item) => {
+      const { _last_seen, ...rest } = item as SuggestionItem & { _last_seen?: Date };
+      return rest;
+    });
 
     return NextResponse.json({
       ok: true,

@@ -115,9 +115,13 @@ export async function loadTestItems(params: LoadTestItemsParams): Promise<TestIt
           term_en = item.custom_lemma || "";
         }
 
-        const translation = Array.isArray(sense.lexicon_translations)
-          ? sense.lexicon_translations[0]
-          : sense.lexicon_translations;
+        // lexicon_translations can be array or single object
+        let translation: any = null;
+        if (Array.isArray(sense.lexicon_translations)) {
+          translation = sense.lexicon_translations[0] || null;
+        } else if (sense.lexicon_translations) {
+          translation = sense.lexicon_translations;
+        }
         
         translation_pl = translation?.translation_pl || null;
       } else {
