@@ -28,9 +28,15 @@ export default function PoolTab() {
 
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<PoolRow[]>([]);
+  const [selected, setSelected] = useState<Record<string, boolean>>({});
 
   // term_en_norm -> czy pokazać sugestię powtórki
   const [repeatSet, setRepeatSet] = useState<Set<string>>(new Set());
+
+  const selectedCount = useMemo(
+    () => Object.values(selected).filter(Boolean).length,
+    [selected]
+  );
 
   async function fetchRepeatSuggestions(token: string): Promise<Set<string>> {
     const res = await fetch("/api/vocab/repeat-suggestions", {
@@ -229,13 +235,73 @@ export default function PoolTab() {
     return row.translation_pl || row.custom_translation_pl || "—";
   }
 
+  const toggleSelected = (userVocabItemId: string) => {
+    setSelected((prev) => ({ ...prev, [userVocabItemId]: !prev[userVocabItemId] }));
+  };
+
+  const selectAll = () => {
+    const next: Record<string, boolean> = {};
+    for (const r of rows) next[r.user_vocab_item_id] = true;
+    setSelected(next);
+  };
+
+  const clearAll = () => setSelected({});
+
+  const startTest = () => {
+    const ids = Object.entries(selected)
+      .filter(([, v]) => v)
+      .map(([k]) => k);
+
+    if (ids.length === 0) {
+      setError("Zaznacz przynajmniej jedno słówko do testu.");
+      return;
+    }
+
+    // Clear selections (auto-unselect)
+    setSelected({});
+
+    // Navigate to test page
+    const q = encodeURIComponent(ids.join(","));
+    router.push(`/app/vocab/test?source=pool&selectedIds=${q}`);
+  };
+
   const content = useMemo(() => rows, [rows]);
 
   return (
     <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
-      <div>
-        <h2 className="text-lg font-semibold tracking-tight text-white">Moja pula</h2>
-        <p className="text-sm text-white/75">Twoje słówka z automatycznymi tłumaczeniami i przykładami.</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-semibold tracking-tight text-white">Moja pula</h2>
+          <p className="text-sm text-white/75">Twoje słówka z automatycznymi tłumaczeniami i przykładami.</p>
+        </div>
+        <div className="flex flex-col gap-2 shrink-0">
+          {rows.length >= 2 && (
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={selectAll}
+                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-white/75 hover:bg-white/10 hover:text-white transition"
+              >
+                Zaznacz wszystkie
+              </button>
+              <button
+                type="button"
+                onClick={clearAll}
+                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-white/75 hover:bg-white/10 hover:text-white transition"
+              >
+                Odznacz wszystkie
+              </button>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={startTest}
+            disabled={selectedCount === 0}
+            className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            Stwórz test ({selectedCount})
+          </button>
+        </div>
       </div>
 
       <form onSubmit={onSearchSubmit} className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -273,8 +339,15 @@ export default function PoolTab() {
 
           return (
             <div key={r.user_vocab_item_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-2 flex-1">
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={!!selected[r.user_vocab_item_id]}
+                  onChange={() => toggleSelected(r.user_vocab_item_id)}
+                  className="mt-1 w-5 h-5 rounded border-2 border-white/20 bg-white/5 text-sky-400 focus:ring-2 focus:ring-sky-400/30"
+                />
+                <div className="flex items-start justify-between gap-4 flex-1">
+                  <div className="space-y-2 flex-1">
                   <div>
                     <div className="flex items-center gap-2">
                       <div className="text-lg font-semibold text-white">{lemma}</div>
@@ -330,9 +403,9 @@ export default function PoolTab() {
                   {!r.example_en && r.sense_id && (
                     <div className="text-xs text-white/50">Brak przykładu. Kliknij "Wygeneruj przykład AI".</div>
                   )}
-                </div>
+                  </div>
 
-                <div className="shrink-0 flex flex-col gap-2">
+                  <div className="shrink-0 flex flex-col gap-2">
                   {r.sense_id && (
                     <button
                       type="button"
@@ -381,6 +454,7 @@ export default function PoolTab() {
                   >
                     Usuń
                   </button>
+                  </div>
                 </div>
               </div>
             </div>

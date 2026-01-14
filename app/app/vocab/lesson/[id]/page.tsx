@@ -230,9 +230,12 @@ export default function VocabLessonPage() {
       return;
     }
 
-    // TODO: Update test page to work with new model
-    const q = encodeURIComponent(ids.join(","));
-    router.push(`/app/vocab/test?ids=${q}&fromLesson=${lessonId}`);
+    // Clear selections (auto-unselect)
+    setSelected({});
+
+    // Navigate to test page with new format
+    const selectedIdsParam = encodeURIComponent(ids.join(","));
+    router.push(`/app/vocab/test?source=lesson&lessonId=${lessonId}&selectedIds=${selectedIdsParam}`);
   };
 
   const handleLookupWord = () => {
@@ -503,12 +506,14 @@ export default function VocabLessonPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button
-              className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
-              onClick={selectAll}
-            >
-              Zaznacz wszystkie
-            </button>
+            {words.length >= 2 && (
+              <button
+                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+                onClick={selectAll}
+              >
+                Zaznacz wszystkie
+              </button>
+            )}
             <button
               className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
               onClick={clearAll}

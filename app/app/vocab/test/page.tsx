@@ -4,18 +4,39 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
+import { TestItem } from "@/lib/vocab/testLoader";
 
-type VocabItem = {
-  id: string;
-  term_en: string;
-  translation_pl: string | null;
+type TestItemWithMode = TestItem & {
+  questionMode: "en-pl" | "pl-en"; // Determined per item
 };
 
 type Mistake = {
   term: string;
   expected: string;
   given: string;
+  questionMode: "en-pl" | "pl-en";
 };
+
+// Deterministic random: returns 0 or 1 based on seed
+function deterministicRandom(seed: string): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    const char = seed.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash) % 2;
+}
+
+// Assign question mode to each item deterministically
+function assignQuestionModes(items: TestItem[], testRunId: string): TestItemWithMode[] {
+  return items.map((item) => {
+    const seed = `${testRunId}-${item.id}`;
+    const randomValue = deterministicRandom(seed);
+    const questionMode: "en-pl" | "pl-en" = randomValue === 0 ? "en-pl" : "pl-en";
+    return { ...item, questionMode };
+  });
+}
 
 function shuffle<T>(input: T[]): T[] {
   const arr = [...input];
@@ -26,8 +47,12 @@ function shuffle<T>(input: T[]): T[] {
   return arr;
 }
 
-// ETAP 2: normalizacja + sprawdzanie wielu dopuszczalnych tłumaczeń po ";"
+// Normalization functions
 function normPL(input: string) {
+  return input.trim().toLowerCase();
+}
+
+function normEN(input: string) {
   return input.trim().toLowerCase();
 }
 
@@ -38,12 +63,20 @@ function parseTranslationsPl(raw: string | null | undefined): string[] {
     .filter(Boolean);
 }
 
-function isCorrectTranslation(userAnswerRaw: string, translationPlRaw: string | null | undefined) {
+// Check answer for en-pl mode
+function isCorrectEnPl(userAnswerRaw: string, translationPlRaw: string | null | undefined): boolean {
   const user = normPL(userAnswerRaw);
   if (!user) return false;
-
   const variants = parseTranslationsPl(translationPlRaw);
   return variants.includes(user);
+}
+
+// Check answer for pl-en mode (exact match after normalization)
+function isCorrectPlEn(userAnswerRaw: string, termEnRaw: string): boolean {
+  const user = normEN(userAnswerRaw);
+  const expected = normEN(termEnRaw);
+  if (!user || !expected) return false;
+  return user === expected;
 }
 
 function pill(tone: "neutral" | "good" | "bad") {
@@ -64,23 +97,20 @@ function VocabTestInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const idsParam = searchParams.get("ids") ?? "";
-  const modeParam = searchParams.get("mode") ?? "en-pl";
-
-  const ids = useMemo(
-    () =>
-      idsParam
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-    [idsParam]
-  );
+  // Parse query params
+  // Canonical: always use selectedIds (user_vocab_item_ids)
+  // source=ids is legacy but still uses selectedIds
+  const sourceParam = searchParams.get("source") || "ids"; // pool, lesson, or ids (legacy)
+  const selectedIdsParam = searchParams.get("selectedIds") || searchParams.get("ids") || ""; // Support both for backward compat
+  const lessonIdParam = searchParams.get("lessonId") || "";
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [words, setWords] = useState<VocabItem[]>([]);
+  const [testRunId] = useState(() => crypto.randomUUID()); // Generate once on mount
+  const [testRunCreated, setTestRunCreated] = useState(false); // Track if test_run was created
+  const [items, setItems] = useState<TestItemWithMode[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [checked, setChecked] = useState(false);
@@ -91,17 +121,17 @@ function VocabTestInner() {
   const [completed, setCompleted] = useState(false);
   const [savingResult, setSavingResult] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [eventLogErrors, setEventLogErrors] = useState(0);
 
-  const current = words[currentIndex];
-  const total = words.length;
+  const current = items[currentIndex];
+  const total = items.length;
 
+  // Load test items
   useEffect(() => {
     const run = async () => {
       try {
-        if (ids.length === 0) {
-          setError("Brak identyfikatorów słówek w adresie URL.");
-          return;
-        }
+        setLoading(true);
+        setError("");
 
         const session = await supabase.auth.getSession();
         if (!session.data.session) {
@@ -117,20 +147,95 @@ function VocabTestInner() {
 
         setProfile(p);
 
-        const vocabRes = await supabase
-          .from("vocab_items")
-          .select("id,term_en,translation_pl")
-          .in("id", ids);
+        const token = session.data.session.access_token;
 
-        if (vocabRes.error) throw vocabRes.error;
+        // Load test items via API
+        const loadBody: any = {
+          source: sourceParam,
+        };
 
-        const list = (vocabRes.data ?? []) as VocabItem[];
-        if (list.length === 0) {
-          setError("Nie znaleziono słówek. Sprawdź, czy jesteś zalogowany na właściwe konto.");
+        if (sourceParam === "pool") {
+          const selectedIds = selectedIdsParam
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (selectedIds.length === 0) {
+            setError("Brak zaznaczonych słówek. Zaznacz słówka w puli i stwórz test.");
+            return;
+          }
+          loadBody.selectedIds = selectedIds;
+        } else if (sourceParam === "lesson") {
+          if (!lessonIdParam) {
+            setError("Brak identyfikatora lekcji.");
+            return;
+          }
+          const selectedIds = selectedIdsParam
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (selectedIds.length === 0) {
+            setError("Brak zaznaczonych słówek. Zaznacz słówka w lekcji i stwórz test.");
+            return;
+          }
+          loadBody.lessonId = lessonIdParam;
+          loadBody.selectedIds = selectedIds;
+        } else if (sourceParam === "ids") {
+          // Legacy: ids source (but still uses selectedIds parameter)
+          const selectedIds = selectedIdsParam
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (selectedIds.length === 0) {
+            setError("Brak identyfikatorów słówek w adresie URL.");
+            return;
+          }
+          loadBody.selectedIds = selectedIds; // Use selectedIds for consistency
+        }
+
+        const res = await fetch("/api/vocab/load-test-items", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(loadBody),
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+          throw new Error(errorData.error || "Nie udało się wczytać testu.");
+        }
+
+        const data = await res.json();
+        if (!data.ok || !Array.isArray(data.items)) {
+          throw new Error("Nieprawidłowa odpowiedź serwera.");
+        }
+
+        const testItems: TestItem[] = data.items;
+        if (testItems.length === 0) {
+          setError("Nie znaleziono słówek do testu.");
           return;
         }
 
-        setWords(shuffle(list));
+        // Assign question modes deterministically and shuffle
+        const itemsWithModes = assignQuestionModes(testItems, testRunId);
+        setItems(shuffle(itemsWithModes));
+
+        // Create test_run record at the start (before events are logged)
+        const { error: runCreateError } = await supabase.from("vocab_test_runs").insert({
+          id: testRunId,
+          student_id: p.id,
+          mode: "mixed",
+          total: testItems.length,
+          correct: 0, // Will be updated at the end
+          item_ids: testItems.map((item) => item.id),
+        });
+
+        if (runCreateError) {
+          throw new Error(`Failed to create test run: ${runCreateError.message}`);
+        }
+
+        setTestRunCreated(true);
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać testu.");
       } finally {
@@ -140,47 +245,83 @@ function VocabTestInner() {
 
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, idsParam]);
+  }, [router, sourceParam, selectedIdsParam, lessonIdParam, testRunId]);
 
+  // Update test run with final results
   useEffect(() => {
-    const saveResult = async () => {
-      if (!completed || !profile || total === 0) return;
+    const updateResult = async () => {
+      if (!completed || !profile || total === 0 || !testRunCreated) return;
       setSavingResult(true);
       setSaveError("");
+
       try {
-        const { error: insertError } = await supabase.from("vocab_test_runs").insert({
-          student_id: profile.id,
-          mode: modeParam || "en-pl",
-          total,
-          correct: correctCount,
-          item_ids: words.map((w) => w.id),
-        });
-        if (insertError) throw insertError;
+        const session = await supabase.auth.getSession();
+        if (!session.data.session) return;
+
+        // Update test run with final results
+        const { error: runError } = await supabase
+          .from("vocab_test_runs")
+          .update({
+            total,
+            correct: correctCount,
+            item_ids: items.map((item) => item.id), // user_vocab_item_ids
+          })
+          .eq("id", testRunId);
+
+        if (runError) throw runError;
       } catch (e: any) {
-        setSaveError(e?.message ?? "Nie udało się zapisać wyniku.");
+        setSaveError(e?.message ?? "Nie udało się zaktualizować wyniku.");
       } finally {
         setSavingResult(false);
       }
     };
 
-    saveResult();
-  }, [completed, profile, total, correctCount, modeParam, words]);
+    updateResult();
+  }, [completed, profile, total, correctCount, items, testRunId, testRunCreated]);
 
-  const checkAnswer = () => {
+  const checkAnswer = async () => {
     if (!current) return;
 
     setChecked(true);
 
-    const expectedRaw = current.translation_pl;
-    const givenRaw = answer;
+    const questionMode = current.questionMode;
+    let isCorrect = false;
+    let expected: string | null = null;
+    let prompt: string | null = null;
 
-    if (!expectedRaw) {
-      setFeedback("Brak tłumaczenia w bazie – to pytanie nie liczy się do wyniku.");
-      setFeedbackTone("neutral");
-      return;
+    if (questionMode === "en-pl") {
+      // EN -> PL: prompt = term_en, expected = translation_pl
+      prompt = current.term_en;
+      expected = current.translation_pl;
+
+      if (!expected) {
+        setFeedback("Brak tłumaczenia w bazie – to pytanie nie liczy się do wyniku.");
+        setFeedbackTone("neutral");
+        // Log as skipped (no translation available)
+        await logAnswerEvent(current.id, questionMode, prompt || "", null, answer, "skipped");
+        return;
+      }
+
+      isCorrect = isCorrectEnPl(answer, expected);
+    } else {
+      // PL -> EN: prompt = translation_pl, expected = term_en
+      prompt = current.translation_pl;
+      expected = current.term_en;
+
+      if (!prompt) {
+        setFeedback("Brak tłumaczenia w bazie – to pytanie nie liczy się do wyniku.");
+        setFeedbackTone("neutral");
+        // Log as skipped (no translation available)
+        await logAnswerEvent(current.id, questionMode, prompt || "", null, answer, "skipped");
+        return;
+      }
+
+      isCorrect = isCorrectPlEn(answer, expected);
     }
 
-    const isCorrect = isCorrectTranslation(givenRaw, expectedRaw);
+    // Log answer event with evaluation
+    const evaluation: "correct" | "wrong" = isCorrect ? "correct" : "wrong";
+    await logAnswerEvent(current.id, questionMode, prompt || "", expected || "", answer, evaluation);
 
     if (isCorrect) {
       setFeedback("Poprawnie!");
@@ -192,11 +333,62 @@ function VocabTestInner() {
       setMistakes((prev) => [
         ...prev,
         {
-          term: current.term_en,
-          expected: expectedRaw,
-          given: normPL(givenRaw) ? givenRaw.trim() : "(pusto)",
+          term: questionMode === "en-pl" ? current.term_en : current.translation_pl || "",
+          expected: expected || "",
+          given: answer.trim() || "(pusto)",
+          questionMode,
         },
       ]);
+    }
+  };
+
+  const logAnswerEvent = async (
+    userVocabItemId: string,
+    questionMode: "en-pl" | "pl-en",
+    prompt: string,
+    expected: string | null,
+    given: string,
+    evaluation: "correct" | "wrong" | "skipped" | "invalid"
+  ) => {
+    if (!profile || !testRunCreated) {
+      // Don't log if test_run hasn't been created yet
+      console.warn("Cannot log event: test_run not created yet");
+      return;
+    }
+
+    try {
+      const session = await supabase.auth.getSession();
+      if (!session.data.session) return;
+
+      // Determine is_correct based on evaluation
+      // correct => is_correct=true
+      // wrong => is_correct=false
+      // skipped/invalid => is_correct=null
+      const isCorrectValue =
+        evaluation === "correct" ? true : evaluation === "wrong" ? false : null;
+
+      // Log event with all required fields
+      const { error: insertError } = await supabase.from("vocab_answer_events").insert({
+        student_id: profile.id,
+        test_run_id: testRunId,
+        user_vocab_item_id: userVocabItemId,
+        question_mode: questionMode,
+        prompt: prompt || "", // Ensure non-empty string
+        expected: evaluation === "skipped" || evaluation === "invalid" ? null : expected || null,
+        given: given.trim() || "(pusto)",
+        is_correct: isCorrectValue,
+        evaluation,
+      });
+
+      if (insertError) {
+        console.error("Failed to log answer event:", insertError);
+        setEventLogErrors((prev) => prev + 1);
+        // Don't block UI on logging errors
+      }
+    } catch (e) {
+      console.error("Failed to log answer event:", e);
+      setEventLogErrors((prev) => prev + 1);
+      // Don't block UI on logging errors
     }
   };
 
@@ -214,6 +406,11 @@ function VocabTestInner() {
 
   if (loading) return <main>Ładuję test…</main>;
 
+  const questionMode = current?.questionMode || "en-pl";
+  const isEnPl = questionMode === "en-pl";
+  const promptText = isEnPl ? current?.term_en : current?.translation_pl;
+  const placeholderText = isEnPl ? "Twoja odpowiedź (PL)" : "Twoja odpowiedź (EN)";
+
   return (
     <main className="space-y-6">
       <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
@@ -221,7 +418,7 @@ function VocabTestInner() {
           <div className="space-y-1">
             <h1 className="text-2xl font-semibold tracking-tight text-white">Test słówek</h1>
             <p className="text-sm text-white/75">
-              Tryb: <span className="font-medium text-white">{modeParam || "en-pl"}</span>
+              Tryb: <span className="font-medium text-white">{isEnPl ? "EN → PL" : "PL → EN"}</span>
             </p>
           </div>
 
@@ -263,7 +460,12 @@ function VocabTestInner() {
           </div>
 
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
-            <div className="text-xl font-semibold tracking-tight text-white">{current.term_en}</div>
+            <div className="space-y-2">
+              <div className="text-xs text-white/60 uppercase tracking-wide">
+                {isEnPl ? "Angielski → Polski" : "Polski → Angielski"}
+              </div>
+              <div className="text-xl font-semibold tracking-tight text-white">{promptText || "—"}</div>
+            </div>
 
             <form
               className="space-y-3"
@@ -275,10 +477,11 @@ function VocabTestInner() {
             >
               <input
                 className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-                placeholder="Twoja odpowiedź (PL)"
+                placeholder={placeholderText}
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
                 disabled={checked}
+                autoFocus
               />
 
               {checked ? (
@@ -290,17 +493,20 @@ function VocabTestInner() {
                     </span>
                   </div>
 
-                  {feedbackTone === "bad" ? (
+                  {feedbackTone === "bad" && current ? (
                     <p className="mt-2">
                       Poprawna odpowiedź:{" "}
-                      <span className="font-medium text-white">{current.translation_pl ?? "-"}</span>
+                      <span className="font-medium text-white">
+                        {isEnPl ? current.translation_pl || "-" : current.term_en}
+                      </span>
                     </p>
                   ) : null}
                 </div>
               ) : (
                 <p className="text-xs text-white/60">
-                  Wskazówka: jeśli jest kilka poprawnych tłumaczeń, wpisz jedno z nich (w bazie są oddzielone średnikiem
-                  <span className="font-medium text-white"> ;</span>).
+                  {isEnPl
+                    ? "Wskazówka: jeśli jest kilka poprawnych tłumaczeń, wpisz jedno z nich (w bazie są oddzielone średnikiem ;)."
+                    : "Wpisz dokładnie słówko po angielsku (jak w bazie)."}
                 </p>
               )}
 
@@ -338,7 +544,12 @@ function VocabTestInner() {
                     key={`${m.term}-${idx}`}
                     className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 text-sm"
                   >
-                    <div className="font-medium text-white">{m.term}</div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="font-medium text-white">{m.term}</div>
+                      <span className="px-2 py-0.5 rounded-lg border border-white/20 bg-white/10 text-xs text-white/70">
+                        {m.questionMode === "en-pl" ? "EN→PL" : "PL→EN"}
+                      </span>
+                    </div>
                     <div className="text-white/75">
                       Poprawna: <span className="text-white">{m.expected}</span> • Twoja:{" "}
                       <span className="text-white">{m.given}</span>
@@ -358,6 +569,15 @@ function VocabTestInner() {
               <p className="text-sm text-white/75">Wynik zapisany.</p>
             )}
           </div>
+
+          {eventLogErrors > 0 && (
+            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4">
+              <p className="text-sm text-amber-100">
+                <span className="font-semibold">Uwaga: </span>
+                Nie udało się zapisać {eventLogErrors} {eventLogErrors === 1 ? "zdarzenia" : "zdarzeń"} do historii. Wynik testu został zapisany, ale statystyki mogą być niepełne.
+              </p>
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-2">
             <a
