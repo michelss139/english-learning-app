@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import SenseSelectionModal from "../../SenseSelectionModal";
-import { resolveVerbForm, getVerbFormLabel, type VerbFormResult } from "@/lib/vocab/verbForms";
+import { resolveVerbForm, getVerbFormLabel, shouldShowVerbFormBadge, type VerbFormResult } from "@/lib/vocab/verbForms";
 
 type StudentLesson = {
   id: string;
@@ -23,6 +23,7 @@ type LessonWord = {
   custom_translation_pl: string | null;
   verified: boolean;
   source: "lexicon" | "custom";
+  pos: string | null;
 };
 
 export default function VocabLessonPage() {
@@ -85,7 +86,7 @@ export default function VocabLessonPage() {
           verified,
           source,
           lexicon_senses(
-            lexicon_entries(lemma),
+            lexicon_entries(lemma, pos),
             lexicon_translations(translation_pl)
           )
         )
@@ -111,6 +112,7 @@ export default function VocabLessonPage() {
         custom_translation_pl: uvi.custom_translation_pl,
         verified: uvi.verified,
         source: uvi.source,
+        pos: entry?.pos || null,
       };
     });
 
@@ -127,10 +129,10 @@ export default function VocabLessonPage() {
         custom_translation_pl,
         verified,
         source,
-        lexicon_senses(
-          lexicon_entries(lemma),
-          lexicon_translations(translation_pl)
-        )
+          lexicon_senses(
+            lexicon_entries(lemma, pos),
+            lexicon_translations(translation_pl)
+          )
       `
       )
       .eq("student_id", currentProfileId)
@@ -152,6 +154,7 @@ export default function VocabLessonPage() {
         custom_translation_pl: uvi.custom_translation_pl,
         verified: uvi.verified,
         source: uvi.source,
+        pos: entry?.pos || null,
       };
     });
 
@@ -421,8 +424,8 @@ export default function VocabLessonPage() {
   }
 
   function getDisplayTranslation(word: LessonWord, verbForm: VerbFormResult | null): string {
-    if (verbForm) {
-      // For verb forms, show fallback instead of base translation
+    // Only show "Forma od:" for past_simple/past_participle verb forms
+    if (shouldShowVerbFormBadge(word.pos, verbForm)) {
       return `Forma od: ${verbForm.baseLemma}`;
     }
     return word.translation_pl || word.custom_translation_pl || "—";
@@ -542,7 +545,7 @@ export default function VocabLessonPage() {
                   className="rounded-xl border-2 border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 transition disabled:opacity-60"
                 >
                   <div className="font-medium text-white">{lemma}</div>
-                  {verbForm && (
+                  {shouldShowVerbFormBadge(w.pos, verbForm) && (
                     <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
                   )}
                   <div className="text-xs text-white/70 truncate">{getDisplayTranslation(w, verbForm)}</div>
@@ -610,7 +613,7 @@ export default function VocabLessonPage() {
                       const verbForm = verbFormCache.get(lemma) ?? null;
                       return (
                         <>
-                          {verbForm && (
+                          {shouldShowVerbFormBadge(w.pos, verbForm) && (
                             <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
                           )}
                           <div className="text-xs text-white/70">

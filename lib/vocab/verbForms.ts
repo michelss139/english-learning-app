@@ -49,24 +49,22 @@ export async function resolveVerbForm(
     const entry = Array.isArray(form.lexicon_entries) ? form.lexicon_entries[0] : form.lexicon_entries;
     if (!entry?.lemma_norm) continue;
 
-    const baseLemma = entry.lemma_norm;
+    const baseLemma = entry.lemma_norm.toLowerCase();
+    const baseLemmaNorm = baseLemma.trim();
 
-    // Check each form field for exact match (case-insensitive)
-    if (form.present_simple_i?.toLowerCase() === termLower) {
-      return { baseLemma, formType: 'present_I' };
+    // Skip if baseLemma is null, empty, or equals the term (not a form, it's the base)
+    if (!baseLemmaNorm || baseLemmaNorm === termLower) {
+      continue;
     }
-    if (form.present_simple_you?.toLowerCase() === termLower) {
-      return { baseLemma, formType: 'present_you' };
-    }
-    if (form.present_simple_he_she_it?.toLowerCase() === termLower) {
-      return { baseLemma, formType: 'present_he_she_it' };
-    }
+
+    // Only return past_simple and past_participle (ignore present forms)
     if (form.past_simple?.toLowerCase() === termLower) {
-      return { baseLemma, formType: 'past_simple' };
+      return { baseLemma: baseLemmaNorm, formType: 'past_simple' };
     }
     if (form.past_participle?.toLowerCase() === termLower) {
-      return { baseLemma, formType: 'past_participle' };
+      return { baseLemma: baseLemmaNorm, formType: 'past_participle' };
     }
+    // Present forms are detected but not returned (for internal use only)
   }
 
   return null;
@@ -84,4 +82,15 @@ export function getVerbFormLabel(formType: VerbFormType): string {
     past_participle: 'Past participle',
   };
   return labels[formType];
+}
+
+/**
+ * Check if verb form badge should be shown in UI
+ * Only show for verbs with past_simple or past_participle forms
+ */
+export function shouldShowVerbFormBadge(pos: string | null, verbForm: VerbFormResult | null): boolean {
+  if (!verbForm || pos !== 'verb') {
+    return false;
+  }
+  return verbForm.formType === 'past_simple' || verbForm.formType === 'past_participle';
 }

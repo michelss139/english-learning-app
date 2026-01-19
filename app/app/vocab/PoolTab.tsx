@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { resolveVerbForm, getVerbFormLabel, type VerbFormResult } from "@/lib/vocab/verbForms";
+import { resolveVerbForm, getVerbFormLabel, shouldShowVerbFormBadge, type VerbFormResult } from "@/lib/vocab/verbForms";
 
 type PoolRow = {
   user_vocab_item_id: string;
@@ -269,8 +269,8 @@ export default function PoolTab() {
   }
 
   function getDisplayTranslation(row: PoolRow, verbForm: VerbFormResult | null): string {
-    if (verbForm) {
-      // For verb forms, show fallback instead of base translation
+    // Only show "Forma od:" for past_simple/past_participle verb forms
+    if (shouldShowVerbFormBadge(row.pos, verbForm)) {
       return `Forma od: ${verbForm.baseLemma}`;
     }
     return row.translation_pl || row.custom_translation_pl || "—";
@@ -398,7 +398,7 @@ export default function PoolTab() {
                           [{r.pos}]
                         </span>
                       )}
-                      {verbForm && (
+                      {shouldShowVerbFormBadge(r.pos, verbForm) && (
                         <span className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-xs text-purple-200">
                           Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'
                         </span>
@@ -432,7 +432,7 @@ export default function PoolTab() {
                     <div className="text-white/70">Tłumaczenie</div>
                     <div className="text-white">
                       {getDisplayTranslation(r, verbForm)}
-                      {verbForm && r.translation_pl && (
+                      {shouldShowVerbFormBadge(r.pos, verbForm) && r.translation_pl && (
                         <span className="text-xs text-white/50 ml-2">
                           (tłumaczenie bazowe: {r.translation_pl})
                         </span>
