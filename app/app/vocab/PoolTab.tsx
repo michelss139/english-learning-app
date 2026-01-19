@@ -254,11 +254,15 @@ export default function PoolTab() {
 
   async function checkVerbForm(lemma: string): Promise<VerbFormResult | null> {
     if (!lemma || verbFormCache.has(lemma)) {
-      return verbFormCache.get(lemma) ?? null;
+      const cached = verbFormCache.get(lemma);
+      console.log(`[PoolTab] checkVerbForm cache hit for "${lemma}":`, cached);
+      return cached ?? null;
     }
 
     try {
+      console.log(`[PoolTab] checkVerbForm resolving "${lemma}"...`);
       const result = await resolveVerbForm(lemma, supabase);
+      console.log(`[PoolTab] checkVerbForm result for "${lemma}":`, result);
       setVerbFormCache((prev) => new Map(prev).set(lemma, result));
       return result;
     } catch (e) {
@@ -378,6 +382,15 @@ export default function PoolTab() {
           const showRepeat = repeatSet.has(lemmaNorm);
           const isCustom = r.source === "custom" || !r.verified;
           const verbForm = verbFormCache.get(lemma) ?? null;
+          
+          // Debug logging
+          if (lemma === "went" || lemma === "gone") {
+            console.log(`[PoolTab] Rendering "${lemma}":`, {
+              verbForm,
+              pos: r.pos,
+              shouldShow: shouldShowVerbFormBadge(r.pos, verbForm),
+            });
+          }
 
           return (
             <div key={r.user_vocab_item_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">

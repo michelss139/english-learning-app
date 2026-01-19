@@ -40,14 +40,23 @@ export async function resolveVerbForm(
       lexicon_entries(lemma_norm)
     `);
 
-  if (error || !verbForms || verbForms.length === 0) {
+  if (error) {
+    console.error("[resolveVerbForm] Query error:", error);
+    return null;
+  }
+
+  if (!verbForms || verbForms.length === 0) {
+    console.log("[resolveVerbForm] No verb forms found in DB");
     return null;
   }
 
   // Find exact match (case-insensitive)
   for (const form of verbForms) {
     const entry = Array.isArray(form.lexicon_entries) ? form.lexicon_entries[0] : form.lexicon_entries;
-    if (!entry?.lemma_norm) continue;
+    if (!entry?.lemma_norm) {
+      console.log("[resolveVerbForm] Form missing entry or lemma_norm:", form);
+      continue;
+    }
 
     const baseLemma = entry.lemma_norm.toLowerCase();
     const baseLemmaNorm = baseLemma.trim();
@@ -59,14 +68,17 @@ export async function resolveVerbForm(
 
     // Only return past_simple and past_participle (ignore present forms)
     if (form.past_simple?.toLowerCase() === termLower) {
+      console.log(`[resolveVerbForm] Found: "${termLower}" -> base: "${baseLemmaNorm}", form: past_simple`);
       return { baseLemma: baseLemmaNorm, formType: 'past_simple' };
     }
     if (form.past_participle?.toLowerCase() === termLower) {
+      console.log(`[resolveVerbForm] Found: "${termLower}" -> base: "${baseLemmaNorm}", form: past_participle`);
       return { baseLemma: baseLemmaNorm, formType: 'past_participle' };
     }
     // Present forms are detected but not returned (for internal use only)
   }
 
+  console.log(`[resolveVerbForm] No match found for: "${termLower}"`);
   return null;
 }
 
