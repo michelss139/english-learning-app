@@ -39,157 +39,143 @@ function maskWord(sentence: string, lemma: string): string {
   return masked;
 }
 
+function errorResponse(step: string, error: any, status = 500) {
+  return NextResponse.json(
+    {
+      ok: false,
+      step,
+      message: error?.message || "Unknown error",
+      details: error?.details || null,
+      hint: error?.hint || null,
+      code: error?.code || null,
+    },
+    { status }
+  );
+}
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const { slug } = await params;
+  const url = new URL(req.url);
+  const limitParam = url.searchParams.get("limit");
+  let limit = 10;
+  
   try {
-    // Auth: verify JWT token
+    limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10), 1), 10) : 10;
+  } catch (e) {
+    console.error("[clusters/questions] Invalid limit param:", limitParam);
+    limit = 10;
+  }
+
+  console.log("[clusters/questions] Request:", { slug, limit });
+
+  try {
+    // Step 1: Auth - verify JWT token
     const authHeader = req.headers.get("authorization") ?? "";
     const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
 
     if (!token) {
-      return NextResponse.json(
-        { 
-          error: "Missing Authorization bearer token",
-          code: "UNAUTHORIZED",
-          message: "Authentication required"
-        },
-        { status: 401 }
-      );
+      console.error("[clusters/questions] Step 1: Missing token");
+      return errorResponse("auth", { message: "Missing Authorization bearer token", code: "UNAUTHORIZED" }, 401);
     }
 
-    // Create Supabase client with user auth context (for RLS)
+    // Step 2: Create Supabase client with user auth context (for RLS)
     let supabase;
     try {
       supabase = await createSupabaseServerWithToken(token);
+      console.log("[clusters/questions] Step 2: Supabase client created");
     } catch (e: any) {
-      return NextResponse.json(
-        { 
-          error: "Failed to create Supabase client",
-          code: "SERVER_ERROR",
-          message: e?.message || "Server configuration error"
-        },
-        { status: 500 }
-      );
+      console.error("[clusters/questions] Step 2: Failed to create client:", e);
+      return errorResponse("create_client", e, 500);
     }
 
-    // Verify token and get user (this also sets the session for RLS)
+    // Step 3: Verify token and get user
     const { data: userData, error: userErr } = await supabase.auth.getUser();
     if (userErr || !userData?.user?.id) {
-      return NextResponse.json(
-        { 
-          error: "Invalid or expired token",
-          code: "UNAUTHORIZED",
-          message: userErr?.message || "Authentication failed"
-        },
-        { status: 401 }
-      );
+      console.error("[clusters/questions] Step 3: Auth failed:", { userErr, userId: userData?.user?.id });
+      return errorResponse("verify_user", userErr || { message: "Authentication failed" }, 401);
     }
 
-    const { slug } = await params;
-    const url = new URL(req.url);
-    const limitParam = url.searchParams.get("limit");
-    const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10), 1), 10) : 10;
+    const userId = userData.user.id;
+    console.log("[clusters/questions] Step 3: User verified:", { userId, slug, limit });
 
-    // Get cluster
+    // Step 4: Get cluster
     const { data: cluster, error: clusterErr } = await supabase
       .from("vocab_clusters")
       .select("id, slug, title, is_recommended, is_unlockable")
       .eq("slug", slug)
       .single();
 
-    if (clusterErr || !cluster) {
-      if (clusterErr?.code === "PGRST116") {
-        return NextResponse.json(
-          { 
-            error: "Cluster not found",
-            code: "NOT_FOUND",
-            message: `Cluster with slug "${slug}" does not exist`
-          },
-          { status: 404 }
-        );
+    if (clusterErr) {
+      console.error("[clusters/questions] Step 4: Cluster fetch error:", clusterErr);
+      if (clusterErr.code === "PGRST116") {
+        return errorResponse("fetch_cluster", { ...clusterErr, message: `Cluster with slug "${slug}" does not exist"` }, 404);
       }
-      // Check if it's an RLS error
-      if (clusterErr?.code === "42501" || clusterErr?.message?.includes("permission denied")) {
-        return NextResponse.json(
-          { 
-            error: "Permission denied",
-            code: "RLS_ERROR",
-            message: "Row Level Security policy prevented access. Check if you are authenticated."
-          },
-          { status: 403 }
-        );
+      if (clusterErr.code === "42501" || clusterErr.message?.includes("permission denied")) {
+        return errorResponse("fetch_cluster", { ...clusterErr, message: "Row Level Security policy prevented access" }, 403);
       }
-      return NextResponse.json(
-        { 
-          error: clusterErr?.message || "Failed to fetch cluster",
-          code: "DATABASE_ERROR",
-          message: "Database query failed"
-        },
-        { status: 500 }
-      );
+      return errorResponse("fetch_cluster", clusterErr, 500);
     }
 
-    // Recommended clusters are always unlocked (no DB check needed)
+    if (!cluster) {
+      console.error("[clusters/questions] Step 4: Cluster not found (null)");
+      return errorResponse("fetch_cluster", { message: `Cluster with slug "${slug}" not found`, code: "NOT_FOUND" }, 404);
+    }
+
+    console.log("[clusters/questions] Step 4: Cluster found:", { id: cluster.id, slug: cluster.slug, is_recommended: cluster.is_recommended, is_unlockable: cluster.is_unlockable });
+
+    // Step 5: Check unlock status
+    let isUnlocked = false;
     if (cluster.is_recommended) {
-      // Continue to load questions
+      isUnlocked = true;
+      console.log("[clusters/questions] Step 5: Recommended cluster - always unlocked");
     } else if (cluster.is_unlockable) {
       // For unlockable clusters, require unlock record
       const { data: unlocked, error: unlockedErr } = await supabase
         .from("user_unlocked_vocab_clusters")
         .select("id")
-        .eq("student_id", userData.user.id)
+        .eq("student_id", userId)
         .eq("cluster_id", cluster.id)
         .maybeSingle();
 
       if (unlockedErr) {
-        // Check if it's an RLS error
+        console.error("[clusters/questions] Step 5: Unlock check error:", unlockedErr);
         if (unlockedErr.code === "42501" || unlockedErr.message?.includes("permission denied")) {
-          return NextResponse.json(
-            { 
-              error: "Permission denied",
-              code: "RLS_ERROR",
-              message: "Row Level Security policy prevented access. Check if you are authenticated."
-            },
-            { status: 403 }
-          );
+          return errorResponse("check_unlock", { ...unlockedErr, message: "Row Level Security policy prevented access" }, 403);
         }
-        return NextResponse.json(
-          { 
-            error: unlockedErr.message || "Failed to check unlock status",
-            code: "DATABASE_ERROR",
-            message: "Database query failed"
-          },
-          { status: 500 }
-        );
+        return errorResponse("check_unlock", unlockedErr, 500);
       }
 
-      if (!unlocked) {
-        return NextResponse.json(
-          { 
-            error: "Cluster is locked",
-            code: "LOCKED",
-            message: "This cluster requires unlocking. Add all words from this cluster to your pool to unlock it."
-          },
-          { status: 403 }
-        );
+      isUnlocked = !!unlocked;
+      console.log("[clusters/questions] Step 5: Unlockable cluster - unlocked:", isUnlocked);
+
+      if (!isUnlocked) {
+        return errorResponse("check_unlock", { 
+          message: "Cluster is locked. Add all words from this cluster to your pool to unlock it.",
+          code: "LOCKED" 
+        }, 403);
       }
     }
 
-    // Get cluster entry_ids
+    // Step 6: Get cluster entry_ids
     const { data: clusterEntries, error: entriesErr } = await supabase
       .from("vocab_cluster_entries")
       .select("entry_id, lexicon_entries(lemma)")
       .eq("cluster_id", cluster.id);
 
     if (entriesErr) {
-      return NextResponse.json({ error: `Failed to fetch cluster entries: ${entriesErr.message}` }, { status: 500 });
+      console.error("[clusters/questions] Step 6: Cluster entries error:", entriesErr);
+      return errorResponse("fetch_cluster_entries", entriesErr, 500);
     }
 
     if (!clusterEntries || clusterEntries.length === 0) {
+      console.log("[clusters/questions] Step 6: No cluster entries found");
       return NextResponse.json({ ok: true, questions: [] });
     }
+
+    console.log("[clusters/questions] Step 6: Cluster entries found:", clusterEntries.length);
 
     // Extract entry_ids and lemmas
     const entryIds = clusterEntries.map((e) => e.entry_id);
@@ -205,19 +191,23 @@ export async function GET(
       return NextResponse.json({ ok: true, questions: [] });
     }
 
-    // Get all senses for these entries
+    // Step 7: Get all senses for these entries
     const { data: senses, error: sensesErr } = await supabase
       .from("lexicon_senses")
       .select("id, entry_id")
       .in("entry_id", entryIds);
 
     if (sensesErr) {
-      return NextResponse.json({ error: `Failed to fetch senses: ${sensesErr.message}` }, { status: 500 });
+      console.error("[clusters/questions] Step 7: Senses error:", sensesErr);
+      return errorResponse("fetch_senses", sensesErr, 500);
     }
 
     if (!senses || senses.length === 0) {
+      console.log("[clusters/questions] Step 7: No senses found");
       return NextResponse.json({ ok: true, questions: [] });
     }
+
+    console.log("[clusters/questions] Step 7: Senses found:", senses.length);
 
     const senseIds = senses.map((s) => s.id);
     const entryIdToLemma = new Map<string, string>();
@@ -228,7 +218,7 @@ export async function GET(
       }
     }
 
-    // Get examples for these senses
+    // Step 8: Get examples for these senses
     const { data: examples, error: examplesErr } = await supabase
       .from("lexicon_examples")
       .select("id, sense_id, example_en, lexicon_senses(entry_id)")
@@ -236,12 +226,16 @@ export async function GET(
       .limit(limit * 3); // Get more than needed, then filter
 
     if (examplesErr) {
-      return NextResponse.json({ error: `Failed to fetch examples: ${examplesErr.message}` }, { status: 500 });
+      console.error("[clusters/questions] Step 8: Examples error:", examplesErr);
+      return errorResponse("fetch_examples", examplesErr, 500);
     }
 
     if (!examples || examples.length === 0) {
+      console.log("[clusters/questions] Step 8: No examples found");
       return NextResponse.json({ ok: true, questions: [] });
     }
+
+    console.log("[clusters/questions] Step 8: Examples found:", examples.length);
 
     // Build questions
     const questions: Question[] = [];
@@ -286,18 +280,15 @@ export async function GET(
       usedExampleIds.add(example.id);
     }
 
+    // Step 9: Build questions
+    console.log("[clusters/questions] Step 9: Building questions, found:", questions.length);
+    
     return NextResponse.json({
       ok: true,
       questions: questions.slice(0, limit),
     });
   } catch (e: any) {
-    console.error("[clusters/questions] Error:", e);
-    return NextResponse.json(
-      {
-        error: e?.message ?? "Unknown error",
-        stack: process.env.NODE_ENV === "development" ? e?.stack : undefined,
-      },
-      { status: 500 }
-    );
+    console.error("[clusters/questions] Unexpected error:", e);
+    return errorResponse("unexpected", e, 500);
   }
 }
