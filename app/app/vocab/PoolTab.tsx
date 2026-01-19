@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { resolveVerbForm, getVerbFormLabel, type VerbFormResult } from "@/lib/vocab/verbForms";
 
 type PoolRow = {
   user_vocab_item_id: string;
@@ -32,6 +33,9 @@ export default function PoolTab() {
 
   // term_en_norm -> czy pokazać sugestię powtórki
   const [repeatSet, setRepeatSet] = useState<Set<string>>(new Set());
+  
+  // Cache for verb form resolutions: lemma -> VerbFormResult
+  const [verbFormCache, setVerbFormCache] = useState<Map<string, VerbFormResult | null>>(new Map());
 
   const selectedCount = useMemo(
     () => Object.values(selected).filter(Boolean).length,
@@ -179,6 +183,23 @@ export default function PoolTab() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Check verb forms for all loaded lemmas
+  useEffect(() => {
+    if (rows.length === 0) return;
+    
+    const checkAllVerbForms = async () => {
+      for (const row of rows) {
+        const lemma = getDisplayLemma(row);
+        if (lemma && lemma !== "—" && !verbFormCache.has(lemma)) {
+          await checkVerbForm(lemma);
+        }
+      }
+    };
+    
+    checkAllVerbForms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows]);
+
   async function onSearchSubmit(e: React.FormEvent) {
     e.preventDefault();
     await load();
@@ -231,7 +252,27 @@ export default function PoolTab() {
     return row.lemma || row.custom_lemma || "—";
   }
 
-  function getDisplayTranslation(row: PoolRow): string {
+  async function checkVerbForm(lemma: string): Promise<VerbFormResult | null> {
+    if (!lemma || verbFormCache.has(lemma)) {
+      return verbFormCache.get(lemma) ?? null;
+    }
+
+    try {
+      const result = await resolveVerbForm(lemma, supabase);
+      setVerbFormCache((prev) => new Map(prev).set(lemma, result));
+      return result;
+    } catch (e) {
+      console.error("[PoolTab] Error resolving verb form:", e);
+      setVerbFormCache((prev) => new Map(prev).set(lemma, null));
+      return null;
+    }
+  }
+
+  function getDisplayTranslation(row: PoolRow, verbForm: VerbFormResult | null): string {
+    if (verbForm) {
+      // For verb forms, show fallback instead of base translation
+      return `Forma od: ${verbForm.baseLemma}`;
+    }
     return row.translation_pl || row.custom_translation_pl || "—";
   }
 
@@ -336,6 +377,7 @@ export default function PoolTab() {
           const lemmaNorm = lemma.toLowerCase();
           const showRepeat = repeatSet.has(lemmaNorm);
           const isCustom = r.source === "custom" || !r.verified;
+          const verbForm = verbFormCache.get(lemma) ?? null;
 
           return (
             <div key={r.user_vocab_item_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
@@ -349,11 +391,16 @@ export default function PoolTab() {
                 <div className="flex items-start justify-between gap-4 flex-1">
                   <div className="space-y-2 flex-1">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <div className="text-lg font-semibold text-white">{lemma}</div>
                       {r.pos && (
                         <span className="px-3 py-1 rounded-lg border-2 border-emerald-400/40 bg-emerald-400/20 text-emerald-200 text-sm font-semibold">
                           [{r.pos}]
+                        </span>
+                      )}
+                      {verbForm && (
+                        <span className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-xs text-purple-200">
+                          Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'
                         </span>
                       )}
                       {isCustom && (
@@ -383,7 +430,14 @@ export default function PoolTab() {
 
                   <div className="text-sm">
                     <div className="text-white/70">Tłumaczenie</div>
-                    <div className="text-white">{getDisplayTranslation(r)}</div>
+                    <div className="text-white">
+                      {getDisplayTranslation(r, verbForm)}
+                      {verbForm && r.translation_pl && (
+                        <span className="text-xs text-white/50 ml-2">
+                          (tłumaczenie bazowe: {r.translation_pl})
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {r.definition_en && (

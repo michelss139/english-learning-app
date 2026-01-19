@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import SenseSelectionModal from "../../SenseSelectionModal";
+import { resolveVerbForm, getVerbFormLabel, type VerbFormResult } from "@/lib/vocab/verbForms";
 
 type StudentLesson = {
   id: string;
@@ -46,6 +47,9 @@ export default function VocabLessonPage() {
   const [pinningWordId, setPinningWordId] = useState<string | null>(null);
 
   const [selected, setSelected] = useState<Record<string, boolean>>({});
+  
+  // Cache for verb form resolutions: lemma -> VerbFormResult
+  const [verbFormCache, setVerbFormCache] = useState<Map<string, VerbFormResult | null>>(new Map());
 
   const selectedCount = useMemo(
     () => Object.values(selected).filter(Boolean).length,
@@ -376,7 +380,27 @@ export default function VocabLessonPage() {
     return word.lemma || word.custom_lemma || "—";
   }
 
-  function getDisplayTranslation(word: LessonWord): string {
+  async function checkVerbForm(lemma: string): Promise<VerbFormResult | null> {
+    if (!lemma || verbFormCache.has(lemma)) {
+      return verbFormCache.get(lemma) ?? null;
+    }
+
+    try {
+      const result = await resolveVerbForm(lemma, supabase);
+      setVerbFormCache((prev) => new Map(prev).set(lemma, result));
+      return result;
+    } catch (e) {
+      console.error("[LessonPage] Error resolving verb form:", e);
+      setVerbFormCache((prev) => new Map(prev).set(lemma, null));
+      return null;
+    }
+  }
+
+  function getDisplayTranslation(word: LessonWord, verbForm: VerbFormResult | null): string {
+    if (verbForm) {
+      // For verb forms, show fallback instead of base translation
+      return `Forma od: ${verbForm.baseLemma}`;
+    }
     return word.translation_pl || word.custom_translation_pl || "—";
   }
 
@@ -483,17 +507,24 @@ export default function VocabLessonPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {availableWords.slice(0, 12).map((w) => (
-              <button
-                key={w.user_vocab_item_id}
-                onClick={() => pinWordFromPool(w.user_vocab_item_id)}
-                disabled={pinningWordId === w.user_vocab_item_id}
-                className="rounded-xl border-2 border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 transition disabled:opacity-60"
-              >
-                <div className="font-medium text-white">{getDisplayLemma(w)}</div>
-                <div className="text-xs text-white/70 truncate">{getDisplayTranslation(w)}</div>
-              </button>
-            ))}
+            {availableWords.slice(0, 12).map((w) => {
+              const lemma = getDisplayLemma(w);
+              const verbForm = verbFormCache.get(lemma) ?? null;
+              return (
+                <button
+                  key={w.user_vocab_item_id}
+                  onClick={() => pinWordFromPool(w.user_vocab_item_id)}
+                  disabled={pinningWordId === w.user_vocab_item_id}
+                  className="rounded-xl border-2 border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 transition disabled:opacity-60"
+                >
+                  <div className="font-medium text-white">{lemma}</div>
+                  {verbForm && (
+                    <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
+                  )}
+                  <div className="text-xs text-white/70 truncate">{getDisplayTranslation(w, verbForm)}</div>
+                </button>
+              );
+            })}
           </div>
         </section>
       )}
@@ -539,7 +570,7 @@ export default function VocabLessonPage() {
               <li
                 key={w.lesson_vocab_item_id}
                 className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
-                title={getDisplayTranslation(w)}
+                title={getDisplayTranslation(w, verbFormCache.get(getDisplayLemma(w)) ?? null)}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <input
@@ -550,10 +581,21 @@ export default function VocabLessonPage() {
 
                   <div className="min-w-0">
                     <div className="font-medium text-white truncate">{getDisplayLemma(w)}</div>
-                    <div className="text-xs text-white/70">
-                      {getDisplayTranslation(w) !== "—" ? "hover → PL" : "brak tłumaczenia"}
-                      {w.source === "custom" ? " • własne" : ""}
-                    </div>
+                    {(() => {
+                      const lemma = getDisplayLemma(w);
+                      const verbForm = verbFormCache.get(lemma) ?? null;
+                      return (
+                        <>
+                          {verbForm && (
+                            <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
+                          )}
+                          <div className="text-xs text-white/70">
+                            {getDisplayTranslation(w, verbForm) !== "—" ? "hover → PL" : "brak tłumaczenia"}
+                            {w.source === "custom" ? " • własne" : ""}
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
 
