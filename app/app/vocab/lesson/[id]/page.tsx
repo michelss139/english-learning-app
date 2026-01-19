@@ -545,7 +545,7 @@ export default function VocabLessonPage() {
                   className="rounded-xl border-2 border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 transition disabled:opacity-60"
                 >
                   <div className="font-medium text-white">{lemma}</div>
-                  {shouldShowVerbFormBadge(w.pos, verbForm) && (
+                  {verbForm && shouldShowVerbFormBadge(w.pos, verbForm) && (
                     <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
                   )}
                   <div className="text-xs text-white/70 truncate">{getDisplayTranslation(w, verbForm)}</div>
@@ -613,7 +613,7 @@ export default function VocabLessonPage() {
                       const verbForm = verbFormCache.get(lemma) ?? null;
                       return (
                         <>
-                          {shouldShowVerbFormBadge(w.pos, verbForm) && (
+                          {verbForm && shouldShowVerbFormBadge(w.pos, verbForm) && (
                             <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
                           )}
                           <div className="text-xs text-white/70">

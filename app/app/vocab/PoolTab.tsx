@@ -398,7 +398,7 @@ export default function PoolTab() {
                           [{r.pos}]
                         </span>
                       )}
-                      {shouldShowVerbFormBadge(r.pos, verbForm) && (
+                      {verbForm && shouldShowVerbFormBadge(r.pos, verbForm) && (
                         <span className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-xs text-purple-200">
                           Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'
                         </span>
