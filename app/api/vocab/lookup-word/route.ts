@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { detectVerbForm, type VerbFormMatch } from "@/lib/vocab/verbFormDetector";
 
 /**
  * POST /api/vocab/lookup-word
@@ -1076,11 +1077,29 @@ export async function POST(req: Request) {
 
     const lemma_norm = normLemma(lemma);
 
+    // Check if input is a verb form (before checking cache)
+    let verb_form: VerbFormMatch | null = null;
+    try {
+      verb_form = await detectVerbForm(lemma, supabase);
+      if (verb_form) {
+        console.log(`[lookup-word] Detected verb form: "${lemma}" -> base: "${verb_form.base.lemma_norm}", type: ${verb_form.matched_form_type}`);
+        // Use base lemma for lookup instead of the form
+        const baseLemmaNorm = verb_form.base.lemma_norm;
+        // Override lemma_norm to lookup base entry
+        // We'll lookup the base entry and attach verb_form to response
+      }
+    } catch (e) {
+      console.error("[lookup-word] Error detecting verb form:", e);
+      // Continue with normal lookup if detection fails
+    }
+
     // Check Lexicon cache first (may have multiple entries for different POS)
+    // Use base lemma if verb form was detected, otherwise use original lemma
+    const lookupLemma = verb_form ? verb_form.base.lemma_norm : lemma_norm;
     const { data: existingEntries, error: checkErr } = await supabase
       .from("lexicon_entries")
       .select("id, lemma, pos")
-      .eq("lemma_norm", lemma_norm);
+      .eq("lemma_norm", lookupLemma);
 
     if (checkErr) {
       return NextResponse.json({ error: `Failed to check cache: ${checkErr.message}` }, { status: 500 });
@@ -1293,6 +1312,7 @@ export async function POST(req: Request) {
           senses: allMergedSenses, // All senses from all POS
           verb_forms: mergedVerbForms,
         },
+        verb_form: verb_form || undefined, // Only include if detected
       });
     }
 
@@ -1400,6 +1420,7 @@ export async function POST(req: Request) {
         senses: allMergedSenses, // All senses from all POS
         verb_forms: mergedVerbForms,
       },
+      verb_form: verb_form || undefined, // Only include if detected
     });
   } catch (e: any) {
     console.error("[add-word] Error:", e);

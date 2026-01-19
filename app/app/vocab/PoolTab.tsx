@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { resolveVerbForm, getVerbFormLabel, shouldShowVerbFormBadge, type VerbFormResult } from "@/lib/vocab/verbForms";
 
@@ -22,6 +22,12 @@ type PoolRow = {
 
 export default function PoolTab() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const highlightParam = searchParams.get("highlight");
+  const highlightTerms = useMemo(() => {
+    if (!highlightParam) return new Set<string>();
+    return new Set(highlightParam.split(',').map(t => t.toLowerCase().trim()).filter(Boolean));
+  }, [highlightParam]);
 
   const [loading, setLoading] = useState(true);
   const [loadingSenseId, setLoadingSenseId] = useState<string | null>(null);
@@ -382,15 +388,7 @@ export default function PoolTab() {
           const showRepeat = repeatSet.has(lemmaNorm);
           const isCustom = r.source === "custom" || !r.verified;
           const verbForm = verbFormCache.get(lemma) ?? null;
-          
-          // Debug logging
-          if (lemma === "went" || lemma === "gone") {
-            console.log(`[PoolTab] Rendering "${lemma}":`, {
-              verbForm,
-              pos: r.pos,
-              shouldShow: shouldShowVerbFormBadge(r.pos, verbForm),
-            });
-          }
+          const isHighlighted = highlightTerms.has(lemmaNorm);
 
           return (
             <div key={r.user_vocab_item_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
