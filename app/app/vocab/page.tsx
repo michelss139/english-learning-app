@@ -230,9 +230,23 @@ function VocabHomeInner() {
     setShowSenseModal(true);
   };
 
-  const handleSenseSelected = async (senseId: string) => {
+  const handleSenseSelected = async (senseId: string, entry?: any) => {
     // Modal already handles the API call
-    // Just refresh data and close modal
+    // If entry has verb_forms, add highlight links for forms
+    if (entry?.verb_forms) {
+      const forms = [
+        entry.verb_forms.past_simple,
+        entry.verb_forms.past_participle,
+      ].filter(Boolean);
+      if (forms.length > 0) {
+        // Navigate to pool tab with highlight parameter
+        const highlightParam = forms.join(',');
+        setNewWord("");
+        setShowSenseModal(false);
+        router.push(`/app/vocab?tab=pool&highlight=${encodeURIComponent(highlightParam)}`);
+        return;
+      }
+    }
     setNewWord("");
     setShowSenseModal(false);
     await refreshPersonal();
