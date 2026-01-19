@@ -425,7 +425,7 @@ export default function VocabLessonPage() {
 
   function getDisplayTranslation(word: LessonWord, verbForm: VerbFormResult | null): string {
     // Only show "Forma od:" for past_simple/past_participle verb forms
-    if (shouldShowVerbFormBadge(word.pos, verbForm)) {
+    if (verbForm && shouldShowVerbFormBadge(word.pos, verbForm)) {
       return `Forma od: ${verbForm.baseLemma}`;
     }
     return word.translation_pl || word.custom_translation_pl || "—";

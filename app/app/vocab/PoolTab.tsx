@@ -270,7 +270,7 @@ export default function PoolTab() {
 
   function getDisplayTranslation(row: PoolRow, verbForm: VerbFormResult | null): string {
     // Only show "Forma od:" for past_simple/past_participle verb forms
-    if (shouldShowVerbFormBadge(row.pos, verbForm)) {
+    if (verbForm && shouldShowVerbFormBadge(row.pos, verbForm)) {
       return `Forma od: ${verbForm.baseLemma}`;
     }
     return row.translation_pl || row.custom_translation_pl || "—";
