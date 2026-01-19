@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import PoolTab from "./PoolTab";
 import SenseSelectionModal from "./SenseSelectionModal";
+import ClustersSection from "./ClustersSection";
 
 type StudentLesson = {
   id: string;
@@ -320,6 +321,9 @@ function VocabHomeInner() {
           </p>
         </div>
       ) : null}
+
+      {/* CLUSTERS */}
+      <ClustersSection />
 
       <nav className="flex flex-wrap gap-2">
         <button className={tabBtn(tab === "lessons")} onClick={() => setTab("lessons")}>
