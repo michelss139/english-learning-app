@@ -219,11 +219,13 @@ export async function GET(
       }
     }
 
-    // Step 8: Get examples for these senses
+    // Step 8: Get examples for these senses with rotation (order by last_used_at)
+    // Priority: null last_used_at first, then oldest last_used_at
     const { data: examples, error: examplesErr } = await supabase
       .from("lexicon_examples")
       .select("id, sense_id, example_en, lexicon_senses(entry_id)")
       .in("sense_id", senseIds)
+      .order("last_used_at", { ascending: true, nullsFirst: true })
       .limit(limit * 3); // Get more than needed, then filter
 
     if (examplesErr) {
@@ -238,7 +240,7 @@ export async function GET(
 
     console.log("[clusters/questions] Step 8: Examples found:", examples.length);
 
-    // Build questions
+    // Step 9: Build questions
     const questions: Question[] = [];
     const usedExampleIds = new Set<string>();
 
@@ -268,7 +270,7 @@ export async function GET(
       // Mask the word
       const prompt = maskWord(example.example_en, correctLemma);
 
-      // Shuffle choices (always include correct answer)
+      // Shuffle choices (always include correct answer) - keep this shuffle for UI variety
       const shuffledChoices = [...lemmas].sort(() => Math.random() - 0.5);
 
       questions.push({
@@ -281,8 +283,23 @@ export async function GET(
       usedExampleIds.add(example.id);
     }
 
-    // Step 9: Build questions
-    console.log("[clusters/questions] Step 9: Building questions, found:", questions.length);
+    console.log("[clusters/questions] Step 9: Questions built:", questions.length);
+
+    // Step 10: Update last_used_at for used examples
+    const exampleIdsToUpdate = Array.from(usedExampleIds);
+    if (exampleIdsToUpdate.length > 0) {
+      const { error: updateErr } = await supabase
+        .from("lexicon_examples")
+        .update({ last_used_at: new Date().toISOString() })
+        .in("id", exampleIdsToUpdate);
+
+      if (updateErr) {
+        console.error("[clusters/questions] Step 10: Update last_used_at error:", updateErr);
+        // Don't fail the request, just log the error
+      } else {
+        console.log("[clusters/questions] Step 10: Updated last_used_at for", exampleIdsToUpdate.length, "examples");
+      }
+    }
     
     return NextResponse.json({
       ok: true,
