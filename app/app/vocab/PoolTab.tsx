@@ -391,7 +391,11 @@ export default function PoolTab() {
           const isHighlighted = highlightTerms.has(lemmaNorm);
 
           return (
-            <div key={r.user_vocab_item_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+            <div key={r.user_vocab_item_id} className={`rounded-2xl border-2 p-4 transition ${
+              isHighlighted
+                ? "border-yellow-400/60 bg-yellow-400/20 shadow-lg shadow-yellow-400/20"
+                : "border-white/10 bg-white/5"
+            }`}>
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
