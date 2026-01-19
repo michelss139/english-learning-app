@@ -28,7 +28,7 @@ export async function resolveVerbForm(
   if (!termLower) return null;
 
   // Query lexicon_verb_forms to find exact match (case-insensitive)
-  // We need to check all form fields, so we query all and filter in code
+  // Join with lexicon_entries to get base lemma
   const { data: verbForms, error } = await supabase
     .from("lexicon_verb_forms")
     .select(`
@@ -37,7 +37,7 @@ export async function resolveVerbForm(
       present_simple_he_she_it,
       past_simple,
       past_participle,
-      lexicon_entries(lemma_norm)
+      lexicon_entries(lemma, lemma_norm, pos)
     `);
 
   if (error) {
@@ -52,26 +52,41 @@ export async function resolveVerbForm(
 
   // Find exact match (case-insensitive)
   for (const form of verbForms) {
+    // Extract entry data (Supabase returns nested object or array)
     const entry = Array.isArray(form.lexicon_entries) ? form.lexicon_entries[0] : form.lexicon_entries;
-    if (!entry?.lemma_norm) {
-      console.log("[resolveVerbForm] Form missing entry or lemma_norm:", form);
+    if (!entry) {
+      console.log("[resolveVerbForm] Form missing entry:", form);
       continue;
     }
 
-    const baseLemma = entry.lemma_norm.toLowerCase();
-    const baseLemmaNorm = baseLemma.trim();
+    // Get base lemma from lexicon_entries (use lemma or lemma_norm, they should be the same)
+    const baseLemmaRaw = entry.lemma || entry.lemma_norm;
+    if (!baseLemmaRaw) {
+      console.log("[resolveVerbForm] Form missing lemma/lemma_norm:", entry);
+      continue;
+    }
 
+    // Normalize base lemma (lowercase, trim)
+    const baseLemmaNorm = baseLemmaRaw.toLowerCase().trim();
+    
     // Skip if baseLemma is null, empty, or equals the term (not a form, it's the base)
     if (!baseLemmaNorm || baseLemmaNorm === termLower) {
+      console.log(`[resolveVerbForm] Skipping: baseLemma "${baseLemmaNorm}" equals term "${termLower}"`);
+      continue;
+    }
+
+    // Check POS - only process verbs
+    if (entry.pos !== 'verb') {
+      console.log(`[resolveVerbForm] Skipping: pos is "${entry.pos}", not "verb"`);
       continue;
     }
 
     // Only return past_simple and past_participle (ignore present forms)
-    if (form.past_simple?.toLowerCase() === termLower) {
+    if (form.past_simple?.toLowerCase().trim() === termLower) {
       console.log(`[resolveVerbForm] Found: "${termLower}" -> base: "${baseLemmaNorm}", form: past_simple`);
       return { baseLemma: baseLemmaNorm, formType: 'past_simple' };
     }
-    if (form.past_participle?.toLowerCase() === termLower) {
+    if (form.past_participle?.toLowerCase().trim() === termLower) {
       console.log(`[resolveVerbForm] Found: "${termLower}" -> base: "${baseLemmaNorm}", form: past_participle`);
       return { baseLemma: baseLemmaNorm, formType: 'past_participle' };
     }
