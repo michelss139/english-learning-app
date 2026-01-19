@@ -196,6 +196,30 @@ export default function VocabLessonPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, lessonId]);
 
+  // Check verb forms for all loaded words
+  useEffect(() => {
+    if (words.length === 0 && availableWords.length === 0) return;
+    
+    const checkAllVerbForms = async () => {
+      for (const word of words) {
+        const lemma = getDisplayLemma(word);
+        if (lemma && lemma !== "—" && !verbFormCache.has(lemma)) {
+          await checkVerbForm(lemma);
+        }
+      }
+      // Also check available words
+      for (const word of availableWords) {
+        const lemma = getDisplayLemma(word);
+        if (lemma && lemma !== "—" && !verbFormCache.has(lemma)) {
+          await checkVerbForm(lemma);
+        }
+      }
+    };
+    
+    checkAllVerbForms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [words, availableWords]);
+
   const speak = (text: string) => {
     try {
       const synth = window.speechSynthesis;
