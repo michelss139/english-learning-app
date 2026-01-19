@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { createSupabaseServerWithToken } from "@/lib/supabase/server";
 
 type Question = {
   id: string; // example_id
@@ -49,14 +49,42 @@ export async function GET(
     const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
 
     if (!token) {
-      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+      return NextResponse.json(
+        { 
+          error: "Missing Authorization bearer token",
+          code: "UNAUTHORIZED",
+          message: "Authentication required"
+        },
+        { status: 401 }
+      );
     }
 
-    const supabase = createSupabaseAdmin();
+    // Create Supabase client with user auth context (for RLS)
+    let supabase;
+    try {
+      supabase = await createSupabaseServerWithToken(token);
+    } catch (e: any) {
+      return NextResponse.json(
+        { 
+          error: "Failed to create Supabase client",
+          code: "SERVER_ERROR",
+          message: e?.message || "Server configuration error"
+        },
+        { status: 500 }
+      );
+    }
 
-    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+    // Verify token and get user (this also sets the session for RLS)
+    const { data: userData, error: userErr } = await supabase.auth.getUser();
     if (userErr || !userData?.user?.id) {
-      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
+      return NextResponse.json(
+        { 
+          error: "Invalid or expired token",
+          code: "UNAUTHORIZED",
+          message: userErr?.message || "Authentication failed"
+        },
+        { status: 401 }
+      );
     }
 
     const { slug } = await params;
@@ -67,39 +95,85 @@ export async function GET(
     // Get cluster
     const { data: cluster, error: clusterErr } = await supabase
       .from("vocab_clusters")
-      .select("id, slug, title")
+      .select("id, slug, title, is_recommended, is_unlockable")
       .eq("slug", slug)
       .single();
 
     if (clusterErr || !cluster) {
-      return NextResponse.json({ error: "Cluster not found" }, { status: 404 });
-    }
-
-    // Check cluster type and unlock status
-    const { data: clusterData, error: clusterDataErr } = await supabase
-      .from("vocab_clusters")
-      .select("is_recommended, is_unlockable")
-      .eq("id", cluster.id)
-      .single();
-
-    if (clusterDataErr || !clusterData) {
-      return NextResponse.json({ error: "Cluster not found" }, { status: 404 });
+      if (clusterErr?.code === "PGRST116") {
+        return NextResponse.json(
+          { 
+            error: "Cluster not found",
+            code: "NOT_FOUND",
+            message: `Cluster with slug "${slug}" does not exist`
+          },
+          { status: 404 }
+        );
+      }
+      // Check if it's an RLS error
+      if (clusterErr?.code === "42501" || clusterErr?.message?.includes("permission denied")) {
+        return NextResponse.json(
+          { 
+            error: "Permission denied",
+            code: "RLS_ERROR",
+            message: "Row Level Security policy prevented access. Check if you are authenticated."
+          },
+          { status: 403 }
+        );
+      }
+      return NextResponse.json(
+        { 
+          error: clusterErr?.message || "Failed to fetch cluster",
+          code: "DATABASE_ERROR",
+          message: "Database query failed"
+        },
+        { status: 500 }
+      );
     }
 
     // Recommended clusters are always unlocked (no DB check needed)
-    if (clusterData.is_recommended) {
+    if (cluster.is_recommended) {
       // Continue to load questions
-    } else if (clusterData.is_unlockable) {
+    } else if (cluster.is_unlockable) {
       // For unlockable clusters, require unlock record
-      const { data: unlocked } = await supabase
+      const { data: unlocked, error: unlockedErr } = await supabase
         .from("user_unlocked_vocab_clusters")
         .select("id")
         .eq("student_id", userData.user.id)
         .eq("cluster_id", cluster.id)
         .maybeSingle();
 
+      if (unlockedErr) {
+        // Check if it's an RLS error
+        if (unlockedErr.code === "42501" || unlockedErr.message?.includes("permission denied")) {
+          return NextResponse.json(
+            { 
+              error: "Permission denied",
+              code: "RLS_ERROR",
+              message: "Row Level Security policy prevented access. Check if you are authenticated."
+            },
+            { status: 403 }
+          );
+        }
+        return NextResponse.json(
+          { 
+            error: unlockedErr.message || "Failed to check unlock status",
+            code: "DATABASE_ERROR",
+            message: "Database query failed"
+          },
+          { status: 500 }
+        );
+      }
+
       if (!unlocked) {
-        return NextResponse.json({ error: "Cluster is locked" }, { status: 403 });
+        return NextResponse.json(
+          { 
+            error: "Cluster is locked",
+            code: "LOCKED",
+            message: "This cluster requires unlocking. Add all words from this cluster to your pool to unlock it."
+          },
+          { status: 403 }
+        );
       }
     }
 
