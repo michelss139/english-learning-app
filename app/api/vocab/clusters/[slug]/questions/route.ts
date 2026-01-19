@@ -133,9 +133,10 @@ export async function GET(
       console.log("[clusters/questions] Step 5: Recommended cluster - always unlocked");
     } else if (cluster.is_unlockable) {
       // For unlockable clusters, require unlock record
+      // Table has composite PK (student_id, cluster_id), no id column
       const { data: unlocked, error: unlockedErr } = await supabase
         .from("user_unlocked_vocab_clusters")
-        .select("id")
+        .select("unlocked_at")
         .eq("student_id", userId)
         .eq("cluster_id", cluster.id)
         .maybeSingle();
@@ -149,7 +150,7 @@ export async function GET(
       }
 
       isUnlocked = !!unlocked;
-      console.log("[clusters/questions] Step 5: Unlockable cluster - unlocked:", isUnlocked);
+      console.log("[clusters/questions] Step 5: Unlockable cluster - unlocked:", isUnlocked, unlocked ? `(unlocked_at: ${unlocked.unlocked_at})` : "");
 
       if (!isUnlocked) {
         return errorResponse("check_unlock", { 
