@@ -33,6 +33,7 @@ group by student_id;
 -- ============================================
 -- Words with ≥3 correct answers without errors in all attempts
 -- Based on vocab_answer_events
+-- Handles both user_vocab_items (via join) and cluster practice (via expected field)
 create or replace view v2_vocab_learned_total as
 with word_stats as (
   select
@@ -43,7 +44,7 @@ with word_stats as (
        join lexicon_senses ls on ls.id = uvi.sense_id
        join lexicon_entries le on le.id = ls.entry_id
        where uvi.id = vae.user_vocab_item_id),
-      -- Fallback: use expected field (for cluster practice)
+      -- Fallback: use expected field (for cluster practice or when user_vocab_item_id is null)
       lower(trim(vae.expected))
     ) as term_en_norm,
     count(*) filter (where evaluation = 'correct') as correct_count,
@@ -51,7 +52,6 @@ with word_stats as (
     count(*) as total_attempts
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null  -- Only for user vocab items (not cluster practice)
   group by student_id, coalesce(
     (select le.lemma from user_vocab_items uvi
      join lexicon_senses ls on ls.id = uvi.sense_id
@@ -88,7 +88,6 @@ with today_events as (
     created_at
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
     and date_trunc('day', created_at) = date_trunc('day', now())
 ),
 word_stats as (
@@ -127,7 +126,6 @@ with week_events as (
     created_at
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
     and created_at >= now() - interval '7 days'
 ),
 word_stats as (
@@ -169,7 +167,6 @@ with word_stats as (
     max(created_at) as last_attempt_at
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
   group by student_id, coalesce(
     (select le.lemma from user_vocab_items uvi
      join lexicon_senses ls on ls.id = uvi.sense_id
@@ -224,7 +221,6 @@ with today_events as (
     created_at
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
     and date_trunc('day', created_at) = date_trunc('day', now())
 ),
 word_stats as (
@@ -266,7 +262,6 @@ with week_events as (
     created_at
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
     and created_at >= now() - interval '7 days'
 ),
 word_stats as (
@@ -313,7 +308,6 @@ with word_stats as (
     max(created_at) as last_attempt_at
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
   group by student_id, coalesce(
     (select le.lemma from user_vocab_items uvi
      join lexicon_senses ls on ls.id = uvi.sense_id
@@ -382,7 +376,6 @@ with ordered_events as (
     ) as rn
   from vocab_answer_events vae
   where evaluation in ('correct', 'wrong')
-    and user_vocab_item_id is not null
 ),
 streaks as (
   select
