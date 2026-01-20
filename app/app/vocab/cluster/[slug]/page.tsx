@@ -129,7 +129,15 @@ function VocabClusterInner() {
       // For cluster practice, we don't have a direct user_vocab_item_id
       // user_vocab_item_id is now nullable for cluster practice
 
-      const { error: insertError, data } = await supabase.from("vocab_answer_events").insert({
+      // Verify auth context
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || user.id !== profile.id) {
+        console.error("[cluster] Auth mismatch:", { userId: user?.id, profileId: profile.id });
+        setEventLogErrors((prev) => prev + 1);
+        return;
+      }
+
+      const insertData = {
         student_id: profile.id,
         test_run_id: null, // No test_run for cluster practice
         user_vocab_item_id: null, // Nullable - cluster practice doesn't map to specific user_vocab_item
@@ -141,7 +149,11 @@ function VocabClusterInner() {
         evaluation: isCorrect ? "correct" : "wrong",
         context_type: "vocab_cluster",
         context_id: slug,
-      }).select();
+      };
+
+      console.log("[cluster] Inserting event:", { ...insertData, prompt: insertData.prompt.substring(0, 50) + "..." });
+
+      const { error: insertError, data } = await supabase.from("vocab_answer_events").insert(insertData).select();
 
       if (insertError) {
         console.error("[cluster] Failed to log answer event:", {
@@ -149,6 +161,7 @@ function VocabClusterInner() {
           details: insertError.details,
           hint: insertError.hint,
           code: insertError.code,
+          insertData: { ...insertData, prompt: insertData.prompt.substring(0, 50) + "..." },
         });
         setEventLogErrors((prev) => prev + 1);
       } else {
