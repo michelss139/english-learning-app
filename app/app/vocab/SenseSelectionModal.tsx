@@ -220,12 +220,15 @@ export default function SenseSelectionModal({
         if (item.custom_lemma) {
           terms.add(item.custom_lemma.toLowerCase().trim());
         }
-        const entry = item.lexicon_senses?.lexicon_entries;
-        if (entry) {
-          const entryArray = Array.isArray(entry) ? entry : [entry];
-          for (const e of entryArray) {
-            if (e.lemma) {
-              terms.add(e.lemma.toLowerCase().trim());
+        const senses = item.lexicon_senses;
+        if (senses) {
+          const sensesArray = Array.isArray(senses) ? senses : [senses];
+          for (const sense of sensesArray) {
+            const entry = Array.isArray(sense?.lexicon_entries)
+              ? sense.lexicon_entries[0]
+              : sense?.lexicon_entries;
+            if (entry?.lemma) {
+              terms.add(entry.lemma.toLowerCase().trim());
             }
           }
         }
