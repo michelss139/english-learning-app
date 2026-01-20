@@ -19,25 +19,64 @@ export async function GET(req: Request) {
 
     const student_id = userData.user.id;
 
+    // Try v2 views first (vocab_answer_events-based)
     const [
-      accRes,
-      learnedTotalRes,
-      learnedTodayRes,
-      learnedWeekRes,
-      toLearnTotalRes,
-      toLearnTodayRes,
-      toLearnWeekRes,
-      repeatRes,
+      accV2Res,
+      learnedTotalV2Res,
+      learnedTodayV2Res,
+      learnedWeekV2Res,
+      toLearnTotalV2Res,
+      toLearnTodayV2Res,
+      toLearnWeekV2Res,
+      repeatV2Res,
     ] = await Promise.all([
-      supabase.from("vocab_accuracy_extended").select("*").eq("student_id", student_id).single(),
-      supabase.from("vocab_learned_total").select("term_en_norm").eq("student_id", student_id),
-      supabase.from("vocab_learned_today").select("term_en_norm").eq("student_id", student_id),
-      supabase.from("vocab_learned_week").select("term_en_norm").eq("student_id", student_id),
-      supabase.from("vocab_to_learn_total").select("term_en_norm").eq("student_id", student_id),
-      supabase.from("vocab_to_learn_today").select("term_en_norm").eq("student_id", student_id),
-      supabase.from("vocab_to_learn_week").select("term_en_norm").eq("student_id", student_id),
-      supabase.from("vocab_repeat_suggestions").select("term_en_norm, last_correct_at").eq("student_id", student_id),
+      supabase.from("v2_vocab_accuracy_extended").select("*").eq("student_id", student_id).single(),
+      supabase.from("v2_vocab_learned_total").select("term_en_norm").eq("student_id", student_id),
+      supabase.from("v2_vocab_learned_today").select("term_en_norm").eq("student_id", student_id),
+      supabase.from("v2_vocab_learned_week").select("term_en_norm").eq("student_id", student_id),
+      supabase.from("v2_vocab_to_learn_total").select("term_en_norm").eq("student_id", student_id),
+      supabase.from("v2_vocab_to_learn_today").select("term_en_norm").eq("student_id", student_id),
+      supabase.from("v2_vocab_to_learn_week").select("term_en_norm").eq("student_id", student_id),
+      supabase.from("v2_vocab_repeat_suggestions").select("term_en_norm, last_correct_at").eq("student_id", student_id),
     ]);
+
+    // Fallback to legacy views if v2 views are empty (transition period)
+    const useV2 = accV2Res.data || learnedTotalV2Res.data?.length || toLearnTotalV2Res.data?.length;
+
+    let accRes, learnedTotalRes, learnedTodayRes, learnedWeekRes, toLearnTotalRes, toLearnTodayRes, toLearnWeekRes, repeatRes;
+
+    if (useV2) {
+      // Use v2 views
+      accRes = accV2Res;
+      learnedTotalRes = learnedTotalV2Res;
+      learnedTodayRes = learnedTodayV2Res;
+      learnedWeekRes = learnedWeekV2Res;
+      toLearnTotalRes = toLearnTotalV2Res;
+      toLearnTodayRes = toLearnTodayV2Res;
+      toLearnWeekRes = toLearnWeekV2Res;
+      repeatRes = repeatV2Res;
+    } else {
+      // Fallback to legacy views
+      [
+        accRes,
+        learnedTotalRes,
+        learnedTodayRes,
+        learnedWeekRes,
+        toLearnTotalRes,
+        toLearnTodayRes,
+        toLearnWeekRes,
+        repeatRes,
+      ] = await Promise.all([
+        supabase.from("vocab_accuracy_extended").select("*").eq("student_id", student_id).single(),
+        supabase.from("vocab_learned_total").select("term_en_norm").eq("student_id", student_id),
+        supabase.from("vocab_learned_today").select("term_en_norm").eq("student_id", student_id),
+        supabase.from("vocab_learned_week").select("term_en_norm").eq("student_id", student_id),
+        supabase.from("vocab_to_learn_total").select("term_en_norm").eq("student_id", student_id),
+        supabase.from("vocab_to_learn_today").select("term_en_norm").eq("student_id", student_id),
+        supabase.from("vocab_to_learn_week").select("term_en_norm").eq("student_id", student_id),
+        supabase.from("vocab_repeat_suggestions").select("term_en_norm, last_correct_at").eq("student_id", student_id),
+      ]);
+    }
 
     return NextResponse.json({
       accuracy: accRes.data ?? {
