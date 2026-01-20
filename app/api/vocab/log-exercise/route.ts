@@ -48,21 +48,12 @@ export async function POST(req: Request) {
 
     const student_id = userData.user.id;
 
-    const { error: insErr } = await supabase.from("vocab_exercise_runs").insert({
-      student_id,
-      mode,
-      term_en_norm,
-      correct,
-      chosen,
-      masked,
-      source,
-    });
+    // Legacy endpoint - vocab_exercise_runs is deprecated
+    // All new features should log to vocab_answer_events instead
+    // This endpoint is kept for backward compatibility but no longer writes data
+    // TODO: Remove this endpoint once all clients are migrated to vocab_answer_events
 
-    if (insErr) {
-      return NextResponse.json({ error: insErr.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, deprecated: true });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? "Unknown error" }, { status: 500 });
   }
