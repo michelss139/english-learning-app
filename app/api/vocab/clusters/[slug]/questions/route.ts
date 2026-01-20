@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { createSupabaseServerWithToken } from "@/lib/supabase/server";
+import { evaluateExample, normalizeText } from "@/lib/vocab/clusterQualityGates";
 
 type Question = {
   id: string; // example_id
@@ -226,7 +227,7 @@ export async function GET(
       .select("id, sense_id, example_en, lexicon_senses(entry_id)")
       .in("sense_id", senseIds)
       .order("last_used_at", { ascending: true, nullsFirst: true })
-      .limit(limit * 3); // Get more than needed, then filter
+      .limit(limit * 5); // fetch more and filter with quality gates
 
     if (examplesErr) {
       console.error("[clusters/questions] Step 8: Examples error:", examplesErr);
@@ -243,6 +244,13 @@ export async function GET(
     // Step 9: Build questions
     const questions: Question[] = [];
     const usedExampleIds = new Set<string>();
+    const rejectCounts = {
+      short: 0,
+      no_target_form: 0,
+      contains_other_cluster_form: 0,
+    };
+
+    const normalizedLemmas = lemmas.map((l) => normalizeText(l));
 
     for (const example of examples) {
       if (questions.length >= limit) break;
@@ -254,23 +262,23 @@ export async function GET(
       const correctLemma = entryIdToLemma.get(sense.entry_id);
       if (!correctLemma) continue;
 
-      // Check if example contains the word (case-insensitive)
-      const lowerExample = example.example_en.toLowerCase();
-      const lowerLemma = correctLemma.toLowerCase();
-      if (
-        !lowerExample.includes(lowerLemma) &&
-        !lowerExample.includes(`${lowerLemma}s`) &&
-        !lowerExample.includes(`${lowerLemma}ed`) &&
-        !lowerExample.includes(`${lowerLemma}ing`) &&
-        !lowerExample.includes(`${lowerLemma}es`)
-      ) {
-        continue; // Skip examples that don't contain the word
+      const targetLemmaNorm = normalizeText(correctLemma);
+      const otherLemmas = normalizedLemmas.filter((l) => l !== targetLemmaNorm);
+
+      const gateResult = evaluateExample(example.example_en, targetLemmaNorm, otherLemmas);
+      if (!gateResult.ok) {
+        for (const r of gateResult.reasons) {
+          if (r === "short") rejectCounts.short++;
+          if (r === "no_target_form") rejectCounts.no_target_form++;
+          if (r === "contains_other_cluster_form") rejectCounts.contains_other_cluster_form++;
+        }
+        continue;
       }
 
-      // Mask the word
+      // Mask the word (use original casing lemma for masking)
       const prompt = maskWord(example.example_en, correctLemma);
 
-      // Shuffle choices (always include correct answer) - keep this shuffle for UI variety
+      // Deterministic-ish shuffle: keep existing random for variety (allowed)
       const shuffledChoices = [...lemmas].sort(() => Math.random() - 0.5);
 
       questions.push({
@@ -283,9 +291,15 @@ export async function GET(
       usedExampleIds.add(example.id);
     }
 
-    console.log("[clusters/questions] Step 9: Questions built:", questions.length);
+    console.info("[clusters/questions] Quality gates summary:", {
+      slug,
+      requestedLimit: limit,
+      candidateCount: examples.length,
+      acceptedCount: questions.length,
+      rejected: rejectCounts,
+    });
 
-    // Step 10: Update last_used_at for used examples
+    // Step 10: Update last_used_at for used examples ONLY
     const exampleIdsToUpdate = Array.from(usedExampleIds);
     if (exampleIdsToUpdate.length > 0) {
       const { error: updateErr } = await supabase
