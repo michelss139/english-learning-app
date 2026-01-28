@@ -1,44 +1,20 @@
-/**
- * GET /api/vocab/clusters/[slug]/questions?limit=10
- * 
- * Get questions for a vocab cluster
- * Questions are built from lexicon_examples for senses belonging to cluster entries
- */
-
 import { NextResponse } from "next/server";
 import { createSupabaseServerWithToken } from "@/lib/supabase/server";
-import { evaluateExample, normalizeText } from "@/lib/vocab/clusterQualityGates";
 
-type Question = {
-  id: string; // example_id
-  prompt: string; // example_en with word masked as "_____"
-  choices: string[]; // array of lemmas from cluster
-  answer: string; // correct lemma
+/**
+ * GET /api/vocab/clusters/[slug]/questions?limit=10
+ *
+ * Get questions for a vocab cluster from vocab_cluster_questions table.
+ * Questions are manually curated, not generated from lexicon_examples.
+ */
+
+type ClusterQuestionRow = {
+  id: string;
+  prompt: string;
+  slot: string;
+  choices: string[];
+  explanation: string | null;
 };
-
-// Mask word in sentence (case-insensitive, handles basic inflections)
-function maskWord(sentence: string, lemma: string): string {
-  // Escape special regex characters in lemma
-  const escapedLemma = lemma.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  
-  // Patterns to match: lemma, lemma + 's', lemma + 'ed', lemma + 'ing', lemma + 'es'
-  // Use word boundaries to avoid partial matches
-  const patterns = [
-    new RegExp(`\\b${escapedLemma}\\b`, "gi"),
-    new RegExp(`\\b${escapedLemma}s\\b`, "gi"),
-    new RegExp(`\\b${escapedLemma}ed\\b`, "gi"),
-    new RegExp(`\\b${escapedLemma}ing\\b`, "gi"),
-    new RegExp(`\\b${escapedLemma}es\\b`, "gi"),
-  ];
-
-  let masked = sentence;
-  // Replace in reverse order (longer patterns first) to avoid double replacement
-  for (let i = patterns.length - 1; i >= 0; i--) {
-    masked = masked.replace(patterns[i], "_____");
-  }
-
-  return masked;
-}
 
 function errorResponse(step: string, error: any, status = 500) {
   return NextResponse.json(
@@ -53,6 +29,148 @@ function errorResponse(step: string, error: any, status = 500) {
     { status }
   );
 }
+
+type ScoreBody = {
+  questionId: string;
+  chosen: string;
+};
+
+function normalizeChoice(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
+
+  try {
+    const body = (await req.json().catch(() => null)) as ScoreBody | null;
+    if (!body || !body.questionId || !body.chosen) {
+      return errorResponse("parse_body", { message: "Missing questionId or chosen" }, 400);
+    }
+
+    // Auth
+    const authHeader = req.headers.get("authorization") ?? "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
+
+    if (!token) {
+      return errorResponse("auth", { message: "Missing Authorization bearer token", code: "UNAUTHORIZED" }, 401);
+    }
+
+    const supabase = await createSupabaseServerWithToken(token);
+    const { data: userData, error: userErr } = await supabase.auth.getUser();
+    if (userErr || !userData?.user?.id) {
+      return errorResponse("verify_user", userErr || { message: "Authentication failed" }, 401);
+    }
+    const userId = userData.user.id;
+
+    // Load cluster (for context + unlock check)
+    const { data: cluster, error: clusterErr } = await supabase
+      .from("vocab_clusters")
+      .select("id, slug, title, is_recommended, is_unlockable")
+      .eq("slug", slug)
+      .single();
+
+    if (clusterErr || !cluster) {
+      return errorResponse(
+        "fetch_cluster",
+        clusterErr || { message: `Cluster with slug \"${slug}\" not found`, code: "NOT_FOUND" },
+        clusterErr?.code === "PGRST116" ? 404 : 500
+      );
+    }
+
+    // Unlock check – same logic as in GET
+    if (!cluster.is_recommended && cluster.is_unlockable) {
+      const { data: unlocked, error: unlockedErr } = await supabase
+        .from("user_unlocked_vocab_clusters")
+        .select("unlocked_at")
+        .eq("student_id", userId)
+        .eq("cluster_id", cluster.id)
+        .maybeSingle();
+
+      if (unlockedErr) {
+        return errorResponse("check_unlock", unlockedErr, 500);
+      }
+      if (!unlocked) {
+        return errorResponse(
+          "check_unlock",
+          {
+            message: "Cluster is locked. Add all words from this cluster to your pool to unlock it.",
+            code: "LOCKED",
+          },
+          403
+        );
+      }
+    }
+
+    // Load question with correct_choice
+    const { data: question, error: questionErr } = await supabase
+      .from("vocab_cluster_questions")
+      .select("id, prompt, correct_choice, choices")
+      .eq("id", body.questionId)
+      .eq("cluster_id", cluster.id)
+      .maybeSingle();
+
+    if (questionErr) {
+      return errorResponse("fetch_question", questionErr, 500);
+    }
+    if (!question) {
+      return errorResponse(
+        "fetch_question",
+        { message: `Question ${body.questionId} not found for cluster ${slug}`, code: "NOT_FOUND" },
+        404
+      );
+    }
+
+    const normalizedChosen = normalizeChoice(body.chosen);
+    const normalizedCorrect = normalizeChoice(question.correct_choice);
+    const isCorrect = normalizedChosen === normalizedCorrect;
+
+    // Log event to vocab_answer_events
+    try {
+      const insertData = {
+        student_id: userId,
+        test_run_id: null,
+        user_vocab_item_id: null,
+        question_mode: "cluster-choice",
+        prompt: question.prompt,
+        expected: question.correct_choice,
+        given: body.chosen,
+        is_correct: isCorrect,
+        evaluation: isCorrect ? "correct" : "wrong",
+        context_type: "vocab_cluster",
+        context_id: slug,
+      };
+
+      const { error: insertError } = await supabase.from("vocab_answer_events").insert(insertData);
+      if (insertError) {
+        console.error("[clusters/questions:POST] Failed to log answer event:", {
+          message: insertError.message,
+          details: insertError.details,
+          hint: insertError.hint,
+          code: insertError.code,
+        });
+      }
+    } catch (e: any) {
+      console.error("[clusters/questions:POST] Exception logging answer event:", {
+        message: e?.message,
+        stack: e?.stack,
+      });
+    }
+
+    return NextResponse.json({
+      ok: true,
+      isCorrect,
+      correct_choice: question.correct_choice,
+    });
+  } catch (e: any) {
+    console.error("[clusters/questions:POST] Unexpected error:", e);
+    return errorResponse("unexpected", e, 500);
+  }
+}
+
 
 export async function GET(
   req: Request,
@@ -125,7 +243,12 @@ export async function GET(
       return errorResponse("fetch_cluster", { message: `Cluster with slug "${slug}" not found`, code: "NOT_FOUND" }, 404);
     }
 
-    console.log("[clusters/questions] Step 4: Cluster found:", { id: cluster.id, slug: cluster.slug, is_recommended: cluster.is_recommended, is_unlockable: cluster.is_unlockable });
+    console.log("[clusters/questions] Step 4: Cluster found:", {
+      id: cluster.id,
+      slug: cluster.slug,
+      is_recommended: cluster.is_recommended,
+      is_unlockable: cluster.is_unlockable,
+    });
 
     // Step 5: Check unlock status
     let isUnlocked = false;
@@ -161,163 +284,55 @@ export async function GET(
       }
     }
 
-    // Step 6: Get cluster entry_ids
-    const { data: clusterEntries, error: entriesErr } = await supabase
-      .from("vocab_cluster_entries")
-      .select("entry_id, lexicon_entries(lemma)")
-      .eq("cluster_id", cluster.id);
-
-    if (entriesErr) {
-      console.error("[clusters/questions] Step 6: Cluster entries error:", entriesErr);
-      return errorResponse("fetch_cluster_entries", entriesErr, 500);
-    }
-
-    if (!clusterEntries || clusterEntries.length === 0) {
-      console.log("[clusters/questions] Step 6: No cluster entries found");
-      return NextResponse.json({ ok: true, questions: [] });
-    }
-
-    console.log("[clusters/questions] Step 6: Cluster entries found:", clusterEntries.length);
-
-    // Extract entry_ids and lemmas
-    const entryIds = clusterEntries.map((e) => e.entry_id);
-    const lemmas: string[] = [];
-    for (const entry of clusterEntries) {
-      const lexiconEntry = Array.isArray(entry.lexicon_entries) ? entry.lexicon_entries[0] : entry.lexicon_entries;
-      if (lexiconEntry?.lemma) {
-        lemmas.push(lexiconEntry.lemma);
-      }
-    }
-
-    if (lemmas.length === 0) {
-      return NextResponse.json({ ok: true, questions: [] });
-    }
-
-    // Step 7: Get all senses for these entries
-    const { data: senses, error: sensesErr } = await supabase
-      .from("lexicon_senses")
-      .select("id, entry_id")
-      .in("entry_id", entryIds);
-
-    if (sensesErr) {
-      console.error("[clusters/questions] Step 7: Senses error:", sensesErr);
-      return errorResponse("fetch_senses", sensesErr, 500);
-    }
-
-    if (!senses || senses.length === 0) {
-      console.log("[clusters/questions] Step 7: No senses found");
-      return NextResponse.json({ ok: true, questions: [] });
-    }
-
-    console.log("[clusters/questions] Step 7: Senses found:", senses.length);
-
-    const senseIds = senses.map((s) => s.id);
-    const entryIdToLemma = new Map<string, string>();
-    for (const entry of clusterEntries) {
-      const lexiconEntry = Array.isArray(entry.lexicon_entries) ? entry.lexicon_entries[0] : entry.lexicon_entries;
-      if (lexiconEntry?.lemma) {
-        entryIdToLemma.set(entry.entry_id, lexiconEntry.lemma);
-      }
-    }
-
-    // Step 8: Get examples for these senses with rotation (order by last_used_at)
-    // Priority: null last_used_at first, then oldest last_used_at
-    const { data: examples, error: examplesErr } = await supabase
-      .from("lexicon_examples")
-      .select("id, sense_id, example_en, lexicon_senses(entry_id)")
-      .in("sense_id", senseIds)
+    // Step 6: Load questions from vocab_cluster_questions (rotation by last_used_at)
+    const { data: questions, error: questionsErr } = await supabase
+      .from("vocab_cluster_questions")
+      .select("id, prompt, slot, choices, explanation, last_used_at")
+      .eq("cluster_id", cluster.id)
       .order("last_used_at", { ascending: true, nullsFirst: true })
-      .limit(limit * 5); // fetch more and filter with quality gates
+      .limit(limit);
 
-    if (examplesErr) {
-      console.error("[clusters/questions] Step 8: Examples error:", examplesErr);
-      return errorResponse("fetch_examples", examplesErr, 500);
-    }
-
-    if (!examples || examples.length === 0) {
-      console.log("[clusters/questions] Step 8: No examples found");
+    if (questionsErr) {
+      console.error("[clusters/questions] Step 6: Questions fetch error:", questionsErr);
+      // Fail soft: return empty list so UI can say \"Brak pytań — wkrótce\"
       return NextResponse.json({ ok: true, questions: [] });
     }
 
-    console.log("[clusters/questions] Step 8: Examples found:", examples.length);
-
-    // Step 9: Build questions
-    const questions: Question[] = [];
-    const usedExampleIds = new Set<string>();
-    const rejectCounts = {
-      short: 0,
-      no_target_form: 0,
-      contains_other_cluster_form: 0,
-    };
-
-    const normalizedLemmas = lemmas.map((l) => normalizeText(l));
-
-    for (const example of examples) {
-      if (questions.length >= limit) break;
-      if (usedExampleIds.has(example.id)) continue;
-
-      const sense = Array.isArray(example.lexicon_senses) ? example.lexicon_senses[0] : example.lexicon_senses;
-      if (!sense?.entry_id) continue;
-
-      const correctLemma = entryIdToLemma.get(sense.entry_id);
-      if (!correctLemma) continue;
-
-      const targetLemmaNorm = normalizeText(correctLemma);
-      const otherLemmas = normalizedLemmas.filter((l) => l !== targetLemmaNorm);
-
-      const gateResult = evaluateExample(example.example_en, targetLemmaNorm, otherLemmas);
-      if (!gateResult.ok) {
-        for (const r of gateResult.reasons) {
-          if (r === "short") rejectCounts.short++;
-          if (r === "no_target_form") rejectCounts.no_target_form++;
-          if (r === "contains_other_cluster_form") rejectCounts.contains_other_cluster_form++;
-        }
-        continue;
-      }
-
-      // Mask the word (use original casing lemma for masking)
-      const prompt = maskWord(example.example_en, correctLemma);
-
-      // Deterministic-ish shuffle: keep existing random for variety (allowed)
-      const shuffledChoices = [...lemmas].sort(() => Math.random() - 0.5);
-
-      questions.push({
-        id: example.id,
-        prompt,
-        choices: shuffledChoices,
-        answer: correctLemma,
-      });
-
-      usedExampleIds.add(example.id);
+    if (!questions || questions.length === 0) {
+      console.log("[clusters/questions] Step 6: No questions in vocab_cluster_questions");
+      return NextResponse.json({ ok: true, questions: [] });
     }
 
-    console.info("[clusters/questions] Quality gates summary:", {
-      slug,
-      requestedLimit: limit,
-      candidateCount: examples.length,
-      acceptedCount: questions.length,
-      rejected: rejectCounts,
-    });
+    console.log("[clusters/questions] Step 6: Questions loaded:", questions.length);
 
-    // Step 10: Update last_used_at for used examples ONLY
-    const exampleIdsToUpdate = Array.from(usedExampleIds);
-    if (exampleIdsToUpdate.length > 0) {
+    // Step 7: Update last_used_at for served questions ONLY
+    const questionIds = questions.map((q) => q.id);
+    try {
       const { error: updateErr } = await supabase
-        .from("lexicon_examples")
+        .from("vocab_cluster_questions")
         .update({ last_used_at: new Date().toISOString() })
-        .in("id", exampleIdsToUpdate);
+        .in("id", questionIds);
 
       if (updateErr) {
-        console.error("[clusters/questions] Step 10: Update last_used_at error:", updateErr);
-        // Don't fail the request, just log the error
+        console.error("[clusters/questions] Step 7: Update last_used_at error:", updateErr);
       } else {
-        console.log("[clusters/questions] Step 10: Updated last_used_at for", exampleIdsToUpdate.length, "examples");
+        console.log("[clusters/questions] Step 7: Updated last_used_at for", questionIds.length, "questions");
       }
+    } catch (e: any) {
+      console.error("[clusters/questions] Step 7: Exception updating last_used_at:", e);
     }
-    
+
+    const payload: ClusterQuestionRow[] = questions.map((q) => ({
+      id: q.id,
+      prompt: q.prompt,
+      slot: q.slot,
+      choices: q.choices,
+      explanation: q.explanation ?? null,
+    }));
+
     return NextResponse.json({
       ok: true,
-      questions: questions.slice(0, limit),
+      questions: payload,
     });
   } catch (e: any) {
     console.error("[clusters/questions] Unexpected error:", e);

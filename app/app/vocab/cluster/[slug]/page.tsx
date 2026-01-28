@@ -9,7 +9,9 @@ type Question = {
   id: string;
   prompt: string;
   choices: string[];
-  answer: string;
+  slot?: string;
+  explanation?: string | null;
+  answer?: string; // filled after scoring
 };
 
 export default function VocabClusterPage() {
@@ -103,76 +105,50 @@ function VocabClusterInner() {
     if (!current || checked) return;
 
     setSelectedChoice(choice);
-    setChecked(true);
-
-    const isCorrect = choice === current.answer;
-
-    if (isCorrect) {
-      setCorrectCount((c) => c + 1);
-    }
-
-    // Log event
-    await logAnswerEvent(current.id, current.answer, choice, isCorrect);
-  };
-
-  const logAnswerEvent = async (questionId: string, expected: string, given: string, isCorrect: boolean) => {
-    if (!profile || !current) return;
 
     try {
       const session = await supabase.auth.getSession();
       if (!session.data.session) {
-        console.error("[cluster] No session for event logging");
-        setEventLogErrors((prev) => prev + 1);
-        return;
+        throw new Error("Brak sesji użytkownika.");
       }
+      const token = session.data.session.access_token;
 
-      // For cluster practice, we don't have a direct user_vocab_item_id
-      // user_vocab_item_id is now nullable for cluster practice
-
-      // Verify auth context
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user || user.id !== profile.id) {
-        console.error("[cluster] Auth mismatch:", { userId: user?.id, profileId: profile.id });
-        setEventLogErrors((prev) => prev + 1);
-        return;
-      }
-
-      const insertData = {
-        student_id: profile.id,
-        test_run_id: null, // No test_run for cluster practice
-        user_vocab_item_id: null, // Nullable - cluster practice doesn't map to specific user_vocab_item
-        question_mode: "cluster-choice",
-        prompt: current.prompt,
-        expected,
-        given,
-        is_correct: isCorrect,
-        evaluation: isCorrect ? "correct" : "wrong",
-        context_type: "vocab_cluster",
-        context_id: slug,
-      };
-
-      console.log("[cluster] Inserting event:", { ...insertData, prompt: insertData.prompt.substring(0, 50) + "..." });
-
-      const { error: insertError, data } = await supabase.from("vocab_answer_events").insert(insertData).select();
-
-      if (insertError) {
-        console.error("[cluster] Failed to log answer event:", {
-          message: insertError.message,
-          details: insertError.details,
-          hint: insertError.hint,
-          code: insertError.code,
-          insertData: { ...insertData, prompt: insertData.prompt.substring(0, 50) + "..." },
-        });
-        setEventLogErrors((prev) => prev + 1);
-      } else {
-        console.log("[cluster] Event logged successfully:", data?.[0]?.id);
-      }
-    } catch (e: any) {
-      console.error("[cluster] Exception logging answer event:", {
-        message: e?.message,
-        stack: e?.stack,
+      const res = await fetch(`/api/vocab/clusters/${slug}/questions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ questionId: current.id, chosen: choice }),
       });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ message: `HTTP ${res.status}` }));
+        throw new Error(errorData.message || "Nie udało się sprawdzić odpowiedzi.");
+      }
+
+      const data = await res.json();
+      if (!data.ok) {
+        throw new Error(data.message || "Nie udało się sprawdzić odpowiedzi.");
+      }
+
+      const isCorrect: boolean = !!data.isCorrect;
+      const correctAnswer: string = data.correct_choice;
+
+      if (isCorrect) {
+        setCorrectCount((c) => c + 1);
+      }
+
+      // Store correct answer in questions state for UI feedback
+      setQuestions((prev) =>
+        prev.map((q) => (q.id === current.id ? { ...q, answer: correctAnswer } : q))
+      );
+
+      setChecked(true);
+    } catch (e: any) {
+      console.error("[cluster] checkAnswer error:", e);
       setEventLogErrors((prev) => prev + 1);
+      setChecked(true);
     }
   };
 
@@ -240,7 +216,7 @@ function VocabClusterInner() {
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {current.choices.map((choice) => {
                 const isSelected = selectedChoice === choice;
-                const isCorrect = choice === current.answer;
+                const isCorrect = current.answer ? choice === current.answer : false;
                 const showFeedback = checked && isSelected;
 
                 let buttonClass =
@@ -275,7 +251,11 @@ function VocabClusterInner() {
             {checked && (
               <div className="flex items-center justify-between">
                 <p className="text-sm text-white/75">
-                  {selectedChoice === current.answer ? "Poprawnie!" : `Poprawna odpowiedź: ${current.answer}`}
+                  {current.answer
+                    ? selectedChoice === current.answer
+                      ? "Poprawnie!"
+                      : `Poprawna odpowiedź: ${current.answer}`
+                    : "Sprawdź kolejne pytanie."}
                 </p>
                 <button
                   className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
