@@ -521,6 +521,7 @@ export default function VocabLessonPage() {
           }}
           onSelect={handleSenseSelected}
           onSelectCustom={handleCustomWord}
+          onSearchForm={(formTerm) => setNewWord(formTerm)}
           lessonId={lessonId}
         />
       </section>

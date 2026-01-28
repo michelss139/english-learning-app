@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase/client";
+import { getVerbFormLabel } from "@/lib/vocab/verbForms";
 
 type LexiconEntry = {
   id: string;
@@ -28,13 +29,14 @@ type LexiconEntry = {
     base: {
       entry_id: string;
       lemma_norm: string;
+      lemma?: string;
     };
     forms: {
       past_simple: string;
       past_participle: string;
     };
-    matched_form_type: 'past_simple' | 'past_participle' | 'present_I' | 'present_you' | 'present_he_she_it';
-    matched_term: string;
+    matched_form_type: 'past_simple' | 'past_participle' | 'present_I' | 'present_you' | 'present_he_she_it' | null;
+    matched_term: string | null;
   } | null;
 };
 
@@ -43,9 +45,19 @@ type SenseSelectionModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (senseId: string, entry: LexiconEntry) => void;
-  onSelectCustom?: (lemma: string, translation: string | null) => void; // For custom/unverified words
-  lessonId?: string; // Optional: if adding from lesson context
+  onSelectCustom?: (lemma: string, translation: string | null) => void;
+  onSearchForm?: (formTerm: string) => void; // e.g. "went" -> parent sets search to "went" and re-lookups
+  lessonId?: string;
 };
+
+const PAST_FORM_TYPES = ["past_simple", "past_participle"] as const;
+
+function showFormBadge(
+  pos: string | null,
+  matchedFormType: LexiconEntry["verb_form"] extends { matched_form_type: infer T } ? T : never
+): boolean {
+  return pos === "verb" && !!matchedFormType && PAST_FORM_TYPES.includes(matchedFormType as typeof PAST_FORM_TYPES[number]);
+}
 
 export default function SenseSelectionModal({
   lemma,
@@ -53,6 +65,7 @@ export default function SenseSelectionModal({
   onClose,
   onSelect,
   onSelectCustom,
+  onSearchForm,
   lessonId,
 }: SenseSelectionModalProps) {
   const [loading, setLoading] = useState(false);
@@ -65,6 +78,7 @@ export default function SenseSelectionModal({
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [userVocabTerms, setUserVocabTerms] = useState<Set<string>>(new Set());
+  const [userVocabEntryIds, setUserVocabEntryIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     setMounted(true);
@@ -171,15 +185,16 @@ export default function SenseSelectionModal({
           return;
         }
 
-        setEntry(data.entry);
+        setEntry({
+          ...data.entry,
+          verb_form: data.verb_form ?? data.entry.verb_form,
+        });
         setShowCustomForm(false);
-        // Auto-select first sense if only one
         if (data.entry.senses.length === 1) {
           setSelectedSenseId(data.entry.senses[0].id);
         }
 
-        // Load user vocab terms to check if verb forms are already in pool
-        if (data.entry.verb_form || data.entry.verb_forms) {
+        if (data.entry.verb_form || data.verb_form || data.entry.verb_forms) {
           loadUserVocabTerms();
         }
       } catch (e: any) {
@@ -210,12 +225,13 @@ export default function SenseSelectionModal({
 
       const { data: vocabItems } = await supabase
         .from("user_vocab_items")
-        .select("custom_lemma, lexicon_senses(lexicon_entries(lemma))")
+        .select("custom_lemma, sense_id, lexicon_senses(entry_id, lexicon_entries(lemma))")
         .eq("student_id", profile.id);
 
       if (!vocabItems) return;
 
       const terms = new Set<string>();
+      const entryIds = new Set<string>();
       for (const item of vocabItems) {
         if (item.custom_lemma) {
           terms.add(item.custom_lemma.toLowerCase().trim());
@@ -224,16 +240,18 @@ export default function SenseSelectionModal({
         if (senses) {
           const sensesArray = Array.isArray(senses) ? senses : [senses];
           for (const sense of sensesArray) {
-            const entry = Array.isArray(sense?.lexicon_entries)
-              ? sense.lexicon_entries[0]
-              : sense?.lexicon_entries;
-            if (entry?.lemma) {
-              terms.add(entry.lemma.toLowerCase().trim());
+            const ent = (sense as { entry_id?: string; lexicon_entries?: { lemma: string } | { lemma: string }[] })?.lexicon_entries;
+            const entryObj = Array.isArray(ent) ? ent[0] : ent;
+            if (entryObj?.lemma) {
+              terms.add(entryObj.lemma.toLowerCase().trim());
             }
+            const entryId = (sense as { entry_id?: string })?.entry_id;
+            if (entryId) entryIds.add(entryId);
           }
         }
       }
       setUserVocabTerms(terms);
+      setUserVocabEntryIds(entryIds);
     } catch (e) {
       console.error("[SenseSelectionModal] Error loading vocab terms:", e);
     }
@@ -241,6 +259,47 @@ export default function SenseSelectionModal({
 
   const isVerbFormInPool = (formTerm: string): boolean => {
     return userVocabTerms.has(formTerm.toLowerCase().trim());
+  };
+
+  const isBaseEntryInPool = (entryId: string): boolean => {
+    return userVocabEntryIds.has(entryId);
+  };
+
+  const handleAddBaseToPool = async () => {
+    if (!entry?.senses?.length) return;
+    const senseId = selectedSenseId ?? entry.senses[0].id;
+    setAdding(true);
+    setError("");
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session?.data?.session?.access_token;
+      if (!token) {
+        setError("Musisz być zalogowany");
+        setAdding(false);
+        return;
+      }
+      const res = await fetch("/api/vocab/add-word", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ sense_id: senseId, lesson_id: lessonId || undefined }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(err.error || "Błąd dodawania");
+      }
+      const data = await res.json();
+      if (!data.ok) throw new Error("Nie udało się dodać słówka");
+      await loadUserVocabTerms();
+      setSuccess(data.already_in_pool ? "Baza już w puli" : "Baza dodana do puli");
+      setTimeout(() => setSuccess(""), 2000);
+    } catch (e: any) {
+      setError(e?.message ?? "Błąd podczas dodawania bazy");
+    } finally {
+      setAdding(false);
+    }
   };
 
   const handleAddVerbForm = async (formTerm: string) => {
@@ -384,11 +443,16 @@ export default function SenseSelectionModal({
           <div>
             <h2 className="text-2xl font-semibold text-white">Wybierz znaczenie</h2>
             {entry && (
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
                 <span className="text-lg font-bold text-white">{entry.lemma}</span>
                 <span className="px-2 py-0.5 rounded-lg border border-emerald-400/40 bg-emerald-400/20 text-emerald-200 text-xs font-semibold">
                   [{entry.pos}]
                 </span>
+                {showFormBadge(entry.pos, entry.verb_form?.matched_form_type ?? null) && entry.verb_form?.base && (
+                  <span className="px-2 py-0.5 rounded-lg border border-purple-400/40 bg-purple-400/20 text-purple-200 text-xs font-medium">
+                    Forma: {getVerbFormLabel(entry.verb_form.matched_form_type!)} od &apos;{entry.verb_form.base.lemma ?? entry.verb_form.base.lemma_norm}&apos;
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -468,12 +532,35 @@ export default function SenseSelectionModal({
           </div>
         )}
 
-        {/* Verb Forms Section */}
-        {(entry?.verb_form || entry?.verb_forms) && (
+        {/* Verb Forms Section — only when entry is verb and we have verb_form or verb_forms */}
+        {entry?.pos === "verb" && (entry.verb_form || entry.verb_forms) && (
           <div className="rounded-2xl border-2 border-purple-400/30 bg-purple-400/10 p-5 mb-6">
             <h3 className="text-lg font-semibold text-purple-200 mb-4">Formy czasownika</h3>
             <div className="space-y-3">
-              {/* Show forms from verb_form (when user searched for a form) or verb_forms (base entry) */}
+              {/* Base (lemma): w puli / Dodaj do puli — no auto-add */}
+              {(entry.verb_form?.base || entry.verb_forms) && (
+                <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-black/20">
+                  <span className="text-sm text-white/90">Baza:</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-white">
+                      {entry.verb_form?.base?.lemma ?? entry.verb_form?.base?.lemma_norm ?? entry.lemma}
+                    </span>
+                    {isBaseEntryInPool(entry.verb_form?.base?.entry_id ?? entry.id) ? (
+                      <span className="px-2 py-0.5 rounded-lg bg-emerald-400/20 text-emerald-200 text-xs">w puli</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleAddBaseToPool}
+                        disabled={adding}
+                        className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-purple-200 text-xs hover:bg-purple-400/20 transition disabled:opacity-60"
+                      >
+                        Dodaj do puli
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+              {/* Past simple / past participle */}
               {(entry.verb_form?.forms || entry.verb_forms) && (
                 <>
                   <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-black/20">
@@ -482,11 +569,12 @@ export default function SenseSelectionModal({
                       <span className="text-sm font-medium text-white">
                         {entry.verb_form?.forms?.past_simple || entry.verb_forms?.past_simple || "—"}
                       </span>
-                      {entry.verb_form?.forms?.past_simple || entry.verb_forms?.past_simple ? (
+                      {(entry.verb_form?.forms?.past_simple || entry.verb_forms?.past_simple) ? (
                         isVerbFormInPool(entry.verb_form?.forms?.past_simple || entry.verb_forms?.past_simple || "") ? (
                           <span className="px-2 py-0.5 rounded-lg bg-emerald-400/20 text-emerald-200 text-xs">w puli</span>
                         ) : (
                           <button
+                            type="button"
                             onClick={() => handleAddVerbForm(entry.verb_form?.forms?.past_simple || entry.verb_forms?.past_simple || "")}
                             className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-purple-200 text-xs hover:bg-purple-400/20 transition"
                           >
@@ -502,11 +590,12 @@ export default function SenseSelectionModal({
                       <span className="text-sm font-medium text-white">
                         {entry.verb_form?.forms?.past_participle || entry.verb_forms?.past_participle || "—"}
                       </span>
-                      {entry.verb_form?.forms?.past_participle || entry.verb_forms?.past_participle ? (
+                      {(entry.verb_form?.forms?.past_participle || entry.verb_forms?.past_participle) ? (
                         isVerbFormInPool(entry.verb_form?.forms?.past_participle || entry.verb_forms?.past_participle || "") ? (
                           <span className="px-2 py-0.5 rounded-lg bg-emerald-400/20 text-emerald-200 text-xs">w puli</span>
                         ) : (
                           <button
+                            type="button"
                             onClick={() => handleAddVerbForm(entry.verb_form?.forms?.past_participle || entry.verb_forms?.past_participle || "")}
                             className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-purple-200 text-xs hover:bg-purple-400/20 transition"
                           >
@@ -517,6 +606,22 @@ export default function SenseSelectionModal({
                     </div>
                   </div>
                 </>
+              )}
+              {/* Zobacz też: went, gone — when lookup is base lemma (matched_form_type null) */}
+              {entry.verb_form && entry.verb_form.matched_form_type == null && entry.verb_form.forms && (entry.verb_form.forms.past_simple || entry.verb_form.forms.past_participle) && onSearchForm && (
+                <div className="pt-2 border-t border-purple-400/20">
+                  <span className="text-sm text-white/80 mr-2">Zobacz też:</span>
+                  {[entry.verb_form.forms.past_simple, entry.verb_form.forms.past_participle].filter(Boolean).map((formTerm) => (
+                    <button
+                      key={formTerm}
+                      type="button"
+                      onClick={() => onSearchForm(formTerm)}
+                      className="mr-2 px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-purple-200 text-xs hover:bg-purple-400/20 transition"
+                    >
+                      {formTerm}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
           </div>

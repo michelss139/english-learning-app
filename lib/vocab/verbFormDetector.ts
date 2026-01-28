@@ -7,6 +7,7 @@ export type VerbFormMatch = {
   base: {
     entry_id: string;
     lemma_norm: string;
+    lemma: string;
   };
   forms: {
     past_simple: string;
@@ -49,89 +50,64 @@ export async function detectVerbForm(
     return null;
   }
 
+  const buildResult = (
+    form: (typeof verbForms)[0],
+    entry: { lemma?: string; lemma_norm?: string; pos?: string },
+    baseLemmaNorm: string,
+    matchedFormType: VerbFormMatch['matched_form_type']
+  ): VerbFormMatch | null => {
+    const lemma = (entry.lemma || entry.lemma_norm || baseLemmaNorm).trim();
+    // Repair: if base equals term (e.g. went → went), return null
+    if (baseLemmaNorm === termNorm) return null;
+    return {
+      base: {
+        entry_id: form.entry_id,
+        lemma_norm: baseLemmaNorm,
+        lemma,
+      },
+      forms: {
+        past_simple: form.past_simple ?? '',
+        past_participle: form.past_participle ?? '',
+      },
+      matched_form_type: matchedFormType,
+      matched_term: term,
+    };
+  };
+
   if (verbForms && verbForms.length > 0) {
     for (const form of verbForms) {
       const entry = Array.isArray(form.lexicon_entries) ? form.lexicon_entries[0] : form.lexicon_entries;
       if (!entry || entry.pos !== 'verb') continue;
 
       const baseLemmaNorm = (entry.lemma || entry.lemma_norm || '').toLowerCase().trim();
-      if (!baseLemmaNorm || baseLemmaNorm === termNorm) continue;
+      if (!baseLemmaNorm) continue;
 
       // Check past forms first (priority)
       if (form.past_simple?.toLowerCase().trim() === termNorm) {
-        return {
-          base: {
-            entry_id: form.entry_id,
-            lemma_norm: baseLemmaNorm,
-          },
-          forms: {
-            past_simple: form.past_simple,
-            past_participle: form.past_participle,
-          },
-          matched_form_type: 'past_simple',
-          matched_term: term,
-        };
+        const result = buildResult(form, entry, baseLemmaNorm, 'past_simple');
+        if (result) return result;
+        continue;
       }
-      
       if (form.past_participle?.toLowerCase().trim() === termNorm) {
-        return {
-          base: {
-            entry_id: form.entry_id,
-            lemma_norm: baseLemmaNorm,
-          },
-          forms: {
-            past_simple: form.past_simple,
-            past_participle: form.past_participle,
-          },
-          matched_form_type: 'past_participle',
-          matched_term: term,
-        };
+        const result = buildResult(form, entry, baseLemmaNorm, 'past_participle');
+        if (result) return result;
+        continue;
       }
 
       // Check present forms (for completeness, but UI will filter these)
       if (form.present_simple_i?.toLowerCase().trim() === termNorm) {
-        return {
-          base: {
-            entry_id: form.entry_id,
-            lemma_norm: baseLemmaNorm,
-          },
-          forms: {
-            past_simple: form.past_simple,
-            past_participle: form.past_participle,
-          },
-          matched_form_type: 'present_I',
-          matched_term: term,
-        };
+        const result = buildResult(form, entry, baseLemmaNorm, 'present_I');
+        if (result) return result;
+        continue;
       }
-
       if (form.present_simple_you?.toLowerCase().trim() === termNorm) {
-        return {
-          base: {
-            entry_id: form.entry_id,
-            lemma_norm: baseLemmaNorm,
-          },
-          forms: {
-            past_simple: form.past_simple,
-            past_participle: form.past_participle,
-          },
-          matched_form_type: 'present_you',
-          matched_term: term,
-        };
+        const result = buildResult(form, entry, baseLemmaNorm, 'present_you');
+        if (result) return result;
+        continue;
       }
-
       if (form.present_simple_he_she_it?.toLowerCase().trim() === termNorm) {
-        return {
-          base: {
-            entry_id: form.entry_id,
-            lemma_norm: baseLemmaNorm,
-          },
-          forms: {
-            past_simple: form.past_simple,
-            past_participle: form.past_participle,
-          },
-          matched_form_type: 'present_he_she_it',
-          matched_term: term,
-        };
+        const result = buildResult(form, entry, baseLemmaNorm, 'present_he_she_it');
+        if (result) return result;
       }
     }
   }
@@ -150,36 +126,22 @@ export async function detectVerbForm(
         const yBase = baseCandidate.slice(0, -1) + 'y';
         const verbEntry = await checkBaseVerbExists(supabase, yBase);
         if (verbEntry) {
-          const verbForms = await getVerbFormsForEntry(supabase, verbEntry.id);
-          if (verbForms) {
-            const pastPartNorm = verbForms.past_participle?.toLowerCase().trim();
-            const pastSimpleNorm = verbForms.past_simple?.toLowerCase().trim();
-            
+          const vf = await getVerbFormsForEntry(supabase, verbEntry.id);
+          if (vf) {
+            const pastPartNorm = vf.past_participle?.toLowerCase().trim();
+            const pastSimpleNorm = vf.past_simple?.toLowerCase().trim();
             if (pastPartNorm === termNorm) {
               return {
-                base: {
-                  entry_id: verbEntry.id,
-                  lemma_norm: verbEntry.lemma_norm,
-                },
-                forms: {
-                  past_simple: verbForms.past_simple || term,
-                  past_participle: verbForms.past_participle || term,
-                },
+                base: { entry_id: verbEntry.id, lemma_norm: verbEntry.lemma_norm, lemma: verbEntry.lemma },
+                forms: { past_simple: vf.past_simple || term, past_participle: vf.past_participle || term },
                 matched_form_type: 'past_participle',
                 matched_term: term,
               };
             }
-            
             if (pastSimpleNorm === termNorm) {
               return {
-                base: {
-                  entry_id: verbEntry.id,
-                  lemma_norm: verbEntry.lemma_norm,
-                },
-                forms: {
-                  past_simple: verbForms.past_simple || term,
-                  past_participle: verbForms.past_participle || term,
-                },
+                base: { entry_id: verbEntry.id, lemma_norm: verbEntry.lemma_norm, lemma: verbEntry.lemma },
+                forms: { past_simple: vf.past_simple || term, past_participle: vf.past_participle || term },
                 matched_form_type: 'past_simple',
                 matched_term: term,
               };
@@ -192,38 +154,22 @@ export async function detectVerbForm(
       // ONLY proceed if base exists as verb in lexicon
       const verbEntry = await checkBaseVerbExists(supabase, baseCandidate);
       if (verbEntry) {
-        // Base exists as verb, check if term matches its forms
-        const verbForms = await getVerbFormsForEntry(supabase, verbEntry.id);
-        if (verbForms) {
-          const pastPartNorm = verbForms.past_participle?.toLowerCase().trim();
-          const pastSimpleNorm = verbForms.past_simple?.toLowerCase().trim();
-          
-          // Only return if it's an exact match (not just heuristic match)
+        const vf = await getVerbFormsForEntry(supabase, verbEntry.id);
+        if (vf) {
+          const pastPartNorm = vf.past_participle?.toLowerCase().trim();
+          const pastSimpleNorm = vf.past_simple?.toLowerCase().trim();
           if (pastPartNorm === termNorm) {
             return {
-              base: {
-                entry_id: verbEntry.id,
-                lemma_norm: verbEntry.lemma_norm,
-              },
-              forms: {
-                past_simple: verbForms.past_simple || term,
-                past_participle: verbForms.past_participle || term,
-              },
+              base: { entry_id: verbEntry.id, lemma_norm: verbEntry.lemma_norm, lemma: verbEntry.lemma },
+              forms: { past_simple: vf.past_simple || term, past_participle: vf.past_participle || term },
               matched_form_type: 'past_participle',
               matched_term: term,
             };
           }
-          
           if (pastSimpleNorm === termNorm) {
             return {
-              base: {
-                entry_id: verbEntry.id,
-                lemma_norm: verbEntry.lemma_norm,
-              },
-              forms: {
-                past_simple: verbForms.past_simple || term,
-                past_participle: verbForms.past_participle || term,
-              },
+              base: { entry_id: verbEntry.id, lemma_norm: verbEntry.lemma_norm, lemma: verbEntry.lemma },
+              forms: { past_simple: vf.past_simple || term, past_participle: vf.past_participle || term },
               matched_form_type: 'past_simple',
               matched_term: term,
             };
@@ -249,18 +195,18 @@ export async function detectVerbForm(
 /**
  * Check if base verb exists in lexicon_entries with pos='verb'
  */
-async function checkBaseVerbExists(supabase: any, baseCandidate: string): Promise<{ id: string; lemma_norm: string } | null> {
+async function checkBaseVerbExists(supabase: any, baseCandidate: string): Promise<{ id: string; lemma_norm: string; lemma: string } | null> {
   if (!baseCandidate || baseCandidate.length < 2) return null;
 
   const { data: entry, error } = await supabase
     .from("lexicon_entries")
-    .select("id, lemma_norm")
+    .select("id, lemma_norm, lemma")
     .eq("lemma_norm", baseCandidate)
     .eq("pos", "verb")
     .maybeSingle();
 
   if (error || !entry) return null;
-  return entry;
+  return { id: entry.id, lemma_norm: entry.lemma_norm, lemma: entry.lemma ?? entry.lemma_norm ?? baseCandidate };
 }
 
 /**

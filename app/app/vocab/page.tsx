@@ -501,6 +501,7 @@ function VocabHomeInner() {
             }}
             onSelect={handleSenseSelected}
             onSelectCustom={handleCustomWord}
+            onSearchForm={(formTerm) => setNewWord(formTerm)}
           />
 
           {personal.length === 0 ? (

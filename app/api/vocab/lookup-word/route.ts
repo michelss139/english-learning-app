@@ -2,6 +2,39 @@ import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { detectVerbForm, type VerbFormMatch } from "@/lib/vocab/verbFormDetector";
 
+/** Response verb_form: base + forms; matched_* null when lookup is base lemma (e.g. "go"). */
+export type LookupVerbForm = {
+  base: { entry_id: string; lemma_norm: string; lemma: string };
+  forms: { past_simple: string; past_participle: string };
+  matched_form_type: VerbFormMatch["matched_form_type"] | null;
+  matched_term: string | null;
+};
+
+function toLookupVerbForm(match: VerbFormMatch): LookupVerbForm {
+  return {
+    base: match.base,
+    forms: match.forms,
+    matched_form_type: match.matched_form_type,
+    matched_term: match.matched_term,
+  };
+}
+
+function buildBaseLemmaVerbForm(
+  entry: { id: string; lemma: string },
+  forms: { past_simple: string; past_participle: string }
+): LookupVerbForm {
+  return {
+    base: {
+      entry_id: entry.id,
+      lemma_norm: normLemma(entry.lemma),
+      lemma: entry.lemma,
+    },
+    forms,
+    matched_form_type: null,
+    matched_term: null,
+  };
+}
+
 /**
  * POST /api/vocab/lookup-word
  * 
@@ -1235,17 +1268,27 @@ export async function POST(req: Request) {
       });
 
       const firstEntry = refreshedEntries[0];
+        const verbEntry = refreshedEntries.find((e: { pos: string }) => e.pos === "verb");
+
+        let responseVerbForm: LookupVerbForm | undefined;
+        if (verbEntry && mergedVerbForms) {
+          responseVerbForm = buildBaseLemmaVerbForm(verbEntry, {
+            past_simple: mergedVerbForms.past_simple ?? "",
+            past_participle: mergedVerbForms.past_participle ?? "",
+          });
+        }
 
         return NextResponse.json({
           ok: true,
-        cached: false,
+          cached: false,
           entry: {
-          id: firstEntry.id,
-          lemma: firstEntry.lemma,
-          pos: firstEntry.pos, // Keep first POS for backward compatibility
-          senses: allMergedSenses, // All senses from all POS
-          verb_forms: mergedVerbForms,
+            id: firstEntry.id,
+            lemma: firstEntry.lemma,
+            pos: firstEntry.pos,
+            senses: allMergedSenses,
+            verb_forms: mergedVerbForms,
           },
+          ...(responseVerbForm && { verb_form: responseVerbForm }),
         });
       }
 
@@ -1302,17 +1345,30 @@ export async function POST(req: Request) {
 
       const firstEntry = existingEntries[0];
 
+      // verb_form only when entry is verb; from detector (form lookup) or base-lemma (e.g. "go")
+      let responseVerbForm: LookupVerbForm | undefined;
+      if (firstEntry.pos === "verb") {
+        if (verb_form) {
+          responseVerbForm = toLookupVerbForm(verb_form);
+        } else if (mergedVerbForms) {
+          responseVerbForm = buildBaseLemmaVerbForm(firstEntry, {
+            past_simple: mergedVerbForms.past_simple ?? "",
+            past_participle: mergedVerbForms.past_participle ?? "",
+          });
+        }
+      }
+
       return NextResponse.json({
         ok: true,
         cached: true,
         entry: {
           id: firstEntry.id,
           lemma: firstEntry.lemma,
-          pos: firstEntry.pos, // Keep first POS for backward compatibility
-          senses: allMergedSenses, // All senses from all POS
+          pos: firstEntry.pos,
+          senses: allMergedSenses,
           verb_forms: mergedVerbForms,
         },
-        verb_form: verb_form || undefined, // Only include if detected
+        ...(responseVerbForm && { verb_form: responseVerbForm }),
       });
     }
 
@@ -1409,6 +1465,17 @@ export async function POST(req: Request) {
     });
 
     const firstEntry = savedEntries[0];
+    const verbEntryFromSaved = savedEntries.find((e: { pos: string }) => e.pos === "verb");
+
+    let responseVerbForm: LookupVerbForm | undefined;
+    if (verb_form) {
+      responseVerbForm = toLookupVerbForm(verb_form);
+    } else if (verbEntryFromSaved && mergedVerbForms) {
+      responseVerbForm = buildBaseLemmaVerbForm(verbEntryFromSaved, {
+        past_simple: mergedVerbForms.past_simple ?? "",
+        past_participle: mergedVerbForms.past_participle ?? "",
+      });
+    }
 
     return NextResponse.json({
       ok: true,
@@ -1416,11 +1483,11 @@ export async function POST(req: Request) {
       entry: {
         id: firstEntry.id,
         lemma: firstEntry.lemma,
-        pos: firstEntry.pos, // Keep first POS for backward compatibility
-        senses: allMergedSenses, // All senses from all POS
+        pos: firstEntry.pos,
+        senses: allMergedSenses,
         verb_forms: mergedVerbForms,
       },
-      verb_form: verb_form || undefined, // Only include if detected
+      ...(responseVerbForm && { verb_form: responseVerbForm }),
     });
   } catch (e: any) {
     console.error("[add-word] Error:", e);
