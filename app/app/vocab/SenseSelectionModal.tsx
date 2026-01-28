@@ -52,10 +52,9 @@ type SenseSelectionModalProps = {
 
 const PAST_FORM_TYPES = ["past_simple", "past_participle"] as const;
 
-function showFormBadge(
-  pos: string | null,
-  matchedFormType: LexiconEntry["verb_form"] extends { matched_form_type: infer T } ? T : never
-): boolean {
+type MatchedFormType = "past_simple" | "past_participle" | "present_I" | "present_you" | "present_he_she_it" | null;
+
+function showFormBadge(pos: string | null, matchedFormType: MatchedFormType): boolean {
   return pos === "verb" && !!matchedFormType && PAST_FORM_TYPES.includes(matchedFormType as typeof PAST_FORM_TYPES[number]);
 }
 
