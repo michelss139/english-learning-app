@@ -16,6 +16,26 @@ type ClusterQuestionRow = {
   explanation: string | null;
 };
 
+type ClusterQuestionDto = {
+  id: string;
+  prompt: string;
+  slot: string;
+  choices: string[];
+  explanation: string | null;
+};
+
+function serializeClusterQuestion(row: ClusterQuestionRow): ClusterQuestionDto {
+  return {
+    id: row.id,
+    prompt: row.prompt,
+    slot: row.slot,
+    choices: row.choices,
+    explanation: row.explanation ?? null,
+  };
+}
+
+const questionSelect = "id, prompt, slot, choices, explanation, last_used_at";
+
 function errorResponse(step: string, error: any, status = 500) {
   return NextResponse.json(
     {
@@ -287,7 +307,7 @@ export async function GET(
     // Step 6: Load questions from vocab_cluster_questions (rotation by last_used_at)
     const { data: questions, error: questionsErr } = await supabase
       .from("vocab_cluster_questions")
-      .select("id, prompt, slot, choices, explanation, last_used_at")
+      .select(questionSelect)
       .eq("cluster_id", cluster.id)
       .order("last_used_at", { ascending: true, nullsFirst: true })
       .limit(limit);
@@ -322,13 +342,7 @@ export async function GET(
       console.error("[clusters/questions] Step 7: Exception updating last_used_at:", e);
     }
 
-    const payload: ClusterQuestionRow[] = questions.map((q) => ({
-      id: q.id,
-      prompt: q.prompt,
-      slot: q.slot,
-      choices: q.choices,
-      explanation: q.explanation ?? null,
-    }));
+    const payload: ClusterQuestionDto[] = questions.map(serializeClusterQuestion);
 
     return NextResponse.json({
       ok: true,

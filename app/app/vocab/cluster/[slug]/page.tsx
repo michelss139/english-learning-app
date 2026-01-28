@@ -249,14 +249,19 @@ function VocabClusterInner() {
             </div>
 
             {checked && (
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-white/75">
-                  {current.answer
-                    ? selectedChoice === current.answer
-                      ? "Poprawnie!"
-                      : `Poprawna odpowiedź: ${current.answer}`
-                    : "Sprawdź kolejne pytanie."}
-                </p>
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-2">
+                  <p className="text-sm text-white/75">
+                    {current.answer
+                      ? selectedChoice === current.answer
+                        ? "Poprawnie!"
+                        : `Poprawna odpowiedź: ${current.answer}`
+                      : "Sprawdź kolejne pytanie."}
+                  </p>
+                  {current.explanation ? (
+                    <p className="text-sm text-white/65">{current.explanation}</p>
+                  ) : null}
+                </div>
                 <button
                   className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
                   onClick={goNext}
