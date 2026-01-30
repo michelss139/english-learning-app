@@ -28,6 +28,7 @@ export default function IrregularVerbsPage() {
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
 
   const pinnedCount = verbs.filter((v) => v.pinned).length;
+  const canStart = pinnedCount >= 5;
 
   const filteredVerbs = verbs.filter((v) => {
     if (!search.trim()) return true;
@@ -241,6 +242,9 @@ export default function IrregularVerbsPage() {
             <p className="text-sm text-white/75">
               Przypięte: <span className="font-medium text-white">{pinnedCount}</span> / {verbs.length}
             </p>
+            {!canStart ? (
+              <p className="text-xs text-white/50">Aby rozpocząć test, przypnij minimum 5 czasowników.</p>
+            ) : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -250,14 +254,17 @@ export default function IrregularVerbsPage() {
             >
               ← Panel ucznia
             </a>
-            {pinnedCount > 0 ? (
-              <button
-                className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
-                onClick={() => router.push("/app/irregular-verbs/train")}
-              >
-                Start testu ({pinnedCount})
-              </button>
-            ) : null}
+            <button
+              className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
+              onClick={() => {
+                if (canStart) {
+                  router.push("/app/irregular-verbs/train");
+                }
+              }}
+              disabled={!canStart}
+            >
+              Start testu ({pinnedCount})
+            </button>
           </div>
         </div>
       </header>

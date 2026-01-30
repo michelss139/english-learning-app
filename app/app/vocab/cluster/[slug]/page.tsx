@@ -14,6 +14,32 @@ type Question = {
   answer?: string; // filled after scoring
 };
 
+type AwardBadge = {
+  slug: string;
+  title: string;
+  description: string | null;
+};
+
+type AwardResult = {
+  xp_awarded: number;
+  xp_total: number;
+  level: number;
+  xp_in_current_level: number;
+  xp_to_next_level: number;
+  newly_awarded_badges: AwardBadge[];
+};
+
+function createSessionId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export default function VocabClusterPage() {
   return (
     <Suspense fallback={<main>Ładuję…</main>}>
@@ -37,6 +63,12 @@ function VocabClusterInner() {
   const [correctCount, setCorrectCount] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [eventLogErrors, setEventLogErrors] = useState(0);
+  const [sessionId, setSessionId] = useState("");
+  const [award, setAward] = useState<AwardResult | null>(null);
+  const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
+  const [awarding, setAwarding] = useState(false);
+  const [awardError, setAwardError] = useState("");
+  const [awardedSessionId, setAwardedSessionId] = useState("");
 
   const current = questions[currentIndex];
   const total = questions.length;
@@ -89,6 +121,17 @@ function VocabClusterInner() {
           return;
         }
 
+        setSessionId(createSessionId());
+        setCurrentIndex(0);
+        setSelectedChoice(null);
+        setChecked(false);
+        setCorrectCount(0);
+        setCompleted(false);
+        setEventLogErrors(0);
+        setAward(null);
+        setAwardError("");
+        setAwardedSessionId("");
+        setXpAlreadyAwarded(false);
         setQuestions(data.questions);
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać pytań.");
@@ -119,7 +162,7 @@ function VocabClusterInner() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ questionId: current.id, chosen: choice }),
+        body: JSON.stringify({ questionId: current.id, chosen: choice, session_id: sessionId }),
       });
 
       if (!res.ok) {
@@ -161,6 +204,61 @@ function VocabClusterInner() {
     setSelectedChoice(null);
     setChecked(false);
   };
+
+  useEffect(() => {
+    const awardXp = async () => {
+      if (!completed || !sessionId) return;
+      if (awardedSessionId === sessionId) return;
+
+      try {
+        setAwarding(true);
+        setAwardError("");
+
+        const session = await supabase.auth.getSession();
+        if (!session.data.session) {
+          router.push("/login");
+          return;
+        }
+
+        const token = session.data.session.access_token;
+        const res = await fetch(`/api/vocab/clusters/${slug}/complete`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ session_id: sessionId }),
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+          throw new Error(errorData.error || "Nie udało się przyznać XP.");
+        }
+
+        const data = await res.json();
+        if (!data.ok) {
+          throw new Error(data.error || "Nie udało się przyznać XP.");
+        }
+
+        setAward({
+          xp_awarded: data.xp_awarded ?? 0,
+          xp_total: data.xp_total ?? 0,
+          level: data.level ?? 0,
+          xp_in_current_level: data.xp_in_current_level ?? 0,
+          xp_to_next_level: data.xp_to_next_level ?? 0,
+          newly_awarded_badges: data.newly_awarded_badges ?? [],
+        });
+        setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
+        setAwardedSessionId(sessionId);
+      } catch (e: any) {
+        setAwardError(e?.message ?? "Nie udało się przyznać XP.");
+      } finally {
+        setAwarding(false);
+      }
+    };
+
+    void awardXp();
+  }, [awardedSessionId, completed, router, sessionId, slug]);
 
   if (loading) return <main>Ładuję…</main>;
 
@@ -291,6 +389,47 @@ function VocabClusterInner() {
               </p>
             </div>
           )}
+
+          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
+            <div className="text-sm text-white/75">Postęp XP</div>
+            {award ? (
+              <div className="space-y-1 text-sm text-white/80">
+                {xpAlreadyAwarded ? (
+                  <div className="text-amber-100">
+                    Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
+                  </div>
+                ) : (
+                  <div>
+                    Zdobyte XP: <span className="font-medium text-white">+{award.xp_awarded}</span>
+                  </div>
+                )}
+                <div>
+                  Poziom: <span className="font-medium text-white">{award.level}</span> · XP w poziomie:{" "}
+                  <span className="font-medium text-white">
+                    {award.xp_in_current_level}/{award.xp_to_next_level}
+                  </span>
+                </div>
+              </div>
+            ) : awarding ? (
+              <div className="text-sm text-white/60">Przyznaję XP…</div>
+            ) : awardError ? (
+              <div className="text-sm text-rose-200">{awardError}</div>
+            ) : (
+              <div className="text-sm text-white/60">Brak danych o XP.</div>
+            )}
+          </div>
+
+          {award?.newly_awarded_badges?.length ? (
+            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4 space-y-2">
+              <div className="text-sm font-semibold text-amber-100">Nowe odznaki</div>
+              {award.newly_awarded_badges.map((badge) => (
+                <div key={badge.slug} className="text-sm text-amber-100">
+                  {badge.title}
+                  {badge.description ? ` — ${badge.description}` : ""}
+                </div>
+              ))}
+            </div>
+          ) : null}
 
           <div className="flex flex-wrap gap-2">
             <a

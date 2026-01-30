@@ -53,6 +53,7 @@ function errorResponse(step: string, error: any, status = 500) {
 type ScoreBody = {
   questionId: string;
   chosen: string;
+  session_id: string;
 };
 
 function normalizeChoice(value: string): string {
@@ -67,8 +68,8 @@ export async function POST(
 
   try {
     const body = (await req.json().catch(() => null)) as ScoreBody | null;
-    if (!body || !body.questionId || !body.chosen) {
-      return errorResponse("parse_body", { message: "Missing questionId or chosen" }, 400);
+    if (!body || !body.questionId || !body.chosen || !body.session_id) {
+      return errorResponse("parse_body", { message: "Missing questionId, chosen, or session_id" }, 400);
     }
 
     // Auth
@@ -162,6 +163,7 @@ export async function POST(
         evaluation: isCorrect ? "correct" : "wrong",
         context_type: "vocab_cluster",
         context_id: slug,
+        session_id: body.session_id,
       };
 
       const { error: insertError } = await supabase.from("vocab_answer_events").insert(insertData);

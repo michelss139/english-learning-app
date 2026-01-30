@@ -48,12 +48,30 @@ function shuffle<T>(input: T[]): T[] {
 }
 
 // Normalization functions
+function normalizeSpacing(value: string) {
+  return value.replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function stripDiacritics(value: string) {
+  const decomposed = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return decomposed
+    .replace(/ą/g, "a")
+    .replace(/ć/g, "c")
+    .replace(/ę/g, "e")
+    .replace(/ł/g, "l")
+    .replace(/ń/g, "n")
+    .replace(/ó/g, "o")
+    .replace(/ś/g, "s")
+    .replace(/ż/g, "z")
+    .replace(/ź/g, "z");
+}
+
 function normPL(input: string) {
-  return input.trim().toLowerCase();
+  return stripDiacritics(normalizeSpacing(input));
 }
 
 function normEN(input: string) {
-  return input.trim().toLowerCase();
+  return normalizeSpacing(input);
 }
 
 function parseTranslationsPl(raw: string | null | undefined): string[] {

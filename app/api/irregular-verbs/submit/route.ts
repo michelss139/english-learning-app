@@ -9,6 +9,7 @@ import { createSupabaseAdmin } from "@/lib/supabase/admin";
  * - verb_id: uuid of the irregular verb
  * - entered_past_simple: user's answer for past simple
  * - entered_past_participle: user's answer for past participle
+ * - session_id: uuid of the session
  * 
  * Auth: Required (JWT Bearer token)
  * 
@@ -70,9 +71,13 @@ export async function POST(req: Request) {
     const verbId = body?.verb_id;
     const enteredPastSimple = (body?.entered_past_simple ?? "").toString();
     const enteredPastParticiple = (body?.entered_past_participle ?? "").toString();
+    const sessionId = (body?.session_id ?? "").toString();
 
     if (!verbId || typeof verbId !== "string") {
       return NextResponse.json({ error: "verb_id is required (uuid)" }, { status: 400 });
+    }
+    if (!sessionId) {
+      return NextResponse.json({ error: "session_id is required (uuid)" }, { status: 400 });
     }
 
     // Get verb details
@@ -112,6 +117,7 @@ export async function POST(req: Request) {
       entered_past_simple: enteredPastSimple,
       entered_past_participle: enteredPastParticiple,
       correct: overallCorrect,
+      session_id: sessionId,
     });
 
     if (logError) {

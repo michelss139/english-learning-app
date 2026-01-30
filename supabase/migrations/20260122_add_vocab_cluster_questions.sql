@@ -1,288 +1,230 @@
--- Migration: Add vocab_cluster_questions table for cluster practice
--- Date: 2026-01-22
---
--- Goal: Manage cluster questions manually (not from lexicon_examples),
--- with strict form scoring (exact form only).
--- Clean slate: remove old clusters, seed new 5 clusters.
+begin;
 
--- Ensure vocab_cluster_entries has a stable surrogate key `id`
+-- =========================================================
+-- 0) HARD RESET PYTAŃ (żeby FK dało się założyć bez błędów)
+-- =========================================================
+-- Chcesz clean slate: kasujemy wszystkie pytania (to tylko moduł clusterów).
+delete from public.vocab_cluster_questions;
+
+-- =========================================================
+-- 1) UPEWNIJ SIĘ, ŻE vocab_cluster_entries MA STABILNE id
+-- =========================================================
+
+-- 1a) Dodaj kolumnę id jeśli jej nie ma
+alter table public.vocab_cluster_entries
+  add column if not exists id uuid;
+
+-- 1b) Ustaw domyślną wartość (dla nowych wierszy)
+alter table public.vocab_cluster_entries
+  alter column id set default gen_random_uuid();
+
+-- 1c) Backfill dla istniejących wierszy
+update public.vocab_cluster_entries
+set id = gen_random_uuid()
+where id is null;
+
+-- 1d) NOT NULL na id
+alter table public.vocab_cluster_entries
+  alter column id set not null;
+
+-- 1e) UNIQUE na id (żeby było targetem FK)
 do $$
 begin
-  if exists (
+  if not exists (
     select 1
-    from information_schema.tables
-    where table_schema = 'public'
-      and table_name = 'vocab_cluster_entries'
-  ) then
-    -- Add id column if missing
-    if not exists (
-      select 1
-      from information_schema.columns
-      where table_schema = 'public'
-        and table_name = 'vocab_cluster_entries'
-        and column_name = 'id'
-    ) then
-      alter table vocab_cluster_entries
-        add column id uuid default gen_random_uuid();
-      
-      -- Backfill existing rows
-      update vocab_cluster_entries set id = gen_random_uuid() where id is null;
-      
-      -- Set NOT NULL
-      alter table vocab_cluster_entries alter column id set not null;
-    end if;
-
-    -- Ensure `id` is unique so it can be a FK target
-    if not exists (
-      select 1
-      from information_schema.table_constraints
-      where constraint_schema = 'public'
-        and table_name = 'vocab_cluster_entries'
-        and constraint_type = 'UNIQUE'
-        and constraint_name = 'vocab_cluster_entries_id_key'
-    ) then
-      alter table vocab_cluster_entries
-        add constraint vocab_cluster_entries_id_key unique (id);
-    end if;
-  end if;
-end
-$$;
-
--- Now define vocab_cluster_questions, whose `correct_entry_id` will reference `vocab_cluster_entries(id)`
-create table if not exists vocab_cluster_questions (
-  id uuid primary key default gen_random_uuid(),
-  cluster_id uuid not null references vocab_clusters(id) on delete cascade,
-  prompt text not null, -- sentence with gap "_____"
-  slot text not null,   -- e.g. 'past_simple' | 'past_participle' | 'present_3sg' | 'base' | 'ing_form'
-  correct_entry_id uuid not null, -- FK to vocab_cluster_entries(id) - set below
-  correct_choice text not null, -- exact form, e.g. 'made'
-  choices text[] not null,      -- 2-4 options, all same slot
-  explanation text null,
-  created_at timestamptz not null default now(),
-  last_used_at timestamptz null,
-  constraint vocab_cluster_questions_choices_len check (array_length(choices, 1) between 2 and 4),
-  constraint vocab_cluster_questions_correct_in_choices check (correct_choice = any(choices))
-);
-
--- Fix FK if table already exists with wrong reference
-do $$
-begin
-  if exists (select 1 from information_schema.tables where table_schema = 'public' and table_name = 'vocab_cluster_questions') then
-    -- Drop old FK if it exists (might reference lexicon_entries)
-    alter table vocab_cluster_questions drop constraint if exists vocab_cluster_questions_correct_entry_id_fkey;
-    -- Add correct FK to vocab_cluster_entries
-    alter table vocab_cluster_questions 
-      add constraint vocab_cluster_questions_correct_entry_id_fkey 
-      foreign key (correct_entry_id) references vocab_cluster_entries(id) on delete cascade;
-  end if;
-end
-$$;
-
--- Add FK if table was just created (and doesn't have it yet)
-do $$
-begin
-  if not exists (
-    select 1 from information_schema.table_constraints
+    from information_schema.table_constraints
     where constraint_schema = 'public'
-      and table_name = 'vocab_cluster_questions'
-      and constraint_name = 'vocab_cluster_questions_correct_entry_id_fkey'
+      and table_name = 'vocab_cluster_entries'
+      and constraint_name = 'vocab_cluster_entries_id_key'
   ) then
-    alter table vocab_cluster_questions 
-      add constraint vocab_cluster_questions_correct_entry_id_fkey 
-      foreign key (correct_entry_id) references vocab_cluster_entries(id) on delete cascade;
+    alter table public.vocab_cluster_entries
+      add constraint vocab_cluster_entries_id_key unique (id);
   end if;
-end
-$$;
+end $$;
 
-create index if not exists idx_vocab_cluster_questions_cluster_id
-  on vocab_cluster_questions(cluster_id);
-
-create index if not exists idx_vocab_cluster_questions_last_used_at
-  on vocab_cluster_questions(cluster_id, last_used_at);
-
--- ============================================
--- RLS POLICIES
--- ============================================
-
-alter table vocab_cluster_questions enable row level security;
-
+-- 1f) (Opcjonalnie, ale praktyczne) UNIQUE (cluster_id, entry_id) pod ON CONFLICT
 do $$
 begin
   if not exists (
-    select 1 from pg_policies
-    where schemaname = 'public'
-      and tablename = 'vocab_cluster_questions'
-      and policyname = 'Vocab cluster questions: authenticated select'
+    select 1
+    from information_schema.table_constraints
+    where constraint_schema = 'public'
+      and table_name = 'vocab_cluster_entries'
+      and constraint_name = 'vocab_cluster_entries_cluster_id_entry_id_key'
   ) then
-    create policy "Vocab cluster questions: authenticated select"
-      on vocab_cluster_questions
-      for select
-      using (auth.uid() is not null);
+    alter table public.vocab_cluster_entries
+      add constraint vocab_cluster_entries_cluster_id_entry_id_key unique (cluster_id, entry_id);
   end if;
+end $$;
 
-  if not exists (
-    select 1 from pg_policies
-    where schemaname = 'public'
-      and tablename = 'vocab_cluster_questions'
-      and policyname = 'Vocab cluster questions: admin manage all'
-  ) then
-    create policy "Vocab cluster questions: admin manage all"
-      on vocab_cluster_questions
-      using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'))
-      with check (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
-  end if;
-end
-$$;
+-- =========================================================
+-- 2) NAPRAW vocab_cluster_questions: constraints + FK
+-- =========================================================
 
--- ============================================
--- CLEAN SLATE: Remove old clusters
--- ============================================
+-- 2a) Napraw constraint długości choices na 2–4
+alter table public.vocab_cluster_questions
+  drop constraint if exists vocab_cluster_questions_choices_len;
 
--- Delete old cluster questions
-delete from vocab_cluster_questions
-where cluster_id in (
-  select id from vocab_clusters
-  where slug in ('make-do-take-get', 'say-tell', 'lend-borrow-rent-hire')
+alter table public.vocab_cluster_questions
+  add constraint vocab_cluster_questions_choices_len
+  check (array_length(choices, 1) between 2 and 4);
+
+-- 2b) Napraw FK correct_entry_id -> vocab_cluster_entries(id)
+alter table public.vocab_cluster_questions
+  drop constraint if exists vocab_cluster_questions_correct_entry_id_fkey;
+
+alter table public.vocab_cluster_questions
+  add constraint vocab_cluster_questions_correct_entry_id_fkey
+  foreign key (correct_entry_id) references public.vocab_cluster_entries(id) on delete cascade;
+
+-- =========================================================
+-- 3) CLEAN SLATE CLUSTERÓW (stare + ewentualnie nowe po próbach)
+-- =========================================================
+
+-- Czyścimy po slugach: stare + nowe docelowe (żeby migracja była idempotentna)
+with target_clusters as (
+  select id
+  from public.vocab_clusters
+  where slug in (
+    'make-do-take-get', 'say-tell', 'lend-borrow-rent-hire',        -- stare
+    'make-do', 'get-take', 'say-tell-speak-talk', 'bring-take'      -- nowe (jeśli już były)
+  )
+)
+delete from public.user_unlocked_vocab_clusters
+where cluster_id in (select id from target_clusters);
+
+with target_clusters as (
+  select id
+  from public.vocab_clusters
+  where slug in (
+    'make-do-take-get', 'say-tell', 'lend-borrow-rent-hire',
+    'make-do', 'get-take', 'say-tell-speak-talk', 'bring-take'
+  )
+)
+delete from public.vocab_cluster_entries
+where cluster_id in (select id from target_clusters);
+
+-- (pytania już skasowane globalnie na początku, więc tu nie musimy)
+
+delete from public.vocab_clusters
+where slug in (
+  'make-do-take-get', 'say-tell', 'lend-borrow-rent-hire',
+  'make-do', 'get-take', 'say-tell-speak-talk', 'bring-take'
 );
 
--- Delete old unlocked clusters
-delete from user_unlocked_vocab_clusters
-where cluster_id in (
-  select id from vocab_clusters
-  where slug in ('make-do-take-get', 'say-tell', 'lend-borrow-rent-hire')
-);
+-- =========================================================
+-- 4) DODAJ 5 NOWYCH CLUSTERÓW
+-- =========================================================
 
--- Delete old cluster entries
-delete from vocab_cluster_entries
-where cluster_id in (
-  select id from vocab_clusters
-  where slug in ('make-do-take-get', 'say-tell', 'lend-borrow-rent-hire')
-);
-
--- Delete old clusters
-delete from vocab_clusters
-where slug in ('make-do-take-get', 'say-tell', 'lend-borrow-rent-hire');
-
--- ============================================
--- SEED: New clusters (5)
--- ============================================
-
-insert into vocab_clusters (slug, title, is_recommended, is_unlockable)
+insert into public.vocab_clusters (slug, title, is_recommended, is_unlockable)
 values
   ('make-do', 'make / do', true, false),
   ('get-take', 'get / take', true, false),
   ('say-tell-speak-talk', 'say / tell / speak / talk', true, false),
   ('lend-borrow-rent-hire', 'lend / borrow / rent / hire', true, false),
-  ('bring-take', 'bring / take', true, false)
-on conflict (slug) do nothing;
+  ('bring-take', 'bring / take', true, false);
 
--- ============================================
--- SEED: vocab_cluster_entries
--- ============================================
+-- =========================================================
+-- 5) SEED vocab_cluster_entries (mapowanie do lexicon_entries)
+-- =========================================================
 
-insert into vocab_cluster_entries (cluster_id, entry_id)
+insert into public.vocab_cluster_entries (cluster_id, entry_id)
 select c.id, e.id
-from vocab_clusters c
-join lexicon_entries e on e.pos = 'verb'
-  and (
+from public.vocab_clusters c
+join public.lexicon_entries e
+  on e.pos = 'verb'
+ and (
     (c.slug = 'make-do' and e.lemma_norm in ('make', 'do')) or
     (c.slug = 'get-take' and e.lemma_norm in ('get', 'take')) or
     (c.slug = 'say-tell-speak-talk' and e.lemma_norm in ('say', 'tell', 'speak', 'talk')) or
     (c.slug = 'lend-borrow-rent-hire' and e.lemma_norm in ('lend', 'borrow', 'rent', 'hire')) or
     (c.slug = 'bring-take' and e.lemma_norm in ('bring', 'take'))
-  )
+ )
 on conflict (cluster_id, entry_id) do nothing;
 
--- ============================================
--- SEED: vocab_cluster_questions (minimal, 1 per cluster)
--- ============================================
+-- =========================================================
+-- 6) SEED vocab_cluster_questions (1 na cluster, wg Twoich przykładów)
+--    correct_entry_id = vocab_cluster_entries.id (surrogate)
+-- =========================================================
 
--- Cluster: make-do
-insert into vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
-select
-  c.id as cluster_id,
-  'How often do you ___ breakfast?' as prompt,
-  'base' as slot,
-  vce.id as correct_entry_id,
-  'make' as correct_choice,
-  array['make', 'do']::text[] as choices,
-  null as explanation
-from vocab_clusters c
-join vocab_cluster_entries vce on vce.cluster_id = c.id
-join lexicon_entries le on le.id = vce.entry_id
-where c.slug = 'make-do'
-  and le.lemma_norm = 'make'
-limit 1
-on conflict do nothing;
-
--- Cluster: get-take
-insert into vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
+-- make/do
+insert into public.vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
 select
   c.id,
-  'It ____ me around 5 years to learn English perfectly.' as prompt,
-  'past_simple' as slot,
+  'How often do you ___ breakfast?',
+  'base',
   vce.id,
-  'took' as correct_choice,
-  array['got', 'took']::text[] as choices,
-  null as explanation
-from vocab_clusters c
-join vocab_cluster_entries vce on vce.cluster_id = c.id
-join lexicon_entries le on le.id = vce.entry_id
-where c.slug = 'get-take'
-  and le.lemma_norm = 'take'
-limit 1
-on conflict do nothing;
+  'make',
+  array['make','do']::text[],
+  null
+from public.vocab_clusters c
+join public.vocab_cluster_entries vce on vce.cluster_id = c.id
+join public.lexicon_entries le on le.id = vce.entry_id
+where c.slug = 'make-do' and le.lemma_norm = 'make'
+limit 1;
 
--- Cluster: say-tell-speak-talk
-insert into vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
+-- get/take
+insert into public.vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
 select
   c.id,
-  'We were ______ on the phone when my brother started playing guitar.' as prompt,
-  'ing_form' as slot,
+  'It ____ me around 5 years to learn English perfectly.',
+  'past_simple',
   vce.id,
-  'talking' as correct_choice,
-  array['saying', 'telling', 'speaking', 'talking']::text[] as choices,
-  '''Speaking'' can also be possible in some contexts, but ''talking on the phone'' is the natural collocation.' as explanation
-from vocab_clusters c
-join vocab_cluster_entries vce on vce.cluster_id = c.id
-join lexicon_entries le on le.id = vce.entry_id
-where c.slug = 'say-tell-speak-talk'
-  and le.lemma_norm = 'talk'
-limit 1
-on conflict do nothing;
+  'took',
+  array['got','took']::text[],
+  null
+from public.vocab_clusters c
+join public.vocab_cluster_entries vce on vce.cluster_id = c.id
+join public.lexicon_entries le on le.id = vce.entry_id
+where c.slug = 'get-take' and le.lemma_norm = 'take'
+limit 1;
 
--- Cluster: lend-borrow-rent-hire
-insert into vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
+-- say/tell/speak/talk
+insert into public.vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
 select
   c.id,
-  'It''s always difficult to find a room to ____ in the high season.' as prompt,
-  'base' as slot,
+  'We were ______ on the phone when my brother started playing guitar.',
+  'ing_form',
   vce.id,
-  'rent' as correct_choice,
-  array['lend', 'borrow', 'rent', 'hire']::text[] as choices,
-  null as explanation
-from vocab_clusters c
-join vocab_cluster_entries vce on vce.cluster_id = c.id
-join lexicon_entries le on le.id = vce.entry_id
-where c.slug = 'lend-borrow-rent-hire'
-  and le.lemma_norm = 'rent'
-limit 1
-on conflict do nothing;
+  'talking',
+  array['saying','telling','speaking','talking']::text[],
+  '''Speaking'' can also be possible in some contexts, but ''talking on the phone'' is the natural collocation.'
+from public.vocab_clusters c
+join public.vocab_cluster_entries vce on vce.cluster_id = c.id
+join public.lexicon_entries le on le.id = vce.entry_id
+where c.slug = 'say-tell-speak-talk' and le.lemma_norm = 'talk'
+limit 1;
 
--- Cluster: bring-take
-insert into vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
+-- lend/borrow/rent/hire
+insert into public.vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
 select
   c.id,
-  'Have you ever ____ your dog to work' as prompt,
-  'past_participle' as slot,
+  'It''s always difficult to find a room to ____ in the high season.',
+  'base',
   vce.id,
-  'taken' as correct_choice,
-  array['taken', 'brought']::text[] as choices,
-  '''Brought'' can be acceptable depending on perspective; here we test the typical usage you want.' as explanation
-from vocab_clusters c
-join vocab_cluster_entries vce on vce.cluster_id = c.id
-join lexicon_entries le on le.id = vce.entry_id
-where c.slug = 'bring-take'
-  and le.lemma_norm = 'take'
-limit 1
-on conflict do nothing;
+  'rent',
+  array['lend','borrow','rent','hire']::text[],
+  null
+from public.vocab_clusters c
+join public.vocab_cluster_entries vce on vce.cluster_id = c.id
+join public.lexicon_entries le on le.id = vce.entry_id
+where c.slug = 'lend-borrow-rent-hire' and le.lemma_norm = 'rent'
+limit 1;
+
+-- bring/take
+insert into public.vocab_cluster_questions (cluster_id, prompt, slot, correct_entry_id, correct_choice, choices, explanation)
+select
+  c.id,
+  'Have you ever ____ your dog to work',
+  'past_participle',
+  vce.id,
+  'taken',
+  array['taken','brought']::text[],
+  '''Brought'' can be acceptable depending on perspective; here we test the typical usage you want.'
+from public.vocab_clusters c
+join public.vocab_cluster_entries vce on vce.cluster_id = c.id
+join public.lexicon_entries le on le.id = vce.entry_id
+where c.slug = 'bring-take' and le.lemma_norm = 'take'
+limit 1;
+
+commit;

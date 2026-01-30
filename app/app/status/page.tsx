@@ -33,6 +33,12 @@ export default function StatusPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [data, setData] = useState<ProgressExtended | null>(null);
+  const [xp, setXp] = useState<{
+    xp_total: number;
+    level: number;
+    xp_in_current_level: number;
+    xp_to_next_level: number;
+  } | null>(null);
 
   useEffect(() => {
     const run = async () => {
@@ -44,14 +50,35 @@ export default function StatusPage() {
           return;
         }
 
-        const res = await fetch("/api/vocab/progress-extended", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const [progressRes, xpRes] = await Promise.all([
+          fetch("/api/vocab/progress-extended", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          fetch("/api/profile/xp", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
 
-        const json = await res.json();
-        if (!res.ok) throw new Error(json?.error ?? "Błąd dashboardu");
+        const progressJson = await progressRes.json();
+        if (!progressRes.ok) throw new Error(progressJson?.error ?? "Błąd dashboardu");
+        setData(progressJson);
 
-        setData(json);
+        const xpJson = await xpRes.json();
+        if (xpRes.ok && xpJson?.ok) {
+          setXp({
+            xp_total: xpJson.xp_total ?? 0,
+            level: xpJson.level ?? 0,
+            xp_in_current_level: xpJson.xp_in_current_level ?? 0,
+            xp_to_next_level: xpJson.xp_to_next_level ?? 0,
+          });
+        } else {
+          setXp({
+            xp_total: 0,
+            level: 0,
+            xp_in_current_level: 0,
+            xp_to_next_level: 0,
+          });
+        }
       } catch (e: any) {
         setError(e?.message ?? "Nieznany błąd.");
       } finally {
@@ -79,6 +106,9 @@ export default function StatusPage() {
   const acc3d = pct(data.accuracy.correct_3d, data.accuracy.total_3d);
   const acc7d = pct(data.accuracy.correct_7d, data.accuracy.total_7d);
   const acc14d = pct(data.accuracy.correct_14d, data.accuracy.total_14d);
+  const xpInLevel = xp?.xp_in_current_level ?? 0;
+  const xpToNext = xp?.xp_to_next_level ?? 0;
+  const xpPercent = xpToNext > 0 ? Math.round((xpInLevel / xpToNext) * 100) : 0;
 
   // Listy słów (bez hooków, bo to lekkie operacje)
   const learnedToday = uniqSort(data.learned.today.map((x) => x.term_en_norm));
@@ -95,12 +125,14 @@ export default function StatusPage() {
       <section className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
         <div className="flex justify-between text-sm text-white/70">
           <span>EXP</span>
-          <span>Poziom 1</span>
+          <span>Poziom {xp?.level ?? 0}</span>
         </div>
         <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden">
-          <div className="h-full bg-emerald-400 transition-all" style={{ width: "40%" }} />
+          <div className="h-full bg-emerald-400 transition-all" style={{ width: `${xpPercent}%` }} />
         </div>
-        <div className="text-xs text-white/50">System EXP – wkrótce</div>
+        <div className="text-xs text-white/50">
+          {xpInLevel}/{xpToNext} XP do następnego poziomu
+        </div>
       </section>
 
       {/* ACCURACY */}
