@@ -50,7 +50,7 @@ type RecommendationItem = {
   definition_en: string | null;
 };
 
-type Direction = "en-pl" | "pl-en";
+type Direction = "en-pl" | "pl-en" | "mix";
 type CountChoice = "5" | "10" | "all";
 
 function shuffleArray<T>(list: T[]): T[] {
@@ -101,6 +101,7 @@ function VocabPackInner() {
   const [input, setInput] = useState("");
   const [answers, setAnswers] = useState<Record<string, AnswerState>>({});
   const [completed, setCompleted] = useState(false);
+  const [sessionDirections, setSessionDirections] = useState<Record<string, "en-pl" | "pl-en">>({});
 
   const [recommendations, setRecommendations] = useState<RecommendationItem[]>([]);
   const [loadingRecs, setLoadingRecs] = useState(false);
@@ -113,6 +114,8 @@ function VocabPackInner() {
   const [awardedSessionId, setAwardedSessionId] = useState("");
 
   const current = sessionItems[currentIndex];
+  const currentDirection =
+    direction === "mix" ? sessionDirections[current?.sense_id ?? ""] ?? "en-pl" : direction;
   const currentAnswer = current ? answers[current.sense_id] : null;
   const checked = !!currentAnswer;
 
@@ -156,6 +159,7 @@ function VocabPackInner() {
         setCurrentIndex(0);
         setAnswers({});
         setInput("");
+        setSessionDirections({});
         setAward(null);
         setAwardError("");
         setAwardedSessionId("");
@@ -205,6 +209,14 @@ function VocabPackInner() {
     setSessionId(createSessionId());
     setAnswers({});
     setInput("");
+    setSessionDirections(
+      direction === "mix"
+        ? selection.reduce<Record<string, "en-pl" | "pl-en">>((acc, item) => {
+            acc[item.sense_id] = Math.random() < 0.5 ? "en-pl" : "pl-en";
+            return acc;
+          }, {})
+        : {}
+    );
     setCurrentIndex(0);
     setCompleted(false);
     setRecommendations([]);
@@ -241,7 +253,7 @@ function VocabPackInner() {
         body: JSON.stringify({
           sense_id: current.sense_id,
           given: input,
-          direction,
+          direction: currentDirection,
           session_id: sessionId,
         }),
       });
@@ -491,6 +503,17 @@ function VocabPackInner() {
               >
                 PL → ENG
               </button>
+              <button
+                type="button"
+                onClick={() => setDirection("mix")}
+                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
+                  direction === "mix"
+                    ? "border-white/20 bg-white/15 text-white"
+                    : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                MIX
+              </button>
             </div>
           </div>
 
@@ -710,17 +733,17 @@ function VocabPackInner() {
 
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-4">
             <div className="text-lg font-medium text-white">
-              {direction === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
+              {currentDirection === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
             </div>
 
             <div className="space-y-2">
               <label className="text-sm text-white/70">
-                {direction === "en-pl" ? "Tłumaczenie (PL)" : "Odpowiedź (ENG)"}
+                {currentDirection === "en-pl" ? "Tłumaczenie (PL)" : "Odpowiedź (ENG)"}
               </label>
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={direction === "en-pl" ? "Wpisz tłumaczenie..." : "Wpisz słowo po angielsku..."}
+                placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie..." : "Wpisz słowo po angielsku..."}
                 className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none text-white placeholder:text-white/40"
                 disabled={checked}
                 onKeyDown={(e) => {

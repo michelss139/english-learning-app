@@ -5,7 +5,7 @@ import { isPerfectSession } from "@/lib/xp/perfect";
 
 type CompleteBody = {
   session_id: string;
-  direction: "en-pl" | "pl-en";
+  direction: "en-pl" | "pl-en" | "mix";
   count_mode: "5" | "10" | "all";
 };
 
@@ -35,7 +35,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     if (!body?.session_id || !body?.direction || !body?.count_mode) {
       return NextResponse.json({ error: "session_id, direction, count_mode are required" }, { status: 400 });
     }
-    if (body.direction !== "en-pl" && body.direction !== "pl-en") {
+    if (body.direction !== "en-pl" && body.direction !== "pl-en" && body.direction !== "mix") {
       return NextResponse.json({ error: "Invalid direction" }, { status: 400 });
     }
     if (body.count_mode !== "5" && body.count_mode !== "10" && body.count_mode !== "all") {
@@ -62,28 +62,38 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       return NextResponse.json({ error: "Pack not found", code: "NOT_FOUND" }, { status: 404 });
     }
 
-    const { count: totalCount, error: totalErr } = await supabase
+    let totalQuery = supabase
       .from("vocab_answer_events")
       .select("id", { count: "exact", head: true })
       .eq("student_id", userId)
       .eq("pack_id", pack.id)
       .eq("context_type", "vocab_pack")
-      .eq("session_id", body.session_id)
-      .eq("direction", body.direction);
+      .eq("session_id", body.session_id);
+
+    if (body.direction !== "mix") {
+      totalQuery = totalQuery.eq("direction", body.direction);
+    }
+
+    const { count: totalCount, error: totalErr } = await totalQuery;
 
     if (totalErr) {
       return NextResponse.json({ error: totalErr.message }, { status: 500 });
     }
 
-    const { count: wrongCount, error: wrongErr } = await supabase
+    let wrongQuery = supabase
       .from("vocab_answer_events")
       .select("id", { count: "exact", head: true })
       .eq("student_id", userId)
       .eq("pack_id", pack.id)
       .eq("context_type", "vocab_pack")
       .eq("session_id", body.session_id)
-      .eq("direction", body.direction)
       .eq("is_correct", false);
+
+    if (body.direction !== "mix") {
+      wrongQuery = wrongQuery.eq("direction", body.direction);
+    }
+
+    const { count: wrongCount, error: wrongErr } = await wrongQuery;
 
     if (wrongErr) {
       return NextResponse.json({ error: wrongErr.message }, { status: 500 });
@@ -97,14 +107,19 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     const correctCount = Math.max(totalCount - wrongTotal, 0);
     const perfect = isPerfectSession({ totalCount, wrongCount: wrongTotal });
 
-    const { data: sessionEvents, error: sessionErr } = await supabase
+    let eventsQuery = supabase
       .from("vocab_answer_events")
       .select("question_mode, prompt, expected")
       .eq("student_id", userId)
       .eq("pack_id", pack.id)
       .eq("context_type", "vocab_pack")
-      .eq("session_id", body.session_id)
-      .eq("direction", body.direction);
+      .eq("session_id", body.session_id);
+
+    if (body.direction !== "mix") {
+      eventsQuery = eventsQuery.eq("direction", body.direction);
+    }
+
+    const { data: sessionEvents, error: sessionErr } = await eventsQuery;
 
     if (sessionErr) {
       return NextResponse.json({ error: sessionErr.message }, { status: 500 });
