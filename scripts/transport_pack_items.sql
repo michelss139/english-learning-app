@@ -355,7 +355,7 @@ with words(lemma_norm, order_index) as (
     ('green light', 5),
     ('speed limit', 6),
     ('right of way', 7),
-    ('fine', 8),
+    ('traffic ticket', 8),
     ('traffic police', 9)
 )
 insert into vocab_pack_items (pack_id, sense_id, order_index)

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { awardXpAndBadges } from "@/lib/xp/award";
 import { isPerfectSession } from "@/lib/xp/perfect";
+import { updateStreak } from "@/lib/streaks";
+import { getSessionSummary } from "@/lib/sessionSummary";
 
 type CompleteBody = {
   session_id: string;
@@ -137,11 +139,35 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       },
     });
 
+    try {
+      await updateStreak(supabase, userId);
+    } catch (streakErr) {
+      console.error("[clusters/complete] streak update failed:", streakErr);
+    }
+
+    const { error: completionErr } = await supabase.from("exercise_session_completions").upsert(
+      {
+        student_id: userId,
+        session_id: body.session_id,
+        exercise_type: "cluster",
+        context_id: cluster.id,
+        context_slug: slug,
+      },
+      { onConflict: "student_id,exercise_type,session_id" }
+    );
+
+    if (completionErr) {
+      return NextResponse.json({ error: completionErr.message }, { status: 500 });
+    }
+
+    const summary = await getSessionSummary(userId, body.session_id, "cluster");
+
     return NextResponse.json({
       ok: true,
       total: totalCount,
       correct: correctCount,
       perfect,
+      summary,
       ...award,
     });
   } catch (e: any) {

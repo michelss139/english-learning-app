@@ -74,66 +74,35 @@ export default function GrammarPage() {
           </p>
         </div>
 
-        <div className="space-y-6">
-          {/* Special section: Stative Verbs */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Rozdziały specjalne</h3>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <Link
-                href="/app/grammar/stative-verbs"
-                className="group rounded-2xl border-2 border-emerald-400/30 bg-emerald-400/10 p-4 hover:bg-emerald-400/20 hover:border-emerald-400/40 transition"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="text-lg font-semibold text-white group-hover:text-white transition">
-                      Stative Verbs
-                    </div>
-                    <span className="rounded-lg border border-emerald-300/30 bg-emerald-300/10 px-2 py-0.5 text-xs font-semibold text-emerald-200">
-                      Killer Feature
-                    </span>
-                  </div>
-                  <div className="text-sm text-white/75">
-                    Czasowniki stanu - klucz do naturalnego angielskiego
-                  </div>
-                  <div className="pt-2 inline-flex items-center gap-2 text-sm font-medium text-white/85 group-hover:text-white transition">
-                    Czytaj <span className="translate-x-0 group-hover:translate-x-0.5 transition">→</span>
-                  </div>
-                </div>
-              </Link>
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-3">Czasy gramatyczne</h3>
+          {tenses.length === 0 ? (
+            <div className="text-center py-8 text-white/60">
+              Treści będą dostępne wkrótce. Moduł jest w trakcie przygotowania.
             </div>
-          </div>
-
-          {/* Regular tenses */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Czasy gramatyczne</h3>
-            {tenses.length === 0 ? (
-              <div className="text-center py-8 text-white/60">
-                Treści będą dostępne wkrótce. Moduł jest w trakcie przygotowania.
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {tenses.map((tense) => (
-                  <Link
-                    key={tense.slug}
-                    href={`/app/grammar/${tense.slug}`}
-                    className="group rounded-2xl border-2 border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition"
-                  >
-                    <div className="space-y-2">
-                      <div className="text-lg font-semibold text-white group-hover:text-white transition">
-                        {tense.title}
-                      </div>
-                      {tense.description && (
-                        <div className="text-sm text-white/75">{tense.description}</div>
-                      )}
-                      <div className="pt-2 inline-flex items-center gap-2 text-sm font-medium text-white/85 group-hover:text-white transition">
-                        Czytaj <span className="translate-x-0 group-hover:translate-x-0.5 transition">→</span>
-                      </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {tenses.map((tense) => (
+                <Link
+                  key={tense.slug}
+                  href={`/app/grammar/${tense.slug}`}
+                  className="group rounded-2xl border-2 border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition"
+                >
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold text-white group-hover:text-white transition">
+                      {tense.title}
                     </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+                    {tense.description && (
+                      <div className="text-sm text-white/75">{tense.description}</div>
+                    )}
+                    <div className="pt-2 inline-flex items-center gap-2 text-sm font-medium text-white/85 group-hover:text-white transition">
+                      Czytaj <span className="translate-x-0 group-hover:translate-x-0.5 transition">→</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </main>

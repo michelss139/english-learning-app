@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 
 type PackMeta = {
@@ -50,6 +50,20 @@ type RecommendationItem = {
   definition_en: string | null;
 };
 
+type SessionSummary = {
+  total: number;
+  correct: number;
+  wrong: number;
+  accuracy: number;
+  started_at?: string | null;
+  finished_at?: string | null;
+  wrong_items?: Array<{
+    prompt: string | null;
+    expected: string | null;
+    question_mode?: string | null;
+  }>;
+};
+
 type Direction = "en-pl" | "pl-en" | "mix";
 type CountChoice = "5" | "10" | "all";
 
@@ -84,7 +98,23 @@ export default function VocabPackPage() {
 function VocabPackInner() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = (params?.slug as string) || "";
+
+  const initialDirection = useMemo<Direction>(() => {
+    const raw = (searchParams.get("direction") ?? "").toLowerCase();
+    if (raw === "pl-en" || raw === "en-pl" || raw === "mix") return raw as Direction;
+    return "en-pl";
+  }, [searchParams]);
+
+  const initialCountChoice = useMemo<CountChoice>(() => {
+    const limitParam = Number(searchParams.get("limit"));
+    if (limitParam === 5) return "5";
+    if (limitParam === 10) return "10";
+    return "all";
+  }, [searchParams]);
+
+  const autoStart = useMemo(() => searchParams.get("autostart") === "1", [searchParams]);
 
   const [pack, setPack] = useState<PackMeta | null>(null);
   const [allItems, setAllItems] = useState<PackItem[]>([]);
@@ -92,8 +122,8 @@ function VocabPackInner() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [direction, setDirection] = useState<Direction>("en-pl");
-  const [countChoice, setCountChoice] = useState<CountChoice>("all");
+  const [direction, setDirection] = useState<Direction>(initialDirection);
+  const [countChoice, setCountChoice] = useState<CountChoice>(initialCountChoice);
   const [started, setStarted] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
 
@@ -112,6 +142,8 @@ function VocabPackInner() {
   const [awarding, setAwarding] = useState(false);
   const [awardError, setAwardError] = useState("");
   const [awardedSessionId, setAwardedSessionId] = useState("");
+  const autoStartRef = useRef(false);
+  const [summary, setSummary] = useState<SessionSummary | null>(null);
 
   const current = sessionItems[currentIndex];
   const currentDirection =
@@ -175,6 +207,16 @@ function VocabPackInner() {
   }, [router, slug]);
 
   useEffect(() => {
+    if (!autoStart) return;
+    if (loading) return;
+    if (started) return;
+    if (!allItems.length) return;
+    if (autoStartRef.current) return;
+    autoStartRef.current = true;
+    startSession();
+  }, [autoStart, loading, started, allItems]);
+
+  useEffect(() => {
     if (!current) return;
     const existing = answers[current.sense_id];
     setInput(existing?.given ?? "");
@@ -190,6 +232,10 @@ function VocabPackInner() {
     if (progress === 0) return 0;
     return Math.round((correctCount / progress) * 100);
   }, [correctCount, progress]);
+  const summaryTotal = summary?.total ?? total;
+  const summaryCorrect = summary?.correct ?? correctCount;
+  const summaryWrong = summary?.wrong ?? Math.max(summaryTotal - summaryCorrect, 0);
+  const summaryAccuracy = summary?.accuracy ?? (summaryTotal ? summaryCorrect / summaryTotal : 0);
 
   const startSession = (itemsOverride?: PackItem[]) => {
     if (allItems.length === 0 && !itemsOverride) {
@@ -383,6 +429,7 @@ function VocabPackInner() {
           xp_to_next_level: data.xp_to_next_level ?? 0,
           newly_awarded_badges: data.newly_awarded_badges ?? [],
         });
+        setSummary(data.summary ?? null);
         setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         setAwardedSessionId(sessionId);
       } catch (e: any) {
@@ -441,7 +488,15 @@ function VocabPackInner() {
     }
   };
 
-  if (loading) return <main>Ładuję…</main>;
+  if (loading) {
+    return (
+      <main className="space-y-6">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+          <div className="text-sm text-white/70">Ładuję pack…</div>
+        </section>
+      </main>
+    );
+  }
 
   if (!started) {
     return (
@@ -449,7 +504,7 @@ function VocabPackInner() {
         <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-white">Pack: {pack?.title ?? slug}</h1>
+              <h1 className="text-2xl font-semibold tracking-tight text-white">Fiszki: {pack?.title ?? slug}</h1>
               <p className="text-sm text-white/75">{pack?.description ?? "Ćwicz szybkie tłumaczenia."}</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -465,10 +520,26 @@ function VocabPackInner() {
 
         {error ? (
           <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
-            <p className="text-sm text-rose-100">
-              <span className="font-semibold">Błąd: </span>
-              {error}
-            </p>
+            <div className="flex flex-col gap-3">
+              <p className="text-sm text-rose-100">
+                <span className="font-semibold">Błąd: </span>
+                {error}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                  onClick={() => router.refresh()}
+                >
+                  Spróbuj ponownie
+                </button>
+                <a
+                  className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                  href="/app"
+                >
+                  Wróć do strony głównej
+                </a>
+              </div>
+            </div>
           </div>
         ) : null}
 
@@ -479,7 +550,7 @@ function VocabPackInner() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm text-white/70">Kierunek</div>
+            <div className="text-sm text-white/70">Wybierz tryb</div>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -518,7 +589,7 @@ function VocabPackInner() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm text-white/70">Liczba fiszek</div>
+            <div className="text-sm text-white/70">Wybierz liczbę</div>
             <div className="flex flex-wrap gap-2">
               {(["5", "10", "all"] as CountChoice[]).map((choice) => (
                 <button
@@ -542,7 +613,7 @@ function VocabPackInner() {
             onClick={() => startSession()}
             className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition"
           >
-            Start
+            Zacznij
           </button>
         </section>
       </main>
@@ -555,15 +626,23 @@ function VocabPackInner() {
         <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-white">Pack: {pack?.title ?? slug}</h1>
-              <p className="text-sm text-white/75">Rekomendacje na podstawie Twoich odpowiedzi.</p>
+              <h1 className="text-2xl font-semibold tracking-tight text-white">Sesja zakończona</h1>
+              <p className="text-sm text-white/75">Fiszki: {pack?.title ?? slug}</p>
             </div>
-            <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-              href="/app/vocab/packs"
-            >
-              ← Lista packów
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                href="/app/vocab/packs"
+              >
+                ← Lista packów
+              </a>
+              <a
+                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+                href="/app"
+              >
+                ← Wróć do strony głównej
+              </a>
+            </div>
           </div>
         </header>
 
@@ -577,13 +656,32 @@ function VocabPackInner() {
         ) : null}
 
         <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
-          <div className="flex items-center justify-between text-sm text-white/75">
-            <span>
-              Poprawne: <span className="font-medium text-white">{correctCount}</span>/{total}
-            </span>
-            <span>
-              Skuteczność: <span className="font-medium text-white">{total ? Math.round((correctCount / total) * 100) : 0}%</span>
-            </span>
+          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
+            <div className="text-sm text-white/75">Podsumowanie sesji</div>
+            <div className="flex items-center justify-between text-sm text-white/75">
+              <span>
+                Poprawne: <span className="font-medium text-white">{summaryCorrect}</span>/{summaryTotal}
+              </span>
+              <span>
+                Skuteczność:{" "}
+                <span className="font-medium text-white">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>
+              </span>
+            </div>
+            <div className="text-sm text-white/75">
+              Błędne: <span className="font-medium text-white">{summaryWrong}</span>
+            </div>
+            {summary?.wrong_items?.length ? (
+              <div className="text-sm text-white/70">
+                Najczęstsze błędy:
+                <ul className="mt-2 space-y-1 text-white/80">
+                  {summary.wrong_items.slice(0, 10).map((item, idx) => (
+                    <li key={`${item.prompt ?? "?"}-${idx}`}>
+                      {item.prompt ?? "—"} → {item.expected ?? "—"}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
 
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
@@ -644,8 +742,14 @@ function VocabPackInner() {
                 onClick={() => startSession(wrongItems)}
                 disabled={wrongItems.length === 0}
               >
-                Jeszcze raz tylko złe
+                Jeszcze raz tylko błędne
               </button>
+              <a
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+                href="/app"
+              >
+                Wróć do strony głównej
+              </a>
               <button
                 className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
                 onClick={addRecommendations}
@@ -704,7 +808,7 @@ function VocabPackInner() {
               className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
               href="/app"
             >
-              Panel
+              ← Wróć do strony głównej
             </a>
           </div>
         </div>
@@ -712,10 +816,26 @@ function VocabPackInner() {
 
       {error ? (
         <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
-          <p className="text-sm text-rose-100">
-            <span className="font-semibold">Błąd: </span>
-            {error}
-          </p>
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-rose-100">
+              <span className="font-semibold">Błąd: </span>
+              {error}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                onClick={() => router.refresh()}
+              >
+                Spróbuj ponownie
+              </button>
+              <a
+                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                href="/app"
+              >
+                Wróć do strony głównej
+              </a>
+            </div>
+          </div>
         </div>
       ) : null}
 

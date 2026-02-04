@@ -131,6 +131,28 @@ where not exists (
   where le.sense_id = s.id
 );
 
+-- Additional translation for "traffic police"
+insert into lexicon_translations (sense_id, translation_pl)
+select s.id, 'drogówka'
+from lexicon_entries e
+join lexicon_senses s on s.entry_id = e.id and s.sense_order = 0
+where e.lemma_norm = 'traffic police'
+  and not exists (
+    select 1 from lexicon_translations lt
+    where lt.sense_id = s.id and lt.translation_pl = 'drogówka'
+  );
+
+-- Additional translation for "traffic lights"
+insert into lexicon_translations (sense_id, translation_pl)
+select s.id, 'światła drogowe'
+from lexicon_entries e
+join lexicon_senses s on s.entry_id = e.id and s.sense_order = 0
+where e.lemma_norm = 'traffic lights'
+  and not exists (
+    select 1 from lexicon_translations lt
+    where lt.sense_id = s.id and lt.translation_pl = 'światła drogowe'
+  );
+
 -- ============================================
 -- Pack B: TRANSPORT — Samochody
 -- ============================================
@@ -1167,7 +1189,7 @@ with words(lemma, lemma_norm, pos, definition_en, translation_pl, example_en, or
     ('green light', 'green light', 'noun', 'a go signal at traffic lights', 'zielone światło', 'Go on the green light.', 5),
     ('speed limit', 'speed limit', 'noun', 'the maximum allowed speed', 'ograniczenie prędkości', 'The speed limit is 50.', 6),
     ('right of way', 'right of way', 'noun', 'the right to go first in traffic', 'pierwszeństwo', 'Give right of way.', 7),
-    ('fine', 'fine', 'noun', 'a penalty for breaking rules', 'mandat', 'He got a fine.', 8),
+    ('traffic ticket', 'traffic ticket', 'noun', 'a penalty notice for breaking traffic rules', 'mandat', 'He got a traffic ticket.', 8),
     ('traffic police', 'traffic police', 'noun', 'police who control road traffic', 'policja drogowa', 'Traffic police are here.', 9)
 )
 insert into lexicon_entries (lemma, lemma_norm, pos)
@@ -1187,7 +1209,7 @@ with words(lemma, lemma_norm, pos, definition_en, translation_pl, example_en, or
     ('green light', 'green light', 'noun', 'a go signal at traffic lights', 'zielone światło', 'Go on the green light.', 5),
     ('speed limit', 'speed limit', 'noun', 'the maximum allowed speed', 'ograniczenie prędkości', 'The speed limit is 50.', 6),
     ('right of way', 'right of way', 'noun', 'the right to go first in traffic', 'pierwszeństwo', 'Give right of way.', 7),
-    ('fine', 'fine', 'noun', 'a penalty for breaking rules', 'mandat', 'He got a fine.', 8),
+    ('traffic ticket', 'traffic ticket', 'noun', 'a penalty notice for breaking traffic rules', 'mandat', 'He got a traffic ticket.', 8),
     ('traffic police', 'traffic police', 'noun', 'police who control road traffic', 'policja drogowa', 'Traffic police are here.', 9)
 )
 insert into lexicon_senses (entry_id, definition_en, domain, sense_order)
@@ -1208,7 +1230,7 @@ with words(lemma, lemma_norm, pos, definition_en, translation_pl, example_en, or
     ('green light', 'green light', 'noun', 'a go signal at traffic lights', 'zielone światło', 'Go on the green light.', 5),
     ('speed limit', 'speed limit', 'noun', 'the maximum allowed speed', 'ograniczenie prędkości', 'The speed limit is 50.', 6),
     ('right of way', 'right of way', 'noun', 'the right to go first in traffic', 'pierwszeństwo', 'Give right of way.', 7),
-    ('fine', 'fine', 'noun', 'a penalty for breaking rules', 'mandat', 'He got a fine.', 8),
+    ('traffic ticket', 'traffic ticket', 'noun', 'a penalty notice for breaking traffic rules', 'mandat', 'He got a traffic ticket.', 8),
     ('traffic police', 'traffic police', 'noun', 'police who control road traffic', 'policja drogowa', 'Traffic police are here.', 9)
 )
 insert into lexicon_translations (sense_id, translation_pl)
@@ -1230,7 +1252,7 @@ with words(lemma, lemma_norm, pos, definition_en, translation_pl, example_en, or
     ('green light', 'green light', 'noun', 'a go signal at traffic lights', 'zielone światło', 'Go on the green light.', 5),
     ('speed limit', 'speed limit', 'noun', 'the maximum allowed speed', 'ograniczenie prędkości', 'The speed limit is 50.', 6),
     ('right of way', 'right of way', 'noun', 'the right to go first in traffic', 'pierwszeństwo', 'Give right of way.', 7),
-    ('fine', 'fine', 'noun', 'a penalty for breaking rules', 'mandat', 'He got a fine.', 8),
+    ('traffic ticket', 'traffic ticket', 'noun', 'a penalty notice for breaking traffic rules', 'mandat', 'He got a traffic ticket.', 8),
     ('traffic police', 'traffic police', 'noun', 'police who control road traffic', 'policja drogowa', 'Traffic police are here.', 9)
 )
 insert into lexicon_examples (sense_id, example_en, source)
