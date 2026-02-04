@@ -34,6 +34,7 @@ type OnboardingState = {
   dismissed: boolean;
   active: boolean;
   showCompletion: boolean;
+  completed: boolean;
 };
 
 export default function StudentDashboardPage() {
@@ -53,6 +54,7 @@ export default function StudentDashboardPage() {
     dismissed: false,
     active: false,
     showCompletion: false,
+    completed: false,
   });
   const [onboardingLoading, setOnboardingLoading] = useState(true);
   const [onboardingError, setOnboardingError] = useState("");
@@ -67,7 +69,8 @@ export default function StudentDashboardPage() {
   const tooltipText =
     "Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia.";
   const badgeSlots = badges.slice(0, 4);
-  const showOnboarding = onboarding.active && !onboarding.dismissed;
+  const showOnboarding = onboarding.active && !onboarding.dismissed && !onboarding.completed;
+  const showCollapsedOnboarding = onboarding.active && onboarding.dismissed && !onboarding.completed;
 
   const renderBadgeContent = (badge: Badge) => {
     if (!badge.icon) return badge.title?.slice(0, 1) || "★";
@@ -92,6 +95,23 @@ export default function StudentDashboardPage() {
     const next = { ...parsed, dismissed: true, dismissed_at: Date.now() };
     localStorage.setItem(storageKey, JSON.stringify(next));
     setOnboarding((prev) => ({ ...prev, dismissed: true, showCompletion: false }));
+  };
+
+  const expandOnboarding = () => {
+    if (!profile || typeof window === "undefined") return;
+    const storageKey = `onboarding:${profile.id}`;
+    const stored = localStorage.getItem(storageKey);
+    let parsed: Record<string, any> = {};
+    if (stored) {
+      try {
+        parsed = JSON.parse(stored);
+      } catch {
+        parsed = {};
+      }
+    }
+    const next = { ...parsed, dismissed: false };
+    localStorage.setItem(storageKey, JSON.stringify(next));
+    setOnboarding((prev) => ({ ...prev, dismissed: false }));
   };
 
   useEffect(() => {
@@ -179,6 +199,7 @@ export default function StudentDashboardPage() {
             dismissed,
             active,
             showCompletion: serverCompleted ? false : showCompletion,
+            completed: serverCompleted,
           };
 
           setOnboarding(nextState);
@@ -350,6 +371,21 @@ export default function StudentDashboardPage() {
       {onboardingError ? (
         <section className="rounded-3xl border-2 border-amber-200/20 bg-amber-400/10 p-6">
           <div className="text-sm text-amber-100">{onboardingError}</div>
+        </section>
+      ) : null}
+
+      {showCollapsedOnboarding ? (
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="text-sm font-semibold text-emerald-100">Onboarding</div>
+            <button
+              type="button"
+              onClick={expandOnboarding}
+              className="rounded-xl border border-emerald-200/30 bg-emerald-400/10 px-3 py-2 text-sm font-medium text-emerald-100 hover:bg-emerald-400/20 transition"
+            >
+              Rozwiń
+            </button>
+          </div>
         </section>
       ) : null}
 
@@ -534,7 +570,7 @@ export default function StudentDashboardPage() {
           <DashboardTile
             title="Moje lekcje"
             description="Lista Twoich lekcji i postęp."
-            href="/courses"
+            href="/app/lessons"
             badge={<span className="rounded-xl border border-emerald-200/30 bg-emerald-400/10 px-2 py-1 text-xs font-semibold text-emerald-100">MVP</span>}
           />
           <DashboardTile
