@@ -1,9 +1,37 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Coach } from "./Coach";
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export function PresentSimpleClient() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const run = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (!data?.session) {
+          router.push("/login");
+          return;
+        }
+      } catch {
+        router.push("/login");
+        return;
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
+  }, [router]);
+
+  if (loading) {
+    return <main className="text-white/80">Ładuję…</main>;
+  }
+
   return (
     <main className="space-y-8">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
