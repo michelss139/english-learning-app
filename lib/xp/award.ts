@@ -9,7 +9,7 @@ export type NewlyAwardedBadge = {
 export type AwardInput = {
   supabase: any;
   userId: string;
-  source: "pack" | "cluster" | "irregular";
+  source: "pack" | "cluster" | "irregular" | "grammar";
   sourceSlug?: string | null;
   sessionId: string;
   dedupeKey: string;

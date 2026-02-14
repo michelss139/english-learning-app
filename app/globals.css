@@ -105,3 +105,21 @@ body {
   border-color: var(--vocab-accent, #10b981);
   color: #ffffff;
 }
+
+/* Grammar map: verb/auxiliary/example styling (neutral, use CSS variables) */
+.verb-main {
+  font-weight: 700;
+  color: var(--foreground);
+}
+.verb-ending {
+  font-weight: 600;
+  opacity: 0.85;
+}
+.auxiliary {
+  font-weight: 600;
+  color: var(--foreground);
+}
+.example-muted {
+  opacity: 0.8;
+  font-size: 0.95em;
+}

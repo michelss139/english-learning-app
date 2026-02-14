@@ -1,6 +1,6 @@
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
-export type ExerciseType = "pack" | "cluster" | "irregular";
+export type ExerciseType = "pack" | "cluster" | "irregular" | "grammar_practice";
 
 export type SessionSummary = {
   total: number;
@@ -82,6 +82,56 @@ export async function getSessionSummary(
       wrong_items: (wrongItems ?? []).map((row: any) => ({
         prompt: row.entered_past_simple ?? null,
         expected: row.entered_past_participle ?? null,
+      })),
+    };
+  }
+
+  if (exerciseType === "grammar_practice") {
+    const { count: totalCount } = await supabase
+      .from("grammar_session_answers")
+      .select("id", { count: "exact", head: true })
+      .eq("student_id", studentId)
+      .eq("session_id", sessionId);
+
+    const { count: wrongCount } = await supabase
+      .from("grammar_session_answers")
+      .select("id", { count: "exact", head: true })
+      .eq("student_id", studentId)
+      .eq("session_id", sessionId)
+      .eq("is_correct", false);
+
+    const { data: firstRow } = await supabase
+      .from("grammar_session_answers")
+      .select("created_at")
+      .eq("student_id", studentId)
+      .eq("session_id", sessionId)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    const { data: wrongItems } = await supabase
+      .from("grammar_session_answers")
+      .select("question_id")
+      .eq("student_id", studentId)
+      .eq("session_id", sessionId)
+      .eq("is_correct", false)
+      .limit(10);
+
+    const total = totalCount ?? 0;
+    const wrong = wrongCount ?? 0;
+    const correct = Math.max(total - wrong, 0);
+
+    return {
+      total,
+      correct,
+      wrong,
+      accuracy: total > 0 ? correct / total : 0,
+      started_at: (firstRow as any)?.created_at ?? null,
+      finished_at: finishedAt,
+      wrong_items: (wrongItems ?? []).map((row: any) => ({
+        prompt: row.question_id ?? null,
+        expected: null,
+        question_mode: "grammar-choice",
       })),
     };
   }

@@ -1,5 +1,7 @@
-import { TensePageWrapper } from "@/lib/grammar/TensePageWrapper";
+import { PresentSimpleClient } from "./PresentSimpleClient";
+import { requireServerSessionOrRedirect } from "@/lib/auth/serverSession";
 
-export default function PresentSimplePage() {
-  return <TensePageWrapper slug="present-simple" />;
+export default async function PresentSimplePage() {
+  await requireServerSessionOrRedirect();
+  return <PresentSimpleClient />;
 }
