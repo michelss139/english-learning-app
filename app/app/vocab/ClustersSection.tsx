@@ -76,7 +76,7 @@ export default function ClustersSection() {
 
   if (loading) {
     return (
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="text-sm text-white/75">Ładuję clustery…</div>
       </section>
     );
@@ -84,7 +84,7 @@ export default function ClustersSection() {
 
   if (error) {
     return (
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
           <p className="text-sm text-rose-100">
             <span className="font-semibold">Błąd: </span>
@@ -99,7 +99,7 @@ export default function ClustersSection() {
   const unlockableClusters = clusters.filter((c) => c.is_unlockable);
 
   return (
-    <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+    <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
       <div>
         <h2 className="text-lg font-semibold tracking-tight text-white">Clusters</h2>
         <p className="text-sm text-white/75">Ćwicz wybór właściwego słowa w kontekście.</p>

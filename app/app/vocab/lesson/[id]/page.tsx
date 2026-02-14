@@ -435,13 +435,13 @@ export default function VocabLessonPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-white">
+            <h1 className="text-3xl font-semibold tracking-tight text-white">
               {lesson ? `${lesson.title} ${lesson.lesson_date}` : "Lekcja"}
             </h1>
-            <p className="text-sm text-white/75">
+            <p className="text-base text-emerald-100/80">
               Zalogowany jako: <span className="font-medium text-white">{profile?.email ?? "-"}</span>
             </p>
           </div>
@@ -473,14 +473,14 @@ export default function VocabLessonPage() {
       ) : null}
 
       {lesson?.notes ? (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
           <div className="text-sm text-white/70">Notatki:</div>
           <div className="mt-1 whitespace-pre-wrap text-white">{lesson.notes}</div>
         </section>
       ) : null}
 
       {/* Add new word */}
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
+      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-3">
         <div className="space-y-1">
           <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj nowe słówko</h2>
           <p className="text-sm text-white/75">
@@ -528,7 +528,7 @@ export default function VocabLessonPage() {
 
       {/* Add from pool */}
       {availableWords.length > 0 && (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-3">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj z puli</h2>
             <p className="text-sm text-white/75">Przypnij słówka z Twojej puli do tej lekcji.</p>
@@ -558,7 +558,7 @@ export default function VocabLessonPage() {
       )}
 
       {/* Words in lesson */}
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-3">
+      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-white">Słówka w tej lekcji</h2>

@@ -22,7 +22,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
       {/* Content shell */}
       <div className="relative mx-auto max-w-6xl px-6 py-8">
-        <div className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl p-6 sm:p-8">
+        <div className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 shadow-2xl p-6 sm:p-8">
           {children}
         </div>
       </div>

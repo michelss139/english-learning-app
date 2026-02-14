@@ -235,15 +235,15 @@ export default function IrregularVerbsPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-white">Czasowniki nieregularne</h1>
-            <p className="text-sm text-white/75">
+            <h1 className="text-3xl font-semibold tracking-tight text-white">Czasowniki nieregularne</h1>
+            <p className="text-base text-emerald-100/80">
               Przypięte: <span className="font-medium text-white">{pinnedCount}</span> / {verbs.length}
             </p>
             {!canStart ? (
-              <p className="text-xs text-white/50">Aby rozpocząć test, przypnij minimum 5 czasowników.</p>
+              <p className="text-sm text-emerald-100/60">Aby rozpocząć test, przypnij minimum 5 czasowników.</p>
             ) : null}
           </div>
 
@@ -275,7 +275,7 @@ export default function IrregularVerbsPage() {
         </div>
       ) : null}
 
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex-1">
             <input

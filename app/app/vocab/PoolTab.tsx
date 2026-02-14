@@ -319,7 +319,7 @@ export default function PoolTab() {
   const content = useMemo(() => rows, [rows]);
 
   return (
-    <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+    <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-white">Moja pula</h2>

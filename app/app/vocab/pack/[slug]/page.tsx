@@ -66,6 +66,10 @@ type SessionSummary = {
 
 type Direction = "en-pl" | "pl-en" | "mix";
 type CountChoice = "5" | "10" | "all";
+type VocabMode = "daily" | "mixed" | "precise";
+
+const isValidVocabMode = (value: string | null): value is VocabMode =>
+  value === "daily" || value === "mixed" || value === "precise";
 
 function shuffleArray<T>(list: T[]): T[] {
   const copy = [...list];
@@ -115,6 +119,11 @@ function VocabPackInner() {
   }, [searchParams]);
 
   const autoStart = useMemo(() => searchParams.get("autostart") === "1", [searchParams]);
+  const assignmentId = useMemo(() => searchParams.get("assignmentId") ?? "", [searchParams]);
+  const modeFromUrl = useMemo<VocabMode | null>(() => {
+    const raw = (searchParams.get("mode") ?? "").toLowerCase();
+    return isValidVocabMode(raw) ? raw : null;
+  }, [searchParams]);
 
   const [pack, setPack] = useState<PackMeta | null>(null);
   const [allItems, setAllItems] = useState<PackItem[]>([]);
@@ -144,12 +153,31 @@ function VocabPackInner() {
   const [awardedSessionId, setAwardedSessionId] = useState("");
   const autoStartRef = useRef(false);
   const [summary, setSummary] = useState<SessionSummary | null>(null);
+  const [assignmentToast, setAssignmentToast] = useState("");
+  const assignmentCompleteRef = useRef(false);
+  const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
 
   const current = sessionItems[currentIndex];
   const currentDirection =
     direction === "mix" ? sessionDirections[current?.sense_id ?? ""] ?? "en-pl" : direction;
   const currentAnswer = current ? answers[current.sense_id] : null;
   const checked = !!currentAnswer;
+
+  useEffect(() => {
+    if (modeFromUrl) {
+      setVocabMode(modeFromUrl);
+      localStorage.setItem("vocabMode", modeFromUrl);
+      return;
+    }
+
+    const stored = localStorage.getItem("vocabMode");
+    if (isValidVocabMode(stored)) {
+      setVocabMode(stored);
+      return;
+    }
+
+    setVocabMode("daily");
+  }, [modeFromUrl]);
 
   useEffect(() => {
     const run = async () => {
@@ -432,6 +460,32 @@ function VocabPackInner() {
         setSummary(data.summary ?? null);
         setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         setAwardedSessionId(sessionId);
+
+        if (assignmentId && !assignmentCompleteRef.current) {
+          try {
+            const completeRes = await fetch(`/api/lessons/assignments/${assignmentId}/complete`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                session_id: sessionId,
+                exercise_type: "pack",
+                context_slug: slug,
+              }),
+            });
+            if (completeRes.ok) {
+              const completeData = await completeRes.json();
+              if (completeData.ok) {
+                assignmentCompleteRef.current = true;
+                setAssignmentToast("Zadanie z lekcji oznaczone jako wykonane ✅");
+              }
+            }
+          } catch (e) {
+            console.warn("[pack] assignment complete failed", e);
+          }
+        }
       } catch (e: any) {
         setAwardError(e?.message ?? "Nie udało się przyznać XP.");
       } finally {
@@ -440,7 +494,13 @@ function VocabPackInner() {
     };
 
     void awardXp();
-  }, [awardedSessionId, completed, countChoice, direction, router, sessionId, slug]);
+  }, [assignmentId, awardedSessionId, completed, countChoice, direction, router, sessionId, slug]);
+
+  useEffect(() => {
+    if (!assignmentToast) return;
+    const timer = setTimeout(() => setAssignmentToast(""), 4000);
+    return () => clearTimeout(timer);
+  }, [assignmentToast]);
 
   const wrongItems = useMemo(
     () => sessionItems.filter((item) => answers[item.sense_id]?.isCorrect === false),
@@ -490,8 +550,8 @@ function VocabPackInner() {
 
   if (loading) {
     return (
-      <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
           <div className="text-sm text-white/70">Ładuję pack…</div>
         </section>
       </main>
@@ -500,11 +560,11 @@ function VocabPackInner() {
 
   if (!started) {
     return (
-      <main className="space-y-6">
-        <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
+        <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-white">Fiszki: {pack?.title ?? slug}</h1>
+              <h1 className="text-3xl font-semibold tracking-tight text-white">Fiszki: {pack?.title ?? slug}</h1>
               <p className="text-sm text-white/75">{pack?.description ?? "Ćwicz szybkie tłumaczenia."}</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -543,7 +603,7 @@ function VocabPackInner() {
           </div>
         ) : null}
 
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-white">Ustawienia sesji</h2>
             <p className="text-sm text-white/75">Wybierz kierunek i liczbę fiszek.</p>
@@ -622,11 +682,11 @@ function VocabPackInner() {
 
   if (completed) {
     return (
-      <main className="space-y-6">
-        <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
+        <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-white">Sesja zakończona</h1>
+              <h1 className="text-3xl font-semibold tracking-tight text-white">Sesja zakończona</h1>
               <p className="text-sm text-white/75">Fiszki: {pack?.title ?? slug}</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -654,8 +714,13 @@ function VocabPackInner() {
             </p>
           </div>
         ) : null}
+        {assignmentToast ? (
+          <div className="rounded-2xl border-2 border-emerald-200/30 bg-emerald-400/10 p-4 text-emerald-100">
+            {assignmentToast}
+          </div>
+        ) : null}
 
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
             <div className="text-sm text-white/75">Podsumowanie sesji</div>
             <div className="flex items-center justify-between text-sm text-white/75">
@@ -789,11 +854,11 @@ function VocabPackInner() {
   }
 
   return (
-    <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+    <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
+      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-white">Pack: {pack?.title ?? slug}</h1>
+            <h1 className="text-3xl font-semibold tracking-tight text-white">Pack: {pack?.title ?? slug}</h1>
             <p className="text-sm text-white/75">{pack?.description ?? "Ćwicz szybkie tłumaczenia."}</p>
           </div>
 
@@ -840,7 +905,7 @@ function VocabPackInner() {
       ) : null}
 
       {current ? (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
           <div className="flex items-center justify-between text-sm text-white/75">
             <span>
               Fiszka <span className="font-medium text-white">{currentIndex + 1}</span>/{total}
@@ -921,7 +986,7 @@ function VocabPackInner() {
           </div>
         </section>
       ) : (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
           <div className="text-sm text-white/75">Brak fiszek w tym packu.</div>
         </section>
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
@@ -73,6 +73,7 @@ function VocabClusterInner() {
     if (!Number.isFinite(raw) || raw <= 0) return 10;
     return Math.min(Math.max(raw, 2), 20);
   }, [searchParams]);
+  const assignmentId = useMemo(() => searchParams.get("assignmentId") ?? "", [searchParams]);
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -91,6 +92,8 @@ function VocabClusterInner() {
   const [awardError, setAwardError] = useState("");
   const [awardedSessionId, setAwardedSessionId] = useState("");
   const [summary, setSummary] = useState<SessionSummary | null>(null);
+  const [assignmentToast, setAssignmentToast] = useState("");
+  const assignmentCompleteRef = useRef(false);
 
   const current = questions[currentIndex];
   const total = questions.length;
@@ -276,6 +279,32 @@ function VocabClusterInner() {
         setSummary(data.summary ?? null);
         setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         setAwardedSessionId(sessionId);
+
+        if (assignmentId && !assignmentCompleteRef.current) {
+          try {
+            const completeRes = await fetch(`/api/lessons/assignments/${assignmentId}/complete`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                session_id: sessionId,
+                exercise_type: "cluster",
+                context_slug: slug,
+              }),
+            });
+            if (completeRes.ok) {
+              const completeData = await completeRes.json();
+              if (completeData.ok) {
+                assignmentCompleteRef.current = true;
+                setAssignmentToast("Zadanie z lekcji oznaczone jako wykonane ✅");
+              }
+            }
+          } catch (e) {
+            console.warn("[cluster] assignment complete failed", e);
+          }
+        }
       } catch (e: any) {
         setAwardError(e?.message ?? "Nie udało się przyznać XP.");
       } finally {
@@ -284,12 +313,18 @@ function VocabClusterInner() {
     };
 
     void awardXp();
-  }, [awardedSessionId, completed, router, sessionId, slug]);
+  }, [assignmentId, awardedSessionId, completed, router, sessionId, slug]);
+
+  useEffect(() => {
+    if (!assignmentToast) return;
+    const timer = setTimeout(() => setAssignmentToast(""), 4000);
+    return () => clearTimeout(timer);
+  }, [assignmentToast]);
 
   if (loading) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
           <div className="text-sm text-white/70">Ładuję pytania…</div>
         </section>
       </main>
@@ -298,11 +333,11 @@ function VocabClusterInner() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-white">Typowe błędy: {slug.replace(/-/g, " / ")}</h1>
-            <p className="text-sm text-white/75">Wybierz właściwe słowo w kontekście.</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-white">Typowe błędy: {slug.replace(/-/g, " / ")}</h1>
+            <p className="text-base text-emerald-100/80">Wybierz właściwe słowo w kontekście.</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -346,9 +381,14 @@ function VocabClusterInner() {
           </div>
         </div>
       ) : null}
+      {assignmentToast ? (
+        <div className="rounded-2xl border-2 border-emerald-200/30 bg-emerald-400/10 p-4 text-emerald-100">
+          {assignmentToast}
+        </div>
+      ) : null}
 
       {!error && !completed && current ? (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
           <div className="flex items-center justify-between text-sm text-white/75">
             <span>
               Pytanie <span className="font-medium text-white">{currentIndex + 1}</span>/{total}
@@ -423,7 +463,7 @@ function VocabClusterInner() {
       ) : null}
 
       {!error && completed ? (
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold tracking-tight text-white">Sesja zakończona</h2>
             <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-white">

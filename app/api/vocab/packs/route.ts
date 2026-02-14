@@ -7,6 +7,8 @@ type PackListItem = {
   title: string;
   description: string | null;
   order_index: number;
+  vocab_mode: string;
+  category: string;
   item_count: number;
 };
 
@@ -28,12 +30,22 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Authentication failed", code: "UNAUTHORIZED" }, { status: 401 });
     }
 
-    const { data: packs, error: packsErr } = await supabase
+    const url = new URL(req.url);
+    const modeParam = (url.searchParams.get("vocab_mode") ?? "").toLowerCase();
+    const modeFilter = modeParam === "daily" || modeParam === "mixed" || modeParam === "precise" ? modeParam : null;
+
+    let packsQuery = supabase
       .from("vocab_packs")
-      .select("id, slug, title, description, order_index")
+      .select("id, slug, title, description, order_index, vocab_mode, category")
       .eq("is_published", true)
       .order("order_index", { ascending: true })
       .order("title", { ascending: true });
+
+    if (modeFilter) {
+      packsQuery = packsQuery.eq("vocab_mode", modeFilter);
+    }
+
+    const { data: packs, error: packsErr } = await packsQuery;
 
     if (packsErr) {
       return NextResponse.json({ error: packsErr.message }, { status: 500 });
@@ -65,6 +77,8 @@ export async function GET(req: Request) {
       title: p.title,
       description: p.description ?? null,
       order_index: p.order_index ?? 0,
+      vocab_mode: p.vocab_mode ?? "mixed",
+      category: p.category ?? "general",
       item_count: counts.get(p.id) ?? 0,
     }));
 
