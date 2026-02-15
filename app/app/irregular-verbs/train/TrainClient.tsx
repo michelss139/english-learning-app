@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 
-type Verb = {
+export type Verb = {
   id: string;
   base: string;
   past_simple: string;
@@ -69,23 +68,24 @@ function pill(tone: "neutral" | "good" | "bad") {
   return "border-white/15 bg-white/5 text-white/80";
 }
 
-export default function IrregularVerbsTrainClient() {
+export default function IrregularVerbsTrainClient(props: {
+  initialVerb: Verb | null;
+  initialError: string;
+  assignmentId: string;
+}) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const assignmentId = useMemo(() => searchParams.get("assignmentId") ?? "", [searchParams]);
+  const assignmentId = props.assignmentId;
 
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [currentVerb, setCurrentVerb] = useState<Verb | null>(null);
+  const [currentVerb, setCurrentVerb] = useState<Verb | null>(props.initialVerb);
   const [pastSimple, setPastSimple] = useState("");
   const [pastParticiple, setPastParticiple] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<SubmitResult | null>(null);
-  const [usedIds, setUsedIds] = useState<string[]>([]);
+  const [usedIds, setUsedIds] = useState<string[]>(() => (props.initialVerb ? [props.initialVerb.id] : []));
   const [stats, setStats] = useState({ correct: 0, total: 0 });
-  const [sessionId, setSessionId] = useState("");
+  const [sessionId, setSessionId] = useState(() => createSessionId());
   const [sessionComplete, setSessionComplete] = useState(false);
   const [award, setAward] = useState<AwardResult | null>(null);
   const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
@@ -102,26 +102,11 @@ export default function IrregularVerbsTrainClient() {
   const summaryAccuracy = summary?.accuracy ?? (summaryTotal ? summaryCorrect / summaryTotal : 0);
 
   useEffect(() => {
-    const run = async () => {
-      try {
-        const session = await supabase.auth.getSession();
-        if (!session?.data?.session) {
-          router.push("/login");
-          return;
-        }
-
-        const prof = await getOrCreateProfile();
-        setProfile(prof);
-
-        await startNewSession();
-      } catch (e: any) {
-        setError(e?.message ?? "Błąd ładowania");
-      } finally {
-        setLoading(false);
-      }
-    };
-    run();
-  }, [router]);
+    // If SSR couldn't load an initial verb, show the error immediately (no loading gate).
+    if (props.initialError) {
+      setError(props.initialError);
+    }
+  }, [props.initialError]);
 
   const loadNextVerb = async (options?: { excludeIds?: string[] }) => {
     try {
@@ -327,16 +312,6 @@ export default function IrregularVerbsTrainClient() {
     const timer = setTimeout(() => setAssignmentToast(""), 4000);
     return () => clearTimeout(timer);
   }, [assignmentToast]);
-
-  if (loading) {
-    return (
-      <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="text-sm text-white/70">Ładuję sesję…</div>
-        </section>
-      </main>
-    );
-  }
 
   return (
     <main className="space-y-6">
