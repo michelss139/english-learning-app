@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 
 type PracticeQuestion = {
   id: string;
@@ -12,8 +10,7 @@ type PracticeQuestion = {
 };
 
 export function PracticeClient() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [question, setQuestion] = useState<PracticeQuestion | null>(null);
@@ -27,16 +24,9 @@ export function PracticeClient() {
   useEffect(() => {
     const run = async () => {
       try {
-        const { data } = await supabase.auth.getSession();
-        const token = data?.session?.access_token;
-        if (!token) {
-          router.push("/login");
-          return;
-        }
-
         const startRes = await fetch("/api/grammar/start", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ exercise_slug: "present-simple" }),
         });
         const startData = await startRes.json().catch(() => ({}));
@@ -52,26 +42,20 @@ export function PracticeClient() {
       } catch (e: any) {
         setError(e?.message || "Błąd inicjalizacji ćwiczenia.");
       } finally {
-        setLoading(false);
+        setInitializing(false);
       }
     };
     run();
-  }, [router]);
+  }, []);
 
   const submitAnswer = async (value: string) => {
     if (!sessionId || !question || answerSubmitting || chosen) return;
     setAnswerSubmitting(true);
     setError(null);
     try {
-      const token = (await supabase.auth.getSession()).data?.session?.access_token;
-      if (!token) {
-        router.push("/login");
-        return;
-      }
-
       const res = await fetch("/api/grammar/answer", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           session_id: sessionId,
           question_id: question.id,
@@ -96,14 +80,9 @@ export function PracticeClient() {
     setCompleteLoading(true);
     setError(null);
     try {
-      const token = (await supabase.auth.getSession()).data?.session?.access_token;
-      if (!token) {
-        router.push("/login");
-        return;
-      }
       const res = await fetch("/api/grammar/complete", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: sessionId }),
       });
       const data = await res.json().catch(() => ({}));
@@ -118,14 +97,6 @@ export function PracticeClient() {
       setCompleteLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <main className="space-y-6">
-        <p className="text-white/80">Ładuję…</p>
-      </main>
-    );
-  }
 
   const answered = chosen !== null;
   const options = question?.options ?? [];
@@ -145,6 +116,12 @@ export function PracticeClient() {
       </div>
 
       <h1 className="text-xl font-semibold text-white">Ćwiczenie: Present Simple</h1>
+
+      {initializing ? (
+        <div className="rounded-xl border border-white/15 bg-white/5 p-4 text-white/80">
+          Przygotowuję sesję ćwiczenia…
+        </div>
+      ) : null}
 
       {error ? (
         <div className="rounded-xl border border-rose-400/30 bg-rose-500/10 p-4 text-rose-100">{error}</div>

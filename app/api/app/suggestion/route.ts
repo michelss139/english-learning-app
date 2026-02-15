@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 type Suggestion = {
   title: string;
@@ -15,20 +16,17 @@ function normalizeTerm(value: string | null | undefined): string | null {
 
 export async function GET(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-
-    if (!token) {
-      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    const routeSupabase = await createSupabaseRouteClient();
+    const {
+      data: { user },
+      error: sessionErr,
+    } = await routeSupabase.auth.getUser();
+    if (sessionErr || !user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const supabase = createSupabaseAdmin();
-    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user?.id) {
-      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
-    }
-
-    const userId = userData.user.id;
+    const userId = user.id;
 
     const shopPack = await supabase
       .from("vocab_packs")

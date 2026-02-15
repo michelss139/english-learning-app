@@ -1,42 +1,16 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase/client";
-import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import { getAllGrammarTenses } from "@/lib/grammar/content";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export default function GrammarTensesPage() {
-  const router = useRouter();
-
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const session = await supabase.auth.getSession();
-        if (!session?.data?.session) {
-          router.push("/login");
-          return;
-        }
-
-        const prof = await getOrCreateProfile();
-        setProfile(prof);
-      } catch (e: any) {
-        setError(e?.message ?? "Błąd ładowania");
-      } finally {
-        setLoading(false);
-      }
-    };
-    run();
-  }, [router]);
+export default async function GrammarTensesPage() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
 
   const tenses = getAllGrammarTenses();
-
-  if (loading) return <main>Ładuję…</main>;
 
   return (
     <main className="space-y-6">
@@ -65,12 +39,6 @@ export default function GrammarTensesPage() {
           </div>
         </div>
       </header>
-
-      {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
-          {error}
-        </div>
-      ) : null}
 
       <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
         <div>

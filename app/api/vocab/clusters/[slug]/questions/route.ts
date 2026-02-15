@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSupabaseServerWithToken } from "@/lib/supabase/server";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 /**
  * GET /api/vocab/clusters/[slug]/questions?limit=10
@@ -72,20 +72,15 @@ export async function POST(
       return errorResponse("parse_body", { message: "Missing questionId, chosen, or session_id" }, 400);
     }
 
-    // Auth
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-
-    if (!token) {
-      return errorResponse("auth", { message: "Missing Authorization bearer token", code: "UNAUTHORIZED" }, 401);
-    }
-
-    const supabase = await createSupabaseServerWithToken(token);
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !userData?.user?.id) {
+    const supabase = await createSupabaseRouteClient();
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
+    if (userErr || !user?.id) {
       return errorResponse("verify_user", userErr || { message: "Authentication failed" }, 401);
     }
-    const userId = userData.user.id;
+    const userId = user.id;
 
     // Load cluster (for context + unlock check)
     const { data: cluster, error: clusterErr } = await supabase
@@ -213,36 +208,23 @@ export async function GET(
   console.log("[clusters/questions] Request:", { slug, limit });
 
   try {
-    // Step 1: Auth - verify JWT token
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
+    // Step 1: Create route-aware Supabase client (cookie session)
+    const supabase = await createSupabaseRouteClient();
 
-    if (!token) {
-      console.error("[clusters/questions] Step 1: Missing token");
-      return errorResponse("auth", { message: "Missing Authorization bearer token", code: "UNAUTHORIZED" }, 401);
-    }
-
-    // Step 2: Create Supabase client with user auth context (for RLS)
-    let supabase;
-    try {
-      supabase = await createSupabaseServerWithToken(token);
-      console.log("[clusters/questions] Step 2: Supabase client created");
-    } catch (e: any) {
-      console.error("[clusters/questions] Step 2: Failed to create client:", e);
-      return errorResponse("create_client", e, 500);
-    }
-
-    // Step 3: Verify token and get user
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !userData?.user?.id) {
-      console.error("[clusters/questions] Step 3: Auth failed:", { userErr, userId: userData?.user?.id });
+    // Step 2: Verify session and get user
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
+    if (userErr || !user?.id) {
+      console.error("[clusters/questions] Step 2: Auth failed:", { userErr, userId: user?.id });
       return errorResponse("verify_user", userErr || { message: "Authentication failed" }, 401);
     }
 
-    const userId = userData.user.id;
-    console.log("[clusters/questions] Step 3: User verified:", { userId, slug, limit });
+    const userId = user.id;
+    console.log("[clusters/questions] Step 2: User verified:", { userId, slug, limit });
 
-    // Step 4: Get cluster
+    // Step 3: Get cluster
     const { data: cluster, error: clusterErr } = await supabase
       .from("vocab_clusters")
       .select("id, slug, title, is_recommended, is_unlockable")

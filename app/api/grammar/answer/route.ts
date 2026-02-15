@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 import { getGrammarPracticeQuestion } from "@/lib/grammar/practice";
 
 type AnswerBody = {
@@ -14,10 +14,13 @@ function isUuid(value: string): boolean {
 
 export async function POST(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-    if (!token) {
-      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    const supabase = await createSupabaseRouteClient();
+    const {
+      data: { user },
+      error: sessionErr,
+    } = await supabase.auth.getUser();
+    if (sessionErr || !user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = (await req.json().catch(() => null)) as AnswerBody | null;
@@ -28,21 +31,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid session_id format" }, { status: 400 });
     }
 
-    const supabase = createSupabaseAdmin();
-    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user?.id) {
-      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
-    }
-    const userId = userData.user.id;
+    const userId = user.id;
 
-    const { data: grammarSession, error: sessionErr } = await supabase
+    const { data: grammarSession, error: fetchErr } = await supabase
       .from("grammar_sessions")
       .select("id, student_id, exercise_slug")
       .eq("id", body.session_id)
       .maybeSingle();
 
-    if (sessionErr) {
-      return NextResponse.json({ error: sessionErr.message }, { status: 500 });
+    if (fetchErr) {
+      return NextResponse.json({ error: fetchErr.message }, { status: 500 });
     }
     if (!grammarSession) {
       return NextResponse.json({ error: "Grammar session not found" }, { status: 404 });

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 import { getGrammarPracticeExercise } from "@/lib/grammar/practice";
 
 type StartBody = {
@@ -12,10 +12,13 @@ function isUuid(value: string): boolean {
 
 export async function POST(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-    if (!token) {
-      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    const supabase = await createSupabaseRouteClient();
+    const {
+      data: { user },
+      error: sessionErr,
+    } = await supabase.auth.getUser();
+    if (sessionErr || !user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = (await req.json().catch(() => null)) as StartBody | null;
@@ -28,12 +31,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unsupported grammar exercise" }, { status: 400 });
     }
 
-    const supabase = createSupabaseAdmin();
-    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user?.id) {
-      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
-    }
-    const userId = userData.user.id;
+    const userId = user.id;
 
     const { data: sessionRow, error: insertErr } = await supabase
       .from("grammar_sessions")

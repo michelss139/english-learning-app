@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSupabaseServerWithToken } from "@/lib/supabase/server";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 type RecommendationItem = {
   sense_id: string;
@@ -37,22 +37,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
   const sessionId = url.searchParams.get("sessionId");
 
   try {
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-
-    if (!token) {
-      return NextResponse.json(
-        { error: "Missing Authorization bearer token", code: "UNAUTHORIZED" },
-        { status: 401 }
-      );
-    }
-
-    const supabase = await createSupabaseServerWithToken(token);
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !userData?.user?.id) {
+    const supabase = await createSupabaseRouteClient();
+    const {
+      data: { user },
+      error: sessionErr,
+    } = await supabase.auth.getUser();
+    if (sessionErr || !user?.id) {
       return NextResponse.json({ error: "Authentication failed", code: "UNAUTHORIZED" }, { status: 401 });
     }
-    const userId = userData.user.id;
+    const userId = user.id;
 
     const { data: pack, error: packErr } = await supabase
       .from("vocab_packs")

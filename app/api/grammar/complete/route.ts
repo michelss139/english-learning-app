@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { awardXpAndBadges } from "@/lib/xp/award";
 import { updateStreak } from "@/lib/streaks";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 type Body = { session_id: string };
 
@@ -11,10 +12,13 @@ function isUuid(value: string): boolean {
 
 export async function POST(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-    if (!token) {
-      return NextResponse.json({ error: "Missing Authorization bearer token" }, { status: 401 });
+    const routeSupabase = await createSupabaseRouteClient();
+    const {
+      data: { user },
+      error: sessionErr,
+    } = await routeSupabase.auth.getUser();
+    if (sessionErr || !user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = (await req.json().catch(() => null)) as Body | null;
@@ -26,11 +30,7 @@ export async function POST(req: Request) {
     }
 
     const supabase = createSupabaseAdmin();
-    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user?.id) {
-      return NextResponse.json({ error: "Invalid session" }, { status: 401 });
-    }
-    const userId = userData.user.id;
+    const userId = user.id;
 
     const { data: completionResult, error: completeErr } = await supabase.rpc("complete_grammar_practice", {
       p_student_id: userId,

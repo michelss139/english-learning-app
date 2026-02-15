@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { createSupabaseServerWithToken } from "@/lib/supabase/server";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 type Cluster = {
   id: string;
@@ -20,39 +20,14 @@ type Cluster = {
 
 export async function GET(req: Request) {
   try {
-    // Auth: verify JWT token
-    const authHeader = req.headers.get("authorization") ?? "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
-
-    if (!token) {
-      return NextResponse.json(
-        { 
-          error: "Missing Authorization bearer token",
-          code: "UNAUTHORIZED",
-          message: "Authentication required"
-        },
-        { status: 401 }
-      );
-    }
-
-    // Create Supabase client with user auth context (for RLS)
-    let supabase;
-    try {
-      supabase = await createSupabaseServerWithToken(token);
-    } catch (e: any) {
-      return NextResponse.json(
-        { 
-          error: "Failed to create Supabase client",
-          code: "SERVER_ERROR",
-          message: e?.message || "Server configuration error"
-        },
-        { status: 500 }
-      );
-    }
+    const supabase = await createSupabaseRouteClient();
 
     // Verify token and get user (this also sets the session for RLS)
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !userData?.user?.id) {
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
+    if (userErr || !user?.id) {
       return NextResponse.json(
         { 
           error: "Invalid or expired token",
@@ -63,7 +38,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const studentId = userData.user.id;
+    const studentId = user.id;
 
     // Get all clusters
     const { data: clusters, error: clustersErr } = await supabase
