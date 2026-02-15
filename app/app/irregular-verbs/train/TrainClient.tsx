@@ -478,15 +478,22 @@ export default function IrregularVerbsTrainClient(props: {
               <input
                 type="text"
                 value={pastSimple}
-                onChange={(e) => setPastSimple(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !result) {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
+                onChange={(e) => {
+                  if (submitting || result) return;
+                  setPastSimple(e.target.value);
                 }}
-                disabled={!!result || submitting}
-                className="w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-3 text-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30 disabled:opacity-60"
+                onKeyDown={(e) => {
+                  if (e.key !== "Enter") return;
+                  e.preventDefault();
+                  if (submitting) return;
+                  if (!result) handleSubmit();
+                  else handleNext();
+                }}
+                readOnly={!!result || submitting}
+                aria-readonly={!!result || submitting}
+                className={`w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-3 text-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
+                  result || submitting ? "opacity-60" : ""
+                }`}
                 placeholder="np. went"
                 autoFocus
               />
@@ -508,15 +515,22 @@ export default function IrregularVerbsTrainClient(props: {
               <input
                 type="text"
                 value={pastParticiple}
-                onChange={(e) => setPastParticiple(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !result) {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
+                onChange={(e) => {
+                  if (submitting || result) return;
+                  setPastParticiple(e.target.value);
                 }}
-                disabled={!!result || submitting}
-                className="w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-3 text-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30 disabled:opacity-60"
+                onKeyDown={(e) => {
+                  if (e.key !== "Enter") return;
+                  e.preventDefault();
+                  if (submitting) return;
+                  if (!result) handleSubmit();
+                  else handleNext();
+                }}
+                readOnly={!!result || submitting}
+                aria-readonly={!!result || submitting}
+                className={`w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-3 text-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
+                  result || submitting ? "opacity-60" : ""
+                }`}
                 placeholder="np. gone"
               />
               {result && (
