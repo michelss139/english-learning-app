@@ -1,13 +1,13 @@
+import { PracticeClient } from "./PracticeClient";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { PastSimpleClient } from "./PastSimpleClient";
 
-export default async function PastSimplePage() {
+export default async function PastSimplePracticePage() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  return <PastSimpleClient />;
+  return <PracticeClient exerciseSlug="past-simple" />;
 }

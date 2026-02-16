@@ -26,8 +26,30 @@ export const grammarPracticeExercises: Record<GrammarTenseSlug, GrammarPracticeE
       },
     ],
   },
-  "present-continuous": { slug: "present-continuous", title: "Present Continuous", questions: [] },
-  "past-simple": { slug: "past-simple", title: "Past Simple", questions: [] },
+  "present-continuous": {
+    slug: "present-continuous",
+    title: "Present Continuous",
+    questions: [
+      {
+        id: "present-continuous-q1",
+        prompt: "She ____ now.",
+        options: ["works", "is working", "work", "worked"],
+        correct_option: "is working",
+      },
+    ],
+  },
+  "past-simple": {
+    slug: "past-simple",
+    title: "Past Simple",
+    questions: [
+      {
+        id: "past-simple-q1",
+        prompt: "He ____ to London last year.",
+        options: ["goes", "went", "gone", "going"],
+        correct_option: "went",
+      },
+    ],
+  },
   "past-continuous": { slug: "past-continuous", title: "Past Continuous", questions: [] },
   "present-perfect": { slug: "present-perfect", title: "Present Perfect", questions: [] },
   "present-perfect-continuous": {
