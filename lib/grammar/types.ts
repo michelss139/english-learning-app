@@ -7,6 +7,8 @@ export type GrammarTenseSlug =
   | "present-continuous"
   | "past-simple"
   | "past-continuous"
+  | "past-perfect"
+  | "past-perfect-continuous"
   | "present-perfect"
   | "present-perfect-continuous"
   | "future-simple"

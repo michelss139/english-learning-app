@@ -31,6 +31,27 @@ export default function GlobalCoach() {
         "3) since = punkt w czasie, for = okres.",
       ].join("\n");
     }
+    if (pathname?.startsWith("/app/grammar/present-perfect-continuous")) {
+      return [
+        "1) Jeśli chcesz podkreślić \"jak długo\" -> Continuous.",
+        "2) Jeśli liczy się efekt końcowy -> Perfect Simple.",
+        "3) Konstrukcja zawsze zawiera \"been\".",
+      ].join("\n");
+    }
+    if (pathname?.startsWith("/app/grammar/past-perfect")) {
+      return [
+        "1) Jeśli masz dwa wydarzenia w przeszłości -> jedno może być Past Perfect.",
+        "2) Po \"had\" zawsze trzecia forma czasownika.",
+        "3) Ten czas nie opisuje \"dawno\", tylko \"wcześniej\".",
+      ].join("\n");
+    }
+    if (pathname?.startsWith("/app/grammar/past-perfect-continuous")) {
+      return [
+        "1) Jeśli podkreślasz długość trwania przed czymś -> Continuous.",
+        "2) Po \"had\" zawsze \"been\" + -ing.",
+        "3) Jeśli liczy się efekt, nie proces -> użyj Past Perfect.",
+      ].join("\n");
+    }
     return "Witaj na LANGBracket";
   }, [pathname]);
 

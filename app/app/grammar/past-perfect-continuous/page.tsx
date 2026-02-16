@@ -1,13 +1,14 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { PresentPerfectContinuousClient } from "./PresentPerfectContinuousClient";
+import { PastPerfectContinuousClient } from "./PastPerfectContinuousClient";
 
-export default async function PresentPerfectContinuousPage() {
+export default async function PastPerfectContinuousPage() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  return <PresentPerfectContinuousClient />;
+  return <PastPerfectContinuousClient />;
 }
+

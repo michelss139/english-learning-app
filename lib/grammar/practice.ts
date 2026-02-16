@@ -51,6 +51,12 @@ export const grammarPracticeExercises: Record<GrammarTenseSlug, GrammarPracticeE
     ],
   },
   "past-continuous": { slug: "past-continuous", title: "Past Continuous", questions: [] },
+  "past-perfect": { slug: "past-perfect", title: "Past Perfect", questions: [] },
+  "past-perfect-continuous": {
+    slug: "past-perfect-continuous",
+    title: "Past Perfect Continuous",
+    questions: [],
+  },
   "present-perfect": { slug: "present-perfect", title: "Present Perfect", questions: [] },
   "present-perfect-continuous": {
     slug: "present-perfect-continuous",

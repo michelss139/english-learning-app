@@ -433,7 +433,100 @@ B: While I was talking, my phone rang.
       courseLink: "/app/courses/past-continuous",
     },
 
-    // E) PRESENT PERFECT
+    // E) PAST PERFECT
+    {
+      slug: "past-perfect",
+      title: "Past Perfect",
+      description: "Czas przeszły zaprzeszły",
+      content: {
+        usage: `Past Perfect opisuje czynność wcześniejszą niż inne wydarzenie w przeszłości. Używamy go, aby uporządkować chronologię historii i pokazać "co stało się najpierw".`,
+        characteristicWords: `before, after, by the time, already (w przeszłości)`,
+        structure: createStructure(
+          `had + past participle
+
+I had finished.
+She had left.
+They had gone.`,
+          `had not (hadn't) + past participle`,
+          `Had + subject + past participle?`
+        ),
+        auxiliary: `Słówko pomocnicze (auxiliary): had`,
+        confusionWarnings: `Past Perfect pokazuje wcześniejszy moment względem innego wydarzenia, a nie po prostu "dawno".`,
+        commonMistakes: `When I arrived, she left. -> When I arrived, she had left.
+She had went home. -> She had gone home.`,
+        examples: `She had finished before he arrived.
+I had eaten before I went out.`,
+        dialog: `A: Why was she so calm?
+B: She had prepared everything before the meeting started.`,
+        chips: [
+          { text: "before", description: "przed" },
+          { text: "after", description: "po" },
+          { text: "by the time", description: "do czasu gdy" },
+        ],
+        relatedLinks: [
+          { slug: "past-simple", title: "Past Simple", description: "Zdarzenie punktowe w przeszłości" },
+        ],
+        comparisons: [
+          {
+            tense1: "past-perfect",
+            tense2: "past-simple",
+            title: "Past Perfect vs Past Simple",
+            description: "Wcześniej vs później w przeszłości",
+          },
+        ],
+      },
+      practiceLink: "/app/exercises/past-perfect",
+      courseLink: "/app/courses/past-perfect",
+    },
+
+    // F) PAST PERFECT CONTINUOUS
+    {
+      slug: "past-perfect-continuous",
+      title: "Past Perfect Continuous",
+      description: "Czas przeszły zaprzeszły ciągły",
+      content: {
+        usage: `Past Perfect Continuous podkreśla proces i długość trwania czynności przed innym wydarzeniem w przeszłości.`,
+        characteristicWords: `for, since, before, by the time`,
+        structure: createStructure(
+          `had been + verb-ing
+
+I had been working.
+She had been studying.
+They had been waiting.`,
+          `had not (hadn't) been + verb-ing`,
+          `Had + subject + been + verb-ing?`
+        ),
+        auxiliary: `Słówko pomocnicze (auxiliary): had been`,
+        confusionWarnings: `Perfect = efekt, Perfect Continuous = trwanie procesu przed innym wydarzeniem.`,
+        commonMistakes: `She had been work all day. -> She had been working all day.
+She had working before I arrived. -> She had been working before I arrived.`,
+        examples: `She was tired because she had been working all day.
+We had been talking for hours before the meeting ended.`,
+        dialog: `A: Why were they exhausted?
+B: They had been training for hours before the match.`,
+        chips: [
+          { text: "for", description: "przez" },
+          { text: "since", description: "od" },
+          { text: "before", description: "przed" },
+          { text: "by the time", description: "do czasu gdy" },
+        ],
+        relatedLinks: [
+          { slug: "past-perfect", title: "Past Perfect", description: "Wcześniejsze wydarzenie" },
+        ],
+        comparisons: [
+          {
+            tense1: "past-perfect-continuous",
+            tense2: "past-perfect",
+            title: "Past Perfect Continuous vs Past Perfect",
+            description: "Proces vs efekt",
+          },
+        ],
+      },
+      practiceLink: "/app/exercises/past-perfect-continuous",
+      courseLink: "/app/courses/past-perfect-continuous",
+    },
+
+    // G) PRESENT PERFECT
     {
       slug: "present-perfect",
       title: "Present Perfect",
@@ -530,7 +623,7 @@ A: Great. I haven't checked my inbox yet.`,
       courseLink: "/app/courses/present-perfect",
     },
 
-    // F) PRESENT PERFECT CONTINUOUS
+    // H) PRESENT PERFECT CONTINUOUS
     {
       slug: "present-perfect-continuous",
       title: "Present Perfect Continuous",
@@ -617,7 +710,7 @@ A: No wonder you're exhausted.`,
       courseLink: "/app/courses/present-perfect-continuous",
     },
 
-    // G) FUTURE SIMPLE
+    // I) FUTURE SIMPLE
     {
       slug: "future-simple",
       title: "Future Simple",
@@ -714,7 +807,7 @@ B: Sure, I will.`,
       courseLink: "/app/courses/future-simple",
     },
 
-    // H) FUTURE CONTINUOUS
+    // J) FUTURE CONTINUOUS
     {
       slug: "future-continuous",
       title: "Future Continuous",
@@ -800,7 +893,7 @@ B: Yes, I will be working on it.`,
       courseLink: "/app/courses/future-continuous",
     },
 
-    // I) FUTURE PERFECT SIMPLE
+    // K) FUTURE PERFECT SIMPLE
     {
       slug: "future-perfect-simple",
       title: "Future Perfect Simple",
@@ -883,7 +976,7 @@ A: Perfect.`,
       courseLink: "/app/courses/future-perfect-simple",
     },
 
-    // J) FUTURE PERFECT CONTINUOUS
+    // L) FUTURE PERFECT CONTINUOUS
     {
       slug: "future-perfect-continuous",
       title: "Future Perfect Continuous",
