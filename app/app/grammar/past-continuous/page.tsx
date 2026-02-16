@@ -1,5 +1,13 @@
-import { TensePageWrapper } from "@/lib/grammar/TensePageWrapper";
+import { redirect } from "next/navigation";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { PastContinuousClient } from "./PastContinuousClient";
 
-export default function PastContinuousPage() {
-  return <TensePageWrapper slug="past-continuous" />;
+export default async function PastContinuousPage() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  return <PastContinuousClient />;
 }

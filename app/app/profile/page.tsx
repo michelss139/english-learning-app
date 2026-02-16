@@ -34,6 +34,12 @@ type Badge = {
   earned: boolean;
 };
 
+type Suggestion = {
+  title: string;
+  description: string;
+  href: string;
+};
+
 type ProgressSummary = {
   accuracy: {
     correct_7d: number;
@@ -84,6 +90,7 @@ export default function ProfilePage() {
   const [xp, setXp] = useState<XpInfo | null>(null);
   const [streak, setStreak] = useState<StreakInfo | null>(null);
   const [badges, setBadges] = useState<Badge[]>([]);
+  const [trainingSuggestion, setTrainingSuggestion] = useState<Suggestion | null>(null);
   const [summary, setSummary] = useState<ProgressSummary | null>(null);
   const [extended, setExtended] = useState<ProgressExtended | null>(null);
   const [onboardingStatus, setOnboardingStatus] = useState<OnboardingStatus | null>(null);
@@ -139,13 +146,14 @@ export default function ProfilePage() {
           setAutoAssigned(true);
         }
 
-        const [xpRes, streakRes, badgesRes, summaryRes, extendedRes, onboardingRes] = await Promise.all([
+        const [xpRes, streakRes, badgesRes, summaryRes, extendedRes, onboardingRes, suggestionRes] = await Promise.all([
           fetch("/api/profile/xp", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/streak", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/badges", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/vocab/progress-summary", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/vocab/progress-extended", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/app/onboarding-status", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("/api/app/suggestion", { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         const xpJson = await xpRes.json().catch(() => null);
@@ -185,6 +193,11 @@ export default function ProfilePage() {
         const onboardingJson = await onboardingRes.json().catch(() => null);
         if (onboardingRes.ok && onboardingJson?.ok) {
           setOnboardingStatus({ completed: Boolean(onboardingJson.completed) });
+        }
+
+        const suggestionJson = await suggestionRes.json().catch(() => null);
+        if (suggestionRes.ok && suggestionJson?.ok && suggestionJson?.suggestion) {
+          setTrainingSuggestion(suggestionJson.suggestion as Suggestion);
         }
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać profilu.");
@@ -295,6 +308,24 @@ export default function ProfilePage() {
             <div className="text-xs text-emerald-100/60">Rekord: {bestStreak} dni</div>
           </div>
         </div>
+      </section>
+
+      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-3">
+        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Przedłuż serię</div>
+        {trainingSuggestion ? (
+          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-emerald-100/90">
+            <span className="font-medium text-white">{trainingSuggestion.title}</span>
+            <span className="text-emerald-100/70">{trainingSuggestion.description}</span>
+            <a
+              href={trainingSuggestion.href}
+              className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+            >
+              Start
+            </a>
+          </div>
+        ) : (
+          <div className="text-sm text-emerald-100/70">Brak sugestii treningu na teraz.</div>
+        )}
       </section>
 
       <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">

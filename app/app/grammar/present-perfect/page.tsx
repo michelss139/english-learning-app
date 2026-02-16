@@ -1,5 +1,13 @@
-import { TensePageWrapper } from "@/lib/grammar/TensePageWrapper";
+import { redirect } from "next/navigation";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { PresentPerfectClient } from "./PresentPerfectClient";
 
-export default function PresentPerfectPage() {
-  return <TensePageWrapper slug="present-perfect" />;
+export default async function PresentPerfectPage() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  return <PresentPerfectClient />;
 }
