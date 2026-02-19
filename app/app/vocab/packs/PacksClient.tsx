@@ -91,10 +91,18 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
 
   return (
     <div data-vocab-theme={vocabMode} className="vocab-theme-wrapper">
-      <section className="vocab-pack-section rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-6">
-        <div>
-          <h2 className="text-lg font-semibold tracking-tight text-white">Fiszki</h2>
-          <p className="text-sm text-white/75">Szybkie powtórki na podstawie fiszek.</p>
+      <section className="vocab-pack-section rounded-3xl border-2 border-slate-900 bg-white p-5 space-y-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Fiszki</h2>
+            <p className="text-sm text-slate-600">Szybkie powtórki na podstawie fiszek.</p>
+          </div>
+          <Link
+            href="/app/vocab"
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-slate-50 transition shrink-0"
+          >
+            ← Powrót
+          </Link>
         </div>
 
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
@@ -140,13 +148,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
               value={categoryQuery}
               onChange={(event) => setCategoryQuery(event.target.value)}
               placeholder="Szukaj kategorii…"
-              className="w-full rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-2 pr-10 text-sm text-white/80 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/10"
+              className="w-full rounded-2xl border-2 border-slate-300 bg-white px-4 py-2 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400/50"
             />
             {categoryQuery ? (
               <button
                 type="button"
                 onClick={() => setCategoryQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-white/10 px-2 py-0.5 text-xs text-white/70 hover:bg-white/20"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border-2 border-slate-900 bg-white px-2 py-0.5 text-xs text-slate-700 hover:bg-slate-50"
                 aria-label="Wyczyść wyszukiwanie"
               >
                 ×
@@ -156,25 +164,25 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
         </div>
 
         {filteredPacks.length === 0 ? (
-          <div className="text-sm text-white/75">Brak dostępnych packów.</div>
+          <div className="text-sm text-slate-600">Brak dostępnych packów.</div>
         ) : normalizedQuery && !hasVisibleSections ? (
-          <div className="text-sm text-white/70">Brak kategorii pasujących do wyszukiwania.</div>
+          <div className="text-sm text-slate-600">Brak kategorii pasujących do wyszukiwania.</div>
         ) : (
           <>
             {visibleShopPack ? (
-              <details className="vocab-pack-group rounded-2xl border-2 border-white/10 bg-white/5 p-4" open>
-                <summary className="cursor-pointer text-sm font-semibold text-white/80">W sklepie (1)</summary>
+              <details className="vocab-pack-group rounded-2xl border-2 border-slate-300 bg-slate-50 p-4" open>
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">W sklepie (1)</summary>
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   <Link
                     key={visibleShopPack.id}
                     href={packHref(visibleShopPack.slug, vocabMode)}
-                    className="vocab-pack-card rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition"
+                    className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="font-semibold text-white">{visibleShopPack.title}</h3>
-                      <span className="text-xs text-white/60">{visibleShopPack.item_count} fiszek</span>
+                      <h3 className="font-semibold text-slate-900">{visibleShopPack.title}</h3>
+                      <span className="text-xs text-slate-600">{visibleShopPack.item_count} fiszek</span>
                     </div>
-                    <p className="text-xs text-white/60">
+                    <p className="text-xs text-slate-600">
                       {visibleShopPack.description || "Szybka powtórka słówek."}
                     </p>
                   </Link>
@@ -183,8 +191,8 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
             ) : null}
 
             {visibleBodyPacks.length > 0 ? (
-              <details className="vocab-pack-group rounded-2xl border-2 border-white/10 bg-white/5 p-4" open>
-                <summary className="cursor-pointer text-sm font-semibold text-white/80">
+              <details className="vocab-pack-group rounded-2xl border-2 border-slate-300 bg-slate-50 p-4" open>
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">
                   Ciało ({visibleBodyPacks.length})
                 </summary>
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -192,13 +200,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="font-semibold text-white">{pack.title}</h3>
-                        <span className="text-xs text-white/60">{pack.item_count} fiszek</span>
+                        <h3 className="font-semibold text-slate-900">{pack.title}</h3>
+                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-white/60">{pack.description || "Szybka powtórka słówek."}</p>
+                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>
@@ -206,8 +214,8 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
             ) : null}
 
             {visibleTransportPacks.length > 0 ? (
-              <details className="vocab-pack-group rounded-2xl border-2 border-white/10 bg-white/5 p-4" open>
-                <summary className="cursor-pointer text-sm font-semibold text-white/80">
+              <details className="vocab-pack-group rounded-2xl border-2 border-slate-300 bg-slate-50 p-4" open>
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">
                   Transport ({visibleTransportPacks.length})
                 </summary>
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -215,13 +223,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="font-semibold text-white">{pack.title}</h3>
-                        <span className="text-xs text-white/60">{pack.item_count} fiszek</span>
+                        <h3 className="font-semibold text-slate-900">{pack.title}</h3>
+                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-white/60">{pack.description || "Szybka powtórka słówek."}</p>
+                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>
@@ -229,8 +237,8 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
             ) : null}
 
             {visibleContractsPacks.length > 0 ? (
-              <details className="vocab-pack-group rounded-2xl border-2 border-white/10 bg-white/5 p-4" open>
-                <summary className="cursor-pointer text-sm font-semibold text-white/80">
+              <details className="vocab-pack-group rounded-2xl border-2 border-slate-300 bg-slate-50 p-4" open>
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">
                   Umowy ({visibleContractsPacks.length})
                 </summary>
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -238,13 +246,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="font-semibold text-white">{pack.title}</h3>
-                        <span className="text-xs text-white/60">{pack.item_count} fiszek</span>
+                        <h3 className="font-semibold text-slate-900">{pack.title}</h3>
+                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-white/60">{pack.description || "Szybka powtórka słówek."}</p>
+                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>
@@ -252,8 +260,8 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
             ) : null}
 
             {visibleHomePacks.length > 0 ? (
-              <details className="vocab-pack-group rounded-2xl border-2 border-white/10 bg-white/5 p-4" open>
-                <summary className="cursor-pointer text-sm font-semibold text-white/80">
+              <details className="vocab-pack-group rounded-2xl border-2 border-slate-300 bg-slate-50 p-4" open>
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">
                   W domu ({visibleHomePacks.length})
                 </summary>
                 <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -261,13 +269,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="font-semibold text-white">{pack.title}</h3>
-                        <span className="text-xs text-white/60">{pack.item_count} fiszek</span>
+                        <h3 className="font-semibold text-slate-900">{pack.title}</h3>
+                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-white/60">{pack.description || "Szybka powtórka słówek."}</p>
+                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>

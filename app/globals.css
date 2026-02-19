@@ -34,52 +34,52 @@ body {
 [data-vocab-theme="daily"] .vocab-pack-section,
 [data-vocab-theme="precise"] .vocab-pack-section,
 [data-vocab-theme="mixed"] .vocab-pack-section {
-  background: rgba(6, 20, 14, 0.5);
-  border-color: var(--vocab-accent-border, rgba(255, 255, 255, 0.12));
+  background: #ffffff;
+  border-color: #1e293b;
 }
 
 [data-vocab-theme="daily"] .vocab-pack-group,
 [data-vocab-theme="precise"] .vocab-pack-group,
 [data-vocab-theme="mixed"] .vocab-pack-group {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--vocab-accent-border, rgba(255, 255, 255, 0.1));
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 [data-vocab-theme="daily"] .vocab-pack-card,
 [data-vocab-theme="precise"] .vocab-pack-card,
 [data-vocab-theme="mixed"] .vocab-pack-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--vocab-accent-border, rgba(255, 255, 255, 0.12));
+  background: #ffffff;
+  border-color: var(--vocab-accent-border, #1e293b);
   transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
 }
 
 [data-vocab-theme="daily"] .vocab-pack-card:hover,
 [data-vocab-theme="precise"] .vocab-pack-card:hover,
 [data-vocab-theme="mixed"] .vocab-pack-card:hover {
-  background: var(--vocab-accent-soft, rgba(255, 255, 255, 0.12));
-  border-color: var(--vocab-accent, rgba(255, 255, 255, 0.2));
+  background: var(--vocab-accent-soft, #fef2f2);
+  border-color: var(--vocab-accent, #1e293b);
   transform: translateY(-1px);
 }
 
 [data-vocab-theme="mixed"] {
-  --vocab-page-bg: linear-gradient(135deg, rgba(6, 30, 20, 0.35), rgba(2, 6, 23, 0.35));
+  --vocab-page-bg: transparent;
   --vocab-accent: #10b981;
-  --vocab-accent-soft: rgba(16, 185, 129, 0.18);
-  --vocab-accent-border: rgba(16, 185, 129, 0.35);
+  --vocab-accent-soft: #ecfdf5;
+  --vocab-accent-border: #10b981;
 }
 
 [data-vocab-theme="daily"] {
-  --vocab-page-bg: linear-gradient(135deg, rgba(88, 18, 44, 0.5), rgba(24, 8, 18, 0.65));
-  --vocab-accent: #f43f9f;
-  --vocab-accent-soft: rgba(244, 63, 159, 0.24);
-  --vocab-accent-border: rgba(244, 63, 159, 0.45);
+  --vocab-page-bg: transparent;
+  --vocab-accent: #ec4899;
+  --vocab-accent-soft: #fdf2f8;
+  --vocab-accent-border: #ec4899;
 }
 
 [data-vocab-theme="precise"] {
-  --vocab-page-bg: linear-gradient(135deg, rgba(24, 12, 39, 0.5), rgba(8, 10, 18, 0.65));
+  --vocab-page-bg: transparent;
   --vocab-accent: #a78bfa;
-  --vocab-accent-soft: rgba(167, 139, 250, 0.2);
-  --vocab-accent-border: rgba(167, 139, 250, 0.4);
+  --vocab-accent-soft: #f5f3ff;
+  --vocab-accent-border: #a78bfa;
 }
 
 .vocab-mode-switch {
@@ -90,9 +90,9 @@ body {
 
 .vocab-mode-option {
   border-radius: 999px;
-  border: 2px solid var(--vocab-accent-border, rgba(255, 255, 255, 0.15));
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--vocab-accent-border, #1e293b);
+  background: #ffffff;
+  color: #334155;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -101,9 +101,9 @@ body {
 }
 
 .vocab-mode-option[data-active="true"] {
-  background: var(--vocab-accent-soft, rgba(255, 255, 255, 0.2));
+  background: var(--vocab-accent-soft, #f8fafc);
   border-color: var(--vocab-accent, #10b981);
-  color: #ffffff;
+  color: #0f172a;
 }
 
 /* Grammar map: verb/auxiliary/example styling (neutral, use CSS variables) */

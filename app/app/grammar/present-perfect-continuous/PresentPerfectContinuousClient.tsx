@@ -39,42 +39,61 @@ function DefinitionContent() {
 
 function ConstructionContent() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Konstrukcja</h2>
-      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
-        <p>
-          I / You / We / They → <span className="auxiliary">have</span> <span className="verb-main">been</span>{" "}
-          <span className="verb-main">work</span>
-          <span className="verb-ending">ing</span>
+    <div className="space-y-4">
+      <section>
+        <h2 className="mb-3 text-lg font-semibold text-slate-900">Konstrukcja</h2>
+        <div className="overflow-x-auto rounded-xl border border-slate-300">
+          <table className="w-full min-w-[400px] border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-300 bg-slate-50">
+                <th className="p-3 font-medium text-slate-900">Typ zdania</th>
+                <th className="p-3 font-medium text-slate-900">Schemat</th>
+                <th className="p-3 font-medium text-slate-900">Przykład</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-800">
+              <tr className="border-b border-slate-200">
+                <td className="p-3 font-medium">Twierdzenie</td>
+                <td className="p-3">
+                  I / You / We / They → <span className="auxiliary">have</span> <span className="verb-main">been</span>{" "}
+                  <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
+                  <br />
+                  He / She / It → <span className="auxiliary">has</span> <span className="verb-main">been</span>{" "}
+                  <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
+                </td>
+                <td className="p-3 example-muted">I have been learning English for two years.</td>
+              </tr>
+              <tr className="border-b border-slate-200">
+                <td className="p-3 font-medium">Przeczenie</td>
+                <td className="p-3">
+                  <span className="auxiliary">have not</span> / <span className="auxiliary">has not</span>{" "}
+                  <span className="verb-main">been</span> <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
+                </td>
+                <td className="p-3 example-muted">She hasn&apos;t been studying long.</td>
+              </tr>
+              <tr className="border-b border-slate-200">
+                <td className="p-3 font-medium">Pytanie</td>
+                <td className="p-3">
+                  <span className="auxiliary">Have</span> / <span className="auxiliary">Has</span> + podmiot +{" "}
+                  <span className="verb-main">been</span> <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>?
+                </td>
+                <td className="p-3 example-muted">Have you been waiting? Has she been crying?</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section>
+        <h3 className="mb-2 text-base font-semibold text-slate-900">KONSTRUKCJA: HAVE/HAS + BEEN + -ING</h3>
+        <p className="text-slate-700">
+          Konstrukcja zawsze zawiera have/has + been + -ing. Element „been" jest obowiązkowy — nie można go pominąć.
         </p>
-        <p>
-          He / She / It → <span className="auxiliary">has</span> <span className="verb-main">been</span>{" "}
-          <span className="verb-main">work</span>
-          <span className="verb-ending">ing</span>
-        </p>
-      </div>
-      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
-        <p>
-          Przeczenie:
-          <br />
-          have not been working
-          <br />
-          has not been studying
-        </p>
-      </div>
-      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
-        <p>
-          Pytanie:
-          <br />
-          Have you been waiting?
-          <br />
-          Has she been crying?
-        </p>
-      </div>
-      <p className="text-slate-700">
-        To konstrukcja: have/has + been + -ing.
-      </p>
-    </section>
+      </section>
+    </div>
   );
 }
 
@@ -262,10 +281,10 @@ export function PresentPerfectContinuousClient() {
           </div>
         </div>
         <Link
-          href="/app/grammar"
+          href="/app/grammar/tenses"
           className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
         >
-          ← Spis treści
+          ← Wróć do czasów
         </Link>
       </header>
 

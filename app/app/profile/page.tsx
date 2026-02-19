@@ -106,7 +106,7 @@ export default function ProfilePage() {
       href: "/app/vocab/clusters",
     },
     {
-      title: "Irregular Verbs (min 5)",
+      title: "Nieregularne czasowniki (min 5)",
       description: "Formy czasowników nieregularnych.",
       href: "/app/irregular-verbs/train",
     },
@@ -220,6 +220,19 @@ export default function ProfilePage() {
   const currentStreak = streak?.last_activity_date ? streak.current_streak ?? 0 : 0;
   const bestStreak = streak?.best_streak ?? 0;
 
+  const weekDays = ["PN", "WT", "ŚR", "CZ", "PT", "SB", "ND"];
+  const weekActivity = useMemo(() => {
+    const now = new Date();
+    const dayIndex = (now.getDay() + 6) % 7;
+    const completedDays = Math.max(0, Math.min(currentStreak, dayIndex + 1));
+    return weekDays.map((label, idx) => ({
+      label,
+      done: idx >= dayIndex - completedDays + 1 && idx <= dayIndex && currentStreak > 0,
+    }));
+  }, [currentStreak]);
+  const tooltipText =
+    "Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia.";
+
   const renderBadgeIcon = (badge: Badge) => {
     if (badge.icon && (badge.icon.startsWith("/") || badge.icon.startsWith("http"))) {
       return <img src={badge.icon} alt="" className="h-8 w-8" />;
@@ -231,46 +244,90 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6">
-          <div className="text-sm text-emerald-100/70">Ładuję profil…</div>
-        </section>
+        <div className="px-1 py-1">
+          <div className="text-sm text-slate-600">Ładuję profil…</div>
+        </div>
       </main>
     );
   }
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6">
+      <header className="px-1 py-1">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-2">
-            <div className="text-xs uppercase tracking-[0.2em] text-emerald-100/60">Postęp</div>
-            <h1 className="text-3xl font-semibold tracking-tight text-white">
+          <div className="mx-auto flex max-w-2xl flex-col items-center space-y-3 text-center sm:mx-0 sm:items-start sm:text-left">
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
               Oto twój postęp, {profile?.username || profile?.email || "Użytkowniku"}!
             </h1>
+            <div className="flex items-center gap-2 text-sm text-slate-600">
+              <span>
+                To twój <span className="text-base font-semibold text-slate-900">{currentStreak}</span> dzień nauki!
+              </span>
+              <span className="group relative inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-300 text-xs font-bold text-black">
+                ?
+                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-64 -translate-x-1/2 rounded-lg border border-black/10 bg-white px-3 py-2 text-xs text-black opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
+                  {tooltipText}
+                </span>
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              {weekActivity.map((day) => (
+                <div key={day.label} className="flex flex-col items-center gap-1 text-sm text-slate-500">
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-full border text-sm font-semibold ${
+                      day.done
+                        ? "border-slate-900 bg-slate-100 text-slate-800"
+                        : "border-slate-400 bg-white text-slate-500"
+                    }`}
+                  >
+                    {day.done ? "✓" : ""}
+                  </div>
+                  <span>{day.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => router.push("/app")}
-            className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
-          >
-            ← Wróć do strony głównej
-          </button>
+          <div className="flex flex-col items-center gap-3 sm:items-end">
+            <a
+              href="#badges"
+              className="flex flex-col items-center gap-1.5 text-slate-700 hover:text-slate-900 transition"
+              title="Zobacz wszystkie odznaki"
+            >
+              <span className="text-sm font-medium">Moje odznaki</span>
+              <div
+                className={`flex h-10 w-10 items-center justify-center rounded-full border text-sm font-semibold ${
+                  badges.some((b) => b.slug === "pack_shop_master" && b.earned)
+                    ? "border-slate-900 bg-slate-100 text-slate-800"
+                    : "border-slate-400 bg-white text-slate-500"
+                }`}
+                aria-hidden
+              >
+                M
+              </div>
+            </a>
+            <a
+              href="/app"
+              className="inline-flex w-40 items-center justify-center rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+            >
+              ← Wróć do strony głównej
+            </a>
+          </div>
         </div>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
           <div className="flex flex-col gap-3">
-            <div>{error}</div>
+            <div className="text-slate-800">{error}</div>
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 onClick={() => router.refresh()}
               >
                 Spróbuj ponownie
               </button>
               <a
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 href="/app"
               >
                 Wróć do strony głównej
@@ -280,198 +337,209 @@ export default function ProfilePage() {
         </div>
       ) : null}
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <img
-              src={avatarSrc}
-              alt=""
-              className="h-20 w-20 rounded-full object-cover border-2 border-white/20"
-            />
-            <div>
-              <div className="text-sm text-emerald-100/70">Poziom</div>
-              <div className="text-4xl font-semibold text-white">{xp?.level ?? 0}</div>
+      <section className="tile-frame">
+        <div className="tile-core p-6">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center gap-4">
+              <img
+                src={avatarSrc}
+                alt=""
+                className="h-20 w-20 rounded-full object-cover border-2 border-slate-300"
+              />
+              <div>
+                <div className="text-sm text-slate-500">Poziom</div>
+                <div className="text-4xl font-semibold text-slate-900">{xp?.level ?? 0}</div>
+              </div>
             </div>
-          </div>
-          <div className="flex-1 space-y-2">
-            <div className="text-sm text-emerald-100/70">Postęp do następnego poziomu</div>
-            <div className="h-3 w-full rounded-full bg-white/10 overflow-hidden">
-              <div className="h-full bg-emerald-400" style={{ width: `${xpPercent}%` }} />
+            <div className="flex-1 space-y-2">
+              <div className="text-sm text-slate-600">Postęp do następnego poziomu</div>
+              <div className="h-3 w-full rounded-full bg-slate-200 overflow-hidden">
+                <div className="h-full bg-slate-700" style={{ width: `${xpPercent}%` }} />
+              </div>
+              <div className="text-xs text-slate-500">
+                {xpInLevel}/{xpToNext} XP do następnego poziomu
+              </div>
             </div>
-            <div className="text-xs text-emerald-100/60">
-              {xpInLevel}/{xpToNext} XP do następnego poziomu
+            <div className="space-y-1 text-right">
+              <div className="text-sm text-slate-600">Rekord serii</div>
+              <div className="text-lg font-semibold text-slate-900">{bestStreak} dni</div>
             </div>
-          </div>
-          <div className="space-y-1 text-right">
-            <div className="text-sm text-emerald-100/70">Seria</div>
-            <div className="text-lg font-semibold text-white">{currentStreak} dni</div>
-            <div className="text-xs text-emerald-100/60">Rekord: {bestStreak} dni</div>
           </div>
         </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-3">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Przedłuż serię</div>
-        {trainingSuggestion ? (
-          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-emerald-100/90">
-            <span className="font-medium text-white">{trainingSuggestion.title}</span>
-            <span className="text-emerald-100/70">{trainingSuggestion.description}</span>
-            <a
-              href={trainingSuggestion.href}
-              className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
-            >
-              Start
-            </a>
-          </div>
-        ) : (
-          <div className="text-sm text-emerald-100/70">Brak sugestii treningu na teraz.</div>
-        )}
+      <section className="tile-frame">
+        <div className="tile-core p-6 space-y-3">
+          <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Przedłuż serię</div>
+          {trainingSuggestion ? (
+            <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800">
+              <span className="font-medium text-slate-900">{trainingSuggestion.title}</span>
+              <span className="text-slate-600">{trainingSuggestion.description}</span>
+              <a
+                href={trainingSuggestion.href}
+                className="rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+              >
+                Start
+              </a>
+            </div>
+          ) : (
+            <div className="text-sm text-slate-600">Brak sugestii treningu na teraz.</div>
+          )}
+        </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Twoje wyniki</div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="text-xs text-white/60">Nauczone dziś</div>
-            <div
-              className={`text-3xl font-semibold ${
-                (extended?.learned?.today?.length ?? 0) > 0 ? "text-emerald-200" : "text-white/40"
-              }`}
-            >
-              {extended?.learned?.today?.length ?? 0}
+      <section className="tile-frame">
+        <div className="tile-core p-6 space-y-4">
+          <div className="text-sm uppercase tracking-[0.2em] text-slate-500">Twoje wyniki</div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <div className="text-xs text-slate-500">Nauczone dziś</div>
+              <div
+                className={`text-3xl font-semibold ${
+                  (extended?.learned?.today?.length ?? 0) > 0 ? "text-slate-900" : "text-slate-400"
+                }`}
+              >
+                {extended?.learned?.today?.length ?? 0}
+              </div>
             </div>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="text-xs text-white/60">Do nauczenia</div>
-            <div className="text-3xl font-semibold text-rose-200">
-              {extended?.toLearn?.total?.length ?? 0}
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <div className="text-xs text-slate-500">Do nauczenia</div>
+              <div className="text-3xl font-semibold text-slate-900">
+                {extended?.toLearn?.total?.length ?? 0}
+              </div>
             </div>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="text-xs text-white/60">Nauczone ogółem</div>
-            <div className="text-3xl font-semibold text-emerald-300">
-              {extended?.learned?.total?.length ?? 0}
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <div className="text-xs text-slate-500">Nauczone ogółem</div>
+              <div className="text-3xl font-semibold text-slate-900">
+                {extended?.learned?.total?.length ?? 0}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {onboardingStatus && !onboardingStatus.completed ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
-          <div>
-            <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Co trenować</div>
-            <div className="text-lg font-semibold text-white">Proste propozycje na start</div>
-          </div>
-          <div className="grid grid-cols-1 gap-3">
-            {onboardingSuggestions.map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                className="rounded-2xl border border-white/10 bg-white/5 p-4 text-white/90 hover:bg-white/10 transition"
-              >
-                <div className="text-sm font-semibold text-white">{item.title}</div>
-                <div className="text-xs text-emerald-100/70">{item.description}</div>
-              </a>
-            ))}
+        <section className="tile-frame">
+          <div className="tile-core p-6 space-y-4">
+            <div>
+              <div className="text-sm uppercase tracking-[0.2em] text-slate-500">Co trenować</div>
+              <div className="text-lg font-semibold text-slate-900">Proste propozycje na start</div>
+            </div>
+            <div className="grid grid-cols-1 gap-3">
+              {onboardingSuggestions.map((item) => (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800 transition hover:bg-slate-50"
+                >
+                  <div className="text-sm font-semibold text-slate-900">{item.title}</div>
+                  <div className="text-xs text-slate-600">{item.description}</div>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       ) : null}
 
-      <section id="badges" className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Odznaki</div>
-            <div className="text-lg font-semibold text-white">Twoje osiągnięcia</div>
+      <section id="badges" className="tile-frame">
+        <div className="tile-core p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm uppercase tracking-[0.2em] text-slate-500">Odznaki</div>
+              <div className="text-lg font-semibold text-slate-900">Twoje osiągnięcia</div>
+            </div>
           </div>
-        </div>
-        {badges.length === 0 ? (
-          <div className="text-sm text-emerald-100/60">Brak dostępnych odznak.</div>
-        ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {badges.map((badge) => (
-              <div
-                key={badge.slug}
-                className={`rounded-2xl border p-3 text-center ${
-                  badge.earned
-                    ? "border-emerald-200/30 bg-emerald-400/10 text-emerald-100"
-                    : "border-white/10 bg-white/5 text-white/50"
-                }`}
-              >
-                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg">
-                  {renderBadgeIcon(badge)}
+          {badges.length === 0 ? (
+            <div className="text-sm text-slate-600">Brak dostępnych odznak.</div>
+          ) : (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {badges.map((badge) => (
+                <div
+                  key={badge.slug}
+                  className={`rounded-xl border p-3 text-center ${
+                    badge.earned
+                      ? "border-slate-900 bg-slate-100 text-slate-900"
+                      : "border-slate-300 bg-white text-slate-500"
+                  }`}
+                >
+                  <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 bg-white text-lg text-slate-700">
+                    {renderBadgeIcon(badge)}
+                  </div>
+                  <div className="text-xs font-semibold">{badge.title}</div>
                 </div>
-                <div className="text-xs font-semibold">{badge.title}</div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-6">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Historia ćwiczeń</div>
+      <section className="tile-frame">
+        <div className="tile-core p-6 space-y-6">
+          <div className="text-sm uppercase tracking-[0.2em] text-slate-500">Historia ćwiczeń</div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
-            <div className="text-sm font-medium text-white">Skuteczność</div>
-            <div className="text-xs text-emerald-100/60">
-              7 dni: {summary?.accuracy?.correct_7d ?? 0}/{summary?.accuracy?.total_7d ?? 0}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <div className="text-sm font-medium text-slate-900">Skuteczność</div>
+              <div className="text-xs text-slate-600">
+                7 dni: {summary?.accuracy?.correct_7d ?? 0}/{summary?.accuracy?.total_7d ?? 0}
+              </div>
+              <div className="text-xs text-slate-600">
+                14 dni: {summary?.accuracy?.correct_14d ?? 0}/{summary?.accuracy?.total_14d ?? 0}
+              </div>
+              <div className="text-xs text-slate-600">Ćwiczeń dziś: {summary?.todayCount ?? 0}</div>
             </div>
-            <div className="text-xs text-emerald-100/60">
-              14 dni: {summary?.accuracy?.correct_14d ?? 0}/{summary?.accuracy?.total_14d ?? 0}
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <div className="text-sm font-medium text-slate-900">Do powtórki</div>
+              {extended?.repeatSuggestions?.length ? (
+                <ul className="space-y-2 text-xs text-slate-700">
+                  {extended.repeatSuggestions.slice(0, 5).map((row) => (
+                    <li key={row.term_en_norm} className="flex items-center justify-between">
+                      <span>{row.term_en_norm}</span>
+                      <span className="text-slate-500">{row.last_correct_at?.slice(0, 10)}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-xs text-slate-600">Brak sugestii powtórek.</div>
+              )}
             </div>
-            <div className="text-xs text-emerald-100/60">Ćwiczeń dziś: {summary?.todayCount ?? 0}</div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
-            <div className="text-sm font-medium text-white">Do powtórki</div>
-            {extended?.repeatSuggestions?.length ? (
-              <ul className="space-y-2 text-xs text-emerald-100/70">
-                {extended.repeatSuggestions.slice(0, 5).map((row) => (
-                  <li key={row.term_en_norm} className="flex items-center justify-between">
-                    <span>{row.term_en_norm}</span>
-                    <span className="text-emerald-100/40">{row.last_correct_at?.slice(0, 10)}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="text-xs text-emerald-100/60">Brak sugestii powtórek.</div>
-            )}
-          </div>
-        </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <div className="text-sm font-medium text-slate-900">Najczęstsze błędy</div>
+              {summary?.mostWrong?.length ? (
+                <ul className="space-y-2 text-xs text-slate-700">
+                  {summary.mostWrong.slice(0, 5).map((row) => (
+                    <li key={row.term_en_norm} className="flex items-center justify-between">
+                      <span>{row.term_en_norm}</span>
+                      <span className="text-slate-500">{row.wrong_count}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-xs text-slate-600">Brak danych o błędach.</div>
+              )}
+            </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
-            <div className="text-sm font-medium text-white">Najczęstsze błędy</div>
-            {summary?.mostWrong?.length ? (
-              <ul className="space-y-2 text-xs text-emerald-100/70">
-                {summary.mostWrong.slice(0, 5).map((row) => (
-                  <li key={row.term_en_norm} className="flex items-center justify-between">
-                    <span>{row.term_en_norm}</span>
-                    <span className="text-emerald-100/40">{row.wrong_count}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="text-xs text-emerald-100/60">Brak danych o błędach.</div>
-            )}
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
-            <div className="text-sm font-medium text-white">Ostatnie próby</div>
-            {summary?.lastAttempts?.length ? (
-              <ul className="space-y-2 text-xs text-emerald-100/70">
-                {summary.lastAttempts.slice(0, 5).map((row, idx) => (
-                  <li key={`${row.term_en_norm}-${idx}`} className="flex items-center justify-between">
-                    <span>{row.term_en_norm}</span>
-                    <span className={row.correct ? "text-emerald-200" : "text-rose-200"}>
-                      {row.correct ? "OK" : "Błąd"}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="text-xs text-emerald-100/60">Brak historii prób.</div>
-            )}
+            <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <div className="text-sm font-medium text-slate-900">Ostatnie próby</div>
+              {summary?.lastAttempts?.length ? (
+                <ul className="space-y-2 text-xs text-slate-700">
+                  {summary.lastAttempts.slice(0, 5).map((row, idx) => (
+                    <li key={`${row.term_en_norm}-${idx}`} className="flex items-center justify-between">
+                      <span>{row.term_en_norm}</span>
+                      <span className={row.correct ? "text-slate-900 font-medium" : "text-rose-600"}>
+                        {row.correct ? "OK" : "Błąd"}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-xs text-slate-600">Brak historii prób.</div>
+              )}
+            </div>
           </div>
         </div>
       </section>

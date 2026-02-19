@@ -23,7 +23,7 @@ export default function GrammarHubPage() {
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {[
           {
-            title: "Irregular Verbs",
+            title: "Nieregularne czasowniki",
             description: "Trening form czasowników nieregularnych.",
             href: "/app/irregular-verbs",
           },
@@ -33,7 +33,7 @@ export default function GrammarHubPage() {
             href: "/app/grammar/tenses",
           },
           {
-            title: "Stative verbs",
+            title: "Czasowniki statyczne",
             description: "Czasowniki statyczne i ich użycie.",
             href: "/app/grammar/stative-verbs",
           },

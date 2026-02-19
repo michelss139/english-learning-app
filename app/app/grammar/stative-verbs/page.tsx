@@ -102,7 +102,7 @@ export default function StativeVerbsPage() {
 
   // Navigation anchors
   const sections = [
-    { id: "definition", title: "Czym są stative verbs" },
+    { id: "definition", title: "Czym są czasowniki statyczne" },
     { id: "importance", title: "Dlaczego to ważne" },
     { id: "categories", title: "Główne kategorie" },
     { id: "list", title: "Lista najważniejszych" },
@@ -121,7 +121,7 @@ export default function StativeVerbsPage() {
       <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Stative Verbs</h1>
+            <h1 className="text-3xl font-semibold tracking-tight text-white">Czasowniki statyczne</h1>
             <p className="text-base text-emerald-100/80">
               Czasowniki stanu - klucz do naturalnego angielskiego
             </p>
@@ -163,10 +163,10 @@ export default function StativeVerbsPage() {
         {/* 1. Czym są stative verbs */}
         <section id="definition" className="space-y-3 scroll-mt-4">
           <h2 className="text-xl font-semibold text-white">
-            Czym są <GlossaryTooltip term="stative verb">stative verbs</GlossaryTooltip> (definicja po ludzku)
+            Czym są <GlossaryTooltip term="stative verb">czasowniki statyczne</GlossaryTooltip> (definicja po ludzku)
           </h2>
           <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line">
-            {`Stative verbs to czasowniki, które opisują:
+            {`Czasowniki statyczne to czasowniki, które opisują:
 
 stan, a nie akcję,
 
@@ -218,7 +218,7 @@ Angielski działa inaczej.`}
 
         {/* 3. Główne kategorie */}
         <section id="categories" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Główne kategorie stative verbs</h2>
+          <h2 className="text-xl font-semibold text-white">Główne kategorie czasowników statycznych</h2>
           <div className="space-y-4">
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <h3 className="text-lg font-medium text-white/90 mb-2">A) Uczucia i emocje</h3>
@@ -294,7 +294,7 @@ Angielski działa inaczej.`}
 
         {/* 4. Lista najważniejszych */}
         <section id="list" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Najważniejsze stative verbs – lista do nauki</h2>
+          <h2 className="text-xl font-semibold text-white">Najważniejsze czasowniki statyczne – lista do nauki</h2>
           <div className="space-y-3">
             <div>
               <strong className="text-emerald-300">Emotion / feeling:</strong>
@@ -324,7 +324,7 @@ Angielski działa inaczej.`}
           <h2 className="text-xl font-semibold text-white">Uwaga! To myli (sygnały vs pułapki)</h2>
           <div className="rounded-xl border-2 border-amber-400/30 bg-amber-400/10 p-4">
             <div className="prose prose-invert max-w-none text-amber-100 whitespace-pre-line">
-              {`„now" + stative verb ≠ Continuous
+              {`„now" + czasownik statyczny ≠ Continuous
 ❌ I am knowing the answer now.
 ✅ I know the answer now.
 
@@ -345,7 +345,7 @@ I love this movie very much.`}
         {/* 6. Kiedy MOŻE być continuous */}
         <section id="continuous-exceptions" className="space-y-3 scroll-mt-4">
           <h2 className="text-xl font-semibold text-white">
-            Kiedy <GlossaryTooltip term="stative verb">stative verb</GlossaryTooltip> MOŻE być w continuous (zmiana znaczenia)
+            Kiedy <GlossaryTooltip term="stative verb">czasownik statyczny</GlossaryTooltip> MOŻE być w continuous (zmiana znaczenia)
           </h2>
           <div className="prose prose-invert max-w-none text-white/90">
             <div className="space-y-4">
@@ -390,7 +390,7 @@ I love this movie very much.`}
         <section id="structure" className="space-y-3 scroll-mt-4">
           <h2 className="text-xl font-semibold text-white">Struktura (informacyjnie)</h2>
           <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line">
-            {`Stative verbs używamy głównie w:
+            {`Czasowników statycznych używamy głównie w:
 
 Present Simple
 
@@ -455,7 +455,7 @@ B: I know most of them, but I am still thinking about two questions.
 A: You'll be fine.`}
             </div>
             <div className="mt-3 text-xs text-white/60 italic">
-              (Tu masz jednocześnie stative + action – idealny kontrast)
+              (Tu masz jednocześnie czasowniki statyczne + action – idealny kontrast)
             </div>
           </div>
 
@@ -516,10 +516,10 @@ A: You'll be fine.`}
         <section id="related" className="space-y-3 scroll-mt-4">
           <RelatedTenses
             relatedLinks={[
-              { slug: "present-simple", title: "Present Simple", description: "Podstawowy czas dla stative verbs" },
+              { slug: "present-simple", title: "Present Simple", description: "Podstawowy czas dla czasowników statycznych" },
               { slug: "present-continuous", title: "Present Continuous", description: "Kontrast z action verbs" },
-              { slug: "present-perfect", title: "Present Perfect", description: "Stative verbs w Perfect" },
-              { slug: "present-perfect-continuous", title: "Present Perfect Continuous", description: "Kiedy stative może być continuous" },
+              { slug: "present-perfect", title: "Present Perfect", description: "Czasowniki statyczne w Perfect" },
+              { slug: "present-perfect-continuous", title: "Present Perfect Continuous", description: "Kiedy czasownik statyczny może być continuous" },
             ]}
           />
         </section>

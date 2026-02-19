@@ -42,42 +42,63 @@ function DefinitionContent() {
 
 function ConstructionContent() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Konstrukcja</h2>
-      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
-        <p>
-          I / He / She / It → <span className="auxiliary">was</span> + <span className="verb-main">work</span>
-          <span className="verb-ending">ing</span>
+    <div className="space-y-4">
+      <section>
+        <h2 className="mb-3 text-lg font-semibold text-slate-900">Konstrukcja</h2>
+        <div className="overflow-x-auto rounded-xl border border-slate-300">
+          <table className="w-full min-w-[400px] border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-300 bg-slate-50">
+                <th className="p-3 font-medium text-slate-900">Typ zdania</th>
+                <th className="p-3 font-medium text-slate-900">Schemat</th>
+                <th className="p-3 font-medium text-slate-900">Przykład</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-800">
+              <tr className="border-b border-slate-200">
+                <td className="p-3 font-medium">Twierdzenie</td>
+                <td className="p-3">
+                  I / He / She / It → <span className="auxiliary">was</span> + <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
+                  <br />
+                  You / We / They → <span className="auxiliary">were</span> + <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
+                </td>
+                <td className="p-3 example-muted">She was working when I called.</td>
+              </tr>
+              <tr className="border-b border-slate-200">
+                <td className="p-3 font-medium">Przeczenie</td>
+                <td className="p-3">
+                  <span className="auxiliary">was not</span> / <span className="auxiliary">were not</span> +{" "}
+                  <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
+                </td>
+                <td className="p-3 example-muted">I was not working at 10 pm.</td>
+              </tr>
+              <tr className="border-b border-slate-200">
+                <td className="p-3 font-medium">Pytanie</td>
+                <td className="p-3">
+                  <span className="auxiliary">Was</span> / <span className="auxiliary">Were</span> + podmiot +{" "}
+                  <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>?
+                </td>
+                <td className="p-3 example-muted">Was she working? Were they watching TV?</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section>
+        <h3 className="mb-2 text-base font-semibold text-slate-900">KONSTRUKCJA: WAS/WERE + -ING</h3>
+        <p className="text-slate-700">
+          Ten czas zawsze potrzebuje odmienionego „be" w przeszłości (was/were) oraz formy -ing.
+          Oba elementy są obowiązkowe.
         </p>
-        <p>
-          You / We / They → <span className="auxiliary">were</span> + <span className="verb-main">work</span>
-          <span className="verb-ending">ing</span>
-        </p>
-      </div>
-      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
-        <p>
-          Przeczenie:
-          <br />
-          <span className="auxiliary">was not</span> / <span className="auxiliary">were not</span> +{" "}
-          <span className="verb-main">work</span>
-          <span className="verb-ending">ing</span>
-        </p>
-      </div>
-      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
-        <p>
-          Pytanie:
-          <br />
-          Was she working?
-          <br />
-          Were they watching TV?
-        </p>
-      </div>
-      <p className="text-slate-700">
-        Ten czas zawsze potrzebuje odmienionego „be” w przeszłości oraz formy -ing.
-      </p>
-    </section>
+      </section>
+    </div>
   );
 }
+
 
 function UsageContent() {
   return (
@@ -242,10 +263,10 @@ export function PastContinuousClient() {
           </div>
         </div>
         <Link
-          href="/app/grammar"
+          href="/app/grammar/tenses"
           className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
         >
-          ← Spis treści
+          ← Wróć do czasów
         </Link>
       </header>
 

@@ -319,11 +319,11 @@ export default function PoolTab() {
   const content = useMemo(() => rows, [rows]);
 
   return (
-    <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+    <section className="rounded-3xl border-2 border-slate-900 bg-white p-5 space-y-4">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold tracking-tight text-white">Moja pula</h2>
-          <p className="text-sm text-white/75">Twoje słówka z automatycznymi tłumaczeniami i przykładami.</p>
+          <h2 className="text-lg font-semibold tracking-tight text-slate-900">Moja pula</h2>
+          <p className="text-sm text-slate-600">Twoje słówka z automatycznymi tłumaczeniami i przykładami.</p>
         </div>
         <div className="flex flex-col gap-2 shrink-0">
           {rows.length >= 2 && (
@@ -331,14 +331,14 @@ export default function PoolTab() {
               <button
                 type="button"
                 onClick={selectAll}
-                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-white/75 hover:bg-white/10 hover:text-white transition"
+                className="rounded-xl border-2 border-slate-900 bg-white px-3 py-2 text-xs font-medium text-slate-900 hover:bg-slate-50 transition"
               >
                 Zaznacz wszystkie
               </button>
               <button
                 type="button"
                 onClick={clearAll}
-                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-white/75 hover:bg-white/10 hover:text-white transition"
+                className="rounded-xl border-2 border-slate-900 bg-white px-3 py-2 text-xs font-medium text-slate-900 hover:bg-slate-50 transition"
               >
                 Odznacz wszystkie
               </button>
@@ -348,7 +348,7 @@ export default function PoolTab() {
             type="button"
             onClick={startTest}
             disabled={selectedCount === 0}
-            className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60 disabled:cursor-not-allowed"
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
             Stwórz test ({selectedCount})
           </button>
@@ -360,17 +360,17 @@ export default function PoolTab() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Szukaj w puli (np. ball, work, happy...)"
-          className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none text-white placeholder:text-white/40"
+          className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 outline-none text-slate-900 placeholder:text-slate-400"
         />
         <button
           type="submit"
-          className="rounded-xl border-2 border-white/15 bg-white/10 px-5 py-3 font-medium text-white hover:bg-white/15 transition"
+          className="rounded-xl border-2 border-slate-900 bg-white px-5 py-3 font-medium text-slate-900 hover:bg-slate-50 transition"
         >
           Szukaj
         </button>
       </form>
 
-      {loading ? <div className="text-sm text-white/75">Ładuję…</div> : null}
+      {loading ? <div className="text-sm text-slate-600">Ładuję…</div> : null}
 
       {error ? (
         <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
@@ -393,26 +393,26 @@ export default function PoolTab() {
           return (
             <div key={r.user_vocab_item_id} className={`rounded-2xl border-2 p-4 transition ${
               isHighlighted
-                ? "border-yellow-400/60 bg-yellow-400/20 shadow-lg shadow-yellow-400/20"
-                : "border-white/10 bg-white/5"
+                ? "border-amber-400 bg-amber-50 shadow-lg"
+                : "border-slate-900 bg-white"
             }`}>
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   checked={!!selected[r.user_vocab_item_id]}
                   onChange={() => toggleSelected(r.user_vocab_item_id)}
-                  className="mt-1 w-5 h-5 rounded border-2 border-white/20 bg-white/5 text-sky-400 focus:ring-2 focus:ring-sky-400/30"
+                  className="mt-1 w-5 h-5 rounded border-2 border-slate-300 bg-white text-sky-500 focus:ring-2 focus:ring-sky-400/50"
                 />
                 <div className="flex items-start justify-between gap-4 flex-1">
                   <div className="space-y-2 flex-1">
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <div className="text-lg font-semibold text-white">{lemma}</div>
-                      {r.pos && (
-                        <span className="px-3 py-1 rounded-lg border-2 border-emerald-400/40 bg-emerald-400/20 text-emerald-200 text-sm font-semibold">
-                          [{r.pos}]
-                        </span>
-                      )}
+                      <div className="text-lg font-semibold text-slate-900">
+                        {lemma}
+                        {r.pos ? (
+                          <span className="ml-1.5 text-sm font-normal text-slate-500">[{r.pos}]</span>
+                        ) : null}
+                      </div>
                       {verbForm && shouldShowVerbFormBadge(r.pos, verbForm) && (
                         <span className="px-2 py-0.5 rounded-lg border border-purple-400/30 bg-purple-400/10 text-xs text-purple-200">
                           Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'
@@ -427,7 +427,7 @@ export default function PoolTab() {
                       {showRepeat ? (
                         <span className="relative group">
                           <span
-                            className="inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-white/20 bg-amber-400/20 px-1.5 text-xs font-bold text-amber-200"
+                            className="inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-amber-400 bg-amber-100 px-1.5 text-xs font-bold text-amber-800"
                             aria-label="Sugestia powtórki (minęło 30 dni)"
                             title="Sugestia powtórki (minęło 30 dni)"
                           >
@@ -444,11 +444,11 @@ export default function PoolTab() {
                   </div>
 
                   <div className="text-sm">
-                    <div className="text-white/70">Tłumaczenie</div>
-                    <div className="text-white">
+                    <div className="text-slate-600">Tłumaczenie</div>
+                    <div className="text-slate-900">
                       {getDisplayTranslation(r, verbForm)}
                       {shouldShowVerbFormBadge(r.pos, verbForm) && r.translation_pl && (
-                        <span className="text-xs text-white/50 ml-2">
+                        <span className="text-xs text-slate-500 ml-2">
                           (tłumaczenie bazowe: {r.translation_pl})
                         </span>
                       )}
@@ -457,20 +457,20 @@ export default function PoolTab() {
 
                   {r.definition_en && (
                     <div className="text-sm">
-                      <div className="text-white/70">Definicja</div>
-                      <div className="text-white">{r.definition_en}</div>
+                      <div className="text-slate-600">Definicja</div>
+                      <div className="text-slate-900">{r.definition_en}</div>
                     </div>
                   )}
 
                   {r.example_en && (
                     <div className="text-sm">
-                      <div className="text-white/70">Przykład</div>
-                      <div className="text-white italic">"{r.example_en}"</div>
+                      <div className="text-slate-600">Przykład</div>
+                      <div className="text-slate-900 italic">"{r.example_en}"</div>
                     </div>
                   )}
 
                   {!r.example_en && r.sense_id && (
-                    <div className="text-xs text-white/50">Brak przykładu. Kliknij "Wygeneruj przykład AI".</div>
+                    <div className="text-xs text-slate-500">Brak przykładu. Kliknij "Wygeneruj przykład AI".</div>
                   )}
                   </div>
 
@@ -480,7 +480,7 @@ export default function PoolTab() {
                       type="button"
                       onClick={() => generateAiExample(r.sense_id!)}
                       disabled={loadingSenseId === r.sense_id}
-                      className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
+                      className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition disabled:opacity-60"
                       title="Wygeneruj nowy przykład zdania (AI). Zostanie zapisany w puli przykładów."
                     >
                       {loadingSenseId === r.sense_id ? "Generuję..." : "Wygeneruj przykład AI"}
@@ -518,7 +518,7 @@ export default function PoolTab() {
                         setError(e?.message ?? "Nie udało się usunąć słówka.");
                       }
                     }}
-                    className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-4 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                    className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
                     title="Usuń słówko z puli"
                   >
                     Usuń
@@ -533,8 +533,8 @@ export default function PoolTab() {
 
       {content.length === 0 && !loading && (
         <div className="text-center py-8">
-          <p className="text-sm text-white/75">Nie masz jeszcze słówek w puli.</p>
-          <p className="text-xs text-white/60 mt-2">Dodaj słówka w sekcji "Dodaj słówko".</p>
+          <p className="text-sm text-slate-600">Nie masz jeszcze słówek w puli.</p>
+          <p className="text-xs text-slate-500 mt-2">Dodaj słówka w sekcji "Dodaj słówko".</p>
         </div>
       )}
     </section>

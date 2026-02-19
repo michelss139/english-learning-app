@@ -115,7 +115,7 @@ export default function GrammarCompareClient() {
   if (!tense1Slug || !tense2Slug) {
     return (
       <main className="space-y-6">
-        <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <h1 className="text-2xl font-semibold tracking-tight text-white">Porównywarka czasów</h1>
@@ -131,7 +131,7 @@ export default function GrammarCompareClient() {
             </div>
           </div>
         </header>
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
           <p className="text-white/75">Wybierz czasy do porównania z kart czasów gramatycznych.</p>
         </section>
       </main>
@@ -141,7 +141,7 @@ export default function GrammarCompareClient() {
   if (!comparison) {
     return (
       <main className="space-y-6">
-        <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
               <h1 className="text-2xl font-semibold tracking-tight text-white">Porównywarka czasów</h1>
@@ -157,7 +157,7 @@ export default function GrammarCompareClient() {
             </div>
           </div>
         </header>
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
           <p className="text-white/75">
             Porównanie między "{tense1Slug}" a "{tense2Slug}" nie jest dostępne.
           </p>
@@ -170,7 +170,7 @@ export default function GrammarCompareClient() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-2xl font-semibold tracking-tight text-white">{title}</h1>
@@ -197,7 +197,7 @@ export default function GrammarCompareClient() {
       {/* Side-by-side comparison */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Tense 1 */}
-        <div className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
+        <div className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-white">{tense1.title}</h2>
             <Link
@@ -252,7 +252,7 @@ export default function GrammarCompareClient() {
         </div>
 
         {/* Tense 2 */}
-        <div className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
+        <div className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-white">{tense2.title}</h2>
             <Link
@@ -308,7 +308,7 @@ export default function GrammarCompareClient() {
       </section>
 
       {/* Detailed comparison section */}
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
+      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
         <h2 className="text-xl font-semibold text-white">Różnice i podobieństwa</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -347,7 +347,7 @@ export default function GrammarCompareClient() {
       </section>
 
       {/* AI Dialog section */}
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
+      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-white">Dialog kontrastowy (AI)</h2>
           <button
@@ -387,7 +387,7 @@ export default function GrammarCompareClient() {
       </section>
 
       {/* Quick links */}
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
         <div className="flex flex-wrap gap-3">
           <Link
             href={`/app/grammar/${tense1.slug}`}

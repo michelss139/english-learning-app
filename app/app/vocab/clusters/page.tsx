@@ -33,7 +33,7 @@ export default async function VocabClustersPage() {
   if (clustersErr) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <section className="rounded-3xl border-2 border-slate-900 bg-white p-5">
           <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
             Nie udało się wczytać clusterów.
           </div>
@@ -52,7 +52,7 @@ export default async function VocabClustersPage() {
   if (unlockedErr) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <section className="rounded-3xl border-2 border-slate-900 bg-white p-5">
           <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
             Nie udało się wczytać statusu odblokowania.
           </div>

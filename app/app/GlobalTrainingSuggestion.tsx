@@ -23,7 +23,7 @@ export default function GlobalTrainingSuggestion() {
       href: "/app/vocab/clusters",
     },
     {
-      title: "Irregular Verbs (min 5)",
+      title: "Nieregularne czasowniki (min 5)",
       description: "Formy czasowników nieregularnych.",
       href: "/app/irregular-verbs/train",
     },

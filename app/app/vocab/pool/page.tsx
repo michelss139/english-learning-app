@@ -19,8 +19,8 @@ type Tab = "pool" | "personal";
 function tabBtn(active: boolean) {
   return `rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
     active
-      ? "border-white/20 bg-white/15 text-white"
-      : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+      ? "border-slate-900 bg-slate-100 text-slate-900"
+      : "border-slate-900 bg-white text-slate-700 hover:bg-slate-50"
   }`;
 }
 
@@ -203,29 +203,22 @@ function VocabPoolInner() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Moja pula</h1>
-            <p className="text-base text-emerald-100/80">
-              Zalogowany jako: <span className="font-medium text-white">{profile?.email ?? "-"}</span>
-            </p>
-          </div>
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Moja pula</h1>
 
-          <div className="flex flex-wrap gap-2">
-            <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-              href="/app/vocab"
-            >
-              ← Słownictwo
-            </a>
-            <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
-              href="/app"
-            >
-              ← Panel ucznia
-            </a>
-          </div>
+        <div className="flex flex-wrap gap-2">
+          <a
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-slate-50 transition"
+            href="/app/vocab"
+          >
+            ← Słownictwo
+          </a>
+          <a
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-slate-50 transition"
+            href="/app"
+          >
+            ← Panel ucznia
+          </a>
         </div>
       </header>
 
@@ -251,18 +244,18 @@ function VocabPoolInner() {
       {tab === "pool" ? <PoolTab /> : null}
 
       {tab === "personal" ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+        <section className="rounded-3xl border-2 border-slate-900 bg-white p-5 space-y-4">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj słówko</h2>
-            <p className="text-sm text-white/75">
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Dodaj słówko</h2>
+            <p className="text-sm text-slate-600">
               Wpisz słówko po angielsku. System znajdzie wszystkie znaczenia i pozwoli wybrać właściwe.
             </p>
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+          <div className="rounded-2xl border-2 border-slate-300 bg-slate-50 p-4">
             <div className="flex gap-3">
               <input
-                className="flex-1 rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                className="flex-1 rounded-2xl border-2 border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
                 placeholder="Wpisz słówko po angielsku (np. ball)"
                 value={newWord}
                 onChange={(e) => setNewWord(e.target.value)}
@@ -295,23 +288,23 @@ function VocabPoolInner() {
           />
 
           {personal.length === 0 ? (
-            <p className="text-sm text-white/75">Nie masz jeszcze własnych słówek.</p>
+            <p className="text-sm text-slate-600">Nie masz jeszcze własnych słówek.</p>
           ) : (
             <ul className="space-y-2">
               {personal.map((w) => (
                 <li
                   key={w.id}
-                  className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
+                  className="rounded-2xl border-2 border-slate-900 bg-white px-4 py-3 flex items-center justify-between gap-3"
                   title={w.translation_pl ?? ""}
                 >
                   <div className="min-w-0 flex-1">
-                    <span className="font-medium text-white">{w.term_en}</span>
-                    <span className="text-sm text-white/70 ml-2">
+                    <span className="font-medium text-slate-900">{w.term_en}</span>
+                    <span className="text-sm text-slate-600 ml-2">
                       {w.translation_pl ? "hover → PL" : "brak tłumaczenia"}
                     </span>
                   </div>
                   <button
-                    className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-3 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
+                    className="rounded-xl border-2 border-slate-900 bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
                     onClick={async () => {
                       if (!confirm(`Czy na pewno chcesz usunąć słówko "${w.term_en}"?`)) return;
 

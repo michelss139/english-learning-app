@@ -202,7 +202,7 @@ lie → lying (ie → y)`
 "am/is/are" wchodzi w pytania i przeczenia. Główny czasownik w formie -ing.`,
         confusionWarnings: `"now", "at the moment" → prawie zawsze PC
 
-stative verbs → nie w continuous
+czasowniki statyczne → nie w continuous
 
 "today" bywa PS albo PC`,
         commonMistakes: `I'm go to school. → I'm going to school.

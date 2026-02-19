@@ -46,7 +46,15 @@ export default async function GrammarTensesPage() {
 
       <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-slate-900 mb-4">Spis treści</h2>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-xl font-semibold text-slate-900">Spis treści</h2>
+            <Link
+              href="/app/story-generator"
+              className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+            >
+              AI Story Generator
+            </Link>
+          </div>
           <p className="text-sm text-slate-600 mb-6">
             Wybierz czas gramatyczny, aby zobaczyć teorię, przykłady i ćwiczenia.
           </p>

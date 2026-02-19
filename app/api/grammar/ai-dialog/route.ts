@@ -231,7 +231,7 @@ export async function POST(req: Request) {
     let tense2Title = tense2;
     
     if (tense1 === "stative-verbs") {
-      tense1Title = "Stative Verbs";
+      tense1Title = "Czasowniki statyczne";
     } else {
       const tense1Data = getGrammarTenseBySlug(tense1 as GrammarTenseSlug);
       if (!tense1Data) {
@@ -241,7 +241,7 @@ export async function POST(req: Request) {
     }
     
     if (tense2 === "stative-verbs") {
-      tense2Title = "Stative Verbs";
+      tense2Title = "Czasowniki statyczne";
     } else {
       const tense2Data = getGrammarTenseBySlug(tense2 as GrammarTenseSlug);
       if (!tense2Data) {

@@ -537,6 +537,12 @@ export default function PackTrainingClient(props: {
             <div className="flex flex-wrap gap-2">
               <a
                 className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                href="/app/vocab"
+              >
+                ← Powrót
+              </a>
+              <a
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
                 href="/app/vocab/packs"
               >
                 ← Lista packów
@@ -663,6 +669,12 @@ export default function PackTrainingClient(props: {
               <p className="text-sm text-white/75">Fiszki: {pack.title ?? slug}</p>
             </div>
             <div className="flex flex-wrap gap-2">
+              <a
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                href="/app/vocab"
+              >
+                ← Powrót
+              </a>
               <a
                 className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
                 href="/app/vocab/packs"
@@ -836,6 +848,12 @@ export default function PackTrainingClient(props: {
           </div>
 
           <div className="flex flex-wrap gap-2">
+            <a
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              href="/app/vocab"
+            >
+              ← Powrót
+            </a>
             <a
               className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
               href="/app/vocab/packs"

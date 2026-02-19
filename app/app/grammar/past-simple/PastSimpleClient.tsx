@@ -256,10 +256,10 @@ export function PastSimpleClient() {
           </div>
         </div>
         <Link
-          href="/app/grammar"
+          href="/app/grammar/tenses"
           className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
         >
-          ← Spis treści
+          ← Wróć do czasów
         </Link>
       </header>
 

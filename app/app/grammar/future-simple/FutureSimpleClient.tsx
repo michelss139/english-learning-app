@@ -7,8 +7,8 @@ type SectionKey =
   | "definition"
   | "construction"
   | "usage"
-  | "forSince"
-  | "alreadyYetJust"
+  | "decisionVsPlan"
+  | "signals"
   | "mistakes"
   | "compare";
 
@@ -16,24 +16,23 @@ function DefinitionContent() {
   return (
     <section className="space-y-3">
       <h2 className="text-lg font-semibold text-slate-900">Definicja</h2>
-      <p className="text-slate-700">Present Perfect łączy przeszłość z teraźniejszością.</p>
       <p className="text-slate-700">
-        Mówimy o:
-        <br />- doświadczeniach,
-        <br />- zmianach,
-        <br />- rezultacie widocznym teraz,
-        <br />- sytuacjach, które zaczęły się w przeszłości i trwają do teraz.
+        Future Simple (will) opisuje decyzję podjętą w momencie mówienia, przewidywanie lub obietnicę
+        dotyczącą przyszłości.
       </p>
       <p className="text-slate-700">
-        Nie interesuje nas dokładny moment w przeszłości.
-        Interesuje nas efekt teraz.
+        To nie jest zaplanowana czynność.
+        <br />
+        To często spontaniczna reakcja.
       </p>
       <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-        <p>I have visited London.</p>
-        <p>She has lost her keys. (Teraz nie ma kluczy.)</p>
-        <p>I have lived here for five years.</p>
+        <p className="example-muted">I will help you.</p>
+        <p className="example-muted">She will call you later.</p>
+        <p className="example-muted">I think it will rain.</p>
       </div>
-      <p className="text-slate-700">Przeszłość → skutek teraz.</p>
+      <p className="text-slate-700 font-medium">
+        To przyszłość „w tej chwili” — decyzja, opinia, obietnica.
+      </p>
     </section>
   );
 }
@@ -56,40 +55,32 @@ function ConstructionContent() {
               <tr className="border-b border-slate-200">
                 <td className="p-3 font-medium">Twierdzenie</td>
                 <td className="p-3">
-                  I / You / We / They → <span className="auxiliary">have</span> + <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>
-                  <br />
-                  He / She / It → <span className="auxiliary">has</span> + <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>
+                  <span className="auxiliary">will</span> + <span className="verb-main">work</span>
                 </td>
-                <td className="p-3 example-muted">I have visited London. She has lost her keys.</td>
+                <td className="p-3 example-muted">I will work. She will call.</td>
               </tr>
               <tr className="border-b border-slate-200">
                 <td className="p-3 font-medium">Przeczenie</td>
                 <td className="p-3">
-                  <span className="auxiliary">have not</span> / <span className="auxiliary">has not</span> +{" "}
-                  <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>
+                  <span className="auxiliary">will not</span> (won&apos;t) + <span className="verb-main">work</span>
                 </td>
-                <td className="p-3 example-muted">She hasn&apos;t finished yet.</td>
+                <td className="p-3 example-muted">I won&apos;t go. She will not come.</td>
               </tr>
               <tr className="border-b border-slate-200">
                 <td className="p-3 font-medium">Pytanie</td>
                 <td className="p-3">
-                  <span className="auxiliary">Have</span> / <span className="auxiliary">Has</span> + podmiot +{" "}
-                  <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>?
+                  <span className="auxiliary">Will</span> + podmiot + <span className="verb-main">work</span>?
                 </td>
-                <td className="p-3 example-muted">Have you finished? Has she called?</td>
+                <td className="p-3 example-muted">Will you help me? Will she arrive on time?</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
       <section>
-        <h3 className="mb-2 text-base font-semibold text-slate-900">KONSTRUKCJA: HAVE/HAS + III FORMA</h3>
+        <h3 className="mb-2 text-base font-semibold text-slate-900">KONSTRUKCJA: WILL + I FORMA</h3>
         <p className="text-slate-700">
-          Po have/has używamy trzeciej formy czasownika (Past Participle). Czasowniki nieregularne mają własną formę (np. go → gone, see → seen).
+          Po „will” zawsze używamy formy podstawowej czasownika (bez -s, bez -ed, bez -ing). Dla wszystkich osób forma „will” jest taka sama.
         </p>
       </section>
     </div>
@@ -101,67 +92,60 @@ function UsageContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Kiedy używamy</h2>
       <div>
-        <p className="font-medium text-slate-900">1) Doświadczenie (bez podania kiedy)</p>
-        <p className="example-muted">I have been to Spain.</p>
+        <p className="font-medium text-slate-900">1) Spontaniczna decyzja</p>
+        <p className="example-muted">The phone is ringing. I will answer it.</p>
       </div>
       <div>
-        <p className="font-medium text-slate-900">2) Rezultat widoczny teraz</p>
-        <p className="example-muted">She has broken her leg.</p>
+        <p className="font-medium text-slate-900">2) Obietnica</p>
+        <p className="example-muted">I will never forget this.</p>
       </div>
       <div>
-        <p className="font-medium text-slate-900">3) Coś zaczęło się w przeszłości i trwa</p>
-        <p className="example-muted">I have worked here since 2020.</p>
+        <p className="font-medium text-slate-900">3) Propozycja</p>
+        <p className="example-muted">I will carry that for you.</p>
       </div>
       <div>
-        <p className="font-medium text-slate-900">4) Zmiana w czasie</p>
-        <p className="example-muted">The city has grown a lot.</p>
+        <p className="font-medium text-slate-900">4) Przewidywanie / opinia</p>
+        <p className="example-muted">I think she will win.</p>
+        <p className="example-muted">It will be difficult.</p>
       </div>
-      <p className="text-slate-700">Nie podajemy konkretnej daty.</p>
     </section>
   );
 }
 
-function ForSinceContent() {
+function DecisionVsPlanContent() {
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">For / Since</h2>
-      <div>
-        <p className="font-medium text-slate-900">for → okres czasu</p>
-        <p className="example-muted">for five years</p>
-        <p className="example-muted">for a long time</p>
+      <h2 className="text-lg font-semibold text-slate-900">Decyzja vs Plan</h2>
+      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
+        <p>
+          <strong>Future Simple (will):</strong> decyzja w momencie mówienia
+        </p>
+        <p>
+          <strong>Going to:</strong> wcześniejszy plan
+        </p>
       </div>
-      <div>
-        <p className="font-medium text-slate-900">since → punkt w czasie</p>
-        <p className="example-muted">since 2020</p>
-        <p className="example-muted">since Monday</p>
-        <p className="example-muted">since I was a child</p>
+      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-700">
+        <p className="example-muted">I will call her. (Decyzja teraz.)</p>
+        <p className="example-muted">I am going to call her. (Plan już wcześniej podjęty.)</p>
+      </div>
+    </section>
+  );
+}
+
+function SignalsContent() {
+  return (
+    <section className="space-y-4">
+      <h2 className="text-lg font-semibold text-slate-900">Sygnały</h2>
+      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
+        <p className="example-muted">I think</p>
+        <p className="example-muted">probably</p>
+        <p className="example-muted">maybe</p>
+        <p className="example-muted">I promise</p>
+        <p className="example-muted">I believe</p>
       </div>
       <p className="text-slate-700">
-        for = jak długo
-        <br />
-        since = od kiedy
+        Często używamy przy opiniach i przewidywaniach.
       </p>
-    </section>
-  );
-}
-
-function AlreadyYetJustContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Already / Yet / Just</h2>
-      <div>
-        <p className="font-medium text-slate-900">already → już (twierdzenia)</p>
-        <p className="example-muted">I have already finished.</p>
-      </div>
-      <div>
-        <p className="font-medium text-slate-900">yet → jeszcze (pytania / przeczenia)</p>
-        <p className="example-muted">Have you finished yet?</p>
-        <p className="example-muted">I haven&apos;t finished yet.</p>
-      </div>
-      <div>
-        <p className="font-medium text-slate-900">just → właśnie</p>
-        <p className="example-muted">She has just left.</p>
-      </div>
     </section>
   );
 }
@@ -170,25 +154,25 @@ function MistakesContent() {
   return (
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Błędy</h2>
-      <div className="space-y-2 text-slate-800">
+      <div className="space-y-3 text-slate-800">
         <p>
-          ❌ I have seen her yesterday.
+          ❌ I will to call you.
           <br />
-          ✔ I saw her yesterday.
+          ✔ I will <span className="verb-main">call</span> you.
         </p>
         <p>
-          ❌ I am here since 2020.
+          ❌ She will calls you.
           <br />
-          ✔ I have been here since 2020.
+          ✔ She will <span className="verb-main">call</span> you.
         </p>
         <p>
-          ❌ She have finished.
+          ❌ I am sure she will wins.
           <br />
-          ✔ She has finished.
+          ✔ I am sure she will <span className="verb-main">win</span>.
         </p>
       </div>
       <p className="text-slate-700">
-        Jeśli podajesz konkretną datę (yesterday, in 2019) → użyj Past Simple.
+        Po „will” zawsze forma podstawowa.
       </p>
     </section>
   );
@@ -198,34 +182,28 @@ function CompareContent() {
   return (
     <section className="space-y-3">
       <h2 className="text-lg font-semibold text-slate-900">Porównaj</h2>
-      <p className="text-slate-700">
-        Present Perfect:
-        <br />
-        przeszłość + efekt teraz
-        <br />
-        brak konkretnej daty
-      </p>
-      <p className="text-slate-700">
-        Past Simple:
-        <br />
-        konkretne wydarzenie w określonym czasie
-      </p>
-      <p className="example-muted">
-        I have lost my keys. (Nie mam ich teraz.)
-        <br />
-        I lost my keys yesterday. (Wiadomo kiedy.)
-      </p>
+      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
+        <p>
+          <strong>Future Simple:</strong> decyzja w chwili mówienia
+        </p>
+        <p>
+          <strong>Going to:</strong> wcześniejszy plan
+        </p>
+        <p>
+          <strong>Present Continuous:</strong> ustalony plan (I am meeting her tomorrow)
+        </p>
+      </div>
       <Link
-        href="/app/grammar/compare?tense1=present-perfect&tense2=past-simple"
+        href="/app/grammar/compare?tense1=future-simple&tense2=going-to"
         className="inline-block text-slate-700 underline hover:text-slate-900"
       >
-        Present Perfect vs Past Simple
+        Future Simple vs Going to
       </Link>
     </section>
   );
 }
 
-export function PresentPerfectClient() {
+export function FutureSimpleClient() {
   const [activeSection, setActiveSection] = useState<SectionKey>("definition");
   const [renderedSection, setRenderedSection] = useState<SectionKey>("definition");
   const [isVisible, setIsVisible] = useState(true);
@@ -257,8 +235,8 @@ export function PresentPerfectClient() {
     { id: "definition", label: "Definicja" },
     { id: "construction", label: "Konstrukcja" },
     { id: "usage", label: "Kiedy używamy" },
-    { id: "forSince", label: "For / Since" },
-    { id: "alreadyYetJust", label: "Already / Yet / Just" },
+    { id: "decisionVsPlan", label: "Decyzja vs Plan" },
+    { id: "signals", label: "Sygnały" },
     { id: "mistakes", label: "Błędy" },
     { id: "compare", label: "Porównaj" },
   ];
@@ -267,13 +245,13 @@ export function PresentPerfectClient() {
     <main className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Present Perfect</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Future Simple (WILL)</h1>
           <p className="max-w-3xl text-sm text-slate-700">
-            Present Perfect łączy przeszłość z teraźniejszością i skupia się na efekcie teraz.
+            Decyzja w momencie mówienia, obietnica, przewidywanie — nie zaplanowana czynność.
           </p>
           <div className="mt-3 flex flex-col gap-2">
             <Link
-              href="/app/courses/present-perfect"
+              href="/app/courses/future-simple"
               className="text-sm text-slate-600 underline hover:text-slate-800"
             >
               Zobacz pełny kurs
@@ -294,8 +272,8 @@ export function PresentPerfectClient() {
             {renderedSection === "definition" && <DefinitionContent />}
             {renderedSection === "construction" && <ConstructionContent />}
             {renderedSection === "usage" && <UsageContent />}
-            {renderedSection === "forSince" && <ForSinceContent />}
-            {renderedSection === "alreadyYetJust" && <AlreadyYetJustContent />}
+            {renderedSection === "decisionVsPlan" && <DecisionVsPlanContent />}
+            {renderedSection === "signals" && <SignalsContent />}
             {renderedSection === "mistakes" && <MistakesContent />}
             {renderedSection === "compare" && <CompareContent />}
           </div>
@@ -325,4 +303,3 @@ export function PresentPerfectClient() {
     </main>
   );
 }
-

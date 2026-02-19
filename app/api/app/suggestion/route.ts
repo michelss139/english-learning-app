@@ -119,7 +119,7 @@ export async function GET(req: Request) {
 
       if (!suggestion) {
         suggestion = {
-          title: "Irregular verbs",
+          title: "Nieregularne czasowniki",
           description: "Minimum 5 czasowników w sesji",
           href: "/app/irregular-verbs/train",
         };
@@ -172,7 +172,7 @@ export async function GET(req: Request) {
 
         if (lastIrregular) {
           suggestion = {
-            title: "Irregular verbs",
+            title: "Nieregularne czasowniki",
             description: "Minimum 5 czasowników w sesji",
             href: "/app/irregular-verbs/train",
           };

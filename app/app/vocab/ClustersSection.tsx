@@ -76,15 +76,15 @@ export default function ClustersSection() {
 
   if (loading) {
     return (
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-        <div className="text-sm text-white/75">Ładuję clustery…</div>
+      <section className="rounded-3xl border-2 border-slate-900 bg-white p-5">
+        <div className="text-sm text-slate-600">Ładuję clustery…</div>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <section className="rounded-3xl border-2 border-slate-900 bg-white p-5">
         <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
           <p className="text-sm text-rose-100">
             <span className="font-semibold">Błąd: </span>
@@ -99,20 +99,20 @@ export default function ClustersSection() {
   const unlockableClusters = clusters.filter((c) => c.is_unlockable);
 
   return (
-    <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+    <section className="rounded-3xl border-2 border-slate-900 bg-white p-5 space-y-4">
       <div>
-        <h2 className="text-lg font-semibold tracking-tight text-white">Clusters</h2>
-        <p className="text-sm text-white/75">Ćwicz wybór właściwego słowa w kontekście.</p>
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Clusters</h2>
+        <p className="text-sm text-slate-600">Ćwicz wybór właściwego słowa w kontekście.</p>
       </div>
 
       {hasNewUnlock && (
-        <div className="rounded-2xl border-2 border-emerald-400/30 bg-emerald-400/10 p-4">
-          <p className="text-sm text-emerald-100 font-medium">✨ Nowe ćwiczenie dostępne!</p>
+        <div className="rounded-2xl border-2 border-emerald-400 bg-emerald-50 p-4">
+          <p className="text-sm text-emerald-800 font-medium">✨ Nowe ćwiczenie dostępne!</p>
         </div>
       )}
 
       {clusters.length === 0 ? (
-        <div className="text-sm text-white/75">Brak dostępnych clusterów.</div>
+        <div className="text-sm text-slate-600">Brak dostępnych clusterów.</div>
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {/* Recommended clusters - always unlocked (unlocked=true from API) */}
@@ -120,15 +120,15 @@ export default function ClustersSection() {
             <button
               key={cluster.id}
               onClick={() => router.push(`/app/vocab/cluster/${cluster.slug}`)}
-              className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition"
+              className="rounded-2xl border-2 border-slate-900 bg-white p-4 text-left hover:bg-slate-50 transition"
             >
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="font-semibold text-white">{cluster.title}</h3>
-                <span className="px-2 py-0.5 rounded-lg border border-emerald-400/30 bg-emerald-400/10 text-xs text-emerald-200">
+                <h3 className="font-semibold text-slate-900">{cluster.title}</h3>
+                <span className="px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-xs text-emerald-800">
                   Odblokowane
                 </span>
               </div>
-              <p className="text-xs text-white/60">Zalecane</p>
+              <p className="text-xs text-slate-600">Zalecane</p>
             </button>
           ))}
 
@@ -141,22 +141,22 @@ export default function ClustersSection() {
                   router.push(`/app/vocab/cluster/${cluster.slug}`);
                 }
               }}
-              className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 text-left hover:bg-white/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-2xl border-2 border-slate-900 bg-white p-4 text-left hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!cluster.unlocked}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="font-semibold text-white">{cluster.title}</h3>
+                <h3 className="font-semibold text-slate-900">{cluster.title}</h3>
                 {cluster.unlocked ? (
-                  <span className="px-2 py-0.5 rounded-lg border border-emerald-400/30 bg-emerald-400/10 text-xs text-emerald-200">
+                  <span className="px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-xs text-emerald-800">
                     Odblokowane
                   </span>
                 ) : (
-                  <span className="px-2 py-0.5 rounded-lg border border-amber-400/30 bg-amber-400/10 text-xs text-amber-200">
+                  <span className="px-2 py-0.5 rounded-lg border border-amber-400 bg-amber-50 text-xs text-amber-800">
                     Zablokowane
                   </span>
                 )}
               </div>
-              <p className="text-xs text-white/60">
+              <p className="text-xs text-slate-600">
                 {cluster.unlocked ? "Dostępne" : "Dodaj wszystkie słowa z tego clustera do puli, aby odblokować"}
               </p>
             </button>

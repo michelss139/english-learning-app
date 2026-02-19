@@ -7,8 +7,8 @@ type SectionKey =
   | "definition"
   | "construction"
   | "usage"
-  | "forSince"
-  | "alreadyYetJust"
+  | "momentInFuture"
+  | "vsFutureSimple"
   | "mistakes"
   | "compare";
 
@@ -16,24 +16,18 @@ function DefinitionContent() {
   return (
     <section className="space-y-3">
       <h2 className="text-lg font-semibold text-slate-900">Definicja</h2>
-      <p className="text-slate-700">Present Perfect łączy przeszłość z teraźniejszością.</p>
       <p className="text-slate-700">
-        Mówimy o:
-        <br />- doświadczeniach,
-        <br />- zmianach,
-        <br />- rezultacie widocznym teraz,
-        <br />- sytuacjach, które zaczęły się w przeszłości i trwają do teraz.
+        Future Continuous opisuje czynność, która będzie w trakcie w określonym momencie w przyszłości.
       </p>
       <p className="text-slate-700">
-        Nie interesuje nas dokładny moment w przeszłości.
-        Interesuje nas efekt teraz.
+        Interesuje nas coś, co będzie się działo, nie coś, co dopiero się wydarzy.
       </p>
       <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-        <p>I have visited London.</p>
-        <p>She has lost her keys. (Teraz nie ma kluczy.)</p>
-        <p>I have lived here for five years.</p>
+        <p className="example-muted">This time tomorrow, I will be flying to Paris.</p>
       </div>
-      <p className="text-slate-700">Przeszłość → skutek teraz.</p>
+      <p className="text-slate-700 font-medium">
+        To „w trakcie w przyszłości”.
+      </p>
     </section>
   );
 }
@@ -56,40 +50,35 @@ function ConstructionContent() {
               <tr className="border-b border-slate-200">
                 <td className="p-3 font-medium">Twierdzenie</td>
                 <td className="p-3">
-                  I / You / We / They → <span className="auxiliary">have</span> + <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>
-                  <br />
-                  He / She / It → <span className="auxiliary">has</span> + <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>
+                  <span className="auxiliary">will</span> <span className="verb-main">be</span> + <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
                 </td>
-                <td className="p-3 example-muted">I have visited London. She has lost her keys.</td>
+                <td className="p-3 example-muted">I will be working. She will be studying.</td>
               </tr>
               <tr className="border-b border-slate-200">
                 <td className="p-3 font-medium">Przeczenie</td>
                 <td className="p-3">
-                  <span className="auxiliary">have not</span> / <span className="auxiliary">has not</span> +{" "}
-                  <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>
+                  <span className="auxiliary">will not</span> <span className="verb-main">be</span> + <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>
                 </td>
-                <td className="p-3 example-muted">She hasn&apos;t finished yet.</td>
+                <td className="p-3 example-muted">I won&apos;t be working tomorrow.</td>
               </tr>
               <tr className="border-b border-slate-200">
                 <td className="p-3 font-medium">Pytanie</td>
                 <td className="p-3">
-                  <span className="auxiliary">Have</span> / <span className="auxiliary">Has</span> + podmiot +{" "}
-                  <span className="verb-main">work</span>
-                  <span className="verb-ending">ed</span>?
+                  <span className="auxiliary">Will</span> + podmiot + <span className="verb-main">be</span> + <span className="verb-main">work</span>
+                  <span className="verb-ending">ing</span>?
                 </td>
-                <td className="p-3 example-muted">Have you finished? Has she called?</td>
+                <td className="p-3 example-muted">Will you be working tomorrow? Will she be sleeping at 10 pm?</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
       <section>
-        <h3 className="mb-2 text-base font-semibold text-slate-900">KONSTRUKCJA: HAVE/HAS + III FORMA</h3>
+        <h3 className="mb-2 text-base font-semibold text-slate-900">KONSTRUKCJA: WILL + BE + -ING</h3>
         <p className="text-slate-700">
-          Po have/has używamy trzeciej formy czasownika (Past Participle). Czasowniki nieregularne mają własną formę (np. go → gone, see → seen).
+          Po „will be” zawsze używamy formy -ing czasownika głównego. Dla wszystkich osób schemat jest taki sam.
         </p>
       </section>
     </div>
@@ -101,67 +90,61 @@ function UsageContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Kiedy używamy</h2>
       <div>
-        <p className="font-medium text-slate-900">1) Doświadczenie (bez podania kiedy)</p>
-        <p className="example-muted">I have been to Spain.</p>
+        <p className="font-medium text-slate-900">1) Czynność w trakcie w określonym momencie w przyszłości</p>
+        <p className="example-muted">At 8 pm tomorrow, I will be watching a movie.</p>
       </div>
       <div>
-        <p className="font-medium text-slate-900">2) Rezultat widoczny teraz</p>
-        <p className="example-muted">She has broken her leg.</p>
+        <p className="font-medium text-slate-900">2) Uprzejme pytanie o plany</p>
+        <p className="example-muted">Will you be using the car tonight?</p>
       </div>
       <div>
-        <p className="font-medium text-slate-900">3) Coś zaczęło się w przeszłości i trwa</p>
-        <p className="example-muted">I have worked here since 2020.</p>
+        <p className="font-medium text-slate-900">3) Przewidywanie oparte na obecnym kontekście</p>
+        <p className="example-muted">Don&apos;t call at 9. She will be sleeping.</p>
       </div>
-      <div>
-        <p className="font-medium text-slate-900">4) Zmiana w czasie</p>
-        <p className="example-muted">The city has grown a lot.</p>
-      </div>
-      <p className="text-slate-700">Nie podajemy konkretnej daty.</p>
     </section>
   );
 }
 
-function ForSinceContent() {
+function MomentInFutureContent() {
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">For / Since</h2>
-      <div>
-        <p className="font-medium text-slate-900">for → okres czasu</p>
-        <p className="example-muted">for five years</p>
-        <p className="example-muted">for a long time</p>
-      </div>
-      <div>
-        <p className="font-medium text-slate-900">since → punkt w czasie</p>
-        <p className="example-muted">since 2020</p>
-        <p className="example-muted">since Monday</p>
-        <p className="example-muted">since I was a child</p>
+      <h2 className="text-lg font-semibold text-slate-900">Moment w przyszłości</h2>
+      <p className="text-slate-700">
+        Future Continuous często odpowiada na pytanie:
+      </p>
+      <p className="text-slate-700 font-medium">
+        „Co będzie się działo o konkretnej godzinie?”
+      </p>
+      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-700">
+        <p className="example-muted">This time next week, we will be lying on the beach.</p>
+        <p className="example-muted">At midnight, they will be celebrating.</p>
       </div>
       <p className="text-slate-700">
-        for = jak długo
-        <br />
-        since = od kiedy
+        To odpowiednik Past Continuous, ale w przyszłości.
       </p>
     </section>
   );
 }
 
-function AlreadyYetJustContent() {
+function VsFutureSimpleContent() {
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Already / Yet / Just</h2>
-      <div>
-        <p className="font-medium text-slate-900">already → już (twierdzenia)</p>
-        <p className="example-muted">I have already finished.</p>
+      <h2 className="text-lg font-semibold text-slate-900">Różnica vs Future Simple</h2>
+      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
+        <p>
+          <strong>Future Simple:</strong> pojedyncze wydarzenie / decyzja
+        </p>
+        <p className="example-muted">I will call you.</p>
       </div>
-      <div>
-        <p className="font-medium text-slate-900">yet → jeszcze (pytania / przeczenia)</p>
-        <p className="example-muted">Have you finished yet?</p>
-        <p className="example-muted">I haven&apos;t finished yet.</p>
+      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
+        <p>
+          <strong>Future Continuous:</strong> czynność w trakcie w określonym momencie
+        </p>
+        <p className="example-muted">I will be calling you at 8 pm.</p>
       </div>
-      <div>
-        <p className="font-medium text-slate-900">just → właśnie</p>
-        <p className="example-muted">She has just left.</p>
-      </div>
+      <p className="text-slate-700 font-medium">
+        Simple = fakt, Continuous = proces.
+      </p>
     </section>
   );
 }
@@ -170,25 +153,28 @@ function MistakesContent() {
   return (
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Błędy</h2>
-      <div className="space-y-2 text-slate-800">
+      <div className="space-y-3 text-slate-800">
         <p>
-          ❌ I have seen her yesterday.
+          ❌ I will be work tomorrow.
           <br />
-          ✔ I saw her yesterday.
+          ✔ I will be <span className="verb-main">work</span>
+          <span className="verb-ending">ing</span> tomorrow.
         </p>
         <p>
-          ❌ I am here since 2020.
+          ❌ She will be works.
           <br />
-          ✔ I have been here since 2020.
+          ✔ She will be <span className="verb-main">work</span>
+          <span className="verb-ending">ing</span>.
         </p>
         <p>
-          ❌ She have finished.
+          ❌ I will working at 8 pm.
           <br />
-          ✔ She has finished.
+          ✔ I will <span className="verb-main">be</span> <span className="verb-main">work</span>
+          <span className="verb-ending">ing</span> at 8 pm.
         </p>
       </div>
       <p className="text-slate-700">
-        Jeśli podajesz konkretną datę (yesterday, in 2019) → użyj Past Simple.
+        Konstrukcja zawsze zawiera „will be + -ing”.
       </p>
     </section>
   );
@@ -198,34 +184,29 @@ function CompareContent() {
   return (
     <section className="space-y-3">
       <h2 className="text-lg font-semibold text-slate-900">Porównaj</h2>
-      <p className="text-slate-700">
-        Present Perfect:
-        <br />
-        przeszłość + efekt teraz
-        <br />
-        brak konkretnej daty
-      </p>
-      <p className="text-slate-700">
-        Past Simple:
-        <br />
-        konkretne wydarzenie w określonym czasie
-      </p>
-      <p className="example-muted">
-        I have lost my keys. (Nie mam ich teraz.)
-        <br />
-        I lost my keys yesterday. (Wiadomo kiedy.)
-      </p>
+      <div className="rounded-xl border border-slate-300 bg-white p-4 text-slate-800">
+        <p>
+          <strong>Future Continuous:</strong> czynność w trakcie w przyszłości
+        </p>
+        <p>
+          <strong>Future Simple:</strong> pojedyncze wydarzenie / decyzja
+        </p>
+      </div>
+      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-700">
+        <p className="example-muted">At 10 pm, I will watch TV.</p>
+        <p className="example-muted">At 10 pm, I will be watching TV.</p>
+      </div>
       <Link
-        href="/app/grammar/compare?tense1=present-perfect&tense2=past-simple"
+        href="/app/grammar/compare?tense1=future-continuous&tense2=future-simple"
         className="inline-block text-slate-700 underline hover:text-slate-900"
       >
-        Present Perfect vs Past Simple
+        Future Continuous vs Future Simple
       </Link>
     </section>
   );
 }
 
-export function PresentPerfectClient() {
+export function FutureContinuousClient() {
   const [activeSection, setActiveSection] = useState<SectionKey>("definition");
   const [renderedSection, setRenderedSection] = useState<SectionKey>("definition");
   const [isVisible, setIsVisible] = useState(true);
@@ -257,8 +238,8 @@ export function PresentPerfectClient() {
     { id: "definition", label: "Definicja" },
     { id: "construction", label: "Konstrukcja" },
     { id: "usage", label: "Kiedy używamy" },
-    { id: "forSince", label: "For / Since" },
-    { id: "alreadyYetJust", label: "Already / Yet / Just" },
+    { id: "momentInFuture", label: "Moment w przyszłości" },
+    { id: "vsFutureSimple", label: "Różnica vs Future Simple" },
     { id: "mistakes", label: "Błędy" },
     { id: "compare", label: "Porównaj" },
   ];
@@ -267,13 +248,13 @@ export function PresentPerfectClient() {
     <main className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Present Perfect</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Future Continuous</h1>
           <p className="max-w-3xl text-sm text-slate-700">
-            Present Perfect łączy przeszłość z teraźniejszością i skupia się na efekcie teraz.
+            Czynność w trakcie w określonym momencie w przyszłości — proces, nie decyzja.
           </p>
           <div className="mt-3 flex flex-col gap-2">
             <Link
-              href="/app/courses/present-perfect"
+              href="/app/courses/future-continuous"
               className="text-sm text-slate-600 underline hover:text-slate-800"
             >
               Zobacz pełny kurs
@@ -294,8 +275,8 @@ export function PresentPerfectClient() {
             {renderedSection === "definition" && <DefinitionContent />}
             {renderedSection === "construction" && <ConstructionContent />}
             {renderedSection === "usage" && <UsageContent />}
-            {renderedSection === "forSince" && <ForSinceContent />}
-            {renderedSection === "alreadyYetJust" && <AlreadyYetJustContent />}
+            {renderedSection === "momentInFuture" && <MomentInFutureContent />}
+            {renderedSection === "vsFutureSimple" && <VsFutureSimpleContent />}
             {renderedSection === "mistakes" && <MistakesContent />}
             {renderedSection === "compare" && <CompareContent />}
           </div>
@@ -325,4 +306,3 @@ export function PresentPerfectClient() {
     </main>
   );
 }
-

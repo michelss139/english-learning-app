@@ -167,7 +167,7 @@ export default function DashboardClient({
           },
           {
             title: "GRAMATYKA",
-            description: "Irregular verbs · Czasy · Stative verbs",
+            description: "Nieregularne czasowniki · Czasy · Czasowniki statyczne",
             href: "/app/grammar",
           },
           {

@@ -136,7 +136,7 @@ function MistakesContent() {
       </ul>
       <p className="mt-3 text-sm example-muted">Nie wszystkie czasowniki naturalnie występują w formie -ing.</p>
       <Link href="/app/grammar/stative-verbs" className="mt-2 inline-block text-sm text-slate-600 underline hover:text-slate-800">
-        Zobacz stative verbs
+        Zobacz czasowniki statyczne
       </Link>
     </section>
   );
@@ -224,10 +224,10 @@ export function PresentContinuousClient() {
           </div>
         </div>
         <Link
-          href="/app/grammar"
+          href="/app/grammar/tenses"
           className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
         >
-          ← Spis treści
+          ← Wróć do czasów
         </Link>
       </header>
 
