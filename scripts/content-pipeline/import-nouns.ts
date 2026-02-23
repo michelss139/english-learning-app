@@ -11,6 +11,8 @@ type ImportItem = {
   lemma: string;
   pos: "noun";
   translation_pl: string;
+  definition_en?: string;
+  example_en?: string;
   level: Level;
 };
 
@@ -78,6 +80,8 @@ function validateJson(raw: unknown): ImportPayload {
     const lemma = typeof row.lemma === "string" ? normalizeWhitespace(row.lemma) : "";
     const pos = row.pos;
     const translation = typeof row.translation_pl === "string" ? normalizeWhitespace(row.translation_pl) : "";
+    const definition_en = typeof row.definition_en === "string" ? normalizeWhitespace(row.definition_en) : "";
+    const example_en = typeof row.example_en === "string" ? normalizeWhitespace(row.example_en) : "";
     const level = row.level;
 
     if (!lemma) {
@@ -97,6 +101,8 @@ function validateJson(raw: unknown): ImportPayload {
       lemma,
       pos: "noun",
       translation_pl: translation,
+      definition_en: definition_en || undefined,
+      example_en: example_en || undefined,
       level: level as Level,
     };
   });
@@ -108,10 +114,10 @@ function validateJson(raw: unknown): ImportPayload {
 }
 
 
-type ProcessResult = "imported" | "skipped";
+type ProcessResult = "imported" | "skipped" | "refreshed";
 
 async function processItem(
-  supabase: ReturnType<typeof createClient>,
+  supabase: any,
   item: ImportItem,
   index: number,
   total: number,
@@ -158,7 +164,14 @@ async function processItem(
 
   const { data: existingTranslationRows, error: existingTranslationError } = await supabase
     .from("lexicon_senses")
-    .select("id, lexicon_translations!inner(translation_pl)")
+    .select(`
+      id,
+      definition_en,
+      level,
+      domain,
+      lexicon_translations!inner(translation_pl),
+      lexicon_examples(id)
+    `)
     .eq("entry_id", entryId)
     .eq("lexicon_translations.translation_pl", item.translation_pl);
 
@@ -169,6 +182,67 @@ async function processItem(
   }
 
   if (existingTranslationRows && existingTranslationRows.length > 0) {
+    const existingSense = existingTranslationRows[0] as {
+      id: string;
+      definition_en: string | null;
+      level: string | null;
+      domain: string | null;
+      lexicon_examples?: Array<{ id: string }> | null;
+    };
+    const isIncomplete =
+      !existingSense.definition_en ||
+      existingSense.domain == null ||
+      !existingSense.lexicon_examples ||
+      existingSense.lexicon_examples.length === 0;
+
+    if (isIncomplete) {
+      const senseId = existingSense.id;
+      const { error: updateErr } = await supabase
+        .from("lexicon_senses")
+        .update({
+          definition_en: item.definition_en ?? "",
+          level: item.level,
+          domain,
+        })
+        .eq("id", senseId);
+
+      if (updateErr) {
+        throw new Error(
+          `ERROR at item ${index}: failed to update incomplete sense for "${item.lemma}": ${updateErr.message}`
+        );
+      }
+
+      const { error: deleteExamplesErr } = await supabase
+        .from("lexicon_examples")
+        .delete()
+        .eq("sense_id", senseId);
+
+      if (deleteExamplesErr) {
+        throw new Error(
+          `ERROR at item ${index}: failed to delete old examples for "${item.lemma}": ${deleteExamplesErr.message}`
+        );
+      }
+
+      if (item.example_en) {
+        const { error: exampleInsertError } = await supabase
+          .from("lexicon_examples")
+          .insert({
+            sense_id: senseId,
+            example_en: item.example_en,
+            source: "ai",
+          });
+
+        if (exampleInsertError) {
+          throw new Error(
+            `ERROR at item ${index}: failed to insert example for "${item.lemma}": ${exampleInsertError.message}`
+          );
+        }
+      }
+
+      console.log(`Refreshed incomplete sense: ${item.lemma}`);
+      return "refreshed";
+    }
+
     if (skipDuplicates) {
       console.log("Already imported, skipping.");
       return "skipped";
@@ -194,7 +268,7 @@ async function processItem(
     .from("lexicon_senses")
     .insert({
       entry_id: entryId,
-      definition_en: "",
+      definition_en: item.definition_en ?? "",
       level: item.level,
       sense_order: nextSenseOrder,
       domain,
@@ -204,6 +278,24 @@ async function processItem(
 
   if (senseInsertError) {
     throw new Error(`ERROR at item ${index}: failed to insert lexicon_sense for "${item.lemma}": ${senseInsertError.message}`);
+  }
+
+  const senseId = insertedSense.id;
+
+  if (item.example_en) {
+    const { error: exampleInsertError } = await supabase
+      .from("lexicon_examples")
+      .insert({
+        sense_id: senseId,
+        example_en: item.example_en,
+        source: "ai",
+      });
+
+    if (exampleInsertError) {
+      throw new Error(
+        `ERROR at item ${index}: failed to insert example for "${item.lemma}": ${exampleInsertError.message}`
+      );
+    }
   }
 
   const { error: translationInsertError } = await supabase.from("lexicon_translations").insert({
@@ -216,7 +308,7 @@ async function processItem(
   }
 
   if (createdEntry) {
-    console.log("Inserted new entry + sense.");
+    console.log("Inserted new entry + sense + example.");
   } else {
     console.log("Existing entry found. Added new sense.");
   }
@@ -274,6 +366,7 @@ async function main(): Promise<void> {
 
   let importedCount = 0;
   let skippedCount = 0;
+  let refreshedCount = 0;
 
   for (let i = 0; i < payload.items.length; i += 1) {
     try {
@@ -286,6 +379,7 @@ async function main(): Promise<void> {
         domain,
       );
       if (result === "imported") importedCount += 1;
+      else if (result === "refreshed") refreshedCount += 1;
       else skippedCount += 1;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
@@ -297,7 +391,10 @@ async function main(): Promise<void> {
 
   const movedTo = await moveImportedFile(inputPath);
   console.log("Import successful.");
-  console.log(`${importedCount} items imported.${skipDuplicates && skippedCount > 0 ? ` ${skippedCount} already present, skipped.` : ""}`);
+  const parts = [`${importedCount} items imported`];
+  if (refreshedCount > 0) parts.push(`${refreshedCount} refreshed`);
+  if (skipDuplicates && skippedCount > 0) parts.push(`${skippedCount} skipped`);
+  console.log(parts.join(". ") + ".");
   console.log(`File moved to ${movedTo}`);
 }
 
