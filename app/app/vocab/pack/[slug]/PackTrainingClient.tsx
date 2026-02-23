@@ -528,49 +528,53 @@ export default function PackTrainingClient(props: {
   if (!started) {
     return (
       <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-        <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight text-white">Fiszki: {pack.title ?? slug}</h1>
-              <p className="text-sm text-white/75">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Fiszki: {pack.title ?? slug}</h1>
+              <p className="text-sm text-slate-600">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <a
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                className="tile-frame"
                 href="/app/vocab"
               >
-                ← Powrót
+                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                  ← Powrót
+                </span>
               </a>
               <a
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                className="tile-frame"
                 href="/app/vocab/packs"
               >
-                ← Lista packów
+                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                  ← Lista packów
+                </span>
               </a>
             </div>
           </div>
         </header>
 
         {saveToast ? (
-          <div className="rounded-2xl border border-white/15 bg-white/5 p-3 text-sm text-white/75">{saveToast}</div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">{saveToast}</div>
         ) : null}
 
         {error ? (
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
             <div className="flex flex-col gap-3">
-              <p className="text-sm text-rose-100">
+              <p className="text-sm text-rose-700">
                 <span className="font-semibold">Błąd: </span>
                 {error}
               </p>
               <div className="flex flex-wrap gap-2">
                 <button
-                  className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                   onClick={() => router.refresh()}
                 >
                   Odśwież
                 </button>
                 <a
-                  className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                   href="/app"
                 >
                   Wróć do strony głównej
@@ -580,22 +584,22 @@ export default function PackTrainingClient(props: {
           </div>
         ) : null}
 
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-white">Ustawienia sesji</h2>
-            <p className="text-sm text-white/75">Wybierz kierunek i liczbę fiszek.</p>
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Ustawienia sesji</h2>
+            <p className="text-sm text-slate-600">Wybierz kierunek i liczbę fiszek.</p>
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm text-white/70">Wybierz tryb</div>
+            <div className="text-sm text-slate-600">Wybierz tryb</div>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => setDirection("en-pl")}
                 className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
                   direction === "en-pl"
-                    ? "border-white/20 bg-white/15 text-white"
-                    : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+                    ? "border-slate-900 bg-slate-100 text-slate-900"
+                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
                 }`}
               >
                 ENG → PL
@@ -605,8 +609,8 @@ export default function PackTrainingClient(props: {
                 onClick={() => setDirection("pl-en")}
                 className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
                   direction === "pl-en"
-                    ? "border-white/20 bg-white/15 text-white"
-                    : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+                    ? "border-slate-900 bg-slate-100 text-slate-900"
+                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
                 }`}
               >
                 PL → ENG
@@ -616,8 +620,8 @@ export default function PackTrainingClient(props: {
                 onClick={() => setDirection("mix")}
                 className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
                   direction === "mix"
-                    ? "border-white/20 bg-white/15 text-white"
-                    : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+                    ? "border-slate-900 bg-slate-100 text-slate-900"
+                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
                 }`}
               >
                 MIX
@@ -626,7 +630,7 @@ export default function PackTrainingClient(props: {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm text-white/70">Wybierz liczbę</div>
+            <div className="text-sm text-slate-600">Wybierz liczbę</div>
             <div className="flex flex-wrap gap-2">
               {(["5", "10", "all"] as CountChoice[]).map((choice) => (
                 <button
@@ -635,8 +639,8 @@ export default function PackTrainingClient(props: {
                   onClick={() => setCountChoice(choice)}
                   className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
                     countChoice === choice
-                      ? "border-white/20 bg-white/15 text-white"
-                      : "border-white/12 bg-white/5 text-white/75 hover:bg-white/10 hover:text-white"
+                      ? "border-slate-900 bg-slate-100 text-slate-900"
+                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
                   }`}
                 >
                   {choice === "all" ? "Wszystkie" : choice}
@@ -648,7 +652,7 @@ export default function PackTrainingClient(props: {
           <button
             type="button"
             onClick={() => startSession()}
-            className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition"
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50"
           >
             Zacznij
           </button>
@@ -662,72 +666,78 @@ export default function PackTrainingClient(props: {
 
     return (
       <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-        <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight text-white">Sesja zakończona</h1>
-              <p className="text-sm text-white/75">Fiszki: {pack.title ?? slug}</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Sesja zakończona</h1>
+              <p className="text-sm text-slate-600">Fiszki: {pack.title ?? slug}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <a
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                className="tile-frame"
                 href="/app/vocab"
               >
-                ← Powrót
+                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                  ← Powrót
+                </span>
               </a>
               <a
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                className="tile-frame"
                 href="/app/vocab/packs"
               >
-                ← Lista packów
+                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                  ← Lista packów
+                </span>
               </a>
               <a
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+                className="tile-frame"
                 href="/app"
               >
-                ← Wróć do strony głównej
+                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                  ← Wróć do strony głównej
+                </span>
               </a>
             </div>
           </div>
         </header>
 
         {saveToast ? (
-          <div className="rounded-2xl border border-white/15 bg-white/5 p-3 text-sm text-white/75">{saveToast}</div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">{saveToast}</div>
         ) : null}
 
         {error ? (
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
-            <p className="text-sm text-rose-100">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
+            <p className="text-sm text-rose-700">
               <span className="font-semibold">Błąd: </span>
               {error}
             </p>
           </div>
         ) : null}
         {assignmentToast ? (
-          <div className="rounded-2xl border-2 border-emerald-200/30 bg-emerald-400/10 p-4 text-emerald-100">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
             {assignmentToast}
           </div>
         ) : null}
 
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
-            <div className="text-sm text-white/75">Podsumowanie sesji</div>
-            <div className="flex items-center justify-between text-sm text-white/75">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+            <div className="text-sm text-slate-600">Podsumowanie sesji</div>
+            <div className="flex items-center justify-between text-sm text-slate-600">
               <span>
-                Poprawne: <span className="font-medium text-white">{summaryCorrect}</span>/{summaryTotal}
+                Poprawne: <span className="font-medium text-slate-900">{summaryCorrect}</span>/{summaryTotal}
               </span>
               <span>
                 Skuteczność:{" "}
-                <span className="font-medium text-white">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>
+                <span className="font-medium text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>
               </span>
             </div>
-            <div className="text-sm text-white/75">
-              Błędne: <span className="font-medium text-white">{summaryWrong}</span>
+            <div className="text-sm text-slate-600">
+              Błędne: <span className="font-medium text-slate-900">{summaryWrong}</span>
             </div>
             {summary?.wrong_items?.length ? (
-              <div className="text-sm text-white/70">
+              <div className="text-sm text-slate-600">
                 Najczęstsze błędy:
-                <ul className="mt-2 space-y-1 text-white/80">
+                <ul className="mt-2 space-y-1 text-slate-700">
                   {summary.wrong_items.slice(0, 10).map((item, idx) => (
                     <li key={`${item.prompt ?? "?"}-${idx}`}>
                       {item.prompt ?? "—"} → {item.expected ?? "—"}
@@ -738,37 +748,37 @@ export default function PackTrainingClient(props: {
             ) : null}
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
-            <div className="text-sm text-white/75">Postęp XP</div>
-            <div className="space-y-1 text-sm text-white/80">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+            <div className="text-sm text-slate-600">Postęp XP</div>
+            <div className="space-y-1 text-sm text-slate-700">
               {award && xpAlreadyAwarded ? (
-                <div className="text-amber-100">
+                <div className="text-amber-700">
                   Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
                 </div>
               ) : (
                 <div>
-                  Zdobyte XP: <span className="font-medium text-white">+{xpToShow}</span>
+                  Zdobyte XP: <span className="font-medium text-slate-900">+{xpToShow}</span>
                 </div>
               )}
 
               {award ? (
                 <div>
-                  Poziom: <span className="font-medium text-white">{award.level}</span> · XP w poziomie:{" "}
-                  <span className="font-medium text-white">
+                  Poziom: <span className="font-medium text-slate-900">{award.level}</span> · XP w poziomie:{" "}
+                  <span className="font-medium text-slate-900">
                     {award.xp_in_current_level}/{award.xp_to_next_level}
                   </span>
                 </div>
               ) : awardError ? (
-                <div className="text-rose-200">{awardError}</div>
+                <div className="text-rose-600">{awardError}</div>
               ) : null}
             </div>
           </div>
 
           {award?.newly_awarded_badges?.length ? (
-            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4 space-y-2">
-              <div className="text-sm font-semibold text-amber-100">Nowe odznaki</div>
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-2">
+              <div className="text-sm font-semibold text-amber-800">Nowe odznaki</div>
               {award.newly_awarded_badges.map((badge) => (
-                <div key={badge.slug} className="text-sm text-amber-100">
+                <div key={badge.slug} className="text-sm text-amber-700">
                   {badge.title}
                   {badge.description ? ` — ${badge.description}` : ""}
                 </div>
@@ -778,32 +788,34 @@ export default function PackTrainingClient(props: {
 
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj do mojej puli</h2>
-              <p className="text-sm text-white/75">Słówka, które sprawiły trudność w tym packu.</p>
+              <h2 className="text-lg font-semibold tracking-tight text-slate-900">Dodaj do mojej puli</h2>
+              <p className="text-sm text-slate-600">Słówka, które sprawiły trudność w tym packu.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+                className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={() => startSession(sessionItems)}
                 disabled={sessionItems.length === 0}
               >
                 Jeszcze raz to samo
               </button>
               <button
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+                className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={() => startSession(wrongItems)}
                 disabled={wrongItems.length === 0}
               >
                 Jeszcze raz tylko błędne
               </button>
               <a
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+                className="tile-frame"
                 href="/app"
               >
-                Wróć do strony głównej
+                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 text-sm font-medium text-slate-700">
+                  Wróć do strony głównej
+                </span>
               </a>
               <button
-                className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
+                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={addRecommendations}
                 disabled={adding || recommendations.length === 0}
               >
@@ -813,23 +825,23 @@ export default function PackTrainingClient(props: {
           </div>
 
           {addStatus ? (
-            <div className="rounded-2xl border-2 border-emerald-400/30 bg-emerald-400/10 p-3 text-sm text-emerald-100">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
               {addStatus}
             </div>
           ) : null}
 
-          {loadingRecs ? <div className="text-sm text-white/75">Pobieram rekomendacje…</div> : null}
+          {loadingRecs ? <div className="text-sm text-slate-600">Pobieram rekomendacje…</div> : null}
 
           {!loadingRecs && recommendations.length === 0 ? (
-            <div className="text-sm text-white/75">Brak rekomendacji — świetna robota!</div>
+            <div className="text-sm text-slate-600">Brak rekomendacji — świetna robota!</div>
           ) : null}
 
           <div className="space-y-3">
             {recommendations.map((item) => (
-              <div key={item.sense_id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
-                <div className="text-lg font-semibold text-white">{item.lemma ?? "—"}</div>
-                <div className="text-sm text-white/70">{item.translation_pl ?? "—"}</div>
-                {item.example_en ? <div className="text-sm text-white/70 italic">"{item.example_en}"</div> : null}
+              <div key={item.sense_id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="text-lg font-semibold text-slate-900">{item.lemma ?? "—"}</div>
+                <div className="text-sm text-slate-600">{item.translation_pl ?? "—"}</div>
+                {item.example_en ? <div className="text-sm text-slate-600 italic">"{item.example_en}"</div> : null}
               </div>
             ))}
           </div>
@@ -840,56 +852,62 @@ export default function PackTrainingClient(props: {
 
   return (
     <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Pack: {pack.title ?? slug}</h1>
-            <p className="text-sm text-white/75">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Pack: {pack.title ?? slug}</h1>
+            <p className="text-sm text-slate-600">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="tile-frame"
               href="/app/vocab"
             >
-              ← Powrót
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Powrót
+              </span>
             </a>
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="tile-frame"
               href="/app/vocab/packs"
             >
-              ← Lista packów
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Lista packów
+              </span>
             </a>
             <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              className="tile-frame"
               href="/app"
             >
-              ← Wróć do strony głównej
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Wróć do strony głównej
+              </span>
             </a>
           </div>
         </div>
       </header>
 
       {saveToast ? (
-        <div className="rounded-2xl border border-white/15 bg-white/5 p-3 text-sm text-white/75">{saveToast}</div>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">{saveToast}</div>
       ) : null}
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
           <div className="flex flex-col gap-3">
-            <p className="text-sm text-rose-100">
+            <p className="text-sm text-rose-700">
               <span className="font-semibold">Błąd: </span>
               {error}
             </p>
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 onClick={() => router.refresh()}
               >
                 Spróbuj ponownie
               </button>
               <a
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 href="/app"
               >
                 Wróć do strony głównej
@@ -900,24 +918,24 @@ export default function PackTrainingClient(props: {
       ) : null}
 
       {current ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-          <div className="flex items-center justify-between text-sm text-white/75">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+          <div className="flex items-center justify-between text-sm text-slate-600">
             <span>
-              Fiszka <span className="font-medium text-white">{currentIndex + 1}</span>/{total}
+              Fiszka <span className="font-medium text-slate-900">{currentIndex + 1}</span>/{total}
             </span>
             <span>
-              Postęp: <span className="font-medium text-white">{progress}</span>/{total} ·{" "}
-              <span className="font-medium text-white">{percentCorrect}%</span>
+              Postęp: <span className="font-medium text-slate-900">{progress}</span>/{total} ·{" "}
+              <span className="font-medium text-slate-900">{percentCorrect}%</span>
             </span>
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-4">
-            <div className="text-lg font-medium text-white">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
+            <div className="text-lg font-medium text-slate-900">
               {currentDirection === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm text-white/70">
+              <label className="text-sm text-slate-600">
                 {currentDirection === "en-pl" ? "Tłumaczenie (PL)" : "Odpowiedź (ENG)"}
               </label>
               <input
@@ -928,7 +946,7 @@ export default function PackTrainingClient(props: {
                   setInput(e.target.value);
                 }}
                 placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie..." : "Wpisz słowo po angielsku..."}
-                className={`w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none text-white placeholder:text-white/40 ${
+                className={`w-full rounded-xl bg-white border border-slate-300 px-4 py-3 outline-none text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 ${
                   checked ? "opacity-80" : ""
                 }`}
                 readOnly={checked}
@@ -947,28 +965,28 @@ export default function PackTrainingClient(props: {
 
             {checked ? (
               <div className="space-y-2">
-                <p className={`text-sm ${currentAnswer?.isCorrect ? "text-emerald-200" : "text-rose-200"}`}>
+                <p className={`text-sm ${currentAnswer?.isCorrect ? "text-emerald-600" : "text-rose-600"}`}>
                   {currentAnswer?.isCorrect ? "Poprawnie!" : "Błędna odpowiedź."}
                 </p>
-                <p className="text-sm text-white/75">
-                  Poprawna odpowiedź: <span className="text-white">{currentAnswer?.expected ?? "—"}</span>
+                <p className="text-sm text-slate-600">
+                  Poprawna odpowiedź: <span className="text-slate-900">{currentAnswer?.expected ?? "—"}</span>
                 </p>
-                {current.definition_en ? <p className="text-sm text-white/60">{current.definition_en}</p> : null}
-                {current.example_en ? <p className="text-sm text-white/60 italic">"{current.example_en}"</p> : null}
+                {current.definition_en ? <p className="text-sm text-slate-600">{current.definition_en}</p> : null}
+                {current.example_en ? <p className="text-sm text-slate-600 italic">"{current.example_en}"</p> : null}
               </div>
             ) : null}
 
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex gap-2">
                 <button
-                  className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+                  className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                   onClick={goPrev}
                   disabled={currentIndex === 0}
                 >
                   Wstecz
                 </button>
                 <button
-                  className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+                  className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                   onClick={goNext}
                   disabled={!checked}
                 >
@@ -976,7 +994,7 @@ export default function PackTrainingClient(props: {
                 </button>
               </div>
               <button
-                className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
+                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={checkAnswer}
                 disabled={checked}
               >
@@ -986,8 +1004,8 @@ export default function PackTrainingClient(props: {
           </div>
         </section>
       ) : (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="text-sm text-white/75">Brak fiszek w tym packu.</div>
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="text-sm text-slate-600">Brak fiszek w tym packu.</div>
         </section>
       )}
     </main>

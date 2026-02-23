@@ -137,8 +137,8 @@ export default function ClustersClient({
       </div>
 
       {hasNewUnlock && (
-        <div className="rounded-2xl border-2 border-emerald-400 bg-emerald-50 p-4">
-          <p className="text-sm text-emerald-800 font-medium">Nowe ćwiczenie dostępne!</p>
+        <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+          <p className="text-sm text-slate-700 font-medium">Nowe ćwiczenie dostępne!</p>
         </div>
       )}
 
@@ -167,18 +167,18 @@ export default function ClustersClient({
               }}
               role="button"
               tabIndex={0}
-              className="rounded-2xl border-2 border-slate-900 bg-white p-4 text-left hover:bg-slate-50 transition"
+              className="rounded-2xl border-2 border-slate-900 bg-white p-4 hover:bg-slate-50 transition"
             >
-              <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <h3 className="font-semibold text-slate-900">{cluster.title}</h3>
+                <p className="text-xs text-slate-600">Zalecane</p>
                 <div className="flex items-center gap-2">
                   {pinUi(cluster.slug)}
-                  <span className="px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-xs text-emerald-800">
+                  <span className="px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-xs text-slate-700">
                     Odblokowane
                   </span>
                 </div>
               </div>
-              <p className="text-xs text-slate-600">Zalecane</p>
             </div>
           ))}
 
@@ -197,15 +197,18 @@ export default function ClustersClient({
               }}
               role="button"
               tabIndex={cluster.unlocked ? 0 : -1}
-              className="rounded-2xl border-2 border-slate-900 bg-white p-4 text-left hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-2xl border-2 border-slate-900 bg-white p-4 hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
               aria-disabled={!cluster.unlocked}
             >
-              <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <h3 className="font-semibold text-slate-900">{cluster.title}</h3>
+                <p className="text-xs text-slate-600">
+                  {cluster.unlocked ? "Dostępne" : "Dodaj wszystkie słowa z tego clustera do puli, aby odblokować"}
+                </p>
                 <div className="flex items-center gap-2">
                   {pinUi(cluster.slug)}
                   {cluster.unlocked ? (
-                    <span className="px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-xs text-emerald-800">
+                    <span className="px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-xs text-slate-700">
                       Odblokowane
                     </span>
                   ) : (
@@ -215,9 +218,6 @@ export default function ClustersClient({
                   )}
                 </div>
               </div>
-              <p className="text-xs text-slate-600">
-                {cluster.unlocked ? "Dostępne" : "Dodaj wszystkie słowa z tego clustera do puli, aby odblokować"}
-              </p>
             </div>
           ))}
         </div>

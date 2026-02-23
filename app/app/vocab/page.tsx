@@ -44,7 +44,7 @@ export default function VocabHubPage() {
             className="tile-frame"
           >
             <div className="tile-core aspect-[2/1] p-5">
-              <div className="flex h-full flex-col justify-between">
+              <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
                 <div className="text-3xl font-semibold tracking-tight text-slate-900">{tile.title}</div>
                 <div className="text-base text-slate-600">{tile.description}</div>
               </div>

@@ -10,8 +10,8 @@ export function DashboardSection({ title, description, children }: SectionProps)
   return (
     <section className="space-y-4">
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold tracking-tight text-emerald-50">{title}</h2>
-        {description ? <p className="text-sm text-emerald-100/70">{description}</p> : null}
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">{title}</h2>
+        {description ? <p className="text-sm text-slate-600">{description}</p> : null}
       </div>
       {children}
     </section>

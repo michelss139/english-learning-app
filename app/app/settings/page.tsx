@@ -186,8 +186,8 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="text-sm text-white/70">Ładuję ustawienia…</div>
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
+          <div className="text-sm text-slate-600">Ładuję ustawienia…</div>
         </section>
       </main>
     );
@@ -195,16 +195,16 @@ export default function SettingsPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Ustawienia</h1>
-            <p className="text-base text-emerald-100/80">Zarządzaj profilem i kontem.</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Ustawienia</h1>
+            <p className="text-base text-slate-700/80">Zarządzaj profilem i kontem.</p>
           </div>
           <button
             type="button"
             onClick={() => router.push("/app")}
-            className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
           >
             ← Wróć do strony głównej
           </button>
@@ -215,18 +215,18 @@ export default function SettingsPage() {
         <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">{error}</div>
       ) : null}
       {status ? (
-        <div className="rounded-2xl border-2 border-emerald-200/30 bg-emerald-400/10 p-4 text-emerald-100">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
           {status}
         </div>
       ) : null}
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Profil</div>
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <div className="text-sm uppercase tracking-[0.2em] text-slate-700/60">Profil</div>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
           <img src={avatarSrc} alt="" className="h-20 w-20 rounded-full object-cover border border-white/20" />
           <div className="flex-1 space-y-4">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-white">Avatar</div>
+              <div className="text-sm font-medium text-slate-900">Avatar</div>
               <div className="grid grid-cols-6 gap-2">
                 {DEFAULT_AVATARS.map((url) => (
                   <button
@@ -238,7 +238,7 @@ export default function SettingsPage() {
                       setUploadPreview("");
                     }}
                     className={`rounded-full border-2 p-1 transition ${
-                      selectedAvatar === url ? "border-emerald-300" : "border-transparent"
+                      selectedAvatar === url ? "border-slate-900" : "border-transparent"
                     }`}
                   >
                     <img src={url} alt="" className="h-10 w-10 rounded-full object-cover" />
@@ -253,7 +253,7 @@ export default function SettingsPage() {
                   setUploadFile(null);
                   setUploadPreview("");
                 }}
-                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50 transition"
               >
                 Losuj avatar
               </button>
@@ -280,17 +280,17 @@ export default function SettingsPage() {
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="space-y-1">
-                <label className="text-sm font-medium text-white/85">Nazwa użytkownika</label>
+                <label className="text-sm font-medium text-slate-700">Nazwa użytkownika</label>
                 <input
-                  className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                  className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-sm font-medium text-white/85">Email</label>
+                <label className="text-sm font-medium text-slate-700">Email</label>
                 <input
-                  className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                  className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -301,7 +301,7 @@ export default function SettingsPage() {
               type="button"
               onClick={saveProfile}
               disabled={saving}
-              className="rounded-xl border-2 border-emerald-200/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
             >
               {saving ? "Zapisuję…" : "Zapisz zmiany"}
             </button>
@@ -309,8 +309,8 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Konto</div>
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <div className="text-sm uppercase tracking-[0.2em] text-slate-700/60">Konto</div>
         <div className="flex flex-wrap gap-3">
           <button
             className="rounded-xl border border-rose-400/40 bg-rose-400/10 px-4 py-2 text-sm font-medium text-rose-200 hover:bg-rose-400/20 transition"
@@ -319,7 +319,7 @@ export default function SettingsPage() {
             Usuń konto
           </button>
           <button
-            className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
             onClick={logoutEverywhere}
           >
             Wyloguj się ze wszystkich sesji
@@ -327,20 +327,20 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Pomoc</div>
-        <div className="text-sm text-white/80">Kontakt do admina: admin@example.com</div>
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <div className="text-sm uppercase tracking-[0.2em] text-slate-700/60">Pomoc</div>
+        <div className="text-sm text-slate-600">Kontakt do admina: admin@example.com</div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/85">Zgłoś problem</label>
+          <label className="text-sm font-medium text-slate-700">Zgłoś problem</label>
           <textarea
-            className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
             rows={3}
             value={reportText}
             onChange={(e) => setReportText(e.target.value)}
             placeholder="Opisz problem..."
           />
           <button
-            className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
             onClick={() => {
               console.log("[settings] report", reportText);
               setStatus("Dziękujemy! Zgłoszenie zostało zapisane (tymczasowo w logach).");
@@ -353,9 +353,9 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-        <div className="text-sm uppercase tracking-[0.2em] text-emerald-100/60">Przyszłość</div>
-        <div className="flex flex-col gap-2 text-sm text-white/60">
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <div className="text-sm uppercase tracking-[0.2em] text-slate-700/60">Przyszłość</div>
+        <div className="flex flex-col gap-2 text-sm text-slate-500">
           <button className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-left" disabled>
             Motyw jasny/ciemny (wkrótce)
           </button>

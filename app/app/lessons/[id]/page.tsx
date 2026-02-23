@@ -322,8 +322,8 @@ export default function LessonDetailPage() {
   if (loading) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="text-sm text-white/70">Ładuję lekcję…</div>
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
+          <div className="text-sm text-slate-600">Ładuję lekcję…</div>
         </section>
       </main>
     );
@@ -341,11 +341,11 @@ export default function LessonDetailPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
-            <h1 className="text-2xl font-semibold tracking-tight text-white">Lekcja</h1>
-            <div className="text-sm text-white/70">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Lekcja</h1>
+            <div className="text-sm text-slate-600">
               Zadania: {doneCount}/{assignedCount}
             </div>
           </div>
@@ -353,7 +353,7 @@ export default function LessonDetailPage() {
             <button
               type="button"
               onClick={saveLesson}
-              className="rounded-xl border border-emerald-200/30 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-100 hover:bg-emerald-400/20 transition"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
               disabled={saving}
             >
               {saving ? "Zapisuję…" : "Zapisz"}
@@ -361,7 +361,7 @@ export default function LessonDetailPage() {
             <button
               type="button"
               onClick={() => router.push("/app/lessons/list")}
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
             >
               ← Wróć do listy
             </button>
@@ -370,7 +370,7 @@ export default function LessonDetailPage() {
       </header>
 
       {refreshing ? (
-        <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-3 text-sm text-white/70">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
           Odświeżam…
         </div>
       ) : null}
@@ -385,21 +385,21 @@ export default function LessonDetailPage() {
       ) : null}
 
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-1">
-            <label className="text-sm font-medium text-white/85">Data</label>
+            <label className="text-sm font-medium text-slate-700">Data</label>
             <input
-              className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
               type="date"
               value={lessonDate}
               onChange={(e) => setLessonDate(e.target.value)}
             />
           </div>
           <div className="space-y-1">
-            <label className="text-sm font-medium text-white/85">Temat</label>
+            <label className="text-sm font-medium text-slate-700">Temat</label>
             <input
-              className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="Temat lekcji"
@@ -407,9 +407,9 @@ export default function LessonDetailPage() {
           </div>
         </div>
         <div className="space-y-1">
-          <label className="text-sm font-medium text-white/85">Podsumowanie</label>
+          <label className="text-sm font-medium text-slate-700">Podsumowanie</label>
           <textarea
-            className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
             rows={3}
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
@@ -418,18 +418,18 @@ export default function LessonDetailPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-        <h2 className="text-lg font-semibold tracking-tight text-white">Notatki</h2>
-        <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Notatki</h2>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
           <textarea
-            className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
             rows={3}
             value={noteText}
             onChange={(e) => setNoteText(e.target.value)}
             placeholder="Dodaj notatkę..."
           />
           <button
-            className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+            className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
             onClick={addNote}
             disabled={addingNote || !noteText.trim()}
           >
@@ -437,30 +437,30 @@ export default function LessonDetailPage() {
           </button>
         </div>
         {notes.length === 0 ? (
-          <p className="text-sm text-white/70">Brak notatek.</p>
+          <p className="text-sm text-slate-600">Brak notatek.</p>
         ) : (
           <ul className="space-y-2">
             {notes.map((note) => (
-              <li key={note.id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
-                <div className="text-xs text-white/60 mb-2">
+              <li key={note.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="text-xs text-slate-500 mb-2">
                   {note.author_role === "admin" ? "Nauczyciel" : "Uczeń"} •{" "}
                   {new Date(note.created_at).toLocaleString()}
                 </div>
-                <div className="text-sm text-white/85 whitespace-pre-wrap">{note.content}</div>
+                <div className="text-sm text-slate-700 whitespace-pre-wrap">{note.content}</div>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-        <h2 className="text-lg font-semibold tracking-tight text-white">Zadania</h2>
-        <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Zadania</h2>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
             <div className="space-y-1">
-              <label className="text-sm font-medium text-white/85">Typ</label>
+              <label className="text-sm font-medium text-slate-700">Typ</label>
               <select
-                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white"
+                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900"
                 value={assignmentType}
                 onChange={(e) => setAssignmentType(e.target.value as LessonAssignment["exercise_type"])}
               >
@@ -470,18 +470,18 @@ export default function LessonDetailPage() {
               </select>
             </div>
             <div className="space-y-1 sm:col-span-2">
-              <label className="text-sm font-medium text-white/85">Slug</label>
+              <label className="text-sm font-medium text-slate-700">Slug</label>
               <input
-                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                 value={assignmentSlug}
                 onChange={(e) => setAssignmentSlug(e.target.value)}
                 placeholder="np. shop"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-white/85">Termin</label>
+              <label className="text-sm font-medium text-slate-700">Termin</label>
               <input
-                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                 type="date"
                 value={assignmentDueDate}
                 onChange={(e) => setAssignmentDueDate(e.target.value)}
@@ -489,16 +489,16 @@ export default function LessonDetailPage() {
             </div>
           </div>
           <div className="space-y-1">
-            <label className="text-sm font-medium text-white/85">Parametry (JSON)</label>
+            <label className="text-sm font-medium text-slate-700">Parametry (JSON)</label>
             <textarea
-              className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
               rows={2}
               value={assignmentParams}
               onChange={(e) => setAssignmentParams(e.target.value)}
             />
           </div>
           <button
-            className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+            className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
             onClick={addAssignment}
             disabled={addingAssignment}
           >
@@ -507,24 +507,24 @@ export default function LessonDetailPage() {
         </div>
 
         {assignments.length === 0 ? (
-          <p className="text-sm text-white/70">Brak zadań.</p>
+          <p className="text-sm text-slate-600">Brak zadań.</p>
         ) : (
           <ul className="space-y-2">
             {assignments.map((assignment) => (
-              <li key={assignment.id} className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+              <li key={assignment.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <div className="text-sm font-semibold text-white">
+                    <div className="text-sm font-semibold text-slate-900">
                       {assignment.exercise_type} • {assignment.context_slug}
                     </div>
-                    <div className="text-xs text-white/60">
+                    <div className="text-xs text-slate-500">
                       Status: {assignment.status}
                       {assignment.due_date ? ` • termin: ${assignment.due_date}` : ""}
                     </div>
                   </div>
                   <div className="flex gap-2">
                     <a
-                      className="rounded-xl border-2 border-emerald-200/30 bg-emerald-400/10 px-3 py-2 text-xs font-medium text-emerald-100 hover:bg-emerald-400/20 transition"
+                      className="rounded-xl border border-slate-900 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
                       href={buildAssignmentHref(assignment)}
                     >
                       Start →

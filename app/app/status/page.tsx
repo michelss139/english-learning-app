@@ -213,9 +213,9 @@ function WordChips({ words, limit = 12 }: { words: string[]; limit?: number }) {
 
 function GreenBox({ title, count, words }: { title: string; count: number; words: string[] }) {
   return (
-    <div className="rounded-2xl border-2 border-emerald-400/30 bg-emerald-400/10 p-4 space-y-3">
+    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
       <div className="flex items-start justify-between gap-4">
-        <div className="text-emerald-100 text-sm">{title}</div>
+        <div className="text-slate-700 text-sm">{title}</div>
         <div className="text-3xl font-semibold text-white">{count}</div>
       </div>
       <WordChips words={words} />

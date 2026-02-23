@@ -176,15 +176,15 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                   <Link
                     key={visibleShopPack.id}
                     href={packHref(visibleShopPack.slug, vocabMode)}
-                    className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
+                    className="vocab-pack-card rounded-2xl border-2 p-4 transition"
                   >
-                    <div className="flex items-start justify-between gap-2 mb-2">
+                    <div className="flex h-full min-h-[80px] flex-col items-center justify-center gap-1 text-center">
                       <h3 className="font-semibold text-slate-900">{visibleShopPack.title}</h3>
-                      <span className="text-xs text-slate-600">{visibleShopPack.item_count} fiszek</span>
+                      <p className="text-xs text-slate-600">
+                        {visibleShopPack.description || "Szybka powtórka słówek."}
+                      </p>
+                      <span className="text-xs text-slate-500">{visibleShopPack.item_count} fiszek</span>
                     </div>
-                    <p className="text-xs text-slate-600">
-                      {visibleShopPack.description || "Szybka powtórka słówek."}
-                    </p>
                   </Link>
                 </div>
               </details>
@@ -200,13 +200,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 transition"
                     >
-                      <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex h-full min-h-[80px] flex-col items-center justify-center gap-1 text-center">
                         <h3 className="font-semibold text-slate-900">{pack.title}</h3>
-                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
+                        <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
+                        <span className="text-xs text-slate-500">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>
@@ -223,13 +223,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 transition"
                     >
-                      <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex h-full min-h-[80px] flex-col items-center justify-center gap-1 text-center">
                         <h3 className="font-semibold text-slate-900">{pack.title}</h3>
-                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
+                        <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
+                        <span className="text-xs text-slate-500">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>
@@ -246,13 +246,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 transition"
                     >
-                      <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex h-full min-h-[80px] flex-col items-center justify-center gap-1 text-center">
                         <h3 className="font-semibold text-slate-900">{pack.title}</h3>
-                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
+                        <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
+                        <span className="text-xs text-slate-500">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>
@@ -269,13 +269,13 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
                     <Link
                       key={pack.id}
                       href={packHref(pack.slug, vocabMode)}
-                      className="vocab-pack-card rounded-2xl border-2 p-4 text-left transition"
+                      className="vocab-pack-card rounded-2xl border-2 p-4 transition"
                     >
-                      <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex h-full min-h-[80px] flex-col items-center justify-center gap-1 text-center">
                         <h3 className="font-semibold text-slate-900">{pack.title}</h3>
-                        <span className="text-xs text-slate-600">{pack.item_count} fiszek</span>
+                        <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
+                        <span className="text-xs text-slate-500">{pack.item_count} fiszek</span>
                       </div>
-                      <p className="text-xs text-slate-600">{pack.description || "Szybka powtórka słówek."}</p>
                     </Link>
                   ))}
                 </div>

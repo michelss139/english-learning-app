@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "plants",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-23T19:22:46.894Z"
+  },
+  "items": [
+    {
+      "lemma": "perennial plant",
+      "pos": "noun",
+      "translation_pl": "roślina wieloletnia",
+      "definition_en": "A perennial plant lives for more than two years.",
+      "example_en": "The gardener prefers using perennial plants for a low-maintenance garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shrub",
+      "pos": "noun",
+      "translation_pl": "krzew",
+      "definition_en": "A shrub is a woody plant that is smaller than a tree.",
+      "example_en": "She trimmed the shrub to keep it looking neat.",
+      "level": "B2"
+    },
+    {
+      "lemma": "creeper",
+      "pos": "noun",
+      "translation_pl": "pnącze",
+      "definition_en": "A creeper is a plant that grows along the ground or climbs surfaces.",
+      "example_en": "A beautiful creeper covers one side of the garden fence.",
+      "level": "B2"
+    },
+    {
+      "lemma": "evergreen",
+      "pos": "noun",
+      "translation_pl": "roślina zimozielona",
+      "definition_en": "An evergreen is a plant that keeps its leaves all year round.",
+      "example_en": "The evergreen near the gate stays green through the winter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "succulent",
+      "pos": "noun",
+      "translation_pl": "sukulent",
+      "definition_en": "A succulent is a plant with thick leaves that store water.",
+      "example_en": "She collects succulents for her windowsill garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sapling",
+      "pos": "noun",
+      "translation_pl": "sadzenie",
+      "definition_en": "A sapling is a young tree.",
+      "example_en": "The class planted a sapling as part of their science project.",
+      "level": "B2"
+    },
+    {
+      "lemma": "climber",
+      "pos": "noun",
+      "translation_pl": "pnącze",
+      "definition_en": "A climber is a plant that grows upward by attaching itself to a structure.",
+      "example_en": "The rose climber has reached the top of the trellis.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bulb",
+      "pos": "noun",
+      "translation_pl": "cebula rośliny",
+      "definition_en": "A bulb is a round underground part of some plants from which new plants grow.",
+      "example_en": "In autumn, she planted tulip bulbs in the flowerbeds.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ornamental grass",
+      "pos": "noun",
+      "translation_pl": "trawa ozdobna",
+      "definition_en": "Ornamental grass is grown in gardens mainly for decoration.",
+      "example_en": "They added ornamental grass to give the border more texture.",
+      "level": "C1"
+    },
+    {
+      "lemma": "ground cover",
+      "pos": "noun",
+      "translation_pl": "roślina okrywowa",
+      "definition_en": "A ground cover is a plant that grows over soil to help prevent weeds.",
+      "example_en": "Ground cover like ivy helps keep the soil from drying out.",
+      "level": "B2"
+    },
+    {
+      "lemma": "herbaceous plant",
+      "pos": "noun",
+      "translation_pl": "roślina zielna",
+      "definition_en": "A herbaceous plant has soft, green stems and no woody parts.",
+      "example_en": "Many gardeners prefer herbaceous plants for colorful flowerbeds.",
+      "level": "C1"
+    },
+    {
+      "lemma": "deciduous tree",
+      "pos": "noun",
+      "translation_pl": "drzewo liściaste",
+      "definition_en": "A deciduous tree sheds its leaves in autumn.",
+      "example_en": "The deciduous trees turn beautiful colors in the fall.",
+      "level": "B2"
+    },
+    {
+      "lemma": "flowering shrub",
+      "pos": "noun",
+      "translation_pl": "krzew kwitnący",
+      "definition_en": "A flowering shrub is a bush that produces flowers.",
+      "example_en": "The flowering shrubs create a vibrant display in spring.",
+      "level": "B2"
+    },
+    {
+      "lemma": "seedling",
+      "pos": "noun",
+      "translation_pl": "siewka",
+      "definition_en": "A seedling is a young plant grown from a seed.",
+      "example_en": "Each seedling needs sunlight to grow strong.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rhizome",
+      "pos": "noun",
+      "translation_pl": "kłącze",
+      "definition_en": "A rhizome is a thick underground stem from which new shoots grow.",
+      "example_en": "Bamboo spreads quickly because of its rhizomes.",
+      "level": "C1"
+    },
+    {
+      "lemma": "fern",
+      "pos": "noun",
+      "translation_pl": "paproć",
+      "definition_en": "A fern is a plant with feathery leaves and no flowers.",
+      "example_en": "Ferns thrive in the shady parts of the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "conifer",
+      "pos": "noun",
+      "translation_pl": "drzewo iglaste",
+      "definition_en": "A conifer is a tree that usually has cones and needle-like leaves.",
+      "example_en": "The tall conifers provide privacy along the fence.",
+      "level": "B2"
+    },
+    {
+      "lemma": "topiary",
+      "pos": "noun",
+      "translation_pl": "topiara",
+      "definition_en": "A topiary is a plant shaped into decorative forms by cutting and trimming.",
+      "example_en": "The impressive topiary in the front yard looks like an elephant.",
+      "level": "C2"
+    },
+    {
+      "lemma": "wildflower",
+      "pos": "noun",
+      "translation_pl": "dziki kwiat",
+      "definition_en": "A wildflower is a flower that grows naturally without being planted by people.",
+      "example_en": "In summer, the meadow is covered in wildflowers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "specimen plant",
+      "pos": "noun",
+      "translation_pl": "roślina okazowa",
+      "definition_en": "A specimen plant is grown mainly to be noticed for its unique features.",
+      "example_en": "They chose a palm as the specimen plant for the center of the lawn.",
+      "level": "C1"
+    }
+  ]
+}

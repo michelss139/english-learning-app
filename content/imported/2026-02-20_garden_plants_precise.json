@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "plants",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-20T12:46:20.556Z"
+  },
+  "items": [
+    {
+      "lemma": "perennial",
+      "pos": "noun",
+      "translation_pl": "wieloletnia roślina",
+      "level": "B2"
+    },
+    {
+      "lemma": "succulent",
+      "pos": "noun",
+      "translation_pl": "sukulenty",
+      "level": "B2"
+    },
+    {
+      "lemma": "evergreen",
+      "pos": "noun",
+      "translation_pl": "roślina zimozielona",
+      "level": "B2"
+    },
+    {
+      "lemma": "deciduous tree",
+      "pos": "noun",
+      "translation_pl": "drzewo liściaste",
+      "level": "B2"
+    },
+    {
+      "lemma": "climber",
+      "pos": "noun",
+      "translation_pl": "pnącze",
+      "level": "B2"
+    },
+    {
+      "lemma": "herbaceous plant",
+      "pos": "noun",
+      "translation_pl": "roślina zielna",
+      "level": "C1"
+    },
+    {
+      "lemma": "flowering shrub",
+      "pos": "noun",
+      "translation_pl": "krzew kwitnący",
+      "level": "B2"
+    },
+    {
+      "lemma": "ornamental grass",
+      "pos": "noun",
+      "translation_pl": "trawa ozdobna",
+      "level": "B2"
+    },
+    {
+      "lemma": "ground cover",
+      "pos": "noun",
+      "translation_pl": "roślina okrywowa",
+      "level": "C1"
+    },
+    {
+      "lemma": "conifer",
+      "pos": "noun",
+      "translation_pl": "iglaste",
+      "level": "B2"
+    },
+    {
+      "lemma": "bulb",
+      "pos": "noun",
+      "translation_pl": "cebula",
+      "level": "B2"
+    },
+    {
+      "lemma": "sapling",
+      "pos": "noun",
+      "translation_pl": "sadzonka drzewa",
+      "level": "B2"
+    },
+    {
+      "lemma": "seedling",
+      "pos": "noun",
+      "translation_pl": "siewka",
+      "level": "B2"
+    },
+    {
+      "lemma": "fern",
+      "pos": "noun",
+      "translation_pl": "paproć",
+      "level": "B2"
+    },
+    {
+      "lemma": "annual",
+      "pos": "noun",
+      "translation_pl": "roślina jednoroczna",
+      "level": "B2"
+    },
+    {
+      "lemma": "hybrid plant",
+      "pos": "noun",
+      "translation_pl": "roślina hybrydowa",
+      "level": "C1"
+    },
+    {
+      "lemma": "cultivar",
+      "pos": "noun",
+      "translation_pl": "odmiana uprawna",
+      "level": "C1"
+    },
+    {
+      "lemma": "native species",
+      "pos": "noun",
+      "translation_pl": "gatunek rodzimy",
+      "level": "C1"
+    },
+    {
+      "lemma": "woody plant",
+      "pos": "noun",
+      "translation_pl": "roślina drzewiasta",
+      "level": "C1"
+    },
+    {
+      "lemma": "specimen plant",
+      "pos": "noun",
+      "translation_pl": "roślina pokazowa",
+      "level": "C2"
+    }
+  ]
+}

@@ -11,18 +11,18 @@ type TileProps = {
 
 export function DashboardTile({ title, description, href, badge, disabled }: TileProps) {
   const baseClasses =
-    "group relative rounded-3xl border border-emerald-100/10 bg-emerald-950/40 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition";
-  const activeClasses = "hover:border-emerald-200/30 hover:bg-emerald-900/40";
+    "group relative rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition";
+  const activeClasses = "hover:border-slate-300 hover:shadow-md";
   const disabledClasses = "opacity-60 cursor-not-allowed";
 
   const content = (
     <>
       {badge ? <div className="absolute right-4 top-4">{badge}</div> : null}
       <div className="space-y-2">
-        <div className="text-lg font-semibold tracking-tight text-white">{title}</div>
-        <p className="text-sm text-emerald-100/70">{description}</p>
+        <div className="text-lg font-semibold tracking-tight text-slate-900">{title}</div>
+        <p className="text-sm text-slate-600">{description}</p>
       </div>
-      <div className="mt-6 text-sm font-medium text-emerald-100/80">
+      <div className="mt-6 text-sm font-medium text-slate-600">
         {disabled ? "Wkrótce" : "Otwórz →"}
       </div>
     </>

@@ -75,8 +75,8 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
   if (packErr || !packRow || !packRow.is_published) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
             Pack nie istnieje lub nie jest opublikowany.
           </div>
         </section>
@@ -107,8 +107,8 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
   if (itemsErr) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
             Nie udało się wczytać fiszek.
           </div>
         </section>

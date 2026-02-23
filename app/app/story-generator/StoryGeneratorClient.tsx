@@ -23,7 +23,7 @@ type StoryData = {
 
 type StoryApiResponse =
   | { ok: true; data: StoryData; source?: "cache" | "generated" }
-  | { ok?: false; reason?: string; error?: string };
+  | { ok: false; reason?: string; error?: string };
 
 function createSessionId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -99,7 +99,8 @@ export default function StoryGeneratorClient() {
 
       const data = (await res.json().catch(() => null)) as StoryApiResponse | null;
       if (!res.ok || !data?.ok || !data?.data) {
-        const reason = data?.reason;
+        const err = data as { reason?: string; error?: string } | null;
+        const reason = err?.reason ?? err?.error;
         const friendly: Record<string, string> = {
           validation_failed: "Walidacja form czasownikowych nie powiodla sie. Sprobuj ponownie.",
           irregular_load_failed: "Blad ladowania slownika czasownikow nieregularnych.",
@@ -112,7 +113,6 @@ export default function StoryGeneratorClient() {
         const msg =
           (reason && friendly[reason]) ||
           (reason ? `Nie udalo sie: ${reason}` : null) ||
-          data?.error ||
           "Nie udalo sie wygenerowac historii.";
         throw new Error(msg);
       }

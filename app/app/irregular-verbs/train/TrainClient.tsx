@@ -63,9 +63,9 @@ function createSessionId(): string {
 }
 
 function pill(tone: "neutral" | "good" | "bad") {
-  if (tone === "good") return "border-emerald-400/30 bg-emerald-400/10 text-emerald-100";
-  if (tone === "bad") return "border-rose-400/30 bg-rose-400/10 text-rose-100";
-  return "border-white/15 bg-white/5 text-white/80";
+  if (tone === "good") return "border-emerald-400 bg-emerald-50 text-emerald-800";
+  if (tone === "bad") return "border-rose-400 bg-rose-50 text-rose-800";
+  return "border-slate-200 bg-slate-50 text-slate-700";
 }
 
 export default function IrregularVerbsTrainClient(props: {
@@ -315,45 +315,49 @@ export default function IrregularVerbsTrainClient(props: {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Test czasowników nieregularnych</h1>
-            <p className="text-base text-emerald-100/80">
-              Poprawne: <span className="font-medium text-white">{stats.correct}</span> / {stats.total}
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Test czasowników nieregularnych</h1>
+            <p className="text-base text-slate-600">
+              Poprawne: <span className="font-medium text-slate-900">{stats.correct}</span> / {stats.total}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="tile-frame"
               href="/app/irregular-verbs"
             >
-              ← Lista
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Lista
+              </span>
             </a>
             <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              className="tile-frame"
               href="/app"
             >
-              ← Wróć do strony głównej
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Wróć do strony głównej
+              </span>
             </a>
           </div>
         </div>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
           <div className="flex flex-col gap-3">
             <div>{error}</div>
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900/90 hover:bg-white/10 transition"
                 onClick={startNewSession}
               >
                 Spróbuj ponownie
               </button>
               <a
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900/90 hover:bg-white/10 transition"
                 href="/app"
               >
                 Wróć do strony głównej
@@ -363,34 +367,34 @@ export default function IrregularVerbsTrainClient(props: {
         </div>
       ) : null}
       {assignmentToast ? (
-        <div className="rounded-2xl border-2 border-emerald-200/30 bg-emerald-400/10 p-4 text-emerald-100">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
           {assignmentToast}
         </div>
       ) : null}
 
       {sessionComplete ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-4">
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight text-white">Sesja zakończona</h2>
-            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-white">
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h2>
+            <span className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-900">
               {summaryCorrect} / {summaryTotal}
             </span>
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
-            <div className="text-sm text-white/75">Podsumowanie sesji</div>
-            <div className="text-sm text-white/80">
-              Poprawne: <span className="font-medium text-white">{summaryCorrect}</span> / {summaryTotal}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+            <div className="text-sm text-slate-600">Podsumowanie sesji</div>
+            <div className="text-sm text-slate-700">
+              Poprawne: <span className="font-medium text-slate-900">{summaryCorrect}</span> / {summaryTotal}
             </div>
-            <div className="text-sm text-white/80">
+            <div className="text-sm text-slate-700">
               Skuteczność:{" "}
-              <span className="font-medium text-white">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>{" "}
-              · Błędne: <span className="font-medium text-white">{summaryWrong}</span>
+              <span className="font-medium text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>{" "}
+              · Błędne: <span className="font-medium text-slate-900">{summaryWrong}</span>
             </div>
             {summary?.wrong_items?.length ? (
-              <div className="text-sm text-white/70">
+              <div className="text-sm text-slate-600">
                 Najczęstsze błędy:
-                <ul className="mt-2 space-y-1 text-white/80">
+                <ul className="mt-2 space-y-1 text-slate-700">
                   {summary.wrong_items.slice(0, 10).map((item, idx) => (
                     <li key={`${item.prompt ?? "?"}-${idx}`}>
                       {item.prompt ?? "—"} → {item.expected ?? "—"}
@@ -401,40 +405,40 @@ export default function IrregularVerbsTrainClient(props: {
             ) : null}
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
-            <div className="text-sm text-white/75">Postęp XP</div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+            <div className="text-sm text-slate-600">Postęp XP</div>
             {award ? (
-              <div className="space-y-1 text-sm text-white/80">
+              <div className="space-y-1 text-sm text-slate-700">
                 {xpAlreadyAwarded ? (
-                  <div className="text-amber-100">
+                  <div className="text-amber-700">
                     Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
                   </div>
                 ) : (
                   <div>
-                    Zdobyte XP: <span className="font-medium text-white">+{award.xp_awarded}</span>
+                    Zdobyte XP: <span className="font-medium text-slate-900">+{award.xp_awarded}</span>
                   </div>
                 )}
                 <div>
-                  Poziom: <span className="font-medium text-white">{award.level}</span> · XP w poziomie:{" "}
-                  <span className="font-medium text-white">
+                  Poziom: <span className="font-medium text-slate-900">{award.level}</span> · XP w poziomie:{" "}
+                  <span className="font-medium text-slate-900">
                     {award.xp_in_current_level}/{award.xp_to_next_level}
                   </span>
                 </div>
               </div>
             ) : awarding ? (
-              <div className="text-sm text-white/60">Przyznaję XP…</div>
+              <div className="text-sm text-slate-500">Przyznaję XP…</div>
             ) : awardError ? (
               <div className="text-sm text-rose-200">{awardError}</div>
             ) : (
-              <div className="text-sm text-white/60">Brak danych o XP.</div>
+              <div className="text-sm text-slate-500">Brak danych o XP.</div>
             )}
           </div>
 
           {award?.newly_awarded_badges?.length ? (
             <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4 space-y-2">
-              <div className="text-sm font-semibold text-amber-100">Nowe odznaki</div>
+              <div className="text-sm font-semibold text-amber-700">Nowe odznaki</div>
               {award.newly_awarded_badges.map((badge) => (
-                <div key={badge.slug} className="text-sm text-amber-100">
+                <div key={badge.slug} className="text-sm text-amber-700">
                   {badge.title}
                   {badge.description ? ` — ${badge.description}` : ""}
                 </div>
@@ -444,19 +448,19 @@ export default function IrregularVerbsTrainClient(props: {
 
           <div className="flex flex-wrap gap-2">
             <button
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
               onClick={startNewSession}
             >
               Jeszcze raz to samo
             </button>
             <button
-              className="rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/60 cursor-not-allowed"
+              className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-500 cursor-not-allowed"
               disabled
             >
               Jeszcze raz tylko błędne (Wkrótce)
             </button>
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
               href="/app"
             >
               Wróć do strony głównej
@@ -466,15 +470,15 @@ export default function IrregularVerbsTrainClient(props: {
       ) : null}
 
       {!sessionComplete && currentVerb ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-6">
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-6">
           <div className="text-center space-y-2">
-            <div className="text-4xl font-bold text-white">{currentVerb.base}</div>
-            <div className="text-sm text-white/60">Podaj formy czasownika</div>
+            <div className="text-4xl font-bold text-slate-900">{currentVerb.base}</div>
+            <div className="text-sm text-slate-500">Podaj formy czasownika</div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">Past Simple</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Past Simple</label>
               <input
                 type="text"
                 value={pastSimple}
@@ -491,7 +495,7 @@ export default function IrregularVerbsTrainClient(props: {
                 }}
                 readOnly={!!result || submitting}
                 aria-readonly={!!result || submitting}
-                className={`w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-3 text-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
+                className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
                   result || submitting ? "opacity-60" : ""
                 }`}
                 placeholder="np. went"
@@ -511,7 +515,7 @@ export default function IrregularVerbsTrainClient(props: {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">Past Participle</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Past Participle</label>
               <input
                 type="text"
                 value={pastParticiple}
@@ -528,7 +532,7 @@ export default function IrregularVerbsTrainClient(props: {
                 }}
                 readOnly={!!result || submitting}
                 aria-readonly={!!result || submitting}
-                className={`w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-3 text-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
+                className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
                   result || submitting ? "opacity-60" : ""
                 }`}
                 placeholder="np. gone"
@@ -557,7 +561,7 @@ export default function IrregularVerbsTrainClient(props: {
 
               <div className="flex gap-2">
                 <button
-                  className="flex-1 rounded-xl border-2 border-white/15 bg-white/10 px-4 py-3 font-medium text-white hover:bg-white/15 transition"
+                  className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-900 hover:bg-slate-50 transition"
                   onClick={handleNext}
                 >
                   Następny czasownik
@@ -567,7 +571,7 @@ export default function IrregularVerbsTrainClient(props: {
           ) : (
             <div className="flex gap-2">
               <button
-                className="flex-1 rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-3 font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
+                className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-700 hover:bg-slate-50 transition disabled:opacity-60"
                 onClick={handleSubmit}
                 disabled={submitting || !pastSimple.trim() || !pastParticiple.trim()}
               >
@@ -579,7 +583,7 @@ export default function IrregularVerbsTrainClient(props: {
       ) : null}
 
       {!sessionComplete && !currentVerb ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 text-center text-white/60">
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 text-center text-slate-500">
           Brak czasowników do treningu. Wróć do listy i przypnij kilka czasowników.
         </section>
       ) : null}

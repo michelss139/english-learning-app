@@ -118,41 +118,43 @@ export default function StativeVerbsPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Czasowniki statyczne</h1>
-            <p className="text-base text-emerald-100/80">
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasowniki statyczne</h1>
+            <p className="text-base text-slate-600">
               Czasowniki stanu - klucz do naturalnego angielskiego
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <Link
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="tile-frame"
               href="/app/grammar"
             >
-              ← Spis treści
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Spis treści
+              </span>
             </Link>
           </div>
         </div>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
           {error}
         </div>
       ) : null}
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-6 space-y-6">
+      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
         {/* Quick navigation */}
-        <div className="sticky top-4 z-10 mb-6 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md p-3">
+        <div className="sticky top-4 z-10 mb-6 rounded-xl border border-slate-200 bg-slate-100 p-3">
           <div className="flex flex-wrap gap-2 text-xs">
             {sections.map((section) => (
               <a
                 key={section.id}
                 href={`#${section.id}`}
-                className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white/70 hover:bg-white/10 hover:text-white transition"
+                className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-slate-600 hover:bg-slate-50 hover:border-slate-400 transition"
               >
                 {section.title}
               </a>
@@ -162,10 +164,10 @@ export default function StativeVerbsPage() {
 
         {/* 1. Czym są stative verbs */}
         <section id="definition" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">
+          <h2 className="text-xl font-semibold text-slate-900">
             Czym są <GlossaryTooltip term="stative verb">czasowniki statyczne</GlossaryTooltip> (definicja po ludzku)
           </h2>
-          <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line">
+          <div className="prose prose-slate max-w-none text-slate-700 whitespace-pre-line">
             {`Czasowniki statyczne to czasowniki, które opisują:
 
 stan, a nie akcję,
@@ -196,8 +198,8 @@ Bo „know" to stan, nie akcja.`}
 
         {/* 2. Dlaczego to ważne */}
         <section id="importance" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Dlaczego to ważne</h2>
-          <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line">
+          <h2 className="text-xl font-semibold text-slate-900">Dlaczego to ważne</h2>
+          <div className="prose prose-slate max-w-none text-slate-700 whitespace-pre-line">
             {`To jest jeden z najczęstszych powodów, dla których:
 
 zdania brzmią „nienaturalnie",
@@ -218,15 +220,15 @@ Angielski działa inaczej.`}
 
         {/* 3. Główne kategorie */}
         <section id="categories" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Główne kategorie czasowników statycznych</h2>
+          <h2 className="text-xl font-semibold text-slate-900">Główne kategorie czasowników statycznych</h2>
           <div className="space-y-4">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-lg font-medium text-white/90 mb-2">A) Uczucia i emocje</h3>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <h3 className="text-lg font-medium text-slate-700 mb-2">A) Uczucia i emocje</h3>
               <div className="flex flex-wrap gap-2">
                 {["love", "like", "hate", "prefer", "need", "want", "care", "mind"].map((verb) => (
                   <span
                     key={verb}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80"
+                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
                   >
                     {verb}
                   </span>
@@ -234,13 +236,13 @@ Angielski działa inaczej.`}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-lg font-medium text-white/90 mb-2">B) Myślenie, opinie, wiedza</h3>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <h3 className="text-lg font-medium text-slate-700 mb-2">B) Myślenie, opinie, wiedza</h3>
               <div className="flex flex-wrap gap-2">
                 {["know", "think", "believe", "understand", "remember", "forget", "agree", "mean"].map((verb) => (
                   <span
                     key={verb}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80"
+                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
                   >
                     {verb}
                   </span>
@@ -248,13 +250,13 @@ Angielski działa inaczej.`}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-lg font-medium text-white/90 mb-2">C) Zmysły</h3>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <h3 className="text-lg font-medium text-slate-700 mb-2">C) Zmysły</h3>
               <div className="flex flex-wrap gap-2">
                 {["see", "hear", "smell", "taste", "sound"].map((verb) => (
                   <span
                     key={verb}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80"
+                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
                   >
                     {verb}
                   </span>
@@ -262,13 +264,13 @@ Angielski działa inaczej.`}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-lg font-medium text-white/90 mb-2">D) Posiadanie i relacje</h3>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <h3 className="text-lg font-medium text-slate-700 mb-2">D) Posiadanie i relacje</h3>
               <div className="flex flex-wrap gap-2">
                 {["have", "own", "belong", "contain", "include", "consist"].map((verb) => (
                   <span
                     key={verb}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80"
+                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
                   >
                     {verb}
                   </span>
@@ -276,13 +278,13 @@ Angielski działa inaczej.`}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-lg font-medium text-white/90 mb-2">E) Stany i cechy</h3>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <h3 className="text-lg font-medium text-slate-700 mb-2">E) Stany i cechy</h3>
               <div className="flex flex-wrap gap-2">
                 {["be", "seem", "appear", "look (w znaczeniu: wydawać się)", "feel (w znaczeniu: stan)"].map((verb) => (
                   <span
                     key={verb}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80"
+                    className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
                   >
                     {verb}
                   </span>
@@ -294,36 +296,36 @@ Angielski działa inaczej.`}
 
         {/* 4. Lista najważniejszych */}
         <section id="list" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Najważniejsze czasowniki statyczne – lista do nauki</h2>
+          <h2 className="text-xl font-semibold text-slate-900">Najważniejsze czasowniki statyczne – lista do nauki</h2>
           <div className="space-y-3">
             <div>
-              <strong className="text-emerald-300">Emotion / feeling:</strong>
-              <div className="mt-1 text-white/90">love, like, hate, prefer, need, want</div>
+              <strong className="text-slate-900">Emotion / feeling:</strong>
+              <div className="mt-1 text-slate-700">love, like, hate, prefer, need, want</div>
             </div>
             <div>
-              <strong className="text-emerald-300">Mind / opinion:</strong>
-              <div className="mt-1 text-white/90">know, think, believe, understand, remember, forget, agree, doubt</div>
+              <strong className="text-slate-900">Mind / opinion:</strong>
+              <div className="mt-1 text-slate-700">know, think, believe, understand, remember, forget, agree, doubt</div>
             </div>
             <div>
-              <strong className="text-emerald-300">Possession:</strong>
-              <div className="mt-1 text-white/90">have, own, belong, contain, include</div>
+              <strong className="text-slate-900">Possession:</strong>
+              <div className="mt-1 text-slate-700">have, own, belong, contain, include</div>
             </div>
             <div>
-              <strong className="text-emerald-300">Senses:</strong>
-              <div className="mt-1 text-white/90">see, hear, smell, taste, sound</div>
+              <strong className="text-slate-900">Senses:</strong>
+              <div className="mt-1 text-slate-700">see, hear, smell, taste, sound</div>
             </div>
             <div>
-              <strong className="text-emerald-300">State:</strong>
-              <div className="mt-1 text-white/90">be, seem, appear, feel</div>
+              <strong className="text-slate-900">State:</strong>
+              <div className="mt-1 text-slate-700">be, seem, appear, feel</div>
             </div>
           </div>
         </section>
 
         {/* 5. Uwaga! To myli */}
         <section id="confusion-warnings" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Uwaga! To myli (sygnały vs pułapki)</h2>
+          <h2 className="text-xl font-semibold text-slate-900">Uwaga! To myli (sygnały vs pułapki)</h2>
           <div className="rounded-xl border-2 border-amber-400/30 bg-amber-400/10 p-4">
-            <div className="prose prose-invert max-w-none text-amber-100 whitespace-pre-line">
+            <div className="prose prose-slate max-w-none text-amber-800 whitespace-pre-line">
               {`„now" + czasownik statyczny ≠ Continuous
 ❌ I am knowing the answer now.
 ✅ I know the answer now.
@@ -344,10 +346,10 @@ I love this movie very much.`}
 
         {/* 6. Kiedy MOŻE być continuous */}
         <section id="continuous-exceptions" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">
+          <h2 className="text-xl font-semibold text-slate-900">
             Kiedy <GlossaryTooltip term="stative verb">czasownik statyczny</GlossaryTooltip> MOŻE być w continuous (zmiana znaczenia)
           </h2>
-          <div className="prose prose-invert max-w-none text-white/90">
+          <div className="prose prose-slate max-w-none text-slate-700">
             <div className="space-y-4">
               <div>
                 <strong>To jest krytyczne. Tu robisz jakość.</strong>
@@ -388,8 +390,8 @@ I love this movie very much.`}
 
         {/* 7. Struktura */}
         <section id="structure" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Struktura (informacyjnie)</h2>
-          <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line">
+          <h2 className="text-xl font-semibold text-slate-900">Struktura (informacyjnie)</h2>
+          <div className="prose prose-slate max-w-none text-slate-700 whitespace-pre-line">
             {`Czasowników statycznych używamy głównie w:
 
 Present Simple
@@ -412,8 +414,8 @@ Nie budujemy ich w Continuous, chyba że zmienia się znaczenie (jak wyżej).`}
 
         {/* 8. Typowe błędy */}
         <section id="common-mistakes" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Typowe błędy (bardzo ważne)</h2>
-          <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line">
+          <h2 className="text-xl font-semibold text-slate-900">Typowe błędy (bardzo ważne)</h2>
+          <div className="prose prose-slate max-w-none text-slate-700 whitespace-pre-line">
             {`❌ I am knowing him. → ✅ I know him.
 
 ❌ She is liking this movie. → ✅ She likes this movie.
@@ -428,8 +430,8 @@ Nie budujemy ich w Continuous, chyba że zmienia się znaczenie (jak wyżej).`}
 
         {/* 9. Przykłady zdań */}
         <section id="examples" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Przykłady zdań (kontrast)</h2>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-2">
+          <h2 className="text-xl font-semibold text-slate-900">Przykłady zdań (kontrast)</h2>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2">
             <ExampleSentence sentence="I know the answer." />
             <ExampleSentence sentence="I am thinking about the answer." />
             <ExampleSentence sentence="She has a dog." />
@@ -443,9 +445,9 @@ Nie budujemy ich w Continuous, chyba że zmienia się znaczenie (jak wyżej).`}
 
         {/* 10. Dialog */}
         <section id="dialog" className="space-y-3 scroll-mt-4">
-          <h2 className="text-xl font-semibold text-white">Dialog w praktyce</h2>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line font-mono text-sm">
+          <h2 className="text-xl font-semibold text-slate-900">Dialog w praktyce</h2>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <div className="prose prose-slate max-w-none text-slate-700 whitespace-pre-line font-mono text-sm">
               {`A: Are you okay?
 B: Yes, I feel fine, just a bit tired.
 A: What are you doing?
@@ -454,7 +456,7 @@ A: Do you know the answers?
 B: I know most of them, but I am still thinking about two questions.
 A: You'll be fine.`}
             </div>
-            <div className="mt-3 text-xs text-white/60 italic">
+            <div className="mt-3 text-xs text-slate-500 italic">
               (Tu masz jednocześnie czasowniki statyczne + action – idealny kontrast)
             </div>
           </div>
@@ -474,11 +476,11 @@ A: You'll be fine.`}
               </div>
             )}
             {aiDialog && (
-              <div className="mt-3 rounded-xl border border-white/10 bg-white/5 p-4">
-                <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line font-mono text-sm">
+              <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="prose prose-slate max-w-none text-slate-700 whitespace-pre-line font-mono text-sm">
                   {aiDialog.split("\n").map((line, index) => {
                     // Highlight bold text (verb forms)
-                    const highlighted = line.replace(/\*\*(.+?)\*\*/g, '<span class="font-semibold text-emerald-300">$1</span>');
+                    const highlighted = line.replace(/\*\*(.+?)\*\*/g, '<span class="font-semibold text-slate-900">$1</span>');
                     return (
                       <div key={index} dangerouslySetInnerHTML={{ __html: highlighted || "&nbsp;" }} />
                     );

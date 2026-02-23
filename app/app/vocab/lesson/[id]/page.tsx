@@ -435,26 +435,26 @@ export default function VocabLessonPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200-200 bg-white shadow-sm p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
               {lesson ? `${lesson.title} ${lesson.lesson_date}` : "Lekcja"}
             </h1>
             <p className="text-base text-emerald-100/80">
-              Zalogowany jako: <span className="font-medium text-white">{profile?.email ?? "-"}</span>
+              Zalogowany jako: <span className="font-medium text-slate-900">{profile?.email ?? "-"}</span>
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border border-slate-200/15 bg-white/10 px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
               href="/app/vocab"
             >
               ← Trening słówek
             </a>
             <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 font-medium text-slate-900/90 hover:bg-slate-50 hover:text-slate-900 transition"
               href="/app"
             >
               Panel
@@ -473,26 +473,26 @@ export default function VocabLessonPage() {
       ) : null}
 
       {lesson?.notes ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="text-sm text-white/70">Notatki:</div>
-          <div className="mt-1 whitespace-pre-wrap text-white">{lesson.notes}</div>
+        <section className="rounded-3xl border border-slate-200-200 bg-white shadow-sm p-5">
+          <div className="text-sm text-slate-600">Notatki:</div>
+          <div className="mt-1 whitespace-pre-wrap text-slate-900">{lesson.notes}</div>
         </section>
       ) : null}
 
       {/* Add new word */}
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-3">
+      <section className="rounded-3xl border border-slate-200-200 bg-white shadow-sm p-5 space-y-3">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj nowe słówko</h2>
-          <p className="text-sm text-white/75">
+          <h2 className="text-lg font-semibold tracking-tight text-slate-900">Dodaj nowe słówko</h2>
+          <p className="text-sm text-slate-600">
             Wpisz słówko po angielsku. System znajdzie wszystkie znaczenia i pozwoli wybrać właściwe. Słowo trafi do
             puli i zostanie automatycznie przypięte do tej lekcji.
           </p>
         </div>
 
-        <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
+        <div className="rounded-2xl border border-slate-200/10 bg-white/5 p-4">
           <div className="flex gap-3">
             <input
-              className="flex-1 rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              className="flex-1 rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
               placeholder="Wpisz słówko po angielsku (np. ball)"
               value={newWord}
               onChange={(e) => setNewWord(e.target.value)}
@@ -528,10 +528,10 @@ export default function VocabLessonPage() {
 
       {/* Add from pool */}
       {availableWords.length > 0 && (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-3">
+        <section className="rounded-3xl border border-slate-200-200 bg-white shadow-sm p-5 space-y-3">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-white">Dodaj z puli</h2>
-            <p className="text-sm text-white/75">Przypnij słówka z Twojej puli do tej lekcji.</p>
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Dodaj z puli</h2>
+            <p className="text-sm text-slate-600">Przypnij słówka z Twojej puli do tej lekcji.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -543,13 +543,13 @@ export default function VocabLessonPage() {
                   key={w.user_vocab_item_id}
                   onClick={() => pinWordFromPool(w.user_vocab_item_id)}
                   disabled={pinningWordId === w.user_vocab_item_id}
-                  className="rounded-xl border-2 border-white/10 bg-white/5 px-3 py-2 text-left hover:bg-white/10 transition disabled:opacity-60"
+                  className="rounded-xl border border-slate-200/10 bg-white/5 px-3 py-2 text-left hover:bg-slate-50 transition disabled:opacity-60"
                 >
-                  <div className="font-medium text-white">{lemma}</div>
+                  <div className="font-medium text-slate-900">{lemma}</div>
                   {verbForm && shouldShowVerbFormBadge(w.pos, verbForm) && (
                     <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
                   )}
-                  <div className="text-xs text-white/70 truncate">{getDisplayTranslation(w, verbForm)}</div>
+                  <div className="text-xs text-slate-600 truncate">{getDisplayTranslation(w, verbForm)}</div>
                 </button>
               );
             })}
@@ -558,30 +558,30 @@ export default function VocabLessonPage() {
       )}
 
       {/* Words in lesson */}
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-3">
+      <section className="rounded-3xl border border-slate-200-200 bg-white shadow-sm p-5 space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-white">Słówka w tej lekcji</h2>
-            <p className="text-sm text-white/75">Hover → tłumaczenie. 🔊 → wymowa.</p>
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Słówka w tej lekcji</h2>
+            <p className="text-sm text-slate-600">Hover → tłumaczenie. 🔊 → wymowa.</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             {words.length >= 2 && (
               <button
-                className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition"
                 onClick={selectAll}
               >
                 Zaznacz wszystkie
               </button>
             )}
             <button
-              className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition"
               onClick={clearAll}
             >
               Wyczyść
             </button>
             <button
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+              className="rounded-xl border border-slate-200/15 bg-white/10 px-3 py-2 text-sm font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
               onClick={startTest}
               disabled={selectedCount === 0}
             >
@@ -591,13 +591,13 @@ export default function VocabLessonPage() {
         </div>
 
         {words.length === 0 ? (
-          <p className="text-sm text-white/75">Ta lekcja nie ma jeszcze przypisanych słówek.</p>
+          <p className="text-sm text-slate-600">Ta lekcja nie ma jeszcze przypisanych słówek.</p>
         ) : (
           <ul className="space-y-2">
             {words.map((w) => (
               <li
                 key={w.lesson_vocab_item_id}
-                className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
+                className="rounded-2xl border border-slate-200/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-3"
                 title={getDisplayTranslation(w, verbFormCache.get(getDisplayLemma(w)) ?? null)}
               >
                 <div className="flex items-center gap-3 min-w-0">
@@ -608,7 +608,7 @@ export default function VocabLessonPage() {
                   />
 
                   <div className="min-w-0">
-                    <div className="font-medium text-white truncate">{getDisplayLemma(w)}</div>
+                    <div className="font-medium text-slate-900 truncate">{getDisplayLemma(w)}</div>
                     {(() => {
                       const lemma = getDisplayLemma(w);
                       const verbForm = verbFormCache.get(lemma) ?? null;
@@ -617,7 +617,7 @@ export default function VocabLessonPage() {
                           {verbForm && shouldShowVerbFormBadge(w.pos, verbForm) && (
                             <div className="text-xs text-purple-200 mb-1">Forma: {getVerbFormLabel(verbForm.formType)} od '{verbForm.baseLemma}'</div>
                           )}
-                          <div className="text-xs text-white/70">
+                          <div className="text-xs text-slate-600">
                             {getDisplayTranslation(w, verbForm) !== "—" ? "hover → PL" : "brak tłumaczenia"}
                             {w.source === "custom" ? " • własne" : ""}
                           </div>
@@ -629,14 +629,14 @@ export default function VocabLessonPage() {
 
                 <div className="flex gap-2">
                   <button
-                    className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition"
+                    className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition"
                     onClick={() => speak(getDisplayLemma(w))}
                     title="Odtwórz wymowę"
                   >
                     🔊
                   </button>
                   <button
-                    className="rounded-xl border-2 border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+                    className="rounded-xl border border-slate-200/15 bg-white/10 px-3 py-2 text-sm font-medium text-slate-900 hover:bg-white/15 transition"
                     onClick={() => detachWordFromLesson(w.lesson_vocab_item_id)}
                     title="Usuń z tej lekcji"
                   >

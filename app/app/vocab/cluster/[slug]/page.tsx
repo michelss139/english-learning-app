@@ -34,8 +34,8 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
   if (clusterErr || !cluster) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
             Nie znaleziono clustera.
           </div>
         </section>
@@ -55,25 +55,27 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
     if (!unlockedRow) {
       return (
         <main className="space-y-6">
-          <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+          <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="space-y-1">
-                <h1 className="text-3xl font-semibold tracking-tight text-white">Typowe błędy: {cluster.title}</h1>
-                <p className="text-base text-emerald-100/80">Ten cluster jest zablokowany.</p>
+                <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Typowe błędy: {cluster.title}</h1>
+                <p className="text-base text-slate-600">Ten cluster jest zablokowany.</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <a
-                  className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                  className="tile-frame"
                   href="/app/vocab/clusters"
                 >
-                  ← Lista clusterów
+                  <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                    ← Lista clusterów
+                  </span>
                 </a>
               </div>
             </div>
           </header>
 
-          <section className="rounded-3xl border-2 border-amber-400/30 bg-amber-400/10 p-5">
-            <div className="text-sm text-amber-100">
+          <section className="rounded-3xl border border-amber-200 bg-amber-50 p-5">
+            <div className="text-sm text-amber-800">
               Dodaj wszystkie słowa z tego clustera do puli, aby odblokować ćwiczenie.
             </div>
           </section>
@@ -92,8 +94,8 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
   if (questionsErr) {
     return (
       <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
             Nie udało się wczytać pytań.
           </div>
         </section>

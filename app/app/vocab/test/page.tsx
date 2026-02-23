@@ -100,7 +100,7 @@ function isCorrectPlEn(userAnswerRaw: string, termEnRaw: string): boolean {
 function pill(tone: "neutral" | "good" | "bad") {
   if (tone === "good") return "border-emerald-400/30 bg-emerald-400/10 text-emerald-100";
   if (tone === "bad") return "border-rose-400/30 bg-rose-400/10 text-rose-100";
-  return "border-white/15 bg-white/5 text-white/80";
+  return "border-slate-200 bg-slate-50 text-slate-700";
 }
 
 export default function VocabTestPage() {
@@ -443,24 +443,24 @@ function VocabTestInner() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Test słówek</h1>
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Test słówek</h1>
             <p className="text-base text-emerald-100/80">
-              Tryb: <span className="font-medium text-white">{isEnPl ? "EN → PL" : "PL → EN"}</span>
+              Tryb: <span className="font-medium text-slate-900">{isEnPl ? "EN → PL" : "PL → EN"}</span>
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
               href="/app/vocab/pool"
             >
               ← Trening słówek
             </a>
             <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-slate-900/90 hover:bg-white/10 hover:text-slate-900 transition"
               href="/app"
             >
               Panel
@@ -479,22 +479,22 @@ function VocabTestInner() {
       ) : null}
 
       {!error && !completed && current ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-          <div className="flex items-center justify-between text-sm text-white/75">
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+          <div className="flex items-center justify-between text-sm text-slate-900/75">
             <span>
-              Pytanie <span className="font-medium text-white">{currentIndex + 1}</span>/{total}
+              Pytanie <span className="font-medium text-slate-900">{currentIndex + 1}</span>/{total}
             </span>
             <span>
-              Poprawne: <span className="font-medium text-white">{correctCount}</span>
+              Poprawne: <span className="font-medium text-slate-900">{correctCount}</span>
             </span>
           </div>
 
           <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
             <div className="space-y-2">
-              <div className="text-xs text-white/60 uppercase tracking-wide">
+              <div className="text-xs text-slate-900/60 uppercase tracking-wide">
                 {isEnPl ? "Angielski → Polski" : "Polski → Angielski"}
               </div>
-              <div className="text-xl font-semibold tracking-tight text-white">{promptText || "—"}</div>
+              <div className="text-xl font-semibold tracking-tight text-slate-900">{promptText || "—"}</div>
             </div>
 
             <form
@@ -506,7 +506,7 @@ function VocabTestInner() {
               }}
             >
               <input
-                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
                 placeholder={placeholderText}
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
@@ -526,14 +526,14 @@ function VocabTestInner() {
                   {feedbackTone === "bad" && current ? (
                     <p className="mt-2">
                       Poprawna odpowiedź:{" "}
-                      <span className="font-medium text-white">
+                      <span className="font-medium text-slate-900">
                         {isEnPl ? current.translation_pl || "-" : current.term_en}
                       </span>
                     </p>
                   ) : null}
                 </div>
               ) : (
-                <p className="text-xs text-white/60">
+                <p className="text-xs text-slate-900/60">
                   {isEnPl
                     ? "Wskazówka: jeśli jest kilka poprawnych tłumaczeń, wpisz jedno z nich (w bazie są oddzielone średnikiem ;)."
                     : "Wpisz dokładnie słówko po angielsku (jak w bazie)."}
@@ -541,7 +541,7 @@ function VocabTestInner() {
               )}
 
               <button
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
                 type="submit"
                 disabled={!current}
               >
@@ -553,21 +553,21 @@ function VocabTestInner() {
       ) : null}
 
       {!error && completed ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight text-white">Wynik</h2>
-            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-white">
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Wynik</h2>
+            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-slate-900">
               {correctCount} / {total}
             </span>
           </div>
 
           {mistakes.length === 0 ? (
-            <div className="rounded-2xl border-2 border-emerald-400/30 bg-emerald-400/10 p-4 text-sm text-emerald-100">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-emerald-100">
               Brak błędów. Świetnie!
             </div>
           ) : (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-white">Twoje błędy:</p>
+              <p className="text-sm font-medium text-slate-900">Twoje błędy:</p>
               <ul className="space-y-2">
                 {mistakes.map((m, idx) => (
                   <li
@@ -575,14 +575,14 @@ function VocabTestInner() {
                     className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 text-sm"
                   >
                     <div className="flex items-center gap-2 mb-1">
-                      <div className="font-medium text-white">{m.term}</div>
-                      <span className="px-2 py-0.5 rounded-lg border border-white/20 bg-white/10 text-xs text-white/70">
+                      <div className="font-medium text-slate-900">{m.term}</div>
+                      <span className="px-2 py-0.5 rounded-lg border border-white/20 bg-white/10 text-xs text-slate-900/70">
                         {m.questionMode === "en-pl" ? "EN→PL" : "PL→EN"}
                       </span>
                     </div>
-                    <div className="text-white/75">
-                      Poprawna: <span className="text-white">{m.expected}</span> • Twoja:{" "}
-                      <span className="text-white">{m.given}</span>
+                    <div className="text-slate-900/75">
+                      Poprawna: <span className="text-slate-900">{m.expected}</span> • Twoja:{" "}
+                      <span className="text-slate-900">{m.given}</span>
                     </div>
                   </li>
                 ))}
@@ -594,9 +594,9 @@ function VocabTestInner() {
             {saveError ? (
               <p className="text-sm text-rose-100">Błąd zapisu wyniku: {saveError}</p>
             ) : savingResult ? (
-              <p className="text-sm text-white/75">Zapisuję wynik…</p>
+              <p className="text-sm text-slate-900/75">Zapisuję wynik…</p>
             ) : (
-              <p className="text-sm text-white/75">Wynik zapisany.</p>
+              <p className="text-sm text-slate-900/75">Wynik zapisany.</p>
             )}
           </div>
 
@@ -611,7 +611,7 @@ function VocabTestInner() {
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-white/15 transition"
               href="/app/vocab"
             >
               Wróć do treningu

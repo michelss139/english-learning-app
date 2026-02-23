@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "plants",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-20T12:34:22.784Z"
+  },
+  "items": [
+    {
+      "lemma": "tree",
+      "pos": "noun",
+      "translation_pl": "drzewo",
+      "level": "A1"
+    },
+    {
+      "lemma": "flower",
+      "pos": "noun",
+      "translation_pl": "kwiat",
+      "level": "A1"
+    },
+    {
+      "lemma": "bush",
+      "pos": "noun",
+      "translation_pl": "krzak",
+      "level": "A2"
+    },
+    {
+      "lemma": "grass",
+      "pos": "noun",
+      "translation_pl": "trawa",
+      "level": "A1"
+    },
+    {
+      "lemma": "leaf",
+      "pos": "noun",
+      "translation_pl": "liść",
+      "level": "A1"
+    },
+    {
+      "lemma": "root",
+      "pos": "noun",
+      "translation_pl": "korzeń",
+      "level": "A2"
+    },
+    {
+      "lemma": "fruit",
+      "pos": "noun",
+      "translation_pl": "owoc",
+      "level": "A2"
+    },
+    {
+      "lemma": "seed",
+      "pos": "noun",
+      "translation_pl": "nasiono",
+      "level": "A2"
+    },
+    {
+      "lemma": "stem",
+      "pos": "noun",
+      "translation_pl": "łodyga",
+      "level": "B1"
+    },
+    {
+      "lemma": "herb",
+      "pos": "noun",
+      "translation_pl": "zioło",
+      "level": "A2"
+    },
+    {
+      "lemma": "rose",
+      "pos": "noun",
+      "translation_pl": "róża",
+      "level": "A2"
+    },
+    {
+      "lemma": "shrub",
+      "pos": "noun",
+      "translation_pl": "krzew",
+      "level": "B1"
+    },
+    {
+      "lemma": "cactus",
+      "pos": "noun",
+      "translation_pl": "kaktus",
+      "level": "B1"
+    },
+    {
+      "lemma": "sunflower",
+      "pos": "noun",
+      "translation_pl": "słonecznik",
+      "level": "A2"
+    },
+    {
+      "lemma": "daisy",
+      "pos": "noun",
+      "translation_pl": "stokrotka",
+      "level": "B1"
+    },
+    {
+      "lemma": "ivy",
+      "pos": "noun",
+      "translation_pl": "bluszcz",
+      "level": "B1"
+    },
+    {
+      "lemma": "hedge",
+      "pos": "noun",
+      "translation_pl": "żywopłot",
+      "level": "B1"
+    },
+    {
+      "lemma": "bulb",
+      "pos": "noun",
+      "translation_pl": "cebula",
+      "level": "B1"
+    },
+    {
+      "lemma": "lily",
+      "pos": "noun",
+      "translation_pl": "lilia",
+      "level": "B1"
+    },
+    {
+      "lemma": "weed",
+      "pos": "noun",
+      "translation_pl": "chwast",
+      "level": "B1"
+    }
+  ]
+}

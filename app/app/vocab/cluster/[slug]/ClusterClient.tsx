@@ -294,49 +294,53 @@ export default function ClusterClient({
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
               Typowe błędy: {initialCluster.title || slug.replace(/-/g, " / ")}
             </h1>
-            <p className="text-base text-emerald-100/80">Wybierz właściwe słowo w kontekście.</p>
-            {isRefreshing ? <p className="text-sm text-white/60">Odświeżam pytania…</p> : null}
+            <p className="text-base text-slate-600">Wybierz właściwe słowo w kontekście.</p>
+            {isRefreshing ? <p className="text-sm text-slate-500">Odświeżam pytania…</p> : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="tile-frame"
               href="/app/vocab"
             >
-              ← Trening słówek
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Trening słówek
+              </span>
             </a>
             <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-white/90 hover:bg-white/10 hover:text-white transition"
+              className="tile-frame"
               href="/app"
             >
-              ← Wróć do strony głównej
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                ← Wróć do strony głównej
+              </span>
             </a>
           </div>
         </div>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
           <div className="flex flex-col gap-3">
-            <p className="text-sm text-rose-100">
+            <p className="text-sm text-rose-700">
               <span className="font-semibold">Błąd: </span>
               {error}
             </p>
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 onClick={loadQuestions}
               >
                 Spróbuj ponownie
               </button>
               <a
-                className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 hover:bg-white/10 transition"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 href="/app"
               >
                 Wróć do strony głównej
@@ -347,29 +351,29 @@ export default function ClusterClient({
       ) : null}
 
       {assignmentToast ? (
-        <div className="rounded-2xl border-2 border-emerald-200/30 bg-emerald-400/10 p-4 text-emerald-100">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
           {assignmentToast}
         </div>
       ) : null}
       {saveToast ? (
-        <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4 text-amber-100">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-800">
           {saveToast}
         </div>
       ) : null}
 
       {!error && !completed && current ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
-          <div className="flex items-center justify-between text-sm text-white/75">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+          <div className="flex items-center justify-between text-sm text-slate-600">
             <span>
-              Pytanie <span className="font-medium text-white">{currentIndex + 1}</span>/{total}
+              Pytanie <span className="font-medium text-slate-900">{currentIndex + 1}</span>/{total}
             </span>
             <span>
-              Poprawne: <span className="font-medium text-white">{correctCount}</span>
+              Poprawne: <span className="font-medium text-slate-900">{correctCount}</span>
             </span>
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-4">
-            <div className="text-lg font-medium text-white">{current.prompt}</div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
+            <div className="text-lg font-medium text-slate-900">{current.prompt}</div>
 
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {current.choices.map((choice) => {
@@ -381,14 +385,14 @@ export default function ClusterClient({
                   "rounded-xl border-2 px-4 py-3 text-sm font-medium transition disabled:opacity-60";
                 if (checked) {
                   if (isCorrect) {
-                    buttonClass += " border-emerald-400/30 bg-emerald-400/10 text-emerald-100";
+                    buttonClass += " border-emerald-400 bg-emerald-50 text-emerald-800";
                   } else if (isSelected) {
-                    buttonClass += " border-rose-400/30 bg-rose-400/10 text-rose-100";
+                    buttonClass += " border-rose-400 bg-rose-50 text-rose-800";
                   } else {
-                    buttonClass += " border-white/10 bg-white/5 text-white/50";
+                    buttonClass += " border-slate-200 bg-slate-50 text-slate-400";
                   }
                 } else {
-                  buttonClass += " border-white/15 bg-white/10 text-white hover:bg-white/15";
+                  buttonClass += " border-slate-900 bg-white text-slate-700 hover:bg-slate-50";
                 }
 
                 return (
@@ -404,17 +408,17 @@ export default function ClusterClient({
             {checked && (
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
-                  <p className="text-sm text-white/75">
+                  <p className="text-sm text-slate-600">
                     {current.answer
                       ? selectedChoice === current.answer
                         ? "Poprawnie!"
                         : `Poprawna odpowiedź: ${current.answer}`
                       : "Sprawdź kolejne pytanie."}
                   </p>
-                  {current.explanation ? <p className="text-sm text-white/65">{current.explanation}</p> : null}
+                  {current.explanation ? <p className="text-sm text-slate-600">{current.explanation}</p> : null}
                 </div>
                 <button
-                  className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+                  className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50"
                   onClick={goNext}
                 >
                   {currentIndex === total - 1 ? "Zakończ" : "Dalej"}
@@ -426,28 +430,28 @@ export default function ClusterClient({
       ) : null}
 
       {!error && completed ? (
-        <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight text-white">Sesja zakończona</h2>
-            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-white">
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h2>
+            <span className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-900">
               {summaryCorrect} / {summaryTotal}
             </span>
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
-            <div className="text-sm text-white/75">Podsumowanie sesji</div>
-            <div className="text-sm text-white/80">
-              Poprawne: <span className="font-medium text-white">{summaryCorrect}</span> / {summaryTotal}
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+            <div className="text-sm text-slate-600">Podsumowanie sesji</div>
+            <div className="text-sm text-slate-700">
+              Poprawne: <span className="font-medium text-slate-900">{summaryCorrect}</span> / {summaryTotal}
             </div>
-            <div className="text-sm text-white/80">
+            <div className="text-sm text-slate-700">
               Skuteczność:{" "}
-              <span className="font-medium text-white">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>{" "}
-              · Błędne: <span className="font-medium text-white">{summaryWrong}</span>
+              <span className="font-medium text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>{" "}
+              · Błędne: <span className="font-medium text-slate-900">{summaryWrong}</span>
             </div>
             {summary?.wrong_items?.length ? (
-              <div className="text-sm text-white/70">
+              <div className="text-sm text-slate-600">
                 Najczęstsze błędy:
-                <ul className="mt-2 space-y-1 text-white/80">
+                <ul className="mt-2 space-y-1 text-slate-700">
                   {summary.wrong_items.slice(0, 10).map((item, idx) => (
                     <li key={`${item.prompt ?? "?"}-${idx}`}>
                       {item.prompt ?? "—"} → {item.expected ?? "—"}
@@ -459,54 +463,54 @@ export default function ClusterClient({
           </div>
 
           {eventLogErrors > 0 && (
-            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4">
-              <p className="text-sm text-amber-100">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+              <p className="text-sm text-amber-800">
                 <span className="font-semibold">Uwaga: </span>
                 Nie udało się zapisać {eventLogErrors} {eventLogErrors === 1 ? "zdarzenia" : "zdarzeń"} do historii.
               </p>
             </div>
           )}
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-2">
-            <div className="text-sm text-white/75">Postęp XP</div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+            <div className="text-sm text-slate-600">Postęp XP</div>
             {award ? (
-              <div className="space-y-1 text-sm text-white/80">
+              <div className="space-y-1 text-sm text-slate-700">
                 {xpAlreadyAwarded ? (
-                  <div className="text-amber-100">
+                  <div className="text-amber-700">
                     Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
                   </div>
                 ) : (
                   <div>
-                    Zdobyte XP: <span className="font-medium text-white">+{award.xp_awarded}</span>
+                    Zdobyte XP: <span className="font-medium text-slate-900">+{award.xp_awarded}</span>
                   </div>
                 )}
                 <div>
-                  Poziom: <span className="font-medium text-white">{award.level}</span> · XP w poziomie:{" "}
-                  <span className="font-medium text-white">
+                  Poziom: <span className="font-medium text-slate-900">{award.level}</span> · XP w poziomie:{" "}
+                  <span className="font-medium text-slate-900">
                     {award.xp_in_current_level}/{award.xp_to_next_level}
                   </span>
                 </div>
               </div>
             ) : optimisticXpAwarded != null ? (
-              <div className="space-y-1 text-sm text-white/80">
+              <div className="space-y-1 text-sm text-slate-700">
                 <div>
-                  Zdobyte XP: <span className="font-medium text-white">+{optimisticXpAwarded}</span>
+                  Zdobyte XP: <span className="font-medium text-slate-900">+{optimisticXpAwarded}</span>
                 </div>
               </div>
             ) : awarding ? (
-              <div className="text-sm text-white/60">Przyznaję XP…</div>
+              <div className="text-sm text-slate-500">Przyznaję XP…</div>
             ) : awardError ? (
-              <div className="text-sm text-white/60">Brak danych o XP.</div>
+              <div className="text-sm text-slate-500">Brak danych o XP.</div>
             ) : (
-              <div className="text-sm text-white/60">Brak danych o XP.</div>
+              <div className="text-sm text-slate-500">Brak danych o XP.</div>
             )}
           </div>
 
           {award?.newly_awarded_badges?.length ? (
-            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4 space-y-2">
-              <div className="text-sm font-semibold text-amber-100">Nowe odznaki</div>
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-2">
+              <div className="text-sm font-semibold text-amber-800">Nowe odznaki</div>
               {award.newly_awarded_badges.map((badge) => (
-                <div key={badge.slug} className="text-sm text-amber-100">
+                <div key={badge.slug} className="text-sm text-amber-700">
                   {badge.title}
                   {badge.description ? ` — ${badge.description}` : ""}
                 </div>
@@ -516,22 +520,24 @@ export default function ClusterClient({
 
           <div className="flex flex-wrap gap-2">
             <button
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
               onClick={loadQuestions}
             >
               Jeszcze raz to samo
             </button>
             <button
-              className="rounded-xl border-2 border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/60 cursor-not-allowed"
+              className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-400 cursor-not-allowed"
               disabled
             >
               Jeszcze raz tylko błędne (Wkrótce)
             </button>
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/15 transition"
+              className="tile-frame"
               href="/app"
             >
-              Wróć do strony głównej
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 text-sm font-medium text-slate-700">
+                Wróć do strony głównej
+              </span>
             </a>
           </div>
         </section>

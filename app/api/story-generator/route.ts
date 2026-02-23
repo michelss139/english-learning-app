@@ -161,10 +161,9 @@ function buildNarrationPrompt(profile: StoryProfileKey): string {
     })
     .join(", ");
 
+  const t = tenses as readonly GrammarTenseSlug[];
   const hasPastMix =
-    tenses.includes("past-continuous") &&
-    tenses.includes("past-simple") &&
-    tenses.includes("past-perfect");
+    t.includes("past-continuous") && t.includes("past-simple") && t.includes("past-perfect");
 
   const schemaBlock = hasPastMix
     ? `

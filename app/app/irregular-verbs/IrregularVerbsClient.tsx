@@ -123,27 +123,27 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5">
+      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-white">Czasowniki nieregularne</h1>
-            <p className="text-base text-emerald-100/80">
-              Przypięte: <span className="font-medium text-white">{pinnedCount}</span> / {verbs.length}
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasowniki nieregularne</h1>
+            <p className="text-base text-slate-600">
+              Przypięte: <span className="font-medium text-slate-900">{pinnedCount}</span> / {verbs.length}
             </p>
             {!canStart ? (
-              <p className="text-sm text-emerald-100/60">Aby rozpocząć test, przypnij minimum 5 czasowników.</p>
+              <p className="text-sm text-slate-700/60">Aby rozpocząć test, przypnij minimum 5 czasowników.</p>
             ) : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
               href="/app"
             >
               ← Panel ucznia
             </a>
             <button
-              className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
               onClick={() => {
                 if (canStart) router.push("/app/irregular-verbs/train");
               }}
@@ -161,7 +161,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
         </div>
       ) : null}
 
-      <section className="rounded-3xl border-2 border-emerald-100/10 bg-emerald-950/40 p-5 space-y-4">
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex-1">
             <input
@@ -169,20 +169,20 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
               placeholder="Szukaj czasownika (np. 'go', 'went', 'gone')..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              className="w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
             />
           </div>
 
           <div className="flex flex-wrap gap-2">
             <button
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
               onClick={() => selectRandom(5)}
               disabled={pinnedCount >= verbs.length || verbs.length === 0}
             >
               Losowe 5
             </button>
             <button
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition disabled:opacity-60"
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
               onClick={() => selectRandom(10)}
               disabled={pinnedCount >= verbs.length || verbs.length === 0}
             >
@@ -190,7 +190,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
             </button>
             {pinnedCount < verbs.length ? (
               <button
-                className="rounded-xl border-2 border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-100 hover:bg-emerald-400/20 transition disabled:opacity-60"
+                className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
                 onClick={pinAll}
                 disabled={pinnedCount >= verbs.length || verbs.length === 0}
               >
@@ -210,7 +210,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
         </div>
 
         {filtered.length === 0 ? (
-          <div className="text-center py-8 text-white/60">
+          <div className="text-center py-8 text-slate-900/60">
             {search ? "Nie znaleziono czasowników" : "Brak czasowników"}
           </div>
         ) : (
@@ -223,29 +223,29 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
                 <div
                   key={verb.id}
                   className={`rounded-2xl border-2 p-4 transition ${
-                    pinned ? "border-emerald-400/30 bg-emerald-400/10" : "border-white/10 bg-white/5"
+                    pinned ? "border-emerald-400 bg-emerald-50" : "border-slate-200 bg-slate-50"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 space-y-1">
                       <div className="flex items-center gap-2">
-                        <div className="text-lg font-semibold text-white">{verb.base}</div>
+                        <div className="text-lg font-semibold text-slate-900">{verb.base}</div>
                         {pinned ? (
-                          <span className="rounded-full border border-emerald-400/30 bg-emerald-400/20 px-2 py-0.5 text-xs font-medium text-emerald-100">
+                          <span className="rounded-full border border-emerald-400 bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
                             Przypięte
                           </span>
                         ) : null}
                       </div>
-                      <div className="text-sm text-white/75">
+                      <div className="text-sm text-slate-900/75">
                         <span className="font-medium">Past simple:</span> {verb.past_simple}
                         {verb.past_simple_variants.length > 0 && (
-                          <span className="text-white/60"> ({verb.past_simple_variants.join(", ")})</span>
+                          <span className="text-slate-900/60"> ({verb.past_simple_variants.join(", ")})</span>
                         )}
                       </div>
-                      <div className="text-sm text-white/75">
+                      <div className="text-sm text-slate-900/75">
                         <span className="font-medium">Past participle:</span> {verb.past_participle}
                         {verb.past_participle_variants.length > 0 && (
-                          <span className="text-white/60"> ({verb.past_participle_variants.join(", ")})</span>
+                          <span className="text-slate-900/60"> ({verb.past_participle_variants.join(", ")})</span>
                         )}
                       </div>
                     </div>
@@ -253,8 +253,8 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
                     <label
                       className={`flex items-center gap-2 rounded-xl border-2 px-3 py-2 font-medium transition select-none ${
                         pinned
-                          ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-100 hover:bg-emerald-400/20"
-                          : "border-white/15 bg-white/10 text-white hover:bg-white/15"
+                          ? "border-emerald-400 bg-emerald-50 text-slate-700 hover:bg-emerald-100"
+                          : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
                       } ${isToggling ? "opacity-60" : ""}`}
                     >
                       <input
