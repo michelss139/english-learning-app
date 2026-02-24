@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { parsePinnedClusterSlugs } from "@/lib/vocab/pinnedClusters";
 import ClustersClient, { type ClusterDto } from "./ClustersClient";
@@ -22,7 +21,6 @@ export default async function VocabClustersPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const { data: clustersRaw, error: clustersErr } = await supabase
     .from("vocab_clusters")
@@ -47,7 +45,7 @@ export default async function VocabClustersPage() {
   const { data: unlockedRows, error: unlockedErr } = await supabase
     .from("user_unlocked_vocab_clusters")
     .select("cluster_id, unlocked_at")
-    .eq("student_id", user.id);
+    .eq("student_id", user!.id);
 
   if (unlockedErr) {
     return (
@@ -73,7 +71,7 @@ export default async function VocabClustersPage() {
       lexicon_senses(entry_id)
     `,
     )
-    .eq("student_id", user.id)
+    .eq("student_id", user!.id)
     .eq("source", "lexicon");
 
   const userEntryIds = new Set<string>();
@@ -103,7 +101,7 @@ export default async function VocabClustersPage() {
     if (!hasAll) continue;
 
     const { error: insertErr } = await supabase.from("user_unlocked_vocab_clusters").insert({
-      student_id: user.id,
+      student_id: user!.id,
       cluster_id: cluster.id,
     });
 
@@ -118,7 +116,7 @@ export default async function VocabClustersPage() {
   const { data: profileRow } = await supabase
     .from("profiles")
     .select("notes")
-    .eq("id", user.id)
+    .eq("id", user!.id)
     .maybeSingle();
 
   const pinnedSlugs = new Set(parsePinnedClusterSlugs(profileRow?.notes ?? null));

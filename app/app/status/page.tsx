@@ -45,10 +45,7 @@ export default function StatusPage() {
       try {
         const { data: sess } = await supabase.auth.getSession();
         const token = sess.session?.access_token;
-        if (!token) {
-          router.push("/login");
-          return;
-        }
+        if (!token) return;
 
         const [progressRes, xpRes] = await Promise.all([
           fetch("/api/vocab/progress-extended", {

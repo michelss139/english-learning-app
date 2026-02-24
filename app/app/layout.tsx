@@ -1,9 +1,19 @@
 import type { ReactNode } from "react";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import GlobalCoach from "./GlobalCoach";
 import GlobalTrainingSuggestion from "./GlobalTrainingSuggestion";
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default async function AppLayout({ children }: { children: ReactNode }) {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/login");
+  }
+
   return (
     <div className="app-light min-h-screen relative overflow-hidden bg-[#f5f7fb] text-slate-900">
       {/* Subtelne jasne tlo */}

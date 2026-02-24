@@ -1,15 +1,7 @@
 import { getAllGrammarTenses } from "@/lib/grammar/content";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function GrammarTensesPage() {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
   const tenses = getAllGrammarTenses();
 
   return (

@@ -235,12 +235,8 @@ export default function IrregularVerbsTrainClient(props: {
         setAwardError("");
 
         const session = await supabase.auth.getSession();
-        if (!session.data.session) {
-          router.push("/login");
-          return;
-        }
-
-        const token = session.data.session.access_token;
+        const token = session.data.session?.access_token;
+        if (!token) return;
         const res = await fetch("/api/irregular-verbs/complete", {
           method: "POST",
           headers: {

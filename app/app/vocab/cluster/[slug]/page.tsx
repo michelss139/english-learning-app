@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import ClusterClient, { type ClusterMeta, type QuestionDto } from "./ClusterClient";
 
@@ -23,7 +22,6 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const { data: cluster, error: clusterErr } = await supabase
     .from("vocab_clusters")
@@ -48,7 +46,7 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
     const { data: unlockedRow } = await supabase
       .from("user_unlocked_vocab_clusters")
       .select("unlocked_at")
-      .eq("student_id", user.id)
+      .eq("student_id", user!.id)
       .eq("cluster_id", cluster.id)
       .maybeSingle();
 

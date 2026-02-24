@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import { GlossaryTooltip, ExampleSentence, RelatedTenses, StativeVsAction } from "@/lib/grammar/components";
 import Link from "next/link";
 
 export default function StativeVerbsPage() {
-  const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -19,12 +17,6 @@ export default function StativeVerbsPage() {
   useEffect(() => {
     const run = async () => {
       try {
-        const session = await supabase.auth.getSession();
-        if (!session?.data?.session) {
-          router.push("/login");
-          return;
-        }
-
         const prof = await getOrCreateProfile();
         setProfile(prof);
       } catch (e: any) {
@@ -34,7 +26,7 @@ export default function StativeVerbsPage() {
       }
     };
     run();
-  }, [router]);
+  }, []);
 
   const handleGenerateAIDialog = async () => {
     setAiDialogLoading(true);

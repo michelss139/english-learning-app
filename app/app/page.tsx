@@ -8,9 +8,7 @@ export default async function StudentDashboardPage() {
   const {
     data: { user },
   } = await supabaseServer.auth.getUser();
-  if (!user) redirect("/login");
-
-  const userId = user.id;
+  const userId = user!.id;
   const supabase = createSupabaseAdmin();
 
   const { data: profileRow, error: profileErr } = await supabase

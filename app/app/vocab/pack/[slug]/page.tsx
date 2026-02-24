@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import PackTrainingClient, { type PackItemDto, type PackMetaDto } from "./PackTrainingClient";
 
@@ -64,7 +63,6 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const { data: packRow, error: packErr } = await supabase
     .from("vocab_packs")

@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import PacksClient, { type PackDto } from "./PacksClient";
 
@@ -6,12 +5,6 @@ export const dynamic = "force-dynamic";
 
 export default async function VocabPacksPage() {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect("/login");
-
   const { data: packs, error: packsErr } = await supabase
     .from("vocab_packs")
     .select("id, slug, title, description, order_index, vocab_mode, category")

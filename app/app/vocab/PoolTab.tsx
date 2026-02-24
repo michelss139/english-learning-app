@@ -79,13 +79,10 @@ export default function PoolTab() {
       setError("");
 
       const { data: sess } = await supabase.auth.getSession();
-      if (!sess.session) {
-        router.push("/login");
-        return;
-      }
+      const token = sess.session?.access_token;
+      if (!token) return;
 
-      const token = sess.session.access_token;
-      const userId = sess.session.user.id;
+      const userId = sess.session!.user.id;
 
       // 1) Fetch repeat suggestions (separately, cheap)
       try {
@@ -217,10 +214,7 @@ export default function PoolTab() {
 
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
-      if (!token) {
-        router.push("/login");
-        return;
-      }
+      if (!token) return;
 
       const res = await fetch("/api/vocab/generate-example", {
         method: "POST",

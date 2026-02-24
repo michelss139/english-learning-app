@@ -80,11 +80,8 @@ export default function LessonDetailPage() {
 
   const loadLesson = async () => {
     const session = await supabase.auth.getSession();
-    if (!session.data.session) {
-      router.push("/login");
-      return;
-    }
-    const token = session.data.session.access_token;
+    const token = session.data.session?.access_token;
+    if (!token) return;
 
     const res = await fetch(`/api/lessons/${lessonId}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -164,11 +161,8 @@ export default function LessonDetailPage() {
       setSaving(true);
       setError("");
       const session = await supabase.auth.getSession();
-      if (!session.data.session) {
-        router.push("/login");
-        return;
-      }
-      const token = session.data.session.access_token;
+      const token = session.data.session?.access_token;
+      if (!token) return;
 
       const res = await fetch(`/api/lessons/${lesson.id}`, {
         method: "PATCH",
@@ -203,11 +197,8 @@ export default function LessonDetailPage() {
       setAddingNote(true);
       setError("");
       const session = await supabase.auth.getSession();
-      if (!session.data.session) {
-        router.push("/login");
-        return;
-      }
-      const token = session.data.session.access_token;
+      const token = session.data.session?.access_token;
+      if (!token) return;
 
       const res = await fetch(`/api/lessons/${lessonId}/notes`, {
         method: "POST",
@@ -250,11 +241,8 @@ export default function LessonDetailPage() {
       setAddingAssignment(true);
       setError("");
       const session = await supabase.auth.getSession();
-      if (!session.data.session) {
-        router.push("/login");
-        return;
-      }
-      const token = session.data.session.access_token;
+      const token = session.data.session?.access_token;
+      if (!token) return;
 
       const res = await fetch(`/api/lessons/${lessonId}/assignments`, {
         method: "POST",
@@ -291,11 +279,8 @@ export default function LessonDetailPage() {
     try {
       setError("");
       const session = await supabase.auth.getSession();
-      if (!session.data.session) {
-        router.push("/login");
-        return;
-      }
-      const token = session.data.session.access_token;
+      const token = session.data.session?.access_token;
+      if (!token) return;
 
       const res = await fetch(`/api/lessons/assignments/${assignmentId}`, {
         method: "PATCH",

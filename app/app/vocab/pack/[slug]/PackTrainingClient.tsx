@@ -301,12 +301,8 @@ export default function PackTrainingClient(props: {
     void (async () => {
       try {
         const session = await supabase.auth.getSession();
-        if (!session.data.session) {
-          router.push("/login");
-          return;
-        }
-
-        const token = session.data.session.access_token;
+        const token = session.data.session?.access_token;
+        if (!token) return;
         const res = await fetch(`/api/vocab/packs/${slug}/answer`, {
           method: "POST",
           headers: {
@@ -352,12 +348,8 @@ export default function PackTrainingClient(props: {
         setError("");
 
         const session = await supabase.auth.getSession();
-        if (!session.data.session) {
-          router.push("/login");
-          return;
-        }
-
-        const token = session.data.session.access_token;
+        const token = session.data.session?.access_token;
+        if (!token) return;
         const res = await fetch(`/api/vocab/packs/${slug}/recommendations?sessionId=${sessionId}`, {
           method: "GET",
           headers: {
@@ -398,12 +390,8 @@ export default function PackTrainingClient(props: {
     void (async () => {
       try {
         const session = await supabase.auth.getSession();
-        if (!session.data.session) {
-          router.push("/login");
-          return;
-        }
-
-        const token = session.data.session.access_token;
+        const token = session.data.session?.access_token;
+        if (!token) return;
         const res = await fetch(`/api/vocab/packs/${slug}/complete`, {
           method: "POST",
           headers: {
@@ -492,12 +480,9 @@ export default function PackTrainingClient(props: {
       setError("");
 
       const session = await supabase.auth.getSession();
-      if (!session.data.session) {
-        router.push("/login");
-        return;
-      }
+      const token = session.data.session?.access_token;
+      if (!token) return;
 
-      const token = session.data.session.access_token;
       const res = await fetch("/api/vocab/add-words", {
         method: "POST",
         headers: {

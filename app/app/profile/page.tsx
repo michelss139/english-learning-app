@@ -116,15 +116,13 @@ export default function ProfilePage() {
     const run = async () => {
       try {
         const session = await supabase.auth.getSession();
-        if (!session.data.session) {
-          router.push("/login");
-          return;
-        }
+        const token = session.data.session?.access_token;
+        if (!token) return;
 
-        const token = session.data.session.access_token;
         const prof = await getOrCreateProfile();
         if (!prof) {
-          router.push("/login");
+          setError("Nie udało się wczytać profilu.");
+          setLoading(false);
           return;
         }
 

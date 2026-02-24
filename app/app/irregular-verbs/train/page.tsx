@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import IrregularVerbsTrainClient, { type Verb } from "./TrainClient";
 
@@ -16,12 +15,11 @@ export default async function IrregularVerbsTrainPage({ searchParams }: PageProp
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const { data: pinned, error: pinnedErr } = await supabase
     .from("user_irregular_verbs")
     .select("irregular_verb_id")
-    .eq("student_id", user.id);
+    .eq("student_id", user!.id);
 
   if (pinnedErr) {
     return <IrregularVerbsTrainClient initialVerb={null} initialError="Nie udało się wczytać przypiętych czasowników." assignmentId={assignmentId} />;

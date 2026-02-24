@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import { getComparison, getComparisonCacheKey } from "@/lib/grammar/compare";
@@ -10,7 +10,6 @@ import Link from "next/link";
 import type { GrammarTenseSlug } from "@/lib/grammar/types";
 
 export default function GrammarCompareClient() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -27,12 +26,6 @@ export default function GrammarCompareClient() {
   useEffect(() => {
     const run = async () => {
       try {
-        const session = await supabase.auth.getSession();
-        if (!session?.data?.session) {
-          router.push("/login");
-          return;
-        }
-
         const prof = await getOrCreateProfile();
         setProfile(prof);
       } catch (e: any) {
@@ -42,7 +35,7 @@ export default function GrammarCompareClient() {
       }
     };
     run();
-  }, [router]);
+  }, []);
 
   const comparison = tense1Slug && tense2Slug ? getComparison(tense1Slug, tense2Slug) : null;
 
