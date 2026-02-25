@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
 
 export type PackMetaDto = {
   id: string;
@@ -425,6 +426,7 @@ export default function PackTrainingClient(props: {
         });
         setSummary(data.summary ?? null);
         setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
+        emitTrainingCompleted({ type: "pack", slug });
 
         if (props.assignmentId && !assignmentCompleteRef.current) {
           try {

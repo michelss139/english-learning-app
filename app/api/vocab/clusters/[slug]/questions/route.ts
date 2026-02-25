@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { updateLearningUnitKnowledge } from "@/lib/knowledge/updateLearningUnitKnowledge";
 
 /**
  * GET /api/vocab/clusters/[slug]/questions?limit=10
@@ -169,6 +170,23 @@ export async function POST(
           hint: insertError.hint,
           code: insertError.code,
         });
+      } else if (slug) {
+        const knowledgeResult = await updateLearningUnitKnowledge({
+          supabase,
+          studentId: userId,
+          unitType: "cluster",
+          unitId: slug,
+          payload: { mode: "answer", isCorrect },
+        });
+        if (!knowledgeResult.ok) {
+          console.error("[clusters/questions:POST] Knowledge update failed:", {
+            studentId: userId,
+            unitType: "cluster",
+            unitId: slug,
+            message: knowledgeResult.error,
+            cause: knowledgeResult.cause,
+          });
+        }
       }
     } catch (e: any) {
       console.error("[clusters/questions:POST] Exception logging answer event:", {

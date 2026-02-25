@@ -7,11 +7,12 @@
 - `student_lesson_vocab` - łączy lekcje ze słówkami
 - `vocab_enrichments` - cache z zewnętrznych API (dictionaryapi.dev, freedictionaryapi)
 
-### Nowe tabele (częściowo istniejące):
+### Tabele równoległe (używane w add-to-pool, pool route):
 - `global_vocab_items` - systemowe słowa EN-only (term_en, term_en_norm)
 - `user_vocab` - powiązanie user-global (student_id, global_vocab_item_id)
+- Brak migracji w repo – schemat wywnioskowany z użycia (VOCAB_DB_AUDIT_REPORT)
 
-## NOWA STRUKTURA (docelowa)
+## NOWA STRUKTURA (docelowa, wdrożona)
 
 ### Lexicon (global cache, ukryty):
 1. `lexicon_entries` - lemma + POS
@@ -21,10 +22,10 @@
 5. `lexicon_verb_forms` - odmiany czasowników (tylko jeśli pos=verb)
 
 ### User vocab pool:
-6. `user_vocab_items` - pula użytkownika (user_id, sense_id, notes, status, source, verified, custom_lemma, custom_translation_pl)
+6. `user_vocab_items` - pula użytkownika (student_id, sense_id, notes, status, source, verified, custom_lemma, custom_translation_pl)
 
 ### Lessons (tylko przypinanie):
-7. `lesson_vocab_items` - przypinanie słów z puli do lekcji (lesson_id, user_vocab_item_id)
+7. `lesson_vocab_items` - przypinanie słów z puli do lekcji (student_lesson_id, user_vocab_item_id)
 
 ## FLOW "DODAJ SŁÓWKO"
 
@@ -53,13 +54,14 @@ Jeśli AI nie zwróci danych:
 
 ## MIGRACJA DANYCH
 
-Backfill script (server-side, service role):
+Backfill script (20250223_migrate_vocab_data.sql):
 - Źródło: `vocab_items` + `student_lesson_vocab`
 - Dla każdego (lesson_id, user_id, term_en, translation_pl):
   - Normalize lemma
   - Upsert do `user_vocab_items` (custom, verified=false)
-  - Upsert do `lesson_vocab_items`
+  - Upsert do `lesson_vocab_items` (student_lesson_id, user_vocab_item_id)
 - Idempotentna, bez utraty danych, bez duplikatów
+- **Uwaga:** migracja NIE usuwa starych tabel (vocab_items, student_lesson_vocab)
 
 ## KROKI WDROŻENIA
 
@@ -69,9 +71,9 @@ Backfill script (server-side, service role):
 4. ✅ API endpoint POST /api/vocab/lookup-word - lookup cache + AI enrichment pipeline (synchroniczny, OpenAI-only)
 5. ❌ ~~API endpoint GET /api/vocab/add-word~~ - NIE POTRZEBNY (lookup już zwraca cache)
 6. ⏳ Frontend - UI wyboru znaczenia (multi-sense selection) po AI enrichment
-7. ⏳ API endpoint POST /api/vocab/add-word - zapis wybranego sense do user_vocab_items
-8. ⏳ API endpoint POST /api/vocab/generate-example - generowanie nowego przykładu AI (pula, limit 10, rotacja)
-9. ⏳ Migracja danych - backfill script
+7. ✅ API endpoint POST /api/vocab/add-word - zapis wybranego sense do user_vocab_items
+8. ✅ API endpoint POST /api/vocab/generate-example - generowanie nowego przykładu AI (pula, limit 10, rotacja)
+9. ✅ Migracja danych - backfill script (20250223_migrate_vocab_data.sql)
 10. ⏳ Refaktoryzacja UI - uproszczony widok puli
 11. ⏳ Refaktoryzacja UI lekcji - przypinanie słów z puli
 12. ⏳ Obsługa custom/unverified words

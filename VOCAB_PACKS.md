@@ -4,23 +4,49 @@ Packs are sense-based (`lexicon_senses`) and live in:
 - `vocab_packs`
 - `vocab_pack_items`
 
-Batch scripts for the "shop" pack:
-- `scripts/shop_pack_lexicon_import.sql`
-- `scripts/shop_pack_items.sql`
-- `scripts/generate_shop_pack_sql.js` (regenerates both SQL batches)
+## Schema (vocab_packs)
+
+| Kolumna | Typ | Uwagi |
+|---------|-----|-------|
+| slug | text | unique |
+| title | text | |
+| description | text | nullable |
+| is_published | boolean | default false |
+| order_index | int | default 0 |
+| vocab_mode | text | 'daily' \| 'mixed' \| 'precise', default 'mixed' |
+| category | text | default 'general' |
+
+## Sposoby tworzenia packów
+
+### 1. Content pipeline (zalecane)
+
+- `scripts/content-pipeline/build-pack.ts` – buduje pack z nouns (generate-nouns → import-nouns → vocab_packs/vocab_pack_items)
+- Użycie: `npm run build:pack <category> <subcategory> <mode> [--publish]`
+- Przykład: `npm run build:pack garden plants daily --publish`
+- `scripts/content-pipeline/generate-nouns.ts`, `import-nouns.ts` – pipeline dla rzeczowników
+
+### 2. Ręczne SQL (shop, home, transport, body, contracts)
+
+Batch scripts w `scripts/`:
+- `shop_pack_lexicon_import.sql`, `shop_pack_items.sql`
+- `home_packs_lexicon_import.sql`, `home_pack_items.sql`
+- `transport_packs_lexicon_import.sql`, `transport_pack_items.sql`
+- `body_packs_lexicon_import.sql`, `body_pack_items.sql`
+- `contracts_packs_lexicon_import.sql`, `contracts_pack_items.sql`
+- `generate_shop_pack_sql.js` – regeneruje SQL dla shop pack
 
 ## Add a new pack
 
 ```sql
-insert into vocab_packs (slug, title, description, is_published, order_index)
-values ('travel', 'W podróży', 'Słówka przydatne w podróży.', true, 2)
+insert into vocab_packs (slug, title, description, is_published, order_index, vocab_mode, category)
+values ('travel', 'W podróży', 'Słówka przydatne w podróży.', true, 2, 'mixed', 'general')
 on conflict (slug) do nothing;
 ```
 
 ## Batch import new words (lexicon)
 
 Use a batch import like `scripts/shop_pack_lexicon_import.sql`:
-- Inserts `lexicon_entries` (lemma_norm).
+- Inserts `lexicon_entries` (lemma_norm, pos).
 - Creates one `lexicon_senses` row (sense_order=0).
 - Adds exactly one `lexicon_translations` row (PL).
 - Optionally inserts one short `lexicon_examples` sentence.

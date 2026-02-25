@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { updateLearningUnitKnowledge } from "@/lib/knowledge/updateLearningUnitKnowledge";
 
 type AnswerBody = {
   sense_id: string;
@@ -146,6 +147,23 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
     if (insertErr) {
       return NextResponse.json({ error: insertErr.message }, { status: 500 });
+    }
+
+    const knowledgeResult = await updateLearningUnitKnowledge({
+      supabase,
+      studentId: userId,
+      unitType: "sense",
+      unitId: body.sense_id,
+      payload: { mode: "answer", isCorrect },
+    });
+    if (!knowledgeResult.ok) {
+      console.error("[packs/answer] Knowledge update failed:", {
+        studentId: userId,
+        unitType: "sense",
+        unitId: body.sense_id,
+        message: knowledgeResult.error,
+        cause: knowledgeResult.cause,
+      });
     }
 
     return NextResponse.json({

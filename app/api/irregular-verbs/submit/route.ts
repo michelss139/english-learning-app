@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { updateLearningUnitKnowledge } from "@/lib/knowledge/updateLearningUnitKnowledge";
 
 /**
  * POST /api/irregular-verbs/submit
@@ -123,6 +124,21 @@ export async function POST(req: Request) {
     if (logError) {
       console.error("[irregular-verbs/submit] Error logging run:", logError);
       // Continue even if logging fails - return the result anyway
+    } else {
+      const knowledgeResult = await updateLearningUnitKnowledge({
+        supabase,
+        studentId: userId,
+        unitType: "irregular",
+        unitId: verbId,
+        payload: {
+          mode: "answer",
+          isCorrect: overallCorrect,
+        },
+      });
+
+      if (!knowledgeResult.ok) {
+        console.error("[irregular-verbs/submit] Failed to update learning unit knowledge:", knowledgeResult.error);
+      }
     }
 
     return NextResponse.json({

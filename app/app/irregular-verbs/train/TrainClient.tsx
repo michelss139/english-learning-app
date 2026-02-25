@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
 
 export type Verb = {
   id: string;
@@ -267,6 +268,7 @@ export default function IrregularVerbsTrainClient(props: {
         setSummary(data.summary ?? null);
         setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         setAwardedSessionId(sessionId);
+        emitTrainingCompleted({ type: "irregular" });
 
         if (assignmentId && !assignmentCompleteRef.current) {
           try {
