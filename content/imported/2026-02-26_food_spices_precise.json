@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "spices",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:24:38.948Z"
+  },
+  "items": [
+    {
+      "lemma": "coriander seed",
+      "pos": "noun",
+      "translation_pl": "ziarno kolendry",
+      "definition_en": "Coriander seed is a small, round spice used in both sweet and savory dishes.",
+      "example_en": "I sprinkle crushed coriander seed on my roasted vegetables.",
+      "level": "B2"
+    },
+    {
+      "lemma": "saffron",
+      "pos": "noun",
+      "translation_pl": "szafran",
+      "definition_en": "Saffron is a highly valued spice made from dried flower stigmas.",
+      "example_en": "She added saffron to the rice for a delicate flavor and color.",
+      "level": "C1"
+    },
+    {
+      "lemma": "allspice",
+      "pos": "noun",
+      "translation_pl": "ziele angielskie",
+      "definition_en": "Allspice is a dried berry that tastes like a blend of cinnamon, nutmeg, and cloves.",
+      "example_en": "He drops a few allspice berries into the stew for extra warmth.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cardamom",
+      "pos": "noun",
+      "translation_pl": "kardamon",
+      "definition_en": "Cardamom is a fragrant spice that comes in small seed pods.",
+      "example_en": "I love the taste of cardamom in my morning coffee.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fenugreek",
+      "pos": "noun",
+      "translation_pl": "kozieradka",
+      "definition_en": "Fenugreek is a spice with a slightly bitter and nutty flavor.",
+      "example_en": "Fenugreek adds a unique taste to many Indian curries.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cumin",
+      "pos": "noun",
+      "translation_pl": "kumin",
+      "definition_en": "Cumin is a spice with a warm, earthy flavor often used in Middle Eastern dishes.",
+      "example_en": "Cumin gives chili its signature flavor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mustard seed",
+      "pos": "noun",
+      "translation_pl": "ziarno gorczycy",
+      "definition_en": "Mustard seed is a small round seed used as a spice or for making mustard.",
+      "example_en": "She fries mustard seed in oil for her lentil soup.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sumac",
+      "pos": "noun",
+      "translation_pl": "sumak",
+      "definition_en": "Sumac is a tangy, reddish-purple spice often sprinkled over Middle Eastern dishes.",
+      "example_en": "He sprinkles sumac over salads for a lemony kick.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cayenne pepper",
+      "pos": "noun",
+      "translation_pl": "pieprz cayenne",
+      "definition_en": "Cayenne pepper is a hot red spice made from ground chili peppers.",
+      "example_en": "I add a pinch of cayenne pepper to my stew for heat.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sumac berry",
+      "pos": "noun",
+      "translation_pl": "jagoda sumaka",
+      "definition_en": "Sumac berry is a reddish fruit dried and ground into a tangy spice.",
+      "example_en": "She uses ground sumac berry for a burst of acidity in her salad.",
+      "level": "C2"
+    }
+  ]
+}

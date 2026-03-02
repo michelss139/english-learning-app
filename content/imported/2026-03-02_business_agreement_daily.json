@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "category": "business",
+    "subcategory": "agreement",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-03-02T07:37:04.773Z"
+  },
+  "items": [
+    {
+      "lemma": "contract",
+      "pos": "noun",
+      "translation_pl": "umowa",
+      "definition_en": "A contract is a written or spoken agreement between two or more people.",
+      "example_en": "We signed a contract for the new job.",
+      "level": "A2"
+    },
+    {
+      "lemma": "agreement",
+      "pos": "noun",
+      "translation_pl": "porozumienie",
+      "definition_en": "An agreement is when people decide together on something.",
+      "example_en": "We reached an agreement after a long discussion.",
+      "level": "A2"
+    },
+    {
+      "lemma": "signature",
+      "pos": "noun",
+      "translation_pl": "podpis",
+      "definition_en": "A signature is your name written by yourself.",
+      "example_en": "He put his signature at the end of the contract.",
+      "level": "A2"
+    },
+    {
+      "lemma": "partnership",
+      "pos": "noun",
+      "translation_pl": "partnerstwo",
+      "definition_en": "A partnership is when two or more people work together.",
+      "example_en": "They started a new partnership last month.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clause",
+      "pos": "noun",
+      "translation_pl": "klauzula",
+      "definition_en": "A clause is a special part of a contract or agreement.",
+      "example_en": "This clause explains the payment rules.",
+      "level": "B1"
+    },
+    {
+      "lemma": "promise",
+      "pos": "noun",
+      "translation_pl": "obietnica",
+      "definition_en": "A promise is when someone says they will do something.",
+      "example_en": "He made a promise to help with the work.",
+      "level": "A2"
+    },
+    {
+      "lemma": "condition",
+      "pos": "noun",
+      "translation_pl": "warunek",
+      "definition_en": "A condition is something that must be met in an agreement.",
+      "example_en": "One condition is that we finish on time.",
+      "level": "B1"
+    },
+    {
+      "lemma": "signature page",
+      "pos": "noun",
+      "translation_pl": "strona podpisu",
+      "definition_en": "A signature page is the last part of a contract where people sign.",
+      "example_en": "Please add your name to the signature page.",
+      "level": "B1"
+    },
+    {
+      "lemma": "witness",
+      "pos": "noun",
+      "translation_pl": "świadek",
+      "definition_en": "A witness is someone who sees and confirms an agreement.",
+      "example_en": "She asked her friend to be a witness.",
+      "level": "B1"
+    },
+    {
+      "lemma": "document",
+      "pos": "noun",
+      "translation_pl": "dokument",
+      "definition_en": "A document is a paper with important information or agreement.",
+      "example_en": "The lawyer checked the document carefully.",
+      "level": "A2"
+    },
+    {
+      "lemma": "negotiation",
+      "pos": "noun",
+      "translation_pl": "negocjacje",
+      "definition_en": "A negotiation is a discussion to reach an agreement.",
+      "example_en": "They had a negotiation to decide the price.",
+      "level": "B1"
+    },
+    {
+      "lemma": "approval",
+      "pos": "noun",
+      "translation_pl": "zatwierdzenie",
+      "definition_en": "Approval is when something is officially accepted.",
+      "example_en": "We need your approval before we start.",
+      "level": "B1"
+    },
+    {
+      "lemma": "party",
+      "pos": "noun",
+      "translation_pl": "strona",
+      "definition_en": "A party is one person or group in an agreement.",
+      "example_en": "Each party must follow the rules.",
+      "level": "B1"
+    },
+    {
+      "lemma": "commitment",
+      "pos": "noun",
+      "translation_pl": "zobowiązanie",
+      "definition_en": "A commitment is a promise to do something.",
+      "example_en": "She made a commitment to deliver on time.",
+      "level": "B1"
+    }
+  ]
+}

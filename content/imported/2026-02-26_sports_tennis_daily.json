@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "tennis",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:46:38.905Z"
+  },
+  "items": [
+    {
+      "lemma": "racket",
+      "pos": "noun",
+      "translation_pl": "rakieta",
+      "definition_en": "A racket is used to hit the ball in tennis.",
+      "example_en": "She bought a new tennis racket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ball",
+      "pos": "noun",
+      "translation_pl": "piłka",
+      "definition_en": "A ball is a round object used in many sports.",
+      "example_en": "The ball bounced over the net.",
+      "level": "A1"
+    },
+    {
+      "lemma": "court",
+      "pos": "noun",
+      "translation_pl": "kort",
+      "definition_en": "A court is the place where people play tennis.",
+      "example_en": "They met on the tennis court.",
+      "level": "A2"
+    },
+    {
+      "lemma": "net",
+      "pos": "noun",
+      "translation_pl": "siatka",
+      "definition_en": "A net is a thing in the middle of a tennis court.",
+      "example_en": "The ball landed in the net.",
+      "level": "A2"
+    },
+    {
+      "lemma": "match",
+      "pos": "noun",
+      "translation_pl": "mecz",
+      "definition_en": "A match is a game played between two players or teams.",
+      "example_en": "They watched an exciting tennis match.",
+      "level": "A1"
+    },
+    {
+      "lemma": "game",
+      "pos": "noun",
+      "translation_pl": "gem",
+      "definition_en": "A game is a part of a tennis match.",
+      "example_en": "He won the first game easily.",
+      "level": "A1"
+    },
+    {
+      "lemma": "point",
+      "pos": "noun",
+      "translation_pl": "punkt",
+      "definition_en": "A point is what you get when you win a part of the game.",
+      "example_en": "She scored the first point.",
+      "level": "A1"
+    },
+    {
+      "lemma": "set",
+      "pos": "noun",
+      "translation_pl": "set",
+      "definition_en": "A set is part of a tennis match made of games.",
+      "example_en": "He won the second set.",
+      "level": "A2"
+    },
+    {
+      "lemma": "serve",
+      "pos": "noun",
+      "translation_pl": "serwis",
+      "definition_en": "A serve is the action to start play by hitting the ball.",
+      "example_en": "Her serve was very fast.",
+      "level": "B1"
+    },
+    {
+      "lemma": "umpire",
+      "pos": "noun",
+      "translation_pl": "sędzia",
+      "definition_en": "An umpire is a person who watches and controls the game.",
+      "example_en": "The umpire called the ball out.",
+      "level": "B1"
+    },
+    {
+      "lemma": "doubles",
+      "pos": "noun",
+      "translation_pl": "debel",
+      "definition_en": "Doubles is a tennis game with two players on each side.",
+      "example_en": "They prefer to play doubles.",
+      "level": "B1"
+    },
+    {
+      "lemma": "singles",
+      "pos": "noun",
+      "translation_pl": "singiel",
+      "definition_en": "Singles is a tennis game played by one person on each side.",
+      "example_en": "The singles match lasted two hours.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tournament",
+      "pos": "noun",
+      "translation_pl": "turniej",
+      "definition_en": "A tournament is a big sports competition with many matches.",
+      "example_en": "He entered a tennis tournament last week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "winner",
+      "pos": "noun",
+      "translation_pl": "zwycięzca",
+      "definition_en": "A winner is a person who wins a match.",
+      "example_en": "The winner received a gold trophy.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coach",
+      "pos": "noun",
+      "translation_pl": "trener",
+      "definition_en": "A coach is a person who trains players.",
+      "example_en": "My coach teaches me how to play better.",
+      "level": "A2"
+    },
+    {
+      "lemma": "practice",
+      "pos": "noun",
+      "translation_pl": "trening",
+      "definition_en": "Practice means time spent improving your skills.",
+      "example_en": "He has tennis practice every Friday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spectator",
+      "pos": "noun",
+      "translation_pl": "widz",
+      "definition_en": "A spectator is someone who watches a tennis match.",
+      "example_en": "Thousands of spectators cheered for the players.",
+      "level": "B1"
+    }
+  ]
+}

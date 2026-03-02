@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "spices",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:18:57.962Z"
+  },
+  "items": [
+    {
+      "lemma": "salt",
+      "pos": "noun",
+      "translation_pl": "sól",
+      "definition_en": "Salt is a white mineral used to add flavor to food.",
+      "example_en": "I like to put a little salt on my fries.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pepper",
+      "pos": "noun",
+      "translation_pl": "pieprz",
+      "definition_en": "Pepper is a spice that makes food taste a bit hot.",
+      "example_en": "He adds pepper to his eggs every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "anise",
+      "pos": "noun",
+      "translation_pl": "anyż",
+      "definition_en": "Anise is a spice with a sweet, licorice flavor.",
+      "example_en": "She uses anise when making spiced tea in winter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cinnamon",
+      "pos": "noun",
+      "translation_pl": "cynamon",
+      "definition_en": "Cinnamon is a brown spice that is often used in sweet foods.",
+      "example_en": "My mom uses cinnamon in her apple pie.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ginger",
+      "pos": "noun",
+      "translation_pl": "imbir",
+      "definition_en": "Ginger is a spicy root often used in cooking and tea.",
+      "example_en": "We put ginger in the soup for extra flavor.",
+      "level": "A2"
+    },
+    {
+      "lemma": "garlic",
+      "pos": "noun",
+      "translation_pl": "czosnek",
+      "definition_en": "Garlic is a small white plant used to flavor food.",
+      "example_en": "She likes garlic on her pizza.",
+      "level": "A2"
+    },
+    {
+      "lemma": "basil",
+      "pos": "noun",
+      "translation_pl": "bazylia",
+      "definition_en": "Basil is a green herb often used in Italian food.",
+      "example_en": "I grow fresh basil in my kitchen.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nutmeg",
+      "pos": "noun",
+      "translation_pl": "gałka muszkatołowa",
+      "definition_en": "Nutmeg is a brown spice used in sweet and savory foods.",
+      "example_en": "Add a little nutmeg to the cake batter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clove",
+      "pos": "noun",
+      "translation_pl": "goździk",
+      "definition_en": "A clove is a small dried flower bud used to add flavor.",
+      "example_en": "She puts a clove in the hot drink.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rosemary",
+      "pos": "noun",
+      "translation_pl": "rozmaryn",
+      "definition_en": "Rosemary is a green herb with a strong taste.",
+      "example_en": "I like rosemary on my roasted potatoes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thyme",
+      "pos": "noun",
+      "translation_pl": "tymianek",
+      "definition_en": "Thyme is a small green herb used in cooking.",
+      "example_en": "Thyme adds a nice flavor to soup.",
+      "level": "B1"
+    },
+    {
+      "lemma": "parsley",
+      "pos": "noun",
+      "translation_pl": "pietruszka",
+      "definition_en": "Parsley is a green herb used to decorate and season food.",
+      "example_en": "Parsley makes the salad look fresh.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bay leaf",
+      "pos": "noun",
+      "translation_pl": "liść laurowy",
+      "definition_en": "A bay leaf is a green leaf used to flavor soups and stews.",
+      "example_en": "Remove the bay leaf before serving the soup.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dill",
+      "pos": "noun",
+      "translation_pl": "koperek",
+      "definition_en": "Dill is a green herb that is often used with fish.",
+      "example_en": "She likes dill in her potato salad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coriander",
+      "pos": "noun",
+      "translation_pl": "kolendra",
+      "definition_en": "Coriander is a green herb with a fresh flavor.",
+      "example_en": "Coriander is popular in Asian dishes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "turmeric",
+      "pos": "noun",
+      "translation_pl": "kurkuma",
+      "definition_en": "Turmeric is a yellow spice used in many dishes.",
+      "example_en": "Turmeric gives the sauce a golden color.",
+      "level": "B1"
+    }
+  ]
+}

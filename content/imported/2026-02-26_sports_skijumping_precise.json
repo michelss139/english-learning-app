@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "skijumping",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:47:34.702Z"
+  },
+  "items": [
+    {
+      "lemma": "takeoff ramp",
+      "pos": "noun",
+      "translation_pl": "platforma do wybicia",
+      "definition_en": "A takeoff ramp is the slope that jumpers launch from.",
+      "example_en": "She carefully adjusted her speed before reaching the takeoff ramp.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jump suit",
+      "pos": "noun",
+      "translation_pl": "kombinezon skoczka",
+      "definition_en": "A jump suit is a special outfit worn by ski jumpers.",
+      "example_en": "He zipped up his jump suit before the competition.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jumping hill",
+      "pos": "noun",
+      "translation_pl": "skocznia narciarska",
+      "definition_en": "A jumping hill is a structure used for jumping events.",
+      "example_en": "The new jumping hill was built for international tournaments.",
+      "level": "B2"
+    },
+    {
+      "lemma": "flight phase",
+      "pos": "noun",
+      "translation_pl": "faza lotu",
+      "definition_en": "The flight phase is the time when the jumper is in the air.",
+      "example_en": "He maintained excellent posture during the flight phase.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hill size",
+      "pos": "noun",
+      "translation_pl": "rozmiar skoczni",
+      "definition_en": "Hill size is the measurement of the length of a ski jumping hill.",
+      "example_en": "They built a new hill size to host bigger events.",
+      "level": "C1"
+    },
+    {
+      "lemma": "inrun",
+      "pos": "noun",
+      "translation_pl": "najazd",
+      "definition_en": "The inrun is the slope where the jumper gains speed before taking off.",
+      "example_en": "The inrun was covered with fresh snow this morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "landing hill",
+      "pos": "noun",
+      "translation_pl": "strefa lądowania",
+      "definition_en": "A landing hill is where jumpers land after their leap.",
+      "example_en": "He lost his balance on the landing hill but avoided a fall.",
+      "level": "B2"
+    },
+    {
+      "lemma": "distance marker",
+      "pos": "noun",
+      "translation_pl": "znacznik odległości",
+      "definition_en": "A distance marker shows how far a jumper has traveled.",
+      "example_en": "The distance marker indicated a new personal best.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wind compensation",
+      "pos": "noun",
+      "translation_pl": "rekompensata wiatru",
+      "definition_en": "Wind compensation is a score adjustment due to wind conditions.",
+      "example_en": "He earned extra points thanks to wind compensation.",
+      "level": "C1"
+    },
+    {
+      "lemma": "telemark landing",
+      "pos": "noun",
+      "translation_pl": "lądowanie telemarkiem",
+      "definition_en": "A telemark landing is a landing technique used in ski jumping.",
+      "example_en": "Judges gave her high marks for a perfect telemark landing.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hill record",
+      "pos": "noun",
+      "translation_pl": "rekord skoczni",
+      "definition_en": "A hill record is the farthest jump ever made on a hill.",
+      "example_en": "He broke the hill record with his stunning leap.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gate",
+      "pos": "noun",
+      "translation_pl": "belka",
+      "definition_en": "A gate is the start point on the inrun for jumpers.",
+      "example_en": "The officials lowered the gate due to stronger wind.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jumping judge",
+      "pos": "noun",
+      "translation_pl": "sędzia skoków",
+      "definition_en": "A jumping judge is an official who evaluates ski jump performance.",
+      "example_en": "A jumping judge awarded high points for style.",
+      "level": "B2"
+    },
+    {
+      "lemma": "preliminary round",
+      "pos": "noun",
+      "translation_pl": "runda eliminacyjna",
+      "definition_en": "A preliminary round is the first stage of a competition.",
+      "example_en": "She advanced quickly through the preliminary round.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ski binding",
+      "pos": "noun",
+      "translation_pl": "wiązanie narciarskie",
+      "definition_en": "A ski binding is the device that attaches a ski jumper's boots to the skis.",
+      "example_en": "He checked his ski binding before every jump.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wind sock",
+      "pos": "noun",
+      "translation_pl": "rękaw wiatrowy",
+      "definition_en": "A wind sock is a tube that shows wind direction and strength.",
+      "example_en": "The wind sock fluttered as a breeze passed over the hill.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jumping tower",
+      "pos": "noun",
+      "translation_pl": "wieża startowa",
+      "definition_en": "A jumping tower is the high structure from which skiers start their jump.",
+      "example_en": "The new jumping tower offers a spectacular view of the valley.",
+      "level": "B2"
+    }
+  ]
+}

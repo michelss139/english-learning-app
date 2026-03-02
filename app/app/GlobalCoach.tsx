@@ -2,10 +2,17 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
+import { getWordTip } from "@/lib/coach/wordTips";
 
 type CoachContent = string | string[];
 
-function getCoachContent(pathname: string | null): CoachContent {
+function getCoachContent(pathname: string | null, currentLemma: string | null): CoachContent {
+  // Na fiszkach tipy pokazują się po Sprawdź, nie w rogu
+  if (!pathname?.startsWith("/app/vocab/pack")) {
+    const wordTip = getWordTip(currentLemma ?? undefined);
+    if (wordTip) return wordTip;
+  }
   if (!pathname) return "Witaj na LANGBracket";
   if (pathname.startsWith("/app/grammar/present-simple")) {
     return "Najczęstszy błąd? DO + czasownik z -s. Nigdy razem.";
@@ -84,17 +91,18 @@ function getCoachContent(pathname: string | null): CoachContent {
 
 export default function GlobalCoach() {
   const pathname = usePathname();
+  const { currentLemma } = useCurrentWord();
   const [visible, setVisible] = useState(true);
   const [tipIndex, setTipIndex] = useState(0);
 
-  const content = useMemo(() => getCoachContent(pathname), [pathname]);
+  const content = useMemo(() => getCoachContent(pathname, currentLemma), [pathname, currentLemma]);
   const tips = Array.isArray(content) ? content : [content];
   const hasMultipleTips = tips.length > 1;
   const currentMessage = tips[tipIndex] ?? tips[0];
 
   useEffect(() => {
     setTipIndex(0);
-  }, [pathname]);
+  }, [pathname, currentLemma]);
 
   if (!visible) {
     return (

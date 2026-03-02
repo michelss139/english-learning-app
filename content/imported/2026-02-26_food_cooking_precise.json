@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "cooking",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:36:30.142Z"
+  },
+  "items": [
+    {
+      "lemma": "baking powder",
+      "pos": "noun",
+      "translation_pl": "proszek do pieczenia",
+      "definition_en": "Baking powder is a white powder used to make baked goods rise.",
+      "example_en": "She added some baking powder to the cake batter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "marinade",
+      "pos": "noun",
+      "translation_pl": "marynata",
+      "definition_en": "A marinade is a liquid mixture used to flavor and soften food before cooking.",
+      "example_en": "The chicken tasted great after soaking in the marinade.",
+      "level": "B2"
+    },
+    {
+      "lemma": "utensil",
+      "pos": "noun",
+      "translation_pl": "przyrząd kuchenny",
+      "definition_en": "A utensil is a tool used for cooking or preparing food.",
+      "example_en": "Every kitchen needs at least a few basic utensils.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stock",
+      "pos": "noun",
+      "translation_pl": "bulion",
+      "definition_en": "Stock is a flavored liquid made by cooking meat, fish, or vegetables in water.",
+      "example_en": "She used homemade chicken stock for the risotto.",
+      "level": "B2"
+    },
+    {
+      "lemma": "glaze",
+      "pos": "noun",
+      "translation_pl": "polewa",
+      "definition_en": "A glaze is a shiny coating added to food for taste or appearance.",
+      "example_en": "He brushed a sweet glaze over the ham.",
+      "level": "B2"
+    },
+    {
+      "lemma": "infusion",
+      "pos": "noun",
+      "translation_pl": "napar",
+      "definition_en": "An infusion is a liquid created by soaking an ingredient in hot water.",
+      "example_en": "They made a herbal infusion to serve with dessert.",
+      "level": "C1"
+    },
+    {
+      "lemma": "confection",
+      "pos": "noun",
+      "translation_pl": "wyrób cukierniczy",
+      "definition_en": "A confection is a sweet food such as candy or cake.",
+      "example_en": "She learned how to create an elegant confection in pastry class.",
+      "level": "B2"
+    },
+    {
+      "lemma": "zest",
+      "pos": "noun",
+      "translation_pl": "skórka cytrusowa",
+      "definition_en": "Zest is the colorful skin of citrus fruit used to add flavor.",
+      "example_en": "Add a little lemon zest to make the dish brighter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fillet",
+      "pos": "noun",
+      "translation_pl": "filet",
+      "definition_en": "A fillet is a boneless piece of meat or fish.",
+      "example_en": "I ordered a fillet of salmon for dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "caramelization",
+      "pos": "noun",
+      "translation_pl": "karmelizacja",
+      "definition_en": "Caramelization is the process of browning sugar during cooking.",
+      "example_en": "The onions gained sweetness through caramelization.",
+      "level": "C1"
+    }
+  ]
+}

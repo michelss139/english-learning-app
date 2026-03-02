@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "cooking",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:33:28.800Z"
+  },
+  "items": [
+    {
+      "lemma": "pan",
+      "pos": "noun",
+      "translation_pl": "patelnia",
+      "definition_en": "A pan is a round metal dish for cooking food.",
+      "example_en": "She put the eggs in a pan.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pot",
+      "pos": "noun",
+      "translation_pl": "garnek",
+      "definition_en": "A pot is a deep round container used for cooking food.",
+      "example_en": "Soup is boiling in the pot.",
+      "level": "A1"
+    },
+    {
+      "lemma": "knife",
+      "pos": "noun",
+      "translation_pl": "nóż",
+      "definition_en": "A knife is a tool for cutting food.",
+      "example_en": "Please use a knife to cut the bread.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fork",
+      "pos": "noun",
+      "translation_pl": "widelec",
+      "definition_en": "A fork is a tool with points used to eat food.",
+      "example_en": "He picked up his food with a fork.",
+      "level": "A1"
+    },
+    {
+      "lemma": "spoon",
+      "pos": "noun",
+      "translation_pl": "łyżka",
+      "definition_en": "A spoon is a tool used to eat liquid food.",
+      "example_en": "She stirred her tea with a spoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "plate",
+      "pos": "noun",
+      "translation_pl": "talerz",
+      "definition_en": "A plate is a flat dish you eat from.",
+      "example_en": "He put some pasta on his plate.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bowl",
+      "pos": "noun",
+      "translation_pl": "miska",
+      "definition_en": "A bowl is a deep round dish used for food.",
+      "example_en": "She ate soup from a bowl.",
+      "level": "A1"
+    },
+    {
+      "lemma": "oven",
+      "pos": "noun",
+      "translation_pl": "piekarnik",
+      "definition_en": "An oven is a machine for baking or roasting food.",
+      "example_en": "He put the chicken in the oven.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stove",
+      "pos": "noun",
+      "translation_pl": "kuchenka",
+      "definition_en": "A stove is a machine that cooks food using heat.",
+      "example_en": "She cooked dinner on the stove.",
+      "level": "A2"
+    },
+    {
+      "lemma": "recipe",
+      "pos": "noun",
+      "translation_pl": "przepis",
+      "definition_en": "A recipe tells you how to cook a dish.",
+      "example_en": "I followed a recipe to make a cake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chef",
+      "pos": "noun",
+      "translation_pl": "szef kuchni",
+      "definition_en": "A chef is a person who cooks food professionally.",
+      "example_en": "The chef prepared a special meal.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ingredient",
+      "pos": "noun",
+      "translation_pl": "składnik",
+      "definition_en": "An ingredient is something you use to make food.",
+      "example_en": "Sugar is an ingredient in many cakes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dish",
+      "pos": "noun",
+      "translation_pl": "danie",
+      "definition_en": "A dish is a type of food prepared in a particular way.",
+      "example_en": "Pizza is a popular Italian dish.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grill",
+      "pos": "noun",
+      "translation_pl": "grill",
+      "definition_en": "A grill is a device for cooking food over fire or heat.",
+      "example_en": "We cooked the meat on the grill.",
+      "level": "A2"
+    },
+    {
+      "lemma": "apron",
+      "pos": "noun",
+      "translation_pl": "fartuch",
+      "definition_en": "An apron is a piece of clothing that keeps your clothes clean when you cook.",
+      "example_en": "She wore an apron while baking bread.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spice",
+      "pos": "noun",
+      "translation_pl": "przyprawa",
+      "definition_en": "A spice is something you add to food to make it taste better.",
+      "example_en": "Cinnamon is a common spice in baking.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cutting board",
+      "pos": "noun",
+      "translation_pl": "deska do krojenia",
+      "definition_en": "A cutting board is a flat board you use to cut food.",
+      "example_en": "Chop the onions on the cutting board.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cook",
+      "pos": "noun",
+      "translation_pl": "kucharz",
+      "definition_en": "Cook is a person who cooks food.",
+      "example_en": "The cook prepared a special meal.",
+      "level": "A2"
+    }
+  ]
+}

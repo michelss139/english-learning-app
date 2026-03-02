@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "category": "business",
+    "subcategory": "retail",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-03-02T07:14:54.351Z"
+  },
+  "items": [
+    {
+      "lemma": "inventory",
+      "pos": "noun",
+      "translation_pl": "zapas towarów",
+      "definition_en": "Inventory is the total amount of goods a store has for sale.",
+      "example_en": "We need to check the inventory before reordering products.",
+      "level": "B2"
+    },
+    {
+      "lemma": "checkout",
+      "pos": "noun",
+      "translation_pl": "kasa sklepu",
+      "definition_en": "Checkout is the place in a shop where you pay for your items.",
+      "example_en": "There is a long line at the checkout today.",
+      "level": "B2"
+    },
+    {
+      "lemma": "supply chain",
+      "pos": "noun",
+      "translation_pl": "łańcuch dostaw",
+      "definition_en": "A supply chain is the system of people and activities involved in delivering products to stores.",
+      "example_en": "The supply chain was disrupted by the recent storm.",
+      "level": "C1"
+    },
+    {
+      "lemma": "merchandise",
+      "pos": "noun",
+      "translation_pl": "towar",
+      "definition_en": "Merchandise is the goods that are bought and sold in shops.",
+      "example_en": "The new merchandise arrived early this morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "market share",
+      "pos": "noun",
+      "translation_pl": "udział w rynku",
+      "definition_en": "Market share is the percentage of sales a company holds compared to competitors.",
+      "example_en": "They are working hard to increase their market share.",
+      "level": "B2"
+    },
+    {
+      "lemma": "franchise",
+      "pos": "noun",
+      "translation_pl": "franczyza",
+      "definition_en": "A franchise is a store using the brand and system of an established company.",
+      "example_en": "He owns a large fast-food franchise in the city.",
+      "level": "B2"
+    },
+    {
+      "lemma": "retailer",
+      "pos": "noun",
+      "translation_pl": "sprzedawca detaliczny",
+      "definition_en": "A retailer is a person or company that sells goods to the public.",
+      "example_en": "The retailer offers discounts to loyal customers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sales volume",
+      "pos": "noun",
+      "translation_pl": "wielkość sprzedaży",
+      "definition_en": "Sales volume is the total number of products sold in a period.",
+      "example_en": "Their sales volume increased by ten percent last year.",
+      "level": "B2"
+    },
+    {
+      "lemma": "purchase order",
+      "pos": "noun",
+      "translation_pl": "zamówienie zakupu",
+      "definition_en": "A purchase order is a document sent to a supplier to request products.",
+      "example_en": "The manager submitted a purchase order for more laptops.",
+      "level": "C1"
+    },
+    {
+      "lemma": "self-service",
+      "pos": "noun",
+      "translation_pl": "samoobsługa",
+      "definition_en": "Self-service allows customers to choose and pay for products without help.",
+      "example_en": "The store introduced a self-service checkout option last month.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wholesaler",
+      "pos": "noun",
+      "translation_pl": "hurtownik",
+      "definition_en": "A wholesaler is a company that sells goods in large quantities to retailers.",
+      "example_en": "The retailer ordered all their goods from a local wholesaler.",
+      "level": "B2"
+    },
+    {
+      "lemma": "point of sale",
+      "pos": "noun",
+      "translation_pl": "punkt sprzedaży",
+      "definition_en": "A point of sale is the time and place where a sale happens.",
+      "example_en": "They updated their point of sale system last week.",
+      "level": "B2"
+    },
+    {
+      "lemma": "display unit",
+      "pos": "noun",
+      "translation_pl": "stoisko ekspozycyjne",
+      "definition_en": "A display unit is a structure used to show products to customers.",
+      "example_en": "The store uses a display unit for new arrivals.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stockroom",
+      "pos": "noun",
+      "translation_pl": "zaplecze magazynowe",
+      "definition_en": "A stockroom is a storage area for goods in a store.",
+      "example_en": "The stockroom is full of unsold items.",
+      "level": "B2"
+    },
+    {
+      "lemma": "turnover",
+      "pos": "noun",
+      "translation_pl": "obrót",
+      "definition_en": "Turnover is the amount of money a business earns from sales in a period.",
+      "example_en": "The company's turnover doubled compared to the previous year.",
+      "level": "B2"
+    },
+    {
+      "lemma": "warehouse",
+      "pos": "noun",
+      "translation_pl": "magazyn",
+      "definition_en": "A warehouse is a large storage area for goods.",
+      "example_en": "The warehouse is located in the industrial park.",
+      "level": "B2"
+    }
+  ]
+}

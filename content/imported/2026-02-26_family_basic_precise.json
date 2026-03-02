@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "category": "family",
+    "subcategory": "basic",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:22:14.440Z"
+  },
+  "items": [
+    {
+      "lemma": "ancestor",
+      "pos": "noun",
+      "translation_pl": "przodek",
+      "definition_en": "An ancestor is someone in your family who lived long ago.",
+      "example_en": "She likes to research her ancestors online.",
+      "level": "B2"
+    },
+    {
+      "lemma": "descendant",
+      "pos": "noun",
+      "translation_pl": "potomek",
+      "definition_en": "A descendant is a person who is related to someone from a previous generation.",
+      "example_en": "He is a descendant of a famous writer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "upbringing",
+      "pos": "noun",
+      "translation_pl": "wychowanie",
+      "definition_en": "Upbringing is the way children are raised by their parents.",
+      "example_en": "She credits her success to her strict upbringing.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lineage",
+      "pos": "noun",
+      "translation_pl": "linia rodowa",
+      "definition_en": "Lineage refers to a person's family history or ancestry.",
+      "example_en": "They can trace their lineage back hundreds of years.",
+      "level": "C1"
+    },
+    {
+      "lemma": "heritage",
+      "pos": "noun",
+      "translation_pl": "dziedzictwo",
+      "definition_en": "Heritage means the traditions and values passed down in a family.",
+      "example_en": "He is proud of his cultural heritage.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sibling",
+      "pos": "noun",
+      "translation_pl": "rodzeństwo",
+      "definition_en": "Sibling is a brother or sister.",
+      "example_en": "My sister is always there for me.",
+      "level": "B2"
+    },
+    {
+      "lemma": "foster parent",
+      "pos": "noun",
+      "translation_pl": "rodzic zastępczy",
+      "definition_en": "A foster parent cares for a child who is not their own by birth.",
+      "example_en": "He lived with a foster parent for two years.",
+      "level": "B2"
+    },
+    {
+      "lemma": "godparent",
+      "pos": "noun",
+      "translation_pl": "rodzic chrzestny",
+      "definition_en": "A godparent is an adult chosen to help guide a child spiritually.",
+      "example_en": "She chose her best friend as her son's godparent.",
+      "level": "B2"
+    },
+    {
+      "lemma": "great grandfather",
+      "pos": "noun",
+      "translation_pl": "pradziadek",
+      "definition_en": "Great grandfather is a grandfather's father.",
+      "example_en": "My great grandfather is a doctor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "goddaughter",
+      "pos": "noun",
+      "translation_pl": "córka chrzestna",
+      "definition_en": "A goddaughter is a daughter of a godparent.",
+      "example_en": "My goddaughter is having a birthday party next week.",
+      "level": "B2"
+    }
+  ]
+}

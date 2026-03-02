@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "tools",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T10:56:49.256Z"
+  },
+  "items": [
+    {
+      "lemma": "screwdriver",
+      "pos": "noun",
+      "translation_pl": "śrubokręt",
+      "definition_en": "A screwdriver is a tool used to turn screws.",
+      "example_en": "I need a screwdriver to fix this loose hinge.",
+      "level": "B2"
+    },
+    {
+      "lemma": "paint roller",
+      "pos": "noun",
+      "translation_pl": "wałek malarski",
+      "definition_en": "A paint roller is a tool used for applying paint over large surfaces.",
+      "example_en": "A paint roller makes it easier to paint the walls quickly.",
+      "level": "B2"
+    },
+    {
+      "lemma": "step ladder",
+      "pos": "noun",
+      "translation_pl": "drabina składana",
+      "definition_en": "A step ladder is a portable ladder with flat steps.",
+      "example_en": "She grabbed the step ladder to reach the top shelf.",
+      "level": "B2"
+    },
+    {
+      "lemma": "extension cord",
+      "pos": "noun",
+      "translation_pl": "przedłużacz",
+      "definition_en": "An extension cord is a length of electrical cable used to bring power to distant devices.",
+      "example_en": "We used an extension cord to plug in the lamp across the room.",
+      "level": "C1"
+    },
+    {
+      "lemma": "caulking gun",
+      "pos": "noun",
+      "translation_pl": "pistolet do silikonu",
+      "definition_en": "A caulking gun is a tool used to apply caulk for sealing gaps.",
+      "example_en": "She used a caulking gun to seal the window frame.",
+      "level": "C1"
+    },
+    {
+      "lemma": "socket wrench",
+      "pos": "noun",
+      "translation_pl": "klucz nasadowy",
+      "definition_en": "A socket wrench is a tool for tightening or loosening nuts and bolts.",
+      "example_en": "A socket wrench made assembling the furniture much easier.",
+      "level": "C1"
+    },
+    {
+      "lemma": "putty knife",
+      "pos": "noun",
+      "translation_pl": "szpachelka",
+      "definition_en": "A putty knife is a flat tool used for spreading or scraping substances.",
+      "example_en": "He used a putty knife to smooth out the wall filler.",
+      "level": "B2"
+    },
+    {
+      "lemma": "level",
+      "pos": "noun",
+      "translation_pl": "poziomica",
+      "definition_en": "A level is a tool used to check if a surface is horizontal or vertical.",
+      "example_en": "She used a level to make sure the shelf was straight.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wire stripper",
+      "pos": "noun",
+      "translation_pl": "ściągacz izolacji",
+      "definition_en": "A wire stripper is a tool for removing insulation from electrical wires.",
+      "example_en": "He used a wire stripper while repairing the lamp cord.",
+      "level": "C1"
+    },
+    {
+      "lemma": "adjustable wrench",
+      "pos": "noun",
+      "translation_pl": "klucz nastawny",
+      "definition_en": "An adjustable wrench is a tool whose jaw width can be changed.",
+      "example_en": "An adjustable wrench is handy for various nut sizes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "workbench",
+      "pos": "noun",
+      "translation_pl": "stół warsztatowy",
+      "definition_en": "A workbench is a sturdy table for doing repairs or projects.",
+      "example_en": "He keeps his tools organized on the workbench.",
+      "level": "B2"
+    },
+    {
+      "lemma": "allen key",
+      "pos": "noun",
+      "translation_pl": "klucz imbusowy",
+      "definition_en": "An allen key is a small tool used to turn hexagonal screws.",
+      "example_en": "You need an allen key to put together this chair.",
+      "level": "B2"
+    }
+  ]
+}

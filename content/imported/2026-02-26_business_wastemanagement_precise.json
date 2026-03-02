@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "category": "business",
+    "subcategory": "wastemanagement",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T21:19:35.725Z"
+  },
+  "items": [
+    {
+      "lemma": "waste collection",
+      "pos": "noun",
+      "translation_pl": "zbieranie odpadów",
+      "definition_en": "Waste collection is the process of gathering garbage or recyclables from homes or businesses.",
+      "example_en": "The waste collection happens every Monday in our neighborhood.",
+      "level": "B2"
+    },
+    {
+      "lemma": "landfill",
+      "pos": "noun",
+      "translation_pl": "wysypisko",
+      "definition_en": "A landfill is a place where waste is buried under the ground.",
+      "example_en": "Most of our city’s garbage ends up in a landfill.",
+      "level": "B2"
+    },
+    {
+      "lemma": "recycling",
+      "pos": "noun",
+      "translation_pl": "recykling",
+      "definition_en": "Recycling is the process of turning waste into new products.",
+      "example_en": "Recycling helps reduce the amount of trash we produce.",
+      "level": "B2"
+    },
+    {
+      "lemma": "waste audit",
+      "pos": "noun",
+      "translation_pl": "audyt odpadów",
+      "definition_en": "A waste audit is an analysis to find out what kinds of waste are being thrown away.",
+      "example_en": "The company ordered a waste audit to find ways to reduce trash.",
+      "level": "C1"
+    },
+    {
+      "lemma": "hazardous waste",
+      "pos": "noun",
+      "translation_pl": "odpady niebezpieczne",
+      "definition_en": "Hazardous waste is dangerous trash like chemicals or batteries.",
+      "example_en": "Hazardous waste cannot be disposed of with regular garbage.",
+      "level": "B2"
+    },
+    {
+      "lemma": "organic waste",
+      "pos": "noun",
+      "translation_pl": "odpady organiczne",
+      "definition_en": "Organic waste is biodegradable trash like food scraps or garden clippings.",
+      "example_en": "Most of our organic waste goes to composting facilities.",
+      "level": "B2"
+    },
+    {
+      "lemma": "composting",
+      "pos": "noun",
+      "translation_pl": "kompostowanie",
+      "definition_en": "Composting is the process of turning organic waste into soil.",
+      "example_en": "Our office started composting to lower its environmental impact.",
+      "level": "B2"
+    },
+    {
+      "lemma": "incineration",
+      "pos": "noun",
+      "translation_pl": "spalanie odpadów",
+      "definition_en": "Incineration is burning waste at high temperatures to reduce its volume.",
+      "example_en": "Incineration helps to cut down on the amount of waste sent to landfills.",
+      "level": "B2"
+    },
+    {
+      "lemma": "recycling facility",
+      "pos": "noun",
+      "translation_pl": "zakład recyklingu",
+      "definition_en": "A recycling facility is a place where waste materials are processed for reuse.",
+      "example_en": "The recycling facility processes plastics, glass, and paper every day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dumpster",
+      "pos": "noun",
+      "translation_pl": "kontener na śmieci",
+      "definition_en": "A dumpster is a large container for holding waste until it is collected.",
+      "example_en": "They threw old furniture into the dumpster behind the store.",
+      "level": "B2"
+    },
+    {
+      "lemma": "scrap",
+      "pos": "noun",
+      "translation_pl": "złom",
+      "definition_en": "Scrap is leftover metal or other materials that can often be recycled.",
+      "example_en": "The factory sells its scrap to metal recycling companies.",
+      "level": "B2"
+    },
+    {
+      "lemma": "collection route",
+      "pos": "noun",
+      "translation_pl": "trasa zbierania odpadów",
+      "definition_en": "A collection route is the planned path taken by waste collection trucks.",
+      "example_en": "The city changed the collection route to make pickups more efficient.",
+      "level": "C1"
+    },
+    {
+      "lemma": "waste segregation",
+      "pos": "noun",
+      "translation_pl": "segregacja odpadów",
+      "definition_en": "Waste segregation is separating trash into categories like paper, plastic, and glass.",
+      "example_en": "Proper waste segregation helps increase recycling rates.",
+      "level": "B2"
+    },
+    {
+      "lemma": "disposal fee",
+      "pos": "noun",
+      "translation_pl": "opłata za wywóz śmieci",
+      "definition_en": "A disposal fee is the money paid to get rid of waste.",
+      "example_en": "The new disposal fee made some people recycle more.",
+      "level": "C1"
+    },
+    {
+      "lemma": "industrial waste",
+      "pos": "noun",
+      "translation_pl": "odpady przemysłowe",
+      "definition_en": "Industrial waste is trash produced by factories and businesses.",
+      "example_en": "The factory must follow strict rules for industrial waste.",
+      "level": "B2"
+    },
+    {
+      "lemma": "municipal solid waste",
+      "pos": "noun",
+      "translation_pl": "komunalne odpady stałe",
+      "definition_en": "Municipal solid waste is everyday trash from homes and businesses.",
+      "example_en": "Municipal solid waste collection is a vital city service.",
+      "level": "C1"
+    },
+    {
+      "lemma": "transfer station",
+      "pos": "noun",
+      "translation_pl": "stacja przeładunkowa",
+      "definition_en": "A transfer station is a site where waste is temporarily stored before being transported.",
+      "example_en": "Trucks take garbage from the city to the transfer station.",
+      "level": "C1"
+    },
+    {
+      "lemma": "sanitation worker",
+      "pos": "noun",
+      "translation_pl": "pracownik służb oczyszczania",
+      "definition_en": "A sanitation worker is a person who collects and manages waste.",
+      "example_en": "The sanitation worker arrives before dawn to pick up trash.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bulky waste",
+      "pos": "noun",
+      "translation_pl": "odpady dużych rozmiarów",
+      "definition_en": "Bulky waste is large items like furniture or appliances that cannot be recycled.",
+      "example_en": "Bulky waste must be scheduled for pickup by the city.",
+      "level": "C1"
+    }
+  ]
+}

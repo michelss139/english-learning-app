@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
+import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
+import { getWordTip } from "@/lib/coach/wordTips";
 
 export type PackMetaDto = {
   id: string;
@@ -67,12 +69,12 @@ type SessionSummary = {
 
 type Direction = "en-pl" | "pl-en" | "mix";
 type CountChoice = "5" | "10" | "all";
-type VocabMode = "daily" | "mixed" | "precise";
+type VocabMode = "daily" | "precise";
 
 const OPTIMISTIC_XP = 10;
 
 const isValidVocabMode = (value: string | null): value is VocabMode =>
-  value === "daily" || value === "mixed" || value === "precise";
+  value === "daily" || value === "precise";
 
 function shuffleArray<T>(list: T[]): T[] {
   const copy = [...list];
@@ -156,6 +158,7 @@ export default function PackTrainingClient(props: {
   const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
   const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number>(0);
 
+  const { setCurrentLemma } = useCurrentWord();
   const current = sessionItems[currentIndex];
   const currentDirection =
     direction === "mix" ? sessionDirections[current?.sense_id ?? ""] ?? "en-pl" : direction;
@@ -193,6 +196,15 @@ export default function PackTrainingClient(props: {
     const existing = answers[current.sense_id];
     setInput(existing?.given ?? "");
   }, [current?.sense_id, answers]);
+
+  useEffect(() => {
+    if (started && !completed && current?.lemma) {
+      setCurrentLemma(current.lemma);
+    } else {
+      setCurrentLemma(null);
+    }
+    return () => setCurrentLemma(null);
+  }, [started, completed, current?.lemma, setCurrentLemma]);
 
   useEffect(() => {
     if (!started || completed) return;
@@ -577,42 +589,53 @@ export default function PackTrainingClient(props: {
             <p className="text-sm text-slate-600">Wybierz kierunek i liczbę fiszek.</p>
           </div>
 
-          <div className="space-y-2">
-            <div className="text-sm text-slate-600">Wybierz tryb</div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => setDirection("en-pl")}
-                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                  direction === "en-pl"
-                    ? "border-slate-900 bg-slate-100 text-slate-900"
-                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                }`}
-              >
-                ENG → PL
-              </button>
-              <button
-                type="button"
-                onClick={() => setDirection("pl-en")}
-                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                  direction === "pl-en"
-                    ? "border-slate-900 bg-slate-100 text-slate-900"
-                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                }`}
-              >
-                PL → ENG
-              </button>
-              <button
-                type="button"
-                onClick={() => setDirection("mix")}
-                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                  direction === "mix"
-                    ? "border-slate-900 bg-slate-100 text-slate-900"
-                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                }`}
-              >
-                MIX
-              </button>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-2">
+              <div className="text-sm text-slate-600">Wybierz tryb</div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setDirection("en-pl")}
+                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
+                    direction === "en-pl"
+                      ? "border-slate-900 bg-slate-100 text-slate-900"
+                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
+                  }`}
+                >
+                  ENG → PL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDirection("pl-en")}
+                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
+                    direction === "pl-en"
+                      ? "border-slate-900 bg-slate-100 text-slate-900"
+                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
+                  }`}
+                >
+                  PL → ENG
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDirection("mix")}
+                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
+                    direction === "mix"
+                      ? "border-slate-900 bg-slate-100 text-slate-900"
+                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
+                  }`}
+                >
+                  MIX
+                </button>
+              </div>
+            </div>
+            <div className="shrink-0 sm:max-w-md">
+              <div className="text-sm font-medium text-slate-600">Lista słówek w tym zestawie:</div>
+              <p className="mt-1 text-sm text-slate-700">
+                {allItems
+                  .map((i) => i.lemma)
+                  .filter(Boolean)
+                  .join(", ") || "—"}
+              </p>
             </div>
           </div>
 
@@ -780,26 +803,30 @@ export default function PackTrainingClient(props: {
             </div>
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={() => startSession(sessionItems)}
                 disabled={sessionItems.length === 0}
               >
                 Jeszcze raz to samo
               </button>
               <button
-                className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={() => startSession(wrongItems)}
                 disabled={wrongItems.length === 0}
               >
                 Jeszcze raz tylko błędne
               </button>
               <a
-                className="tile-frame"
+                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                href="/app/profile"
+              >
+                Przejdź do mojego profilu
+              </a>
+              <a
+                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 href="/app"
               >
-                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 text-sm font-medium text-slate-700">
-                  Wróć do strony głównej
-                </span>
+                Wróć do strony głównej
               </a>
               <button
                 className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
@@ -952,7 +979,13 @@ export default function PackTrainingClient(props: {
 
             {checked ? (
               <div className="space-y-2">
-                <p className={`text-sm ${currentAnswer?.isCorrect ? "text-emerald-600" : "text-rose-600"}`}>
+                <p
+                  className={
+                    currentAnswer?.isCorrect
+                      ? "text-base font-bold text-emerald-600"
+                      : "text-sm text-rose-600"
+                  }
+                >
                   {currentAnswer?.isCorrect ? "Poprawnie!" : "Błędna odpowiedź."}
                 </p>
                 <p className="text-sm text-slate-600">
@@ -960,6 +993,21 @@ export default function PackTrainingClient(props: {
                 </p>
                 {current.definition_en ? <p className="text-sm text-slate-600">{current.definition_en}</p> : null}
                 {current.example_en ? <p className="text-sm text-slate-600 italic">"{current.example_en}"</p> : null}
+                {(() => {
+                  const tip = getWordTip(current.lemma);
+                  if (!tip) return null;
+                  const lines = Array.isArray(tip) ? tip : [tip];
+                  return (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
+                      <p className="text-sm font-semibold text-amber-800">WAŻNE!</p>
+                      <div className="mt-1 space-y-1 text-sm text-amber-900">
+                        {lines.map((line, i) => (
+                          <p key={i}>{line}</p>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             ) : null}
 

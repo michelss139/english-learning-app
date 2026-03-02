@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "bathroom",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T08:12:44.851Z"
+  },
+  "items": [
+    {
+      "lemma": "bath",
+      "pos": "noun",
+      "translation_pl": "wanna",
+      "definition_en": "A bath is a large container for washing your body.",
+      "example_en": "The children like to play in the bath.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shower",
+      "pos": "noun",
+      "translation_pl": "prysznic",
+      "definition_en": "A shower is a place where you stand to wash yourself with water.",
+      "example_en": "He takes a shower every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sink",
+      "pos": "noun",
+      "translation_pl": "zlew",
+      "definition_en": "A sink is a bowl in the kitchen or bathroom for washing things.",
+      "example_en": "She washes her hands in the sink.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toilet",
+      "pos": "noun",
+      "translation_pl": "toaleta",
+      "definition_en": "A toilet is a seat for going to the bathroom.",
+      "example_en": "The toilet is next to the sink.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mirror",
+      "pos": "noun",
+      "translation_pl": "lustro",
+      "definition_en": "A mirror is something you look in to see yourself.",
+      "example_en": "She brushes her hair in front of the mirror.",
+      "level": "A1"
+    },
+    {
+      "lemma": "towel",
+      "pos": "noun",
+      "translation_pl": "ręcznik",
+      "definition_en": "A towel is used to dry your body after a bath or shower.",
+      "example_en": "I hang my towel on the wall.",
+      "level": "A1"
+    },
+    {
+      "lemma": "soap",
+      "pos": "noun",
+      "translation_pl": "mydło",
+      "definition_en": "Soap is something you use to clean your hands or body.",
+      "example_en": "He washes his hands with soap.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toothbrush",
+      "pos": "noun",
+      "translation_pl": "szczoteczka do zębów",
+      "definition_en": "A toothbrush is used to clean your teeth.",
+      "example_en": "She puts toothpaste on her toothbrush.",
+      "level": "A2"
+    },
+    {
+      "lemma": "toothpaste",
+      "pos": "noun",
+      "translation_pl": "pasta do zębów",
+      "definition_en": "Toothpaste is a cream for cleaning your teeth.",
+      "example_en": "He bought new toothpaste from the shop.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shampoo",
+      "pos": "noun",
+      "translation_pl": "szampon",
+      "definition_en": "Shampoo is a liquid for washing your hair.",
+      "example_en": "She likes to use banana shampoo.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bathroom",
+      "pos": "noun",
+      "translation_pl": "łazienka",
+      "definition_en": "A bathroom is a room where you wash yourself.",
+      "example_en": "The bathroom is at the end of the hall.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bathtub",
+      "pos": "noun",
+      "translation_pl": "wanna",
+      "definition_en": "A bathtub is a large container that you fill with water to wash your body.",
+      "example_en": "There is a big bathtub in our bathroom.",
+      "level": "A2"
+    },
+    {
+      "lemma": "brush",
+      "pos": "noun",
+      "translation_pl": "szczotka",
+      "definition_en": "A brush is used for cleaning or making your hair tidy.",
+      "example_en": "She uses a brush for her hair every morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "toilet paper",
+      "pos": "noun",
+      "translation_pl": "papier toaletowy",
+      "definition_en": "Toilet paper is soft paper for use in the bathroom.",
+      "example_en": "We need to buy more toilet paper.",
+      "level": "A2"
+    },
+    {
+      "lemma": "towel rail",
+      "pos": "noun",
+      "translation_pl": "wieszak na ręczniki",
+      "definition_en": "A towel rail is a bar where you hang your towel.",
+      "example_en": "I put my towel on the towel rail.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tap",
+      "pos": "noun",
+      "translation_pl": "kran",
+      "definition_en": "A tap is a device that controls the flow of water.",
+      "example_en": "Turn off the tap when you finish.",
+      "level": "A2"
+    },
+    {
+      "lemma": "laundry basket",
+      "pos": "noun",
+      "translation_pl": "kosz na pranie",
+      "definition_en": "A laundry basket is where you put dirty clothes.",
+      "example_en": "Please put your dirty socks in the laundry basket.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "tennis",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:46:58.118Z"
+  },
+  "items": [
+    {
+      "lemma": "baseline",
+      "pos": "noun",
+      "translation_pl": "linia końcowa",
+      "definition_en": "The baseline is the line that marks the back of a tennis court.",
+      "example_en": "He stood near the baseline waiting for the serve.",
+      "level": "B2"
+    },
+    {
+      "lemma": "forehand",
+      "pos": "noun",
+      "translation_pl": "forehand",
+      "definition_en": "A forehand is a tennis stroke made with the palm facing forward.",
+      "example_en": "She hit a strong forehand down the line.",
+      "level": "B2"
+    },
+    {
+      "lemma": "backhand",
+      "pos": "noun",
+      "translation_pl": "backhand",
+      "definition_en": "A backhand is a stroke made with the back of the hand facing the direction of the stroke.",
+      "example_en": "His backhand has improved a lot this season.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rally",
+      "pos": "noun",
+      "translation_pl": "wymiana piłek",
+      "definition_en": "A rally is a long series of back-and-forth shots during a tennis game.",
+      "example_en": "The rally lasted for more than twenty shots.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ace",
+      "pos": "noun",
+      "translation_pl": "as serwisowy",
+      "definition_en": "An ace is a serve that the opponent cannot touch.",
+      "example_en": "She won the point with an ace.",
+      "level": "B2"
+    },
+    {
+      "lemma": "volley",
+      "pos": "noun",
+      "translation_pl": "wolej",
+      "definition_en": "A volley is a shot made before the ball bounces on the court.",
+      "example_en": "He rushed to the net and played a quick volley.",
+      "level": "B2"
+    },
+    {
+      "lemma": "match point",
+      "pos": "noun",
+      "translation_pl": "piłka meczowa",
+      "definition_en": "A match point is a point that could win the match for one player.",
+      "example_en": "She faced a match point in the final set.",
+      "level": "B2"
+    },
+    {
+      "lemma": "grand slam",
+      "pos": "noun",
+      "translation_pl": "wielki szlem",
+      "definition_en": "A grand slam is one of the four major tennis tournaments.",
+      "example_en": "He dreams of winning a grand slam someday.",
+      "level": "B2"
+    },
+    {
+      "lemma": "double fault",
+      "pos": "noun",
+      "translation_pl": "podwójny błąd serwisowy",
+      "definition_en": "A double fault is when a player fails both serve attempts.",
+      "example_en": "She lost the game due to a double fault.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tie break",
+      "pos": "noun",
+      "translation_pl": "dogrywka",
+      "definition_en": "A tie break is a special game played to decide a set when the score is even.",
+      "example_en": "The set ended in a dramatic tie break.",
+      "level": "B2"
+    },
+    {
+      "lemma": "court",
+      "pos": "noun",
+      "translation_pl": "kort",
+      "definition_en": "A court is the area where a tennis match is played.",
+      "example_en": "The court was slippery after the rain.",
+      "level": "B2"
+    },
+    {
+      "lemma": "seed",
+      "pos": "noun",
+      "translation_pl": "rozstawiony zawodnik",
+      "definition_en": "A seed is a player who is given a ranking in a tournament.",
+      "example_en": "He is the top seed in this tournament.",
+      "level": "B2"
+    },
+    {
+      "lemma": "draw",
+      "pos": "noun",
+      "translation_pl": "drabinka turniejowa",
+      "definition_en": "A draw is the schedule that shows who plays against whom in a tournament.",
+      "example_en": "The tournament draw was announced yesterday.",
+      "level": "B2"
+    },
+    {
+      "lemma": "clay court",
+      "pos": "noun",
+      "translation_pl": "kort ziemny",
+      "definition_en": "A clay court is a type of tennis court with a surface made of crushed brick.",
+      "example_en": "Playing on a clay court requires different tactics.",
+      "level": "B2"
+    },
+    {
+      "lemma": "service box",
+      "pos": "noun",
+      "translation_pl": "pole serwisowe",
+      "definition_en": "A service box is the area where the serve must land in tennis.",
+      "example_en": "She aimed her serve into the service box.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wild card",
+      "pos": "noun",
+      "translation_pl": "dzika karta",
+      "definition_en": "A wild card is a special entry into a tournament given to a player.",
+      "example_en": "She received a wild card for the main draw.",
+      "level": "B2"
+    },
+    {
+      "lemma": "qualifier",
+      "pos": "noun",
+      "translation_pl": "zawodnik z eliminacji",
+      "definition_en": "A qualifier is a player who advances to the main event through a preliminary round.",
+      "example_en": "The qualifier caused an upset in the first round.",
+      "level": "B2"
+    }
+  ]
+}

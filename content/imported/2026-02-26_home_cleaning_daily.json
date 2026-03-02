@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "cleaning",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T10:23:38.050Z"
+  },
+  "items": [
+    {
+      "lemma": "broom",
+      "pos": "noun",
+      "translation_pl": "miotła",
+      "definition_en": "A broom is a tool used for sweeping floors.",
+      "example_en": "I use a broom to clean the kitchen floor.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mop",
+      "pos": "noun",
+      "translation_pl": "mop",
+      "definition_en": "A mop is a tool used to wash floors.",
+      "example_en": "She wiped the floor with a mop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "vacuum cleaner",
+      "pos": "noun",
+      "translation_pl": "odkurzacz",
+      "definition_en": "A vacuum cleaner is a machine that cleans floors by sucking up dirt.",
+      "example_en": "We bought a new vacuum cleaner yesterday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bucket",
+      "pos": "noun",
+      "translation_pl": "wiadro",
+      "definition_en": "A bucket is a container used for holding water.",
+      "example_en": "Please fill the bucket with warm water.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cloth",
+      "pos": "noun",
+      "translation_pl": "ściereczka",
+      "definition_en": "A cloth is a piece of material used for cleaning.",
+      "example_en": "He wiped the table with a clean cloth.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dustpan",
+      "pos": "noun",
+      "translation_pl": "szufelka",
+      "definition_en": "A dustpan is a flat container used for collecting dust and dirt.",
+      "example_en": "Take the dustpan and sweep up the crumbs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sponge",
+      "pos": "noun",
+      "translation_pl": "gąbka",
+      "definition_en": "A sponge is a soft material used to absorb water and clean surfaces.",
+      "example_en": "I cleaned the dishes with a yellow sponge.",
+      "level": "A1"
+    },
+    {
+      "lemma": "detergent",
+      "pos": "noun",
+      "translation_pl": "środek czyszczący",
+      "definition_en": "Detergent is a liquid or powder used for cleaning.",
+      "example_en": "We need more detergent for the laundry.",
+      "level": "A2"
+    },
+    {
+      "lemma": "brush",
+      "pos": "noun",
+      "translation_pl": "szczotka",
+      "definition_en": "A brush is an object with bristles used for scrubbing and cleaning.",
+      "example_en": "She cleaned her shoes with a small brush.",
+      "level": "A1"
+    },
+    {
+      "lemma": "soap",
+      "pos": "noun",
+      "translation_pl": "mydło",
+      "definition_en": "Soap is a substance used with water for washing.",
+      "example_en": "I washed my hands with soap.",
+      "level": "A1"
+    },
+    {
+      "lemma": "glove",
+      "pos": "noun",
+      "translation_pl": "rękawica",
+      "definition_en": "A glove is something you wear on your hand to protect it.",
+      "example_en": "He wore a glove while washing the dishes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "towel",
+      "pos": "noun",
+      "translation_pl": "ręcznik",
+      "definition_en": "A towel is a piece of cloth used to dry things.",
+      "example_en": "She used a towel to dry the plates.",
+      "level": "A1"
+    },
+    {
+      "lemma": "trash bag",
+      "pos": "noun",
+      "translation_pl": "worek na śmieci",
+      "definition_en": "A trash bag is a plastic bag used to hold garbage.",
+      "example_en": "Put the trash in a trash bag.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bin",
+      "pos": "noun",
+      "translation_pl": "kosz na śmieci",
+      "definition_en": "A bin is a container for waste.",
+      "example_en": "Empty the bin when it is full.",
+      "level": "A1"
+    },
+    {
+      "lemma": "laundry basket",
+      "pos": "noun",
+      "translation_pl": "kosz na pranie",
+      "definition_en": "A laundry basket is a container for dirty clothes.",
+      "example_en": "The laundry basket was full of clothes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "washing machine",
+      "pos": "noun",
+      "translation_pl": "pralka",
+      "definition_en": "A washing machine is a machine for cleaning clothes.",
+      "example_en": "I put the dirty clothes in the washing machine.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dryer",
+      "pos": "noun",
+      "translation_pl": "suszarka",
+      "definition_en": "A dryer is a machine for drying clothes.",
+      "example_en": "I put the wet clothes in the dryer.",
+      "level": "B1"
+    }
+  ]
+}

@@ -64,8 +64,8 @@ function buildPrompt(category: string, subcategory: string, mode: Mode): string 
     `Context subcategory: "${subcategory}".`,
     levelInstruction,
     "Each item must be a noun.",
-    "Each lemma must have at most 3 words, no punctuation.",
-    "translation_pl: max 3 words, no punctuation.",
+    "Each lemma must have at most 3 words. Hyphens are allowed (e.g. mark-up, self-service); no other punctuation.",
+    "translation_pl: max 5 words, no punctuation.",
     "definition_en: exactly 1 simple sentence (plain, not academic, no semicolons).",
     "example_en: exactly 1 natural, everyday sentence (no quotes).",
     "Return only a strict JSON array (no markdown, no explanation).",
@@ -211,6 +211,11 @@ function hasPunctuation(value: string): boolean {
   return /[^\p{L}\p{N}\s]/u.test(value);
 }
 
+/** Lemma allows hyphens (e.g. mark-up, self-service). */
+function hasInvalidPunctuationInLemma(value: string): boolean {
+  return /[^\p{L}\p{N}\s-]/u.test(value);
+}
+
 function looksLikeOneSentence(value: string): boolean {
   const s = normalizeWhitespace(value);
   if (!s || s.length < 10) return false;
@@ -256,14 +261,14 @@ function validateAndDeduplicate(raw: unknown): NounItem[] {
     if (countWords(lemmaRaw) > 3) {
       throw new Error(`Item "${lemmaRaw}" exceeds 3 words in lemma.`);
     }
-    if (hasPunctuation(lemmaRaw)) {
+    if (hasInvalidPunctuationInLemma(lemmaRaw)) {
       throw new Error(`Item "${lemmaRaw}" contains punctuation in lemma.`);
     }
     if (!translationRaw) {
       throw new Error(`Item "${lemmaRaw}" has missing or empty translation_pl.`);
     }
-    if (countWords(translationRaw) > 3) {
-      throw new Error(`Item "${lemmaRaw}" has translation_pl longer than 3 words.`);
+    if (countWords(translationRaw) > 5) {
+      throw new Error(`Item "${lemmaRaw}" has translation_pl longer than 5 words.`);
     }
     if (hasPunctuation(translationRaw)) {
       throw new Error(`Item "${lemmaRaw}" contains punctuation in translation_pl.`);

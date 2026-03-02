@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "furniture",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-25T14:26:19.227Z"
+  },
+  "items": [
+    {
+      "lemma": "sideboard",
+      "pos": "noun",
+      "translation_pl": "kredens",
+      "definition_en": "A sideboard is a piece of furniture used for storing dishes and serving food.",
+      "example_en": "They placed the family photos on the sideboard in the dining room.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ottoman",
+      "pos": "noun",
+      "translation_pl": "pufa",
+      "definition_en": "An ottoman is a soft seat without a back or arms, often used as a footstool.",
+      "example_en": "He put his feet up on the ottoman while reading.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cushion",
+      "pos": "noun",
+      "translation_pl": "poduszka dekoracyjna",
+      "definition_en": "A cushion is a soft bag filled with material used for comfort.",
+      "example_en": "She added another cushion to the sofa for extra comfort.",
+      "level": "B2"
+    },
+    {
+      "lemma": "recliner",
+      "pos": "noun",
+      "translation_pl": "fotel rozkładany",
+      "definition_en": "A recliner is a comfortable chair that can lean back and extend the footrest.",
+      "example_en": "He fell asleep in the recliner after a long day.",
+      "level": "C1"
+    },
+    {
+      "lemma": "headboard",
+      "pos": "noun",
+      "translation_pl": "zagłówek łóżka",
+      "definition_en": "A headboard is the upright part at the end of a bed where you rest your head.",
+      "example_en": "She leaned back against the headboard while reading.",
+      "level": "C1"
+    },
+    {
+      "lemma": "lounger",
+      "pos": "noun",
+      "translation_pl": "leżanka",
+      "definition_en": "A lounger is a long chair for reclining and relaxing.",
+      "example_en": "She enjoyed her afternoon nap on the lounger.",
+      "level": "C1"
+    },
+    {
+      "lemma": "china cabinet",
+      "pos": "noun",
+      "translation_pl": "witryna na zastawę",
+      "definition_en": "A china cabinet is a piece of furniture with glass doors used to display dishes.",
+      "example_en": "The china cabinet in the dining room holds her grandmother's plates.",
+      "level": "C1"
+    },
+    {
+      "lemma": "nesting tables",
+      "pos": "noun",
+      "translation_pl": "zestaw stolików",
+      "definition_en": "Nesting tables are a set of small tables that fit under each other.",
+      "example_en": "We pulled out the nesting tables when extra guests arrived.",
+      "level": "C1"
+    },
+    {
+      "lemma": "chaise longue",
+      "pos": "noun",
+      "translation_pl": "szezlong",
+      "definition_en": "A chaise longue is a long upholstered chair for reclining.",
+      "example_en": "She stretched out on the chaise longue with a book.",
+      "level": "C1"
+    },
+    {
+      "lemma": "dressing table",
+      "pos": "noun",
+      "translation_pl": "toaletka",
+      "definition_en": "A dressing table is a table with a mirror used for applying makeup.",
+      "example_en": "Her dressing table was covered with brushes and perfumes.",
+      "level": "C1"
+    },
+    {
+      "lemma": "display cabinet",
+      "pos": "noun",
+      "translation_pl": "gablotka",
+      "definition_en": "A display cabinet is a glass-fronted cabinet for showing objects.",
+      "example_en": "Her collection of souvenirs is in the display cabinet.",
+      "level": "B2"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "rooms",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-25T13:37:04.194Z"
+  },
+  "items": [
+    {
+      "lemma": "living room",
+      "pos": "noun",
+      "translation_pl": "salon",
+      "definition_en": "A living room is where people sit and relax at home.",
+      "example_en": "We watch TV together in the living room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "kitchen",
+      "pos": "noun",
+      "translation_pl": "kuchnia",
+      "definition_en": "A kitchen is a room where you cook food.",
+      "example_en": "She is making dinner in the kitchen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bedroom",
+      "pos": "noun",
+      "translation_pl": "sypialnia",
+      "definition_en": "A bedroom is a room where you sleep.",
+      "example_en": "He keeps his clothes in the bedroom.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bathroom",
+      "pos": "noun",
+      "translation_pl": "łazienka",
+      "definition_en": "A bathroom is a room where you wash yourself.",
+      "example_en": "The bathroom is next to the kitchen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dining room",
+      "pos": "noun",
+      "translation_pl": "jadalnia",
+      "definition_en": "A dining room is where people eat meals together.",
+      "example_en": "We have breakfast in the dining room.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hall",
+      "pos": "noun",
+      "translation_pl": "przedpokój",
+      "definition_en": "A hall is the area near the front door of a house.",
+      "example_en": "Please leave your shoes in the hall.",
+      "level": "A2"
+    },
+    {
+      "lemma": "study",
+      "pos": "noun",
+      "translation_pl": "gabinet",
+      "definition_en": "A study is a room where you read or work.",
+      "example_en": "She does her homework in the study.",
+      "level": "B1"
+    },
+    {
+      "lemma": "attic",
+      "pos": "noun",
+      "translation_pl": "strych",
+      "definition_en": "An attic is a room at the top of a house.",
+      "example_en": "We keep old boxes in the attic.",
+      "level": "B1"
+    },
+    {
+      "lemma": "basement",
+      "pos": "noun",
+      "translation_pl": "piwnica",
+      "definition_en": "A basement is a room below the ground floor.",
+      "example_en": "The laundry is in the basement.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garage",
+      "pos": "noun",
+      "translation_pl": "garaż",
+      "definition_en": "A garage is a place where you keep your car.",
+      "example_en": "We park the car in the garage.",
+      "level": "A2"
+    },
+    {
+      "lemma": "laundry room",
+      "pos": "noun",
+      "translation_pl": "pralnia",
+      "definition_en": "A laundry room is a place where you wash clothes.",
+      "example_en": "The washing machine is in the laundry room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "guest room",
+      "pos": "noun",
+      "translation_pl": "pokój gościnny",
+      "definition_en": "A guest room is a room for visitors to sleep in.",
+      "example_en": "We prepared the guest room for our friends.",
+      "level": "B1"
+    },
+    {
+      "lemma": "closet",
+      "pos": "noun",
+      "translation_pl": "garderoba",
+      "definition_en": "A closet is a small space used to store clothes.",
+      "example_en": "I hang my jackets in the closet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pantry",
+      "pos": "noun",
+      "translation_pl": "spiżarnia",
+      "definition_en": "A pantry is a small room where you keep food.",
+      "example_en": "There are many cans in the pantry.",
+      "level": "B1"
+    },
+    {
+      "lemma": "balcony",
+      "pos": "noun",
+      "translation_pl": "balkon",
+      "definition_en": "A balcony is a small area outside a room, usually above the ground.",
+      "example_en": "We drink coffee on the balcony.",
+      "level": "A2"
+    },
+    {
+      "lemma": "utility room",
+      "pos": "noun",
+      "translation_pl": "pomieszczenie gospodarcze",
+      "definition_en": "A utility room is used for washing or storing things.",
+      "example_en": "I keep cleaning supplies in the utility room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "terrace",
+      "pos": "noun",
+      "translation_pl": "taras",
+      "definition_en": "A terrace is a small area outside a room, usually above the ground.",
+      "example_en": "We drink coffee on the terrace.",
+      "level": "A2"
+    }
+  ]
+}

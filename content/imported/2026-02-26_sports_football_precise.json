@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "football",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:39:39.597Z"
+  },
+  "items": [
+    {
+      "lemma": "penalty area",
+      "pos": "noun",
+      "translation_pl": "pole karne",
+      "definition_en": "The penalty area is the box in front of the goal where the goalkeeper can use their hands.",
+      "example_en": "The foul occurred inside the penalty area.",
+      "level": "B2"
+    },
+    {
+      "lemma": "linesman",
+      "pos": "noun",
+      "translation_pl": "sędzia liniowy",
+      "definition_en": "A linesman is an official who helps the referee by watching the lines during a game.",
+      "example_en": "The linesman raised his flag for offside.",
+      "level": "B2"
+    },
+    {
+      "lemma": "winger",
+      "pos": "noun",
+      "translation_pl": "skrzydłowy",
+      "definition_en": "A winger is a player who plays on the wings of the field.",
+      "example_en": "The winger scored a goal with a beautiful shot.",
+      "level": "B2"
+    },
+    {
+      "lemma": "throw-in",
+      "pos": "noun",
+      "translation_pl": "aut",
+      "definition_en": "A throw-in is a way of restarting play from the side of the field.",
+      "example_en": "He took a powerful throw-in.",
+      "level": "B2"
+    },
+    {
+      "lemma": "injury time",
+      "pos": "noun",
+      "translation_pl": "czas doliczony",
+      "definition_en": "Injury time is the extra time added at the end of a match to make up for stoppages.",
+      "example_en": "The team scored an equalizer during injury time.",
+      "level": "B2"
+    },
+    {
+      "lemma": "curled shot",
+      "pos": "noun",
+      "translation_pl": "podkręcony strzał",
+      "definition_en": "A curled shot is a shot that is curved or spun in the air.",
+      "example_en": "He scored a goal with a beautiful curled shot into the top corner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "backheel",
+      "pos": "noun",
+      "translation_pl": "piętka",
+      "definition_en": "A backheel is a type of pass or shot using the heel of the foot.",
+      "example_en": "He scored a goal with a clever backheel.",
+      "level": "C1"
+    },
+    {
+      "lemma": "playmaker",
+      "pos": "noun",
+      "translation_pl": "rozgrywający",
+      "definition_en": "A playmaker is a player who creates attacks and organizes the team's play.",
+      "example_en": "The playmaker set up almost every goal.",
+      "level": "C1"
+    },
+    {
+      "lemma": "promotion",
+      "pos": "noun",
+      "translation_pl": "awans",
+      "definition_en": "Promotion is when a team moves up to a higher league after a good season.",
+      "example_en": "The team earned promotion after a series of wins.",
+      "level": "B2"
+    },
+    {
+      "lemma": "relegation",
+      "pos": "noun",
+      "translation_pl": "spadek",
+      "definition_en": "Relegation is when a team moves down to a lower division.",
+      "example_en": "They faced relegation after losing several games.",
+      "level": "B2"
+    },
+    {
+      "lemma": "kit",
+      "pos": "noun",
+      "translation_pl": "strój sportowy",
+      "definition_en": "A kit is the uniform or clothing that players wear during a match.",
+      "example_en": "The new kit was unveiled before the season began.",
+      "level": "B2"
+    },
+    {
+      "lemma": "goal kick",
+      "pos": "noun",
+      "translation_pl": "wybicie od bramki",
+      "definition_en": "A goal kick is a way of restarting play from the side of the field.",
+      "example_en": "He took a powerful goal kick.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hat trick",
+      "pos": "noun",
+      "translation_pl": "hat trick",
+      "definition_en": "A hat trick is when a player scores three goals in one game.",
+      "example_en": "She achieved a hat trick in the final.",
+      "level": "B2"
+    },
+    {
+      "lemma": "assist",
+      "pos": "noun",
+      "translation_pl": "asysta",
+      "definition_en": "An assist is a pass or action that directly leads to a goal.",
+      "example_en": "He was credited with an assist for the first goal.",
+      "level": "B2"
+    },
+    {
+      "lemma": "goalpost",
+      "pos": "noun",
+      "translation_pl": "słupek",
+      "definition_en": "A goalpost is a tall vertical pole on the side of the goal.",
+      "example_en": "The ball hit the goalpost and bounced off.",
+      "level": "B2"
+    }
+  ]
+}

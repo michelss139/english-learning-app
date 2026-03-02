@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "fruits",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T12:58:48.212Z"
+  },
+  "items": [
+    {
+      "lemma": "blackcurrant",
+      "pos": "noun",
+      "translation_pl": "czarna porzeczka",
+      "definition_en": "A blackcurrant is a small dark berry with a strong flavor.",
+      "example_en": "She added blackcurrant jam to the yogurt.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fig",
+      "pos": "noun",
+      "translation_pl": "figa",
+      "definition_en": "A fig is a sweet fruit with soft flesh and many tiny seeds.",
+      "example_en": "He picked a ripe fig from the tree and ate it.",
+      "level": "B2"
+    },
+    {
+      "lemma": "passion fruit",
+      "pos": "noun",
+      "translation_pl": "marakuja",
+      "definition_en": "Passion fruit is a tropical fruit with a tough rind and seed-filled interior.",
+      "example_en": "I love the tangy taste of passion fruit in smoothies.",
+      "level": "B2"
+    },
+    {
+      "lemma": "persimmon",
+      "pos": "noun",
+      "translation_pl": "kaki",
+      "definition_en": "A persimmon is an orange fruit that is sweet when ripe.",
+      "example_en": "I ate a persimmon for the first time last week.",
+      "level": "B2"
+    },
+    {
+      "lemma": "kumquat",
+      "pos": "noun",
+      "translation_pl": "kumkwat",
+      "definition_en": "A kumquat is a small citrus fruit that you can eat whole.",
+      "example_en": "She brought a bowl of kumquats for us to try.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lychee",
+      "pos": "noun",
+      "translation_pl": "liczi",
+      "definition_en": "A lychee is a small round fruit with sweet white flesh.",
+      "example_en": "Lychee is one of my favorite fruits to eat in summer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rambutan",
+      "pos": "noun",
+      "translation_pl": "rambutan",
+      "definition_en": "A rambutan is a tropical fruit with hairy skin and juicy flesh.",
+      "example_en": "The market had fresh rambutan for sale today.",
+      "level": "B2"
+    },
+    {
+      "lemma": "quince",
+      "pos": "noun",
+      "translation_pl": "pigwa",
+      "definition_en": "A quince is a hard yellow fruit often used in cooking.",
+      "example_en": "She made quince jelly from the fruit she picked.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gooseberry",
+      "pos": "noun",
+      "translation_pl": "agrest",
+      "definition_en": "A gooseberry is a small green or red berry with a tart taste.",
+      "example_en": "He grew gooseberries in his garden every year.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mandarin",
+      "pos": "noun",
+      "translation_pl": "mandarynka",
+      "definition_en": "A mandarin is a type of seedless, easy-peeling orange.",
+      "example_en": "I gave my friend a mandarin for a snack.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cranberry",
+      "pos": "noun",
+      "translation_pl": "żurawina",
+      "definition_en": "A cranberry is a small, red, tart berry often used in sauces.",
+      "example_en": "Cranberry juice is especially popular during the holidays.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mulberry",
+      "pos": "noun",
+      "translation_pl": "morwa",
+      "definition_en": "A mulberry is a sweet purple or white fruit that grows on trees.",
+      "example_en": "We collected mulberries from the tree in the backyard.",
+      "level": "B2"
+    }
+  ]
+}

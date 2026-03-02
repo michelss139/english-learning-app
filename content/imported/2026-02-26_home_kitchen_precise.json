@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "kitchen",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T07:08:56.261Z"
+  },
+  "items": [
+    {
+      "lemma": "blender",
+      "pos": "noun",
+      "translation_pl": "mikser",
+      "definition_en": "A blender is an electric appliance used to mix or puree food and drinks.",
+      "example_en": "I use the blender to make smoothies every morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "colander",
+      "pos": "noun",
+      "translation_pl": "durszlak",
+      "definition_en": "A colander is a bowl-shaped utensil with holes for draining liquids from food.",
+      "example_en": "She poured the cooked pasta into the colander to drain the water.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cutlery",
+      "pos": "noun",
+      "translation_pl": "sztućce",
+      "definition_en": "Cutlery refers to knives, forks, and spoons used for eating and serving food.",
+      "example_en": "The cutlery is in the top kitchen drawer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dishwasher",
+      "pos": "noun",
+      "translation_pl": "zmywarka",
+      "definition_en": "A dishwasher is a machine used to wash dishes and utensils automatically.",
+      "example_en": "We loaded the dirty plates into the dishwasher after dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "grater",
+      "pos": "noun",
+      "translation_pl": "tarka",
+      "definition_en": "A grater is a tool for shredding cheese or vegetables into small pieces.",
+      "example_en": "He used the grater to shred some cheese for the pasta.",
+      "level": "B2"
+    },
+    {
+      "lemma": "measuring jug",
+      "pos": "noun",
+      "translation_pl": "dzbanek miarowy",
+      "definition_en": "A measuring jug is a container marked with units for measuring liquids or ingredients.",
+      "example_en": "I poured milk into the measuring jug to get the right amount.",
+      "level": "B2"
+    },
+    {
+      "lemma": "utensil",
+      "pos": "noun",
+      "translation_pl": "przybór kuchenny",
+      "definition_en": "A utensil is a tool used in the kitchen for preparing or serving food.",
+      "example_en": "She took out a utensil to stir the sauce.",
+      "level": "B2"
+    },
+    {
+      "lemma": "baking tray",
+      "pos": "noun",
+      "translation_pl": "blacha do pieczenia",
+      "definition_en": "A baking tray is a flat metal sheet used for cooking food in the oven.",
+      "example_en": "Place the cookies on the baking tray before putting them in the oven.",
+      "level": "B2"
+    },
+    {
+      "lemma": "drainboard",
+      "pos": "noun",
+      "translation_pl": "ociekacz",
+      "definition_en": "A drainboard is a sloped surface next to a sink for draining washed dishes.",
+      "example_en": "Clean plates were set on the drainboard to dry.",
+      "level": "C1"
+    },
+    {
+      "lemma": "range hood",
+      "pos": "noun",
+      "translation_pl": "okap kuchenny",
+      "definition_en": "A range hood is a device above a stove that removes smoke and odors from the kitchen.",
+      "example_en": "The range hood keeps the kitchen air fresh while cooking.",
+      "level": "C1"
+    },
+    {
+      "lemma": "pepper mill",
+      "pos": "noun",
+      "translation_pl": "młynek do pieprzu",
+      "definition_en": "A pepper mill is a device for grinding whole peppercorns into fine pepper.",
+      "example_en": "He used the pepper mill to add fresh pepper to his salad.",
+      "level": "C1"
+    },
+    {
+      "lemma": "tap",
+      "pos": "noun",
+      "translation_pl": "kran",
+      "definition_en": "A tap is a device that controls the flow of water from a pipe.",
+      "example_en": "She turned on the tap to fill the kettle with water.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tea towel",
+      "pos": "noun",
+      "translation_pl": "ręcznik kuchenny",
+      "definition_en": "A tea towel is a cloth for drying dishes and wiping surfaces in the kitchen.",
+      "example_en": "I grabbed a tea towel to dry my hands.",
+      "level": "B2"
+    },
+    {
+      "lemma": "toaster",
+      "pos": "noun",
+      "translation_pl": "toster",
+      "definition_en": "A toaster is a small appliance used to toast bread by exposing it to heat.",
+      "example_en": "He put two slices of bread in the toaster.",
+      "level": "B2"
+    },
+    {
+      "lemma": "worktop",
+      "pos": "noun",
+      "translation_pl": "blat kuchenny",
+      "definition_en": "A worktop is a flat surface in a kitchen where food is prepared.",
+      "example_en": "There are vegetables and knives on the worktop.",
+      "level": "B2"
+    },
+    {
+      "lemma": "whisk",
+      "pos": "noun",
+      "translation_pl": "trzepaczka",
+      "definition_en": "A whisk is a kitchen tool used for mixing and beating ingredients by hand.",
+      "example_en": "She used a whisk to mix the eggs for the omelette.",
+      "level": "B2"
+    }
+  ]
+}

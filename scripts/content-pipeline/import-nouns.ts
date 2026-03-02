@@ -47,6 +47,20 @@ function normalizeWhitespace(value: string): string {
   return value.trim().replace(/\s+/g, " ");
 }
 
+function shouldAlignDomain(currentDomain: string | null, nextDomain: string): boolean {
+  const normalizedCurrent = (currentDomain ?? "").trim();
+  const normalizedNext = nextDomain.trim();
+
+  // Nothing to do when already aligned.
+  if (normalizedCurrent === normalizedNext) return false;
+  // Allow aligning missing/empty domain.
+  if (!normalizedCurrent) return true;
+  // Allow upgrading legacy single-part domains (e.g. "home" -> "home:rooms").
+  if (!normalizedCurrent.includes(":")) return true;
+  // Keep explicit scoped domains intact (e.g. "travel:transport").
+  return false;
+}
+
 function validateJson(raw: unknown): ImportPayload {
   if (!raw || typeof raw !== "object") {
     throw new Error("Invalid JSON: top-level object is required.");
@@ -117,11 +131,10 @@ function validateJson(raw: unknown): ImportPayload {
 type ProcessResult = "imported" | "skipped" | "refreshed";
 
 async function processItem(
-  supabase: any,
+  supabase: ReturnType<typeof createClient>,
   item: ImportItem,
   index: number,
   total: number,
-  skipDuplicates: boolean,
   domain: string,
 ): Promise<ProcessResult> {
   console.log(`Processing item ${index}/${total}: ${item.lemma}`);
@@ -243,11 +256,24 @@ async function processItem(
       return "refreshed";
     }
 
-    if (skipDuplicates) {
-      console.log("Already imported, skipping.");
-      return "skipped";
+    // Keep import idempotent. Align only legacy/empty domains.
+    if (shouldAlignDomain(existingSense.domain, domain)) {
+      const { error: domainUpdateErr } = await supabase
+        .from("lexicon_senses")
+        .update({ domain })
+        .eq("id", existingSense.id);
+
+      if (domainUpdateErr) {
+        throw new Error(
+          `ERROR at item ${index}: failed to align domain for "${item.lemma}": ${domainUpdateErr.message}`
+        );
+      }
+      console.log(`Duplicate found. Legacy/empty domain aligned to ${domain}.`);
+      return "refreshed";
     }
-    throw new Error(`ERROR at item ${index}: duplicate translation for lemma "${item.lemma}".`);
+
+    console.log("Duplicate (translation + definition + example exist), skipping.");
+    return "skipped";
   }
 
   const { data: lastSense, error: lastSenseError } = await supabase
@@ -326,11 +352,10 @@ async function moveImportedFile(sourcePath: string): Promise<string> {
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
-  const skipDuplicates = argv.includes("--skip-duplicates");
-  const inputArg = argv.filter((a) => a !== "--skip-duplicates")[0];
+  const inputArg = argv[0];
 
   if (!inputArg) {
-    throw new Error("Usage: npm run import:nouns [--skip-duplicates] <path-to-json>");
+    throw new Error("Usage: npm run import:nouns <path-to-json>");
   }
 
   const inputPath = resolveInputPath(inputArg);
@@ -349,9 +374,6 @@ async function main(): Promise<void> {
   const domain = `${payload.meta.category}:${payload.meta.subcategory}`;
   console.log(`Domain resolved to: ${domain}`);
   console.log(`Validating ${payload.items.length} items...`);
-  if (skipDuplicates) {
-    console.log("Mode: skip already imported (--skip-duplicates).");
-  }
 
   const supabaseUrl = requiredEnv("SUPABASE_URL");
   const serviceRoleKey = requiredEnv("SUPABASE_SERVICE_ROLE_KEY");
@@ -375,7 +397,6 @@ async function main(): Promise<void> {
         payload.items[i],
         i + 1,
         payload.items.length,
-        skipDuplicates,
         domain,
       );
       if (result === "imported") importedCount += 1;
@@ -393,7 +414,7 @@ async function main(): Promise<void> {
   console.log("Import successful.");
   const parts = [`${importedCount} items imported`];
   if (refreshedCount > 0) parts.push(`${refreshedCount} refreshed`);
-  if (skipDuplicates && skippedCount > 0) parts.push(`${skippedCount} skipped`);
+  if (skippedCount > 0) parts.push(`${skippedCount} skipped (duplicates)`);
   console.log(parts.join(". ") + ".");
   console.log(`File moved to ${movedTo}`);
 }

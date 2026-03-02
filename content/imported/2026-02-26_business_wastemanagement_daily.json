@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "business",
+    "subcategory": "wastemanagement",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T21:17:31.026Z"
+  },
+  "items": [
+    {
+      "lemma": "waste",
+      "pos": "noun",
+      "translation_pl": "odpady",
+      "definition_en": "Waste is unwanted material or things that are thrown away.",
+      "example_en": "We put our waste in the bin.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bin",
+      "pos": "noun",
+      "translation_pl": "kosz",
+      "definition_en": "A bin is a container for holding waste or trash.",
+      "example_en": "He threw the paper in the bin.",
+      "level": "A1"
+    },
+    {
+      "lemma": "worker",
+      "pos": "noun",
+      "translation_pl": "pracownik",
+      "definition_en": "A worker is someone who does a job for a business.",
+      "example_en": "A worker collects garbage every morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "truck",
+      "pos": "noun",
+      "translation_pl": "ciężarówka",
+      "definition_en": "A truck is a large vehicle used for carrying things.",
+      "example_en": "The waste is taken away by a truck.",
+      "level": "A1"
+    },
+    {
+      "lemma": "factory",
+      "pos": "noun",
+      "translation_pl": "fabryka",
+      "definition_en": "A factory is a building where large amounts of things are made.",
+      "example_en": "The factory sorts the waste into different types.",
+      "level": "A2"
+    },
+    {
+      "lemma": "collection",
+      "pos": "noun",
+      "translation_pl": "zbiórka",
+      "definition_en": "A collection is when things are gathered together.",
+      "example_en": "Waste collection happens every Monday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "recycling",
+      "pos": "noun",
+      "translation_pl": "recykling",
+      "definition_en": "Recycling is the process of turning waste into something new.",
+      "example_en": "People should take part in recycling.",
+      "level": "A2"
+    },
+    {
+      "lemma": "customer",
+      "pos": "noun",
+      "translation_pl": "klient",
+      "definition_en": "A customer is a person who buys goods or services from a business.",
+      "example_en": "Each customer needs a bin for waste.",
+      "level": "A2"
+    },
+    {
+      "lemma": "service",
+      "pos": "noun",
+      "translation_pl": "usługa",
+      "definition_en": "A service is work done for someone else, usually for money.",
+      "example_en": "The waste service comes once a week.",
+      "level": "A2"
+    },
+    {
+      "lemma": "container",
+      "pos": "noun",
+      "translation_pl": "pojemnik",
+      "definition_en": "A container is an object used for holding things.",
+      "example_en": "We put bottles in the container for glass.",
+      "level": "A2"
+    },
+    {
+      "lemma": "manager",
+      "pos": "noun",
+      "translation_pl": "kierownik",
+      "definition_en": "A manager is a person who is in charge of workers or business activities.",
+      "example_en": "The manager checks if the waste is sorted correctly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "recycling center",
+      "pos": "noun",
+      "translation_pl": "centrum recyklingu",
+      "definition_en": "A recycling center is a place where waste is taken to be recycled.",
+      "example_en": "Our old computers went to the recycling center.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plastic",
+      "pos": "noun",
+      "translation_pl": "plastik",
+      "definition_en": "Plastic is a light, man–made material often used for packaging.",
+      "example_en": "The waste company collects plastic every Friday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "paper",
+      "pos": "noun",
+      "translation_pl": "papier",
+      "definition_en": "Paper is a thin material used for writing and wrapping things.",
+      "example_en": "He put the used paper into the recycling bin.",
+      "level": "A2"
+    },
+    {
+      "lemma": "glass",
+      "pos": "noun",
+      "translation_pl": "szkło",
+      "definition_en": "Glass is a hard, clear material used for bottles and windows.",
+      "example_en": "Glass waste goes into a special container.",
+      "level": "A2"
+    },
+    {
+      "lemma": "employee",
+      "pos": "noun",
+      "translation_pl": "pracownik",
+      "definition_en": "An employee is a person who works for a business.",
+      "example_en": "Every employee must know how to sort waste.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garbage",
+      "pos": "noun",
+      "translation_pl": "śmieci",
+      "definition_en": "Garbage is waste material that people throw away.",
+      "example_en": "The garbage was taken out in the morning.",
+      "level": "A2"
+    }
+  ]
+}

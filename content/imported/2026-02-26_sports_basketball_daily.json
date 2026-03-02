@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "basketball",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:45:04.564Z"
+  },
+  "items": [
+    {
+      "lemma": "point guard",
+      "pos": "noun",
+      "translation_pl": "rozgrywający",
+      "definition_en": "A point guard is a basketball player who directs the team's offense.",
+      "example_en": "The point guard quickly passed the ball to the forward.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shooting guard",
+      "pos": "noun",
+      "translation_pl": "rzucający obrońca",
+      "definition_en": "A shooting guard is a player who specializes in scoring points.",
+      "example_en": "The shooting guard hit several three-pointers during the game.",
+      "level": "B2"
+    },
+    {
+      "lemma": "center",
+      "pos": "noun",
+      "translation_pl": "środkowy",
+      "definition_en": "A center is usually the tallest player who plays near the basket.",
+      "example_en": "The center grabbed a crucial rebound in the final minute.",
+      "level": "B2"
+    },
+    {
+      "lemma": "power forward",
+      "pos": "noun",
+      "translation_pl": "silny skrzydłowy",
+      "definition_en": "A power forward plays close to the basket and is good at rebounding.",
+      "example_en": "The power forward dominated the boards all night long.",
+      "level": "B2"
+    },
+    {
+      "lemma": "small forward",
+      "pos": "noun",
+      "translation_pl": "niski skrzydłowy",
+      "definition_en": "A small forward is a versatile player who can score and defend.",
+      "example_en": "The small forward scored twenty points in the first half.",
+      "level": "B2"
+    },
+    {
+      "lemma": "possession",
+      "pos": "noun",
+      "translation_pl": "posiadanie piłki",
+      "definition_en": "A possession is when a team controls the ball.",
+      "example_en": "Their possession ended with a successful jump shot.",
+      "level": "B2"
+    },
+    {
+      "lemma": "turnover",
+      "pos": "noun",
+      "translation_pl": "strata",
+      "definition_en": "A turnover is when a team loses the ball to the other team.",
+      "example_en": "A late turnover cost them the game.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fast break",
+      "pos": "noun",
+      "translation_pl": "szybki atak",
+      "definition_en": "A fast break is a quick attack after gaining possession.",
+      "example_en": "They scored easily on a fast break.",
+      "level": "B2"
+    },
+    {
+      "lemma": "three pointer",
+      "pos": "noun",
+      "translation_pl": "rzut za trzy punkty",
+      "definition_en": "A three pointer is a shot made from beyond the three-point line.",
+      "example_en": "He celebrated after making a long three pointer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "assist",
+      "pos": "noun",
+      "translation_pl": "asysta",
+      "definition_en": "An assist is a pass that leads directly to a score.",
+      "example_en": "She led the team in assists last season.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rebound",
+      "pos": "noun",
+      "translation_pl": "zbiórka",
+      "definition_en": "A rebound is when a player retrieves the ball after a missed shot.",
+      "example_en": "He grabbed the rebound and started a new play.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dribble",
+      "pos": "noun",
+      "translation_pl": "kozłowanie",
+      "definition_en": "A dribble is the act of bouncing the ball while moving.",
+      "example_en": "His dribble allowed him to get past the defender.",
+      "level": "B2"
+    },
+    {
+      "lemma": "block",
+      "pos": "noun",
+      "translation_pl": "blok",
+      "definition_en": "A block is a defensive move that stops a shot.",
+      "example_en": "The block by the center prevented an easy basket.",
+      "level": "B2"
+    },
+    {
+      "lemma": "layup",
+      "pos": "noun",
+      "translation_pl": "rzu zbliżeniowy",
+      "definition_en": "A layup is a close-range shot made by driving to the basket.",
+      "example_en": "She made a layup right as the buzzer sounded.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jump shot",
+      "pos": "noun",
+      "translation_pl": "rzut z wyskoku",
+      "definition_en": "A jump shot is taken while jumping into the air.",
+      "example_en": "He nailed a jump shot from the free throw line.",
+      "level": "B2"
+    },
+    {
+      "lemma": "court",
+      "pos": "noun",
+      "translation_pl": "boisko do koszykówki",
+      "definition_en": "A court is the playing area for a basketball game.",
+      "example_en": "They ran onto the court for the big match.",
+      "level": "B1"
+    },
+    {
+      "lemma": "free throw",
+      "pos": "noun",
+      "translation_pl": "rzut wolny",
+      "definition_en": "A free throw is an unopposed shot awarded after a foul.",
+      "example_en": "He missed his second free throw under pressure.",
+      "level": "B2"
+    },
+    {
+      "lemma": "backboard",
+      "pos": "noun",
+      "translation_pl": "tablica do koszykówki",
+      "definition_en": "A backboard is the flat board behind the basket.",
+      "example_en": "The ball bounced off the backboard and into the net.",
+      "level": "B2"
+    },
+    {
+      "lemma": "referee",
+      "pos": "noun",
+      "translation_pl": "sędzia",
+      "definition_en": "A referee is the official who enforces the rules during a game.",
+      "example_en": "The referee called a foul on the defender.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shot clock",
+      "pos": "noun",
+      "translation_pl": "zegar rzutu",
+      "definition_en": "A shot clock is a timer measuring team possession before a shot.",
+      "example_en": "They rushed their play because the shot clock was expiring.",
+      "level": "C1"
+    },
+    {
+      "lemma": "bank shot",
+      "pos": "noun",
+      "translation_pl": "rzut o tarczę",
+      "definition_en": "A bank shot is a shot that is bounced off the backboard and into the net.",
+      "example_en": "Instead of a layup, he scored with a beautiful bank shot.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hoop",
+      "pos": "noun",
+      "translation_pl": "obręcz",
+      "definition_en": "A hoop is the ring that players try to throw the ball through.",
+      "example_en": "He made a basket by shooting the ball through the hoop.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "drinks",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:28:27.914Z"
+  },
+  "items": [
+    {
+      "lemma": "water",
+      "pos": "noun",
+      "translation_pl": "woda",
+      "definition_en": "Water is a clear liquid that we drink.",
+      "example_en": "I drink a glass of water every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "juice",
+      "pos": "noun",
+      "translation_pl": "sok",
+      "definition_en": "Juice is a drink made from fruit or vegetables.",
+      "example_en": "He always has orange juice for breakfast.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tea",
+      "pos": "noun",
+      "translation_pl": "herbata",
+      "definition_en": "Tea is a hot drink made from dried leaves.",
+      "example_en": "She likes to drink tea in the afternoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "coffee",
+      "pos": "noun",
+      "translation_pl": "kawa",
+      "definition_en": "Coffee is a popular hot drink made with beans.",
+      "example_en": "He drinks coffee every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "milk",
+      "pos": "noun",
+      "translation_pl": "mleko",
+      "definition_en": "Milk is a white liquid from cows or other animals.",
+      "example_en": "I add milk to my cereal every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "soda",
+      "pos": "noun",
+      "translation_pl": "napój gazowany",
+      "definition_en": "Soda is a sweet and fizzy drink.",
+      "example_en": "Soda is served at many parties.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lemonade",
+      "pos": "noun",
+      "translation_pl": "lemoniada",
+      "definition_en": "Lemonade is a drink made from lemons, water, and sugar.",
+      "example_en": "The children made lemonade to sell on a hot day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hot chocolate",
+      "pos": "noun",
+      "translation_pl": "gorąca czekolada",
+      "definition_en": "Hot chocolate is a warm drink made with milk and cocoa.",
+      "example_en": "Hot chocolate is my favorite drink in winter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "smoothie",
+      "pos": "noun",
+      "translation_pl": "koktajl owocowy",
+      "definition_en": "A smoothie is a thick drink made from blended fruit.",
+      "example_en": "She prepares a smoothie for breakfast.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wine",
+      "pos": "noun",
+      "translation_pl": "wino",
+      "definition_en": "Wine is an alcoholic drink made from grapes.",
+      "example_en": "They enjoyed a glass of wine with dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "beer",
+      "pos": "noun",
+      "translation_pl": "piwo",
+      "definition_en": "Beer is a popular alcoholic drink made from grains.",
+      "example_en": "My friends ordered beer at the bar.",
+      "level": "A2"
+    },
+    {
+      "lemma": "energy drink",
+      "pos": "noun",
+      "translation_pl": "napój energetyczny",
+      "definition_en": "An energy drink is a drink that gives you more energy.",
+      "example_en": "Some people drink an energy drink before working out.",
+      "level": "B1"
+    },
+    {
+      "lemma": "milkshake",
+      "pos": "noun",
+      "translation_pl": "koktajl mleczny",
+      "definition_en": "A milkshake is a cold, sweet drink made with milk and ice cream.",
+      "example_en": "He ordered a chocolate milkshake with his burger.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sparkling water",
+      "pos": "noun",
+      "translation_pl": "woda gazowana",
+      "definition_en": "Sparkling water is water with bubbles in it.",
+      "example_en": "She prefers sparkling water to still water.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cider",
+      "pos": "noun",
+      "translation_pl": "cydr",
+      "definition_en": "Cider is a drink made from apples, sometimes with alcohol.",
+      "example_en": "We drank cold cider at the picnic.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shake",
+      "pos": "noun",
+      "translation_pl": "szejk",
+      "definition_en": "A shake is a cold drink made by mixing milk with fruit or ice cream.",
+      "example_en": "They bought a strawberry shake at the café.",
+      "level": "B1"
+    },
+    {
+      "lemma": "iced tea",
+      "pos": "noun",
+      "translation_pl": "herbata mrożona",
+      "definition_en": "Iced tea is cold tea often served with ice.",
+      "example_en": "She likes to drink iced tea in summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "herbal tea",
+      "pos": "noun",
+      "translation_pl": "herbata ziołowa",
+      "definition_en": "Herbal tea is a hot drink made from herbs instead of tea leaves.",
+      "example_en": "Many people drink herbal tea to relax.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mineral water",
+      "pos": "noun",
+      "translation_pl": "woda mineralna",
+      "definition_en": "Mineral water is water that contains natural minerals.",
+      "example_en": "The waiter served us mineral water with our meal.",
+      "level": "B1"
+    }
+  ]
+}

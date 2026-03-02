@@ -15,11 +15,11 @@ export type PackDto = {
   category: string;
 };
 
-type VocabMode = "daily" | "mixed" | "precise";
+type VocabMode = "daily" | "precise";
 const STORAGE_KEY = "vocabMode";
 
 const isValidMode = (value: string | null): value is VocabMode =>
-  value === "daily" || value === "mixed" || value === "precise";
+  value === "daily" || value === "precise";
 
 function packHref(slug: string, mode: VocabMode) {
   return `/app/vocab/pack/${slug}?mode=${mode}`;
@@ -32,6 +32,7 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
 
   const modeFromUrl = useMemo<VocabMode | null>(() => {
     const raw = (searchParams.get("mode") ?? "").toLowerCase();
+    if (raw === "mixed") return "daily";
     return isValidMode(raw) ? raw : null;
   }, [searchParams]);
 
@@ -56,7 +57,10 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
 
   const filteredPacks = useMemo(() => {
     // In-memory filtering only (no fetch, no navigation)
-    return initialPacks.filter((pack) => pack.vocab_mode === vocabMode);
+    // Treat legacy "mixed" as "daily"
+    return initialPacks.filter(
+      (pack) => pack.vocab_mode === vocabMode || (vocabMode === "daily" && pack.vocab_mode === "mixed"),
+    );
   }, [initialPacks, vocabMode]);
 
   const shopPack = filteredPacks.find((pack) => pack.slug === "shop");
@@ -117,17 +121,6 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
               }}
             >
               Codzienne
-            </button>
-            <button
-              type="button"
-              className="vocab-mode-option"
-              data-active={vocabMode === "mixed"}
-              onClick={() => {
-                setVocabMode("mixed");
-                localStorage.setItem(STORAGE_KEY, "mixed");
-              }}
-            >
-              Mieszane
             </button>
             <button
               type="button"

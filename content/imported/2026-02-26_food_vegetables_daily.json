@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "vegetables",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T13:02:10.215Z"
+  },
+  "items": [
+    {
+      "lemma": "carrot",
+      "pos": "noun",
+      "translation_pl": "marchewka",
+      "definition_en": "A carrot is a long orange vegetable.",
+      "example_en": "I put a carrot in my salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "potato",
+      "pos": "noun",
+      "translation_pl": "ziemniak",
+      "definition_en": "A potato is a round vegetable that grows in the ground.",
+      "example_en": "She makes soup with a potato.",
+      "level": "A1"
+    },
+    {
+      "lemma": "onion",
+      "pos": "noun",
+      "translation_pl": "cebula",
+      "definition_en": "An onion is a round vegetable with many layers.",
+      "example_en": "He cuts an onion for dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tomato",
+      "pos": "noun",
+      "translation_pl": "pomidor",
+      "definition_en": "A tomato is a red vegetable that is often used in salads.",
+      "example_en": "I eat a tomato with my sandwich.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cabbage",
+      "pos": "noun",
+      "translation_pl": "kapusta",
+      "definition_en": "Cabbage is a round green or purple leafy vegetable.",
+      "example_en": "He cooks cabbage for lunch.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lettuce",
+      "pos": "noun",
+      "translation_pl": "sałata",
+      "definition_en": "Lettuce is a green leafy vegetable used in salads.",
+      "example_en": "I like to have lettuce in my salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cucumber",
+      "pos": "noun",
+      "translation_pl": "ogórek",
+      "definition_en": "A cucumber is a long green vegetable that is cool and crisp.",
+      "example_en": "She slices a cucumber for the salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "broccoli",
+      "pos": "noun",
+      "translation_pl": "brokuł",
+      "definition_en": "Broccoli is a green vegetable with small tree-like heads.",
+      "example_en": "I eat broccoli with rice.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pepper",
+      "pos": "noun",
+      "translation_pl": "papryka",
+      "definition_en": "A pepper is a colorful vegetable that can be sweet or spicy.",
+      "example_en": "He adds a pepper to the dish.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pea",
+      "pos": "noun",
+      "translation_pl": "groszek",
+      "definition_en": "A pea is a small round green vegetable.",
+      "example_en": "We put pea in the soup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "spinach",
+      "pos": "noun",
+      "translation_pl": "szpinak",
+      "definition_en": "Spinach is a green leafy vegetable full of vitamins.",
+      "example_en": "I add spinach to my omelet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pumpkin",
+      "pos": "noun",
+      "translation_pl": "dynia",
+      "definition_en": "A pumpkin is a large round orange vegetable.",
+      "example_en": "A pumpkin is used to make soup.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cauliflower",
+      "pos": "noun",
+      "translation_pl": "kalafior",
+      "definition_en": "Cauliflower is a white vegetable with many small flowers.",
+      "example_en": "I cook cauliflower for dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bean",
+      "pos": "noun",
+      "translation_pl": "fasola",
+      "definition_en": "A bean is a small seed from a vegetable that comes in different colors.",
+      "example_en": "He eats a bean with his meal.",
+      "level": "A2"
+    },
+    {
+      "lemma": "zucchini",
+      "pos": "noun",
+      "translation_pl": "cukinia",
+      "definition_en": "Zucchini is a long green vegetable sometimes called courgette.",
+      "example_en": "She fries zucchini in olive oil.",
+      "level": "B1"
+    },
+    {
+      "lemma": "celery",
+      "pos": "noun",
+      "translation_pl": "seler naciowy",
+      "definition_en": "Celery is a green vegetable with long crisp stalks.",
+      "example_en": "He eats celery as a snack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "eggplant",
+      "pos": "noun",
+      "translation_pl": "bakłażan",
+      "definition_en": "An eggplant is a purple vegetable with smooth skin.",
+      "example_en": "She adds eggplant to the stew.",
+      "level": "B1"
+    },
+    {
+      "lemma": "radish",
+      "pos": "noun",
+      "translation_pl": "rzodkiewka",
+      "definition_en": "A radish is a small red or white vegetable with a spicy taste.",
+      "example_en": "I put radish in my salad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "asparagus",
+      "pos": "noun",
+      "translation_pl": "szparag",
+      "definition_en": "Asparagus is a long green vegetable often served cooked.",
+      "example_en": "We have asparagus for dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "parsley",
+      "pos": "noun",
+      "translation_pl": "pietruszka",
+      "definition_en": "Parsley is a green leafy vegetable often used in salads.",
+      "example_en": "I think parsley is a good addition to my salad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sweet potato",
+      "pos": "noun",
+      "translation_pl": "batat",
+      "definition_en": "A sweet potato is an orange vegetable that tastes sweet.",
+      "example_en": "I like to bake a sweet potato.",
+      "level": "B1"
+    }
+  ]
+}

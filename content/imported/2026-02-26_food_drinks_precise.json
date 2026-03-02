@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "drinks",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:29:49.110Z"
+  },
+  "items": [
+    {
+      "lemma": "herbal infusion",
+      "pos": "noun",
+      "translation_pl": "napar ziołowy",
+      "definition_en": "A herbal infusion is a hot drink made by steeping herbs in water.",
+      "example_en": "Many people enjoy a herbal infusion before bed.",
+      "level": "B2"
+    },
+    {
+      "lemma": "liqueur",
+      "pos": "noun",
+      "translation_pl": "likier",
+      "definition_en": "A liqueur is a sweet alcoholic drink flavored with herbs, fruit, or spices.",
+      "example_en": "He served a small glass of liqueur after dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "distilled water",
+      "pos": "noun",
+      "translation_pl": "woda destylowana",
+      "definition_en": "Distilled water is water that has been purified by boiling and condensation.",
+      "example_en": "Some recipes require distilled water for better taste.",
+      "level": "B2"
+    },
+    {
+      "lemma": "carbonated beverage",
+      "pos": "noun",
+      "translation_pl": "napój gazowany",
+      "definition_en": "A carbonated beverage is a drink that contains dissolved carbon dioxide bubbles.",
+      "example_en": "She prefers a carbonated beverage over plain juice.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mocktail",
+      "pos": "noun",
+      "translation_pl": "drink bezalkoholowy",
+      "definition_en": "A mocktail is a non-alcoholic drink that resembles a cocktail.",
+      "example_en": "He ordered a fruity mocktail at the bar.",
+      "level": "B2"
+    },
+    {
+      "lemma": "brew",
+      "pos": "noun",
+      "translation_pl": "napar",
+      "definition_en": "A brew is a drink made by mixing water with ingredients like tea or coffee.",
+      "example_en": "This morning's brew smells wonderful.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cordial",
+      "pos": "noun",
+      "translation_pl": "syrop owocowy",
+      "definition_en": "A cordial is a sweet fruit-flavored drink that is often diluted with water.",
+      "example_en": "Children often enjoy diluted cordial in summer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "infusion",
+      "pos": "noun",
+      "translation_pl": "napar",
+      "definition_en": "An infusion is a drink made by soaking herbs or fruit in hot water.",
+      "example_en": "An infusion of peppermint is soothing in winter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sherbet",
+      "pos": "noun",
+      "translation_pl": "napój sorbetowy",
+      "definition_en": "Sherbet is a sweet and often fizzy powder or drink made from fruit juice and sugar.",
+      "example_en": "They served a cold sherbet at the party.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mulled wine",
+      "pos": "noun",
+      "translation_pl": "grzane wino",
+      "definition_en": "Mulled wine is red wine heated with spices and fruit.",
+      "example_en": "During winter, many people enjoy mulled wine at markets.",
+      "level": "B2"
+    }
+  ]
+}

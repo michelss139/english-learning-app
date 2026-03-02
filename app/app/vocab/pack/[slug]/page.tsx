@@ -16,7 +16,7 @@ type PageProps = {
 
 type Direction = "en-pl" | "pl-en" | "mix";
 type CountChoice = "5" | "10" | "all";
-type VocabMode = "daily" | "mixed" | "precise";
+type VocabMode = "daily" | "precise";
 
 function parseDirection(raw: string | undefined): Direction {
   const v = (raw ?? "").toLowerCase();
@@ -32,7 +32,8 @@ function parseCountChoice(limitRaw: string | undefined): CountChoice {
 
 function parseVocabMode(raw: string | undefined): VocabMode | null {
   const v = (raw ?? "").toLowerCase();
-  return v === "daily" || v === "mixed" || v === "precise" ? (v as VocabMode) : null;
+  if (v === "mixed") return "daily";
+  return v === "daily" || v === "precise" ? (v as VocabMode) : null;
 }
 
 function pickTranslationPl(embed: any): string | null {

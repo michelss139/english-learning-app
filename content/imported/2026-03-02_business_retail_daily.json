@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "business",
+    "subcategory": "retail",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-03-02T07:07:21.231Z"
+  },
+  "items": [
+    {
+      "lemma": "store",
+      "pos": "noun",
+      "translation_pl": "sklep",
+      "definition_en": "A store is a place where people buy things.",
+      "example_en": "I went to the store for some bread.",
+      "level": "A1"
+    },
+    {
+      "lemma": "customer",
+      "pos": "noun",
+      "translation_pl": "klient",
+      "definition_en": "A customer is a person who buys something.",
+      "example_en": "The customer paid for her coffee.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shop",
+      "pos": "noun",
+      "translation_pl": "sklep",
+      "definition_en": "A shop is a place where you can buy things.",
+      "example_en": "There is a small shop on my street.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sale",
+      "pos": "noun",
+      "translation_pl": "wyprzedaż",
+      "definition_en": "A sale is a time when things are sold for less money.",
+      "example_en": "The sale starts next week.",
+      "level": "A1"
+    },
+    {
+      "lemma": "product",
+      "pos": "noun",
+      "translation_pl": "produkt",
+      "definition_en": "A product is something that people sell or buy.",
+      "example_en": "This product is very popular.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cashier",
+      "pos": "noun",
+      "translation_pl": "kasjer",
+      "definition_en": "A cashier is a person who takes your money in a shop.",
+      "example_en": "The cashier gave me change.",
+      "level": "A2"
+    },
+    {
+      "lemma": "price",
+      "pos": "noun",
+      "translation_pl": "cena",
+      "definition_en": "A price is the amount of money something costs.",
+      "example_en": "The price of this book is low.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bag",
+      "pos": "noun",
+      "translation_pl": "torba",
+      "definition_en": "A bag is something used to carry things you buy.",
+      "example_en": "He put his apples in a bag.",
+      "level": "A1"
+    },
+    {
+      "lemma": "receipt",
+      "pos": "noun",
+      "translation_pl": "paragon",
+      "definition_en": "A receipt is a paper that shows what you bought.",
+      "example_en": "I kept the receipt just in case.",
+      "level": "A2"
+    },
+    {
+      "lemma": "counter",
+      "pos": "noun",
+      "translation_pl": "lada",
+      "definition_en": "A counter is a table in a store where people pay.",
+      "example_en": "She put the bread on the counter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shelf",
+      "pos": "noun",
+      "translation_pl": "półka",
+      "definition_en": "A shelf is a board in a store used for holding things.",
+      "example_en": "The cans are on the top shelf.",
+      "level": "A2"
+    },
+    {
+      "lemma": "queue",
+      "pos": "noun",
+      "translation_pl": "kolejka",
+      "definition_en": "A queue is a line of people waiting for something.",
+      "example_en": "There is a long queue at the checkout.",
+      "level": "A2"
+    },
+    {
+      "lemma": "discount",
+      "pos": "noun",
+      "translation_pl": "zniżka",
+      "definition_en": "A discount is a lower price for something.",
+      "example_en": "I got a discount on these shoes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shopping cart",
+      "pos": "noun",
+      "translation_pl": "wózek sklepowy",
+      "definition_en": "A shopping cart is a thing with wheels for carrying things in a store.",
+      "example_en": "He pushed the shopping cart down the aisle.",
+      "level": "A2"
+    },
+    {
+      "lemma": "manager",
+      "pos": "noun",
+      "translation_pl": "kierownik",
+      "definition_en": "A manager is a person who runs a store or a team.",
+      "example_en": "The manager helped solve the problem.",
+      "level": "A2"
+    },
+    {
+      "lemma": "basket",
+      "pos": "noun",
+      "translation_pl": "koszyk",
+      "definition_en": "A basket is a container to carry things while shopping.",
+      "example_en": "She carried a basket full of fruit.",
+      "level": "A2"
+    },
+    {
+      "lemma": "checkout",
+      "pos": "noun",
+      "translation_pl": "kasa",
+      "definition_en": "A checkout is the place where you pay in a shop.",
+      "example_en": "I am waiting at the checkout.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clerk",
+      "pos": "noun",
+      "translation_pl": "sprzedawca",
+      "definition_en": "A clerk is a person who works in a store and helps customers.",
+      "example_en": "The clerk showed me where the milk was.",
+      "level": "B1"
+    },
+    {
+      "lemma": "brand",
+      "pos": "noun",
+      "translation_pl": "marka",
+      "definition_en": "A brand is the name of a company or product.",
+      "example_en": "This is my favorite brand of chocolate.",
+      "level": "B1"
+    },
+    {
+      "lemma": "aisle",
+      "pos": "noun",
+      "translation_pl": "alejka",
+      "definition_en": "An aisle is a long passage between shelves in a store.",
+      "example_en": "The bread is in the third aisle.",
+      "level": "B1"
+    }
+  ]
+}

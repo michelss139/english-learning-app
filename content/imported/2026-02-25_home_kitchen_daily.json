@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "kitchen",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-25T18:20:54.511Z"
+  },
+  "items": [
+    {
+      "lemma": "plate",
+      "pos": "noun",
+      "translation_pl": "talerz",
+      "definition_en": "A plate is a flat dish for food.",
+      "example_en": "She put a sandwich on a plate.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cup",
+      "pos": "noun",
+      "translation_pl": "kubek",
+      "definition_en": "A cup is a small container for drinking.",
+      "example_en": "He drank coffee from a cup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "spoon",
+      "pos": "noun",
+      "translation_pl": "łyżka",
+      "definition_en": "A spoon is a tool for eating or stirring.",
+      "example_en": "She stirred her tea with a spoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fork",
+      "pos": "noun",
+      "translation_pl": "widelec",
+      "definition_en": "A fork is a tool with points for picking up food.",
+      "example_en": "He used a fork to eat his salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "knife",
+      "pos": "noun",
+      "translation_pl": "nóż",
+      "definition_en": "A knife is a tool for cutting food.",
+      "example_en": "She cut the bread with a knife.",
+      "level": "A1"
+    },
+    {
+      "lemma": "glass",
+      "pos": "noun",
+      "translation_pl": "szklanka",
+      "definition_en": "A glass is a container for drinking.",
+      "example_en": "He poured water into a glass.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bowl",
+      "pos": "noun",
+      "translation_pl": "miska",
+      "definition_en": "A bowl is a round dish for food or liquid.",
+      "example_en": "She ate soup from a bowl.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sponge",
+      "pos": "noun",
+      "translation_pl": "gąbka",
+      "definition_en": "A sponge is a tool for cleaning.",
+      "example_en": "She cleaned the dishes with a sponge.",
+      "level": "A1"
+    },
+    {
+      "lemma": "coffee machine",
+      "pos": "noun",
+      "translation_pl": "ekspres do kawy",
+      "definition_en": "A coffee machine is a machine that makes coffee.",
+      "example_en": "She made coffee with the coffee machine.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fridge",
+      "pos": "noun",
+      "translation_pl": "lodówka",
+      "definition_en": "A fridge is a machine that keeps food cold.",
+      "example_en": "He put the milk in the fridge.",
+      "level": "A1"
+    },
+    {
+      "lemma": "oven",
+      "pos": "noun",
+      "translation_pl": "piekarnik",
+      "definition_en": "An oven is a machine for baking or roasting food.",
+      "example_en": "She baked a cake in the oven.",
+      "level": "A1"
+    },
+    {
+      "lemma": "stove",
+      "pos": "noun",
+      "translation_pl": "kuchenka",
+      "definition_en": "A stove is a machine for cooking food.",
+      "example_en": "He cooked rice on the stove.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sink",
+      "pos": "noun",
+      "translation_pl": "zlew",
+      "definition_en": "A sink is a bowl with a faucet for washing.",
+      "example_en": "She washed the dishes in the sink.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pot",
+      "pos": "noun",
+      "translation_pl": "garnek",
+      "definition_en": "A pot is a container for cooking food.",
+      "example_en": "He cooked pasta in a pot.",
+      "level": "A2"
+    },
+    {
+      "lemma": "microwave",
+      "pos": "noun",
+      "translation_pl": "mikrofalówka",
+      "definition_en": "A microwave is a machine that heats food quickly.",
+      "example_en": "She warmed her lunch in the microwave.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pan",
+      "pos": "noun",
+      "translation_pl": "patelnia",
+      "definition_en": "A pan is a flat dish for frying food.",
+      "example_en": "He cooked eggs in a pan.",
+      "level": "A2"
+    },
+    {
+      "lemma": "kettle",
+      "pos": "noun",
+      "translation_pl": "czajnik",
+      "definition_en": "A kettle is a container for boiling water.",
+      "example_en": "She made tea with the kettle.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dishwasher",
+      "pos": "noun",
+      "translation_pl": "zmywarka",
+      "definition_en": "A dishwasher is a machine that washes dishes.",
+      "example_en": "They put dirty plates in the dishwasher.",
+      "level": "A2"
+    },
+    {
+      "lemma": "teapot",
+      "pos": "noun",
+      "translation_pl": "dzbanek do herbaty",
+      "definition_en": "A teapot is a container for making tea.",
+      "example_en": "She poured hot tea from the teapot.",
+      "level": "B1"
+    },
+    {
+      "lemma": "freezer",
+      "pos": "noun",
+      "translation_pl": "zamrażarka",
+      "definition_en": "A freezer is a machine that keeps food very cold.",
+      "example_en": "The ice cream is in the freezer.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "category": "business",
+    "subcategory": "agreement",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-03-02T07:41:34.391Z"
+  },
+  "items": [
+    {
+      "lemma": "settlement",
+      "pos": "noun",
+      "translation_pl": "ugoda",
+      "definition_en": "A settlement is an official agreement to end a dispute.",
+      "example_en": "The two companies finally reached a settlement.",
+      "level": "B2"
+    },
+    {
+      "lemma": "obligation",
+      "pos": "noun",
+      "translation_pl": "obowiązek",
+      "definition_en": "An obligation is something you must do because of a rule or agreement.",
+      "example_en": "Each party has an obligation to follow the contract terms.",
+      "level": "B2"
+    },
+    {
+      "lemma": "memorandum of understanding",
+      "pos": "noun",
+      "translation_pl": "protokół ustaleń",
+      "definition_en": "A memorandum of understanding is an informal agreement between two parties.",
+      "example_en": "They drafted a memorandum of understanding to outline their intentions.",
+      "level": "C1"
+    },
+    {
+      "lemma": "endorsement",
+      "pos": "noun",
+      "translation_pl": "zatwierdzenie",
+      "definition_en": "An endorsement is an official statement of support or approval.",
+      "example_en": "The contract is valid only with the company's endorsement.",
+      "level": "C1"
+    },
+    {
+      "lemma": "breach",
+      "pos": "noun",
+      "translation_pl": "naruszenie",
+      "definition_en": "A breach is a failure to follow the terms of an agreement.",
+      "example_en": "A breach of contract can lead to legal action.",
+      "level": "B2"
+    },
+    {
+      "lemma": "provision",
+      "pos": "noun",
+      "translation_pl": "postanowienie",
+      "definition_en": "A provision is a condition or term in a contract.",
+      "example_en": "We need to add a confidentiality provision to the document.",
+      "level": "B2"
+    },
+    {
+      "lemma": "addendum",
+      "pos": "noun",
+      "translation_pl": "aneks",
+      "definition_en": "An addendum is a section added to a contract after it is signed.",
+      "example_en": "They included an addendum to address new issues.",
+      "level": "C1"
+    },
+    {
+      "lemma": "disclosure",
+      "pos": "noun",
+      "translation_pl": "ujawnienie",
+      "definition_en": "A disclosure is the act of making new information known.",
+      "example_en": "The agreement requires the disclosure of any conflicts of interest.",
+      "level": "C1"
+    },
+    {
+      "lemma": "concession",
+      "pos": "noun",
+      "translation_pl": "ustępstwo",
+      "definition_en": "A concession is something you agree to give up during an agreement.",
+      "example_en": "She made a concession to help close the deal.",
+      "level": "C1"
+    },
+    {
+      "lemma": "arbitration",
+      "pos": "noun",
+      "translation_pl": "arbitraż",
+      "definition_en": "Arbitration is a way to settle disputes without going to court.",
+      "example_en": "The contract requires arbitration in case of disagreement.",
+      "level": "C1"
+    },
+    {
+      "lemma": "counter-offer",
+      "pos": "noun",
+      "translation_pl": "kontroferta",
+      "definition_en": "A counter-offer is a new offer made in response to another offer.",
+      "example_en": "They rejected the first proposal but accepted the counter-offer.",
+      "level": "C1"
+    },
+    {
+      "lemma": "covenant",
+      "pos": "noun",
+      "translation_pl": "zobowiązanie",
+      "definition_en": "A covenant is a formal agreement or promise in a legal document.",
+      "example_en": "There is a covenant requiring both sides to maintain secrecy.",
+      "level": "C2"
+    }
+  ]
+}

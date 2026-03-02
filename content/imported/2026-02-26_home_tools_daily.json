@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "tools",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T10:29:11.737Z"
+  },
+  "items": [
+    {
+      "lemma": "hammer",
+      "pos": "noun",
+      "translation_pl": "młotek",
+      "definition_en": "A hammer is a tool used for hitting nails.",
+      "example_en": "He used a hammer to fix the chair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "screwdriver",
+      "pos": "noun",
+      "translation_pl": "śrubokręt",
+      "definition_en": "A screwdriver is a tool for turning screws.",
+      "example_en": "She picked up the screwdriver to tighten the screws.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pliers",
+      "pos": "noun",
+      "translation_pl": "szczypce",
+      "definition_en": "Pliers are a tool for gripping or bending things.",
+      "example_en": "He used pliers to pull out the nail.",
+      "level": "B1"
+    },
+    {
+      "lemma": "drill",
+      "pos": "noun",
+      "translation_pl": "wiertarka",
+      "definition_en": "A drill is a tool for making holes.",
+      "example_en": "She used a drill to put up the shelf.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tape measure",
+      "pos": "noun",
+      "translation_pl": "miarka",
+      "definition_en": "A tape measure is a tool used to measure length.",
+      "example_en": "He used a tape measure to check the window size.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wrench",
+      "pos": "noun",
+      "translation_pl": "klucz",
+      "definition_en": "A wrench is a tool for turning nuts and bolts.",
+      "example_en": "She grabbed a wrench to fix the pipe.",
+      "level": "B1"
+    },
+    {
+      "lemma": "saw",
+      "pos": "noun",
+      "translation_pl": "piła",
+      "definition_en": "A saw is a tool used for cutting wood.",
+      "example_en": "He used a saw to cut the old wood.",
+      "level": "A2"
+    },
+    {
+      "lemma": "paintbrush",
+      "pos": "noun",
+      "translation_pl": "pędzel",
+      "definition_en": "A paintbrush is a tool for putting paint on things.",
+      "example_en": "She used a paintbrush to paint the wall.",
+      "level": "A2"
+    },
+    {
+      "lemma": "glue gun",
+      "pos": "noun",
+      "translation_pl": "pistolet do kleju",
+      "definition_en": "A glue gun is a tool for joining things with hot glue.",
+      "example_en": "I used a glue gun to fix the broken toy.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ladder",
+      "pos": "noun",
+      "translation_pl": "drabina",
+      "definition_en": "A ladder is a tool used to reach high places.",
+      "example_en": "He climbed the ladder to change the light bulb.",
+      "level": "A2"
+    },
+    {
+      "lemma": "toolbox",
+      "pos": "noun",
+      "translation_pl": "skrzynka na narzędzia",
+      "definition_en": "A toolbox is a box for keeping tools.",
+      "example_en": "All the tools are in the toolbox.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sandpaper",
+      "pos": "noun",
+      "translation_pl": "papier ścierny",
+      "definition_en": "Sandpaper is a tool for making things smooth.",
+      "example_en": "She used sandpaper to smooth the wood surface.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wrench",
+      "pos": "noun",
+      "translation_pl": "klucz",
+      "definition_en": "A wrench is a tool for turning nuts and bolts.",
+      "example_en": "He needed a wrench to fix the bike.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "furniture",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-25T14:04:07.139Z"
+  },
+  "items": [
+    {
+      "lemma": "sofa",
+      "pos": "noun",
+      "translation_pl": "sofa",
+      "definition_en": "A sofa is a comfortable seat for several people.",
+      "example_en": "We sat together on the sofa to watch TV.",
+      "level": "A1"
+    },
+    {
+      "lemma": "table",
+      "pos": "noun",
+      "translation_pl": "stół",
+      "definition_en": "A table is a piece of furniture with a flat top and legs.",
+      "example_en": "I put my books on the table in the living room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "chair",
+      "pos": "noun",
+      "translation_pl": "krzesło",
+      "definition_en": "A chair is something you sit on.",
+      "example_en": "She pulled out a chair and sat down.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bed",
+      "pos": "noun",
+      "translation_pl": "łóżko",
+      "definition_en": "A bed is a piece of furniture where you sleep.",
+      "example_en": "He lay down on the bed and fell asleep.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wardrobe",
+      "pos": "noun",
+      "translation_pl": "szafa",
+      "definition_en": "A wardrobe is a large cupboard for keeping clothes.",
+      "example_en": "I hang my shirts in the wardrobe.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cupboard",
+      "pos": "noun",
+      "translation_pl": "szafka",
+      "definition_en": "A cupboard is a piece of furniture with shelves and doors.",
+      "example_en": "We keep the plates in the kitchen cupboard.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shelf",
+      "pos": "noun",
+      "translation_pl": "półka",
+      "definition_en": "A shelf is a flat board for putting things on.",
+      "example_en": "Books are arranged neatly on the shelf.",
+      "level": "A2"
+    },
+    {
+      "lemma": "desk",
+      "pos": "noun",
+      "translation_pl": "biurko",
+      "definition_en": "A desk is a table you use for working or studying.",
+      "example_en": "My computer is on my desk.",
+      "level": "A2"
+    },
+    {
+      "lemma": "armchair",
+      "pos": "noun",
+      "translation_pl": "fotel",
+      "definition_en": "An armchair is a comfortable chair with sides for your arms.",
+      "example_en": "Grandpa likes to read in his armchair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dresser",
+      "pos": "noun",
+      "translation_pl": "komoda",
+      "definition_en": "A dresser is a chest with drawers for clothes.",
+      "example_en": "She put her socks in the dresser.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bookshelf",
+      "pos": "noun",
+      "translation_pl": "regał",
+      "definition_en": "A bookshelf is a piece of furniture for holding books.",
+      "example_en": "The bookshelf is full of my favorite novels.",
+      "level": "B1"
+    },
+    {
+      "lemma": "nightstand",
+      "pos": "noun",
+      "translation_pl": "stolik nocny",
+      "definition_en": "A nightstand is a small table beside a bed.",
+      "example_en": "I keep a lamp on my nightstand.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rocking chair",
+      "pos": "noun",
+      "translation_pl": "fotel bujany",
+      "definition_en": "A rocking chair is a chair that moves back and forth.",
+      "example_en": "My grandmother sits in the rocking chair by the window.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stool",
+      "pos": "noun",
+      "translation_pl": "stołek",
+      "definition_en": "A stool is a seat with no back or arms.",
+      "example_en": "He sat on the stool in the kitchen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fireplace",
+      "pos": "noun",
+      "translation_pl": "kominek",
+      "definition_en": "A fireplace is a heating device that burns wood or other fuel.",
+      "example_en": "We gathered around the fireplace on cold evenings.",
+      "level": "B1"
+    }
+  ]
+}

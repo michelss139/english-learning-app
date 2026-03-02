@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "skijumping",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:47:15.964Z"
+  },
+  "items": [
+    {
+      "lemma": "jump",
+      "pos": "noun",
+      "translation_pl": "skok",
+      "definition_en": "A jump is when someone pushes off and goes into the air.",
+      "example_en": "He made a big jump from the platform.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hill",
+      "pos": "noun",
+      "translation_pl": "wzgórze",
+      "definition_en": "A hill is a raised area of land.",
+      "example_en": "We watched the skiers at the top of the hill.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ski",
+      "pos": "noun",
+      "translation_pl": "narta",
+      "definition_en": "A ski is a long narrow piece of equipment used to slide on snow.",
+      "example_en": "He put on his skis before the competition.",
+      "level": "A1"
+    },
+    {
+      "lemma": "snow",
+      "pos": "noun",
+      "translation_pl": "śnieg",
+      "definition_en": "Snow is the white frozen substance that falls from the sky in winter.",
+      "example_en": "Fresh snow covered the ski hill.",
+      "level": "A1"
+    },
+    {
+      "lemma": "athlete",
+      "pos": "noun",
+      "translation_pl": "sportowiec",
+      "definition_en": "An athlete is a person who plays sports well.",
+      "example_en": "The athlete trained every day for the big event.",
+      "level": "A2"
+    },
+    {
+      "lemma": "competition",
+      "pos": "noun",
+      "translation_pl": "zawody",
+      "definition_en": "A competition is an event where people try to win.",
+      "example_en": "Many teams joined the ski jumping competition.",
+      "level": "A2"
+    },
+    {
+      "lemma": "winner",
+      "pos": "noun",
+      "translation_pl": "zwycięzca",
+      "definition_en": "A winner is the person who comes first in a game or race.",
+      "example_en": "The winner held the trophy above his head.",
+      "level": "A2"
+    },
+    {
+      "lemma": "judge",
+      "pos": "noun",
+      "translation_pl": "sędzia",
+      "definition_en": "A judge decides the score or result in a competition.",
+      "example_en": "The judge gave high points for the jump.",
+      "level": "A2"
+    },
+    {
+      "lemma": "helmet",
+      "pos": "noun",
+      "translation_pl": "kask",
+      "definition_en": "A helmet is something you wear on your head to keep it safe.",
+      "example_en": "Every jumper must wear a helmet.",
+      "level": "A1"
+    },
+    {
+      "lemma": "gate",
+      "pos": "noun",
+      "translation_pl": "bramka",
+      "definition_en": "A gate is a place you go through to enter or leave an area.",
+      "example_en": "The athlete waited at the starting gate.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spectator",
+      "pos": "noun",
+      "translation_pl": "widz",
+      "definition_en": "A spectator is a person who watches an event.",
+      "example_en": "Every spectator cheered for their favorite jumper.",
+      "level": "B1"
+    },
+    {
+      "lemma": "landing",
+      "pos": "noun",
+      "translation_pl": "lądowanie",
+      "definition_en": "A landing is the moment when you come down to the ground after being in the air.",
+      "example_en": "He made a perfect landing on the snow.",
+      "level": "A2"
+    }
+  ]
+}

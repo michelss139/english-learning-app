@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "vegetables",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T14:03:12.972Z"
+  },
+  "items": [
+    {
+      "lemma": "artichoke",
+      "pos": "noun",
+      "translation_pl": "karczoch",
+      "definition_en": "An artichoke is a green vegetable with thick leaves and a soft heart.",
+      "example_en": "I like to add artichoke to my salads for extra flavor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "asparagus",
+      "pos": "noun",
+      "translation_pl": "szparag",
+      "definition_en": "Asparagus is a long green vegetable often served steamed or roasted.",
+      "example_en": "She prepared grilled asparagus for dinner last night.",
+      "level": "B2"
+    },
+    {
+      "lemma": "brussels sprout",
+      "pos": "noun",
+      "translation_pl": "brukselka",
+      "definition_en": "A brussels sprout is a small green vegetable that looks like a tiny cabbage.",
+      "example_en": "Brussels sprouts taste delicious when roasted with garlic.",
+      "level": "B2"
+    },
+    {
+      "lemma": "celeriac",
+      "pos": "noun",
+      "translation_pl": "seler korzeniowy",
+      "definition_en": "Celeriac is a root vegetable with a mild, celery-like flavor.",
+      "example_en": "Celeriac can be mashed as an alternative to potatoes.",
+      "level": "C1"
+    },
+    {
+      "lemma": "kohlrabi",
+      "pos": "noun",
+      "translation_pl": "kalarepa",
+      "definition_en": "Kohlrabi is a bulbous vegetable with a crisp texture and mild taste.",
+      "example_en": "She added shredded kohlrabi to the salad.",
+      "level": "B2"
+    },
+    {
+      "lemma": "turnip",
+      "pos": "noun",
+      "translation_pl": "rzepa",
+      "definition_en": "A turnip is a round root vegetable with white and purple skin.",
+      "example_en": "Turnip can be added to soups and stews.",
+      "level": "B2"
+    },
+    {
+      "lemma": "broad bean",
+      "pos": "noun",
+      "translation_pl": "bób",
+      "definition_en": "A broad bean is a large flat bean found in a green pod.",
+      "example_en": "Broad beans are delicious when served with mint.",
+      "level": "B2"
+    },
+    {
+      "lemma": "endive",
+      "pos": "noun",
+      "translation_pl": "cykoria",
+      "definition_en": "Endive is a leafy vegetable with a slightly bitter taste.",
+      "example_en": "He added fresh endive to the mixed salad.",
+      "level": "C1"
+    }
+  ]
+}

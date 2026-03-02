@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "sports",
+    "subcategory": "fooball",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:32:04.107Z"
+  },
+  "items": [
+    {
+      "lemma": "goal",
+      "pos": "noun",
+      "translation_pl": "gol",
+      "definition_en": "A goal is when the ball goes into the net.",
+      "example_en": "The team scored a goal in the last minute.",
+      "level": "A1"
+    },
+    {
+      "lemma": "player",
+      "pos": "noun",
+      "translation_pl": "zawodnik",
+      "definition_en": "A player is someone who takes part in a game.",
+      "example_en": "Each player wears a numbered shirt.",
+      "level": "A1"
+    },
+    {
+      "lemma": "team",
+      "pos": "noun",
+      "translation_pl": "drużyna",
+      "definition_en": "A team is a group of people who play together.",
+      "example_en": "Our team won the match yesterday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ball",
+      "pos": "noun",
+      "translation_pl": "piłka",
+      "definition_en": "A ball is a round object used in football.",
+      "example_en": "He kicked the ball across the field.",
+      "level": "A1"
+    },
+    {
+      "lemma": "referee",
+      "pos": "noun",
+      "translation_pl": "sędzia",
+      "definition_en": "A referee is the person who makes sure players follow the rules.",
+      "example_en": "The referee blew the whistle to start the game.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stadium",
+      "pos": "noun",
+      "translation_pl": "stadion",
+      "definition_en": "A stadium is a large place where people watch sports.",
+      "example_en": "The stadium was full of cheering fans.",
+      "level": "A2"
+    },
+    {
+      "lemma": "match",
+      "pos": "noun",
+      "translation_pl": "mecz",
+      "definition_en": "A match is a game between two teams.",
+      "example_en": "We watched the football match on TV.",
+      "level": "A1"
+    },
+    {
+      "lemma": "coach",
+      "pos": "noun",
+      "translation_pl": "trener",
+      "definition_en": "A coach is the person who trains the team.",
+      "example_en": "The coach gave the team a pep talk.",
+      "level": "A2"
+    },
+    {
+      "lemma": "goalkeeper",
+      "pos": "noun",
+      "translation_pl": "bramkarz",
+      "definition_en": "A goalkeeper is the player who stops the ball from entering the goal.",
+      "example_en": "The goalkeeper made a great save.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fan",
+      "pos": "noun",
+      "translation_pl": "kibic",
+      "definition_en": "A fan is a person who likes and supports a team.",
+      "example_en": "Every fan wore the team’s colors.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pitch",
+      "pos": "noun",
+      "translation_pl": "boisko",
+      "definition_en": "A pitch is the field where football is played.",
+      "example_en": "They ran across the pitch to celebrate.",
+      "level": "A2"
+    },
+    {
+      "lemma": "defender",
+      "pos": "noun",
+      "translation_pl": "obrońca",
+      "definition_en": "A defender is a player who tries to stop the other team from scoring.",
+      "example_en": "The defender blocked the shot.",
+      "level": "B1"
+    },
+    {
+      "lemma": "forward",
+      "pos": "noun",
+      "translation_pl": "napastnik",
+      "definition_en": "A forward is a player who tries to score goals.",
+      "example_en": "The forward scored two goals in the first half.",
+      "level": "B1"
+    },
+    {
+      "lemma": "midfielder",
+      "pos": "noun",
+      "translation_pl": "pomocnik",
+      "definition_en": "A midfielder is a player who plays in the middle of the pitch.",
+      "example_en": "The midfielder passed the ball to the forward.",
+      "level": "B1"
+    },
+    {
+      "lemma": "whistle",
+      "pos": "noun",
+      "translation_pl": "gwizdek",
+      "definition_en": "A whistle is a small tool used to make a loud sound.",
+      "example_en": "The referee blew the whistle at half time.",
+      "level": "B1"
+    },
+    {
+      "lemma": "substitute",
+      "pos": "noun",
+      "translation_pl": "rezerwowy zawodnik",
+      "definition_en": "A substitute is a player who replaces another player.",
+      "example_en": "The substitute came onto the pitch after the break.",
+      "level": "B1"
+    },
+    {
+      "lemma": "captain",
+      "pos": "noun",
+      "translation_pl": "kapitan drużyny",
+      "definition_en": "A captain is the leader of a team.",
+      "example_en": "The captain lifted the trophy after the match.",
+      "level": "B1"
+    },
+    {
+      "lemma": "kick",
+      "pos": "noun",
+      "translation_pl": "kopnięcie",
+      "definition_en": "A kick is when you hit the ball with your foot.",
+      "example_en": "His kick sent the ball into the net.",
+      "level": "A2"
+    },
+    {
+      "lemma": "score",
+      "pos": "noun",
+      "translation_pl": "wynik",
+      "definition_en": "The score shows how many goals each team has.",
+      "example_en": "The score was still 0 0 at half time.",
+      "level": "A2"
+    },
+    {
+      "lemma": "corner kick",
+      "pos": "noun",
+      "translation_pl": "rzut rożny",
+      "definition_en": "A corner kick is when the ball is kicked from the corner of the field.",
+      "example_en": "The team won a corner kick.",
+      "level": "B1"
+    }
+  ]
+}

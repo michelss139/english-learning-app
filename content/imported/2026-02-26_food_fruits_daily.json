@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "fruits",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T12:57:22.505Z"
+  },
+  "items": [
+    {
+      "lemma": "apple",
+      "pos": "noun",
+      "translation_pl": "jabłko",
+      "definition_en": "An apple is a round fruit that is usually red, green, or yellow.",
+      "example_en": "I eat an apple every day with my lunch.",
+      "level": "A1"
+    },
+    {
+      "lemma": "banana",
+      "pos": "noun",
+      "translation_pl": "banan",
+      "definition_en": "A banana is a long yellow fruit with soft sweet flesh.",
+      "example_en": "He put a banana in his backpack for a snack.",
+      "level": "A1"
+    },
+    {
+      "lemma": "orange",
+      "pos": "noun",
+      "translation_pl": "pomarańcza",
+      "definition_en": "An orange is a round citrus fruit with a tough orange skin.",
+      "example_en": "She likes to drink orange juice in the morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pear",
+      "pos": "noun",
+      "translation_pl": "gruszka",
+      "definition_en": "A pear is a soft sweet fruit that is green or yellow.",
+      "example_en": "I bought a pear at the market today.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grape",
+      "pos": "noun",
+      "translation_pl": "winogrono",
+      "definition_en": "A grape is a small round fruit that grows in bunches.",
+      "example_en": "She picked a grape from the bunch and ate it.",
+      "level": "A1"
+    },
+    {
+      "lemma": "strawberry",
+      "pos": "noun",
+      "translation_pl": "truskawka",
+      "definition_en": "A strawberry is a small red fruit with tiny seeds on its surface.",
+      "example_en": "We made a strawberry cake for her birthday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lemon",
+      "pos": "noun",
+      "translation_pl": "cytryna",
+      "definition_en": "A lemon is a sour yellow fruit often used in cooking and drinks.",
+      "example_en": "He squeezed a lemon into his tea.",
+      "level": "A1"
+    },
+    {
+      "lemma": "peach",
+      "pos": "noun",
+      "translation_pl": "brzoskwinia",
+      "definition_en": "A peach is a soft juicy fruit with fuzzy skin.",
+      "example_en": "She ate a peach while reading her book.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plum",
+      "pos": "noun",
+      "translation_pl": "śliwka",
+      "definition_en": "A plum is a small round fruit with smooth purple or red skin.",
+      "example_en": "He put a plum in his lunchbox for dessert.",
+      "level": "A2"
+    },
+    {
+      "lemma": "melon",
+      "pos": "noun",
+      "translation_pl": "melon",
+      "definition_en": "A melon is a large round fruit with sweet juicy flesh.",
+      "example_en": "We ate cold melon on a hot day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cherry",
+      "pos": "noun",
+      "translation_pl": "wiśnia",
+      "definition_en": "A cherry is a small round red fruit with a stone inside.",
+      "example_en": "She put a cherry on top of the ice cream.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watermelon",
+      "pos": "noun",
+      "translation_pl": "arbuz",
+      "definition_en": "A watermelon is a large green fruit with red juicy flesh and black seeds.",
+      "example_en": "They shared a slice of watermelon at the picnic.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pineapple",
+      "pos": "noun",
+      "translation_pl": "ananas",
+      "definition_en": "A pineapple is a tropical fruit with tough skin and sweet yellow flesh.",
+      "example_en": "He brought a pineapple to the family gathering.",
+      "level": "A2"
+    },
+    {
+      "lemma": "blueberry",
+      "pos": "noun",
+      "translation_pl": "borówka",
+      "definition_en": "A blueberry is a small round blue fruit that is sweet or sour.",
+      "example_en": "She mixed a handful of blueberries into her yogurt.",
+      "level": "A2"
+    },
+    {
+      "lemma": "kiwi",
+      "pos": "noun",
+      "translation_pl": "kiwi",
+      "definition_en": "A kiwi is a small brown fruit with green flesh and tiny black seeds.",
+      "example_en": "I like to add sliced kiwi to my salad.",
+      "level": "A2"
+    },
+    {
+      "lemma": "raspberry",
+      "pos": "noun",
+      "translation_pl": "malina",
+      "definition_en": "A raspberry is a small soft red fruit made up of many tiny parts.",
+      "example_en": "He picked a raspberry from the bush and smiled.",
+      "level": "B1"
+    },
+    {
+      "lemma": "apricot",
+      "pos": "noun",
+      "translation_pl": "morela",
+      "definition_en": "An apricot is a small orange fruit with soft sweet flesh.",
+      "example_en": "She packed a fresh apricot for lunch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lime",
+      "pos": "noun",
+      "translation_pl": "limonka",
+      "definition_en": "A lime is a small green citrus fruit that tastes sour.",
+      "example_en": "He put a slice of lime in his drink.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grapefruit",
+      "pos": "noun",
+      "translation_pl": "grejpfrut",
+      "definition_en": "A grapefruit is a large yellow or pink citrus fruit with a sour taste.",
+      "example_en": "She eats half a grapefruit for breakfast.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pomegranate",
+      "pos": "noun",
+      "translation_pl": "granat owoc",
+      "definition_en": "A pomegranate is a round fruit with thick skin and many juicy seeds inside.",
+      "example_en": "He sprinkled pomegranate seeds on his salad.",
+      "level": "B1"
+    }
+  ]
+}

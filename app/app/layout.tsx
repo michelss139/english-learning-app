@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { CurrentWordProvider } from "@/lib/coach/CurrentWordContext";
 import GlobalCoach from "./GlobalCoach";
 import GlobalTrainingSuggestion from "./GlobalTrainingSuggestion";
 
@@ -43,12 +44,14 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      {/* Content shell */}
-      <div className="relative mx-auto max-w-[1100px] px-6 pb-10 pt-24">
-        {children}
-      </div>
-      <GlobalCoach />
-      <GlobalTrainingSuggestion />
+      <CurrentWordProvider>
+        {/* Content shell */}
+        <div className="relative mx-auto max-w-[1100px] px-6 pb-10 pt-24">
+          {children}
+        </div>
+        <GlobalCoach />
+        <GlobalTrainingSuggestion />
+      </CurrentWordProvider>
     </div>
   );
 }

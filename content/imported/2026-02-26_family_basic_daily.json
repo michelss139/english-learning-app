@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "category": "family",
+    "subcategory": "basic",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-02-26T20:20:25.085Z"
+  },
+  "items": [
+    {
+      "lemma": "mother",
+      "pos": "noun",
+      "translation_pl": "matka",
+      "definition_en": "A mother is a female parent.",
+      "example_en": "My mother makes delicious food.",
+      "level": "A1"
+    },
+    {
+      "lemma": "father",
+      "pos": "noun",
+      "translation_pl": "ojciec",
+      "definition_en": "A father is a male parent.",
+      "example_en": "My father drives me to school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "parent",
+      "pos": "noun",
+      "translation_pl": "rodzic",
+      "definition_en": "A parent is a mother or father.",
+      "example_en": "Each parent came to the meeting.",
+      "level": "A1"
+    },
+    {
+      "lemma": "child",
+      "pos": "noun",
+      "translation_pl": "dziecko",
+      "definition_en": "A child is a young person.",
+      "example_en": "Each child played in the park.",
+      "level": "A1"
+    },
+    {
+      "lemma": "son",
+      "pos": "noun",
+      "translation_pl": "syn",
+      "definition_en": "A son is a male child.",
+      "example_en": "Their son likes football.",
+      "level": "A1"
+    },
+    {
+      "lemma": "daughter",
+      "pos": "noun",
+      "translation_pl": "córka",
+      "definition_en": "A daughter is a female child.",
+      "example_en": "Their daughter plays the piano.",
+      "level": "A1"
+    },
+    {
+      "lemma": "brother",
+      "pos": "noun",
+      "translation_pl": "brat",
+      "definition_en": "A brother is a male sibling.",
+      "example_en": "My brother helps me with homework.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sister",
+      "pos": "noun",
+      "translation_pl": "siostra",
+      "definition_en": "A sister is a female sibling.",
+      "example_en": "My sister is younger than me.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grandmother",
+      "pos": "noun",
+      "translation_pl": "babcia",
+      "definition_en": "A grandmother is the mother of your parent.",
+      "example_en": "My grandmother visits every Sunday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grandfather",
+      "pos": "noun",
+      "translation_pl": "dziadek",
+      "definition_en": "A grandfather is the father of your parent.",
+      "example_en": "My grandfather tells funny stories.",
+      "level": "A1"
+    },
+    {
+      "lemma": "uncle",
+      "pos": "noun",
+      "translation_pl": "wujek",
+      "definition_en": "An uncle is the brother of your parent.",
+      "example_en": "My uncle lives in another city.",
+      "level": "A1"
+    },
+    {
+      "lemma": "aunt",
+      "pos": "noun",
+      "translation_pl": "ciocia",
+      "definition_en": "An aunt is the sister of your parent.",
+      "example_en": "My aunt sends me birthday cards.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cousin",
+      "pos": "noun",
+      "translation_pl": "kuzyn",
+      "definition_en": "A cousin is the child of your aunt or uncle.",
+      "example_en": "My cousin is coming to visit this weekend.",
+      "level": "A1"
+    },
+    {
+      "lemma": "baby",
+      "pos": "noun",
+      "translation_pl": "niemowlę",
+      "definition_en": "A baby is a very young child.",
+      "example_en": "The baby is sleeping now.",
+      "level": "A1"
+    },
+    {
+      "lemma": "husband",
+      "pos": "noun",
+      "translation_pl": "mąż",
+      "definition_en": "A husband is a married man.",
+      "example_en": "Her husband works at a bank.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wife",
+      "pos": "noun",
+      "translation_pl": "żona",
+      "definition_en": "A wife is a married woman.",
+      "example_en": "His wife cooks delicious meals.",
+      "level": "A1"
+    },
+    {
+      "lemma": "relative",
+      "pos": "noun",
+      "translation_pl": "krewny",
+      "definition_en": "A relative is someone in your family.",
+      "example_en": "We visit our relatives every summer.",
+      "level": "B1"
+    }
+  ]
+}

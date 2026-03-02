@@ -1,14 +1,11 @@
 import "dotenv/config";
 
 import path from "node:path";
+import { readFile } from "node:fs/promises";
 import { config as loadDotenv } from "dotenv";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 type Mode = "daily" | "precise";
-
-const DAILY_LEVELS = ["A1", "A2", "B1"];
-const PRECISE_LEVELS = ["B2", "C1", "C2"];
-const LEVEL_ORDER = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 loadDotenv({ path: path.resolve(process.cwd(), ".env.local"), override: false });
 
@@ -25,14 +22,22 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
-function getCliArgs(): { category: string; subcategory: string; mode: Mode; publish: boolean } {
+function getCliArgs(): {
+  category: string;
+  subcategory: string;
+  mode: Mode;
+  publish: boolean;
+  jsonPath: string;
+} {
   const argv = process.argv.slice(2).filter((a) => a !== "--publish");
   const publish = process.argv.includes("--publish");
-  const [categoryArg, subcategoryArg, modeArg] = argv;
+  const [categoryArg, subcategoryArg, modeArg, jsonPathArg] = argv;
 
-  if (!categoryArg || !subcategoryArg || !modeArg) {
+  if (!categoryArg || !subcategoryArg || !modeArg || !jsonPathArg) {
     throw new Error(
-      'Usage: npm run build:pack <category> <subcategory> <mode> [--publish]\nExample: npm run build:pack garden plants daily'
+      'Usage: npm run build:pack <category> <subcategory> <mode> <path-to-json> [--publish]\n' +
+        'Example: npm run build:pack home rooms daily --publish content/imported/2026-02-25_home_rooms_daily.json\n' +
+        "Build reads only the provided imported JSON file."
     );
   }
 
@@ -46,19 +51,88 @@ function getCliArgs(): { category: string; subcategory: string; mode: Mode; publ
     subcategory: subcategoryArg.trim(),
     mode,
     publish,
+    jsonPath: path.resolve(process.cwd(), jsonPathArg),
   };
 }
 
+type JsonItem = { lemma: string; translation_pl: string };
+
+async function loadSensesFromJson(
+  supabase: SupabaseClient,
+  jsonPath: string,
+  domain: string
+): Promise<Array<{ id: string }>> {
+  const raw = await readFile(jsonPath, "utf8");
+  const parsed = JSON.parse(raw) as { meta?: unknown; items?: JsonItem[] };
+  const items = parsed?.items ?? [];
+  if (items.length === 0) {
+    throw new Error(`No items in JSON file: ${jsonPath}`);
+  }
+
+  const senses: Array<{ id: string }> = [];
+  for (const item of items) {
+    const lemmaNorm = item.lemma.toLowerCase().trim().replace(/\s+/g, " ");
+    const translationPl = item.translation_pl.trim().replace(/\s+/g, " ");
+
+    const { data: entryRow } = await supabase
+      .from("lexicon_entries")
+      .select("id")
+      .eq("lemma_norm", lemmaNorm)
+      .eq("pos", "noun")
+      .maybeSingle();
+
+    if (!entryRow) {
+      console.warn(`Skipping: no entry for lemma "${item.lemma}"`);
+      continue;
+    }
+
+    const entryId = (entryRow as { id: string }).id;
+    const { data: senseRows } = await supabase
+      .from("lexicon_senses")
+      .select(`
+        id,
+        sense_order,
+        lexicon_translations!inner(translation_pl)
+      `)
+      .eq("entry_id", entryId)
+      .order("sense_order", { ascending: true });
+
+    const matched = (senseRows ?? []) as Array<{
+      id: string;
+      sense_order: number;
+      lexicon_translations: Array<{ translation_pl: string }> | { translation_pl: string } | null;
+    }>;
+
+    if (matched.length === 0) {
+      console.warn(`Skipping: no sense found for lemma "${item.lemma}"`);
+      continue;
+    }
+
+    // Domain is informational only. Prefer translation match when possible;
+    // otherwise fall back to the first sense by sense_order.
+    const targetTranslation = translationPl.toLowerCase();
+    const byTranslation = matched.find((sense) => {
+      const translations = Array.isArray(sense.lexicon_translations)
+        ? sense.lexicon_translations
+        : sense.lexicon_translations
+          ? [sense.lexicon_translations]
+          : [];
+      return translations.some(
+        (t) => (t.translation_pl ?? "").trim().toLowerCase() === targetTranslation
+      );
+    });
+
+    senses.push({ id: (byTranslation ?? matched[0]).id });
+  }
+  return senses;
+}
+
 async function main(): Promise<void> {
-  const { category, subcategory, mode, publish } = getCliArgs();
+  const { category, subcategory, mode, publish, jsonPath } = getCliArgs();
   console.log(`Publish mode: ${publish ? "ON" : "OFF"}`);
   const domain = `${category}:${subcategory}`;
   const slug = `${category}-${subcategory}-${mode}`;
   const title = `${capitalize(category)} — ${capitalize(subcategory)} (${capitalize(mode)})`;
-
-  const levels = mode === "daily" ? DAILY_LEVELS : PRECISE_LEVELS;
-
-  console.log(`Domain resolved to: ${domain}`);
 
   const supabaseUrl = requiredEnv("SUPABASE_URL");
   const serviceRoleKey = requiredEnv("SUPABASE_SERVICE_ROLE_KEY");
@@ -66,30 +140,19 @@ async function main(): Promise<void> {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  const { data: sensesRaw, error: sensesErr } = await supabase
-    .from("lexicon_senses")
-    .select("id, level, lexicon_entries(lemma)")
-    .eq("domain", domain)
-    .in("level", levels);
+  console.log(`Building from JSON: ${jsonPath}`);
+  const rawSenses = await loadSensesFromJson(supabase, jsonPath, domain);
 
-  if (sensesErr) {
-    throw new Error(`Failed to fetch senses: ${sensesErr.message}`);
-  }
-
-  const senses = (sensesRaw ?? []) as Array<{
-    id: string;
-    level: string;
-    lexicon_entries: Array<{ lemma: string }> | null;
-  }>;
-
-  senses.sort((a, b) => {
-    const levelA = LEVEL_ORDER.indexOf(a.level);
-    const levelB = LEVEL_ORDER.indexOf(b.level);
-    if (levelA !== levelB) return levelA - levelB;
-    const lemmaA = (a.lexicon_entries?.[0]?.lemma ?? "").toLowerCase();
-    const lemmaB = (b.lexicon_entries?.[0]?.lemma ?? "").toLowerCase();
-    return lemmaA.localeCompare(lemmaB);
+  // Deduplicate by sense_id (constraint vocab_pack_items_unique: pack_id + sense_id must be unique)
+  const seen = new Set<string>();
+  const senses = rawSenses.filter((s) => {
+    if (seen.has(s.id)) return false;
+    seen.add(s.id);
+    return true;
   });
+  if (rawSenses.length > senses.length) {
+    console.log(`Deduplicated ${rawSenses.length - senses.length} duplicate sense(s)`);
+  }
 
   if (senses.length === 0) {
     throw new Error(`No senses found for domain ${domain} and mode ${mode}`);
