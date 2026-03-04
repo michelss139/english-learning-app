@@ -4,7 +4,7 @@ import { createSupabaseAdmin } from "@/lib/supabase/admin";
 type CreateLessonBody = {
   student_id?: string;
   lesson_date: string;
-  topic: string;
+  topic?: string;
   summary?: string | null;
 };
 
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
     const userId = userData.user.id;
     const body = (await req.json().catch(() => null)) as CreateLessonBody | null;
 
-    if (!body?.lesson_date || !body?.topic) {
+    if (!body?.lesson_date || body.topic === undefined) {
       return NextResponse.json({ error: "lesson_date and topic are required" }, { status: 400 });
     }
 

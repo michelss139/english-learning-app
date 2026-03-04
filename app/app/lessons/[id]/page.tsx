@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { getOrCreateProfile, type Profile } from "@/lib/auth/profile";
+import SenseSelectionModal from "@/app/app/vocab/SenseSelectionModal";
 
 type Lesson = {
   id: string;
@@ -18,13 +20,25 @@ type LessonNote = {
   created_at: string;
 };
 
-type LessonAssignment = {
+type LessonTopic = {
   id: string;
-  exercise_type: "pack" | "cluster" | "irregular";
-  context_slug: string;
-  status: "assigned" | "done" | "skipped";
-  due_date: string | null;
-  params: Record<string, any>;
+  topic_type: "conversation" | "grammar" | "custom";
+  topic_value: string;
+  created_at?: string;
+};
+
+type LessonResource = {
+  id: string;
+  resource_type: "grammar" | "pack" | "cluster" | "irregular";
+  resource_id: string;
+  created_at?: string;
+};
+
+type TeacherComment = {
+  id: string;
+  teacher_id: string;
+  content: string;
+  created_at: string;
 };
 
 export default function LessonDetailPage() {
@@ -32,6 +46,25 @@ export default function LessonDetailPage() {
   const params = useParams();
   const lessonId = (params?.id as string) || "";
 
+  const grammarTopics = [
+    "Present Simple",
+    "Present Continuous",
+    "Present Perfect",
+    "Past Simple",
+    "Past Continuous",
+    "Past Perfect",
+    "Future forms",
+    "Conditionals",
+    "Modal verbs",
+    "Passive voice",
+    "Reported speech",
+    "Gerund and infinitive",
+    "Articles",
+    "Prepositions",
+    "Custom topic",
+  ];
+
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
@@ -39,66 +72,73 @@ export default function LessonDetailPage() {
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [notes, setNotes] = useState<LessonNote[]>([]);
-  const [assignments, setAssignments] = useState<LessonAssignment[]>([]);
+  const [topics, setTopics] = useState<LessonTopic[]>([]);
+  const [resources, setResources] = useState<LessonResource[]>([]);
+  const [teacherComments, setTeacherComments] = useState<TeacherComment[]>([]);
 
   const [topic, setTopic] = useState("");
   const [lessonDate, setLessonDate] = useState("");
-  const [summary, setSummary] = useState("");
+  const [homework, setHomework] = useState("");
 
   const [noteText, setNoteText] = useState("");
   const [addingNote, setAddingNote] = useState(false);
 
-  const [assignmentType, setAssignmentType] = useState<LessonAssignment["exercise_type"]>("pack");
-  const [assignmentSlug, setAssignmentSlug] = useState("");
-  const [assignmentDueDate, setAssignmentDueDate] = useState("");
-  const [assignmentParams, setAssignmentParams] = useState("{}");
-  const [addingAssignment, setAddingAssignment] = useState(false);
+  const [conversationCovered, setConversationCovered] = useState(false);
+  const [selectedGrammarTopic, setSelectedGrammarTopic] = useState("");
+  const [customTopic, setCustomTopic] = useState("");
+  const [savingTopics, setSavingTopics] = useState(false);
 
-  const assignedCount = useMemo(
-    () => assignments.filter((a) => a.status === "assigned").length,
-    [assignments]
-  );
-  const doneCount = useMemo(() => assignments.filter((a) => a.status === "done").length, [assignments]);
-  const buildAssignmentHref = (assignment: LessonAssignment) => {
-    const params = new URLSearchParams();
-    params.set("autostart", "1");
-    params.set("assignmentId", assignment.id);
+  const [resourceIdInput, setResourceIdInput] = useState("");
+  const [savingResourceType, setSavingResourceType] = useState<LessonResource["resource_type"] | null>(null);
 
-    Object.entries(assignment.params ?? {}).forEach(([key, value]) => {
-      if (value === undefined || value === null) return;
-      params.set(String(key), String(value));
+  const [vocabSearch, setVocabSearch] = useState("");
+  const [showVocabModal, setShowVocabModal] = useState(false);
+  const [vocabSuccess, setVocabSuccess] = useState("");
+
+  const [teacherCommentText, setTeacherCommentText] = useState("");
+  const [addingTeacherComment, setAddingTeacherComment] = useState(false);
+
+  const getToken = async () => {
+    const session = await supabase.auth.getSession();
+    return session.data.session?.access_token ?? null;
+  };
+
+  const fetchJsonWithAuth = async (input: string, init?: RequestInit) => {
+    const token = await getToken();
+    if (!token) throw new Error("Musisz być zalogowany.");
+
+    const res = await fetch(input, {
+      ...init,
+      headers: {
+        ...(init?.headers ?? {}),
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    if (assignment.exercise_type === "pack") {
-      return `/app/vocab/pack/${assignment.context_slug}?${params.toString()}`;
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+      throw new Error(errorData.error || `HTTP ${res.status}`);
     }
-    if (assignment.exercise_type === "cluster") {
-      return `/app/vocab/clusters/${assignment.context_slug}?${params.toString()}`;
-    }
-    return `/app/irregular-verbs/train?${params.toString()}`;
+
+    return res.json();
   };
 
   const loadLesson = async () => {
-    const session = await supabase.auth.getSession();
-    const token = session.data.session?.access_token;
-    if (!token) return;
+    const [lessonData, topicsData, resourcesData, commentsData] = await Promise.all([
+      fetchJsonWithAuth(`/api/lessons/${lessonId}`),
+      fetchJsonWithAuth(`/api/lessons/${lessonId}/topics`),
+      fetchJsonWithAuth(`/api/lessons/${lessonId}/resources`),
+      fetchJsonWithAuth(`/api/lessons/teacher-comment?lesson_id=${lessonId}`),
+    ]);
 
-    const res = await fetch(`/api/lessons/${lessonId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      throw new Error(errorData.error || "Nie udało się wczytać lekcji.");
-    }
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error || "Nie udało się wczytać lekcji.");
-
-    setLesson(data.lesson);
-    setNotes(data.notes ?? []);
-    setAssignments(data.assignments ?? []);
-    setTopic(data.lesson.topic ?? "");
-    setLessonDate(data.lesson.lesson_date ?? "");
-    setSummary(data.lesson.summary ?? "");
+    setLesson(lessonData.lesson);
+    setNotes(lessonData.notes ?? []);
+    setTopic(lessonData.lesson.topic ?? "");
+    setLessonDate(lessonData.lesson.lesson_date ?? "");
+    setHomework(lessonData.lesson.summary ?? "");
+    setTopics(topicsData.topics ?? []);
+    setResources(resourcesData.resources ?? []);
+    setTeacherComments(commentsData.comments ?? []);
   };
 
   useEffect(() => {
@@ -106,6 +146,8 @@ export default function LessonDetailPage() {
       try {
         setLoading(true);
         setError("");
+        const p = await getOrCreateProfile();
+        setProfile(p);
         await loadLesson();
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać lekcji.");
@@ -171,9 +213,9 @@ export default function LessonDetailPage() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          topic: topic.trim(),
+          topic: topic.trim() || "",
           lesson_date: lessonDate,
-          summary: summary.trim() || null,
+          summary: homework.trim() || null,
         }),
       });
       if (!res.ok) {
@@ -184,6 +226,7 @@ export default function LessonDetailPage() {
       if (!data.ok) throw new Error(data.error || "Nie udało się zapisać lekcji.");
 
       setLesson(data.lesson);
+      setHomework(data.lesson.summary ?? "");
     } catch (e: any) {
       setError(e?.message ?? "Nie udało się zapisać lekcji.");
     } finally {
@@ -224,82 +267,117 @@ export default function LessonDetailPage() {
     }
   };
 
-  const addAssignment = async () => {
-    if (!assignmentSlug.trim()) {
-      setError("Podaj slug ćwiczenia.");
-      return;
+  const addCoveredTopics = async () => {
+    const requests: Array<{ topic_type: "conversation" | "grammar" | "custom"; topic_value: string }> = [];
+    if (conversationCovered) {
+      requests.push({ topic_type: "conversation", topic_value: "Conversation" });
     }
-    let parsedParams: Record<string, any> = {};
-    try {
-      parsedParams = assignmentParams.trim() ? JSON.parse(assignmentParams) : {};
-    } catch {
-      setError("Parametry muszą być poprawnym JSON.");
-      return;
-    }
-
-    try {
-      setAddingAssignment(true);
-      setError("");
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      if (!token) return;
-
-      const res = await fetch(`/api/lessons/${lessonId}/assignments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          exercise_type: assignmentType,
-          context_slug: assignmentSlug.trim(),
-          params: parsedParams,
-          due_date: assignmentDueDate || null,
-        }),
-      });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-        throw new Error(errorData.error || "Nie udało się dodać zadania.");
+    if (selectedGrammarTopic) {
+      if (selectedGrammarTopic === "Custom topic") {
+        if (!customTopic.trim()) {
+          setError("Wpisz własny temat gramatyczny.");
+          return;
+        }
+        requests.push({ topic_type: "custom", topic_value: customTopic.trim() });
+      } else {
+        requests.push({ topic_type: "grammar", topic_value: selectedGrammarTopic });
       }
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Nie udało się dodać zadania.");
+    }
 
-      setAssignments((prev) => [...prev, data.assignment]);
-      setAssignmentSlug("");
-      setAssignmentParams("{}");
-      setAssignmentDueDate("");
+    if (requests.length === 0) {
+      setError("Wybierz przynajmniej jeden temat.");
+      return;
+    }
+
+    try {
+      setSavingTopics(true);
+      setError("");
+
+      for (const reqBody of requests) {
+        await fetchJsonWithAuth("/api/lessons/topics", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            lesson_id: lessonId,
+            ...reqBody,
+          }),
+        });
+      }
+
+      const refreshed = await fetchJsonWithAuth(`/api/lessons/${lessonId}/topics`);
+      setTopics(refreshed.topics ?? []);
+      setConversationCovered(false);
+      setSelectedGrammarTopic("");
+      setCustomTopic("");
     } catch (e: any) {
-      setError(e?.message ?? "Nie udało się dodać zadania.");
+      setError(e?.message ?? "Nie udało się zapisać tematów.");
     } finally {
-      setAddingAssignment(false);
+      setSavingTopics(false);
     }
   };
 
-  const markSkipped = async (assignmentId: string) => {
-    try {
-      setError("");
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      if (!token) return;
+  const addLinkedResource = async (resourceType: LessonResource["resource_type"]) => {
+    if (!resourceIdInput.trim()) {
+      setError("Podaj identyfikator zasobu (slug/id).");
+      return;
+    }
 
-      const res = await fetch(`/api/lessons/assignments/${assignmentId}`, {
-        method: "PATCH",
+    try {
+      setSavingResourceType(resourceType);
+      setError("");
+      await fetchJsonWithAuth("/api/lessons/resources", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ status: "skipped" }),
+        body: JSON.stringify({
+          lesson_id: lessonId,
+          resource_type: resourceType,
+          resource_id: resourceIdInput.trim(),
+        }),
       });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-        throw new Error(errorData.error || "Nie udało się zaktualizować zadania.");
-      }
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Nie udało się zaktualizować zadania.");
 
-      setAssignments((prev) => prev.map((a) => (a.id === assignmentId ? data.assignment : a)));
+      const refreshed = await fetchJsonWithAuth(`/api/lessons/${lessonId}/resources`);
+      setResources(refreshed.resources ?? []);
+      setResourceIdInput("");
     } catch (e: any) {
-      setError(e?.message ?? "Nie udało się zaktualizować zadania.");
+      setError(e?.message ?? "Nie udało się dodać zasobu.");
+    } finally {
+      setSavingResourceType(null);
+    }
+  };
+
+  const openVocabSearch = () => {
+    if (!vocabSearch.trim()) {
+      setError("Wpisz słowo do wyszukania w leksykonie.");
+      return;
+    }
+    setError("");
+    setShowVocabModal(true);
+  };
+
+  const addTeacherComment = async () => {
+    if (!teacherCommentText.trim()) return;
+    try {
+      setAddingTeacherComment(true);
+      setError("");
+
+      const data = await fetchJsonWithAuth("/api/lessons/teacher-comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lesson_id: lessonId,
+          content: teacherCommentText.trim(),
+        }),
+      });
+
+      if (!data.ok) throw new Error(data.error || "Nie udało się dodać komentarza.");
+      setTeacherCommentText("");
+      setTeacherComments((prev) => [...prev, data.comment]);
+    } catch (e: any) {
+      setError(e?.message ?? "Nie udało się dodać komentarza nauczyciela.");
+    } finally {
+      setAddingTeacherComment(false);
     }
   };
 
@@ -330,9 +408,7 @@ export default function LessonDetailPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Lekcja</h1>
-            <div className="text-sm text-slate-600">
-              Zadania: {doneCount}/{assignedCount}
-            </div>
+            <div className="text-sm text-slate-600">Workflow nauczyciela po zajęciach</div>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
@@ -392,19 +468,120 @@ export default function LessonDetailPage() {
           </div>
         </div>
         <div className="space-y-1">
-          <label className="text-sm font-medium text-slate-700">Podsumowanie</label>
+          <label className="text-sm font-medium text-slate-700">Homework</label>
           <textarea
             className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
             rows={3}
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            placeholder="Co było na lekcji, co zadane..."
+            value={homework}
+            onChange={(e) => setHomework(e.target.value)}
+            placeholder="Zadanie domowe po lekcji..."
           />
         </div>
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Notatki</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Topics covered</h2>
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
+          <label className="flex items-center gap-2 text-sm text-slate-800">
+            <input
+              type="checkbox"
+              checked={conversationCovered}
+              onChange={(e) => setConversationCovered(e.target.checked)}
+            />
+            Conversation
+          </label>
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-slate-700">Grammar topics</label>
+            <select
+              className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900"
+              value={selectedGrammarTopic}
+              onChange={(e) => setSelectedGrammarTopic(e.target.value)}
+            >
+              <option value="">Select topic</option>
+              {grammarTopics.map((g) => (
+                <option key={g} value={g}>
+                  {g}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedGrammarTopic === "Custom topic" ? (
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-slate-700">Custom topic</label>
+              <input
+                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+                value={customTopic}
+                onChange={(e) => setCustomTopic(e.target.value)}
+                placeholder="e.g. relative clauses"
+              />
+            </div>
+          ) : null}
+
+          <button
+            className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 transition disabled:opacity-60"
+            onClick={addCoveredTopics}
+            disabled={savingTopics}
+          >
+            {savingTopics ? "Saving…" : "Save topics"}
+          </button>
+        </div>
+
+        {topics.length === 0 ? (
+          <p className="text-sm text-slate-600">No topics saved yet.</p>
+        ) : (
+          <ul className="flex flex-wrap gap-2">
+            {topics.map((t) => (
+              <li key={t.id} className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs text-slate-700">
+                {t.topic_type}: {t.topic_value}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Vocabulary</h2>
+        <p className="text-sm text-slate-600">Add vocabulary from lexicon to student pool.</p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <input
+            className="flex-1 rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            value={vocabSearch}
+            onChange={(e) => setVocabSearch(e.target.value)}
+            placeholder="Type word (e.g. improve)"
+          />
+          <button
+            className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 transition"
+            onClick={openVocabSearch}
+          >
+            Add vocabulary from lexicon
+          </button>
+        </div>
+        {vocabSuccess ? <p className="text-sm text-emerald-600">{vocabSuccess}</p> : null}
+
+        <SenseSelectionModal
+          lemma={vocabSearch}
+          isOpen={showVocabModal}
+          onClose={() => setShowVocabModal(false)}
+          onSelect={() => {
+            setVocabSuccess("Word added to pool.");
+            setTimeout(() => setVocabSuccess(""), 2200);
+            setShowVocabModal(false);
+            setVocabSearch("");
+          }}
+          onSelectCustom={() => {
+            setVocabSuccess("Custom word added to pool.");
+            setTimeout(() => setVocabSuccess(""), 2200);
+            setShowVocabModal(false);
+            setVocabSearch("");
+          }}
+          onSearchForm={(term) => setVocabSearch(term)}
+        />
+      </section>
+
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Notes</h2>
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
           <textarea
             className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
@@ -439,92 +616,86 @@ export default function LessonDetailPage() {
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Zadania</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Linked resources</h2>
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-slate-700">Typ</label>
-              <select
-                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900"
-                value={assignmentType}
-                onChange={(e) => setAssignmentType(e.target.value as LessonAssignment["exercise_type"])}
-              >
-                <option value="pack">Pack</option>
-                <option value="cluster">Cluster</option>
-                <option value="irregular">Irregular</option>
-              </select>
-            </div>
-            <div className="space-y-1 sm:col-span-2">
-              <label className="text-sm font-medium text-slate-700">Slug</label>
-              <input
-                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-                value={assignmentSlug}
-                onChange={(e) => setAssignmentSlug(e.target.value)}
-                placeholder="np. shop"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-slate-700">Termin</label>
-              <input
-                className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-                type="date"
-                value={assignmentDueDate}
-                onChange={(e) => setAssignmentDueDate(e.target.value)}
-              />
-            </div>
+          <input
+            className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            value={resourceIdInput}
+            onChange={(e) => setResourceIdInput(e.target.value)}
+            placeholder="Resource id/slug (e.g. present-perfect, business-retail-daily)"
+          />
+          <div className="flex flex-wrap gap-2">
+            <button
+              className="rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 transition disabled:opacity-60"
+              onClick={() => addLinkedResource("grammar")}
+              disabled={savingResourceType !== null}
+            >
+              {savingResourceType === "grammar" ? "Adding…" : "Add grammar"}
+            </button>
+            <button
+              className="rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 transition disabled:opacity-60"
+              onClick={() => addLinkedResource("pack")}
+              disabled={savingResourceType !== null}
+            >
+              {savingResourceType === "pack" ? "Adding…" : "Add pack"}
+            </button>
+            <button
+              className="rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 transition disabled:opacity-60"
+              onClick={() => addLinkedResource("cluster")}
+              disabled={savingResourceType !== null}
+            >
+              {savingResourceType === "cluster" ? "Adding…" : "Add cluster"}
+            </button>
           </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-700">Parametry (JSON)</label>
-            <textarea
-              className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-              rows={2}
-              value={assignmentParams}
-              onChange={(e) => setAssignmentParams(e.target.value)}
-            />
-          </div>
-          <button
-            className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
-            onClick={addAssignment}
-            disabled={addingAssignment}
-          >
-            {addingAssignment ? "Dodaję…" : "Dodaj zadanie"}
-          </button>
         </div>
 
-        {assignments.length === 0 ? (
-          <p className="text-sm text-slate-600">Brak zadań.</p>
+        {resources.length === 0 ? (
+          <p className="text-sm text-slate-600">No linked resources yet.</p>
         ) : (
           <ul className="space-y-2">
-            {assignments.map((assignment) => (
-              <li key={assignment.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="text-sm font-semibold text-slate-900">
-                      {assignment.exercise_type} • {assignment.context_slug}
-                    </div>
-                    <div className="text-xs text-slate-500">
-                      Status: {assignment.status}
-                      {assignment.due_date ? ` • termin: ${assignment.due_date}` : ""}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      className="rounded-xl border border-slate-900 bg-white px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
-                      href={buildAssignmentHref(assignment)}
-                    >
-                      Start →
-                    </a>
-                    <button
-                      className="rounded-xl border-2 border-rose-400/40 bg-rose-400/10 px-3 py-2 text-xs font-medium text-rose-200 hover:bg-rose-400/20 transition"
-                      onClick={() => markSkipped(assignment.id)}
-                    >
-                      Oznacz jako pominięte
-                    </button>
-                  </div>
-                </div>
+            {resources.map((resource) => (
+              <li key={resource.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+                <span className="font-semibold">{resource.resource_type}</span> • {resource.resource_id}
               </li>
             ))}
           </ul>
+        )}
+      </section>
+
+      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
+        <h2 className="text-lg font-semibold tracking-tight text-slate-900">Teacher comments</h2>
+        {teacherComments.length === 0 ? (
+          <p className="text-sm text-slate-600">No teacher comments yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {teacherComments.map((comment) => (
+              <li key={comment.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="mb-1 text-xs text-slate-500">{new Date(comment.created_at).toLocaleString()}</div>
+                <div className="whitespace-pre-wrap text-sm text-slate-700">{comment.content}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {profile?.role === "admin" ? (
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+            <textarea
+              className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              rows={3}
+              value={teacherCommentText}
+              onChange={(e) => setTeacherCommentText(e.target.value)}
+              placeholder="Teacher comment..."
+            />
+            <button
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 transition disabled:opacity-60"
+              onClick={addTeacherComment}
+              disabled={addingTeacherComment || !teacherCommentText.trim()}
+            >
+              {addingTeacherComment ? "Adding…" : "Add teacher comment"}
+            </button>
+          </div>
+        ) : (
+          <p className="text-xs text-slate-500">Teacher comments can be added by teacher account.</p>
         )}
       </section>
     </main>
