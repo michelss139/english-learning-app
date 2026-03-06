@@ -1058,6 +1058,67 @@ A: That sounds intense.`,
       practiceLink: "/app/exercises/future-perfect-continuous",
       courseLink: "/app/courses/future-perfect-continuous",
     },
+
+    // ZERO CONDITIONAL
+    {
+      slug: "zero-conditional",
+      title: "Zero Conditional",
+      description: "Zawsze prawdziwe sytuacje",
+      content: {
+        usage: `Zero Conditional opisuje sytuacje, które są zawsze prawdziwe.
+Mówimy o zasadach działania świata, faktach lub typowych reakcjach.`,
+        characteristicWords: "",
+        structure: createStructure(
+          `If + present simple, present simple`,
+          "",
+          ""
+        ),
+        auxiliary: "",
+        confusionWarnings: `Nie mówimy o przyszłości.
+Opisujemy ogólne zasady lub fakty.`,
+        commonMistakes: "",
+        examples: `If you heat water to 100°C, it boils.`,
+        dialog: "",
+        intention: `Zero Conditional opisuje sytuacje, które są zawsze prawdziwe.
+Jeżeli warunek zostanie spełniony, rezultat następuje zawsze.`,
+        relatedLinks: [],
+        comparisons: [
+          {
+            tense1: "zero-conditional",
+            tense2: "first-conditional",
+            title: "Zero Conditional vs First Conditional",
+            description: "Fakty vs możliwa przyszłość",
+          },
+        ],
+      },
+      theoryLink: "/app/grammar/conditionals/zero",
+    },
+
+    // FIRST CONDITIONAL
+    {
+      slug: "first-conditional",
+      title: "First Conditional",
+      description: "Realnie możliwa przyszłość",
+      content: {
+        usage: `First Conditional opisuje sytuacje, które są realnie możliwe w przyszłości.
+Jeżeli warunek zostanie spełniony, rezultat może się wydarzyć.`,
+        characteristicWords: "",
+        structure: createStructure(
+          `If + present simple, will + infinitive`,
+          "",
+          ""
+        ),
+        auxiliary: "",
+        confusionWarnings: `Zdanie odnosi się do przyszłości.
+W rezultacie najczęściej używamy will.`,
+        commonMistakes: "",
+        examples: `If it rains tomorrow, we will stay at home.`,
+        dialog: "",
+        intention: `First Conditional opisuje sytuacje, które mogą wydarzyć się w przyszłości.
+Warunek jest realny, ale rezultat nie jest jeszcze pewny.`,
+      },
+      theoryLink: "/app/grammar/conditionals/first",
+    },
   ],
 };
 

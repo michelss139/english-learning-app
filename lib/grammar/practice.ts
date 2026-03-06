@@ -71,10 +71,46 @@ export const grammarPracticeExercises: Record<GrammarTenseSlug, GrammarPracticeE
     title: "Future Perfect Continuous",
     questions: [],
   },
+  "zero-conditional": {
+    slug: "zero-conditional",
+    title: "Zero Conditional",
+    questions: [],
+  },
+  "first-conditional": {
+    slug: "first-conditional",
+    title: "First Conditional",
+    questions: [
+      {
+        id: "first-conditional-q1",
+        prompt: "If it rains tomorrow, we ____ at home.",
+        options: ["will stay", "stay", "stayed", "would stay"],
+        correct_option: "will stay",
+      },
+    ],
+  },
+};
+
+const conditionalExercises: Record<string, Omit<GrammarPracticeExercise, "slug"> & { slug: string }> = {
+  "first-conditional": {
+    slug: "first-conditional",
+    title: "First Conditional",
+    questions: [
+      {
+        id: "first-conditional-q1",
+        prompt: "If it rains tomorrow, we ____ at home.",
+        options: ["will stay", "stay", "stayed", "would stay"],
+        correct_option: "will stay",
+      },
+    ],
+  },
 };
 
 export function getGrammarPracticeExercise(slug: string): GrammarPracticeExercise | null {
-  return grammarPracticeExercises[slug as GrammarTenseSlug] ?? null;
+  const fromTenses = grammarPracticeExercises[slug as GrammarTenseSlug];
+  if (fromTenses) return fromTenses;
+  const fromConditionals = conditionalExercises[slug];
+  if (fromConditionals) return fromConditionals as GrammarPracticeExercise;
+  return null;
 }
 
 export function getGrammarPracticeQuestion(

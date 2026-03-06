@@ -36,7 +36,8 @@ export default async function GrammarTensesPage() {
         </div>
       </header>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+      <section className="tile-frame">
+        <div className="tile-core p-5 space-y-4">
         <div>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-xl font-semibold text-slate-900">Spis treści</h2>
@@ -83,6 +84,7 @@ export default async function GrammarTensesPage() {
               ))}
             </div>
           )}
+        </div>
         </div>
       </section>
     </main>

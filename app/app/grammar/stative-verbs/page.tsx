@@ -110,7 +110,7 @@ export default function StativeVerbsPage() {
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      <header className="px-1 py-1">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasowniki statyczne</h1>
@@ -119,16 +119,11 @@ export default function StativeVerbsPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <Link
-              className="tile-frame"
-              href="/app/grammar"
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Spis treści
-              </span>
-            </Link>
-          </div>
+          <Link className="tile-frame" href="/app/grammar">
+            <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+              ← Spis treści
+            </span>
+          </Link>
         </div>
       </header>
 
@@ -138,7 +133,8 @@ export default function StativeVerbsPage() {
         </div>
       ) : null}
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
+      <section className="tile-frame">
+        <div className="tile-core p-6 space-y-6">
         {/* Quick navigation */}
         <div className="sticky top-4 z-10 mb-6 rounded-xl border border-slate-200 bg-slate-100 p-3">
           <div className="flex flex-wrap gap-2 text-xs">
@@ -316,7 +312,7 @@ Angielski działa inaczej.`}
         {/* 5. Uwaga! To myli */}
         <section id="confusion-warnings" className="space-y-3 scroll-mt-4">
           <h2 className="text-xl font-semibold text-slate-900">Uwaga! To myli (sygnały vs pułapki)</h2>
-          <div className="rounded-xl border-2 border-amber-400/30 bg-amber-400/10 p-4">
+          <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
             <div className="prose prose-slate max-w-none text-amber-800 whitespace-pre-line">
               {`„now" + czasownik statyczny ≠ Continuous
 ❌ I am knowing the answer now.
@@ -456,14 +452,14 @@ A: You'll be fine.`}
           {/* AI Dialog Button */}
           <div className="pt-2">
             <button
-              className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
+              className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50 disabled:opacity-60"
               onClick={handleGenerateAIDialog}
               disabled={aiDialogLoading}
             >
               {aiDialogLoading ? "Generuję…" : "Wygeneruj dodatkowy dialog (AI)"}
             </button>
             {aiError && (
-              <div className="mt-3 rounded-xl border-2 border-rose-400/30 bg-rose-400/10 p-3 text-rose-100 text-sm">
+              <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
                 {aiError}
               </div>
             )}
@@ -517,6 +513,7 @@ A: You'll be fine.`}
             ]}
           />
         </section>
+        </div>
       </section>
     </main>
   );

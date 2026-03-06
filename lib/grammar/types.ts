@@ -14,7 +14,9 @@ export type GrammarTenseSlug =
   | "future-simple"
   | "future-continuous"
   | "future-perfect-simple"
-  | "future-perfect-continuous";
+  | "future-perfect-continuous"
+  | "zero-conditional"
+  | "first-conditional";
 
 export type GrammarChip = {
   text: string;
@@ -61,9 +63,11 @@ export type GrammarTense = {
     chips?: GrammarChip[]; // Clickable chips (characteristic words)
     relatedLinks?: GrammarRelatedLink[]; // "Zobacz też" links
     comparisons?: GrammarComparison[]; // Available comparisons
+    intention?: string; // Text for "Różnice i podobieństwa" Intencja (falls back to usage)
   };
   practiceLink?: string; // Link to exercises: /app/exercises/[czas]
   courseLink?: string; // Link to video course: /app/courses/[czas]
+  theoryLink?: string; // Link to full theory (e.g. /app/grammar/conditionals/zero)
 };
 
 export type GrammarContent = {

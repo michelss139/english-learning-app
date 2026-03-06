@@ -174,78 +174,87 @@ export function GrammarPracticeClient({
 
   return (
     <main className="space-y-6" onKeyDown={handleKeyDown} tabIndex={0}>
-      <div className="flex items-center justify-between">
-        <Link
-          href={mapHref}
-          className="rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-white hover:bg-white/15"
-        >
-          ← {mapLabel}
-        </Link>
-        <Link href="/app/grammar" className="text-sm text-white/70 hover:text-white">
-          Spis treści
-        </Link>
-      </div>
+      <header className="px-1 py-1">
+        <div className="flex items-center justify-between">
+          <Link className="tile-frame" href={mapHref}>
+            <span className="tile-core inline-flex items-center rounded-[11px] px-3 py-2 text-sm font-medium text-slate-700">
+              ← {mapLabel}
+            </span>
+          </Link>
+          <Link href="/app/grammar" className="text-sm text-slate-600 underline hover:text-slate-900">
+            Spis treści
+          </Link>
+        </div>
+      </header>
 
-      <h1 className="text-xl font-semibold text-white">Ćwiczenie: {title}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Ćwiczenie: {title}</h1>
 
       {saveToast ? (
-        <div className="rounded-xl border border-white/15 bg-white/5 p-3 text-sm text-white/75">{saveToast}</div>
+        <div className="tile-frame">
+          <div className="tile-core p-3 text-sm text-slate-700">{saveToast}</div>
+        </div>
       ) : null}
 
       {error ? (
-        <div className="rounded-xl border border-rose-400/30 bg-rose-500/10 p-4 text-rose-100">{error}</div>
+        <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-700">{error}</div>
       ) : null}
 
       {question && !finished ? (
-        <div className="rounded-xl border border-white/15 bg-white/5 p-5">
-          <p className="mb-4 text-lg text-white">{question.prompt}</p>
-          <ul className="space-y-2">
-            {options.map((opt, idx) => (
-              <li key={opt}>
-                <button
-                  type="button"
-                  disabled={answered || !sessionId}
-                  onClick={() => submitAnswer(opt)}
-                  className={`w-full rounded-lg border px-4 py-2 text-left text-white transition ${
-                    !answered
-                      ? "border-white/20 bg-white/10 hover:bg-white/15"
-                      : opt === chosen
-                        ? answerResult?.is_correct
-                          ? "border-green-400/50 bg-green-500/20"
-                          : "border-red-400/50 bg-red-500/20"
-                        : "border-white/10 bg-white/5 opacity-70"
-                  }`}
-                >
-                  {String.fromCharCode(65 + idx)}) {opt}
-                </button>
-              </li>
-            ))}
-          </ul>
+        <div className="tile-frame">
+          <div className="tile-core p-5">
+            <p className="mb-4 text-lg text-slate-900">{question.prompt}</p>
+            <ul className="space-y-2">
+              {options.map((opt, idx) => (
+                <li key={opt}>
+                  <button
+                    type="button"
+                    disabled={answered || !sessionId}
+                    onClick={() => submitAnswer(opt)}
+                    className={`w-full rounded-lg border px-4 py-2 text-left transition ${
+                      !answered
+                        ? "border-slate-300 bg-white text-slate-800 hover:bg-slate-50"
+                        : opt === chosen
+                          ? answerResult?.is_correct
+                            ? "border-sky-400 bg-sky-50 text-slate-900"
+                            : "border-red-300 bg-red-50 text-slate-900"
+                          : "border-slate-200 bg-slate-50 text-slate-600 opacity-70"
+                    }`}
+                  >
+                    {String.fromCharCode(65 + idx)}) {opt}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : null}
 
       {answered && !finished ? (
-        <div className="rounded-xl border border-white/15 bg-white/5 p-4">
-          <p className="mb-2 text-white">
-            {answerResult?.is_correct ? "Poprawna odpowiedź." : `Poprawna odpowiedź: ${answerResult?.correct_option ?? "-"}.`}
-          </p>
-          <button
-            type="button"
-            onClick={handleFinish}
-            disabled={!answered}
-            className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-white hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Zakończ
-          </button>
+        <div className="tile-frame">
+          <div className="tile-core p-4">
+            <p className="mb-2 text-slate-800">
+              {answerResult?.is_correct ? "Poprawna odpowiedź." : `Poprawna odpowiedź: ${answerResult?.correct_option ?? "-"}.`}
+            </p>
+            <button
+              type="button"
+              onClick={handleFinish}
+              disabled={!answered}
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Zakończ
+            </button>
+          </div>
         </div>
       ) : null}
 
       {finished ? (
-        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
-          <p className="text-white">{xpToShow > 0 ? `+${xpToShow} XP` : "Ćwiczenie zakończone."}</p>
-          <Link href={mapHref} className="mt-2 inline-block text-sm text-white/80 underline hover:text-white">
-            Wróć do mapy {title}
-          </Link>
+        <div className="tile-frame">
+          <div className="tile-core p-4">
+            <p className="text-slate-800">{xpToShow > 0 ? `+${xpToShow} XP` : "Ćwiczenie zakończone."}</p>
+            <Link href={mapHref} className="mt-2 inline-block text-sm text-slate-600 underline hover:text-slate-900">
+              Wróć do mapy {title}
+            </Link>
+          </div>
         </div>
       ) : null}
     </main>

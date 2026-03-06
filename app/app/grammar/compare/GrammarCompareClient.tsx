@@ -5,9 +5,19 @@ import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import { getComparison, getComparisonCacheKey } from "@/lib/grammar/compare";
-import { GlossaryTooltip } from "@/lib/grammar/components";
 import Link from "next/link";
 import type { GrammarTenseSlug } from "@/lib/grammar/types";
+
+function ContentTile({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="tile-frame">
+      <div className="tile-core p-4">
+        <h3 className="mb-2 text-sm font-medium text-slate-900">{title}</h3>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 export default function GrammarCompareClient() {
   const searchParams = useSearchParams();
@@ -56,7 +66,6 @@ export default function GrammarCompareClient() {
 
       const cacheKey = getComparisonCacheKey(tense1Slug, tense2Slug);
 
-      // First, try to get from cache
       const cacheRes = await fetch(`/api/grammar/ai-dialog?key=${encodeURIComponent(cacheKey)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -72,7 +81,6 @@ export default function GrammarCompareClient() {
         }
       }
 
-      // If not cached, generate new
       const genRes = await fetch("/api/grammar/ai-dialog", {
         method: "POST",
         headers: {
@@ -108,24 +116,23 @@ export default function GrammarCompareClient() {
   if (!tense1Slug || !tense2Slug) {
     return (
       <main className="space-y-6">
-        <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+        <header className="px-1 py-1">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-white">Porównywarka czasów</h1>
-              <p className="text-sm text-white/75">Brak parametrów porównania</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Porównywarka czasów</h1>
+              <p className="text-base text-slate-600">Brak parametrów porównania</p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-                href="/app/grammar"
-              >
+            <Link className="tile-frame" href="/app/grammar">
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
                 ← Spis treści
-              </Link>
-            </div>
+              </span>
+            </Link>
           </div>
         </header>
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
-          <p className="text-white/75">Wybierz czasy do porównania z kart czasów gramatycznych.</p>
+        <section className="tile-frame">
+          <div className="tile-core p-5">
+            <p className="text-slate-700">Wybierz czasy do porównania z kart czasów gramatycznych.</p>
+          </div>
         </section>
       </main>
     );
@@ -134,204 +141,202 @@ export default function GrammarCompareClient() {
   if (!comparison) {
     return (
       <main className="space-y-6">
-        <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+        <header className="px-1 py-1">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight text-white">Porównywarka czasów</h1>
-              <p className="text-sm text-white/75">Nie znaleziono porównania</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Porównywarka czasów</h1>
+              <p className="text-base text-slate-600">Nie znaleziono porównania</p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-                href="/app/grammar"
-              >
+            <Link className="tile-frame" href="/app/grammar">
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
                 ← Spis treści
-              </Link>
-            </div>
+              </span>
+            </Link>
           </div>
         </header>
-        <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
-          <p className="text-white/75">
-            Porównanie między "{tense1Slug}" a "{tense2Slug}" nie jest dostępne.
-          </p>
+        <section className="tile-frame">
+          <div className="tile-core p-5">
+            <p className="text-slate-700">
+              Porównanie między &quot;{tense1Slug}&quot; a &quot;{tense2Slug}&quot; nie jest dostępne.
+            </p>
+          </div>
         </section>
       </main>
     );
   }
 
   const { tense1, tense2, title, description } = comparison;
+  const chips1 = tense1.content.chips ?? [];
+  const chips2 = tense2.content.chips ?? [];
+  const example1 = tense1.content.examples.split("\n").filter((l) => l.trim())[0] ?? "";
+  const example2 = tense2.content.examples.split("\n").filter((l) => l.trim())[0] ?? "";
+
+  const theoryLink1 = tense1.theoryLink ?? `/app/grammar/${tense1.slug}`;
+  const theoryLink2 = tense2.theoryLink ?? `/app/grammar/${tense2.slug}`;
+  const backHref =
+    tense1Slug === "zero-conditional" && tense2Slug === "first-conditional"
+      ? "/app/grammar/conditionals"
+      : "/app/grammar";
 
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
+      <header className="px-1 py-1">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-white">{title}</h1>
-            {description && <p className="text-sm text-white/75">{description}</p>}
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">{title}</h1>
+            {description && <p className="text-base text-slate-600">{description}</p>}
           </div>
-
-          <div className="flex flex-wrap gap-2">
-            <Link
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-              href="/app/grammar"
-            >
+          <Link className="tile-frame" href={backHref}>
+            <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
               ← Spis treści
-            </Link>
-          </div>
+            </span>
+          </Link>
         </div>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
-          {error}
-        </div>
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">{error}</div>
       ) : null}
 
       {/* Side-by-side comparison */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Tense 1 */}
-        <div className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-white">{tense1.title}</h2>
-            <Link
-              href={`/app/grammar/${tense1.slug}`}
-              className="text-sm text-white/60 hover:text-white transition"
-            >
-              Zobacz pełną teorię →
-            </Link>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Po co używamy</h3>
-              <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line text-sm">
-                {tense1.content.usage.split("\n").slice(0, 3).join("\n")}...
-              </div>
+        <div className="tile-frame">
+          <div className="tile-core p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-slate-900">{tense1.title}</h2>
+              <Link
+                href={theoryLink1}
+                className="text-sm text-slate-600 underline hover:text-slate-900"
+              >
+                Zobacz pełną teorię →
+              </Link>
             </div>
 
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Charakterystyczne słowa</h3>
-              <div className="flex flex-wrap gap-2">
-                {tense1.content.chips?.slice(0, 5).map((chip, index) => (
-                  <span
-                    key={index}
-                    className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs text-white/70"
-                    title={chip.description}
-                  >
-                    {chip.text}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <div className="space-y-4">
+              <ContentTile title="Po co używamy">
+                <div className="whitespace-pre-line text-sm text-slate-700">
+                  {tense1.content.usage.split("\n").slice(0, 3).join("\n")}...
+                </div>
+              </ContentTile>
 
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Struktura</h3>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line font-mono text-xs">
+              {chips1.length > 0 && (
+                <ContentTile title="Charakterystyczne słowa">
+                  <div className="flex flex-wrap gap-2">
+                    {chips1.slice(0, 5).map((chip, index) => (
+                      <span
+                        key={index}
+                        className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-700"
+                        title={chip.description}
+                      >
+                        {chip.text}
+                      </span>
+                    ))}
+                  </div>
+                </ContentTile>
+              )}
+
+              <ContentTile title="Struktura">
+                <div className="whitespace-pre-line font-mono text-xs text-slate-800">
                   {tense1.content.structure.affirmative.split("\n").slice(0, 2).join("\n")}
                 </div>
-              </div>
-            </div>
+              </ContentTile>
 
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Przykład</h3>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                <div className="text-white/90 text-sm">
-                  {tense1.content.examples.split("\n").filter((l) => l.trim())[0]}
-                </div>
-              </div>
+              <ContentTile title="Przykład">
+                <div className="text-sm text-slate-800">{example1}</div>
+              </ContentTile>
             </div>
           </div>
         </div>
 
         {/* Tense 2 */}
-        <div className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-white">{tense2.title}</h2>
-            <Link
-              href={`/app/grammar/${tense2.slug}`}
-              className="text-sm text-white/60 hover:text-white transition"
-            >
-              Zobacz pełną teorię →
-            </Link>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Po co używamy</h3>
-              <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line text-sm">
-                {tense2.content.usage.split("\n").slice(0, 3).join("\n")}...
-              </div>
+        <div className="tile-frame">
+          <div className="tile-core p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-slate-900">{tense2.title}</h2>
+              <Link
+                href={theoryLink2}
+                className="text-sm text-slate-600 underline hover:text-slate-900"
+              >
+                Zobacz pełną teorię →
+              </Link>
             </div>
 
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Charakterystyczne słowa</h3>
-              <div className="flex flex-wrap gap-2">
-                {tense2.content.chips?.slice(0, 5).map((chip, index) => (
-                  <span
-                    key={index}
-                    className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs text-white/70"
-                    title={chip.description}
-                  >
-                    {chip.text}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <div className="space-y-4">
+              <ContentTile title="Po co używamy">
+                <div className="whitespace-pre-line text-sm text-slate-700">
+                  {tense2.content.usage.split("\n").slice(0, 3).join("\n")}...
+                </div>
+              </ContentTile>
 
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Struktura</h3>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line font-mono text-xs">
+              {chips2.length > 0 && (
+                <ContentTile title="Charakterystyczne słowa">
+                  <div className="flex flex-wrap gap-2">
+                    {chips2.slice(0, 5).map((chip, index) => (
+                      <span
+                        key={index}
+                        className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-700"
+                        title={chip.description}
+                      >
+                        {chip.text}
+                      </span>
+                    ))}
+                  </div>
+                </ContentTile>
+              )}
+
+              <ContentTile title="Struktura">
+                <div className="whitespace-pre-line font-mono text-xs text-slate-800">
                   {tense2.content.structure.affirmative.split("\n").slice(0, 2).join("\n")}
                 </div>
-              </div>
-            </div>
+              </ContentTile>
 
-            <div>
-              <h3 className="text-sm font-medium text-white/80 mb-2">Przykład</h3>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                <div className="text-white/90 text-sm">
-                  {tense2.content.examples.split("\n").filter((l) => l.trim())[0]}
-                </div>
-              </div>
+              <ContentTile title="Przykład">
+                <div className="text-sm text-slate-800">{example2}</div>
+              </ContentTile>
             </div>
           </div>
         </div>
       </section>
 
       {/* Detailed comparison section */}
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
-        <h2 className="text-xl font-semibold text-white">Różnice i podobieństwa</h2>
+      <section className="tile-frame">
+        <div className="tile-core p-6 space-y-4">
+          <h2 className="text-xl font-semibold text-slate-900">Różnice i podobieństwa</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-3">
-            <h3 className="text-lg font-medium text-white">{tense1.title}</h3>
-            <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line text-sm">
-              <div className="space-y-2">
-                <div>
-                  <strong className="text-emerald-300">Intencja:</strong>
-                  <div className="mt-1">{tense1.content.usage.split("\n").slice(0, 2).join("\n")}</div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-slate-900">{tense1.title}</h3>
+              <div className="space-y-3">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-medium text-slate-900">Intencja</p>
+                  <p className="mt-1 whitespace-pre-line text-sm text-slate-700">
+                    {(tense1.content.intention ?? tense1.content.usage).split("\n").slice(0, 2).join("\n")}
+                  </p>
                 </div>
-                <div>
-                  <strong className="text-emerald-300">Uwaga:</strong>
-                  <div className="mt-1 text-amber-200">{tense1.content.confusionWarnings.split("\n").slice(0, 2).join("\n")}</div>
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                  <p className="text-sm font-medium text-slate-900">Uwaga</p>
+                  <p className="mt-1 whitespace-pre-line text-sm text-amber-900">
+                    {tense1.content.confusionWarnings.split("\n").slice(0, 2).join("\n")}
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="space-y-3">
-            <h3 className="text-lg font-medium text-white">{tense2.title}</h3>
-            <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line text-sm">
-              <div className="space-y-2">
-                <div>
-                  <strong className="text-emerald-300">Intencja:</strong>
-                  <div className="mt-1">{tense2.content.usage.split("\n").slice(0, 2).join("\n")}</div>
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-slate-900">{tense2.title}</h3>
+              <div className="space-y-3">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-medium text-slate-900">Intencja</p>
+                  <p className="mt-1 whitespace-pre-line text-sm text-slate-700">
+                    {(tense2.content.intention ?? tense2.content.usage).split("\n").slice(0, 2).join("\n")}
+                  </p>
                 </div>
-                <div>
-                  <strong className="text-emerald-300">Uwaga:</strong>
-                  <div className="mt-1 text-amber-200">{tense2.content.confusionWarnings.split("\n").slice(0, 2).join("\n")}</div>
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                  <p className="text-sm font-medium text-slate-900">Uwaga</p>
+                  <p className="mt-1 whitespace-pre-line text-sm text-amber-900">
+                    {tense2.content.confusionWarnings.split("\n").slice(0, 2).join("\n")}
+                  </p>
                 </div>
               </div>
             </div>
@@ -340,60 +345,66 @@ export default function GrammarCompareClient() {
       </section>
 
       {/* AI Dialog section */}
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-white">Dialog kontrastowy (AI)</h2>
-          <button
-            className="rounded-xl border-2 border-sky-400/30 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-100 hover:bg-sky-400/20 transition disabled:opacity-60"
-            onClick={handleGenerateAIDialog}
-            disabled={aiDialogLoading}
-          >
-            {aiDialogLoading ? "Generuję…" : "Wygeneruj dialog AI (zapis do cache)"}
-          </button>
-        </div>
-
-        {aiError && (
-          <div className="mt-3 rounded-xl border-2 border-rose-400/30 bg-rose-400/10 p-3 text-rose-100 text-sm">
-            {aiError}
+      <section className="tile-frame">
+        <div className="tile-core p-6 space-y-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-xl font-semibold text-slate-900">Dialog kontrastowy (AI)</h2>
+            <button
+              className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50 disabled:opacity-60"
+              onClick={handleGenerateAIDialog}
+              disabled={aiDialogLoading}
+            >
+              {aiDialogLoading ? "Generuję…" : "Wygeneruj dialog AI (zapis do cache)"}
+            </button>
           </div>
-        )}
-        {aiDialog && (
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="prose prose-invert max-w-none text-white/90 whitespace-pre-line font-mono text-sm">
-              {aiDialog.split("\n").map((line, index) => {
-                // Highlight bold text (verb forms)
-                const highlighted = line.replace(/\*\*(.+?)\*\*/g, '<span class="font-semibold text-emerald-300">$1</span>');
-                return (
-                  <div key={index} dangerouslySetInnerHTML={{ __html: highlighted || "&nbsp;" }} />
-                );
-              })}
+
+          {aiError && (
+            <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+              {aiError}
             </div>
-          </div>
-        )}
+          )}
+          {aiDialog && (
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="space-y-1 font-mono text-sm text-slate-800">
+                {aiDialog.split("\n").map((line, index) => {
+                  const highlighted = line.replace(
+                    /\*\*(.+?)\*\*/g,
+                    '<span class="font-semibold text-slate-900">$1</span>'
+                  );
+                  return (
+                    <div key={index} dangerouslySetInnerHTML={{ __html: highlighted || "&nbsp;" }} />
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
-        {!aiDialog && !aiError && (
-          <div className="text-white/60 text-sm">
-            Kliknij przycisk powyżej, aby wygenerować dialog kontrastowy pokazujący różnice między tymi czasami.
-            Dialog będzie zapisany w cache i dostępny przy następnych odwiedzinach.
-          </div>
-        )}
+          {!aiDialog && !aiError && (
+            <p className="text-sm text-slate-600">
+              Kliknij przycisk powyżej, aby wygenerować dialog kontrastowy pokazujący różnice między
+              tymi czasami. Dialog będzie zapisany w cache i dostępny przy następnych odwiedzinach.
+            </p>
+          )}
+        </div>
       </section>
 
       {/* Quick links */}
-      <section className="rounded-3xl border-2 border-white/15 bg-white/5 backdrop-blur-xl p-5">
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href={`/app/grammar/${tense1.slug}`}
-            className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-          >
-            Pełna teoria: {tense1.title} →
-          </Link>
-          <Link
-            href={`/app/grammar/${tense2.slug}`}
-            className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-white hover:bg-white/15 transition"
-          >
-            Pełna teoria: {tense2.title} →
-          </Link>
+      <section className="tile-frame">
+        <div className="tile-core p-5">
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={theoryLink1}
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
+            >
+              Pełna teoria: {tense1.title} →
+            </Link>
+            <Link
+              href={theoryLink2}
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
+            >
+              Pełna teoria: {tense2.title} →
+            </Link>
+          </div>
         </div>
       </section>
     </main>

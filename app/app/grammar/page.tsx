@@ -37,6 +37,11 @@ export default function GrammarHubPage() {
             description: "Czasowniki statyczne i ich użycie.",
             href: "/app/grammar/stative-verbs",
           },
+          {
+            title: "Conditionals",
+            description: "Zdania warunkowe: Zero, First, Second, Third i Mixed.",
+            href: "/app/grammar/conditionals",
+          },
         ].map((tile) => (
           <a
             key={tile.title}
