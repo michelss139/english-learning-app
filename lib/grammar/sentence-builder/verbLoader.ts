@@ -23,7 +23,7 @@ export async function loadSentenceBuilderVerbs(): Promise<SentenceBuilderVerb[]>
 
   cachedPromise = (async () => {
     const supabase = createSupabaseAdmin();
-    const whitelist = new Set(SENTENCE_BUILDER_VERB_WHITELIST);
+    const whitelist = new Set<string>(SENTENCE_BUILDER_VERB_WHITELIST);
 
     const { data, error } = await supabase
       .from("irregular_verbs")

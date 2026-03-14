@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import type { GrammarTense } from "@/lib/grammar/types";
+import type { GrammarTense, GrammarTenseSlug } from "@/lib/grammar/types";
 
 const CATEGORIES = ["PRESENT", "PAST", "FUTURE"] as const;
 
@@ -132,8 +132,9 @@ export function TensesClient({ tenses }: TensesClientProps) {
   })).filter((g) => g.tenses.length > 0);
 
   const firstTense = tenses[0];
-  const [activeSlug, setActiveSlug] = useState(firstTense?.slug ?? "");
-  const [renderedSlug, setRenderedSlug] = useState(firstTense?.slug ?? "");
+  const initialSlug = (firstTense?.slug ?? "") as GrammarTenseSlug | "";
+  const [activeSlug, setActiveSlug] = useState<GrammarTenseSlug | "">(initialSlug);
+  const [renderedSlug, setRenderedSlug] = useState<GrammarTenseSlug | "">(initialSlug);
   const [isVisible, setIsVisible] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set([grouped[0]?.category ?? "PRESENT"]));
   const transitionRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -160,10 +161,11 @@ export function TensesClient({ tenses }: TensesClientProps) {
     if (slug === activeSlug) return;
     if (transitionRef.current) clearTimeout(transitionRef.current);
 
-    setActiveSlug(slug);
+    const safeSlug = slug as GrammarTenseSlug;
+    setActiveSlug(safeSlug);
     setIsVisible(false);
     transitionRef.current = setTimeout(() => {
-      setRenderedSlug(slug);
+      setRenderedSlug(safeSlug);
       requestAnimationFrame(() => setIsVisible(true));
     }, 180);
   };
