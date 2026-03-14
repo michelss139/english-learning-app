@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import ClusterClient from "./ClusterClient";
+import ClusterClient from "../ClusterClient";
 import { loadClusterPageData } from "@/lib/vocab/clusterLoader";
 
 type PageProps = {
@@ -13,7 +13,7 @@ function clampLimit(raw: string | undefined): number {
   return Math.min(Math.max(n, 2), 20);
 }
 
-export default async function VocabClusterPage({ params, searchParams }: PageProps) {
+export default async function VocabClusterPracticePage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const sp = await searchParams;
   const limit = clampLimit(sp.limit);
@@ -64,7 +64,7 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
       initialCluster={result.data.cluster}
       initialPatterns={result.data.patterns}
       initialQuestions={result.data.tasks}
-      view="overview"
+      view="practice"
     />
   );
 }

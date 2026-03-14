@@ -173,10 +173,10 @@ export default function GrammarCompareClient() {
 
   const theoryLink1 = tense1.theoryLink ?? `/app/grammar/${tense1.slug}`;
   const theoryLink2 = tense2.theoryLink ?? `/app/grammar/${tense2.slug}`;
-  const backHref =
-    tense1Slug === "zero-conditional" && tense2Slug === "first-conditional"
-      ? "/app/grammar/conditionals"
-      : "/app/grammar";
+  const isConditionalsCompare =
+    ["zero-conditional", "first-conditional", "second-conditional", "third-conditional"].includes(tense1Slug) &&
+    ["zero-conditional", "first-conditional", "second-conditional", "third-conditional"].includes(tense2Slug);
+  const backHref = isConditionalsCompare ? "/app/grammar/conditionals" : "/app/grammar";
 
   return (
     <main className="space-y-6">
@@ -343,6 +343,46 @@ export default function GrammarCompareClient() {
           </div>
         </div>
       </section>
+
+      {/* Różnica w użyciu "would" - tylko dla Second vs Third Conditional */}
+      {(tense1Slug === "second-conditional" && tense2Slug === "third-conditional") ||
+      (tense1Slug === "third-conditional" && tense2Slug === "second-conditional") ? (
+        <section className="tile-frame">
+          <div className="tile-core p-6 space-y-4">
+            <h2 className="text-xl font-semibold text-slate-900">Różnica w użyciu &quot;would&quot;</h2>
+            <p className="text-slate-700">
+              W obu konstrukcjach pojawia się czasownik <strong>would</strong>, ale jego funkcja jest inna.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                <p className="text-sm font-medium text-slate-900">Second Conditional</p>
+                <p className="font-mono text-xs text-slate-800">would + infinitive</p>
+                <p className="text-sm text-slate-700">
+                  Opisuje rezultat, który mógłby wydarzyć się teraz lub w przyszłości.
+                </p>
+                <p className="text-sm text-slate-800 italic">If I had more time, I would travel more.</p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                <p className="text-sm font-medium text-slate-900">Third Conditional</p>
+                <p className="font-mono text-xs text-slate-800">would have + past participle</p>
+                <p className="text-sm text-slate-700">
+                  Opisuje rezultat, który mógłby wydarzyć się w przeszłości, ale się nie wydarzył.
+                </p>
+                <p className="text-sm text-slate-800 italic">If I had studied harder, I would have passed the exam.</p>
+              </div>
+            </div>
+            <p className="text-sm text-slate-600">
+              W obu konstrukcjach &quot;would&quot; działa jako czasownik modalny.
+            </p>
+            <Link
+              href="/app/grammar/modals/would"
+              className="text-slate-700 underline hover:text-slate-900 font-medium"
+            >
+              Dowiedz się więcej o czasowniku modalnym &quot;would&quot; →
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       {/* AI Dialog section */}
       <section className="tile-frame">

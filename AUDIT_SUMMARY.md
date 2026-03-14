@@ -1,5 +1,18 @@
 # Podsumowanie audytu i zmian w projekcie English Platform
 
+## ZAKRES AUDYTU (oryginalny)
+
+Audyt z **2025-01** dotyczył:
+- **Bezpieczeństwa API** — brak JWT w enrich, build-gap-test, pool; niebezpieczny x-user-id header
+- **Architektury routingu** — duplikacja "puli" (osobna strona vs zakładka)
+- **Integracji danych** — słówka z lekcji i własne nie trafiały do "całej puli"
+- **Martwego kodu** — PoolClient.tsx
+- **Next.js 16** — params jako Promise w Server Components
+
+**Uwaga:** Od czasu audytu projekt znacząco się rozwinął. Poniżej stan aktualny + zmiany.
+
+---
+
 ## KONTEKST PROJEKTU
 
 **Stack:**
@@ -9,14 +22,16 @@
 - Stripe: subskrypcja wdrożona technicznie (checkout + webhooki), ale brak paywalla w UI
 
 **Architektura:**
-- Panel ucznia: `app/app/...` (NIE `app/...` - to jest "podwójny app folder")
+- Panel ucznia: `app/app/...` (NIE `app/...` — podwójny app folder)
 - API routes: `app/api/...`
 - Admin panel: `app/admin/...`
 
-**Baza danych:**
-- Stary system: `vocab_items` + `student_lessons` + `student_lesson_vocab` + `vocab_test_runs`
-- Nowy system: `global_vocab_items` (systemowe słowa EN-only) + `user_vocab` (powiązanie user-global) + `vocab_enrichments` (cache: tłumaczenia, przykłady, IPA, audio) + `vocab_exercise_runs` (log ćwiczeń)
-- Widoki SQL: `vocab_current_streaks`, `vocab_learned_total`, `vocab_to_learn_total`, `vocab_repeat_suggestions`
+**Baza danych (aktualny stan):**
+- **Leksykon:** `lexicon_entries`, `lexicon_senses`, `lexicon_translations`, `lexicon_examples`, `lexicon_verb_forms`
+- **Pula użytkownika:** `user_vocab_items` (powiązanie student ↔ sense_id lub custom_lemma)
+- **Legacy / równoległe:** `user_vocab` + `global_vocab_items` (używane przez pool API), `vocab_items` (fallback dla starych danych)
+- **Ćwiczenia:** `vocab_answer_events`, `vocab_packs`, `vocab_clusters`, `vocab_cluster_questions`
+- **Widoki v2:** `vocab_current_streaks`, `vocab_learned_total`, `vocab_to_learn_total`, `vocab_repeat_suggestions` (aliasy do v2_* opartych na vocab_answer_events)
 
 **Definicje:**
 - "Nauczone" = current streak >= 5 poprawnych z rzędu
@@ -41,16 +56,12 @@
 - ❌ Zapytanie do `user_vocab` w pool page nie filtrowało po `student_id` → ✅ dodano `.eq("student_id", userId)`
 - ❌ Next.js 16 params Promise unwrap → ✅ naprawiono
 
-### COMMIT 2: Uporządkowanie routingu - integracja "Cała pula" jako zakładka
+### COMMIT 2: Uporządkowanie routingu (historyczne)
 **Pliki:**
-- `app/app/vocab/PoolTab.tsx` - nowy komponent (logika z pool/page.tsx)
-- `app/app/vocab/page.tsx` - dodano zakładkę "pool", obsługa query param `?tab=pool`
-- `app/app/vocab/pool/page.tsx` - zmieniono na redirect do `/app/vocab?tab=pool`
+- `app/app/vocab/PoolTab.tsx` — komponent zakładki "Moja pula"
+- `app/app/vocab/pool/page.tsx` — strona z zakładkami "Moja pula" i "Dodaj słówko"
 
-**Zmiany:**
-- ✅ "Cała pula" jest teraz zakładką w `/app/vocab` (nie osobną stroną)
-- ✅ Link "Cała pula →" zastąpiony przyciskiem zakładki
-- ✅ `/app/vocab/pool` przekierowuje do `/app/vocab?tab=pool` (backward compatibility)
+**Uwaga:** Obecnie `/app/vocab` to hub z kafelkami (Moja pula, Fiszki, Typowe błędy). Strona `/app/vocab/pool` jest osobną stroną z PoolTab — nie ma redirectu do `?tab=pool`.
 
 ### COMMIT 3: Usunięcie nieużywanego kodu
 **Pliki:**
@@ -85,10 +96,11 @@
 8. Słówka z lekcji nie trafiały do "całej puli" - NAPRAWIONE
 
 ### ⚠️ Pozostawione (nie krytyczne, do rozważenia w przyszłości)
-1. **Równoległe użycie starego i nowego systemu:**
-   - Stary: `vocab_items` używany w `/app/vocab/page.tsx` (własne słówka), `/app/vocab/lesson/[id]/page.tsx`, `/app/vocab/test/page.tsx`
-   - Nowy: `global_vocab_items` + `user_vocab` używany w `/app/vocab/pool` (PoolTab)
-   - **Uwaga:** Oba systemy działają równolegle. Migracja wymagałaby większego refaktoringu.
+1. **Równoległe użycie systemów vocab:**
+   - `user_vocab_items` — główny system (PoolTab, pool page, test loader, lessons)
+   - `user_vocab` + `global_vocab_items` — używany przez pool API route
+   - `vocab_items` — legacy fallback w pool page dla starych danych
+   - **Uwaga:** Migracja do jednego systemu wymagałaby większego refaktoringu.
 
 2. **Error handling:**
    - Wiele miejsc używa `alert()` zamiast UI error states
@@ -107,20 +119,22 @@
 ### ✅ Działa stabilnie
 - Autentykacja i RLS działają poprawnie
 - Wszystkie API endpoints są zabezpieczone JWT
-- Routing jest spójny (jedna "pula" jako zakładka)
-- Słówka z lekcji i własne automatycznie trafiają do "całej puli"
+- Hub vocab z kafelkami (Moja pula, Fiszki, Typowe błędy)
+- Słówka (lexicon + custom) trafiają do puli (user_vocab_items)
 - Next.js 16 params działają poprawnie
 
-### 📊 Struktura routingu
-- `/app` - panel ucznia (dashboard)
-- `/app/status` - dashboard progresu
-- `/app/vocab` - hub słówek z zakładkami:
-  - "Lekcje (daty)" - tworzenie lekcji, lista lekcji
-  - "Cała pula" - nowy system (global_vocab_items + user_vocab)
-  - "Własne słówka" - stary system (vocab_items z is_personal=true)
-- `/app/vocab/lesson/[id]` - szczegóły lekcji
-- `/app/vocab/test` - testy słówek (stary system)
-- `/app/vocab/pool` - redirect do `/app/vocab?tab=pool`
+### 📊 Struktura routingu (aktualna)
+- `/app` — panel ucznia (dashboard)
+- `/app/status` — dashboard progresu
+- `/app/vocab` — hub słówek (3 kafelki):
+  - "Moja pula" → `/app/vocab/pool`
+  - "Fiszki" → `/app/vocab/packs`
+  - "Typowe błędy" → `/app/vocab/clusters`
+- `/app/vocab/pool` — strona z zakładkami "Moja pula" (PoolTab) i "Dodaj słówko"
+- `/app/vocab/packs` — paczki tematyczne
+- `/app/vocab/clusters` — clustery (make/do, say/tell, itp.)
+- `/app/vocab/lesson/[id]` — szczegóły lekcji
+- `/app/vocab/test` — testy słówek (source=pool|lesson|ids)
 
 ### 🔐 Bezpieczeństwo
 - Wszystkie API routes używają JWT Bearer token
@@ -133,9 +147,9 @@
 ## ZALECENIA NA PRZYSZŁOŚĆ
 
 ### Krótkoterminowe (niskie ryzyko)
-1. **Migracja starego systemu do nowego:**
-   - Przenieść "Własne słówka" z `vocab_items` do `global_vocab_items` + `user_vocab`
-   - Zunifikować źródła danych
+1. **Zunifikowanie systemów vocab:**
+   - Pool API używa `user_vocab` + `global_vocab_items`; PoolTab używa `user_vocab_items`
+   - Rozważyć ujednolicenie na `user_vocab_items` (lexicon-based) jako jedyne źródło
    - **Uwaga:** Wymaga migracji danych i testów
 
 2. **Poprawa error handling:**
@@ -154,8 +168,8 @@
    - **Uwaga:** Stripe już wdrożone, tylko UI brakuje
 
 2. **Migracja testów:**
-   - Przenieść `/app/vocab/test` z `vocab_items` do nowego systemu
-   - Użyć `vocab_exercise_runs` zamiast `vocab_test_runs`
+   - Test loader już używa `user_vocab_items` (source=pool, lesson)
+   - Upewnić się, że wszystkie ścieżki (source=ids itp.) są spójne
 
 3. **Optymalizacja:**
    - Cache'owanie zapytań do bazy
@@ -177,10 +191,10 @@
    - Filtrować po `student_id` w kliencie dla dodatkowej warstwy
 
 3. **Baza danych:**
-   - Dwa systemy działają równolegle (stary i nowy)
-   - Nowy system: `global_vocab_items` + `user_vocab` + `vocab_enrichments` + `vocab_exercise_runs`
-   - Stary system: `vocab_items` + `vocab_test_runs`
-   - Migracja wymaga planowania i testów
+   - Główny system: `user_vocab_items` (lexicon-based lub custom)
+   - Równolegle: `user_vocab` + `global_vocab_items` (pool API), `vocab_items` (legacy fallback)
+   - Ćwiczenia: `vocab_answer_events`, widoki v2_*
+   - Migracja do jednego systemu wymaga planowania i testów
 
 4. **Stripe:**
    - Technicznie wdrożone (checkout + webhooki)
@@ -196,20 +210,23 @@
 ## PLIKI KLUCZOWE
 
 **API Routes:**
-- `app/api/vocab/enrich/route.ts` - pobieranie danych z open APIs (IPA, audio, przykłady)
-- `app/api/vocab/generate-example/route.ts` - generowanie przykładów AI (z cache)
-- `app/api/vocab/build-gap-test/route.ts` - budowanie testów luk
-- `app/api/vocab/log-exercise/route.ts` - logowanie wyników ćwiczeń
-- `app/api/vocab/repeat-suggestions/route.ts` - sugestie powtórek
-- `app/api/vocab/progress-extended/route.ts` - rozszerzony dashboard progresu
-- `app/api/vocab/add-to-pool/route.ts` - **NOWY** - auto-dodawanie do puli
+- `app/api/vocab/enrich/route.ts` — pobieranie danych (IPA, audio, przykłady)
+- `app/api/vocab/generate-example/route.ts` — generowanie przykładów AI
+- `app/api/vocab/build-gap-test/route.ts` — budowanie testów luk
+- `app/api/vocab/log-exercise/route.ts` — logowanie wyników ćwiczeń
+- `app/api/vocab/repeat-suggestions/route.ts` — sugestie powtórek
+- `app/api/vocab/progress-extended/route.ts` — dashboard progresu
+- `app/api/vocab/add-to-pool/route.ts` — auto-dodawanie do puli
+- `app/api/vocab/pool/route.ts` — dane puli (user_vocab + global_vocab_items)
+- `app/api/vocab/clusters/route.ts` — lista clusterów
 
 **Frontend:**
-- `app/app/vocab/page.tsx` - główny hub słówek (3 zakładki)
-- `app/app/vocab/PoolTab.tsx` - **NOWY** - komponent zakładki "Cała pula"
-- `app/app/vocab/lesson/[id]/page.tsx` - szczegóły lekcji
-- `app/app/vocab/pool/page.tsx` - redirect do zakładki
-- `app/app/status/page.tsx` - dashboard progresu
+- `app/app/vocab/page.tsx` — hub słówek (3 kafelki: Moja pula, Fiszki, Typowe błędy)
+- `app/app/vocab/PoolTab.tsx` — komponent zakładki "Moja pula" (user_vocab_items)
+- `app/app/vocab/pool/page.tsx` — strona z zakładkami "Moja pula" i "Dodaj słówko"
+- `app/app/vocab/lesson/[id]/page.tsx` — szczegóły lekcji
+- `app/app/vocab/clusters/page.tsx` — lista clusterów
+- `app/app/status/page.tsx` — dashboard progresu
 
 **Utils:**
 - `lib/supabase/admin.ts` - service role client
@@ -221,12 +238,10 @@
 ## TESTY MANUALNE (Checklista)
 
 Po każdym deployu sprawdź:
-- [ ] `/app/vocab` - 3 zakładki działają
-- [ ] `/app/vocab?tab=pool` - automatycznie otwiera zakładkę "Cała pula"
-- [ ] `/app/vocab/pool` - przekierowuje do `/app/vocab?tab=pool`
-- [ ] Dodanie słówka do lekcji → pojawia się w "Cała pula"
-- [ ] Dodanie własnego słówka → pojawia się w "Cała pula"
-- [ ] Wszystkie funkcje puli działają (enrich, test, repeat suggestions)
+- [ ] `/app/vocab` — 3 kafelki (Moja pula, Fiszki, Typowe błędy)
+- [ ] `/app/vocab/pool` — zakładki "Moja pula" i "Dodaj słówko"
+- [ ] Dodanie słówka (lookup / custom) → pojawia się w puli
+- [ ] Funkcje puli: enrich, test, repeat suggestions
 - [ ] API routes wymagają JWT (401 bez tokenu)
 
 ---
@@ -242,12 +257,18 @@ Po każdym deployu sprawdź:
 - Admin widzi wszystko (sprawdzanie `role = 'admin'` w profiles)
 - Service role omija RLS całkowicie
 
-**Struktura tabel:**
-- `global_vocab_items`: `id`, `term_en`, `term_en_norm` (unique)
-- `user_vocab`: `student_id`, `global_vocab_item_id`, `created_at` (composite key, brak `id`)
-- `vocab_enrichments`: `term_en_norm` (unique), `translation_pl_suggested`, `example_en`, `example_en_manual`, `example_en_ai`, `ipa`, `audio_url`
+**Struktura tabel (wybrane):**
+- `user_vocab_items`: `id`, `student_id`, `sense_id`, `custom_lemma`, `custom_translation_pl`, `source`, `verified`
+- `global_vocab_items`: `id`, `term_en`, `term_en_norm` (używane przez pool API)
+- `user_vocab`: `student_id`, `global_vocab_item_id` (powiązanie user–global)
+- `vocab_enrichments`: `term_en_norm`, `translation_pl_suggested`, `example_en`, `ipa`, `audio_url`
 
 ---
 
-**Data audytu:** 2025-01-XX
-**Status:** ✅ Produkcja stabilna, wszystkie krytyczne problemy naprawione
+**Data oryginalnego audytu:** 2025-01  
+**Ostatnia aktualizacja:** 2026-03-06  
+**Status:** ✅ Produkcja stabilna; dokument zaktualizowany pod obecną architekturę
+
+**Inne raporty audytowe:**
+- `CLUSTERS_MODULE_AUDIT_REPORT.md` — moduł clusterów (typowe błędy)
+- `GRAMMAR_MODULE_AUDIT_REPORT.md` — moduł gramatyki

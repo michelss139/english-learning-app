@@ -88,6 +88,31 @@ export const grammarPracticeExercises: Record<GrammarTenseSlug, GrammarPracticeE
       },
     ],
   },
+  "second-conditional": {
+    slug: "second-conditional",
+    title: "Second Conditional",
+    questions: [],
+  },
+  "third-conditional": {
+    slug: "third-conditional",
+    title: "Third Conditional",
+    questions: [],
+  },
+  "mixed-conditional": {
+    slug: "mixed-conditional",
+    title: "Mixed Conditional",
+    questions: [],
+  },
+  "conditional-connectors": {
+    slug: "conditional-connectors",
+    title: "Conditional Connectors",
+    questions: [],
+  },
+  "modal-ability": {
+    slug: "modal-ability",
+    title: "Ability",
+    questions: [],
+  },
 };
 
 const conditionalExercises: Record<string, Omit<GrammarPracticeExercise, "slug"> & { slug: string }> = {

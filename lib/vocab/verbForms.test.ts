@@ -28,6 +28,7 @@
 
 // This file documents test cases. Actual implementation is in verbForms.ts
 // To add a test framework, import resolveVerbForm and shouldShowVerbFormBadge and create test cases.
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 describe('resolveVerbForm', () => {
   const mockSupabase = {

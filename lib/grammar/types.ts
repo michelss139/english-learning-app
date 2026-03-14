@@ -16,7 +16,12 @@ export type GrammarTenseSlug =
   | "future-perfect-simple"
   | "future-perfect-continuous"
   | "zero-conditional"
-  | "first-conditional";
+  | "first-conditional"
+  | "second-conditional"
+  | "third-conditional"
+  | "mixed-conditional"
+  | "conditional-connectors"
+  | "modal-ability";
 
 export type GrammarChip = {
   text: string;

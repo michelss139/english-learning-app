@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
+import SentenceBuilder from "@/components/grammar/SentenceBuilder";
 import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
 import { getWordTip } from "@/lib/coach/wordTips";
+import type { SentenceBuilderVerb } from "@/lib/grammar/sentence-builder/types";
 
 type CoachContent = string | string[];
+type GlobalCoachProps = {
+  sentenceBuilderVerbs: SentenceBuilderVerb[];
+};
 
 function getCoachContent(pathname: string | null, currentLemma: string | null): CoachContent {
   // Na fiszkach tipy pokazują się po Sprawdź, nie w rogu
@@ -89,40 +94,16 @@ function getCoachContent(pathname: string | null, currentLemma: string | null): 
   return "Witaj na LANGBracket";
 }
 
-export default function GlobalCoach() {
-  const pathname = usePathname();
-  const { currentLemma } = useCurrentWord();
-  const [visible, setVisible] = useState(true);
+function CoachCard({ tips, onHide }: { tips: string[]; onHide: () => void }) {
   const [tipIndex, setTipIndex] = useState(0);
-
-  const content = useMemo(() => getCoachContent(pathname, currentLemma), [pathname, currentLemma]);
-  const tips = Array.isArray(content) ? content : [content];
   const hasMultipleTips = tips.length > 1;
   const currentMessage = tips[tipIndex] ?? tips[0];
-
-  useEffect(() => {
-    setTipIndex(0);
-  }, [pathname, currentLemma]);
-
-  if (!visible) {
-    return (
-      <button
-        type="button"
-        onClick={() => setVisible(true)}
-        className="fixed top-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-lg font-medium text-slate-700 shadow-md transition hover:bg-slate-50"
-        title="Pokaż coacha"
-        aria-label="Pokaż coacha"
-      >
-        ?
-      </button>
-    );
-  }
 
   const goPrev = () => setTipIndex((i) => (i <= 0 ? tips.length - 1 : i - 1));
   const goNext = () => setTipIndex((i) => (i >= tips.length - 1 ? 0 : i + 1));
 
   return (
-    <div className="fixed top-6 right-6 z-40 max-w-xs rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+    <div className="max-w-xs rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 flex-1 items-center gap-1">
           {hasMultipleTips && (
@@ -149,7 +130,7 @@ export default function GlobalCoach() {
         </div>
         <button
           type="button"
-          onClick={() => setVisible(false)}
+          onClick={onHide}
           className="shrink-0 rounded-md px-2 py-1 text-xs text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
           aria-label="Zamknij coacha"
         >
@@ -157,6 +138,88 @@ export default function GlobalCoach() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) {
+  const pathname = usePathname();
+  const { currentLemma } = useCurrentWord();
+  const [visible, setVisible] = useState(true);
+  const [sentenceBuilderOpen, setSentenceBuilderOpen] = useState(false);
+
+  const content = useMemo(() => getCoachContent(pathname, currentLemma), [pathname, currentLemma]);
+  const tips = Array.isArray(content) ? content : [content];
+  const coachKey = `${pathname ?? "root"}:${currentLemma ?? "none"}`;
+
+  return (
+    <>
+      <div className="fixed top-6 right-6 z-40 flex items-start gap-3">
+        <button
+          type="button"
+          onClick={() => setSentenceBuilderOpen(true)}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-lg text-slate-700 shadow-md transition hover:bg-slate-50"
+          title="Sentence Builder"
+          aria-label="Sentence Builder"
+        >
+          🔧
+        </button>
+
+        {visible ? (
+          <CoachCard key={coachKey} tips={tips} onHide={() => setVisible(false)} />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setVisible(true)}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-lg font-medium text-slate-700 shadow-md transition hover:bg-slate-50"
+            title="Pokaż coacha"
+            aria-label="Pokaż coacha"
+          >
+            ?
+          </button>
+        )}
+      </div>
+
+      {sentenceBuilderOpen && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        aria-hidden={false}
+      >
+        <button
+          type="button"
+          onClick={() => setSentenceBuilderOpen(false)}
+          className="sb-backdrop absolute inset-0 bg-slate-900/30 backdrop-blur-[1px]"
+          aria-label="Close Sentence Builder panel"
+        />
+
+        <aside
+          className="sb-panel relative z-10 max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Sentence Builder"
+        >
+          <div className="flex max-h-[90vh] flex-col">
+            <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold text-slate-900">Sentence Builder</h2>
+                <p className="text-sm text-slate-600">Build sentences using English grammar structures.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSentenceBuilderOpen(false)}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6">
+              <SentenceBuilder verbs={sentenceBuilderVerbs} />
+            </div>
+          </div>
+        </aside>
+      </div>
+      )}
+    </>
   );
 }
 

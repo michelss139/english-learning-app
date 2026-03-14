@@ -6,7 +6,6 @@ import Link from "next/link";
 type SectionKey =
   | "definition"
   | "construction"
-  | "otherResults"
   | "examples"
   | "mistakes"
   | "compare";
@@ -17,34 +16,29 @@ function DefinitionContent() {
       <h2 className="text-lg font-semibold text-slate-900">Definicja</h2>
       <div className="space-y-2 text-slate-700">
         <p>
-          First Conditional opisuje sytuacje, które są <strong>realnie możliwe w przyszłości</strong>.
+          Second Conditional opisuje sytuacje, które są <strong>hipotetyczne lub mało prawdopodobne</strong>.
         </p>
         <p>
-          <strong>Co to znaczy „realnie możliwe”?</strong>
-          <br />
-          Kluczowy jest moment wypowiadania zdania. Jeżeli z perspektywy chwili, w której mówimy
-          dane zdanie, spełnienie warunku jest możliwe, używamy First Conditional.
+          Mówimy o tym, co <strong>by się wydarzyło</strong>, gdyby spełniony został określony warunek, ale z
+          perspektywy chwili mówienia ten warunek <strong>nie jest realny albo jest bardzo mało prawdopodobny</strong>.
         </p>
-        <p>
-          Opisujemy sytuację, która może się wydarzyć, a jeśli warunek zostanie spełniony, pojawi się
-          określony rezultat.
-        </p>
-        <p>Nie jest to ogólna zasada jak w Zero Conditional, ale konkretna możliwość dotycząca przyszłości.</p>
+        <p>Często używamy Second Conditional, gdy mówimy o:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li>wyobrażonych sytuacjach</li>
+          <li>nierealnych scenariuszach</li>
+          <li>marzeniach lub spekulacjach</li>
+        </ul>
 
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
           <p className="text-sm font-medium text-slate-900">Przykład</p>
           <p className="text-slate-800">
-            <strong>If it rains tomorrow, we will stay at home.</strong>
+            <strong>If I had a million dollars, I would travel around the world.</strong>
           </p>
           <p className="text-sm text-slate-600">
-            Jeżeli jutro będzie padać, zostaniemy w domu. Deszcz jest możliwy, więc rezultat
-            również jest możliwy.
+            Jeżeli miałbym milion dolarów, podróżowałbym po świecie. W momencie wypowiadania zdania{" "}
+            <strong>nie mam miliona dolarów</strong>, dlatego używamy Second Conditional.
           </p>
         </div>
-
-        <p className="text-sm font-medium text-slate-900">
-          Ten typ zdania zawsze odnosi się do przyszłości.
-        </p>
       </div>
     </section>
   );
@@ -55,7 +49,7 @@ function ConstructionContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Konstrukcja</h2>
       <div className="space-y-4 text-slate-700">
-        <p>First Conditional składa się z dwóch części:</p>
+        <p>Second Conditional składa się z dwóch części:</p>
         <ul className="list-disc list-inside space-y-1">
           <li>
             <strong>if clause</strong> – część z warunkiem
@@ -66,16 +60,16 @@ function ConstructionContent() {
         </ul>
 
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-800 space-y-2">
-          <p className="font-medium">If + present simple, will + infinitive</p>
+          <p className="font-medium">If + past simple, would + infinitive</p>
         </div>
 
         <div className="rounded-xl border border-slate-300 bg-white p-4 text-sm text-slate-800">
-          <p>If you study, you will pass the exam.</p>
+          <p>If I knew the answer, I would tell you.</p>
         </div>
 
-        <p>Tak jak w Zero Conditional, możliwa jest też odwrotna kolejność:</p>
+        <p>Tak jak w innych zdaniach warunkowych, kolejność może być odwrócona:</p>
         <div className="rounded-xl border border-slate-300 bg-white p-4 text-sm text-slate-800">
-          <p>You will pass the exam if you study.</p>
+          <p>I would tell you if I knew the answer.</p>
         </div>
 
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-800">
@@ -83,34 +77,21 @@ function ConstructionContent() {
           <p className="font-medium">A + B</p>
           <p className="font-medium">B + A</p>
         </div>
-      </div>
-    </section>
-  );
-}
 
-function OtherResultsContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Inne możliwe rezultaty</h2>
-      <p className="text-slate-700">
-        W First Conditional rezultat nie zawsze zawiera will. Możliwe są również inne formy.
-      </p>
-
-      <div className="space-y-4">
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p className="font-medium text-slate-900">A) Imperative (polecenie)</p>
-          <p className="text-slate-800">If you see Tom, tell him to call me.</p>
-        </div>
-
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p className="font-medium text-slate-900">B) Modal verbs</p>
-          <p className="text-slate-800">If you feel tired, you should go to bed.</p>
-          <p className="text-slate-800">If you need help, you can call me.</p>
-        </div>
-
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p className="font-medium text-slate-900">C) Future (najczęstsza forma)</p>
-          <p className="text-slate-800">If we leave now, we will catch the train.</p>
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-2">
+          <p className="text-sm font-medium text-slate-900">Ważna uwaga — were zamiast was</p>
+          <p className="text-sm text-slate-800">
+            W Second Conditional często używamy <strong>were</strong> zamiast <strong>was</strong>,
+            szczególnie w bardziej formalnym angielskim.
+          </p>
+          <div className="rounded-lg border border-amber-200 bg-white p-3 text-sm text-slate-800">
+            <p>If I were you, I would take that job.</p>
+          </div>
+          <p className="text-sm text-slate-600">
+            To bardzo popularna konstrukcja używana przy dawaniu rad. Natomiast obecnie używanie{" "}
+            <strong>was</strong> w tym zdaniu nie jest uznawane za błąd gramatyczny w nowoczesnym
+            angielskim.
+          </p>
         </div>
       </div>
     </section>
@@ -122,16 +103,16 @@ function ExamplesContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Przykłady</h2>
       <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-800 space-y-2">
-        <p>If it rains tomorrow, we will stay at home.</p>
-        <p>If you hurry, you will catch the bus.</p>
-        <p>If she studies harder, she will pass the exam.</p>
-        <p>If you don&apos;t leave now, you will miss the train.</p>
-        <p>If they invite us, we will go to the party.</p>
-        <p>If the weather is good tomorrow, we will go hiking.</p>
-        <p>If you see Mark, tell him I called.</p>
+        <p>If I had more time, I would learn another language.</p>
+        <p>If she lived closer, we would see her more often.</p>
+        <p>If we owned a car, we would travel more.</p>
+        <p>If I knew his number, I would call him.</p>
+        <p>If they offered me the job, I would accept it.</p>
+        <p>If I were you, I would talk to the manager.</p>
+        <p>If it snowed tomorrow, we would build a snowman.</p>
       </div>
       <p className="text-sm text-slate-700">
-        Wszystkie te zdania opisują realne sytuacje, które mogą wydarzyć się w przyszłości.
+        Te zdania opisują sytuacje wyobrażone lub mało prawdopodobne.
       </p>
     </section>
   );
@@ -142,27 +123,28 @@ function MistakesContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Błędy</h2>
       <p className="text-slate-700">
-        Najczęstsze błędy w First Conditional dotyczą używania niewłaściwych czasów.
+        Najczęstsze błędy w Second Conditional wynikają z mieszania różnych typów conditionals.
       </p>
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p>❌ If it will rain, we will stay at home.</p>
-          <p>✔ If it rains, we will stay at home.</p>
-          <p className="text-slate-600">Po if używamy Present Simple, a nie future.</p>
+          <p>❌ If I had more time, I will travel more.</p>
+          <p>✔ If I had more time, I would travel more.</p>
+          <p className="text-slate-600">W Second Conditional używamy would, nie will.</p>
         </div>
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p>❌ If you study, you pass the exam.</p>
-          <p>✔ If you study, you will pass the exam.</p>
-          <p className="text-slate-600">Jeżeli mówimy o przyszłości, rezultat zwykle zawiera will.</p>
+          <p>❌ If I have more time, I would travel more.</p>
+          <p>✔ If I had more time, I would travel more.</p>
+          <p className="text-slate-600">Po if używamy Past Simple, nie Present Simple.</p>
         </div>
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p>❌ If you will study, you will pass the exam.</p>
-          <p>✔ If you study, you will pass the exam.</p>
+          <p>❌ If I would have time, I would help you.</p>
+          <p>✔ If I had time, I would help you.</p>
+          <p className="text-slate-600">Nie używamy would w części z if.</p>
         </div>
         <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p>❌ If I will have time, I would help you.</p>
-          <p>✔ If I have time, I will help you.</p>
-          <p className="text-slate-600">To błąd wynikający z mieszania First i Second Conditional.</p>
+          <p>❌ If I was you, I would talk to him.</p>
+          <p>✔ If I were you, I would talk to him.</p>
+          <p className="text-slate-600">W formalnej konstrukcji używamy were zamiast was.</p>
         </div>
       </div>
     </section>
@@ -174,28 +156,29 @@ function CompareContent() {
     <section>
       <h2 className="mb-2 text-lg font-semibold text-slate-900">Porównaj</h2>
       <p className="mb-3 text-slate-700">
-        First Conditional często mylony jest z Zero Conditional i Second Conditional. Aby zobaczyć
-        dokładne różnice między tymi konstrukcjami, przejdź do porównania:
+        Second Conditional często porównuje się z <strong>First Conditional</strong>. First Conditional
+        opisuje sytuacje <strong>realnie możliwe w przyszłości</strong>.
       </p>
-      <div className="flex flex-col gap-2">
-        <Link
-          href="/app/grammar/compare?tense1=zero-conditional&tense2=first-conditional"
-          className="text-slate-700 underline hover:text-slate-900 font-medium"
-        >
-          Zero Conditional vs First Conditional →
-        </Link>
-        <Link
-          href="/app/grammar/compare?tense1=first-conditional&tense2=second-conditional"
-          className="text-slate-700 underline hover:text-slate-900 font-medium"
-        >
-          First Conditional vs Second Conditional →
-        </Link>
+      <div className="mb-3 rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-800">
+        <p>If I have time tomorrow, I will help you.</p>
       </div>
+      <p className="mb-3 text-slate-700">
+        Second Conditional opisuje sytuacje <strong>hipotetyczne lub mało prawdopodobne</strong>.
+      </p>
+      <div className="mb-4 rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-800">
+        <p>If I had more time, I would help you.</p>
+      </div>
+      <Link
+        href="/app/grammar/compare?tense1=first-conditional&tense2=second-conditional"
+        className="text-slate-700 underline hover:text-slate-900 font-medium"
+      >
+        First Conditional vs Second Conditional →
+      </Link>
     </section>
   );
 }
 
-export function FirstConditionalClient() {
+export function SecondConditionalClient() {
   const [activeSection, setActiveSection] = useState<SectionKey>("definition");
   const [renderedSection, setRenderedSection] = useState<SectionKey>("definition");
   const [isVisible, setIsVisible] = useState(true);
@@ -226,7 +209,6 @@ export function FirstConditionalClient() {
   const sectionButtons: { id: SectionKey; label: string }[] = [
     { id: "definition", label: "Definicja" },
     { id: "construction", label: "Konstrukcja" },
-    { id: "otherResults", label: "Inne rezultaty" },
     { id: "examples", label: "Przykłady" },
     { id: "mistakes", label: "Błędy" },
     { id: "compare", label: "Porównaj" },
@@ -236,20 +218,20 @@ export function FirstConditionalClient() {
     <main className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">First Conditional</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Second Conditional</h1>
           <p className="max-w-2xl text-sm text-slate-700">
-            Ten typ zdania warunkowego opisuje sytuacje, które są realnie możliwe w przyszłości.
-            Poniżej znajdziesz definicję, konstrukcję, przykłady i najczęstsze błędy.
+            Ten typ zdania warunkowego opisuje sytuacje hipotetyczne lub mało prawdopodobne. Używamy go, gdy
+            mówimy o tym, co by się stało, gdyby spełniony został określony warunek.
           </p>
           <div className="mt-3 flex flex-col gap-2">
             <Link
-              href="/app/grammar/conditionals/first/practice"
+              href="/app/grammar/conditionals/second/practice"
               className="inline-flex w-fit rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
             >
-              Ćwicz First Conditional
+              Ćwicz Second Conditional
             </Link>
             <Link
-              href="/app/courses/first-conditional"
+              href="/app/courses/second-conditional"
               className="text-sm text-slate-600 underline hover:text-slate-800"
             >
               Zobacz pełny kurs
@@ -269,7 +251,6 @@ export function FirstConditionalClient() {
           <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
             {renderedSection === "definition" && <DefinitionContent />}
             {renderedSection === "construction" && <ConstructionContent />}
-            {renderedSection === "otherResults" && <OtherResultsContent />}
             {renderedSection === "examples" && <ExamplesContent />}
             {renderedSection === "mistakes" && <MistakesContent />}
             {renderedSection === "compare" && <CompareContent />}

@@ -3,7 +3,11 @@ import path from "path";
 
 export default defineConfig({
   test: {
-    include: ["lib/grammar/**/*.test.ts", "app/api/story-generator/**/*.test.ts"],
+    include: [
+      "lib/grammar/**/*.test.ts",
+      "lib/vocab/__tests__/*.test.ts",
+      "app/api/story-generator/**/*.test.ts",
+    ],
   },
   resolve: {
     alias: {

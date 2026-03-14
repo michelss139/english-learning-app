@@ -4,9 +4,16 @@ import { awardXpAndBadges } from "@/lib/xp/award";
 import { isPerfectSession } from "@/lib/xp/perfect";
 import { updateStreak } from "@/lib/streaks";
 import { getSessionSummary } from "@/lib/sessionSummary";
+import { loadClusterMasterySnapshot } from "@/lib/vocab/clusterLoader";
 
 type CompleteBody = {
   session_id: string;
+};
+
+type SessionEventRow = {
+  question_mode: string | null;
+  prompt: string | null;
+  expected: string | null;
 };
 
 function normalizeTerm(value: string | null | undefined): string | null {
@@ -104,7 +111,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     const sessionKeys = Array.from(
       new Set(
         (sessionEvents ?? [])
-          .map((event: any) => getTermKey(event.question_mode, event.prompt, event.expected))
+          .map((event: SessionEventRow) => getTermKey(event.question_mode ?? "", event.prompt, event.expected))
           .filter(Boolean)
       )
     ) as string[];
@@ -161,6 +168,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     }
 
     const summary = await getSessionSummary(userId, body.session_id, "cluster");
+    const mastery = await loadClusterMasterySnapshot(supabase, userId, slug);
 
     return NextResponse.json({
       ok: true,
@@ -168,12 +176,20 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       correct: correctCount,
       perfect,
       summary,
+      mastery_state: mastery.mastery_state,
+      practiced_days: mastery.practiced_days,
+      stable_days: mastery.stable_days,
+      latest_activity_date: mastery.latest_activity_date,
+      rolling_accuracy: mastery.rolling_accuracy,
       ...award,
     });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("[clusters/complete] Error:", e);
     return NextResponse.json(
-      { error: e?.message ?? "Unknown error", stack: process.env.NODE_ENV === "development" ? e?.stack : undefined },
+      {
+        error: e instanceof Error ? e.message : "Unknown error",
+        stack: process.env.NODE_ENV === "development" && e instanceof Error ? e.stack : undefined,
+      },
       { status: 500 }
     );
   }

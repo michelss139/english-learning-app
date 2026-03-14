@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "tools",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-03-09T18:12:40.824Z"
+  },
+  "items": [
+    {
+      "lemma": "pruning shears",
+      "pos": "noun",
+      "translation_pl": "sekator ogrodowy",
+      "definition_en": "Pruning shears are scissors used to cut small branches and stems.",
+      "example_en": "She used the pruning shears to trim the rose bushes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "garden fork",
+      "pos": "noun",
+      "translation_pl": "widły ogrodowe",
+      "definition_en": "A garden fork is a tool with pointed prongs for digging and turning soil.",
+      "example_en": "He loosened the soil with the garden fork before planting.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wheelbarrow",
+      "pos": "noun",
+      "translation_pl": "taczka ogrodowa",
+      "definition_en": "A wheelbarrow is a small cart with one wheel used for carrying materials.",
+      "example_en": "We filled the wheelbarrow with leaves from the yard.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watering can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A watering can is a container with a handle and spout for pouring water on plants.",
+      "example_en": "I watered the flowers using the watering can.",
+      "level": "B2"
+    },
+    {
+      "lemma": "spade",
+      "pos": "noun",
+      "translation_pl": "szpadel",
+      "definition_en": "A spade is a tool with a flat blade used for digging soil.",
+      "example_en": "She used a spade to dig a hole for the new tree.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rake",
+      "pos": "noun",
+      "translation_pl": "grabie",
+      "definition_en": "A rake is a tool with a long handle and tines for collecting leaves or smoothing dirt.",
+      "example_en": "He gathered the fallen leaves with a rake.",
+      "level": "B2"
+    },
+    {
+      "lemma": "trowel",
+      "pos": "noun",
+      "translation_pl": "łopatka ogrodowa",
+      "definition_en": "A trowel is a small hand tool used for planting and moving soil.",
+      "example_en": "She planted herbs in pots using a trowel.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hoe",
+      "pos": "noun",
+      "translation_pl": "motyka",
+      "definition_en": "A hoe is a tool with a flat blade for breaking up soil and removing weeds.",
+      "example_en": "The gardener used a hoe to clear the weeds from the bed.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lawnmower",
+      "pos": "noun",
+      "translation_pl": "kosiarka",
+      "definition_en": "A lawnmower is a machine used for cutting grass.",
+      "example_en": "He pushed the lawnmower across the yard to cut the grass.",
+      "level": "B2"
+    },
+    {
+      "lemma": "composter",
+      "pos": "noun",
+      "translation_pl": "kompostownik",
+      "definition_en": "A composter is a container used to turn organic waste into compost.",
+      "example_en": "They put vegetable scraps into the composter to make fertilizer.",
+      "level": "C1"
+    },
+    {
+      "lemma": "edger",
+      "pos": "noun",
+      "translation_pl": "obrzeżarka do trawy",
+      "definition_en": "An edger is a tool for making clean lines along garden beds and paths.",
+      "example_en": "He used an edger to create a neat border along the lawn.",
+      "level": "C1"
+    },
+    {
+      "lemma": "mulcher",
+      "pos": "noun",
+      "translation_pl": "rozdrabniacz do gałęzi",
+      "definition_en": "A mulcher is a machine that chops up garden waste into small pieces.",
+      "example_en": "They put branches in the mulcher to create mulch for the beds.",
+      "level": "C1"
+    },
+    {
+      "lemma": "dibber",
+      "pos": "noun",
+      "translation_pl": "pikownik ogrodowy",
+      "definition_en": "A dibber is a pointed tool for making holes in soil to plant seeds or bulbs.",
+      "example_en": "She used a dibber to plant the tulip bulbs evenly.",
+      "level": "C2"
+    },
+    {
+      "lemma": "plant marker",
+      "pos": "noun",
+      "translation_pl": "znacznik roślin",
+      "definition_en": "A plant marker is a label used to identify plants in a garden.",
+      "example_en": "She wrote the names of the herbs on each plant marker.",
+      "level": "B2"
+    },
+    {
+      "lemma": "weed puller",
+      "pos": "noun",
+      "translation_pl": "wyciągacz do chwastów",
+      "definition_en": "A weed puller is a tool for removing weeds from the soil by the roots.",
+      "example_en": "He used a weed puller to remove dandelions from the lawn.",
+      "level": "C1"
+    },
+    {
+      "lemma": "garden sieve",
+      "pos": "noun",
+      "translation_pl": "sito ogrodowe",
+      "definition_en": "A garden sieve is a mesh tool for sifting soil to remove stones and debris.",
+      "example_en": "She sifted the compost with a garden sieve before spreading it.",
+      "level": "C1"
+    },
+    {
+      "lemma": "sprinkler",
+      "pos": "noun",
+      "translation_pl": "zraszacz ogrodowy",
+      "definition_en": "A sprinkler is a device that sprays water evenly across a lawn or garden.",
+      "example_en": "They set up the sprinkler to water the vegetable garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cultivator",
+      "pos": "noun",
+      "translation_pl": "kultywator ogrodowy",
+      "definition_en": "A cultivator is a tool for loosening soil and mixing compost into garden beds.",
+      "example_en": "He used the cultivator to prepare the garden for planting.",
+      "level": "C1"
+    },
+    {
+      "lemma": "garden twine",
+      "pos": "noun",
+      "translation_pl": "sznurek ogrodowy",
+      "definition_en": "Garden twine is strong string used to tie or support plants.",
+      "example_en": "She tied the tomato plants to stakes with garden twine.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shrub rake",
+      "pos": "noun",
+      "translation_pl": "grabie do krzewów",
+      "definition_en": "A shrub rake is a small rake used for cleaning around bushes and in tight spaces.",
+      "example_en": "He cleared the leaves from under the hedge with a shrub rake.",
+      "level": "C1"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "tools",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-03-05T09:54:00.534Z"
+  },
+  "items": [
+    {
+      "lemma": "shovel",
+      "pos": "noun",
+      "translation_pl": "łopata",
+      "definition_en": "A shovel is a tool used for digging or moving soil.",
+      "example_en": "He used a shovel to plant the tree.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rake",
+      "pos": "noun",
+      "translation_pl": "grabie",
+      "definition_en": "A rake is a tool with long teeth for collecting leaves or smoothing soil.",
+      "example_en": "She cleaned the garden with a rake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spade",
+      "pos": "noun",
+      "translation_pl": "szpadel",
+      "definition_en": "A spade is a tool with a flat blade for digging.",
+      "example_en": "He used a spade to dig a hole for the flowers.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watering can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A watering can is a container for pouring water on plants.",
+      "example_en": "He filled the watering can to water the flowers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wheelbarrow",
+      "pos": "noun",
+      "translation_pl": "taczka",
+      "definition_en": "A wheelbarrow is a small cart with one wheel for carrying things.",
+      "example_en": "She put the weeds in the wheelbarrow.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gloves",
+      "pos": "noun",
+      "translation_pl": "rękawice",
+      "definition_en": "Gloves are clothing for your hands to protect them.",
+      "example_en": "He wore gloves while pulling out the weeds.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bucket",
+      "pos": "noun",
+      "translation_pl": "wiadro",
+      "definition_en": "A bucket is a container with a handle for carrying water or soil.",
+      "example_en": "She used a bucket to carry water to the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "garden fork",
+      "pos": "noun",
+      "translation_pl": "widły ogrodowe",
+      "definition_en": "A garden fork is a tool with long prongs for turning soil.",
+      "example_en": "He used the garden fork to mix the soil.",
+      "level": "B1"
+    },
+    {
+      "lemma": "secateurs",
+      "pos": "noun",
+      "translation_pl": "sekator",
+      "definition_en": "Secateurs are small scissors for cutting plants.",
+      "example_en": "She trimmed the roses with secateurs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sprinkler",
+      "pos": "noun",
+      "translation_pl": "zraszacz",
+      "definition_en": "A sprinkler is a device for watering the grass or plants.",
+      "example_en": "They set up a sprinkler to water the lawn.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lawn mower",
+      "pos": "noun",
+      "translation_pl": "kosiarka",
+      "definition_en": "A lawn mower is a machine for cutting grass.",
+      "example_en": "He pushed the lawn mower across the yard.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden hose",
+      "pos": "noun",
+      "translation_pl": "wąż ogrodowy",
+      "definition_en": "A garden hose is a long tube used to water plants.",
+      "example_en": "She used the garden hose to water the vegetables.",
+      "level": "A2"
+    },
+    {
+      "lemma": "compost bin",
+      "pos": "noun",
+      "translation_pl": "pojemnik na kompost",
+      "definition_en": "A compost bin is a container for garden and food waste to create compost.",
+      "example_en": "They put old leaves in the compost bin.",
+      "level": "B1"
+    }
+  ]
+}

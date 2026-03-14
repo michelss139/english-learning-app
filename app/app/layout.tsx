@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { loadSentenceBuilderVerbs } from "@/lib/grammar/sentence-builder/verbLoader";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CurrentWordProvider } from "@/lib/coach/CurrentWordContext";
 import GlobalCoach from "./GlobalCoach";
@@ -8,9 +9,13 @@ import GlobalTrainingSuggestion from "./GlobalTrainingSuggestion";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const [
+    {
+      data: { user },
+    },
+    sentenceBuilderVerbs,
+  ] = await Promise.all([supabase.auth.getUser(), loadSentenceBuilderVerbs()]);
+
   if (!user) {
     redirect("/login");
   }
@@ -49,7 +54,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         <div className="relative mx-auto max-w-[1100px] px-6 pb-10 pt-24">
           {children}
         </div>
-        <GlobalCoach />
+        <GlobalCoach sentenceBuilderVerbs={sentenceBuilderVerbs} />
         <GlobalTrainingSuggestion />
       </CurrentWordProvider>
     </div>

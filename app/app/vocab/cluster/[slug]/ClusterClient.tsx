@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { getOrCreateProfile } from "@/lib/auth/profile";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
+import {
+  evaluateClusterTranslation,
+  isClusterTaskAnswerCorrect,
+  type ClusterMastery,
+  type ClusterPattern,
+  type ClusterTask,
+  type TranslationEvaluationResult,
+} from "@/lib/vocab/clusterLoader";
 
-export type QuestionDto = {
-  id: string;
-  prompt: string;
-  choices: string[];
-  slot?: string;
-  explanation?: string | null;
-  correct_choice: string;
-};
-
-type Question = QuestionDto & {
+type Question = ClusterTask & {
   answer?: string; // filled after scoring
 };
 
@@ -23,6 +21,13 @@ export type ClusterMeta = {
   id: string;
   slug: string;
   title: string;
+  unlocked: boolean;
+  unlocked_at: string | null;
+  theory_md: string | null;
+  theory_summary: string | null;
+  learning_goal: string | null;
+  display_order: number;
+  mastery: ClusterMastery;
 };
 
 type AwardBadge = {
@@ -70,22 +75,30 @@ export default function ClusterClient({
   limit,
   assignmentId,
   initialCluster,
+  initialPatterns,
   initialQuestions,
+  view = "overview",
 }: {
   slug: string;
   limit: number;
   assignmentId: string;
   initialCluster: ClusterMeta;
-  initialQuestions: QuestionDto[];
+  initialPatterns: ClusterPattern[];
+  initialQuestions: ClusterTask[];
+  view?: "overview" | "practice";
 }) {
   const router = useRouter();
+  const isPracticeView = view === "practice";
 
-  const [error, setError] = useState(() => (initialQuestions.length === 0 ? "Brak dostępnych pytań dla tego clustera." : ""));
+  const [error, setError] = useState(() =>
+    isPracticeView && initialQuestions.length === 0 ? "Brak dostępnych pytań dla tego clustera." : "",
+  );
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [questions, setQuestions] = useState<Question[]>(() => initialQuestions);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
+  const [textAnswer, setTextAnswer] = useState("");
   const [checked, setChecked] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [completed, setCompleted] = useState(false);
@@ -99,8 +112,11 @@ export default function ClusterClient({
   const [saveToast, setSaveToast] = useState("");
   const [awardedSessionId, setAwardedSessionId] = useState("");
   const [summary, setSummary] = useState<SessionSummary | null>(null);
+  const [mastery, setMastery] = useState<ClusterMastery>(() => initialCluster.mastery);
   const [assignmentToast, setAssignmentToast] = useState("");
+  const [translationFeedback, setTranslationFeedback] = useState<TranslationEvaluationResult | null>(null);
   const assignmentCompleteRef = useRef(false);
+  const patterns = initialPatterns;
 
   const current = questions[currentIndex];
   const total = questions.length;
@@ -127,9 +143,11 @@ export default function ClusterClient({
   // When SSR refresh brings new questions, reset local session state.
   useEffect(() => {
     setQuestions(initialQuestions);
+    setMastery(initialCluster.mastery);
     setSessionId(createSessionId());
     setCurrentIndex(0);
     setSelectedChoice(null);
+    setTextAnswer("");
     setChecked(false);
     setCorrectCount(0);
     setCompleted(false);
@@ -141,17 +159,28 @@ export default function ClusterClient({
     setAwardedSessionId("");
     setXpAlreadyAwarded(false);
     assignmentCompleteRef.current = false;
-    setError(initialQuestions.length === 0 ? "Brak dostępnych pytań dla tego clustera." : "");
-  }, [initialQuestions, slug, limit]);
+    setError(isPracticeView && initialQuestions.length === 0 ? "Brak dostępnych pytań dla tego clustera." : "");
+    setTranslationFeedback(null);
+  }, [initialCluster.mastery, initialQuestions, isPracticeView, slug, limit]);
 
   const checkAnswer = (choice: string) => {
     if (!current || checked) return;
 
-    setSelectedChoice(choice);
+    const submitted = choice;
+    setSelectedChoice(submitted);
 
-    // Optimistic validation: instant correctness and feedback.
-    const correctAnswer = current.correct_choice;
-    const isCorrect = choice === correctAnswer;
+    const correctAnswer = current.expected_answer ?? current.correct_choice ?? "";
+    const isTranslation = current.task_type === "translation";
+
+    let isCorrect: boolean;
+    if (isTranslation) {
+      const evalResult = evaluateClusterTranslation(current, submitted);
+      setTranslationFeedback(evalResult);
+      isCorrect = evalResult.cluster_correct;
+    } else {
+      setTranslationFeedback(null);
+      isCorrect = isClusterTaskAnswerCorrect(current, submitted);
+    }
     if (isCorrect) setCorrectCount((c) => c + 1);
 
     setQuestions((prev) => prev.map((q) => (q.id === current.id ? { ...q, answer: correctAnswer } : q)));
@@ -169,7 +198,7 @@ export default function ClusterClient({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ questionId: current.id, chosen: choice, session_id: sessionId }),
+          body: JSON.stringify({ questionId: current.id, chosen: submitted, session_id: sessionId }),
         });
       } catch (e) {
         console.warn("[cluster] background log failed", e);
@@ -187,7 +216,9 @@ export default function ClusterClient({
     }
     setCurrentIndex((i) => i + 1);
     setSelectedChoice(null);
+    setTextAnswer("");
     setChecked(false);
+    setTranslationFeedback(null);
   };
 
   useEffect(() => {
@@ -236,6 +267,14 @@ export default function ClusterClient({
               newly_awarded_badges: data.newly_awarded_badges ?? [],
             });
             setSummary(data.summary ?? null);
+            setMastery((prev) => ({
+              ...prev,
+              mastery_state: data.mastery_state ?? prev.mastery_state,
+              practiced_days: data.practiced_days ?? prev.practiced_days,
+              stable_days: data.stable_days ?? prev.stable_days,
+              latest_activity_date: data.latest_activity_date ?? prev.latest_activity_date,
+              rolling_accuracy: data.rolling_accuracy ?? prev.rolling_accuracy,
+            }));
             setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
             setOptimisticXpAwarded(null);
             emitTrainingCompleted({ type: "cluster", slug });
@@ -282,6 +321,20 @@ export default function ClusterClient({
     void awardXp();
   }, [assignmentId, awardedSessionId, completed, router, sessionId, slug]);
 
+  const goNextRef = useRef(goNext);
+  goNextRef.current = goNext;
+  useEffect(() => {
+    if (!isPracticeView || completed || !checked || !current) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && !e.repeat) {
+        e.preventDefault();
+        goNextRef.current();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isPracticeView, completed, checked, current]);
+
   useEffect(() => {
     if (!assignmentToast) return;
     const timer = setTimeout(() => setAssignmentToast(""), 4000);
@@ -294,19 +347,90 @@ export default function ClusterClient({
     return () => clearTimeout(timer);
   }, [saveToast]);
 
+  const isChoiceTask = current?.task_type === "choice";
+
+  function masteryLabel(value: ClusterMastery["mastery_state"]): string {
+    switch (value) {
+      case "mastered":
+        return "Mamy to!";
+      case "stable":
+        return "Ten zestaw dobrze ci idzie!";
+      case "building":
+        return "Potrzebujesz jeszcze trochę praktyki.";
+      default:
+        return "Sprawdź to!";
+    }
+  }
+
+  function taskLabel(taskType: ClusterTask["task_type"]): string {
+    switch (taskType) {
+      case "correction":
+        return "Popraw zdanie";
+      case "translation":
+        return "Tłumaczenie";
+      default:
+        return "Wybór odpowiedzi";
+    }
+  }
+
+  function renderHighlightedTheory(text: string) {
+    return text.split("\n").map((line, idx) => {
+      const key = `${idx}-${line}`;
+      const parts = line.split(/\b(make|do)\b/gi);
+
+      const content = parts.map((part, partIdx) => {
+        if (/^(make|do)$/i.test(part)) {
+          return (
+            <strong key={`${key}-${partIdx}`} className="font-semibold text-slate-950">
+              {part}
+            </strong>
+          );
+        }
+        return <Fragment key={`${key}-${partIdx}`}>{part}</Fragment>;
+      });
+
+      if (!line.trim()) {
+        return <div key={key} className="h-4" />;
+      }
+
+      if (line.startsWith("- ")) {
+        return (
+          <div key={key} className="flex gap-2">
+            <span className="text-slate-400">•</span>
+            <span>{content}</span>
+          </div>
+        );
+      }
+
+      return <p key={key}>{content}</p>;
+    });
+  }
+
   return (
     <main className="space-y-6">
       <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
-              Typowe błędy: {initialCluster.title || slug.replace(/-/g, " / ")}
+              {isPracticeView ? "Ćwicz" : "Typowe błędy"}: {initialCluster.title || slug.replace(/-/g, " / ")}
             </h1>
-            <p className="text-base text-slate-600">Wybierz właściwe słowo w kontekście.</p>
+            <p className="text-base text-slate-600">
+              {isPracticeView
+                ? "Przejdź przez zadania i sprawdź, czy rozróżniasz poprawne użycie w kontekście."
+                : initialCluster.theory_summary || "Ćwicz wybór właściwego słowa w kontekście."}
+            </p>
             {isRefreshing ? <p className="text-sm text-slate-500">Odświeżam pytania…</p> : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
+            <a
+              className="tile-frame"
+              href={isPracticeView ? `/app/vocab/cluster/${slug}` : `/app/vocab/cluster/${slug}/practice`}
+            >
+              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
+                {isPracticeView ? "Teoria" : "Ćwicz"}
+              </span>
+            </a>
             <a
               className="tile-frame"
               href="/app/vocab"
@@ -327,7 +451,89 @@ export default function ClusterClient({
         </div>
       </header>
 
-      {error ? (
+      {!isPracticeView ? (
+        <section className="rounded-3xl border border-sky-200 bg-sky-50 p-5 shadow-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold tracking-tight text-slate-900">Ćwiczenia na osobnej stronie</h2>
+              <p className="text-sm text-slate-600">Najpierw przejrzyj teorię i przykłady, a potem przejdź do praktyki.</p>
+            </div>
+            <a
+              className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+              href={`/app/vocab/cluster/${slug}/practice`}
+            >
+              Otwórz ćwiczenia
+            </a>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="text-sm text-slate-500">Cel</div>
+          <div className="mt-2 text-sm font-medium text-slate-900">
+            {initialCluster.learning_goal || "Rozróżniaj podobne słowa i używaj ich we właściwym kontekście."}
+          </div>
+        </div>
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="text-sm text-slate-500">Mastery</div>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-sm font-medium text-slate-900">
+              {masteryLabel(mastery.mastery_state)}
+            </span>
+            <span className="text-sm text-slate-600">
+              {mastery.stable_days}/{mastery.practiced_days} stabilnych dni
+            </span>
+          </div>
+          <div className="mt-2 text-sm text-slate-600">
+            Łączna skuteczność:{" "}
+            <span className="font-medium text-slate-900">
+              {mastery.rolling_accuracy != null ? Math.round(mastery.rolling_accuracy * 100) : 0}%
+            </span>
+          </div>
+        </div>
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="text-sm text-slate-500">Zawartość</div>
+          <div className="mt-2 text-sm text-slate-700">
+            {questions.length} zadań · {patterns.length} wzorców
+          </div>
+          <div className="mt-2 text-sm text-slate-600">
+            Ostatnia aktywność: {mastery.latest_activity_date ?? "brak"}
+          </div>
+        </div>
+      </section>
+
+      {!isPracticeView && initialCluster.theory_md ? (
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Teoria</h2>
+            <p className="text-sm text-slate-600">Krótka ściąga przed ćwiczeniem.</p>
+          </div>
+          <div className="space-y-2 text-sm leading-6 text-slate-700">{renderHighlightedTheory(initialCluster.theory_md)}</div>
+        </section>
+      ) : null}
+
+      {!isPracticeView && patterns.length ? (
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Core patterns</h2>
+            <p className="text-sm text-slate-600">Najważniejsze wzorce użycia w tym clusterze.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            {patterns.map((pattern) => (
+              <article key={pattern.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                <h3 className="font-medium text-slate-900">{pattern.title}</h3>
+                <div className="text-sm font-medium text-slate-800">{pattern.pattern_en}</div>
+                {pattern.pattern_pl ? <div className="text-sm text-slate-600">{pattern.pattern_pl}</div> : null}
+                {pattern.usage_note ? <div className="text-sm text-slate-600">{pattern.usage_note}</div> : null}
+                {pattern.contrast_note ? <div className="text-sm text-slate-500">{pattern.contrast_note}</div> : null}
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {isPracticeView && error ? (
         <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
           <div className="flex flex-col gap-3">
             <p className="text-sm text-rose-700">
@@ -363,7 +569,7 @@ export default function ClusterClient({
         </div>
       ) : null}
 
-      {!error && !completed && current ? (
+      {isPracticeView && !error && !completed && current ? (
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
           <div className="flex items-center justify-between text-sm text-slate-600">
             <span>
@@ -375,48 +581,131 @@ export default function ClusterClient({
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
-            <div className="text-lg font-medium text-slate-900">{current.prompt}</div>
-
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {current.choices.map((choice) => {
-                const isSelected = selectedChoice === choice;
-                const isCorrect = current.answer ? choice === current.answer : false;
-                const showFeedback = checked && isSelected;
-
-                let buttonClass =
-                  "rounded-xl border-2 px-4 py-3 text-sm font-medium transition disabled:opacity-60";
-                if (checked) {
-                  if (isCorrect) {
-                    buttonClass += " border-emerald-400 bg-emerald-50 text-emerald-800";
-                  } else if (isSelected) {
-                    buttonClass += " border-rose-400 bg-rose-50 text-rose-800";
-                  } else {
-                    buttonClass += " border-slate-200 bg-slate-50 text-slate-400";
-                  }
-                } else {
-                  buttonClass += " border-slate-900 bg-white text-slate-700 hover:bg-slate-50";
-                }
-
-                return (
-                  <button key={choice} onClick={() => checkAnswer(choice)} disabled={checked} className={buttonClass}>
-                    {choice}
-                    {showFeedback && isCorrect && " ✓"}
-                    {showFeedback && !isCorrect && " ✗"}
-                  </button>
-                );
-              })}
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-lg font-medium text-slate-900">{current.prompt}</div>
+              <span className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-600">
+                {taskLabel(current.task_type)}
+              </span>
             </div>
+
+            {current.instruction ? <p className="text-sm text-slate-600">{current.instruction}</p> : null}
+            {current.source_text ? (
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-800">
+                {current.source_text}
+              </div>
+            ) : null}
+
+            {isChoiceTask ? (
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {current.choices.map((choice) => {
+                  const isSelected = selectedChoice === choice;
+                  const isCorrect = current.answer ? choice === current.answer : false;
+                  const showFeedback = checked && isSelected;
+
+                  let buttonClass =
+                    "rounded-xl border-2 px-4 py-3 text-sm font-medium transition disabled:opacity-60";
+                  if (checked) {
+                    if (isCorrect) {
+                      buttonClass += " border-emerald-400 bg-emerald-50 text-emerald-800";
+                    } else if (isSelected) {
+                      buttonClass += " border-rose-400 bg-rose-50 text-rose-800";
+                    } else {
+                      buttonClass += " border-slate-200 bg-slate-50 text-slate-400";
+                    }
+                  } else {
+                    buttonClass += " border-slate-900 bg-white text-slate-700 hover:bg-slate-50";
+                  }
+
+                  return (
+                    <button key={choice} onClick={() => checkAnswer(choice)} disabled={checked} className={buttonClass}>
+                      {choice}
+                      {showFeedback && isCorrect && " ✓"}
+                      {showFeedback && !isCorrect && " ✗"}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <input
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400/40"
+                  value={textAnswer}
+                  onChange={(e) => setTextAnswer(e.target.value)}
+                  placeholder={current.task_type === "translation" ? "Wpisz tłumaczenie po angielsku" : "Wpisz poprawioną wersję"}
+                  disabled={checked}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !checked && textAnswer.trim()) {
+                      checkAnswer(textAnswer);
+                    }
+                  }}
+                />
+                <button
+                  className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                  onClick={() => checkAnswer(textAnswer)}
+                  disabled={checked || !textAnswer.trim()}
+                >
+                  Sprawdź odpowiedź
+                </button>
+              </div>
+            )}
 
             {checked && (
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
-                  <p className="text-sm text-slate-600">
-                    {current.answer
-                      ? selectedChoice === current.answer
-                        ? "Poprawnie!"
-                        : `Poprawna odpowiedź: ${current.answer}`
-                      : "Sprawdź kolejne pytanie."}
-                  </p>
+                  {(() => {
+                    if (!current.answer) {
+                      return <p className="text-sm text-slate-600">Sprawdź kolejne pytanie.</p>;
+                    }
+                    const wasCorrect =
+                      current.task_type === "translation" && translationFeedback
+                        ? translationFeedback.cluster_correct
+                        : selectedChoice
+                          ? isClusterTaskAnswerCorrect(current, selectedChoice)
+                          : false;
+                    const isTranslationWithDiff =
+                      current.task_type === "translation" &&
+                      translationFeedback?.cluster_correct &&
+                      !translationFeedback?.sentence_exact &&
+                      translationFeedback.diff.length > 0;
+
+                    if (wasCorrect) {
+                      return (
+                        <div className="space-y-2">
+                          <p className="text-sm text-slate-600">
+                            <span className="text-base font-bold text-emerald-700">Poprawnie</span>
+                            <span className="ml-2">
+                              {isTranslationWithDiff
+                                ? "Czasownik z clustera poprawny. Sprawdź pozostałe słowa:"
+                                : "Tak trzymać."}
+                            </span>
+                          </p>
+                          {isTranslationWithDiff && selectedChoice ? (
+                            <p className="text-sm text-slate-700">
+                              {selectedChoice.trim().split(/\s+/).map((token, i) => {
+                                const diffItem = translationFeedback.diff.find((d) => d.index === i);
+                                if (diffItem) {
+                                  return (
+                                    <Fragment key={i}>
+                                      <span className="font-medium text-rose-600">{token}</span>
+                                      <span className="text-slate-500"> → {diffItem.expected}</span>{" "}
+                                    </Fragment>
+                                  );
+                                }
+                                return <Fragment key={i}>{token} </Fragment>;
+                              })}
+                            </p>
+                          ) : null}
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <p className="text-sm text-slate-600">
+                        <span className="text-base font-bold text-rose-700">Błąd</span>
+                        <span className="ml-2">Poprawna odpowiedź: {current.answer}</span>
+                      </p>
+                    );
+                  })()}
                   {current.explanation ? <p className="text-sm text-slate-600">{current.explanation}</p> : null}
                 </div>
                 <button
@@ -431,7 +720,7 @@ export default function ClusterClient({
         </section>
       ) : null}
 
-      {!error && completed ? (
+      {isPracticeView && !error && completed ? (
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h2>

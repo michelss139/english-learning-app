@@ -19,7 +19,6 @@ export default function ClustersSection() {
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [hasNewUnlock, setHasNewUnlock] = useState(false);
 
   useEffect(() => {
     const loadClusters = async () => {
@@ -55,15 +54,6 @@ export default function ClustersSection() {
 
         console.log("[ClustersSection] Loaded clusters:", data.clusters.length);
         setClusters(data.clusters);
-
-        // Check if any cluster was just unlocked (use newlyUnlockedSlugs from API)
-        const newlyUnlockedSlugs = data.newlyUnlockedSlugs || [];
-        if (newlyUnlockedSlugs.length > 0) {
-          console.log("[ClustersSection] Newly unlocked clusters:", newlyUnlockedSlugs);
-          setHasNewUnlock(true);
-          // Hide banner after 10 seconds
-          setTimeout(() => setHasNewUnlock(false), 10000);
-        }
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać clusterów.");
       } finally {
@@ -105,17 +95,10 @@ export default function ClustersSection() {
         <p className="text-sm text-slate-600">Ćwicz wybór właściwego słowa w kontekście.</p>
       </div>
 
-      {hasNewUnlock && (
-        <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
-          <p className="text-sm text-slate-700 font-medium">✨ Nowe ćwiczenie dostępne!</p>
-        </div>
-      )}
-
       {clusters.length === 0 ? (
         <div className="text-sm text-slate-600">Brak dostępnych clusterów.</div>
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Recommended clusters - always unlocked (unlocked=true from API) */}
           {recommendedClusters.map((cluster) => (
             <button
               key={cluster.id}
@@ -125,39 +108,19 @@ export default function ClustersSection() {
               <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <h3 className="font-semibold text-slate-900">{cluster.title}</h3>
                 <p className="text-xs text-slate-600">Zalecane</p>
-                <span className="px-2 py-0.5 rounded-lg border border-slate-300 bg-slate-50 text-xs text-slate-700">
-                  Odblokowane
-                </span>
               </div>
             </button>
           ))}
 
-          {/* Unlockable clusters */}
           {unlockableClusters.map((cluster) => (
             <button
               key={cluster.id}
-              onClick={() => {
-                if (cluster.unlocked) {
-                  router.push(`/app/vocab/cluster/${cluster.slug}`);
-                }
-              }}
-              className="rounded-2xl border-2 border-slate-900 bg-white p-4 hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={!cluster.unlocked}
+              onClick={() => router.push(`/app/vocab/cluster/${cluster.slug}`)}
+              className="rounded-2xl border-2 border-slate-900 bg-white p-4 hover:bg-slate-50 transition"
             >
               <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <h3 className="font-semibold text-slate-900">{cluster.title}</h3>
-                <p className="text-xs text-slate-600">
-                  {cluster.unlocked ? "Dostępne" : "Dodaj wszystkie słowa z tego clustera do puli, aby odblokować"}
-                </p>
-                {cluster.unlocked ? (
-                  <span className="px-2 py-0.5 rounded-lg border border-slate-300 bg-slate-50 text-xs text-slate-700">
-                    Odblokowane
-                  </span>
-                ) : (
-                  <span className="px-2 py-0.5 rounded-lg border border-amber-400 bg-amber-50 text-xs text-amber-800">
-                    Zablokowane
-                  </span>
-                )}
+                <p className="text-xs text-slate-600">Dostępne</p>
               </div>
             </button>
           ))}
