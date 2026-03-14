@@ -42,6 +42,11 @@ export default function GrammarHubPage() {
             description: "Zdania warunkowe: Zero, First, Second, Third i Mixed.",
             href: "/app/grammar/conditionals",
           },
+          {
+            title: "Modal Verbs",
+            description: "Can, could, be able to i inne czasowniki modalne.",
+            href: "/app/grammar/modals",
+          },
         ].map((tile) => (
           <a
             key={tile.title}

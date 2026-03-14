@@ -1109,15 +1109,97 @@ Jeżeli warunek zostanie spełniony, rezultat może się wydarzyć.`,
           ""
         ),
         auxiliary: "",
-        confusionWarnings: `Zdanie odnosi się do przyszłości.
-W rezultacie najczęściej używamy will.`,
+        confusionWarnings: `Rezultat najczęściej zawiera will.
+Zdanie odnosi się do realnej przyszłości.`,
         commonMistakes: "",
         examples: `If it rains tomorrow, we will stay at home.`,
         dialog: "",
-        intention: `First Conditional opisuje sytuacje, które mogą wydarzyć się w przyszłości.
-Warunek jest realny, ale rezultat nie jest jeszcze pewny.`,
+        intention: `Opisuje sytuacje, które mogą się wydarzyć w przyszłości.
+Warunek jest realny i możliwy do spełnienia.`,
+        comparisons: [
+          {
+            tense1: "first-conditional",
+            tense2: "second-conditional",
+            title: "First Conditional vs Second Conditional",
+            description: "Realna przyszłość vs hipoteza",
+          },
+        ],
       },
       theoryLink: "/app/grammar/conditionals/first",
+    },
+
+    // SECOND CONDITIONAL
+    {
+      slug: "second-conditional",
+      title: "Second Conditional",
+      description: "Hipotetyczne sytuacje",
+      content: {
+        usage: `Second Conditional opisuje sytuacje hipotetyczne lub mało prawdopodobne.
+Mówimy o tym, co by się wydarzyło teraz lub w przyszłości, gdyby spełniony został określony warunek.`,
+        characteristicWords: "",
+        structure: createStructure(
+          `If + past simple, would + infinitive`,
+          "",
+          ""
+        ),
+        auxiliary: "",
+        confusionWarnings: `would + infinitive
+Rezultat mówi o tym, co by się wydarzyło teraz lub w przyszłości.`,
+        commonMistakes: "",
+        examples: `If I had more time, I would travel more.`,
+        dialog: "",
+        intention: `Opisuje sytuacje hipotetyczne w teraźniejszości lub przyszłości.
+Rezultat mówi o tym, co by się wydarzyło, gdyby warunek był prawdziwy.`,
+        comparisons: [
+          {
+            tense1: "first-conditional",
+            tense2: "second-conditional",
+            title: "First Conditional vs Second Conditional",
+            description: "Realna przyszłość vs hipoteza",
+          },
+          {
+            tense1: "second-conditional",
+            tense2: "third-conditional",
+            title: "Second Conditional vs Third Conditional",
+            description: "Hipoteza teraz vs przeszłość",
+          },
+        ],
+      },
+      theoryLink: "/app/grammar/conditionals/second",
+    },
+
+    // THIRD CONDITIONAL
+    {
+      slug: "third-conditional",
+      title: "Third Conditional",
+      description: "Przeszłość hipotetyczna",
+      content: {
+        usage: `Third Conditional opisuje sytuacje, które mogły wydarzyć się w przeszłości, ale się nie wydarzyły.
+Mówimy o tym, co stałoby się w przeszłości, gdyby spełniony został określony warunek.`,
+        characteristicWords: "",
+        structure: createStructure(
+          `If + past perfect, would have + past participle`,
+          "",
+          ""
+        ),
+        auxiliary: "",
+        confusionWarnings: `would have + past participle
+Rezultat mówi o tym, co wydarzyłoby się w przeszłości.`,
+        commonMistakes: "",
+        examples: `If I had studied harder, I would have passed the exam.`,
+        dialog: "",
+        intention: `Opisuje sytuacje hipotetyczne w przeszłości.
+Rezultat mówi o tym, co wydarzyłoby się w przeszłości, gdyby warunek został spełniony.`,
+        comparisons: [
+          {
+            tense1: "second-conditional",
+            tense2: "third-conditional",
+            title: "Second Conditional vs Third Conditional",
+            description: "Hipoteza teraz vs przeszłość",
+          },
+        ],
+      },
+      theoryLink: "/app/grammar/conditionals/third",
     },
   ],
 };
@@ -1129,11 +1211,25 @@ export function getGrammarTenseBySlug(slug: GrammarTenseSlug) {
   return grammarContent.tenses.find((t) => t.slug === slug);
 }
 
+const CONDITIONAL_SLUGS = new Set([
+  "zero-conditional",
+  "first-conditional",
+  "second-conditional",
+  "third-conditional",
+]);
+
 /**
- * Get all grammar tenses
+ * Get all grammar tenses (including conditionals)
  */
 export function getAllGrammarTenses() {
   return grammarContent.tenses;
+}
+
+/**
+ * Get only actual tenses, excluding conditionals (they have their own page at /app/grammar/conditionals)
+ */
+export function getGrammarTensesOnly() {
+  return grammarContent.tenses.filter((t) => !CONDITIONAL_SLUGS.has(t.slug));
 }
 
 /**

@@ -1,0 +1,16 @@
+export const SENTENCE_BUILDER_VERB_WHITELIST = [
+  "go",
+  "see",
+  "meet",
+  "come",
+  "take",
+  "give",
+  "make",
+  "find",
+  "tell",
+  "think",
+  "get",
+  "bring",
+  "leave",
+  "become",
+] as const;
