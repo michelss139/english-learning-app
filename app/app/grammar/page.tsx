@@ -45,7 +45,7 @@ export default function GrammarHubPage() {
           {
             title: "Modal Verbs",
             description: "Can, could, be able to i inne czasowniki modalne.",
-            href: "/app/grammar/modals",
+            href: "/app/grammar/modal-verbs",
           },
         ].map((tile) => (
           <a

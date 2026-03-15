@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
 import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
+import { TypewriterText } from "@/lib/coach/TypewriterText";
 import { getWordTip } from "@/lib/coach/wordTips";
 
 export type PackMetaDto = {
@@ -994,16 +995,17 @@ export default function PackTrainingClient(props: {
                 {current.definition_en ? <p className="text-sm text-slate-600">{current.definition_en}</p> : null}
                 {current.example_en ? <p className="text-sm text-slate-600 italic">"{current.example_en}"</p> : null}
                 {(() => {
-                  const tip = getWordTip(current.lemma);
+                  const tip = getWordTip(
+                    current.lemma,
+                    !currentAnswer?.isCorrect ? currentAnswer?.given : undefined
+                  );
                   if (!tip) return null;
-                  const lines = Array.isArray(tip) ? tip : [tip];
+                  const text = Array.isArray(tip) ? tip.join("\n") : tip;
                   return (
                     <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
                       <p className="text-sm font-semibold text-amber-800">WAŻNE!</p>
-                      <div className="mt-1 space-y-1 text-sm text-amber-900">
-                        {lines.map((line, i) => (
-                          <p key={i}>{line}</p>
-                        ))}
+                      <div className="mt-1 whitespace-pre-line text-sm text-amber-900">
+                        <TypewriterText text={text} speed={30} />
                       </div>
                     </div>
                   );

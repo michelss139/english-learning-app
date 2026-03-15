@@ -42,7 +42,11 @@ export default async function SentenceBuilderPage({ searchParams }: SentenceBuil
     <main className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Sentence Builder</h1>
-        <p className="max-w-2xl text-sm text-slate-700">Build sentences using English grammar structures.</p>
+        <p className="max-w-2xl text-sm text-slate-700">
+          Tutaj możesz sprawdzić, jak wyglądają twierdzenia, przeczenia oraz pytania wykorzystując
+          dowolny czas bądź dowolny czasownik modalny. Wypróbuj także &quot;challenge&quot;, żeby
+          samemu takie zdania tworzyć!
+        </p>
       </header>
 
       <section className="rounded-2xl border border-slate-900 bg-white p-6 md:p-8">

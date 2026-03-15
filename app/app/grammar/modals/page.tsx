@@ -1,5 +1,5 @@
-import { ModalsClient } from "./ModalsClient";
+import { redirect } from "next/navigation";
 
 export default async function ModalsPage() {
-  return <ModalsClient />;
+  redirect("/app/grammar/modal-verbs");
 }

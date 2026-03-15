@@ -5,6 +5,8 @@ import { TileWithSidebar, type SidebarItem } from "../_components/TileWithSideba
 
 const topics: SidebarItem<string>[] = [
   { id: "ability", title: "Ability", description: "Can, could i be able to – umiejętności i możliwości.", href: "/app/grammar/modals/ability" },
+  { id: "obligation", title: "Obligation", description: "Must, have to, should – obowiązek, konieczność i zalecenia.", href: "/app/grammar/modals/obligation" },
+  { id: "possibility", title: "Possibility", description: "May, might, could – możliwość.", href: "/app/grammar/modals/possibility" },
 ];
 
 export function ModalsClient() {

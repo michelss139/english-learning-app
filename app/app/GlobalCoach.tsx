@@ -13,12 +13,19 @@ type GlobalCoachProps = {
 };
 
 function getCoachContent(pathname: string | null, currentLemma: string | null): CoachContent {
-  // Na fiszkach tipy pokazują się po Sprawdź, nie w rogu
-  if (!pathname?.startsWith("/app/vocab/pack")) {
-    const wordTip = getWordTip(currentLemma ?? undefined);
-    if (wordTip) return wordTip;
-  }
+  // Tipy słówkowe: na fiszkach pokazujemy "ciekawostka!" (pełna treść w WAŻNE! po Sprawdź)
+  const wordTip = getWordTip(currentLemma ?? undefined);
+  if (wordTip) return "ciekawostka!";
   if (!pathname) return "Witaj na LANGBracket";
+  if (pathname === "/app/grammar" || pathname === "/app/grammar/") {
+    return "Gramatyka. Ja też tego nie lubię, ale... czasem trzeba";
+  }
+  if (pathname.startsWith("/app/grammar/tenses")) {
+    return "Wszystkie czasy, do wyboru, do koloru!";
+  }
+  if (pathname.startsWith("/app/grammar/conditionals")) {
+    return "\"Co by było gdyby?\" - który to conditional?";
+  }
   if (pathname.startsWith("/app/grammar/present-simple")) {
     return "Najczęstszy błąd? DO + czasownik z -s. Nigdy razem.";
   }
@@ -103,7 +110,7 @@ function CoachCard({ tips, onHide }: { tips: string[]; onHide: () => void }) {
   const goNext = () => setTipIndex((i) => (i >= tips.length - 1 ? 0 : i + 1));
 
   return (
-    <div className="max-w-xs rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+    <div className="w-64 shrink-0 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 flex-1 items-center gap-1">
           {hasMultipleTips && (
@@ -126,7 +133,9 @@ function CoachCard({ tips, onHide }: { tips: string[]; onHide: () => void }) {
               </button>
             </>
           )}
-          <p className="min-w-0 flex-1 text-sm font-medium text-slate-800">{currentMessage}</p>
+          <p className="min-w-0 flex-1 break-words whitespace-pre-line text-center text-sm font-medium text-slate-800">
+            {currentMessage}
+          </p>
         </div>
         <button
           type="button"
@@ -145,6 +154,7 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
   const pathname = usePathname();
   const { currentLemma } = useCurrentWord();
   const [visible, setVisible] = useState(true);
+  const [sentenceBuilderVisible, setSentenceBuilderVisible] = useState(true);
   const [sentenceBuilderOpen, setSentenceBuilderOpen] = useState(false);
 
   const content = useMemo(() => getCoachContent(pathname, currentLemma), [pathname, currentLemma]);
@@ -153,16 +163,38 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
 
   return (
     <>
-      <div className="fixed top-6 right-6 z-40 flex items-start gap-3">
-        <button
-          type="button"
-          onClick={() => setSentenceBuilderOpen(true)}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-lg text-slate-700 shadow-md transition hover:bg-slate-50"
-          title="Sentence Builder"
-          aria-label="Sentence Builder"
-        >
-          🔧
-        </button>
+      <div className="fixed top-6 right-6 z-40 flex w-64 flex-col items-stretch gap-3">
+        {sentenceBuilderVisible ? (
+          <div className="flex items-center justify-between gap-2 rounded-xl border border-slate-300 bg-white p-2 shadow-md">
+            <button
+              type="button"
+              onClick={() => setSentenceBuilderOpen(true)}
+              className="flex-1 rounded-lg px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-700 transition hover:bg-slate-50"
+              title="Sentence Builder"
+              aria-label="Sentence Builder"
+            >
+              Sentence Builder
+            </button>
+            <button
+              type="button"
+              onClick={() => setSentenceBuilderVisible(false)}
+              className="shrink-0 rounded-md px-2 py-1 text-xs text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+              aria-label="Schowaj Sentence Builder"
+            >
+              ✕
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setSentenceBuilderVisible(true)}
+            className="flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-slate-300 bg-white text-lg text-slate-700 shadow-md transition hover:bg-slate-50"
+            title="Pokaż Sentence Builder"
+            aria-label="Pokaż Sentence Builder"
+          >
+            🔧
+          </button>
+        )}
 
         {visible ? (
           <CoachCard key={coachKey} tips={tips} onHide={() => setVisible(false)} />
@@ -201,7 +233,11 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
             <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
               <div className="space-y-1">
                 <h2 className="text-xl font-semibold text-slate-900">Sentence Builder</h2>
-                <p className="text-sm text-slate-600">Build sentences using English grammar structures.</p>
+                <p className="text-sm text-slate-600">
+                  Tutaj możesz sprawdzić, jak wyglądają twierdzenia, przeczenia oraz pytania
+                  wykorzystując dowolny czas bądź dowolny czasownik modalny. Wypróbuj także
+                  &quot;challenge&quot;, żeby samemu takie zdania tworzyć!
+                </p>
               </div>
               <button
                 type="button"
