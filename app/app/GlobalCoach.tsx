@@ -202,7 +202,7 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
           <button
             type="button"
             onClick={() => setVisible(true)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-lg font-medium text-slate-700 shadow-md transition hover:bg-slate-50"
+            className="flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-slate-300 bg-white text-lg font-medium text-slate-700 shadow-md transition hover:bg-slate-50"
             title="Pokaż coacha"
             aria-label="Pokaż coacha"
           >

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
@@ -59,17 +59,6 @@ type SessionSummary = {
   }>;
 };
 
-function createSessionId(): string {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return crypto.randomUUID();
-  }
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
 export default function ClusterClient({
   slug,
   limit,
@@ -90,12 +79,10 @@ export default function ClusterClient({
   const router = useRouter();
   const isPracticeView = view === "practice";
 
-  const [error, setError] = useState(() =>
-    isPracticeView && initialQuestions.length === 0 ? "Brak dostępnych pytań dla tego clustera." : "",
-  );
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState("");
+  const [startLoading, setStartLoading] = useState(isPracticeView);
 
-  const [questions, setQuestions] = useState<Question[]>(() => initialQuestions);
+  const [questions, setQuestions] = useState<Question[]>(() => (isPracticeView ? [] : initialQuestions));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [textAnswer, setTextAnswer] = useState("");
@@ -103,7 +90,7 @@ export default function ClusterClient({
   const [correctCount, setCorrectCount] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [eventLogErrors, setEventLogErrors] = useState(0);
-  const [sessionId, setSessionId] = useState(() => createSessionId());
+  const [sessionId, setSessionId] = useState("");
   const [award, setAward] = useState<AwardResult | null>(null);
   const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number | null>(null);
   const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
@@ -116,6 +103,8 @@ export default function ClusterClient({
   const [assignmentToast, setAssignmentToast] = useState("");
   const [translationFeedback, setTranslationFeedback] = useState<TranslationEvaluationResult | null>(null);
   const assignmentCompleteRef = useRef(false);
+  const lastCheckTimeRef = useRef(0);
+  const checkingRef = useRef(false);
   const patterns = initialPatterns;
 
   const current = questions[currentIndex];
@@ -125,66 +114,127 @@ export default function ClusterClient({
   const summaryWrong = summary?.wrong ?? Math.max(summaryTotal - summaryCorrect, 0);
   const summaryAccuracy = summary?.accuracy ?? (summaryTotal ? summaryCorrect / summaryTotal : 0);
 
-  const loadQuestions = async () => {
+  const startSessionWithApi = useCallback(async () => {
+    setStartLoading(true);
+    setError("");
     try {
-      setIsRefreshing(true);
-      setError("");
-
-      // Preserve "Jeszcze raz" behavior, but keep SSR as source of truth
-      // for questions (so we always have correct_choice for optimistic validation).
-      router.refresh();
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) {
+        setError("Zaloguj się, aby rozpocząć sesję.");
+        return;
+      }
+      const res = await fetch("/api/training/cluster/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ slug, limit }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Nie udało się rozpocząć sesji.");
+      }
+      if (!data.sessionId || !Array.isArray(data.questions)) {
+        throw new Error("Nieprawidłowa odpowiedź serwera.");
+      }
+      const tasks = data.questions as ClusterTask[];
+      if (tasks.length === 0) {
+        throw new Error("Brak dostępnych pytań dla tego clustera.");
+      }
+      setQuestions(tasks.map((t) => ({ ...t })));
+      setSessionId(data.sessionId);
+      setCurrentIndex(0);
+      setSelectedChoice(null);
+      setTextAnswer("");
+      setChecked(false);
+      setCorrectCount(0);
+      setCompleted(false);
+      setEventLogErrors(0);
+      setAward(null);
+      setOptimisticXpAwarded(null);
+      setAwardError("");
+      setSaveToast("");
+      setAwardedSessionId("");
+      setXpAlreadyAwarded(false);
+      setSummary(null);
+      setTranslationFeedback(null);
+      assignmentCompleteRef.current = false;
+      checkingRef.current = false;
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Nie udało się wczytać pytań.");
+      setError(e instanceof Error ? e.message : "Nie udało się rozpocząć sesji.");
     } finally {
-      setIsRefreshing(false);
+      setStartLoading(false);
     }
+  }, [slug, limit]);
+
+  const loadQuestions = () => {
+    if (!isPracticeView) return;
+    setError("");
+    void startSessionWithApi();
   };
 
-  // When SSR refresh brings new questions, reset local session state.
+  // When overview data changes (e.g. navigation), sync questions and mastery.
   useEffect(() => {
+    if (isPracticeView) return;
     setQuestions(initialQuestions);
     setMastery(initialCluster.mastery);
-    setSessionId(createSessionId());
-    setCurrentIndex(0);
-    setSelectedChoice(null);
-    setTextAnswer("");
-    setChecked(false);
-    setCorrectCount(0);
-    setCompleted(false);
-    setEventLogErrors(0);
-    setAward(null);
-    setOptimisticXpAwarded(null);
-    setAwardError("");
-    setSaveToast("");
-    setAwardedSessionId("");
-    setXpAlreadyAwarded(false);
-    assignmentCompleteRef.current = false;
-    setError(isPracticeView && initialQuestions.length === 0 ? "Brak dostępnych pytań dla tego clustera." : "");
-    setTranslationFeedback(null);
-  }, [initialCluster.mastery, initialQuestions, isPracticeView, slug, limit]);
+  }, [initialCluster.mastery, initialQuestions, isPracticeView]);
+
+  // Practice view: fetch session from API on mount.
+  const startFetchedRef = useRef(false);
+  useEffect(() => {
+    if (!isPracticeView || startFetchedRef.current) return;
+    startFetchedRef.current = true;
+    void startSessionWithApi();
+  }, [isPracticeView, startSessionWithApi]);
 
   const checkAnswer = (choice: string) => {
-    if (!current || checked) return;
+    if (!current || checkingRef.current) return;
+    checkingRef.current = true;
 
-    const submitted = choice;
+    const isTranslation = current.task_type === "translation";
+    const submitted = isTranslation ? textAnswer : choice;
     setSelectedChoice(submitted);
 
-    const correctAnswer = current.expected_answer ?? current.correct_choice ?? "";
-    const isTranslation = current.task_type === "translation";
+    const correctChoiceStr =
+      typeof current.correct_choice === "number" && Array.isArray(current.choices)
+        ? current.choices[current.correct_choice] ?? ""
+        : (current.correct_choice ?? "");
+    const correctAnswer = current.expected_answer ?? correctChoiceStr ?? current.accepted_answers?.[0] ?? "";
 
     let isCorrect: boolean;
     if (isTranslation) {
       const evalResult = evaluateClusterTranslation(current, submitted);
       setTranslationFeedback(evalResult);
       isCorrect = evalResult.cluster_correct;
+
+      // store user answer so UI can render feedback
+      setQuestions((prev) =>
+        prev.map((q) =>
+          q.id === current.id
+            ? { ...q, answer: submitted }
+            : q
+        )
+      );
     } else {
       setTranslationFeedback(null);
       isCorrect = isClusterTaskAnswerCorrect(current, submitted);
     }
     if (isCorrect) setCorrectCount((c) => c + 1);
 
-    setQuestions((prev) => prev.map((q) => (q.id === current.id ? { ...q, answer: correctAnswer } : q)));
+    if (!isTranslation) {
+      setQuestions((prev) =>
+        prev.map((q) =>
+          q.id === current.id
+            ? { ...q, answer: String(correctAnswer) }
+            : q
+        )
+      );
+    }
     setChecked(true);
+    lastCheckTimeRef.current = Date.now();
 
     // Background event log (do not block UI)
     void (async () => {
@@ -208,8 +258,8 @@ export default function ClusterClient({
   };
 
   const goNext = () => {
+    checkingRef.current = false;
     if (currentIndex >= total - 1) {
-      // Optimistic completion UI: mark done immediately.
       setOptimisticXpAwarded(10);
       setCompleted(true);
       return;
@@ -319,7 +369,7 @@ export default function ClusterClient({
     };
 
     void awardXp();
-  }, [assignmentId, awardedSessionId, completed, router, sessionId, slug]);
+  }, [assignmentId, awardedSessionId, completed, sessionId, slug]);
 
   const goNextRef = useRef(goNext);
   goNextRef.current = goNext;
@@ -327,6 +377,7 @@ export default function ClusterClient({
     if (!isPracticeView || completed || !checked || !current) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" && !e.repeat) {
+        if (Date.now() - lastCheckTimeRef.current < 500) return;
         e.preventDefault();
         goNextRef.current();
       }
@@ -419,7 +470,7 @@ export default function ClusterClient({
                 ? "Przejdź przez zadania i sprawdź, czy rozróżniasz poprawne użycie w kontekście."
                 : initialCluster.theory_summary || "Ćwicz wybór właściwego słowa w kontekście."}
             </p>
-            {isRefreshing ? <p className="text-sm text-slate-500">Odświeżam pytania…</p> : null}
+            {startLoading ? <p className="text-sm text-slate-500">Ładowanie sesji…</p> : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -530,6 +581,12 @@ export default function ClusterClient({
               </article>
             ))}
           </div>
+        </section>
+      ) : null}
+
+      {isPracticeView && startLoading && !error ? (
+        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <p className="text-center text-slate-600">Ładowanie sesji…</p>
         </section>
       ) : null}
 
@@ -653,20 +710,29 @@ export default function ClusterClient({
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
                   {(() => {
-                    if (!current.answer) {
-                      return <p className="text-sm text-slate-600">Sprawdź kolejne pytanie.</p>;
-                    }
                     const wasCorrect =
-                      current.task_type === "translation" && translationFeedback
-                        ? translationFeedback.cluster_correct
+                      current.task_type === "translation"
+                        ? translationFeedback?.cluster_correct === true
                         : selectedChoice
                           ? isClusterTaskAnswerCorrect(current, selectedChoice)
                           : false;
+                    const displayChoiceStr =
+                      typeof current.correct_choice === "number" && Array.isArray(current.choices)
+                        ? current.choices[current.correct_choice] ?? ""
+                        : (current.correct_choice ?? "");
+                    const displayAnswer =
+                      current.task_type === "translation"
+                        ? current.expected_answer ?? current.accepted_answers?.[0] ?? ""
+                        : current.answer ?? current.expected_answer ?? displayChoiceStr ?? current.accepted_answers?.[0] ?? "";
                     const isTranslationWithDiff =
                       current.task_type === "translation" &&
                       translationFeedback?.cluster_correct &&
                       !translationFeedback?.sentence_exact &&
                       translationFeedback.diff.length > 0;
+
+                    if (!displayAnswer && !translationFeedback) {
+                      return <p className="text-sm text-slate-600">Sprawdź kolejne pytanie.</p>;
+                    }
 
                     if (wasCorrect) {
                       return (
@@ -702,7 +768,7 @@ export default function ClusterClient({
                     return (
                       <p className="text-sm text-slate-600">
                         <span className="text-base font-bold text-rose-700">Błąd</span>
-                        <span className="ml-2">Poprawna odpowiedź: {current.answer}</span>
+                        <span className="ml-2">Poprawna odpowiedź: {displayAnswer || "—"}</span>
                       </p>
                     );
                   })()}

@@ -96,6 +96,7 @@ export default function IrregularVerbsTrainClient(props: {
   const [summary, setSummary] = useState<SessionSummary | null>(null);
   const [assignmentToast, setAssignmentToast] = useState("");
   const assignmentCompleteRef = useRef(false);
+  const pastSimpleInputRef = useRef<HTMLInputElement>(null);
 
   const summaryTotal = summary?.total ?? stats.total;
   const summaryCorrect = summary?.correct ?? stats.correct;
@@ -311,6 +312,12 @@ export default function IrregularVerbsTrainClient(props: {
     return () => clearTimeout(timer);
   }, [assignmentToast]);
 
+  useEffect(() => {
+    if (currentVerb && !result) {
+      pastSimpleInputRef.current?.focus();
+    }
+  }, [currentVerb?.id, result]);
+
   return (
     <main className="space-y-6">
       <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
@@ -496,7 +503,7 @@ export default function IrregularVerbsTrainClient(props: {
                 className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
                   result || submitting ? "opacity-60" : ""
                 }`}
-                placeholder="np. went"
+                ref={pastSimpleInputRef}
                 autoFocus
               />
               {result && (
@@ -533,7 +540,6 @@ export default function IrregularVerbsTrainClient(props: {
                 className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
                   result || submitting ? "opacity-60" : ""
                 }`}
-                placeholder="np. gone"
               />
               {result && (
                 <div className={`mt-2 rounded-xl border-2 p-3 ${pill(result.past_participle_correct ? "good" : "bad")}`}>

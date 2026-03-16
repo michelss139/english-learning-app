@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile } from "@/lib/auth/profile";
@@ -35,41 +35,28 @@ type Badge = {
   earned: boolean;
 };
 
-type IntelligentSuggestions = {
-  irregular:
-    | {
-        verbs: { id: string; base: string }[];
-        total_problematic: number;
-        href: string;
-      }
-    | null;
-  packs: { slug: string; accuracy?: number | null; href: string }[];
-  clusters: { slug: string; accuracy?: number | null; href: string }[];
+type Recommendation = {
+  type: string;
+  unitId: string;
+  priority: number;
+  href: string;
 };
 
-type IntelligentSuggestionsResponse = {
-  irregular:
-    | {
-        verbs: { id: string; base: string }[];
-        total_problematic: number;
-        href: string;
-      }
-    | null;
-  packs: { slug: string; accuracy?: number | null; href: string }[];
-  clusters: { slug: string; accuracy?: number | null; href: string }[];
+type RecommendationsResponse = {
+  recommendations: Recommendation[];
 };
 
-function formatSlugLabel(slug: string): string {
-  return slug
-    .split("-")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function formatAccuracy(value?: number | null): string {
-  if (typeof value !== "number" || !Number.isFinite(value)) return "—";
-  return `${Math.round(value * 100)}%`;
+function getLabelForType(type: string): string {
+  switch (type) {
+    case "cluster":
+      return "Typowe błędy";
+    case "irregular":
+      return "Nieregularne czasowniki";
+    case "sense":
+      return "Powtórz słówka";
+    default:
+      return "Trening";
+  }
 }
 
 export default function ProfilePage() {
@@ -80,12 +67,8 @@ export default function ProfilePage() {
   const [xp, setXp] = useState<XpInfo | null>(null);
   const [streak, setStreak] = useState<StreakInfo | null>(null);
   const [badges, setBadges] = useState<Badge[]>([]);
-  const [intelligentSuggestions, setIntelligentSuggestions] = useState<IntelligentSuggestions | null>(null);
-  const [intelligentLoading, setIntelligentLoading] = useState(true);
-  const [packIndex, setPackIndex] = useState(0);
-  const [clusterIndex, setClusterIndex] = useState(0);
-  const pendingPackRemovalsRef = useRef<Set<string>>(new Set());
-  const pendingClusterRemovalsRef = useRef<Set<string>>(new Set());
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [recommendationsLoading, setRecommendationsLoading] = useState(true);
 
   useEffect(() => {
     const run = async () => {
@@ -117,11 +100,11 @@ export default function ProfilePage() {
           }
         }
 
-        const [xpRes, streakRes, badgesRes, intelligentRes] = await Promise.all([
+        const [xpRes, streakRes, badgesRes, recRes] = await Promise.all([
           fetch("/api/profile/xp", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/streak", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/badges", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("/api/app/intelligent-suggestions-v2", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("/api/app/recommendations", { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         const xpJson = await xpRes.json().catch(() => null);
@@ -148,17 +131,17 @@ export default function ProfilePage() {
           setBadges((badgesJson.badges ?? []) as Badge[]);
         }
 
-        const intelligentJson = await intelligentRes.json().catch(() => null);
-        if (intelligentRes.ok && intelligentJson) {
-          setIntelligentSuggestions(intelligentJson as IntelligentSuggestions);
+        const recJson = (await recRes.json().catch(() => null)) as RecommendationsResponse | null;
+        if (recRes.ok && recJson?.recommendations && Array.isArray(recJson.recommendations)) {
+          setRecommendations(recJson.recommendations);
         } else {
-          setIntelligentSuggestions(null);
+          setRecommendations([]);
         }
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać profilu.");
-        setIntelligentSuggestions(null);
+        setRecommendations([]);
       } finally {
-        setIntelligentLoading(false);
+        setRecommendationsLoading(false);
       }
     };
 
@@ -166,78 +149,22 @@ export default function ProfilePage() {
   }, [router]);
 
   useEffect(() => {
-    const unsubscribe = subscribeTrainingCompleted((event) => {
-      if (event.type === "pack") pendingPackRemovalsRef.current.add(event.slug);
-      if (event.type === "cluster") pendingClusterRemovalsRef.current.add(event.slug);
+    const unsubscribe = subscribeTrainingCompleted(async () => {
+      try {
+        const session = await supabase.auth.getSession();
+        const token = session.data.session?.access_token;
+        if (!token) return;
 
-      setIntelligentSuggestions((prev) => {
-        if (!prev) return prev;
-
-        if (event.type === "pack") {
-          const nextPacks = prev.packs.filter((item) => item.slug !== event.slug);
-          setPackIndex((idx) => {
-            if (nextPacks.length === 0) return 0;
-            if (idx >= nextPacks.length) return 0;
-            return idx;
-          });
-          return { ...prev, packs: nextPacks };
+        const res = await fetch("/api/app/recommendations", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const json = (await res.json().catch(() => null)) as RecommendationsResponse | null;
+        if (res.ok && json?.recommendations && Array.isArray(json.recommendations)) {
+          setRecommendations(json.recommendations);
         }
-
-        if (event.type === "cluster") {
-          const nextClusters = prev.clusters.filter((item) => item.slug !== event.slug);
-          setClusterIndex((idx) => {
-            if (nextClusters.length === 0) return 0;
-            if (idx >= nextClusters.length) return 0;
-            return idx;
-          });
-          return { ...prev, clusters: nextClusters };
-        }
-
-        return { ...prev, irregular: null };
-      });
-
-      setIntelligentLoading(false);
-
-      void (async () => {
-        try {
-          const session = await supabase.auth.getSession();
-          const token = session.data.session?.access_token;
-          if (!token) return;
-
-          const res = await fetch("/api/app/intelligent-suggestions-v2", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const json = (await res.json().catch(() => null)) as IntelligentSuggestionsResponse | null;
-          if (!res.ok || !json) return;
-
-          const nextPacks = json.packs.filter((p) => !pendingPackRemovalsRef.current.has(p.slug));
-          const nextClusters = json.clusters.filter((c) => !pendingClusterRemovalsRef.current.has(c.slug));
-
-          setIntelligentSuggestions((prev) => {
-            if (!prev) return { ...json, packs: nextPacks, clusters: nextClusters };
-            return {
-              ...json,
-              packs: nextPacks,
-              clusters: nextClusters,
-              irregular: event.type === "irregular" ? null : json.irregular,
-            };
-          });
-          setPackIndex((idx) => {
-            const nextCount = nextPacks.length;
-            if (nextCount <= 0) return 0;
-            if (idx >= nextCount) return 0;
-            return idx;
-          });
-          setClusterIndex((idx) => {
-            const nextCount = nextClusters.length;
-            if (nextCount <= 0) return 0;
-            if (idx >= nextCount) return 0;
-            return idx;
-          });
-        } catch {
-          // Keep optimistic state when refetch fails.
-        }
-      })();
+      } catch {
+        // ignore
+      }
     });
 
     return unsubscribe;
@@ -266,14 +193,9 @@ export default function ProfilePage() {
   const tooltipText =
     "Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia.";
   const recentBadges = badges.slice(0, 3);
-  const irregularVerbs = intelligentSuggestions?.irregular?.verbs ?? [];
-  const irregularPreview = irregularVerbs.slice(0, 6).map((v) => v.base);
-  const irregularRemaining = Math.max(irregularVerbs.length - irregularPreview.length, 0);
-  const packs = intelligentSuggestions?.packs ?? [];
-  const clusters = intelligentSuggestions?.clusters ?? [];
-  const currentPack = packs.length > 0 ? packs[packIndex % packs.length] : null;
-  const currentCluster = clusters.length > 0 ? clusters[clusterIndex % clusters.length] : null;
-  const allSuggestionsEmpty = irregularVerbs.length === 0 && packs.length === 0 && clusters.length === 0;
+  const rec0 = recommendations[0] ?? null;
+  const rec1 = recommendations[1] ?? null;
+  const allSuggestionsEmpty = recommendations.length === 0;
 
   const renderBadgeIcon = (badge: Badge) => {
     if (badge.icon && (badge.icon.startsWith("/") || badge.icon.startsWith("http"))) {
@@ -403,12 +325,11 @@ export default function ProfilePage() {
         </div>
       ) : null}
 
-      {intelligentLoading ? (
+      {recommendationsLoading ? (
         <section className="tile-frame">
           <div className="tile-core p-6 space-y-4">
             <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Twój plan na teraz</div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="h-28 rounded-xl border border-slate-200 bg-white animate-pulse" />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="h-28 rounded-xl border border-slate-200 bg-white animate-pulse" />
               <div className="h-28 rounded-xl border border-slate-200 bg-white animate-pulse" />
             </div>
@@ -416,7 +337,7 @@ export default function ProfilePage() {
         </section>
       ) : null}
 
-      {!intelligentLoading ? (
+      {!recommendationsLoading ? (
         <section className="tile-frame">
           <div className="tile-core p-6 space-y-4">
             <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Twój plan na teraz</div>
@@ -448,114 +369,28 @@ export default function ProfilePage() {
               </div>
             ) : null}
             <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-              <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                <div className="text-sm font-semibold text-slate-900">Irregular Verbs</div>
-                {irregularVerbs.length === 0 ? (
-                  <div className="text-sm text-slate-600">Wszystko gra — brak zaległości w Irregular Verbs.</div>
-                ) : (
-                  <>
-                    <div className="text-sm text-slate-700">
-                      Te czasowniki sprawiają trudność: {irregularPreview.join(", ")}
-                      {irregularRemaining > 0 ? `, +${irregularRemaining}` : ""}
-                    </div>
-                    <a
-                      href={intelligentSuggestions?.irregular?.href ?? "/app/irregular-verbs/train?focus=auto"}
-                      className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-                    >
-                      Powtórz
-                    </a>
-                    <div className="text-xs text-slate-500">Wybrane automatycznie (max 10)</div>
-                  </>
-                )}
-              </div>
-
-              <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-slate-900">Packs</div>
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      aria-label="Poprzedni pack"
-                      disabled={packs.length <= 1}
-                      onClick={() => setPackIndex((i) => (packs.length <= 1 ? 0 : (i - 1 + packs.length) % packs.length))}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-slate-600 transition hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-transparent"
-                    >
-                      &#8249;
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="Następny pack"
-                      disabled={packs.length <= 1}
-                      onClick={() => setPackIndex((i) => (packs.length <= 1 ? 0 : (i + 1) % packs.length))}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-slate-600 transition hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-transparent"
-                    >
-                      &#8250;
-                    </button>
-                  </div>
+              {rec0 ? (
+                <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
+                  <div className="text-sm font-semibold text-slate-900">{getLabelForType(rec0.type)}</div>
+                  <a
+                    href={rec0.href}
+                    className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+                  >
+                    Powtórz
+                  </a>
                 </div>
-                {currentPack ? (
-                  <>
-                    <div className="text-sm text-slate-700">{formatSlugLabel(currentPack.slug)}</div>
-                    <div className="text-sm text-slate-600">Skuteczność: {formatAccuracy(currentPack.accuracy)}</div>
-                    <a
-                      href={currentPack.href}
-                      className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-                    >
-                      Powtórz pack
-                    </a>
-                    <div className="text-xs text-slate-500">
-                      {packs.length > 0 ? `${(packIndex % packs.length) + 1} / ${packs.length}` : "0 / 0"}
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-sm text-slate-600">Wszystko gra — brak packów do powtórki.</div>
-                )}
-              </div>
-
-              <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-slate-900">Clusters</div>
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      aria-label="Poprzedni cluster"
-                      disabled={clusters.length <= 1}
-                      onClick={() =>
-                        setClusterIndex((i) => (clusters.length <= 1 ? 0 : (i - 1 + clusters.length) % clusters.length))
-                      }
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-slate-600 transition hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-transparent"
-                    >
-                      &#8249;
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="Następny cluster"
-                      disabled={clusters.length <= 1}
-                      onClick={() => setClusterIndex((i) => (clusters.length <= 1 ? 0 : (i + 1) % clusters.length))}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-slate-600 transition hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-transparent"
-                    >
-                      &#8250;
-                    </button>
-                  </div>
+              ) : null}
+              {rec1 ? (
+                <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
+                  <div className="text-sm font-semibold text-slate-900">{getLabelForType(rec1.type)}</div>
+                  <a
+                    href={rec1.href}
+                    className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+                  >
+                    Powtórz
+                  </a>
                 </div>
-                {currentCluster ? (
-                  <>
-                    <div className="text-sm text-slate-700">{formatSlugLabel(currentCluster.slug)}</div>
-                    <div className="text-sm text-slate-600">Skuteczność: {formatAccuracy(currentCluster.accuracy)}</div>
-                    <a
-                      href={currentCluster.href}
-                      className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-                    >
-                      Powtórz kontrast
-                    </a>
-                    <div className="text-xs text-slate-500">
-                      {clusters.length > 0 ? `${(clusterIndex % clusters.length) + 1} / ${clusters.length}` : "0 / 0"}
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-sm text-slate-600">Wszystko gra — brak kontrastów do powtórki.</div>
-                )}
-              </div>
+              ) : null}
             </div>
           </div>
         </section>

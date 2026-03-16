@@ -13,6 +13,18 @@ function normalizeSpacing(value: string): string {
   return value.replace(/\s+/g, " ").trim().toLowerCase();
 }
 
+function pickLemma(embed: unknown): string | null {
+  if (!embed) return null;
+  if (Array.isArray(embed)) {
+    return typeof embed[0]?.lemma === "string" ? embed[0].lemma : null;
+  }
+  if (typeof embed === "object" && embed !== null && "lemma" in embed) {
+    const value = (embed as { lemma?: unknown }).lemma;
+    return typeof value === "string" ? value : null;
+  }
+  return null;
+}
+
 function stripDiacritics(value: string): string {
   const decomposed = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   return decomposed
@@ -108,7 +120,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       return NextResponse.json({ error: "Sense not found", code: "NOT_FOUND" }, { status: 404 });
     }
 
-    const lemma = (senseRow as any)?.lexicon_entries?.lemma ?? null;
+    const lemma = pickLemma((senseRow as any)?.lexicon_entries);
     const translationEmbed = (senseRow as any)?.lexicon_translations;
     const translation_pl = Array.isArray(translationEmbed)
       ? translationEmbed[0]?.translation_pl ?? null

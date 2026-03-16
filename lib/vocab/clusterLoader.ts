@@ -80,18 +80,28 @@ export type ClusterTask = {
   accepted_answers?: string[];
   target_tokens?: string[];
   choices: string[];
-  correct_choice?: string;
+  correct_choice?: string | number;
   sort_order: number;
 };
 
 type ClusterTaskValidationShape = {
   task_type?: ClusterTaskType | null;
-  correct_choice?: string | null;
+  correct_choice?: string | number | null;
   expected_answer?: string | null;
   accepted_answers?: string[] | null;
   target_tokens?: string[] | null;
+  choices?: string[];
   explanation?: string | null;
 };
+
+function resolveCorrectChoiceString(task: ClusterTaskValidationShape): string {
+  const cc = task.correct_choice;
+  if (cc == null) return "";
+  if (typeof cc === "number" && Array.isArray(task.choices)) {
+    return task.choices[cc] ?? "";
+  }
+  return String(cc);
+}
 
 export type ClusterPageData = {
   cluster: {
@@ -202,9 +212,10 @@ function isExactMatch(
   task: ClusterTaskValidationShape,
   normalizedSubmitted: string,
 ): boolean {
+  const fallback = task.expected_answer ?? resolveCorrectChoiceString(task) ?? "";
   const acceptedAnswers = Array.from(
     new Set(
-      ((task.accepted_answers ?? [task.expected_answer ?? task.correct_choice ?? ""]) as string[])
+      ((task.accepted_answers ?? [fallback]) as string[])
         .map((item) => normalizeClusterAnswer(item))
         .filter(Boolean),
     ),
@@ -255,12 +266,12 @@ export function evaluateClusterTranslation(
 ): TranslationEvaluationResult {
   const taskType = task.task_type ?? "choice";
   const normalizedSubmitted = normalizeClusterAnswer(submittedAnswer);
-  const canonicalAnswer = task.expected_answer ?? task.correct_choice ?? "";
+  const canonicalAnswer = task.expected_answer ?? resolveCorrectChoiceString(task) ?? "";
 
   if (taskType !== "translation") {
     const clusterCorrect =
       taskType === "choice"
-        ? normalizedSubmitted === normalizeClusterAnswer(task.correct_choice ?? "")
+        ? normalizedSubmitted === normalizeClusterAnswer(resolveCorrectChoiceString(task))
         : isExactMatch(task, normalizedSubmitted);
     return {
       cluster_correct: clusterCorrect,
@@ -275,9 +286,10 @@ export function evaluateClusterTranslation(
 
   const exactMatch = isExactMatch(task, normalizedSubmitted);
 
+  const translationFallback = task.expected_answer ?? resolveCorrectChoiceString(task) ?? "";
   const acceptedAnswers = Array.from(
     new Set(
-      ((task.accepted_answers ?? [task.expected_answer ?? task.correct_choice ?? ""]) as string[])
+      ((task.accepted_answers ?? [translationFallback]) as string[])
         .map((item) => normalizeClusterAnswer(item))
         .filter(Boolean),
     ),
@@ -565,6 +577,13 @@ function composeClusterSession(rows: ClusterTaskRow[]): ClusterTaskRow[] {
 function serializeTask(row: ClusterTaskRow, includeAnswers: boolean): ClusterTask {
   const taskType = row.task_type ?? "choice";
   const acceptedAnswers = deriveAcceptedAnswers(row);
+  const choices = taskType === "choice" ? row.choices ?? [] : [];
+
+  let correct_choice: string | number | undefined = includeAnswers ? row.correct_choice ?? undefined : undefined;
+  if (taskType === "choice" && typeof correct_choice === "string") {
+    const idx = choices.indexOf(correct_choice);
+    correct_choice = idx >= 0 ? idx : correct_choice;
+  }
 
   return {
     id: row.id,
@@ -577,8 +596,8 @@ function serializeTask(row: ClusterTaskRow, includeAnswers: boolean): ClusterTas
     expected_answer: includeAnswers ? row.expected_answer ?? row.correct_choice ?? null : undefined,
     accepted_answers: includeAnswers ? acceptedAnswers : undefined,
     target_tokens: includeAnswers ? row.target_tokens ?? undefined : undefined,
-    choices: taskType === "choice" ? row.choices ?? [] : [],
-    correct_choice: includeAnswers ? row.correct_choice ?? undefined : undefined,
+    choices,
+    correct_choice,
     sort_order: row.sort_order ?? 0,
   };
 }

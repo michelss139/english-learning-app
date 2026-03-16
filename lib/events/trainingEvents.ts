@@ -1,7 +1,8 @@
 export type TrainingCompletedEvent =
   | { type: "pack"; slug: string }
   | { type: "cluster"; slug: string }
-  | { type: "irregular" };
+  | { type: "irregular" }
+  | { type: "grammar" };
 
 const CHANNEL_NAME = "training-events";
 const WINDOW_EVENT_NAME = "training-events";

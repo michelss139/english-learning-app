@@ -1,6 +1,6 @@
 # Audyt techniczny: system Irregular Verbs
 
-**Data:** 2026-02-20  
+**Data:** 2026-02-20 (aktualizacja: 2026-03-06)  
 **Cel:** Pełne zmapowanie stanu systemu irregular verbs przed integracją z knowledge engine.  
 **Zakres:** Tylko opis stanu obecnego. Bez propozycji zmian, refaktoru ani sugestii.
 
@@ -19,6 +19,7 @@
 | past_simple_variants | text[] | NULL | warianty (np. ["were"] dla "be") |
 | past_participle | text | NOT NULL | forma Past Participle |
 | past_participle_variants | text[] | NULL | warianty (np. ["gotten"] dla "get") |
+| entry_id | uuid | NULL | FK → lexicon_entries(id), dodane w migracji 20260220 (backfill z base_norm→lemma_norm) |
 | created_at | timestamptz | NOT NULL | default now() |
 
 - **PK:** id
@@ -110,14 +111,9 @@
 ### 2.1 Wejście na `/app/irregular-verbs/train`
 
 1. **Przed wejściem:** użytkownik musi mieć min. 5 przypiętych czasowników (`user_irregular_verbs`).
-2. **Strona listy** `/app/irregular-verbs`: użytkownik przypina/odpinuje czasowniki (toggle → `/api/irregular-verbs/pin`).
+2. **Strona listy** `/app/irregular-verbs`: użytkownik przypina/odpinuje czasowniki. UI wywołuje `POST /api/irregular-verbs/pin` (body: `{ id }`). Istnieje też `POST /api/irregular-verbs/toggle` (body: `{ verb_id }`), ale **nie jest używany** – frontend korzysta z `pin`.
 3. **Przycisk "Start testu"** → router.push(`/app/irregular-verbs/train`).
-4. **Train page** (`page.tsx`):
-   - Pobiera `user_irregular_verbs` (pinned_ids).
-   - Jeśli brak pinned → zwraca `TrainClient` z błędem.
-   - Jeśli są pinned → wybiera **losowy** `selectedVerbId = pinnedIds[Math.floor(Math.random() * pinnedIds.length)]`.
-   - Pobiera dane czasownika z `irregular_verbs`.
-   - Renderuje `TrainClient` z `initialVerb`.
+4. **Train page** (`page.tsx`): ładuje dane przez Supabase (bez API). Pobiera `user_irregular_verbs`, wybiera losowy czasownik z pinned, pobiera z `irregular_verbs`, renderuje `TrainClient` z `initialVerb`. `GET /api/irregular-verbs/list` **nie jest używany** – lista jest ładowana bezpośrednio z Supabase.
 
 ### 2.2 Ładowanie danych
 
@@ -246,10 +242,8 @@ await supabase.from("exercise_session_completions").upsert({
 ### 5.4 Widok typu repeat_suggestions
 
 - Brak odpowiednika `v2_vocab_repeat_suggestions` dla irregular.
-- Suggestion route (`/api/app/suggestion`) może zwrócić irregular jako fallback:
-  - gdy `toLearnSet` jest pusty → sprawdza `lastEvent` z `vocab_answer_events`;
-  - jeśli brak → sprawdza `irregular_verb_runs` (ostatni run);
-  - jeśli był irregular run → sugeruje `/app/irregular-verbs/train`.
+- **intelligent-suggestions-v2** (`/api/app/intelligent-suggestions-v2`) – profil „Twój plan na teraz” pokazuje irregular, ale czyta z `user_learning_unit_knowledge` (unit_type='irregular'). Irregular **nie** zapisuje tam danych, więc sekcja irregular jest zwykle pusta.
+- **Suggestion route** (`/api/app/suggestion`) – nieużywany w UI; mógłby zwracać irregular jako fallback, ale profil korzysta z intelligent-suggestions-v2.
 - Irregular nie jest uwzględniany w logice "typowe błędy" opartej na `vocab_answer_events` (pack/cluster).
 
 ---
@@ -300,10 +294,11 @@ await supabase.from("exercise_session_completions").upsert({
 - TrainClient wywołuje `/api/lessons/assignments/${assignmentId}/complete` po award, jeśli `assignmentId` w query.
 - Body: session_id, exercise_type: "irregular", context_slug: null.
 
-### 7.5 Suggestion
+### 7.5 Suggestion / intelligent-suggestions
 
-- Irregular jako fallback gdy brak vocab_answer_events.
-- Sprawdza ostatni `irregular_verb_runs` i sugeruje `/app/irregular-verbs/train`.
+- **emitTrainingCompleted({ type: "irregular" })** – TrainClient emituje po complete. ProfilePage subskrybuje i robi refetch intelligent-suggestions-v2.
+- **intelligent-suggestions-v2** – czyta `user_learning_unit_knowledge` (irregular); irregular nie zapisuje tam danych → sekcja pusta.
+- `/api/app/suggestion` – nieużywany; mógłby sugerować irregular na podstawie `irregular_verb_runs`.
 
 ---
 
@@ -337,7 +332,21 @@ await supabase.from("exercise_session_completions").upsert({
 
 ---
 
-## 9. Możliwe konflikty z knowledge engine
+## 9. API routes – użycie
+
+| Route | Używany | Uwagi |
+|-------|---------|-------|
+| `POST /api/irregular-verbs/pin` | Tak | IrregularVerbsClient – body `{ id }` |
+| `POST /api/irregular-verbs/next` | Tak | TrainClient – body `{ exclude_ids }` |
+| `POST /api/irregular-verbs/submit` | Tak | TrainClient – zapis odpowiedzi |
+| `POST /api/irregular-verbs/complete` | Tak | TrainClient – po zakończeniu sesji |
+| `POST /api/irregular-verbs/toggle` | **Nie** | Równoległy do pin (body `{ verb_id }`), nieużywany |
+| `GET /api/irregular-verbs/list` | **Nie** | Lista ładowana przez Supabase bezpośrednio |
+| `GET /api/irregular-verbs` | — | Brak takiego route |
+
+---
+
+## 10. Możliwe konflikty z knowledge engine
 
 1. **Brak wpisów w user_learning_unit_knowledge:** Knowledge engine zakłada unit_type='irregular' w migracji, ale irregular nie wywołuje `updateLearningUnitKnowledge`. Integracja wymagałaby wywołania w complete (mode: "session") z unit_id np. "irregular:default" lub per irregular_verb_id.
 2. **Różny model jednostki:** Dla sense – jednostka = sense_id. Dla cluster – slug. Dla irregular – brak jasnej jednostki (cały moduł vs pojedynczy verb).

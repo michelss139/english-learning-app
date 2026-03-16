@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
 import { getGrammarPracticeExercise } from "@/lib/grammar/practice";
 
 type PracticeQuestion = {
@@ -151,6 +152,7 @@ export function GrammarPracticeClient({
         if (typeof data.xp_awarded === "number") {
           setOptimisticXpAwarded(data.xp_awarded);
         }
+        emitTrainingCompleted({ type: "grammar" });
       } catch {
         setSaveToast("Nie udało się zapisać wyniku (w tle).");
       }

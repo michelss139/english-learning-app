@@ -36,6 +36,13 @@ function parseVocabMode(raw: string | undefined): VocabMode | null {
   return v === "daily" || v === "precise" ? (v as VocabMode) : null;
 }
 
+function pickLemma(embed: any): string | null {
+  if (!embed) return null;
+  if (Array.isArray(embed)) return embed[0]?.lemma ?? null;
+  if (typeof embed === "object") return embed.lemma ?? null;
+  return null;
+}
+
 function pickTranslationPl(embed: any): string | null {
   if (!embed) return null;
   if (Array.isArray(embed)) return embed[0]?.translation_pl ?? null;
@@ -124,7 +131,7 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
     return {
       id: item.id,
       sense_id: item.sense_id,
-      lemma: entry?.lemma ?? null,
+      lemma: pickLemma(entry),
       translation_pl: pickTranslationPl(translationEmbed),
       example_en: pickExampleEn(exampleEmbed),
       definition_en: sense?.definition_en ?? null,

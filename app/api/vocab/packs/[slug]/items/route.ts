@@ -11,6 +11,17 @@ type PackItemDto = {
   order_index: number;
 };
 
+function pickLemma(embed: any): string | null {
+  if (!embed) return null;
+  if (Array.isArray(embed)) {
+    return embed[0]?.lemma || null;
+  }
+  if (typeof embed === "object" && embed.lemma) {
+    return embed.lemma;
+  }
+  return null;
+}
+
 function pickTranslationPl(embed: any): string | null {
   if (!embed) return null;
   if (Array.isArray(embed)) {
@@ -92,7 +103,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
       return {
         id: item.id,
         sense_id: item.sense_id,
-        lemma: entry?.lemma ?? null,
+        lemma: pickLemma(entry),
         translation_pl: pickTranslationPl(translationEmbed),
         example_en: pickExampleEn(exampleEmbed),
         definition_en: sense?.definition_en ?? null,

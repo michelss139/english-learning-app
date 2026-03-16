@@ -129,6 +129,7 @@ export default function PackTrainingClient(props: {
 
   const [error, setError] = useState("");
   const [saveToast, setSaveToast] = useState("");
+  const [startLoading, setStartLoading] = useState(false);
 
   const [direction, setDirection] = useState<Direction>(props.initialDirection);
   const [countChoice, setCountChoice] = useState<CountChoice>(props.initialCountChoice);
@@ -182,15 +183,70 @@ export default function PackTrainingClient(props: {
     setVocabMode("daily");
   }, [props.modeFromUrl]);
 
+  const startSessionWithApi = async () => {
+    setStartLoading(true);
+    setError("");
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) {
+        setError("Zaloguj się, aby rozpocząć sesję.");
+        return;
+      }
+      const res = await fetch("/api/training/pack/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ slug, countMode: countChoice }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Nie udało się rozpocząć sesji.");
+      }
+      if (!data.sessionId || !Array.isArray(data.items)) {
+        throw new Error("Nieprawidłowa odpowiedź serwera.");
+      }
+      const selection = data.items as PackItemDto[];
+      setSessionItems(selection);
+      setSessionId(data.sessionId);
+      setAnswers({});
+      setInput("");
+      setSessionDirections(
+        direction === "mix"
+          ? selection.reduce<Record<string, "en-pl" | "pl-en">>((acc, item) => {
+              acc[item.sense_id] = Math.random() < 0.5 ? "en-pl" : "pl-en";
+              return acc;
+            }, {})
+          : {}
+      );
+      setCurrentIndex(0);
+      setCompleted(false);
+      setRecommendations([]);
+      setAddStatus("");
+      setAward(null);
+      setAwardError("");
+      setAwardedSessionId("");
+      setXpAlreadyAwarded(false);
+      setSummary(null);
+      setOptimisticXpAwarded(0);
+      assignmentCompleteRef.current = false;
+      setStarted(true);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Nie udało się rozpocząć sesji.");
+    } finally {
+      setStartLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!props.autoStart) return;
     if (started) return;
-    if (!allItems.length) return;
     if (autoStartRef.current) return;
     autoStartRef.current = true;
-    startSession();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.autoStart, started, allItems.length]);
+    void startSessionWithApi();
+  }, [props.autoStart, started]);
 
   useEffect(() => {
     if (!current) return;
@@ -382,15 +438,15 @@ export default function PackTrainingClient(props: {
         }
 
         setRecommendations(data.items);
-      } catch (e: any) {
-        setError(e?.message ?? "Nie udało się wczytać rekomendacji.");
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : "Nie udało się wczytać rekomendacji.");
       } finally {
         setLoadingRecs(false);
       }
     };
 
     void loadRecommendations();
-  }, [completed, router, slug, sessionId]);
+  }, [completed, slug, sessionId]);
 
   useEffect(() => {
     if (!completed || !sessionId) return;
@@ -466,10 +522,10 @@ export default function PackTrainingClient(props: {
             console.warn("[pack] assignment complete failed", e);
           }
         }
-      } catch (e: any) {
-        setAwardError(e?.message ?? "Nie udało się przyznać XP.");
-        setSaveToast("Nie udało się zapisać wyniku (w tle).");
-      }
+    } catch (e: unknown) {
+      setAwardError(e instanceof Error ? e.message : "Nie udało się przyznać XP.");
+      setSaveToast("Nie udało się zapisać wyniku (w tle).");
+    }
     })();
   }, [
     props.assignmentId,
@@ -477,7 +533,6 @@ export default function PackTrainingClient(props: {
     completed,
     countChoice,
     direction,
-    router,
     sessionId,
     slug,
   ]);
@@ -518,14 +573,32 @@ export default function PackTrainingClient(props: {
       }
 
       setAddStatus(`Dodano do puli: ${data.added ?? 0}`);
-    } catch (e: any) {
-      setError(e?.message ?? "Nie udało się dodać słówek.");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Nie udało się dodać słówek.");
     } finally {
       setAdding(false);
     }
   };
 
   if (!started) {
+    if (startLoading) {
+      return (
+        <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
+          <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="space-y-1">
+                <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Fiszki: {pack.title ?? slug}</h1>
+                <p className="text-sm text-slate-600">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
+              </div>
+            </div>
+          </header>
+          <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <p className="text-center text-slate-600">Ładowanie sesji…</p>
+          </section>
+        </main>
+      );
+    }
+
     return (
       <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
         <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -662,10 +735,11 @@ export default function PackTrainingClient(props: {
 
           <button
             type="button"
-            onClick={() => startSession()}
-            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50"
+            onClick={() => void startSessionWithApi()}
+            disabled={startLoading}
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
           >
-            Zacznij
+            {startLoading ? "Ładowanie…" : "Zacznij"}
           </button>
         </section>
       </main>
@@ -805,15 +879,15 @@ export default function PackTrainingClient(props: {
             <div className="flex flex-wrap gap-2">
               <button
                 className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                onClick={() => startSession(sessionItems)}
-                disabled={sessionItems.length === 0}
+                onClick={() => void startSessionWithApi()}
+                disabled={sessionItems.length === 0 || startLoading}
               >
-                Jeszcze raz to samo
+                {startLoading ? "Ładowanie…" : "Jeszcze raz to samo"}
               </button>
               <button
                 className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
                 onClick={() => startSession(wrongItems)}
-                disabled={wrongItems.length === 0}
+                disabled={wrongItems.length === 0 || startLoading}
               >
                 Jeszcze raz tylko błędne
               </button>

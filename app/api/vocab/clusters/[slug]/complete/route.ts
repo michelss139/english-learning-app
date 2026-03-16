@@ -167,6 +167,21 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       return NextResponse.json({ error: completionErr.message }, { status: 500 });
     }
 
+    try {
+      await supabase
+        .from("training_sessions")
+        .update({
+          completed_at: new Date().toISOString(),
+          status: "completed",
+        })
+        .eq("id", body.session_id)
+        .eq("student_id", userId)
+        .eq("exercise_type", "cluster")
+        .is("completed_at", null);
+    } catch (trainingSessionErr) {
+      console.error("[clusters/complete] training_sessions update failed:", trainingSessionErr);
+    }
+
     const summary = await getSessionSummary(userId, body.session_id, "cluster");
     const mastery = await loadClusterMasterySnapshot(supabase, userId, slug);
 
