@@ -150,7 +150,13 @@ export async function POST(
 
     let translationFeedback: { cluster_correct: boolean; sentence_exact: boolean; diff: { index: number; user: string; expected: string }[] } | undefined;
     if (taskType === "translation") {
-      const evalResult = evaluateClusterTranslation(question, body.chosen);
+      const evalResult = evaluateClusterTranslation(
+        {
+          ...question,
+          choices: question.choices ?? undefined,
+        },
+        body.chosen
+      );
       translationFeedback = {
         cluster_correct: evalResult.cluster_correct,
         sentence_exact: evalResult.sentence_exact,
