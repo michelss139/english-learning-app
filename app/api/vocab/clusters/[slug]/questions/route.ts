@@ -140,7 +140,13 @@ export async function POST(
 
     const taskType = question.task_type ?? "choice";
     const canonicalAnswer = question.expected_answer ?? question.correct_choice ?? "";
-    const isCorrect = isClusterTaskAnswerCorrect(question, body.chosen);
+    const isCorrect = isClusterTaskAnswerCorrect(
+      {
+        ...question,
+        choices: question.choices ?? undefined,
+      },
+      body.chosen
+    );
 
     let translationFeedback: { cluster_correct: boolean; sentence_exact: boolean; diff: { index: number; user: string; expected: string }[] } | undefined;
     if (taskType === "translation") {
