@@ -4,8 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
-import { mapIrregularToExerciseQuestion } from "@/lib/exercises/adapters/irregularAdapter";
-import { validateInputAnswer } from "@/lib/exercises/validators/validateInputAnswer";
 
 export type Verb = {
   id: string;
@@ -41,11 +39,6 @@ type AwardResult = {
   newly_awarded_badges: AwardBadge[];
 };
 
-type RetryItem = {
-  verb: Verb;
-  delay: number;
-};
-
 type SessionSummary = {
   total: number;
   correct: number;
@@ -78,7 +71,7 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<SubmitResult | null>(null);
   const [usedIds, setUsedIds] = useState<string[]>([]);
-  const [retryQueue, setRetryQueue] = useState<RetryItem[]>([]);
+  const [retryQueue, setRetryQueue] = useState<{ verb: Verb; delay: number }[]>([]);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
   const [sessionId, setSessionId] = useState("");
   const [sessionComplete, setSessionComplete] = useState(false);
@@ -201,10 +194,6 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
       setSubmitting(true);
       setError("");
 
-      const question = mapIrregularToExerciseQuestion(currentVerb);
-      const validation = validateInputAnswer(question, [pastSimple.trim(), pastParticiple.trim()]);
-      const isCorrect = validation.isCorrect;
-
       const sess = await supabase.auth.getSession();
       const token = sess?.data?.session?.access_token;
 
@@ -234,24 +223,11 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
 
       const submitResult: SubmitResult = await res.json();
 
-      if (submitResult.correct !== isCorrect) {
-        console.warn("MISMATCH VALIDATION", {
-          api: submitResult.correct,
-          local: isCorrect,
-        });
-      }
-
-      setResult({
-        ...submitResult,
-        correct: isCorrect,
-        past_simple_correct: validation.details.correctParts[0] ?? false,
-        past_participle_correct: validation.details.correctParts[1] ?? false,
-      });
+      setResult(submitResult);
       setStats((prev) => ({
-        correct: prev.correct + (isCorrect ? 1 : 0),
+        correct: prev.correct + (submitResult.correct ? 1 : 0),
         total: prev.total + 1,
       }));
-      // retryQueue disabled: session length must be fixed and deterministic
     } catch (e: any) {
       setError(e?.message ?? "Błąd sprawdzania odpowiedzi");
     } finally {
@@ -354,12 +330,6 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
     }
   }, [currentVerb?.id, result]);
 
-  useEffect(() => {
-    if (currentVerb) {
-      const mapped = mapIrregularToExerciseQuestion(currentVerb);
-      console.log("ExerciseQuestion", mapped);
-    }
-  }, [currentVerb]);
 
   return (
     <main className="space-y-6">

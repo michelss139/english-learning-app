@@ -56,23 +56,28 @@ export function GrammarPracticeClient({
     if (correct) setAnswer("");
 
     if (sessionId) {
-      fetch("/api/grammar/answer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          session_id: sessionId,
-          slug: exerciseSlug,
-          is_correct: correct,
-        }),
-      }).catch(() => {});
+      (async () => {
+        try {
+          const answerRes = await fetch("/api/grammar/answer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              session_id: sessionId,
+              slug: exerciseSlug,
+              is_correct: correct,
+            }),
+          });
+          if (!answerRes.ok) return;
 
-      if (correct) {
-        fetch("/api/grammar/complete", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ session_id: sessionId, slug: exerciseSlug }),
-        }).catch(() => {});
-      }
+          if (correct) {
+            await fetch("/api/grammar/complete", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ session_id: sessionId, slug: exerciseSlug }),
+            });
+          }
+        } catch {}
+      })();
     }
   };
 

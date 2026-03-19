@@ -118,6 +118,21 @@ export async function POST(req: Request) {
       }
     }
 
+    try {
+      await supabase
+        .from("training_sessions")
+        .update({
+          completed_at: new Date().toISOString(),
+          status: "completed",
+        })
+        .eq("id", body.session_id)
+        .eq("student_id", userId)
+        .eq("exercise_type", "grammar")
+        .is("completed_at", null);
+    } catch (trainingSessionErr) {
+      console.error("[grammar/complete] training_sessions update failed:", trainingSessionErr);
+    }
+
     const { error: upsertErr } = await supabase.from("exercise_session_completions").upsert(
       {
         student_id: userId,
