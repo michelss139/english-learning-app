@@ -23,10 +23,12 @@ export function GrammarPracticeClient({
   exerciseSlug,
 }: GrammarPracticeClientProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const startedRef = useRef(false);
   const [answer, setAnswer] = useState("");
   const [checked, setChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [xpAwarded, setXpAwarded] = useState<number | null>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -34,6 +36,9 @@ export function GrammarPracticeClient({
 
   useEffect(() => {
     if (!exerciseSlug) return;
+    if (startedRef.current) return;
+    startedRef.current = true;
+
     fetch("/api/training/grammar/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -70,13 +75,21 @@ export function GrammarPracticeClient({
           if (!answerRes.ok) return;
 
           if (correct) {
-            await fetch("/api/grammar/complete", {
+            const completeRes = await fetch("/api/grammar/complete", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ session_id: sessionId, slug: exerciseSlug }),
             });
+            const completeData = await completeRes.json().catch(() => ({}));
+            if (completeRes.ok && typeof completeData.xp_awarded === "number") {
+              setXpAwarded(completeData.xp_awarded);
+            } else {
+              setXpAwarded(-1); // done, no XP to show (error or already awarded)
+            }
           }
-        } catch {}
+        } catch {
+          setXpAwarded(-1);
+        }
       })();
     }
   };
@@ -125,6 +138,22 @@ export function GrammarPracticeClient({
           ) : isCorrect === true ? (
             <div className="space-y-2">
               <p className="text-sky-700 font-medium">Poprawnie</p>
+              {xpAwarded !== null && xpAwarded > 0 && (
+                <p className="text-sm text-slate-600">
+                  Zdobyte XP: <span className="font-medium text-slate-900">+{xpAwarded}</span>
+                </p>
+              )}
+              {xpAwarded === 0 && (
+                <p className="text-sm text-amber-700">
+                  Już dostałeś XP za to ćwiczenie dziś. Wróć jutro po więcej!
+                </p>
+              )}
+              {xpAwarded === null && sessionId && (
+                <p className="text-sm text-slate-500">Przyznaję XP…</p>
+              )}
+              {xpAwarded === -1 && (
+                <p className="text-sm text-slate-500">Nie udało się pobrać informacji o XP.</p>
+              )}
               <Link
                 href={mapHref}
                 className="inline-block rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"

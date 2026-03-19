@@ -12,7 +12,16 @@ type GlobalCoachProps = {
   sentenceBuilderVerbs: SentenceBuilderVerb[];
 };
 
-function getCoachContent(pathname: string | null, currentLemma: string | null): CoachContent {
+function getCoachContent(
+  pathname: string | null,
+  currentLemma: string | null,
+  currentIrregularVerbBase: string | null
+): CoachContent {
+  // Irregular verbs: mixed verb tip dla sow/sew
+  if (pathname?.startsWith("/app/irregular-verbs/train") && currentIrregularVerbBase) {
+    const base = currentIrregularVerbBase.toLowerCase().trim();
+    if (base === "sow" || base === "sew") return "Uważaj! To tzw Mixed Verb!";
+  }
   // Tipy słówkowe: na fiszkach pokazujemy "ciekawostka!" (pełna treść w WAŻNE! po Sprawdź)
   const wordTip = getWordTip(currentLemma ?? undefined);
   if (wordTip) return "ciekawostka!";
@@ -152,12 +161,15 @@ function CoachCard({ tips, onHide }: { tips: string[]; onHide: () => void }) {
 
 export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) {
   const pathname = usePathname();
-  const { currentLemma } = useCurrentWord();
+  const { currentLemma, currentIrregularVerbBase } = useCurrentWord();
   const [visible, setVisible] = useState(true);
   const [sentenceBuilderVisible, setSentenceBuilderVisible] = useState(true);
   const [sentenceBuilderOpen, setSentenceBuilderOpen] = useState(false);
 
-  const content = useMemo(() => getCoachContent(pathname, currentLemma), [pathname, currentLemma]);
+  const content = useMemo(
+    () => getCoachContent(pathname, currentLemma, currentIrregularVerbBase),
+    [pathname, currentLemma, currentIrregularVerbBase]
+  );
   const tips = Array.isArray(content) ? content : [content];
   const coachKey = `${pathname ?? "root"}:${currentLemma ?? "none"}`;
 

@@ -123,7 +123,6 @@
   { "base": "breed", "past_simple": "bred", "past_participle": "bred" },
   { "base": "cling", "past_simple": "clung", "past_participle": "clung" },
   { "base": "creep", "past_simple": "crept", "past_participle": "crept" },
-  { "base": "dare", "past_simple": "dared/durst", "past_participle": "dared" },
   { "base": "dwell", "past_simple": "dwelt/dwelled", "past_participle": "dwelt/dwelled" },
   { "base": "forsake", "past_simple": "forsook", "past_participle": "forsaken" },
   { "base": "flee", "past_simple": "fled", "past_participle": "fled" },

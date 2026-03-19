@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+export type TrainMode = "both" | "past_simple" | "past_participle";
+
 export type IrregularVerbDto = {
   id: string;
   base: string;
@@ -22,6 +24,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
   const [localPinned, setLocalPinned] = useState<Set<string>>(
     () => new Set(verbs.filter((v) => v.pinned).map((v) => v.id)),
   );
+  const [trainMode, setTrainMode] = useState<TrainMode>("both");
 
   const pinnedCount = localPinned.size;
   const canStart = pinnedCount >= 5;
@@ -135,22 +138,62 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
             ) : null}
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <a
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
-              href="/app"
-            >
-              ← Panel ucznia
-            </a>
-            <button
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
-              onClick={() => {
-                if (canStart) router.push("/app/irregular-verbs/train");
-              }}
-              disabled={!canStart}
-            >
-              Start testu ({pinnedCount})
-            </button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap">
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-slate-700">Tryb treningu</span>
+              <div className="flex flex-wrap gap-2">
+                <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm cursor-pointer hover:bg-slate-50">
+                  <input
+                    type="radio"
+                    name="trainMode"
+                    value="both"
+                    checked={trainMode === "both"}
+                    onChange={() => setTrainMode("both")}
+                    className="accent-slate-900"
+                  />
+                  Past Simple + Past Participle
+                </label>
+                <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm cursor-pointer hover:bg-slate-50">
+                  <input
+                    type="radio"
+                    name="trainMode"
+                    value="past_simple"
+                    checked={trainMode === "past_simple"}
+                    onChange={() => setTrainMode("past_simple")}
+                    className="accent-slate-900"
+                  />
+                  Tylko Past Simple
+                </label>
+                <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm cursor-pointer hover:bg-slate-50">
+                  <input
+                    type="radio"
+                    name="trainMode"
+                    value="past_participle"
+                    checked={trainMode === "past_participle"}
+                    onChange={() => setTrainMode("past_participle")}
+                    className="accent-slate-900"
+                  />
+                  Tylko Past Participle
+                </label>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a
+                className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
+                href="/app"
+              >
+                ← Panel ucznia
+              </a>
+              <button
+                className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
+                onClick={() => {
+                  if (canStart) router.push(`/app/irregular-verbs/train?mode=${trainMode}`);
+                }}
+                disabled={!canStart}
+              >
+                Start testu ({pinnedCount})
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -199,7 +242,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
             ) : null}
             {pinnedCount > 0 ? (
               <button
-                className="rounded-xl border-2 border-rose-400/30 bg-rose-400/10 px-4 py-2 font-medium text-rose-100 hover:bg-rose-400/20 transition disabled:opacity-60"
+                className="rounded-xl border-2 border-rose-400/30 bg-rose-400/10 px-4 py-2 font-medium text-black hover:bg-rose-400/20 transition disabled:opacity-60"
                 onClick={unpinAll}
                 disabled={pinnedCount === 0}
               >

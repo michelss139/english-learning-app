@@ -1,20 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { subscribeTrainingCompleted } from "@/lib/events/trainingEvents";
 
-type Recommendation = {
-  type: string;
+type TopSuggestion = {
+  unitType: string;
   unitId: string;
-  priority: number;
   href: string;
+  displayName: string;
+  form?: "past_simple" | "past_participle";
+  label?: string;
+};
+
+type ListSuggestion = TopSuggestion & {
+  accuracy: number;
+  priority: number;
 };
 
 type TrainingOption = {
   title: string;
   description: string;
   href: string;
+  irregularItems?: ListSuggestion[];
 };
 
 const FALLBACK_OPTIONS: TrainingOption[] = [
@@ -35,19 +43,6 @@ const FALLBACK_OPTIONS: TrainingOption[] = [
   },
 ];
 
-function getLabelForType(type: string): string {
-  switch (type) {
-    case "cluster":
-      return "Typowe błędy";
-    case "irregular":
-      return "Nieregularne czasowniki";
-    case "sense":
-      return "Powtórz słówka";
-    default:
-      return "Trening";
-  }
-}
-
 function getDescriptionForType(type: string): string {
   switch (type) {
     case "cluster":
@@ -56,60 +51,133 @@ function getDescriptionForType(type: string): string {
       return "Formy czasowników nieregularnych.";
     case "sense":
       return "Słówka z puli.";
+    case "grammar":
+      return "Ćwiczenie z gramatyki.";
     default:
       return "Szybka sesja na rozgrzewkę.";
   }
 }
 
+function buildIrregularTargetLink(items: ListSuggestion[]): string {
+  const targetItems = items
+    .filter(
+      (i): i is ListSuggestion & { form: "past_simple" | "past_participle" } =>
+        i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
+    )
+    .slice(0, 5);
+
+  if (targetItems.length === 0) return "/app/irregular-verbs/train";
+  const targets = targetItems.map((i) => `${i.unitId}:${i.form}`).join(",");
+  return `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`;
+}
+
+function formatIrregularItemLabel(s: ListSuggestion): string {
+  const label = s.label ?? s.unitId;
+  const formLabel =
+    s.form === "past_simple" ? "past simple" : s.form === "past_participle" ? "past participle" : "";
+  return formLabel ? `${label} (${formLabel})` : label;
+}
+
+function buildOptions(top: TopSuggestion[], list: ListSuggestion[]): TrainingOption[] {
+  const irregularFromList = list
+    .filter(
+      (i): i is ListSuggestion & { form: "past_simple" | "past_participle" } =>
+        i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
+    )
+    .slice(0, 5);
+
+  const hasIrregularInTop = top.some((t) => t.unitType === "irregular");
+  const nonIrregularTop = top.filter((t) => t.unitType !== "irregular");
+
+  const options: TrainingOption[] = [];
+
+  if (hasIrregularInTop && irregularFromList.length > 0) {
+    options.push({
+      title: `Nieregularne czasowniki (${irregularFromList.length})`,
+      description: getDescriptionForType("irregular"),
+      href: buildIrregularTargetLink(irregularFromList),
+      irregularItems: irregularFromList,
+    });
+  }
+
+  for (const r of nonIrregularTop) {
+    options.push({
+      title: r.displayName,
+      description: getDescriptionForType(r.unitType),
+      href: r.href,
+    });
+  }
+
+  return options;
+}
+
 export default function GlobalTrainingSuggestion() {
   const router = useRouter();
   const [visible, setVisible] = useState(true);
-  const [recommendations, setRecommendations] = useState<Recommendation[] | null>(null);
+  const [top, setTop] = useState<TopSuggestion[]>([]);
+  const [list, setList] = useState<ListSuggestion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeSessionHref, setActiveSessionHref] = useState<string | null>(null);
+  const [lockedOptions, setLockedOptions] = useState<TrainingOption[] | null>(null);
 
-  const fetchRecommendations = async () => {
+  const fetchSuggestions = async (force?: boolean) => {
+    if (activeSessionHref && !force) return;
     try {
-      const res = await fetch("/api/app/recommendations");
-      const json = (await res.json().catch(() => null)) as { recommendations?: Recommendation[] } | null;
-      if (res.ok && json?.recommendations && Array.isArray(json.recommendations)) {
-        setRecommendations(json.recommendations.slice(0, 2));
+      const res = await fetch("/api/suggestions");
+      const json = (await res.json().catch(() => null)) as {
+        top?: TopSuggestion[];
+        list?: ListSuggestion[];
+      } | null;
+      if (res.ok && json?.top && Array.isArray(json.top)) {
+        setTop(json.top.slice(0, 2));
+        setList(Array.isArray(json.list) ? json.list : []);
       } else {
-        setRecommendations([]);
+        setTop([]);
+        setList([]);
       }
     } catch {
-      setRecommendations([]);
+      setTop([]);
+      setList([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    void fetchRecommendations();
+    void fetchSuggestions();
   }, []);
 
   useEffect(() => {
     const unsubscribe = subscribeTrainingCompleted(() => {
-      void fetchRecommendations();
+      setActiveSessionHref(null);
+      setLockedOptions(null);
+      void fetchSuggestions(true);
     });
     return unsubscribe;
   }, []);
 
-  const useFallback = recommendations !== null && recommendations.length === 0;
-  const rawOptions: TrainingOption[] = useFallback
-    ? FALLBACK_OPTIONS
-    : (recommendations ?? []).map((r) => ({
-        title: getLabelForType(r.type),
-        description: getDescriptionForType(r.type),
-        href: r.href,
-      }));
+  const useFallback = top.length === 0 && !loading;
+  const rawOptions = useFallback ? FALLBACK_OPTIONS : buildOptions(top, list);
 
-  const seenOptionKeys = new Set<string>();
-  const options = rawOptions.filter((item) => {
-    const optionKey = `${item.title}-${item.href}`;
-    if (seenOptionKeys.has(optionKey)) return false;
-    seenOptionKeys.add(optionKey);
+  const seenHrefs = new Set<string>();
+  const computedOptions = rawOptions.filter((item) => {
+    if (seenHrefs.has(item.href)) return false;
+    seenHrefs.add(item.href);
     return true;
   });
+
+  const options = lockedOptions ?? computedOptions;
+
+  const handleStart = (item: TrainingOption) => {
+    setActiveSessionHref(item.href);
+    setLockedOptions(
+      options.map((o) => ({
+        ...o,
+        irregularItems: o.irregularItems ? [...o.irregularItems] : undefined,
+      })),
+    );
+    router.push(item.href);
+  };
 
   if (!visible) return null;
 
@@ -132,22 +200,37 @@ export default function GlobalTrainingSuggestion() {
             <div className="text-sm text-slate-500">Ładowanie…</div>
           </div>
         ) : (
-          options.map((item) => (
-            <div key={item.href} className="rounded-xl border border-slate-200 bg-white px-2.5 py-2">
-              <div className="text-sm font-semibold leading-tight text-slate-900">{item.title}</div>
-              <div className="mt-0.5 text-[11px] leading-snug text-slate-600">{item.description}</div>
-              <button
-                type="button"
-                onClick={() => router.push(item.href)}
-                className="mt-2 inline-flex rounded-xl border border-slate-900 bg-white px-3 py-1 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+          options.map((item) => {
+            const isActive = item.href === activeSessionHref;
+            return (
+              <div
+                key={item.href}
+                className={`rounded-xl border px-2.5 py-2 ${
+                  isActive ? "border-slate-900 bg-slate-50 ring-2 ring-slate-900/20" : "border-slate-200 bg-white"
+                }`}
               >
-                Start
-              </button>
-            </div>
-          ))
+                <div className="text-sm font-semibold leading-tight text-slate-900">{item.title}</div>
+                {item.irregularItems && item.irregularItems.length > 0 ? (
+                  <ul className="mt-1 space-y-0.5 pl-3 text-[11px] leading-snug text-slate-600">
+                    {item.irregularItems.map((s, i) => (
+                      <li key={`${s.unitId}:${s.form}:${i}`}>• {formatIrregularItemLabel(s)}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="mt-0.5 text-[11px] leading-snug text-slate-600">{item.description}</div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => handleStart(item)}
+                  className="mt-2 inline-flex rounded-xl border border-slate-900 bg-white px-3 py-1 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+                >
+                  Start
+                </button>
+              </div>
+            );
+          })
         )}
       </div>
     </aside>
   );
 }
-

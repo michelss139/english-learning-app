@@ -35,28 +35,73 @@ type Badge = {
   earned: boolean;
 };
 
-type Recommendation = {
-  type: string;
+type Suggestion = {
+  unitType: string;
   unitId: string;
   priority: number;
   href: string;
+  displayName: string;
+  accuracy: number;
+  form?: "past_simple" | "past_participle";
+  label?: string;
 };
 
-type RecommendationsResponse = {
-  recommendations: Recommendation[];
+type SuggestionsResponse = {
+  top: Suggestion[];
+  list: Suggestion[];
 };
 
-function getLabelForType(type: string): string {
-  switch (type) {
-    case "cluster":
-      return "Typowe błędy";
-    case "irregular":
-      return "Nieregularne czasowniki";
-    case "sense":
-      return "Powtórz słówka";
-    default:
-      return "Trening";
+type DisplayCard = {
+  title: string;
+  href: string;
+  irregularItems?: Suggestion[];
+};
+
+function buildIrregularTargetLink(items: Suggestion[]): string {
+  const targetItems = items
+    .filter(
+      (i): i is Suggestion & { form: "past_simple" | "past_participle" } =>
+        i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
+    )
+    .slice(0, 5);
+  if (targetItems.length === 0) return "/app/irregular-verbs/train";
+  const targets = targetItems.map((i) => `${i.unitId}:${i.form}`).join(",");
+  return `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`;
+}
+
+function buildDisplayCards(top: Suggestion[], list: Suggestion[]): DisplayCard[] {
+  const irregularFromList = list
+    .filter(
+      (i): i is Suggestion & { form: "past_simple" | "past_participle" } =>
+        i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
+    )
+    .slice(0, 5);
+
+  const hasIrregularInTop = top.some((t) => t.unitType === "irregular");
+  const nonIrregularTop = top.filter((t) => t.unitType !== "irregular");
+
+  const cards: DisplayCard[] = [];
+
+  if (hasIrregularInTop && irregularFromList.length > 0) {
+    cards.push({
+      title: `Nieregularne czasowniki (${irregularFromList.length})`,
+      href: buildIrregularTargetLink(irregularFromList),
+      irregularItems: irregularFromList,
+    });
   }
+
+  for (const s of nonIrregularTop) {
+    cards.push({ title: s.displayName, href: s.href });
+  }
+
+  return cards.slice(0, 2);
+}
+
+function formatIrregularItemLabel(s: Suggestion): string {
+  const label = s.label ?? s.unitId;
+  const formLabel =
+    s.form === "past_simple" ? "past simple" : s.form === "past_participle" ? "past participle" : "";
+  return formLabel ? `${label} (${formLabel})` : label;
 }
 
 export default function ProfilePage() {
@@ -67,8 +112,9 @@ export default function ProfilePage() {
   const [xp, setXp] = useState<XpInfo | null>(null);
   const [streak, setStreak] = useState<StreakInfo | null>(null);
   const [badges, setBadges] = useState<Badge[]>([]);
-  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
-  const [recommendationsLoading, setRecommendationsLoading] = useState(true);
+  const [suggestionsTop, setSuggestionsTop] = useState<Suggestion[]>([]);
+  const [suggestionsList, setSuggestionsList] = useState<Suggestion[]>([]);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(true);
 
   useEffect(() => {
     const run = async () => {
@@ -104,7 +150,7 @@ export default function ProfilePage() {
           fetch("/api/profile/xp", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/streak", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/badges", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("/api/app/recommendations", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("/api/suggestions", { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         const xpJson = await xpRes.json().catch(() => null);
@@ -131,17 +177,20 @@ export default function ProfilePage() {
           setBadges((badgesJson.badges ?? []) as Badge[]);
         }
 
-        const recJson = (await recRes.json().catch(() => null)) as RecommendationsResponse | null;
-        if (recRes.ok && recJson?.recommendations && Array.isArray(recJson.recommendations)) {
-          setRecommendations(recJson.recommendations);
+        const recJson = (await recRes.json().catch(() => null)) as SuggestionsResponse | null;
+        if (recRes.ok && recJson?.top && Array.isArray(recJson.top)) {
+          setSuggestionsTop(recJson.top);
+          setSuggestionsList(Array.isArray(recJson.list) ? recJson.list : []);
         } else {
-          setRecommendations([]);
+          setSuggestionsTop([]);
+          setSuggestionsList([]);
         }
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać profilu.");
-        setRecommendations([]);
+        setSuggestionsTop([]);
+        setSuggestionsList([]);
       } finally {
-        setRecommendationsLoading(false);
+        setSuggestionsLoading(false);
       }
     };
 
@@ -155,12 +204,13 @@ export default function ProfilePage() {
         const token = session.data.session?.access_token;
         if (!token) return;
 
-        const res = await fetch("/api/app/recommendations", {
+        const res = await fetch("/api/suggestions", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const json = (await res.json().catch(() => null)) as RecommendationsResponse | null;
-        if (res.ok && json?.recommendations && Array.isArray(json.recommendations)) {
-          setRecommendations(json.recommendations);
+        const json = (await res.json().catch(() => null)) as SuggestionsResponse | null;
+        if (res.ok && json?.top && Array.isArray(json.top)) {
+          setSuggestionsTop(json.top);
+          setSuggestionsList(Array.isArray(json.list) ? json.list : []);
         }
       } catch {
         // ignore
@@ -193,9 +243,13 @@ export default function ProfilePage() {
   const tooltipText =
     "Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia.";
   const recentBadges = badges.slice(0, 3);
-  const rec0 = recommendations[0] ?? null;
-  const rec1 = recommendations[1] ?? null;
-  const allSuggestionsEmpty = recommendations.length === 0;
+  const displayCards = useMemo(
+    () => buildDisplayCards(suggestionsTop, suggestionsList),
+    [suggestionsTop, suggestionsList],
+  );
+  const rec0 = displayCards[0] ?? null;
+  const rec1 = displayCards[1] ?? null;
+  const allSuggestionsEmpty = displayCards.length === 0;
 
   const renderBadgeIcon = (badge: Badge) => {
     if (badge.icon && (badge.icon.startsWith("/") || badge.icon.startsWith("http"))) {
@@ -325,7 +379,7 @@ export default function ProfilePage() {
         </div>
       ) : null}
 
-      {recommendationsLoading ? (
+      {suggestionsLoading ? (
         <section className="tile-frame">
           <div className="tile-core p-6 space-y-4">
             <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Twój plan na teraz</div>
@@ -337,7 +391,7 @@ export default function ProfilePage() {
         </section>
       ) : null}
 
-      {!recommendationsLoading ? (
+      {!suggestionsLoading ? (
         <section className="tile-frame">
           <div className="tile-core p-6 space-y-4">
             <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Twój plan na teraz</div>
@@ -371,23 +425,37 @@ export default function ProfilePage() {
             <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
               {rec0 ? (
                 <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                  <div className="text-sm font-semibold text-slate-900">{getLabelForType(rec0.type)}</div>
+                  <div className="text-sm font-semibold text-slate-900">{rec0.title}</div>
+                  {rec0.irregularItems && rec0.irregularItems.length > 0 ? (
+                    <ul className="space-y-0.5 pl-4 text-xs text-slate-600">
+                      {rec0.irregularItems.map((s, i) => (
+                        <li key={`${s.unitId}:${s.form}:${i}`}>• {formatIrregularItemLabel(s)}</li>
+                      ))}
+                    </ul>
+                  ) : null}
                   <a
                     href={rec0.href}
                     className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
                   >
-                    Powtórz
+                    Trenuj teraz
                   </a>
                 </div>
               ) : null}
               {rec1 ? (
                 <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                  <div className="text-sm font-semibold text-slate-900">{getLabelForType(rec1.type)}</div>
+                  <div className="text-sm font-semibold text-slate-900">{rec1.title}</div>
+                  {rec1.irregularItems && rec1.irregularItems.length > 0 ? (
+                    <ul className="space-y-0.5 pl-4 text-xs text-slate-600">
+                      {rec1.irregularItems.map((s, i) => (
+                        <li key={`${s.unitId}:${s.form}:${i}`}>• {formatIrregularItemLabel(s)}</li>
+                      ))}
+                    </ul>
+                  ) : null}
                   <a
                     href={rec1.href}
                     className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
                   >
-                    Powtórz
+                    Trenuj teraz
                   </a>
                 </div>
               ) : null}

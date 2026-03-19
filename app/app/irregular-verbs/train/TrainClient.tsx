@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
+import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
+import { TypewriterText } from "@/lib/coach/TypewriterText";
 
 export type Verb = {
   id: string;
@@ -12,6 +14,18 @@ export type Verb = {
   past_simple_variants: string[];
   past_participle: string;
   past_participle_variants: string[];
+};
+
+type TargetForm = "past_simple" | "past_participle";
+
+type TargetItem = {
+  verbId: string;
+  form: TargetForm;
+};
+
+type SessionItem = {
+  verb: Verb;
+  form: TargetForm;
 };
 
 type SubmitResult = {
@@ -52,20 +66,40 @@ type SessionSummary = {
   }>;
 };
 
+export type TrainMode = "both" | "past_simple" | "past_participle";
+type StartMode = "manual" | "targeted";
+
 function pill(tone: "neutral" | "good" | "bad") {
   if (tone === "good") return "border-emerald-400 bg-emerald-50 text-emerald-800";
   if (tone === "bad") return "border-rose-400 bg-rose-50 text-rose-800";
   return "border-slate-200 bg-slate-50 text-slate-700";
 }
 
-export default function IrregularVerbsTrainClient(props: { assignmentId: string }) {
+const VERB_TIPS: Record<string, string> = {
+  sow: 'Ten czasownik ma formę past simple regularną, ale w past participle może być nieregularny, jako "sown". Jednak "sowed" jako past participle też jest akceptowany. Mamy tu do czynienia z "mixed verb".',
+  sew: 'Ten czasownik ma formę past simple regularną, ale w past participle może być nieregularny, jako "sewn". Jednak "sewed" jako past participle też jest akceptowany. Mamy tu do czynienia z "mixed verb".',
+  strike:
+    'Istnieje też forma stricken i czasem jest stosowany w różnych wyrażeniach i teoretycznie może być kwalifikowany jako past participle, lecz w praktyce funkcjonuje jako przymiotnik.',
+};
+
+export default function IrregularVerbsTrainClient(props: {
+  assignmentId: string;
+  mode: TrainMode;
+  startMode: StartMode;
+}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const assignmentId = props.assignmentId;
+  const mode = props.mode;
+  const startMode = props.startMode;
+  const { setCurrentIrregularVerbBase } = useCurrentWord();
 
   const [error, setError] = useState("");
   const [startLoading, setStartLoading] = useState(true);
 
   const [currentVerb, setCurrentVerb] = useState<Verb | null>(null);
+  const [sessionItems, setSessionItems] = useState<SessionItem[]>([]);
+  const [sessionItemIndex, setSessionItemIndex] = useState(0);
   const [pastSimple, setPastSimple] = useState("");
   const [pastParticiple, setPastParticiple] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -84,6 +118,51 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
   const [assignmentToast, setAssignmentToast] = useState("");
   const assignmentCompleteRef = useRef(false);
   const pastSimpleInputRef = useRef<HTMLInputElement>(null);
+  const pastParticipleInputRef = useRef<HTMLInputElement>(null);
+  const targetsParam = searchParams.get("targets") ?? "";
+  const parsedTargets = useMemo(() => {
+    if (!targetsParam) return [] as TargetItem[];
+
+    return targetsParam
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => {
+        const [verbId, form] = part.split(":");
+        if (!verbId || (form !== "past_simple" && form !== "past_participle")) return null;
+        return { verbId, form } satisfies TargetItem;
+      })
+      .filter((item): item is TargetItem => Boolean(item))
+      .slice(0, 5);
+  }, [targetsParam]);
+  const wantsTargetedSession = startMode === "targeted";
+  const isTargetedSession = wantsTargetedSession && parsedTargets.length > 0;
+  const currentSessionItem = isTargetedSession ? sessionItems[sessionItemIndex] ?? null : null;
+  const effectiveMode: TrainMode =
+    currentSessionItem?.form === "past_simple"
+      ? "past_simple"
+      : currentSessionItem?.form === "past_participle"
+        ? "past_participle"
+        : mode;
+  const showPastSimple = effectiveMode === "both" || effectiveMode === "past_simple";
+  const showPastParticiple = effectiveMode === "both" || effectiveMode === "past_participle";
+  const modeLabel =
+    isTargetedSession
+      ? "Sesja targetowana"
+      : mode === "past_simple"
+        ? "Tylko Past Simple"
+        : mode === "past_participle"
+          ? "Tylko Past Participle"
+          : "Past Simple + Past Participle";
+
+  const getEffectiveCorrect = (submitResult: SubmitResult) => {
+    if (effectiveMode === "past_simple") return submitResult.past_simple_correct;
+    if (effectiveMode === "past_participle") return submitResult.past_participle_correct;
+    return submitResult.correct;
+  };
+
+  const canSubmit =
+    (!showPastSimple || !!pastSimple.trim()) && (!showPastParticiple || !!pastParticiple.trim());
 
   const summaryTotal = summary?.total ?? stats.total;
   const summaryCorrect = summary?.correct ?? stats.correct;
@@ -95,8 +174,27 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
     setError("");
 
     try {
+      if (wantsTargetedSession && parsedTargets.length === 0) {
+        throw new Error("Nieprawidłowa sesja targetowana. Brak poprawnych targetów.");
+      }
+
       const res = await fetch("/api/training/irregular/start", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          isTargetedSession
+            ? {
+                startMode: "targeted",
+                mode,
+                targets: parsedTargets,
+              }
+            : {
+                startMode: "manual",
+                mode,
+              }
+        ),
       });
 
       if (!res.ok) {
@@ -107,8 +205,17 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
       const data = await res.json();
 
       setSessionId(data.sessionId);
-      setCurrentVerb(data.firstVerb);
-      setUsedIds(data.firstVerb ? [data.firstVerb.id] : []);
+      if (isTargetedSession && Array.isArray(data.sessionItems)) {
+        setSessionItems(data.sessionItems);
+        setSessionItemIndex(0);
+        setCurrentVerb(data.sessionItems[0]?.verb ?? null);
+        setUsedIds([]);
+      } else {
+        setSessionItems([]);
+        setSessionItemIndex(0);
+        setCurrentVerb(data.firstVerb ?? null);
+        setUsedIds(data.firstVerb ? [data.firstVerb.id] : []);
+      }
       setRetryQueue([]);
       setSessionComplete(false);
       setStats({ correct: 0, total: 0 });
@@ -123,7 +230,7 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
     } finally {
       setStartLoading(false);
     }
-  }, []);
+  }, [isTargetedSession, mode, parsedTargets, wantsTargetedSession]);
 
   useEffect(() => {
     startSessionWithApi();
@@ -185,8 +292,14 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
   const handleSubmit = async () => {
     if (!currentVerb || submitting) return;
 
-    if (!pastSimple.trim() || !pastParticiple.trim()) {
-      setError("Wypełnij oba pola");
+    if (!canSubmit) {
+      setError(
+        effectiveMode === "past_simple"
+          ? "Wypełnij pole Past Simple"
+          : effectiveMode === "past_participle"
+            ? "Wypełnij pole Past Participle"
+            : "Wypełnij oba pola"
+      );
       return;
     }
 
@@ -210,9 +323,10 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
         },
         body: JSON.stringify({
           verb_id: currentVerb.id,
-          entered_past_simple: pastSimple.trim(),
-          entered_past_participle: pastParticiple.trim(),
+          entered_past_simple: showPastSimple ? pastSimple.trim() : "",
+          entered_past_participle: showPastParticiple ? pastParticiple.trim() : "",
           session_id: sessionId,
+          mode: effectiveMode,
         }),
       });
 
@@ -222,10 +336,11 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
       }
 
       const submitResult: SubmitResult = await res.json();
+      const effectiveCorrect = getEffectiveCorrect(submitResult);
 
       setResult(submitResult);
       setStats((prev) => ({
-        correct: prev.correct + (submitResult.correct ? 1 : 0),
+        correct: prev.correct + (effectiveCorrect ? 1 : 0),
         total: prev.total + 1,
       }));
     } catch (e: any) {
@@ -236,6 +351,22 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
   };
 
   const handleNext = () => {
+    if (isTargetedSession) {
+      const nextIndex = sessionItemIndex + 1;
+      if (nextIndex >= sessionItems.length) {
+        setSessionComplete(true);
+        setCurrentVerb(null);
+        return;
+      }
+      setError("");
+      setResult(null);
+      setPastSimple("");
+      setPastParticiple("");
+      setSessionItemIndex(nextIndex);
+      setCurrentVerb(sessionItems[nextIndex]?.verb ?? null);
+      return;
+    }
+
     loadNextVerb();
   };
 
@@ -278,7 +409,7 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
           xp_to_next_level: data.xp_to_next_level ?? 0,
           newly_awarded_badges: data.newly_awarded_badges ?? [],
         });
-        setSummary(data.summary ?? null);
+        setSummary(effectiveMode === "both" && !isTargetedSession ? (data.summary ?? null) : null);
         setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         setAwardedSessionId(sessionId);
         emitTrainingCompleted({ type: "irregular" });
@@ -316,7 +447,7 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
     };
 
     void awardXp();
-  }, [assignmentId, awardedSessionId, router, sessionComplete, sessionId]);
+  }, [assignmentId, awardedSessionId, effectiveMode, isTargetedSession, router, sessionComplete, sessionId]);
 
   useEffect(() => {
     if (!assignmentToast) return;
@@ -326,9 +457,19 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
 
   useEffect(() => {
     if (currentVerb && !result) {
-      pastSimpleInputRef.current?.focus();
+      if (showPastSimple) pastSimpleInputRef.current?.focus();
+      else if (showPastParticiple) pastParticipleInputRef.current?.focus();
     }
-  }, [currentVerb?.id, result]);
+  }, [currentVerb?.id, result, showPastParticiple, showPastSimple]);
+
+  useEffect(() => {
+    if (currentVerb?.base && !sessionComplete) {
+      setCurrentIrregularVerbBase(currentVerb.base);
+    } else {
+      setCurrentIrregularVerbBase(null);
+    }
+    return () => setCurrentIrregularVerbBase(null);
+  }, [currentVerb?.base, sessionComplete, setCurrentIrregularVerbBase]);
 
 
   return (
@@ -340,6 +481,12 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
             <p className="text-base text-slate-600">
               Poprawne: <span className="font-medium text-slate-900">{stats.correct}</span> / {stats.total}
             </p>
+            <p className="text-sm text-slate-500">Tryb: {modeLabel}</p>
+            {isTargetedSession ? (
+              <p className="text-sm text-slate-500">
+                Sesja targetowana: {sessionItemIndex + (currentVerb ? 1 : 0)} / {sessionItems.length}
+              </p>
+            ) : null}
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -491,10 +638,17 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
         <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-6">
           <div className="text-center space-y-2">
             <div className="text-4xl font-bold text-slate-900">{currentVerb.base}</div>
-            <div className="text-sm text-slate-500">Podaj formy czasownika</div>
+            <div className="text-sm text-slate-500">
+              {effectiveMode === "both"
+                ? "Podaj formy czasownika"
+                : effectiveMode === "past_simple"
+                  ? "Podaj formę Past Simple"
+                  : "Podaj formę Past Participle"}
+            </div>
           </div>
 
           <div className="space-y-4">
+            {showPastSimple ? (
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Past Simple</label>
               <input
@@ -534,7 +688,9 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
                 );
               })()}
             </div>
+            ) : null}
 
+            {showPastParticiple ? (
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Past Participle</label>
               <input
@@ -556,6 +712,7 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
                 className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
                   result || submitting ? "opacity-60" : ""
                 }`}
+                ref={pastParticipleInputRef}
               />
               {result && (() => {
                 const pastParticipleCorrect = result.past_participle_correct ?? false;
@@ -572,19 +729,34 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
                 );
               })()}
             </div>
+            ) : null}
           </div>
 
           {result ? (
             <div className="space-y-3">
-              <div className={`rounded-xl border-2 p-4 text-center ${pill(result.correct ? "good" : "bad")}`}>
+              <div className={`rounded-xl border-2 p-4 text-center ${pill(getEffectiveCorrect(result) ? "good" : "bad")}`}>
                 <div className="text-lg font-semibold">
-                  {result.correct
+                  {getEffectiveCorrect(result)
                     ? "✓ Poprawnie"
-                    : (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false)
+                    : effectiveMode === "both" && (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false)
                       ? "Prawie! Jedna forma jest poprawna."
                       : "✗ Błąd"}
                 </div>
               </div>
+
+              {currentVerb && (() => {
+                const base = currentVerb.base.toLowerCase().trim();
+                const tip = VERB_TIPS[base] ?? null;
+                if (!tip) return null;
+                return (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
+                    <p className="text-sm font-semibold text-amber-800">WAŻNE!</p>
+                    <div className="mt-1 whitespace-pre-line font-mono text-sm text-amber-900">
+                      <TypewriterText text={tip} speed={30} />
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div className="flex gap-2">
                 <button
@@ -600,7 +772,7 @@ export default function IrregularVerbsTrainClient(props: { assignmentId: string 
               <button
                 className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-700 hover:bg-slate-50 transition disabled:opacity-60"
                 onClick={handleSubmit}
-                disabled={submitting || !pastSimple.trim() || !pastParticiple.trim()}
+                disabled={submitting || !canSubmit}
               >
                 {submitting ? "Sprawdzam…" : "Sprawdź"}
               </button>

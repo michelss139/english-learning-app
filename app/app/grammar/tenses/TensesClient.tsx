@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { GrammarTense, GrammarTenseSlug } from "@/lib/grammar/types";
 
@@ -66,7 +66,16 @@ function TenseContent({ tense }: { tense: GrammarTense }) {
   const s = tense.content.structure;
   return (
     <div className="flex flex-col gap-1">
-      <h2 className="text-center text-2xl font-semibold text-slate-900">{tense.title}</h2>
+      <div className="relative flex items-center justify-center py-1">
+        <h2 className="text-center text-2xl font-semibold text-slate-900">{tense.title}</h2>
+        <Link
+          href={`/app/grammar/${tense.slug}`}
+          prefetch={false}
+          className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+        >
+          Czytaj całą teorię
+        </Link>
+      </div>
 
       {s && (
         <div className="overflow-x-auto rounded-lg border border-slate-300">
@@ -104,41 +113,28 @@ function TenseContent({ tense }: { tense: GrammarTense }) {
           </table>
         </div>
       )}
-
-      <div className="flex flex-wrap gap-2 pt-0.5">
-        <Link
-          href={`/app/grammar/${tense.slug}`}
-          className="rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
-        >
-          Czytaj pełną teorię
-        </Link>
-        {tense.practiceLink ? (
-          <Link
-            href={tense.practiceLink}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-          >
-            Ćwiczenia
-          </Link>
-        ) : (
-          <span className="px-3 py-1.5 text-sm text-slate-500">Ćwiczenia w przygotowaniu</span>
-        )}
-      </div>
     </div>
   );
 }
 
 export function TensesClient({ tenses }: TensesClientProps) {
-  const grouped = CATEGORIES.map((cat) => ({
-    category: cat,
-    tenses: tenses.filter((t) => getCategory(t.slug) === cat),
-  })).filter((g) => g.tenses.length > 0);
+  const grouped = useMemo(
+    () =>
+      CATEGORIES.map((cat) => ({
+        category: cat,
+        tenses: tenses.filter((t) => getCategory(t.slug) === cat),
+      })).filter((g) => g.tenses.length > 0),
+    [tenses]
+  );
 
   const firstTense = tenses[0];
   const initialSlug = (firstTense?.slug ?? "") as GrammarTenseSlug | "";
   const [activeSlug, setActiveSlug] = useState<GrammarTenseSlug | "">(initialSlug);
   const [renderedSlug, setRenderedSlug] = useState<GrammarTenseSlug | "">(initialSlug);
   const [isVisible, setIsVisible] = useState(true);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set([grouped[0]?.category ?? "PRESENT"]));
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    () => new Set([grouped[0]?.category ?? "PRESENT"])
+  );
   const transitionRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {

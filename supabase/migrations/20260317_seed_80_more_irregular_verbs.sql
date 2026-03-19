@@ -17,7 +17,6 @@ values
   ('breed', 'breed', 'bred', NULL, 'bred', NULL),
   ('cling', 'cling', 'clung', NULL, 'clung', NULL),
   ('creep', 'creep', 'crept', NULL, 'crept', NULL),
-  ('dare', 'dare', 'dared', ARRAY['durst'], 'dared', NULL),
   ('dwell', 'dwell', 'dwelt', ARRAY['dwelled'], 'dwelt', ARRAY['dwelled']),
   ('forsake', 'forsake', 'forsook', NULL, 'forsaken', NULL),
   ('flee', 'flee', 'fled', NULL, 'fled', NULL),

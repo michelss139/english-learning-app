@@ -109,7 +109,16 @@ export async function POST(req: Request) {
       verb.past_participle_variants
     );
 
-    const overallCorrect = pastSimpleCorrect && pastParticipleCorrect;
+    const attemptedPastSimple = enteredPastSimple.trim().length > 0;
+    const attemptedPastParticiple = enteredPastParticiple.trim().length > 0;
+    const overallCorrect =
+      attemptedPastSimple && attemptedPastParticiple
+        ? pastSimpleCorrect && pastParticipleCorrect
+        : attemptedPastSimple
+          ? pastSimpleCorrect
+          : attemptedPastParticiple
+            ? pastParticipleCorrect
+            : false;
 
     // Log the result
     const { error: logError } = await supabase.from("irregular_verb_runs").insert({
