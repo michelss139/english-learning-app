@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
-import { getGrammarPracticeQuestion } from "@/lib/grammar/practice";
+import { updateLearningUnitKnowledge } from "@/lib/knowledge/updateLearningUnitKnowledge";
 
 type AnswerBody = {
   session_id: string;
-  question_id: string;
-  selected_option: string;
+  slug: string;
+  is_correct: boolean;
 };
 
 function isUuid(value: string): boolean {
@@ -24,62 +24,74 @@ export async function POST(req: Request) {
     }
 
     const body = (await req.json().catch(() => null)) as AnswerBody | null;
-    if (!body?.session_id || !body?.question_id || !body?.selected_option) {
-      return NextResponse.json({ error: "session_id, question_id and selected_option are required" }, { status: 400 });
+    if (!body?.session_id || body?.slug == null || typeof body?.is_correct !== "boolean") {
+      return NextResponse.json(
+        { error: "session_id, slug and is_correct are required" },
+        { status: 400 }
+      );
     }
     if (!isUuid(body.session_id)) {
       return NextResponse.json({ error: "Invalid session_id format" }, { status: 400 });
     }
 
-    const userId = user.id;
-
-    const { data: grammarSession, error: fetchErr } = await supabase
-      .from("grammar_sessions")
-      .select("id, student_id, exercise_slug")
-      .eq("id", body.session_id)
-      .maybeSingle();
-
-    if (fetchErr) {
-      return NextResponse.json({ error: fetchErr.message }, { status: 500 });
-    }
-    if (!grammarSession) {
-      return NextResponse.json({ error: "Grammar session not found" }, { status: 404 });
-    }
-    if (grammarSession.student_id !== userId) {
-      return NextResponse.json({ error: "Unauthorized for this session" }, { status: 403 });
+    const studentId = user.id;
+    const slug = String(body.slug).trim();
+    if (!slug) {
+      return NextResponse.json({ error: "slug cannot be empty" }, { status: 400 });
     }
 
-    const question = getGrammarPracticeQuestion(grammarSession.exercise_slug, body.question_id);
-    if (!question) {
-      return NextResponse.json({ error: "Question not found for exercise" }, { status: 400 });
-    }
-    if (!question.options.includes(body.selected_option)) {
-      return NextResponse.json({ error: "Selected option is invalid for this question" }, { status: 400 });
+    const insertData = {
+      student_id: studentId,
+      test_run_id: null,
+      user_vocab_item_id: null,
+      question_mode: "grammar" as const,
+      prompt: slug,
+      expected: null,
+      given: body.is_correct ? "correct" : "wrong",
+      is_correct: body.is_correct,
+      evaluation: body.is_correct ? ("correct" as const) : ("wrong" as const),
+      context_type: "grammar" as const,
+      context_id: slug,
+      session_id: body.session_id,
+    };
+
+    const { error: insertErr } = await supabase
+      .from("vocab_answer_events")
+      .insert(insertData);
+
+    if (insertErr) {
+      return NextResponse.json({ error: insertErr.message }, { status: 500 });
     }
 
-    const isCorrect = body.selected_option === question.correct_option;
-
-    const { error: answerErr } = await supabase.from("grammar_session_answers").insert({
-      session_id: grammarSession.id,
-      student_id: userId,
-      question_id: question.id,
-      selected_option: body.selected_option,
-      is_correct: isCorrect,
+    const knowledgeResult = await updateLearningUnitKnowledge({
+      supabase,
+      studentId,
+      unitType: "grammar",
+      unitId: slug,
+      payload: { mode: "answer", isCorrect: body.is_correct },
     });
 
-    if (answerErr) {
-      return NextResponse.json({ error: answerErr.message }, { status: 500 });
+    if (!knowledgeResult.ok) {
+      console.error("[grammar/answer] Knowledge update failed:", {
+        studentId,
+        unitId: slug,
+        message: knowledgeResult.error,
+        cause: knowledgeResult.cause,
+      });
+      // Don't fail the request - event was logged
     }
 
     return NextResponse.json({
       ok: true,
-      is_correct: isCorrect,
-      correct_option: question.correct_option,
+      is_correct: body.is_correct,
     });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("[grammar/answer] Error:", e);
     return NextResponse.json(
-      { error: e?.message ?? "Unknown error", stack: process.env.NODE_ENV === "development" ? e?.stack : undefined },
+      {
+        error: e instanceof Error ? e.message : "Unknown error",
+        stack: process.env.NODE_ENV === "development" && e instanceof Error ? e.stack : undefined,
+      },
       { status: 500 }
     );
   }

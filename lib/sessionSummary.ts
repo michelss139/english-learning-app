@@ -88,31 +88,35 @@ export async function getSessionSummary(
 
   if (exerciseType === "grammar_practice") {
     const { count: totalCount } = await supabase
-      .from("grammar_session_answers")
+      .from("vocab_answer_events")
       .select("id", { count: "exact", head: true })
       .eq("student_id", studentId)
+      .eq("context_type", "grammar")
       .eq("session_id", sessionId);
 
     const { count: wrongCount } = await supabase
-      .from("grammar_session_answers")
+      .from("vocab_answer_events")
       .select("id", { count: "exact", head: true })
       .eq("student_id", studentId)
+      .eq("context_type", "grammar")
       .eq("session_id", sessionId)
       .eq("is_correct", false);
 
     const { data: firstRow } = await supabase
-      .from("grammar_session_answers")
+      .from("vocab_answer_events")
       .select("created_at")
       .eq("student_id", studentId)
+      .eq("context_type", "grammar")
       .eq("session_id", sessionId)
       .order("created_at", { ascending: true })
       .limit(1)
       .maybeSingle();
 
     const { data: wrongItems } = await supabase
-      .from("grammar_session_answers")
-      .select("question_id")
+      .from("vocab_answer_events")
+      .select("prompt, expected, question_mode")
       .eq("student_id", studentId)
+      .eq("context_type", "grammar")
       .eq("session_id", sessionId)
       .eq("is_correct", false)
       .limit(10);
@@ -129,9 +133,9 @@ export async function getSessionSummary(
       started_at: (firstRow as any)?.created_at ?? null,
       finished_at: finishedAt,
       wrong_items: (wrongItems ?? []).map((row: any) => ({
-        prompt: row.question_id ?? null,
-        expected: null,
-        question_mode: "grammar-choice",
+        prompt: row.prompt ?? null,
+        expected: row.expected ?? null,
+        question_mode: row.question_mode ?? "grammar",
       })),
     };
   }

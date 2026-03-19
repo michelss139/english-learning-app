@@ -112,13 +112,15 @@ function TenseContent({ tense }: { tense: GrammarTense }) {
         >
           Czytaj pełną teorię
         </Link>
-        {tense.practiceLink && (
+        {tense.practiceLink ? (
           <Link
             href={tense.practiceLink}
             className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
           >
             Ćwiczenia
           </Link>
+        ) : (
+          <span className="px-3 py-1.5 text-sm text-slate-500">Ćwiczenia w przygotowaniu</span>
         )}
       </div>
     </div>

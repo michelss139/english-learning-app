@@ -118,6 +118,8 @@ export async function POST(req: Request) {
       entered_past_simple: enteredPastSimple,
       entered_past_participle: enteredPastParticiple,
       correct: overallCorrect,
+      past_simple_correct: pastSimpleCorrect,
+      past_participle_correct: pastParticipleCorrect,
       session_id: sessionId,
     });
 

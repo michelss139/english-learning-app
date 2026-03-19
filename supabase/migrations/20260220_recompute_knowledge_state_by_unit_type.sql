@@ -4,6 +4,7 @@
 -- sense      -> trend model (answer-based)
 -- cluster    -> session/accuracy model (history approximation from aggregated counts)
 -- irregular  -> session/accuracy model (history approximation from aggregated counts)
+-- grammar    -> trend model (answer-based, same as sense)
 --
 -- NOTE:
 -- For session-mode backfill we only have aggregated totals in this table,

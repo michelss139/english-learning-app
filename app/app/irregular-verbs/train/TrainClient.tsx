@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
+import { mapIrregularToExerciseQuestion } from "@/lib/exercises/adapters/irregularAdapter";
+import { validateInputAnswer } from "@/lib/exercises/validators/validateInputAnswer";
 
 export type Verb = {
   id: string;
@@ -39,6 +41,11 @@ type AwardResult = {
   newly_awarded_badges: AwardBadge[];
 };
 
+type RetryItem = {
+  verb: Verb;
+  delay: number;
+};
+
 type SessionSummary = {
   total: number;
   correct: number;
@@ -52,41 +59,28 @@ type SessionSummary = {
   }>;
 };
 
-function createSessionId(): string {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return crypto.randomUUID();
-  }
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
 function pill(tone: "neutral" | "good" | "bad") {
   if (tone === "good") return "border-emerald-400 bg-emerald-50 text-emerald-800";
   if (tone === "bad") return "border-rose-400 bg-rose-50 text-rose-800";
   return "border-slate-200 bg-slate-50 text-slate-700";
 }
 
-export default function IrregularVerbsTrainClient(props: {
-  initialVerb: Verb | null;
-  initialError: string;
-  assignmentId: string;
-}) {
+export default function IrregularVerbsTrainClient(props: { assignmentId: string }) {
   const router = useRouter();
   const assignmentId = props.assignmentId;
 
   const [error, setError] = useState("");
+  const [startLoading, setStartLoading] = useState(true);
 
-  const [currentVerb, setCurrentVerb] = useState<Verb | null>(props.initialVerb);
+  const [currentVerb, setCurrentVerb] = useState<Verb | null>(null);
   const [pastSimple, setPastSimple] = useState("");
   const [pastParticiple, setPastParticiple] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<SubmitResult | null>(null);
-  const [usedIds, setUsedIds] = useState<string[]>(() => (props.initialVerb ? [props.initialVerb.id] : []));
+  const [usedIds, setUsedIds] = useState<string[]>([]);
+  const [retryQueue, setRetryQueue] = useState<RetryItem[]>([]);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
-  const [sessionId, setSessionId] = useState(() => createSessionId());
+  const [sessionId, setSessionId] = useState("");
   const [sessionComplete, setSessionComplete] = useState(false);
   const [award, setAward] = useState<AwardResult | null>(null);
   const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
@@ -103,12 +97,44 @@ export default function IrregularVerbsTrainClient(props: {
   const summaryWrong = summary?.wrong ?? Math.max(summaryTotal - summaryCorrect, 0);
   const summaryAccuracy = summary?.accuracy ?? (summaryTotal ? summaryCorrect / summaryTotal : 0);
 
-  useEffect(() => {
-    // If SSR couldn't load an initial verb, show the error immediately (no loading gate).
-    if (props.initialError) {
-      setError(props.initialError);
+  const startSessionWithApi = useCallback(async () => {
+    setStartLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/training/irregular/start", {
+        method: "POST",
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error ?? "Failed to start session");
+      }
+
+      const data = await res.json();
+
+      setSessionId(data.sessionId);
+      setCurrentVerb(data.firstVerb);
+      setUsedIds(data.firstVerb ? [data.firstVerb.id] : []);
+      setRetryQueue([]);
+      setSessionComplete(false);
+      setStats({ correct: 0, total: 0 });
+      setResult(null);
+      setAward(null);
+      setAwardError("");
+      setAwardedSessionId("");
+      setXpAlreadyAwarded(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Nie udało się rozpocząć sesji.");
+      setCurrentVerb(null);
+    } finally {
+      setStartLoading(false);
     }
-  }, [props.initialError]);
+  }, []);
+
+  useEffect(() => {
+    startSessionWithApi();
+  }, [startSessionWithApi]);
 
   const loadNextVerb = async (options?: { excludeIds?: string[] }) => {
     try {
@@ -116,6 +142,8 @@ export default function IrregularVerbsTrainClient(props: {
       setResult(null);
       setPastSimple("");
       setPastParticiple("");
+
+      // retryQueue disabled: session length must be fixed and deterministic
 
       const sess = await supabase.auth.getSession();
       const token = sess?.data?.session?.access_token;
@@ -158,17 +186,7 @@ export default function IrregularVerbsTrainClient(props: {
   };
 
   const startNewSession = async () => {
-    const newSessionId = createSessionId();
-    setSessionId(newSessionId);
-    setUsedIds([]);
-    setStats({ correct: 0, total: 0 });
-    setResult(null);
-    setSessionComplete(false);
-    setAward(null);
-    setAwardError("");
-    setAwardedSessionId("");
-    setXpAlreadyAwarded(false);
-    await loadNextVerb({ excludeIds: [] });
+    await startSessionWithApi();
   };
 
   const handleSubmit = async () => {
@@ -182,6 +200,10 @@ export default function IrregularVerbsTrainClient(props: {
     try {
       setSubmitting(true);
       setError("");
+
+      const question = mapIrregularToExerciseQuestion(currentVerb);
+      const validation = validateInputAnswer(question, [pastSimple.trim(), pastParticiple.trim()]);
+      const isCorrect = validation.isCorrect;
 
       const sess = await supabase.auth.getSession();
       const token = sess?.data?.session?.access_token;
@@ -211,11 +233,25 @@ export default function IrregularVerbsTrainClient(props: {
       }
 
       const submitResult: SubmitResult = await res.json();
-      setResult(submitResult);
+
+      if (submitResult.correct !== isCorrect) {
+        console.warn("MISMATCH VALIDATION", {
+          api: submitResult.correct,
+          local: isCorrect,
+        });
+      }
+
+      setResult({
+        ...submitResult,
+        correct: isCorrect,
+        past_simple_correct: validation.details.correctParts[0] ?? false,
+        past_participle_correct: validation.details.correctParts[1] ?? false,
+      });
       setStats((prev) => ({
-        correct: prev.correct + (submitResult.correct ? 1 : 0),
+        correct: prev.correct + (isCorrect ? 1 : 0),
         total: prev.total + 1,
       }));
+      // retryQueue disabled: session length must be fixed and deterministic
     } catch (e: any) {
       setError(e?.message ?? "Błąd sprawdzania odpowiedzi");
     } finally {
@@ -317,6 +353,13 @@ export default function IrregularVerbsTrainClient(props: {
       pastSimpleInputRef.current?.focus();
     }
   }, [currentVerb?.id, result]);
+
+  useEffect(() => {
+    if (currentVerb) {
+      const mapped = mapIrregularToExerciseQuestion(currentVerb);
+      console.log("ExerciseQuestion", mapped);
+    }
+  }, [currentVerb]);
 
   return (
     <main className="space-y-6">
@@ -506,17 +549,20 @@ export default function IrregularVerbsTrainClient(props: {
                 ref={pastSimpleInputRef}
                 autoFocus
               />
-              {result && (
-                <div className={`mt-2 rounded-xl border-2 p-3 ${pill(result.past_simple_correct ? "good" : "bad")}`}>
-                  {result.past_simple_correct ? (
-                    <span>✓ Poprawnie: {result.correct_past_simple}</span>
-                  ) : (
-                    <span>
-                      ✗ Źle. Poprawna odpowiedź: <strong>{result.correct_past_simple}</strong>
-                    </span>
-                  )}
-                </div>
-              )}
+              {result && (() => {
+                const pastSimpleCorrect = result.past_simple_correct ?? false;
+                return (
+                  <div className={`mt-2 rounded-xl border-2 p-3 ${pill(pastSimpleCorrect ? "good" : "bad")}`}>
+                    {pastSimpleCorrect ? (
+                      <span>Past Simple ✓</span>
+                    ) : (
+                      <span>
+                        Past Simple ✗ (poprawna: <strong>{currentVerb.past_simple}</strong>)
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
 
             <div>
@@ -541,17 +587,20 @@ export default function IrregularVerbsTrainClient(props: {
                   result || submitting ? "opacity-60" : ""
                 }`}
               />
-              {result && (
-                <div className={`mt-2 rounded-xl border-2 p-3 ${pill(result.past_participle_correct ? "good" : "bad")}`}>
-                  {result.past_participle_correct ? (
-                    <span>✓ Poprawnie: {result.correct_past_participle}</span>
-                  ) : (
-                    <span>
-                      ✗ Źle. Poprawna odpowiedź: <strong>{result.correct_past_participle}</strong>
-                    </span>
-                  )}
-                </div>
-              )}
+              {result && (() => {
+                const pastParticipleCorrect = result.past_participle_correct ?? false;
+                return (
+                  <div className={`mt-2 rounded-xl border-2 p-3 ${pill(pastParticipleCorrect ? "good" : "bad")}`}>
+                    {pastParticipleCorrect ? (
+                      <span>Past Participle ✓</span>
+                    ) : (
+                      <span>
+                        Past Participle ✗ (poprawna: <strong>{currentVerb.past_participle}</strong>)
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
@@ -559,7 +608,11 @@ export default function IrregularVerbsTrainClient(props: {
             <div className="space-y-3">
               <div className={`rounded-xl border-2 p-4 text-center ${pill(result.correct ? "good" : "bad")}`}>
                 <div className="text-lg font-semibold">
-                  {result.correct ? "✓ Wszystko poprawne!" : "✗ Spróbuj ponownie"}
+                  {result.correct
+                    ? "✓ Poprawnie"
+                    : (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false)
+                      ? "Prawie! Jedna forma jest poprawna."
+                      : "✗ Błąd"}
                 </div>
               </div>
 
@@ -586,7 +639,12 @@ export default function IrregularVerbsTrainClient(props: {
         </section>
       ) : null}
 
-      {!sessionComplete && !currentVerb ? (
+      {startLoading ? (
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 text-center text-slate-500">
+          Ładowanie sesji…
+        </section>
+      ) : null}
+      {!startLoading && !sessionComplete && !currentVerb ? (
         <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 text-center text-slate-500">
           Brak czasowników do treningu. Wróć do listy i przypnij kilka czasowników.
         </section>

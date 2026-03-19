@@ -1,10 +1,10 @@
 "use client";
 
-import { GrammarPracticeClient } from "../../_components/GrammarPracticeClient";
+import { InputPracticeClient } from "../../_components/InputPracticeClient";
 
 export function PracticeClient() {
   return (
-    <GrammarPracticeClient
+    <InputPracticeClient
       exerciseSlug="present-simple"
       title="Present Simple"
       mapHref="/app/grammar/present-simple"
@@ -12,4 +12,3 @@ export function PracticeClient() {
     />
   );
 }
-

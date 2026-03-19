@@ -110,8 +110,8 @@ export function GrammarPracticeClient({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             session_id: sessionId,
-            question_id: question.id,
-            selected_option: value,
+            slug: exerciseSlug,
+            is_correct: optimisticIsCorrect,
           }),
         });
         const data = await res.json().catch(() => ({}));
@@ -141,7 +141,7 @@ export function GrammarPracticeClient({
         const res = await fetch("/api/grammar/complete", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ session_id: sessionId }),
+          body: JSON.stringify({ session_id: sessionId, slug: exerciseSlug }),
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {

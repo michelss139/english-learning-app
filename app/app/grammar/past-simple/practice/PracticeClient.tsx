@@ -1,11 +1,11 @@
 "use client";
 
-import { GrammarPracticeClient } from "../../_components/GrammarPracticeClient";
+import { InputPracticeClient } from "../../_components/InputPracticeClient";
 
-export function PracticeClient({ exerciseSlug }: { exerciseSlug: string }) {
+export function PracticeClient() {
   return (
-    <GrammarPracticeClient
-      exerciseSlug={exerciseSlug}
+    <InputPracticeClient
+      exerciseSlug="past-simple"
       title="Past Simple"
       mapHref="/app/grammar/past-simple"
       mapLabel="Mapa Past Simple"

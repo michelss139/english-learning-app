@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export type LearningUnitType = "sense" | "cluster" | "irregular";
+export type LearningUnitType = "sense" | "cluster" | "irregular" | "grammar";
 export type KnowledgeState = "new" | "unstable" | "improving" | "mastered";
 
 type LearningUnitRow = {
