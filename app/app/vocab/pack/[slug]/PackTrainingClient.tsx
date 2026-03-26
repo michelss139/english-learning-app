@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
@@ -74,6 +75,9 @@ type VocabMode = "daily" | "precise";
 
 const OPTIMISTIC_XP = 10;
 
+const cardBase =
+  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
+
 const isValidVocabMode = (value: string | null): value is VocabMode =>
   value === "daily" || value === "precise";
 
@@ -109,6 +113,30 @@ function isCorrectAnswer(expected: string, given: string, removeDiacritics: bool
   const exp = normalizeSpacing(removeDiacritics ? stripDiacritics(expected) : expected);
   const giv = normalizeSpacing(removeDiacritics ? stripDiacritics(given) : given);
   return exp.length > 0 && exp === giv;
+}
+
+function OptionButton({
+  active,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-xl px-3.5 py-2 text-sm font-medium transition-all duration-150 ${
+        active
+          ? "border border-slate-300 bg-white text-slate-900 shadow-sm"
+          : "border border-slate-200/60 bg-transparent text-slate-400 hover:border-slate-300 hover:text-slate-600"
+      }`}
+    >
+      {children}
+    </button>
+  );
 }
 
 export default function PackTrainingClient(props: {
@@ -159,6 +187,7 @@ export default function PackTrainingClient(props: {
 
   const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
   const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number>(0);
+  const [showWordList, setShowWordList] = useState(false);
 
   const { setCurrentLemma } = useCurrentWord();
   const current = sessionItems[currentIndex];
@@ -173,13 +202,11 @@ export default function PackTrainingClient(props: {
       localStorage.setItem("vocabMode", props.modeFromUrl);
       return;
     }
-
     const stored = localStorage.getItem("vocabMode");
     if (isValidVocabMode(stored)) {
       setVocabMode(stored);
       return;
     }
-
     setVocabMode("daily");
   }, [props.modeFromUrl]);
 
@@ -219,7 +246,7 @@ export default function PackTrainingClient(props: {
               acc[item.sense_id] = Math.random() < 0.5 ? "en-pl" : "pl-en";
               return acc;
             }, {})
-          : {}
+          : {},
       );
       setCurrentIndex(0);
       setCompleted(false);
@@ -265,7 +292,6 @@ export default function PackTrainingClient(props: {
 
   useEffect(() => {
     if (!started || completed) return;
-    // Keep Enter flow smooth: focus stays on the input.
     inputRef.current?.focus();
   }, [started, completed, currentIndex]);
 
@@ -301,15 +327,12 @@ export default function PackTrainingClient(props: {
       setError("Brak fiszek w tym packu.");
       return;
     }
-
     const source = itemsOverride ?? allItems;
     let selection = shuffleArray(source);
-
     if (!itemsOverride && countChoice !== "all") {
       const size = countChoice === "5" ? 5 : 10;
       selection = selection.slice(0, Math.min(size, selection.length));
     }
-
     setSessionItems(selection);
     setSessionId(createSessionId());
     setAnswers({});
@@ -342,32 +365,22 @@ export default function PackTrainingClient(props: {
       setError("Wpisz tłumaczenie.");
       return;
     }
-
     setError("");
-
     const expectedValue =
       currentDirection === "en-pl" ? current.translation_pl ?? null : current.lemma ?? null;
     const expectedForDisplay = expectedValue;
-
     let isCorrect = false;
     if (expectedValue) {
       isCorrect = isCorrectAnswer(expectedValue, input, currentDirection === "en-pl");
     }
     if (!isCorrect && currentDirection === "pl-en" && current.translation_pl) {
-      // Match backend "forgiving" behavior: if user typed PL translation while in PL→ENG.
       isCorrect = isCorrectAnswer(current.translation_pl, input, true);
     }
-
     setAnswers((prev) => ({
       ...prev,
-      [current.sense_id]: {
-        given: input,
-        expected: expectedForDisplay,
-        isCorrect,
-      },
+      [current.sense_id]: { given: input, expected: expectedForDisplay, isCorrect },
     }));
 
-    // Fire-and-forget server logging/validation (no blocking UI, no rollback).
     void (async () => {
       try {
         const session = await supabase.auth.getSession();
@@ -375,21 +388,10 @@ export default function PackTrainingClient(props: {
         if (!token) return;
         const res = await fetch(`/api/vocab/packs/${slug}/answer`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            sense_id: current.sense_id,
-            given: input,
-            direction: currentDirection,
-            session_id: sessionId,
-          }),
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ sense_id: current.sense_id, given: input, direction: currentDirection, session_id: sessionId }),
         });
-
-        if (!res.ok) {
-          setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
-        }
+        if (!res.ok) setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
       } catch {
         setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
       }
@@ -416,27 +418,19 @@ export default function PackTrainingClient(props: {
       try {
         setLoadingRecs(true);
         setError("");
-
         const session = await supabase.auth.getSession();
         const token = session.data.session?.access_token;
         if (!token) return;
         const res = await fetch(`/api/vocab/packs/${slug}/recommendations?sessionId=${sessionId}`, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-
         if (!res.ok) {
           const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
           throw new Error(errorData.error || "Nie udało się wczytać rekomendacji.");
         }
-
         const data = await res.json();
-        if (!data.ok || !Array.isArray(data.items)) {
-          throw new Error("Nieprawidłowa odpowiedź serwera.");
-        }
-
+        if (!data.ok || !Array.isArray(data.items)) throw new Error("Nieprawidłowa odpowiedź serwera.");
         setRecommendations(data.items);
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : "Nie udało się wczytać rekomendacji.");
@@ -444,15 +438,12 @@ export default function PackTrainingClient(props: {
         setLoadingRecs(false);
       }
     };
-
     void loadRecommendations();
   }, [completed, slug, sessionId]);
 
   useEffect(() => {
     if (!completed || !sessionId) return;
     if (awardedSessionId === sessionId) return;
-
-    // Prevent double-fire even if re-rendered.
     setAwardedSessionId(sessionId);
     setOptimisticXpAwarded((v) => (v > 0 ? v : OPTIMISTIC_XP));
     setAwardError("");
@@ -464,27 +455,15 @@ export default function PackTrainingClient(props: {
         if (!token) return;
         const res = await fetch(`/api/vocab/packs/${slug}/complete`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            session_id: sessionId,
-            direction,
-            count_mode: countChoice,
-          }),
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ session_id: sessionId, direction, count_mode: countChoice }),
         });
-
         if (!res.ok) {
           const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
           throw new Error(errorData.error || "Nie udało się przyznać XP.");
         }
-
         const data = await res.json();
-        if (!data.ok) {
-          throw new Error(data.error || "Nie udało się przyznać XP.");
-        }
-
+        if (!data.ok) throw new Error(data.error || "Nie udało się przyznać XP.");
         setAward({
           xp_awarded: data.xp_awarded ?? 0,
           xp_total: data.xp_total ?? 0,
@@ -501,41 +480,26 @@ export default function PackTrainingClient(props: {
           try {
             const completeRes = await fetch(`/api/lessons/assignments/${props.assignmentId}/complete`, {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                session_id: sessionId,
-                exercise_type: "pack",
-                context_slug: slug,
-              }),
+              headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+              body: JSON.stringify({ session_id: sessionId, exercise_type: "pack", context_slug: slug }),
             });
             if (completeRes.ok) {
               const completeData = await completeRes.json();
               if (completeData.ok) {
                 assignmentCompleteRef.current = true;
-                setAssignmentToast("Zadanie z lekcji oznaczone jako wykonane ✅");
+                setAssignmentToast("Zadanie z lekcji oznaczone jako wykonane");
               }
             }
           } catch (e) {
             console.warn("[pack] assignment complete failed", e);
           }
         }
-    } catch (e: unknown) {
-      setAwardError(e instanceof Error ? e.message : "Nie udało się przyznać XP.");
-      setSaveToast("Nie udało się zapisać wyniku (w tle).");
-    }
+      } catch (e: unknown) {
+        setAwardError(e instanceof Error ? e.message : "Nie udało się przyznać XP.");
+        setSaveToast("Nie udało się zapisać wyniku (w tle).");
+      }
     })();
-  }, [
-    props.assignmentId,
-    awardedSessionId,
-    completed,
-    countChoice,
-    direction,
-    sessionId,
-    slug,
-  ]);
+  }, [props.assignmentId, awardedSessionId, completed, countChoice, direction, sessionId, slug]);
 
   const wrongItems = useMemo(
     () => sessionItems.filter((item) => answers[item.sense_id]?.isCorrect === false),
@@ -548,30 +512,20 @@ export default function PackTrainingClient(props: {
       setAdding(true);
       setAddStatus("");
       setError("");
-
       const session = await supabase.auth.getSession();
       const token = session.data.session?.access_token;
       if (!token) return;
-
       const res = await fetch("/api/vocab/add-words", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ sense_ids: recommendations.map((r) => r.sense_id) }),
       });
-
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
         throw new Error(errorData.error || "Nie udało się dodać słówek.");
       }
-
       const data = await res.json();
-      if (!data.ok) {
-        throw new Error("Nie udało się dodać słówek.");
-      }
-
+      if (!data.ok) throw new Error("Nie udało się dodać słówek.");
       setAddStatus(`Dodano do puli: ${data.added ?? 0}`);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Nie udało się dodać słówek.");
@@ -580,505 +534,334 @@ export default function PackTrainingClient(props: {
     }
   };
 
+  const errorBlock = error ? (
+    <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
+      <p className="text-sm text-rose-700">
+        <span className="font-semibold">Błąd: </span>
+        {error}
+      </p>
+    </div>
+  ) : null;
+
+  const toastBlock = saveToast ? (
+    <div className="rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-500">
+      {saveToast}
+    </div>
+  ) : null;
+
+  /* ─── PRE-START ─── */
   if (!started) {
     if (startLoading) {
       return (
-        <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-          <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="space-y-1">
-                <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Fiszki: {pack.title ?? slug}</h1>
-                <p className="text-sm text-slate-600">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
-              </div>
-            </div>
+        <div>
+          <header className="mb-5">
+            <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+            <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
           </header>
-          <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-            <p className="text-center text-slate-600">Ładowanie sesji…</p>
-          </section>
-        </main>
+          <div className={`${cardBase} animate-pulse`}>
+            <div className="h-4 w-48 rounded bg-slate-100" />
+            <div className="mt-4 h-24 rounded-xl bg-slate-100" />
+          </div>
+        </div>
       );
     }
 
     return (
-      <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Fiszki: {pack.title ?? slug}</h1>
-              <p className="text-sm text-slate-600">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <a
-                className="tile-frame"
-                href="/app/vocab"
-              >
-                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                  ← Powrót
-                </span>
-              </a>
-              <a
-                className="tile-frame"
-                href="/app/vocab/packs"
-              >
-                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                  ← Lista packów
-                </span>
-              </a>
-            </div>
-          </div>
+      <div>
+        <header className="mb-5">
+          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+          <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
+          <p className="mt-0.5 text-xs font-medium text-slate-400">{pack.description ?? "Ćwicz szybkie tłumaczenia"}</p>
         </header>
 
-        {saveToast ? (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">{saveToast}</div>
-        ) : null}
+        {errorBlock}
+        {toastBlock}
 
-        {error ? (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm text-rose-700">
-                <span className="font-semibold">Błąd: </span>
-                {error}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                  onClick={() => router.refresh()}
-                >
-                  Odśwież
-                </button>
-                <a
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                  href="/app"
-                >
-                  Wróć do strony głównej
-                </a>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
-          <div>
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Ustawienia sesji</h2>
-            <p className="text-sm text-slate-600">Wybierz kierunek i liczbę fiszek.</p>
-          </div>
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-2">
-              <div className="text-sm text-slate-600">Wybierz tryb</div>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => setDirection("en-pl")}
-                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                    direction === "en-pl"
-                      ? "border-slate-900 bg-slate-100 text-slate-900"
-                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                  }`}
-                >
-                  ENG → PL
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDirection("pl-en")}
-                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                    direction === "pl-en"
-                      ? "border-slate-900 bg-slate-100 text-slate-900"
-                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                  }`}
-                >
-                  PL → ENG
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDirection("mix")}
-                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                    direction === "mix"
-                      ? "border-slate-900 bg-slate-100 text-slate-900"
-                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                  }`}
-                >
-                  MIX
-                </button>
-              </div>
-            </div>
-            <div className="shrink-0 sm:max-w-md">
-              <div className="text-sm font-medium text-slate-600">Lista słówek w tym zestawie:</div>
-              <p className="mt-1 text-sm text-slate-700">
-                {allItems
-                  .map((i) => i.lemma)
-                  .filter(Boolean)
-                  .join(", ") || "—"}
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-sm text-slate-600">Wybierz liczbę</div>
+        <div className="space-y-5">
+          <section className={cardBase}>
+            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Kierunek</h2>
             <div className="flex flex-wrap gap-2">
-              {(["5", "10", "all"] as CountChoice[]).map((choice) => (
-                <button
-                  key={choice}
-                  type="button"
-                  onClick={() => setCountChoice(choice)}
-                  className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition ${
-                    countChoice === choice
-                      ? "border-slate-900 bg-slate-100 text-slate-900"
-                      : "border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:border-slate-400"
-                  }`}
-                >
-                  {choice === "all" ? "Wszystkie" : choice}
-                </button>
+              <OptionButton active={direction === "en-pl"} onClick={() => setDirection("en-pl")}>ENG → PL</OptionButton>
+              <OptionButton active={direction === "pl-en"} onClick={() => setDirection("pl-en")}>PL → ENG</OptionButton>
+              <OptionButton active={direction === "mix"} onClick={() => setDirection("mix")}>MIX</OptionButton>
+            </div>
+          </section>
+
+          <section className={cardBase}>
+            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Liczba fiszek</h2>
+            <div className="flex flex-wrap gap-2">
+              {(["5", "10", "all"] as CountChoice[]).map((c) => (
+                <OptionButton key={c} active={countChoice === c} onClick={() => setCountChoice(c)}>
+                  {c === "all" ? "Wszystkie" : c}
+                </OptionButton>
               ))}
             </div>
-          </div>
+          </section>
+
+          <section className={cardBase}>
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setShowWordList(!showWordList)}
+                className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400"
+              >
+                <svg
+                  className={`transition-transform duration-200 ${showWordList ? "" : "-rotate-90"}`}
+                  width="12" height="12" viewBox="0 0 16 16" fill="none"
+                >
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Słówka w zestawie
+                <span className="font-medium normal-case tracking-normal text-slate-300">{allItems.length}</span>
+              </button>
+            </div>
+            {showWordList ? (
+              <ul className="mt-4 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                {allItems.map((item) => (
+                  <li key={item.id} className="flex items-baseline justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
+                    <span className="font-medium text-slate-800">{item.lemma ?? "—"}</span>
+                    <span className="text-xs text-slate-400">{item.translation_pl ?? "—"}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </section>
 
           <button
             type="button"
             onClick={() => void startSessionWithApi()}
             disabled={startLoading}
-            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {startLoading ? "Ładowanie…" : "Zacznij"}
+            {startLoading ? "Ładowanie…" : "Zacznij sesję"}
           </button>
-        </section>
-      </main>
+        </div>
+      </div>
     );
   }
 
+  /* ─── COMPLETED ─── */
   if (completed) {
     const xpToShow = award ? award.xp_awarded : optimisticXpAwarded || OPTIMISTIC_XP;
 
     return (
-      <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Sesja zakończona</h1>
-              <p className="text-sm text-slate-600">Fiszki: {pack.title ?? slug}</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <a
-                className="tile-frame"
-                href="/app/vocab"
-              >
-                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                  ← Powrót
-                </span>
-              </a>
-              <a
-                className="tile-frame"
-                href="/app/vocab/packs"
-              >
-                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                  ← Lista packów
-                </span>
-              </a>
-              <a
-                className="tile-frame"
-                href="/app"
-              >
-                <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                  ← Wróć do strony głównej
-                </span>
-              </a>
-            </div>
-          </div>
+      <div>
+        <header className="mb-5">
+          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+          <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h1>
+          <p className="mt-0.5 text-xs font-medium text-slate-400">{pack.title ?? slug}</p>
         </header>
 
-        {saveToast ? (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">{saveToast}</div>
-        ) : null}
-
-        {error ? (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
-            <p className="text-sm text-rose-700">
-              <span className="font-semibold">Błąd: </span>
-              {error}
-            </p>
-          </div>
-        ) : null}
+        {errorBlock}
+        {toastBlock}
         {assignmentToast ? (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
-            {assignmentToast}
-          </div>
+          <div className="mb-5 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-600">{assignmentToast}</div>
         ) : null}
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-            <div className="text-sm text-slate-600">Podsumowanie sesji</div>
-            <div className="flex items-center justify-between text-sm text-slate-600">
-              <span>
-                Poprawne: <span className="font-medium text-slate-900">{summaryCorrect}</span>/{summaryTotal}
-              </span>
-              <span>
-                Skuteczność:{" "}
-                <span className="font-medium text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>
-              </span>
-            </div>
-            <div className="text-sm text-slate-600">
-              Błędne: <span className="font-medium text-slate-900">{summaryWrong}</span>
-            </div>
-            {summary?.wrong_items?.length ? (
-              <div className="text-sm text-slate-600">
-                Najczęstsze błędy:
-                <ul className="mt-2 space-y-1 text-slate-700">
-                  {summary.wrong_items.slice(0, 10).map((item, idx) => (
-                    <li key={`${item.prompt ?? "?"}-${idx}`}>
-                      {item.prompt ?? "—"} → {item.expected ?? "—"}
-                    </li>
-                  ))}
-                </ul>
+        <div className="space-y-5">
+          <section className={cardBase}>
+            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Podsumowanie</h2>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold text-slate-900">{summaryCorrect}</div>
+                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-400">Poprawne</div>
               </div>
-            ) : null}
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-            <div className="text-sm text-slate-600">Postęp XP</div>
-            <div className="space-y-1 text-sm text-slate-700">
-              {award && xpAlreadyAwarded ? (
-                <div className="text-amber-700">
-                  Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
-                </div>
-              ) : (
-                <div>
-                  Zdobyte XP: <span className="font-medium text-slate-900">+{xpToShow}</span>
-                </div>
-              )}
-
-              {award ? (
-                <div>
-                  Poziom: <span className="font-medium text-slate-900">{award.level}</span> · XP w poziomie:{" "}
-                  <span className="font-medium text-slate-900">
-                    {award.xp_in_current_level}/{award.xp_to_next_level}
-                  </span>
-                </div>
-              ) : awardError ? (
-                <div className="text-rose-600">{awardError}</div>
-              ) : null}
+              <div>
+                <div className="text-2xl font-bold text-slate-900">{summaryWrong}</div>
+                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-400">Błędne</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</div>
+                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-400">Skuteczność</div>
+              </div>
             </div>
-          </div>
+          </section>
+
+          {summary?.wrong_items?.length ? (
+            <section className={cardBase}>
+              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Błędy</h2>
+              <ul className="space-y-1.5">
+                {summary.wrong_items.slice(0, 10).map((item, idx) => (
+                  <li key={`${item.prompt ?? "?"}-${idx}`} className="flex items-baseline justify-between rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
+                    <span className="text-slate-600">{item.prompt ?? "—"}</span>
+                    <span className="text-xs font-medium text-slate-800">{item.expected ?? "—"}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section className={cardBase}>
+            <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">XP</h2>
+            {award && xpAlreadyAwarded ? (
+              <p className="text-sm text-slate-400">Już otrzymałeś XP za to ćwiczenie dziś.</p>
+            ) : (
+              <p className="text-sm text-slate-600">
+                Zdobyte XP: <span className="font-semibold text-slate-900">+{xpToShow}</span>
+              </p>
+            )}
+            {award ? (
+              <p className="mt-1 text-xs text-slate-400">
+                Poziom {award.level} · {award.xp_in_current_level}/{award.xp_to_next_level} XP
+              </p>
+            ) : awardError ? (
+              <p className="mt-1 text-xs text-rose-500">{awardError}</p>
+            ) : null}
+          </section>
 
           {award?.newly_awarded_badges?.length ? (
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-2">
-              <div className="text-sm font-semibold text-amber-800">Nowe odznaki</div>
+            <section className={cardBase}>
+              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Nowe odznaki</h2>
               {award.newly_awarded_badges.map((badge) => (
-                <div key={badge.slug} className="text-sm text-amber-700">
-                  {badge.title}
-                  {badge.description ? ` — ${badge.description}` : ""}
-                </div>
+                <p key={badge.slug} className="text-sm text-slate-700">
+                  {badge.title}{badge.description ? ` — ${badge.description}` : ""}
+                </p>
               ))}
-            </div>
+            </section>
           ) : null}
 
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-semibold tracking-tight text-slate-900">Dodaj do mojej puli</h2>
-              <p className="text-sm text-slate-600">Słówka, które sprawiły trudność w tym packu.</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
+          {loadingRecs ? <p className="text-xs text-slate-400">Pobieram rekomendacje…</p> : null}
+          {!loadingRecs && recommendations.length > 0 ? (
+            <section className={cardBase}>
+              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Dodaj do puli</h2>
+              <ul className="mb-4 space-y-1.5">
+                {recommendations.map((item) => (
+                  <li key={item.sense_id} className="flex items-baseline justify-between rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
+                    <span className="font-medium text-slate-800">{item.lemma ?? "—"}</span>
+                    <span className="text-xs text-slate-400">{item.translation_pl ?? "—"}</span>
+                  </li>
+                ))}
+              </ul>
               <button
-                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                onClick={() => void startSessionWithApi()}
-                disabled={sessionItems.length === 0 || startLoading}
+                type="button"
+                onClick={() => void addRecommendations()}
+                disabled={adding}
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
               >
-                {startLoading ? "Ładowanie…" : "Jeszcze raz to samo"}
+                {adding ? "Dodaję…" : "Dodaj do mojej puli"}
               </button>
-              <button
-                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                onClick={() => startSession(wrongItems)}
-                disabled={wrongItems.length === 0 || startLoading}
-              >
-                Jeszcze raz tylko błędne
-              </button>
-              <a
-                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                href="/app/profile"
-              >
-                Przejdź do mojego profilu
-              </a>
-              <a
-                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                href="/app"
-              >
-                Wróć do strony głównej
-              </a>
-              <button
-                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                onClick={addRecommendations}
-                disabled={adding || recommendations.length === 0}
-              >
-                {adding ? "Dodaję..." : "Dodaj do mojej puli"}
-              </button>
-            </div>
+              {addStatus ? <p className="mt-2 text-xs text-slate-500">{addStatus}</p> : null}
+            </section>
+          ) : null}
+
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => void startSessionWithApi()}
+              disabled={sessionItems.length === 0 || startLoading}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+            >
+              Jeszcze raz
+            </button>
+            <button
+              type="button"
+              onClick={() => startSession(wrongItems)}
+              disabled={wrongItems.length === 0 || startLoading}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+            >
+              Tylko błędne
+            </button>
+            <Link
+              href="/app/vocab/packs"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Wróć do fiszek
+            </Link>
+            <Link
+              href="/app"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Panel
+            </Link>
           </div>
-
-          {addStatus ? (
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-              {addStatus}
-            </div>
-          ) : null}
-
-          {loadingRecs ? <div className="text-sm text-slate-600">Pobieram rekomendacje…</div> : null}
-
-          {!loadingRecs && recommendations.length === 0 ? (
-            <div className="text-sm text-slate-600">Brak rekomendacji — świetna robota!</div>
-          ) : null}
-
-          <div className="space-y-3">
-            {recommendations.map((item) => (
-              <div key={item.sense_id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div className="text-lg font-semibold text-slate-900">{item.lemma ?? "—"}</div>
-                <div className="text-sm text-slate-600">{item.translation_pl ?? "—"}</div>
-                {item.example_en ? <div className="text-sm text-slate-600 italic">"{item.example_en}"</div> : null}
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     );
   }
 
+  /* ─── ACTIVE SESSION ─── */
   return (
-    <main data-vocab-theme={vocabMode} className="vocab-theme-wrapper space-y-6">
-      <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Pack: {pack.title ?? slug}</h1>
-            <p className="text-sm text-slate-600">{pack.description ?? "Ćwicz szybkie tłumaczenia."}</p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <a
-              className="tile-frame"
-              href="/app/vocab"
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Powrót
-              </span>
-            </a>
-            <a
-              className="tile-frame"
-              href="/app/vocab/packs"
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Lista packów
-              </span>
-            </a>
-            <a
-              className="tile-frame"
-              href="/app"
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Wróć do strony głównej
-              </span>
-            </a>
-          </div>
-        </div>
+    <div>
+      <header className="mb-5">
+        <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
       </header>
 
-      {saveToast ? (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">{saveToast}</div>
-      ) : null}
-
-      {error ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
-          <div className="flex flex-col gap-3">
-            <p className="text-sm text-rose-700">
-              <span className="font-semibold">Błąd: </span>
-              {error}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <button
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                onClick={() => router.refresh()}
-              >
-                Spróbuj ponownie
-              </button>
-              <a
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                href="/app"
-              >
-                Wróć do strony głównej
-              </a>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {errorBlock}
+      {toastBlock}
 
       {current ? (
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
-          <div className="flex items-center justify-between text-sm text-slate-600">
+        <div className="space-y-5">
+          <div className="flex items-center justify-between text-xs text-slate-400">
             <span>
-              Fiszka <span className="font-medium text-slate-900">{currentIndex + 1}</span>/{total}
+              <span className="font-semibold text-slate-600">{currentIndex + 1}</span> / {total}
             </span>
             <span>
-              Postęp: <span className="font-medium text-slate-900">{progress}</span>/{total} ·{" "}
-              <span className="font-medium text-slate-900">{percentCorrect}%</span>
+              <span className="font-semibold text-slate-600">{percentCorrect}%</span> poprawnych
             </span>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
-            <div className="text-lg font-medium text-slate-900">
-              {currentDirection === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
+          <div className="h-1 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-slate-800 transition-all duration-300"
+              style={{ width: `${total ? ((currentIndex + 1) / total) * 100 : 0}%` }}
+            />
+          </div>
+
+          <section className={cardBase}>
+            <div className="mb-6 text-center">
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                {currentDirection === "en-pl" ? "Przetłumacz na polski" : "Przetłumacz na angielski"}
+              </div>
+              <div className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
+                {currentDirection === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm text-slate-600">
-                {currentDirection === "en-pl" ? "Tłumaczenie (PL)" : "Odpowiedź (ENG)"}
-              </label>
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => {
-                  if (checked) return;
-                  setInput(e.target.value);
-                }}
-                placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie..." : "Wpisz słowo po angielsku..."}
-                className={`w-full rounded-xl bg-white border border-slate-300 px-4 py-3 outline-none text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 ${
-                  checked ? "opacity-80" : ""
-                }`}
-                readOnly={checked}
-                aria-readonly={checked}
-                onKeyDown={(e) => {
-                  if (e.key !== "Enter") return;
-                  e.preventDefault();
-                  if (!checked) {
-                    checkAnswer();
-                  } else {
-                    goNext();
-                  }
-                }}
-              />
-            </div>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => {
+                if (checked) return;
+                setInput(e.target.value);
+              }}
+              placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie…" : "Wpisz słowo po angielsku…"}
+              className={`w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5 ${
+                checked ? "opacity-70" : ""
+              }`}
+              readOnly={checked}
+              aria-readonly={checked}
+              onKeyDown={(e) => {
+                if (e.key !== "Enter") return;
+                e.preventDefault();
+                if (!checked) checkAnswer();
+                else goNext();
+              }}
+            />
 
             {checked ? (
-              <div className="space-y-2">
-                <p
-                  className={
-                    currentAnswer?.isCorrect
-                      ? "text-base font-bold text-emerald-600"
-                      : "text-sm text-rose-600"
-                  }
-                >
-                  {currentAnswer?.isCorrect ? "Poprawnie!" : "Błędna odpowiedź."}
-                </p>
-                <p className="text-sm text-slate-600">
-                  Poprawna odpowiedź: <span className="text-slate-900">{currentAnswer?.expected ?? "—"}</span>
-                </p>
-                {current.definition_en ? <p className="text-sm text-slate-600">{current.definition_en}</p> : null}
-                {current.example_en ? <p className="text-sm text-slate-600 italic">"{current.example_en}"</p> : null}
+              <div className="mt-5 space-y-3">
+                <div className={`rounded-xl px-4 py-3 text-center text-sm font-semibold ${
+                  currentAnswer?.isCorrect
+                    ? "bg-slate-50 text-slate-800"
+                    : "bg-rose-50/80 text-rose-700"
+                }`}>
+                  {currentAnswer?.isCorrect ? "Poprawnie!" : `Poprawna odpowiedź: ${currentAnswer?.expected ?? "—"}`}
+                </div>
+                {current.definition_en ? (
+                  <p className="text-center text-xs text-slate-400">{current.definition_en}</p>
+                ) : null}
+                {current.example_en ? (
+                  <p className="text-center text-xs italic text-slate-400">&ldquo;{current.example_en}&rdquo;</p>
+                ) : null}
                 {(() => {
-                  const tip = getWordTip(
-                    current.lemma,
-                    !currentAnswer?.isCorrect ? currentAnswer?.given : undefined
-                  );
+                  const tip = getWordTip(current.lemma, !currentAnswer?.isCorrect ? currentAnswer?.given : undefined);
                   if (!tip) return null;
                   const text = Array.isArray(tip) ? tip.join("\n") : tip;
                   return (
-                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
-                      <p className="text-sm font-semibold text-amber-800">WAŻNE!</p>
-                      <div className="mt-1 whitespace-pre-line text-sm text-amber-900">
+                    <div className="rounded-xl border border-slate-200/50 bg-slate-50/80 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Wskazówka</p>
+                      <div className="mt-1 whitespace-pre-line text-sm text-slate-700">
                         <TypewriterText text={text} speed={30} />
                       </div>
                     </div>
@@ -1087,39 +870,48 @@ export default function PackTrainingClient(props: {
               </div>
             ) : null}
 
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex gap-2">
+            <div className="mt-5 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={goPrev}
+                disabled={currentIndex === 0}
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-40"
+              >
+                ←
+              </button>
+              {!checked ? (
                 <button
-                  className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                  onClick={goPrev}
-                  disabled={currentIndex === 0}
+                  type="button"
+                  onClick={checkAnswer}
+                  className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
                 >
-                  Wstecz
+                  Sprawdź
                 </button>
+              ) : (
                 <button
-                  className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                  type="button"
                   onClick={goNext}
-                  disabled={!checked}
+                  className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
                 >
                   {currentIndex === total - 1 ? "Zakończ" : "Dalej"}
                 </button>
-              </div>
+              )}
               <button
-                className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
-                onClick={checkAnswer}
-                disabled={checked}
+                type="button"
+                onClick={goNext}
+                disabled={!checked}
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-40"
               >
-                Sprawdź
+                →
               </button>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       ) : (
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="text-sm text-slate-600">Brak fiszek w tym packu.</div>
-        </section>
+        <div className={cardBase}>
+          <p className="text-sm text-slate-400">Brak fiszek w tym packu.</p>
+        </div>
       )}
-    </main>
+    </div>
   );
 }
-

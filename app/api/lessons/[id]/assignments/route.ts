@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ensureLessonAccess } from "@/app/api/lessons/_helpers";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 type CreateAssignmentBody = {
@@ -36,31 +37,37 @@ async function getAuthContext(req: Request) {
   return { supabase, userId, role: profile.role };
 }
 
-async function ensureLessonAccess(
-  supabase: any,
-  lessonId: string,
-  userId: string,
-  role: string
-) {
-  const { data: lesson, error: lessonErr } = await supabase
-    .from("lessons")
-    .select("id, student_id")
-    .eq("id", lessonId)
-    .maybeSingle();
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const ctx = await getAuthContext(req);
+    if ("error" in ctx) return ctx.error;
 
-  if (lessonErr) {
-    return { error: NextResponse.json({ error: lessonErr.message }, { status: 500 }) };
+    const { supabase, userId, role } = ctx;
+    const access = await ensureLessonAccess(supabase, id, userId, role);
+    if ("error" in access) return access.error;
+
+    const { data: rows, error: selErr } = await supabase
+      .from("lesson_assignments")
+      .select("id, exercise_type, context_slug, status")
+      .eq("lesson_id", id)
+      .order("created_at", { ascending: true });
+
+    if (selErr) {
+      return NextResponse.json({ error: selErr.message }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      ok: true,
+      assignments: rows ?? [],
+    });
+  } catch (e: any) {
+    console.error("[lessons/:id/assignments] GET error:", e);
+    return NextResponse.json(
+      { error: e?.message ?? "Unknown error", stack: process.env.NODE_ENV === "development" ? e?.stack : undefined },
+      { status: 500 },
+    );
   }
-
-  if (!lesson) {
-    return { error: NextResponse.json({ error: "Lesson not found" }, { status: 404 }) };
-  }
-
-  if (role !== "admin" && lesson.student_id !== userId) {
-    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 403 }) };
-  }
-
-  return { lesson };
 }
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -73,9 +80,19 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     const access = await ensureLessonAccess(supabase, id, userId, role);
     if ("error" in access) return access.error;
 
+    const { lesson } = access;
+    if (role !== "admin" && lesson.created_by !== userId) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const body = (await req.json().catch(() => null)) as CreateAssignmentBody | null;
-    if (!body?.exercise_type || !body?.context_slug) {
-      return NextResponse.json({ error: "exercise_type and context_slug are required" }, { status: 400 });
+    if (!body?.exercise_type || !["pack", "cluster", "irregular"].includes(body.exercise_type)) {
+      return NextResponse.json({ error: "exercise_type is required" }, { status: 400 });
+    }
+
+    const rawSlug = typeof body.context_slug === "string" ? body.context_slug.trim() : "";
+    if (body.exercise_type !== "irregular" && !rawSlug) {
+      return NextResponse.json({ error: "context_slug is required" }, { status: 400 });
     }
 
     const { data: assignment, error: insertErr } = await supabase
@@ -83,7 +100,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       .insert({
         lesson_id: id,
         exercise_type: body.exercise_type,
-        context_slug: body.context_slug,
+        context_slug: rawSlug,
         params: body.params ?? {},
         due_date: body.due_date ?? null,
       })

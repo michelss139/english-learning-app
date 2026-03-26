@@ -1,6 +1,8 @@
 # Clusters Module — Full Architectural Audit
 
 **Date:** 2026-03-06  
+**Aktualizacja:** 2026-03-19 — brak zmian w module; potwierdzono, że `ClustersSection.tsx` nadal może być nieimportowany (sprawdź `grep`).
+
 **Scope:** Analysis only — no code changes.
 
 ---

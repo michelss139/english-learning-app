@@ -3,14 +3,11 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-function normalizeForCompare(s: string): string {
-  return s.trim().toLowerCase().replace(/\s+/g, " ");
-}
-
 type GrammarPracticeClientProps = {
   sentence: string;
   base: string;
   correctAnswer: string;
+  questionId: string;
   mapHref: string;
   exerciseSlug: string;
 };
@@ -19,6 +16,7 @@ export function GrammarPracticeClient({
   sentence,
   base,
   correctAnswer,
+  questionId,
   mapHref,
   exerciseSlug,
 }: GrammarPracticeClientProps) {
@@ -29,6 +27,8 @@ export function GrammarPracticeClient({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [xpAwarded, setXpAwarded] = useState<number | null>(null);
+  const [gradingError, setGradingError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -53,50 +53,71 @@ export function GrammarPracticeClient({
 
   const handleCheck = () => {
     if (checked && isCorrect === true) return;
-    const normalized = normalizeForCompare(answer);
-    const expected = normalizeForCompare(correctAnswer);
-    const correct = normalized === expected;
-    setChecked(true);
-    setIsCorrect(correct);
-    if (correct) setAnswer("");
+    if (!answer.trim() || !sessionId || submitting) return;
 
-    if (sessionId) {
-      (async () => {
-        try {
-          const answerRes = await fetch("/api/grammar/answer", {
+    setSubmitting(true);
+    setGradingError(null);
+
+    void (async () => {
+      try {
+        const answerRes = await fetch("/api/grammar/answer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            session_id: sessionId,
+            exercise_slug: exerciseSlug,
+            question_id: questionId,
+            answer_text: answer,
+          }),
+        });
+        const answerData = (await answerRes.json().catch(() => ({}))) as {
+          ok?: boolean;
+          is_correct?: boolean;
+          error?: string;
+        };
+
+        if (!answerRes.ok) {
+          setGradingError(answerData?.error ?? `HTTP ${answerRes.status}`);
+          setSubmitting(false);
+          return;
+        }
+
+        if (typeof answerData.is_correct !== "boolean") {
+          setGradingError("Invalid response from server");
+          setSubmitting(false);
+          return;
+        }
+
+        const correct = answerData.is_correct;
+        setChecked(true);
+        setIsCorrect(correct);
+        if (correct) setAnswer("");
+
+        if (correct) {
+          const completeRes = await fetch("/api/grammar/complete", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              session_id: sessionId,
-              slug: exerciseSlug,
-              is_correct: correct,
-            }),
+            body: JSON.stringify({ session_id: sessionId, slug: exerciseSlug }),
           });
-          if (!answerRes.ok) return;
-
-          if (correct) {
-            const completeRes = await fetch("/api/grammar/complete", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ session_id: sessionId, slug: exerciseSlug }),
-            });
-            const completeData = await completeRes.json().catch(() => ({}));
-            if (completeRes.ok && typeof completeData.xp_awarded === "number") {
-              setXpAwarded(completeData.xp_awarded);
-            } else {
-              setXpAwarded(-1); // done, no XP to show (error or already awarded)
-            }
+          const completeData = await completeRes.json().catch(() => ({}));
+          if (completeRes.ok && typeof completeData.xp_awarded === "number") {
+            setXpAwarded(completeData.xp_awarded);
+          } else {
+            setXpAwarded(-1);
           }
-        } catch {
-          setXpAwarded(-1);
         }
-      })();
-    }
+      } catch {
+        setGradingError("Nie udało się sprawdzić odpowiedzi.");
+      } finally {
+        setSubmitting(false);
+      }
+    })();
   };
 
   const handleTryAgain = () => {
     setChecked(false);
     setIsCorrect(null);
+    setGradingError(null);
     setAnswer("");
     setTimeout(() => inputRef.current?.focus(), 0);
   };
@@ -118,22 +139,24 @@ export function GrammarPracticeClient({
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                if (!checked || isCorrect === false) handleCheck();
+                if (!checked || isCorrect === false) void handleCheck();
               }
             }}
-            disabled={checked && isCorrect === true}
+            disabled={(checked && isCorrect === true) || submitting}
             placeholder="Wpisz odpowiedź..."
             className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 disabled:bg-slate-100 disabled:text-slate-600"
           />
 
+          {gradingError ? <p className="text-sm text-red-600">{gradingError}</p> : null}
+
           {!checked ? (
             <button
               type="button"
-              onClick={handleCheck}
-              disabled={!answer.trim()}
+              onClick={() => void handleCheck()}
+              disabled={!answer.trim() || !sessionId || submitting}
               className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Sprawdź
+              {submitting ? "Sprawdzanie…" : "Sprawdź"}
             </button>
           ) : isCorrect === true ? (
             <div className="space-y-2">

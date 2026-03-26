@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ensureLessonAccess } from "@/app/api/lessons/_helpers";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 type CreateNoteBody = {
@@ -33,33 +34,6 @@ async function getAuthContext(req: Request) {
   return { supabase, userId, role: profile.role };
 }
 
-async function ensureLessonAccess(
-  supabase: any,
-  lessonId: string,
-  userId: string,
-  role: string
-) {
-  const { data: lesson, error: lessonErr } = await supabase
-    .from("lessons")
-    .select("id, student_id")
-    .eq("id", lessonId)
-    .maybeSingle();
-
-  if (lessonErr) {
-    return { error: NextResponse.json({ error: lessonErr.message }, { status: 500 }) };
-  }
-
-  if (!lesson) {
-    return { error: NextResponse.json({ error: "Lesson not found" }, { status: 404 }) };
-  }
-
-  if (role !== "admin" && lesson.student_id !== userId) {
-    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 403 }) };
-  }
-
-  return { lesson };
-}
-
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
@@ -67,7 +41,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if ("error" in ctx) return ctx.error;
 
     const { supabase, userId, role } = ctx;
-    const access = await ensureLessonAccess(supabase, id, userId, role);
+    const access = await ensureLessonAccess(supabase, id, userId, role, "id, student_id, created_by");
     if ("error" in access) return access.error;
 
     const body = (await req.json().catch(() => null)) as CreateNoteBody | null;

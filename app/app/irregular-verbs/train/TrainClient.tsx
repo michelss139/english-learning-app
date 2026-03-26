@@ -17,6 +17,7 @@ export type Verb = {
 };
 
 type TargetForm = "past_simple" | "past_participle";
+type SessionForm = TargetForm | "both";
 
 type TargetItem = {
   verbId: string;
@@ -25,7 +26,7 @@ type TargetItem = {
 
 type SessionItem = {
   verb: Verb;
-  form: TargetForm;
+  form: SessionForm;
 };
 
 type SubmitResult = {
@@ -86,12 +87,19 @@ export default function IrregularVerbsTrainClient(props: {
   assignmentId: string;
   mode: TrainMode;
   startMode: StartMode;
+  lessonVerbs?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const assignmentId = props.assignmentId;
   const mode = props.mode;
   const startMode = props.startMode;
+  const lessonVerbsRaw = (props.lessonVerbs ?? "").trim();
+  const lessonVerbsList = useMemo(
+    () => [...new Set(lessonVerbsRaw.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean))],
+    [lessonVerbsRaw],
+  );
+  const wantsLessonVerbsSession = lessonVerbsList.length > 0;
   const { setCurrentIrregularVerbBase } = useCurrentWord();
 
   const [error, setError] = useState("");
@@ -137,17 +145,21 @@ export default function IrregularVerbsTrainClient(props: {
   }, [targetsParam]);
   const wantsTargetedSession = startMode === "targeted";
   const isTargetedSession = wantsTargetedSession && parsedTargets.length > 0;
-  const currentSessionItem = isTargetedSession ? sessionItems[sessionItemIndex] ?? null : null;
+  const usesSessionQueue = isTargetedSession || wantsLessonVerbsSession;
+  const currentSessionItem = usesSessionQueue ? sessionItems[sessionItemIndex] ?? null : null;
   const effectiveMode: TrainMode =
-    currentSessionItem?.form === "past_simple"
-      ? "past_simple"
-      : currentSessionItem?.form === "past_participle"
-        ? "past_participle"
-        : mode;
+    currentSessionItem?.form === "both"
+      ? mode
+      : currentSessionItem?.form === "past_simple"
+        ? "past_simple"
+        : currentSessionItem?.form === "past_participle"
+          ? "past_participle"
+          : mode;
   const showPastSimple = effectiveMode === "both" || effectiveMode === "past_simple";
   const showPastParticiple = effectiveMode === "both" || effectiveMode === "past_participle";
-  const modeLabel =
-    isTargetedSession
+  const modeLabel = wantsLessonVerbsSession
+    ? "Ćwiczenie z lekcji (wybrane czasowniki)"
+    : isTargetedSession
       ? "Sesja targetowana"
       : mode === "past_simple"
         ? "Tylko Past Simple"
@@ -174,27 +186,23 @@ export default function IrregularVerbsTrainClient(props: {
     setError("");
 
     try {
-      if (wantsTargetedSession && parsedTargets.length === 0) {
+      if (wantsTargetedSession && parsedTargets.length === 0 && !wantsLessonVerbsSession) {
         throw new Error("Nieprawidłowa sesja targetowana. Brak poprawnych targetów.");
       }
+
+      const payload =
+        wantsLessonVerbsSession
+          ? { startMode: "lesson_verbs" as const, mode, lessonVerbs: lessonVerbsList }
+          : isTargetedSession
+            ? { startMode: "targeted" as const, mode, targets: parsedTargets }
+            : { startMode: "manual" as const, mode };
 
       const res = await fetch("/api/training/irregular/start", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-          isTargetedSession
-            ? {
-                startMode: "targeted",
-                mode,
-                targets: parsedTargets,
-              }
-            : {
-                startMode: "manual",
-                mode,
-              }
-        ),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -205,7 +213,11 @@ export default function IrregularVerbsTrainClient(props: {
       const data = await res.json();
 
       setSessionId(data.sessionId);
-      if (isTargetedSession && Array.isArray(data.sessionItems)) {
+      if (
+        usesSessionQueue &&
+        Array.isArray(data.sessionItems) &&
+        data.sessionItems.length > 0
+      ) {
         setSessionItems(data.sessionItems);
         setSessionItemIndex(0);
         setCurrentVerb(data.sessionItems[0]?.verb ?? null);
@@ -230,7 +242,15 @@ export default function IrregularVerbsTrainClient(props: {
     } finally {
       setStartLoading(false);
     }
-  }, [isTargetedSession, mode, parsedTargets, wantsTargetedSession]);
+  }, [
+    isTargetedSession,
+    mode,
+    parsedTargets,
+    usesSessionQueue,
+    wantsLessonVerbsSession,
+    lessonVerbsList,
+    wantsTargetedSession,
+  ]);
 
   useEffect(() => {
     startSessionWithApi();
@@ -351,7 +371,7 @@ export default function IrregularVerbsTrainClient(props: {
   };
 
   const handleNext = () => {
-    if (isTargetedSession) {
+    if (sessionItems.length > 0) {
       const nextIndex = sessionItemIndex + 1;
       if (nextIndex >= sessionItems.length) {
         setSessionComplete(true);
@@ -401,20 +421,30 @@ export default function IrregularVerbsTrainClient(props: {
           throw new Error(data.error || "Nie udało się przyznać XP.");
         }
 
-        setAward({
-          xp_awarded: data.xp_awarded ?? 0,
-          xp_total: data.xp_total ?? 0,
-          level: data.level ?? 0,
-          xp_in_current_level: data.xp_in_current_level ?? 0,
-          xp_to_next_level: data.xp_to_next_level ?? 0,
-          newly_awarded_badges: data.newly_awarded_badges ?? [],
-        });
-        setSummary(effectiveMode === "both" && !isTargetedSession ? (data.summary ?? null) : null);
-        setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
+        if (data.isolated_lesson_verbs) {
+          setAward(null);
+          setSummary(data.summary ?? null);
+          setXpAlreadyAwarded(false);
+        } else {
+          setAward({
+            xp_awarded: data.xp_awarded ?? 0,
+            xp_total: data.xp_total ?? 0,
+            level: data.level ?? 0,
+            xp_in_current_level: data.xp_in_current_level ?? 0,
+            xp_to_next_level: data.xp_to_next_level ?? 0,
+            newly_awarded_badges: data.newly_awarded_badges ?? [],
+          });
+          setSummary(
+            effectiveMode === "both" && sessionItems.length === 0 ? (data.summary ?? null) : null,
+          );
+          setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
+        }
         setAwardedSessionId(sessionId);
-        emitTrainingCompleted({ type: "irregular" });
+        if (!wantsLessonVerbsSession) {
+          emitTrainingCompleted({ type: "irregular" });
+        }
 
-        if (assignmentId && !assignmentCompleteRef.current) {
+        if (assignmentId && !wantsLessonVerbsSession && !assignmentCompleteRef.current) {
           try {
             const completeRes = await fetch(`/api/lessons/assignments/${assignmentId}/complete`, {
               method: "POST",
@@ -447,7 +477,16 @@ export default function IrregularVerbsTrainClient(props: {
     };
 
     void awardXp();
-  }, [assignmentId, awardedSessionId, effectiveMode, isTargetedSession, router, sessionComplete, sessionId]);
+  }, [
+    assignmentId,
+    awardedSessionId,
+    effectiveMode,
+    router,
+    sessionComplete,
+    sessionId,
+    sessionItems.length,
+    wantsLessonVerbsSession,
+  ]);
 
   useEffect(() => {
     if (!assignmentToast) return;
@@ -482,9 +521,9 @@ export default function IrregularVerbsTrainClient(props: {
               Poprawne: <span className="font-medium text-slate-900">{stats.correct}</span> / {stats.total}
             </p>
             <p className="text-sm text-slate-500">Tryb: {modeLabel}</p>
-            {isTargetedSession ? (
+            {sessionItems.length > 0 ? (
               <p className="text-sm text-slate-500">
-                Sesja targetowana: {sessionItemIndex + (currentVerb ? 1 : 0)} / {sessionItems.length}
+                Postęp: {sessionItemIndex + (currentVerb ? 1 : 0)} / {sessionItems.length}
               </p>
             ) : null}
           </div>
@@ -571,8 +610,20 @@ export default function IrregularVerbsTrainClient(props: {
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-            <div className="text-sm text-slate-600">Postęp XP</div>
-            {award ? (
+            {wantsLessonVerbsSession ? null : <div className="text-sm text-slate-600">Postęp XP</div>}
+            {wantsLessonVerbsSession ? (
+              <div className="space-y-3 text-sm text-slate-700">
+                <p className="font-medium text-slate-800">✔ Powtórzyłeś materiał z lekcji</p>
+                <p className="text-slate-600">Może jeszcze raz?</p>
+                <button
+                  type="button"
+                  className="rounded-xl border border-slate-900 bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.99]"
+                  onClick={() => void startNewSession()}
+                >
+                  Jeszcze raz
+                </button>
+              </div>
+            ) : award ? (
               <div className="space-y-1 text-sm text-slate-700">
                 {xpAlreadyAwarded ? (
                   <div className="text-amber-700">
@@ -612,12 +663,14 @@ export default function IrregularVerbsTrainClient(props: {
           ) : null}
 
           <div className="flex flex-wrap gap-2">
-            <button
-              className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
-              onClick={startNewSession}
-            >
-              Jeszcze raz to samo
-            </button>
+            {wantsLessonVerbsSession ? null : (
+              <button
+                className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
+                onClick={startNewSession}
+              >
+                Jeszcze raz to samo
+              </button>
+            )}
             <button
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-500 cursor-not-allowed"
               disabled

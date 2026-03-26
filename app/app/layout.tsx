@@ -5,7 +5,6 @@ import { loadSentenceBuilderVerbs } from "@/lib/grammar/sentence-builder/verbLoa
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CurrentWordProvider } from "@/lib/coach/CurrentWordContext";
 import GlobalCoach from "./GlobalCoach";
-import GlobalTrainingSuggestion from "./GlobalTrainingSuggestion";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const supabase = await createSupabaseServerClient();
@@ -55,7 +54,6 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           {children}
         </div>
         <GlobalCoach sentenceBuilderVerbs={sentenceBuilderVerbs} />
-        <GlobalTrainingSuggestion />
       </CurrentWordProvider>
     </div>
   );

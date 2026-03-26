@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 type TrainMode = "both" | "past_simple" | "past_participle";
-type StartMode = "manual" | "targeted";
+type StartMode = "manual" | "targeted" | "lesson_verbs";
+type SessionForm = "past_simple" | "past_participle" | "both";
 
 type FirstVerbDto = {
   id: string;
@@ -20,7 +21,7 @@ type TargetItem = {
 
 type SessionItemDto = {
   verb: FirstVerbDto;
-  form: "past_simple" | "past_participle";
+  form: SessionForm;
 };
 
 type StartResponse = {
@@ -57,7 +58,8 @@ function normalizeMode(value: unknown): TrainMode {
 }
 
 function normalizeStartMode(value: unknown): StartMode {
-  return value === "targeted" ? "targeted" : "manual";
+  if (value === "targeted" || value === "lesson_verbs") return value;
+  return "manual";
 }
 
 function toVerbDto(verb: {
@@ -99,10 +101,90 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
           startMode?: StartMode;
           mode?: TrainMode;
           targets?: TargetItem[];
+          lessonVerbs?: string[];
         }
       | null;
     const startMode = normalizeStartMode(body?.startMode);
     const mode = normalizeMode(body?.mode);
+
+    if (startMode === "lesson_verbs") {
+      const rawList = Array.isArray(body?.lessonVerbs) ? body.lessonVerbs : [];
+      const tokens = [...new Set(rawList.map((v) => String(v).trim().toLowerCase()).filter(Boolean))];
+
+      if (tokens.length < 1) {
+        return NextResponse.json(
+          { error: "lessonVerbs must include at least one verb", code: "MISSING_LESSON_VERBS" },
+          { status: 400 }
+        );
+      }
+
+      if (tokens.length > 40) {
+        return NextResponse.json(
+          { error: "lessonVerbs may contain at most 40 items", code: "TOO_MANY_LESSON_VERBS" },
+          { status: 400 }
+        );
+      }
+
+      const { data: verbs, error: verbsError } = await supabase
+        .from("irregular_verbs")
+        .select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants")
+        .in("base_norm", tokens);
+
+      if (verbsError) {
+        console.error("[training/irregular/start] Error fetching lesson_verbs:", verbsError);
+        return NextResponse.json(
+          { error: verbsError.message, code: "VERBS_LOAD_FAILED" },
+          { status: 500 }
+        );
+      }
+
+      const byNorm = new Map((verbs ?? []).map((v) => [String(v.base_norm), v]));
+      const ordered = tokens.map((t) => byNorm.get(t)).filter(Boolean) as NonNullable<typeof verbs>;
+      if (ordered.length < 1) {
+        return NextResponse.json(
+          { error: "no lesson verbs matched the irregular verbs database", code: "LESSON_VERBS_NOT_FOUND" },
+          { status: 400 }
+        );
+      }
+
+      const sessionItems: SessionItemDto[] = ordered.map((verb) => ({
+        verb: toVerbDto(verb),
+        form: "both",
+      }));
+
+      const sessionId = createSessionId();
+      const { error: sessionInsertErr } = await supabase.from("training_sessions").insert({
+        id: sessionId,
+        student_id: user.id,
+        exercise_type: "irregular",
+        status: "started",
+        context_slug: null,
+        context_id: null,
+        question_count: sessionItems.length,
+        metadata: {
+          source: "lesson_verbs",
+          lesson_verbs_isolated: true,
+          mode,
+          items: sessionItems.length,
+        },
+      });
+
+      if (sessionInsertErr) {
+        console.error("[training/irregular/start] training_sessions insert failed:", sessionInsertErr);
+        return NextResponse.json(
+          { error: sessionInsertErr.message, code: "SESSION_INSERT_FAILED" },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({
+        sessionId,
+        total: sessionItems.length,
+        startMode,
+        mode,
+        sessionItems,
+      });
+    }
 
     if (startMode === "targeted") {
       const targets = Array.isArray(body?.targets) ? body.targets : [];

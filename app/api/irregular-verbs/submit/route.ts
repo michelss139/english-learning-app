@@ -81,6 +81,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "session_id is required (uuid)" }, { status: 400 });
     }
 
+    const { data: trainSession, error: trainSessionErr } = await supabase
+      .from("training_sessions")
+      .select("metadata")
+      .eq("id", sessionId)
+      .eq("student_id", userId)
+      .maybeSingle();
+
+    if (trainSessionErr) {
+      console.error("[irregular-verbs/submit] training_sessions lookup failed:", trainSessionErr);
+    }
+    const lessonVerbsIsolated =
+      trainSession?.metadata &&
+      typeof trainSession.metadata === "object" &&
+      !Array.isArray(trainSession.metadata) &&
+      (trainSession.metadata as Record<string, unknown>).lesson_verbs_isolated === true;
+
     // Get verb details
     const { data: verb, error: verbError } = await supabase
       .from("irregular_verbs")
@@ -135,7 +151,7 @@ export async function POST(req: Request) {
     if (logError) {
       console.error("[irregular-verbs/submit] Error logging run:", logError);
       // Continue even if logging fails - return the result anyway
-    } else {
+    } else if (!lessonVerbsIsolated) {
       const knowledgeResult = await updateLearningUnitKnowledge({
         supabase,
         studentId: userId,

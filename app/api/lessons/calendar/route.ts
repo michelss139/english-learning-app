@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { getAuthContext } from "@/app/api/lessons/_helpers";
+import { getAuthContext, lessonsListVisibilityOrFilter } from "@/app/api/lessons/_helpers";
 
 type CalendarLessonRow = {
   id: string;
   lesson_date: string;
   topic: string;
+  student_id: string;
 };
 
 type StudentLessonRow = {
@@ -46,10 +47,22 @@ export async function GET(req: Request) {
     const monthIndex = Number(monthStr) - 1;
     const nextMonth = new Date(Date.UTC(year, monthIndex + 1, 1)).toISOString().slice(0, 10);
 
+    const { data: relRows, error: relErr } = await supabase
+      .from("teacher_student_relations")
+      .select("student_id")
+      .eq("teacher_id", userId);
+
+    if (relErr) {
+      return NextResponse.json({ error: relErr.message }, { status: 500 });
+    }
+
+    const rosterIds = (relRows ?? []).map((r) => r.student_id as string);
+    const visibilityOr = lessonsListVisibilityOrFilter(userId, rosterIds);
+
     const { data: lessons, error } = await supabase
       .from("lessons")
-      .select("id, lesson_date, topic")
-      .eq("student_id", userId)
+      .select("id, lesson_date, topic, student_id")
+      .or(visibilityOr)
       .not("student_id", "is", null)
       .gte("lesson_date", rangeStart)
       .lt("lesson_date", nextMonth)
@@ -62,6 +75,25 @@ export async function GET(req: Request) {
     const typedLessons = (lessons ?? []) as CalendarLessonRow[];
     if (typedLessons.length === 0) {
       return NextResponse.json([]);
+    }
+
+    const studentIds = [...new Set(typedLessons.map((l) => l.student_id).filter(Boolean))];
+    const displayByStudentId = new Map<string, string>();
+    if (studentIds.length > 0) {
+      const { data: profRows, error: profErr } = await supabase
+        .from("profiles")
+        .select("id, username, email")
+        .in("id", studentIds);
+
+      if (profErr) {
+        return NextResponse.json({ error: profErr.message }, { status: 500 });
+      }
+      for (const p of profRows ?? []) {
+        const u = ((p as { username: string | null }).username ?? "").trim();
+        const e = ((p as { email: string | null }).email ?? "").trim();
+        const name = u || (e ? (e.includes("@") ? e.split("@")[0]! : e) : "Uczeń");
+        displayByStudentId.set((p as { id: string }).id, name);
+      }
     }
 
     const lessonIds = typedLessons.map((l) => l.id);
@@ -150,6 +182,8 @@ export async function GET(req: Request) {
       id: lesson.id,
       lesson_date: lesson.lesson_date,
       topic: lesson.topic,
+      student_id: lesson.student_id,
+      student_display: displayByStudentId.get(lesson.student_id) ?? "Uczeń",
       assignment_count: assignmentCountByLessonId.get(lesson.id) ?? 0,
       vocab_count: vocabCountByDate.get(lesson.lesson_date) ?? 0,
       topic_type: resolveTopicType(lesson.id),

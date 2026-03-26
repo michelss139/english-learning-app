@@ -1,6 +1,7 @@
 # Audyt techniczny projektu English Platform (LANGBracket)
 
 **Data:** 2026-03-06  
+**Ostatnia aktualizacja treści:** 2026-03-19 (sugestie treningowe, API, gramatyka)  
 **Cel:** Pełny audyt dla osoby wchodzącej w projekt od strony technicznej. Mapowanie elementów, identyfikacja nieużywanych części oraz nakładających się systemów.
 
 ---
@@ -21,7 +22,7 @@
 **Główne ustalenia audytu:**
 - ~20 API routes **nie jest wywoływanych** z frontendu
 - Dwa równoległe systemy vocab: `user_vocab_items` (główny) vs `user_vocab` + `global_vocab_items` (legacy)
-- Dwa systemy sugestii: GlobalTrainingSuggestion (statyczny) vs intelligent-suggestions-v2 (profil)
+- **Sugestie treningowe:** jeden endpoint `GET /api/suggestions` (scoring: accuracy + `user_learning_unit_knowledge` + `irregular_verb_runs` per forma) – używany przez `GlobalTrainingSuggestion`, `ProfilePage`; endpoint `GET /api/app/intelligent-suggestions-v2` **nie jest już wywoływany** z kodu frontendowego (plik API nadal istnieje)
 - Stripe wdrożony technicznie, brak paywalla w UI
 
 ---
@@ -99,7 +100,7 @@ app/
 |---------|------|---------------|
 | **Hub** `/app/grammar` | Linki do czasów, conditionals, modals | Statyczna nawigacja |
 | **Czasy** | 12 czasów (present-simple, past-simple, itd.) | `lib/grammar/content.ts`, `practice.ts` |
-| **Practice** | Ćwiczenia wielokrotnego wyboru | `/api/grammar/start`, answer, complete |
+| **Practice** | Ćwiczenia (m.in. input / wielokrotny wybór) | `POST /api/training/grammar/start`, `POST /api/grammar/answer`, `POST /api/grammar/complete` |
 | **AI Dialog** | Chat z AI (np. wyjaśnienia) | `/api/grammar/ai-dialog` |
 | **Sentence Builder** | Budowanie zdań | `irregular_verbs` + `lexicon_verb_forms` |
 | **Conditionals** | Zero, First, Second, Third, Mixed | Statyczna treść |
@@ -110,16 +111,16 @@ app/
 | Element | Opis | Źródło danych |
 |---------|------|---------------|
 | **Lista** `/app/irregular-verbs` | Przypinanie czasowników | Supabase: `user_irregular_verbs`, `irregular_verbs` |
-| **Trening** `/app/irregular-verbs/train` | Test form | `/api/irregular-verbs/next`, submit, complete, pin |
+| **Trening** `/app/irregular-verbs/train` | Test form (w tym `mode=targeted`) | `/api/training/irregular/start`, submit, complete, pin; log w `irregular_verb_runs` |
 
-**Uwaga:** Irregular **nie** zapisuje do `user_learning_unit_knowledge` – sugestie intelligent-suggestions dla irregular są zwykle puste.
+**Uwaga:** Sugestie w `/api/suggestions` biorą irregular z `irregular_verb_runs` (per forma) oraz z `user_learning_unit_knowledge` (bonus priorytetu, jeśli są wpisy `unit_type=irregular`).
 
 ### 3.4 Profil
 
 | Element | Opis | Źródło danych |
 |---------|------|---------------|
-| **Profil** `/app/profile` | XP, streak, odznaki, sugestie | `/api/profile/xp`, streak, badges, `/api/app/intelligent-suggestions-v2` |
-| **Twój plan na teraz** | Packs/clusters/irregular do powtórki | `intelligent-suggestions-v2` (mv_user_*_accuracy, user_learning_unit_knowledge) |
+| **Profil** `/app/profile` | XP, streak, odznaki, „Twój plan na teraz” | `/api/profile/xp`, streak, badges, **`GET /api/suggestions`** (`top` + `list`; bundling irregular w UI) |
+| **„Co trenować”** | Pływający widget (layout `/app`) | **`GET /api/suggestions`** (`top`); blokada sesji + zamrożone opcje (`lockedOptions`) do czasu `emitTrainingCompleted` |
 
 ### 3.5 Lekcje (tutoring)
 
@@ -150,10 +151,11 @@ app/
 
 | Route | Użycie |
 |-------|--------|
-| `GET /api/app/intelligent-suggestions-v2` | ProfilePage |
+| **`GET /api/suggestions`** | **GlobalTrainingSuggestion, ProfilePage** |
+| `GET /api/app/intelligent-suggestions-v2` | **Brak wywołań w `.tsx`/`.ts`** (endpoint pozostaje w repo) |
 | `GET/POST /api/grammar/ai-dialog` | TensePageContent, stative-verbs, GrammarCompareClient |
-| `POST /api/grammar/start`, answer, complete | GrammarPracticeClient |
-| `POST /api/irregular-verbs/next`, submit, complete | TrainClient |
+| `POST /api/training/grammar/start`, `POST /api/grammar/answer`, `POST /api/grammar/complete` | GrammarPracticeClient |
+| `POST /api/training/irregular/start`, `POST /api/irregular-verbs/next`, submit, complete | TrainClient |
 | `POST /api/irregular-verbs/pin` | IrregularVerbsClient |
 | `GET /api/profile/xp`, streak, badges | ProfilePage, DashboardClient, status |
 | `POST /api/story-generator`, complete | StoryGeneratorClient |
@@ -180,7 +182,8 @@ app/
 
 | Route | Uwagi |
 |-------|-------|
-| `GET /api/app/suggestion` | Zastąpiony przez intelligent-suggestions-v2 |
+| `GET /api/app/suggestion` | Zastąpiony w praktyce przez `/api/suggestions` (UI nie używa) |
+| `GET /api/app/intelligent-suggestions-v2` | **Brak importów w aplikacji** – zastąpione przez `/api/suggestions` w profilu i widgecie |
 | `GET /api/app/onboarding-status` | Brak użycia w UI |
 | `GET /api/irregular-verbs/list` | Irregular verbs ładuje dane przez Supabase (SSR) |
 | `POST /api/irregular-verbs/toggle` | UI używa `/api/irregular-verbs/pin` |
@@ -214,21 +217,24 @@ app/
 
 PoolTab i pool page korzystają z `user_vocab_items` przez Supabase. API `pool` i `add-to-pool` operują na legacy – nie są wywoływane.
 
-### 5.2 Dwa systemy sugestii treningowych
+### 5.2 Sugestie treningowe (stan 2026-03)
 
-| System | Komponent | Źródło | Użycie |
-|--------|-----------|--------|--------|
-| **GlobalTrainingSuggestion** | „Co trenować” (prawy dolny róg) | Statyczna lista 3 opcji | Wszędzie w /app |
-| **Intelligent suggestions** | „Twój plan na teraz” (profil) | `/api/app/intelligent-suggestions-v2` | Tylko profil |
+| Element | Komponent | API | Uwagi |
+|---------|-----------|-----|--------|
+| **„Co trenować”** | `GlobalTrainingSuggestion` | `GET /api/suggestions` | Dynamiczne `top`; fallback do 3 statycznych opcji gdy brak danych; zamrożenie opcji podczas sesji |
+| **„Twój plan na teraz”** | `ProfilePage` | Ten sam `GET /api/suggestions` | `top` + `list`; irregular zgrupowane w jedną sesję (URL `mode=targeted`) |
+| **Komponent** | `components/SuggestionsPanel.tsx` | `GET /api/suggestions` (`list`) | Na **2026-03-19** brak importu w stronach – gotowy do podpięcia (np. dashboard) |
 
-GlobalTrainingSuggestion **nie** pobiera danych z API – zawsze te same 3 linki. Szczegóły: `CO_TRENOWAC_AUDIT.md`.
+**Legacy:** `GET /api/app/recommendations` – **usunięty**; `GET /api/app/intelligent-suggestions-v2` – nadal w repo, **nie** używany przez UI. Szczegóły: `CO_TRENOWAC_AUDIT.md`, `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`.
 
-### 5.3 Dwa endpointy sugestii
+### 5.3 Endpointy sugestii (aktualne)
 
-| Endpoint | Użycie |
-|----------|--------|
-| `/api/app/suggestion` | **Nieużywany** |
-| `/api/app/intelligent-suggestions-v2` | Profil |
+| Endpoint | Użycie w UI |
+|----------|-------------|
+| **`GET /api/suggestions`** | Profil, GlobalTrainingSuggestion; ewentualnie SuggestionsPanel |
+| `GET /api/app/suggestion` | **Nieużywany** |
+| `GET /api/app/intelligent-suggestions-v2` | **Nieużywany** przez frontend (plik route nadal istnieje) |
+| `GET /api/vocab/suggestions` | **Nieużywany** (inny zakres – słówka z historii błędów) |
 
 ### 5.4 Lekcje – dwa typy
 
@@ -270,8 +276,8 @@ Tabela `lessons` jest polimorficzna (tutoring vs course lesson).
 ### 6.3 Widoki / materialized views
 
 - `v2_vocab_*` – learned, to_learn, repeat_suggestions
-- `mv_user_pack_accuracy`, `mv_user_cluster_accuracy` – dla intelligent suggestions (wymagają REFRESH)
-- `user_learning_unit_knowledge` – knowledge state (sense, cluster); irregular **nie** zapisuje
+- `mv_user_pack_accuracy`, `mv_user_cluster_accuracy` – historycznie pod intelligent-suggestions-v2 (REFRESH); **`/api/suggestions` czyta głównie `user_learning_unit_knowledge` + `irregular_verb_runs`**
+- `user_learning_unit_knowledge` – knowledge state (sense, cluster, grammar, irregular – według wpisów)
 
 ### 6.4 Irregular
 
@@ -293,14 +299,15 @@ Tabela `lessons` jest polimorficzna (tutoring vs course lesson).
 | Plik | Zakres |
 |------|--------|
 | `AUDIT_SUMMARY.md` | Podsumowanie audytu 2025-01, zmiany, stan |
-| `CO_TRENOWAC_AUDIT.md` | System „Co trenować” |
+| `CO_TRENOWAC_AUDIT.md` | System „Co trenować” / `GET /api/suggestions` (aktualizacja 2026-03) |
 | `COACH_SYSTEM_AUDIT.md` | GlobalCoach, GlobalTrainingSuggestion, Coach gramatyki |
 | `CLUSTERS_MODULE_AUDIT_REPORT.md` | Moduł clusterów |
 | `GRAMMAR_MODULE_AUDIT_REPORT.md` | Moduł gramatyki |
 | `IRREGULAR_VERBS_TECHNICAL_AUDIT.md` | Czasowniki nieregularne |
 | `LESSONS_MODULE_AUDIT_REPORT.md` | Lekcje (tutoring + vocab) |
-| `PROFILE_LEARNED_TO_LEARN_AUDIT.md` | Profil, learned/to_learn |
+| `PROFILE_LEARNED_TO_LEARN_AUDIT.md` | Widoki learned/to_learn (v2); UI głównie **Status** — nie obecny profil |
 | `PROFILE_TRAINING_SUBSCRIPTION_AUDIT.md` | subscribeTrainingCompleted |
+| `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md` | Legacy `intelligent-suggestions-v2` (UI używa `/api/suggestions`) |
 | `VOCAB_DB_AUDIT_REPORT.md` | Schemat bazy vocab |
 
 ---
@@ -309,9 +316,10 @@ Tabela `lessons` jest polimorficzna (tutoring vs course lesson).
 
 ### 8.1 Niski wysiłek
 
-1. **Usunąć lub zdeprecjonować nieużywane API routes** – np. `/api/app/suggestion`, `/api/irregular-verbs/toggle`, `/api/irregular-verbs/list` (jeśli SSR wystarcza).
-2. **Podłączyć GlobalTrainingSuggestion do intelligent-suggestions-v2** – aby „Co trenować” reagowało na postęp użytkownika.
+1. **Usunąć lub zdeprecjonować nieużywane API routes** – np. `/api/app/suggestion`, `/api/app/intelligent-suggestions-v2` (jeśli potwierdzona rezygnacja), `/api/irregular-verbs/toggle`, `/api/irregular-verbs/list` (jeśli SSR wystarcza).
+2. ~~**Podłączyć GlobalTrainingSuggestion do intelligent-suggestions-v2**~~ – **zrobione:** jeden endpoint `/api/suggestions`.
 3. **Oznaczyć narzędzia dev** – `run-migration`, `check-migration`, `clear-cache` – np. guardem `NODE_ENV` lub osobnym route group.
+4. **Podpiąć lub usunąć `SuggestionsPanel`** – jeśli nie planowane użycie, rozważyć usunięcie martwego importu / komponentu.
 
 ### 8.2 Średni wysiłek
 

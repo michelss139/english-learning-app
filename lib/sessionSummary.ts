@@ -12,6 +12,7 @@ export type SessionSummary = {
   wrong_items?: Array<{
     prompt: string | null;
     expected: string | null;
+    given?: string | null;
     question_mode?: string | null;
   }>;
 };
@@ -86,6 +87,16 @@ export async function getSessionSummary(
     };
   }
 
+  /*
+   * ARCHITECTURE NOTE – grammar events in vocab_answer_events (read side):
+   * Grammar answers are stored in vocab_answer_events as a transitional reuse.
+   * Field semantics differ from vocab:
+   *   prompt  = question_id (stable identifier, NOT a term/word)
+   *   expected = canonical correct answer text
+   *   given    = real user answer text (trimmed, never "correct"/"wrong")
+   * Consumers MUST NOT assume vocab semantics (term lookups, pack_id, etc.).
+   * A unified exercise_answer_events model will replace this pattern.
+   */
   if (exerciseType === "grammar_practice") {
     const { count: totalCount } = await supabase
       .from("vocab_answer_events")
@@ -114,7 +125,7 @@ export async function getSessionSummary(
 
     const { data: wrongItems } = await supabase
       .from("vocab_answer_events")
-      .select("prompt, expected, question_mode")
+      .select("prompt, expected, given, question_mode")
       .eq("student_id", studentId)
       .eq("context_type", "grammar")
       .eq("session_id", sessionId)
@@ -135,6 +146,7 @@ export async function getSessionSummary(
       wrong_items: (wrongItems ?? []).map((row: any) => ({
         prompt: row.prompt ?? null,
         expected: row.expected ?? null,
+        given: row.given ?? null,
         question_mode: row.question_mode ?? "grammar",
       })),
     };
@@ -169,7 +181,7 @@ export async function getSessionSummary(
 
   const { data: wrongItems } = await supabase
     .from("vocab_answer_events")
-    .select("prompt, expected, question_mode")
+    .select("prompt, expected, given, question_mode")
     .eq("student_id", studentId)
     .eq("context_type", contextType)
     .eq("session_id", sessionId)
@@ -190,6 +202,7 @@ export async function getSessionSummary(
     wrong_items: (wrongItems ?? []).map((row: any) => ({
       prompt: row.prompt ?? null,
       expected: row.expected ?? null,
+      given: row.given ?? null,
       question_mode: row.question_mode ?? null,
     })),
   };

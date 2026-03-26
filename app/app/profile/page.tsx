@@ -6,6 +6,12 @@ import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile } from "@/lib/auth/profile";
 import { getRandomAvatar, resolveAvatarUrl } from "@/lib/avatars";
 import { subscribeTrainingCompleted } from "@/lib/events/trainingEvents";
+import {
+  buildDisplayCards,
+  type TrainingDisplayCard,
+  type TrainingSuggestion,
+} from "@/lib/suggestions/trainingDisplayCards";
+import { FALLBACK_TRAINING_CARDS } from "@/lib/suggestions/trainingFallbackCards";
 
 type ProfileRow = {
   id: string;
@@ -35,67 +41,12 @@ type Badge = {
   earned: boolean;
 };
 
-type Suggestion = {
-  unitType: string;
-  unitId: string;
-  priority: number;
-  href: string;
-  displayName: string;
-  accuracy: number;
-  form?: "past_simple" | "past_participle";
-  label?: string;
-};
+type Suggestion = TrainingSuggestion;
 
 type SuggestionsResponse = {
   top: Suggestion[];
   list: Suggestion[];
 };
-
-type DisplayCard = {
-  title: string;
-  href: string;
-  irregularItems?: Suggestion[];
-};
-
-function buildIrregularTargetLink(items: Suggestion[]): string {
-  const targetItems = items
-    .filter(
-      (i): i is Suggestion & { form: "past_simple" | "past_participle" } =>
-        i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
-    )
-    .slice(0, 5);
-  if (targetItems.length === 0) return "/app/irregular-verbs/train";
-  const targets = targetItems.map((i) => `${i.unitId}:${i.form}`).join(",");
-  return `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`;
-}
-
-function buildDisplayCards(top: Suggestion[], list: Suggestion[]): DisplayCard[] {
-  const irregularFromList = list
-    .filter(
-      (i): i is Suggestion & { form: "past_simple" | "past_participle" } =>
-        i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
-    )
-    .slice(0, 5);
-
-  const hasIrregularInTop = top.some((t) => t.unitType === "irregular");
-  const nonIrregularTop = top.filter((t) => t.unitType !== "irregular");
-
-  const cards: DisplayCard[] = [];
-
-  if (hasIrregularInTop && irregularFromList.length > 0) {
-    cards.push({
-      title: `Nieregularne czasowniki (${irregularFromList.length})`,
-      href: buildIrregularTargetLink(irregularFromList),
-      irregularItems: irregularFromList,
-    });
-  }
-
-  for (const s of nonIrregularTop) {
-    cards.push({ title: s.displayName, href: s.href });
-  }
-
-  return cards.slice(0, 2);
-}
 
 function formatIrregularItemLabel(s: Suggestion): string {
   const label = s.label ?? s.unitId;
@@ -115,6 +66,8 @@ export default function ProfilePage() {
   const [suggestionsTop, setSuggestionsTop] = useState<Suggestion[]>([]);
   const [suggestionsList, setSuggestionsList] = useState<Suggestion[]>([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(true);
+  const [activeSessionHref, setActiveSessionHref] = useState<string | null>(null);
+  const [lockedTrainingOptions, setLockedTrainingOptions] = useState<TrainingDisplayCard[] | null>(null);
 
   useEffect(() => {
     const run = async () => {
@@ -177,9 +130,9 @@ export default function ProfilePage() {
           setBadges((badgesJson.badges ?? []) as Badge[]);
         }
 
-        const recJson = (await recRes.json().catch(() => null)) as SuggestionsResponse | null;
-        if (recRes.ok && recJson?.top && Array.isArray(recJson.top)) {
-          setSuggestionsTop(recJson.top);
+        const recJson = (await recRes.json().catch(() => null)) as Partial<SuggestionsResponse> | null;
+        if (recRes.ok && recJson && typeof recJson === "object") {
+          setSuggestionsTop(Array.isArray(recJson.top) ? recJson.top : []);
           setSuggestionsList(Array.isArray(recJson.list) ? recJson.list : []);
         } else {
           setSuggestionsTop([]);
@@ -204,12 +157,15 @@ export default function ProfilePage() {
         const token = session.data.session?.access_token;
         if (!token) return;
 
+        setActiveSessionHref(null);
+        setLockedTrainingOptions(null);
         const res = await fetch("/api/suggestions", {
           headers: { Authorization: `Bearer ${token}` },
+          cache: "no-store",
         });
-        const json = (await res.json().catch(() => null)) as SuggestionsResponse | null;
-        if (res.ok && json?.top && Array.isArray(json.top)) {
-          setSuggestionsTop(json.top);
+        const json = (await res.json().catch(() => null)) as Partial<SuggestionsResponse> | null;
+        if (res.ok && json && typeof json === "object") {
+          setSuggestionsTop(Array.isArray(json.top) ? json.top : []);
           setSuggestionsList(Array.isArray(json.list) ? json.list : []);
         }
       } catch {
@@ -243,13 +199,31 @@ export default function ProfilePage() {
   const tooltipText =
     "Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia.";
   const recentBadges = badges.slice(0, 3);
-  const displayCards = useMemo(
-    () => buildDisplayCards(suggestionsTop, suggestionsList),
-    [suggestionsTop, suggestionsList],
-  );
-  const rec0 = displayCards[0] ?? null;
-  const rec1 = displayCards[1] ?? null;
-  const allSuggestionsEmpty = displayCards.length === 0;
+  const trainingPanelOptions = useMemo(() => {
+    if (suggestionsLoading) return [];
+    const useFallback = suggestionsTop.length === 0;
+    const raw = useFallback ? FALLBACK_TRAINING_CARDS : buildDisplayCards(suggestionsTop, suggestionsList);
+    const seen = new Set<string>();
+    return raw.filter((item) => {
+      if (seen.has(item.href)) return false;
+      seen.add(item.href);
+      return true;
+    });
+  }, [suggestionsLoading, suggestionsTop, suggestionsList]);
+
+  const displayedTrainingOptions = lockedTrainingOptions ?? trainingPanelOptions;
+
+  const handleTrainingStart = (item: TrainingDisplayCard) => {
+    setActiveSessionHref(item.href);
+    const base = lockedTrainingOptions ?? trainingPanelOptions;
+    setLockedTrainingOptions(
+      base.map((o) => ({
+        ...o,
+        irregularItems: o.irregularItems ? [...o.irregularItems] : undefined,
+      })),
+    );
+    router.push(item.href);
+  };
 
   const renderBadgeIcon = (badge: Badge) => {
     if (badge.icon && (badge.icon.startsWith("/") || badge.icon.startsWith("http"))) {
@@ -379,90 +353,51 @@ export default function ProfilePage() {
         </div>
       ) : null}
 
-      {suggestionsLoading ? (
-        <section className="tile-frame">
-          <div className="tile-core p-6 space-y-4">
-            <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Twój plan na teraz</div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="h-28 rounded-xl border border-slate-200 bg-white animate-pulse" />
-              <div className="h-28 rounded-xl border border-slate-200 bg-white animate-pulse" />
-            </div>
-          </div>
-        </section>
-      ) : null}
+      <section className="tile-frame">
+        <div className="tile-core mx-auto w-full max-w-5xl space-y-6 p-8">
+          <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Co trenować</h2>
 
-      {!suggestionsLoading ? (
-        <section className="tile-frame">
-          <div className="tile-core p-6 space-y-4">
-            <div className="text-sm uppercase tracking-[0.14em] text-slate-500">Twój plan na teraz</div>
-            {allSuggestionsEmpty ? (
-              <div className="mx-auto w-full max-w-5xl rounded-xl border border-slate-200 bg-white p-4">
-                <div className="text-sm text-slate-700">
-                  Wszystko gra. Wybierz dowolne ćwiczenie i idź dalej.
-                </div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <a
-                    href="/app/vocab/packs"
-                    className="inline-flex rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 transition hover:bg-slate-50"
-                  >
-                    Packs
-                  </a>
-                  <a
-                    href="/app/vocab/clusters"
-                    className="inline-flex rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 transition hover:bg-slate-50"
-                  >
-                    Clusters
-                  </a>
-                  <a
-                    href="/app/irregular-verbs"
-                    className="inline-flex rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 transition hover:bg-slate-50"
-                  >
-                    Irregular
-                  </a>
-                </div>
-              </div>
-            ) : null}
-            <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-              {rec0 ? (
-                <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                  <div className="text-sm font-semibold text-slate-900">{rec0.title}</div>
-                  {rec0.irregularItems && rec0.irregularItems.length > 0 ? (
-                    <ul className="space-y-0.5 pl-4 text-xs text-slate-600">
-                      {rec0.irregularItems.map((s, i) => (
-                        <li key={`${s.unitId}:${s.form}:${i}`}>• {formatIrregularItemLabel(s)}</li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  <a
-                    href={rec0.href}
-                    className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-                  >
-                    Trenuj teraz
-                  </a>
-                </div>
-              ) : null}
-              {rec1 ? (
-                <div className="w-full space-y-3 rounded-xl border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-[2px] hover:shadow-md">
-                  <div className="text-sm font-semibold text-slate-900">{rec1.title}</div>
-                  {rec1.irregularItems && rec1.irregularItems.length > 0 ? (
-                    <ul className="space-y-0.5 pl-4 text-xs text-slate-600">
-                      {rec1.irregularItems.map((s, i) => (
-                        <li key={`${s.unitId}:${s.form}:${i}`}>• {formatIrregularItemLabel(s)}</li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  <a
-                    href={rec1.href}
-                    className="inline-flex rounded-xl border border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-                  >
-                    Trenuj teraz
-                  </a>
-                </div>
-              ) : null}
+          {suggestionsLoading ? (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="h-36 rounded-xl border border-slate-200 bg-slate-50/80 animate-pulse" />
+              <div className="h-36 rounded-xl border border-slate-200 bg-slate-50/80 animate-pulse" />
             </div>
-          </div>
-        </section>
-      ) : null}
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {displayedTrainingOptions.map((item) => {
+                const isActive = item.href === activeSessionHref;
+                return (
+                  <div
+                    key={item.href}
+                    className={`flex flex-col rounded-xl border bg-white p-5 transition-all duration-200 ${
+                      isActive
+                        ? "border-slate-900 shadow-[0_2px_12px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/10"
+                        : "border-slate-200 hover:border-slate-300 hover:shadow-[0_2px_10px_rgba(15,23,42,0.05)]"
+                    }`}
+                  >
+                    <div className="text-sm font-semibold leading-tight text-slate-900">{item.title}</div>
+                    <div className="mt-1 text-xs leading-snug text-slate-600">{item.description}</div>
+                    {item.irregularItems && item.irregularItems.length > 0 ? (
+                      <ul className="mt-2 space-y-0.5 pl-3 text-[11px] leading-snug text-slate-600">
+                        {item.irregularItems.map((s, i) => (
+                          <li key={`${s.unitId}:${s.form}:${i}`}>• {formatIrregularItemLabel(s)}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => handleTrainingStart(item)}
+                      className="mt-4 inline-flex w-fit rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition duration-200 hover:bg-slate-50"
+                    >
+                      Start
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
     </main>
   );
 }

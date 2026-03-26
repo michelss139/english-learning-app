@@ -1,7 +1,11 @@
 # Grammar Module — Full Architectural Audit
 
 **Date:** 2026-03-02  
+**Aktualizacja:** 2026-03-19 — dopasowanie do routów API i lokalizacji `GrammarPracticeClient`.
+
 **Scope:** Analysis only — no code changes.
+
+> **Stan 2026-03:** Wspólny UI praktyki to `components/grammar/GrammarPracticeClient.tsx`. Start sesji: **`POST /api/training/grammar/start`**; odpowiedzi / koniec: **`POST /api/grammar/answer`**, **`POST /api/grammar/complete`**. W repozytorium istnieje też `app/api/grammar/start` — sprawdź, który path jest faktycznie używany w kliencie. Wiele czasów ma teraz `practice/page.tsx` (nie tylko 3 jak w snapshotcie poniżej).
 
 ---
 
@@ -20,7 +24,7 @@ app/app/grammar
 ├── stative-verbs
 │   └── page.tsx
 ├── _components
-│   └── GrammarPracticeClient.tsx   # Shared MC practice UI
+│   └── InputPracticeClient.tsx       # (lub podobne — sprawdź repo)
 ├── present-simple
 │   ├── page.tsx
 │   ├── PresentSimpleClient.tsx
@@ -93,13 +97,17 @@ lib/grammar
 ```
 app/api/grammar
 ├── start
-│   └── route.ts          # POST — start session, return questions
+│   └── route.ts          # POST — (legacy / alternatywa; klient używa training/grammar/start)
 ├── answer
 │   └── route.ts          # POST — validate answer, store result
 ├── complete
 │   └── route.ts          # POST — complete session, award XP
 └── ai-dialog
     └── route.ts          # GET/POST — generate/cache AI dialogs
+
+app/api/training/grammar
+└── start
+    └── route.ts          # POST — start session (używane przez GrammarPracticeClient)
 ```
 
 ---
@@ -135,7 +143,7 @@ User navigates to /app/grammar/present-simple/practice
          ↓
 GrammarPracticeClient mounts
          ↓
-POST /api/grammar/start { exercise_slug: "present-simple" }
+POST /api/training/grammar/start { exercise_slug: "present-simple" } (GrammarPracticeClient)
          ↓
 Server: getGrammarPracticeExercise("present-simple")
         → Returns questions from lib/grammar/practice.ts

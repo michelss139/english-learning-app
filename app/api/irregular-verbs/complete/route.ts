@@ -58,6 +58,19 @@ export async function POST(req: Request) {
     }
     const userId = userData.user.id;
 
+    const { data: trainSessionMeta } = await supabase
+      .from("training_sessions")
+      .select("metadata")
+      .eq("id", body.session_id)
+      .eq("student_id", userId)
+      .maybeSingle();
+
+    const lessonVerbsIsolated =
+      trainSessionMeta?.metadata &&
+      typeof trainSessionMeta.metadata === "object" &&
+      !Array.isArray(trainSessionMeta.metadata) &&
+      (trainSessionMeta.metadata as Record<string, unknown>).lesson_verbs_isolated === true;
+
     const { count: totalCount, error: totalErr } = await supabase
       .from("irregular_verb_runs")
       .select("id", { count: "exact", head: true })
@@ -85,6 +98,41 @@ export async function POST(req: Request) {
 
     const wrongTotal = wrongCount ?? 0;
     const correctCount = Math.max(totalCount - wrongTotal, 0);
+
+    if (lessonVerbsIsolated) {
+      try {
+        await supabase
+          .from("training_sessions")
+          .update({
+            completed_at: new Date().toISOString(),
+            status: "completed",
+          })
+          .eq("id", body.session_id)
+          .eq("student_id", userId)
+          .eq("exercise_type", "irregular")
+          .is("completed_at", null);
+      } catch (trainingSessionErr) {
+        console.error("[irregular-verbs/complete] training_sessions update failed:", trainingSessionErr);
+      }
+
+      const summary = await getSessionSummary(userId, body.session_id, "irregular");
+
+      return NextResponse.json({
+        ok: true,
+        isolated_lesson_verbs: true,
+        total: totalCount,
+        correct: correctCount,
+        perfect: wrongTotal === 0,
+        summary,
+        xp_awarded: 0,
+        xp_total: 0,
+        level: 0,
+        xp_in_current_level: 0,
+        xp_to_next_level: 0,
+        newly_awarded_badges: [] as [],
+      });
+    }
+
     const perfect = isPerfectSession({ totalCount, wrongCount: wrongTotal, minAnswers: 5 });
     const eligibleForAward = totalCount >= 5;
     const hasToLearn = await sessionHasToLearn(supabase, userId, body.session_id);

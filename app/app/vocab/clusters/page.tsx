@@ -28,20 +28,12 @@ export default async function VocabClustersPage() {
     payload = catalog.clusters;
   } catch {
     return (
-      <main className="space-y-6">
-        <section className="rounded-3xl border-2 border-slate-900 bg-white p-5">
-          <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
-            Nie udało się wczytać clusterów.
-          </div>
-        </section>
-      </main>
+      <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
+        <p className="text-sm text-rose-700">Nie udało się wczytać zestawów.</p>
+      </div>
     );
   }
 
-  return (
-    <main className="space-y-6">
-      <ClustersClient clusters={payload} />
-    </main>
-  );
+  return <ClustersClient clusters={payload} />;
 }
 

@@ -5,7 +5,9 @@ import { isPerfectSession } from "@/lib/xp/perfect";
 import { updateStreak } from "@/lib/streaks";
 import { getSessionSummary } from "@/lib/sessionSummary";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { isRegisteredGrammarExerciseSlug } from "@/lib/grammar/practice";
 
+/** `slug` in JSON is the grammar exercise_slug (topic); same as training_sessions.context_slug / event context_id. */
 type Body = { session_id: string; slug: string };
 
 function isUuid(value: string): boolean {
@@ -33,17 +35,31 @@ export async function POST(req: Request) {
 
     const supabase = createSupabaseAdmin();
     const userId = user.id;
-    const slug = String(body.slug).trim();
-    if (!slug) {
+    const exerciseSlug = String(body.slug).trim();
+    if (!exerciseSlug) {
       return NextResponse.json({ error: "slug cannot be empty" }, { status: 400 });
     }
+    if (!isRegisteredGrammarExerciseSlug(exerciseSlug)) {
+      return NextResponse.json(
+        { error: "Unknown or invalid grammar exercise slug (must be topic slug, not question_id)" },
+        { status: 400 },
+      );
+    }
 
+    /*
+     * ARCHITECTURE NOTE – grammar events in vocab_answer_events (read side):
+     * Grammar answers are stored in vocab_answer_events as a transitional reuse.
+     * context_type="grammar" + context_id=exercise_slug discriminate grammar rows.
+     * Field semantics: prompt=question_id, expected=canonical answer, given=user input.
+     * Do not assume vocab semantics (term lookups, pack_id, user_vocab_item_id).
+     * A unified exercise_answer_events model will replace this pattern.
+     */
     const { count: totalCount, error: totalErr } = await supabase
       .from("vocab_answer_events")
       .select("id", { count: "exact", head: true })
       .eq("student_id", userId)
       .eq("context_type", "grammar")
-      .eq("context_id", slug)
+      .eq("context_id", exerciseSlug)
       .eq("session_id", body.session_id);
 
     if (totalErr) {
@@ -55,7 +71,7 @@ export async function POST(req: Request) {
       .select("id", { count: "exact", head: true })
       .eq("student_id", userId)
       .eq("context_type", "grammar")
-      .eq("context_id", slug)
+      .eq("context_id", exerciseSlug)
       .eq("session_id", body.session_id)
       .eq("is_correct", false);
 
@@ -97,9 +113,9 @@ export async function POST(req: Request) {
         supabase,
         userId,
         source: "grammar",
-        sourceSlug: slug,
+        sourceSlug: exerciseSlug,
         sessionId: body.session_id,
-        dedupeKey: `grammar:${slug}`,
+        dedupeKey: `grammar:${exerciseSlug}`,
         perfect,
         eligibleForAward: true,
         repeatQualified: false,
@@ -107,7 +123,7 @@ export async function POST(req: Request) {
           total,
           correct,
           wrong,
-          exercise_slug: slug,
+          exercise_slug: exerciseSlug,
         },
       });
 
@@ -138,9 +154,9 @@ export async function POST(req: Request) {
         student_id: userId,
         session_id: body.session_id,
         exercise_type: "grammar_practice",
-        exercise_slug: slug,
+        exercise_slug: exerciseSlug,
         context_id: null,
-        context_slug: slug,
+        context_slug: exerciseSlug,
       },
       { onConflict: "student_id,exercise_type,session_id" }
     );

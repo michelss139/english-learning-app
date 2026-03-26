@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { userHasLessonAccess } from "@/app/api/lessons/_helpers";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 type UpdateAssignmentBody = {
@@ -57,7 +58,7 @@ async function ensureAssignmentAccess(
 
   const { data: lesson, error: lessonErr } = await supabase
     .from("lessons")
-    .select("id, student_id")
+    .select("id, student_id, created_by")
     .eq("id", assignment.lesson_id)
     .maybeSingle();
 
@@ -69,7 +70,7 @@ async function ensureAssignmentAccess(
     return { error: NextResponse.json({ error: "Lesson not found" }, { status: 404 }) };
   }
 
-  if (role !== "admin" && lesson.student_id !== userId) {
+  if (!(await userHasLessonAccess(supabase, lesson, userId, role))) {
     return { error: NextResponse.json({ error: "Unauthorized" }, { status: 403 }) };
   }
 

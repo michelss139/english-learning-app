@@ -7,7 +7,7 @@ export default function GrammarHubPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Gramatyka</h1>
-            <p className="text-base text-slate-600">Wybierz moduł gramatyczny.</p>
+            <p className="text-base font-medium text-slate-600">Od czego chcesz zacząć?</p>
           </div>
           <a
             className="tile-frame"
@@ -47,11 +47,11 @@ export default function GrammarHubPage() {
             description: "Can, could, be able to i inne czasowniki modalne.",
             href: "/app/grammar/modal-verbs",
           },
-        ].map((tile) => (
+        ].map((tile, index) => (
           <a
             key={tile.title}
             href={tile.href}
-            className="tile-frame"
+            className={`tile-frame ${index === 0 ? "ring-1 ring-slate-900/10" : ""}`}
           >
             <div className="tile-core aspect-[2/1] p-5">
               <div className="flex h-full flex-col items-center justify-center gap-3 text-center">

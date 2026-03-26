@@ -41,6 +41,7 @@ export function InputPracticeClient({
           sentence={question.prompt}
           base={question.base ?? ""}
           correctAnswer={question.correct_option}
+          questionId={question.id}
           mapHref={mapHref}
           exerciseSlug={exerciseSlug}
         />

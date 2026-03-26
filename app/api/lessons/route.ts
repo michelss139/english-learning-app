@@ -1,4 +1,9 @@
 import { NextResponse } from "next/server";
+import {
+  assertCanCreateLessonForStudent,
+  LESSON_API_ROW_SELECT,
+  lessonsListVisibilityOrFilter,
+} from "@/app/api/lessons/_helpers";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 type CreateLessonBody = {
@@ -6,7 +11,11 @@ type CreateLessonBody = {
   lesson_date: string;
   topic?: string;
   summary?: string | null;
+  teacher_note?: string | null;
+  student_note?: string | null;
 };
+
+const LESSON_ROW_SELECT = LESSON_API_ROW_SELECT;
 
 export async function GET(req: Request) {
   try {
@@ -36,13 +45,29 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const studentIdParam = searchParams.get("student_id");
-    const studentId = profile.role === "admin" && studentIdParam ? studentIdParam : userId;
 
-    const { data: lessons, error: lessonsErr } = await supabase
-      .from("lessons")
-      .select("id, student_id, created_by, lesson_date, topic, summary, created_at, updated_at")
-      .eq("student_id", studentId)
-      .order("lesson_date", { ascending: false });
+    let lessonsQuery = supabase.from("lessons").select(LESSON_ROW_SELECT);
+
+    if (profile.role === "admin") {
+      const studentId = studentIdParam ?? userId;
+      lessonsQuery = lessonsQuery.eq("student_id", studentId);
+    } else {
+      const { data: relRows, error: relErr } = await supabase
+        .from("teacher_student_relations")
+        .select("student_id")
+        .eq("teacher_id", userId);
+
+      if (relErr) {
+        return NextResponse.json({ error: relErr.message }, { status: 500 });
+      }
+
+      const rosterIds = (relRows ?? []).map((r) => r.student_id as string);
+      lessonsQuery = lessonsQuery.or(lessonsListVisibilityOrFilter(userId, rosterIds));
+    }
+
+    const { data: lessons, error: lessonsErr } = await lessonsQuery.order("lesson_date", {
+      ascending: false,
+    });
 
     if (lessonsErr) {
       return NextResponse.json({ error: lessonsErr.message }, { status: 500 });
@@ -104,8 +129,12 @@ export async function POST(req: Request) {
     const userId = userData.user.id;
     const body = (await req.json().catch(() => null)) as CreateLessonBody | null;
 
-    if (!body?.lesson_date || body.topic === undefined) {
-      return NextResponse.json({ error: "lesson_date and topic are required" }, { status: 400 });
+    const topicStr = typeof body?.topic === "string" ? body.topic.trim() : "";
+    if (!body?.lesson_date || !topicStr) {
+      return NextResponse.json(
+        { error: "lesson_date and a non-empty topic are required" },
+        { status: 400 },
+      );
     }
 
     const { data: profile, error: profileErr } = await supabase
@@ -118,10 +147,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    const studentId = profile.role === "admin" ? body.student_id : userId;
-    if (!studentId) {
+    const rawStudentId =
+      typeof body.student_id === "string" ? body.student_id.trim() : "";
+
+    if (profile.role === "admin" && !rawStudentId) {
       return NextResponse.json({ error: "student_id is required for admin" }, { status: 400 });
     }
+
+    const studentId =
+      profile.role === "admin" ? rawStudentId : rawStudentId.length > 0 ? rawStudentId : userId;
+
+    if (!studentId) {
+      return NextResponse.json(
+        { error: "student_id is required (use your own id for a personal lesson)" },
+        { status: 400 },
+      );
+    }
+
+    const relationCheck = await assertCanCreateLessonForStudent(
+      supabase,
+      userId,
+      studentId,
+      profile.role === "admin",
+    );
+    if ("error" in relationCheck) return relationCheck.error;
 
     const { data: lesson, error: insertErr } = await supabase
       .from("lessons")
@@ -129,10 +178,12 @@ export async function POST(req: Request) {
         student_id: studentId,
         created_by: userId,
         lesson_date: body.lesson_date,
-        topic: body.topic.trim(),
+        topic: topicStr,
         summary: body.summary?.trim() || null,
+        teacher_note: body.teacher_note?.trim() || null,
+        student_note: body.student_note?.trim() || null,
       })
-      .select("id, student_id, created_by, lesson_date, topic, summary, created_at, updated_at")
+      .select(LESSON_ROW_SELECT)
       .maybeSingle();
 
     if (insertErr) {

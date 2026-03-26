@@ -43,7 +43,6 @@ export default async function StudentDashboardPage() {
         best_streak: streakRow?.best_streak ?? 0,
         last_activity_date: streakRow?.last_activity_date ?? null,
       }}
-      initialSuggestion={null}
     />
   );
 }

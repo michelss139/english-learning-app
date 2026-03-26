@@ -33,6 +33,7 @@ export type ExerciseQuestion = {
 
   // learning engine binding
   unitType: ExerciseUnitType;
+  /** For grammar: exercise_slug (topic). For other types: sense UUID, cluster slug, or verb UUID. Never a grammar question_id. */
   unitId: string;
 
   // optional metadata

@@ -1,5 +1,18 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { isRegisteredGrammarExerciseSlug } from "@/lib/grammar/practice";
 
+/**
+ * Grammar Learning Unit Contract:
+ *   unit_type = "grammar", unit_id = exercise_slug (topic-level, e.g. "present-simple").
+ *   question_id is event-level only — NEVER a knowledge unit_id (never concatenate, never use …-q1 as unit_id).
+ *   Questions are interchangeable probes of a topic; they do not define separate skills — knowledge aggregates at slug level.
+ *   Knowledge is updated per-answer, aggregated at the topic level.
+ *
+ * Other unit types for reference:
+ *   "sense"     → unit_id = sense UUID (per word-sense)
+ *   "cluster"   → unit_id = cluster slug (per topic grouping)
+ *   "irregular" → unit_id = verb UUID (per verb)
+ */
 export type LearningUnitType = "sense" | "cluster" | "irregular" | "grammar";
 export type KnowledgeState = "new" | "unstable" | "improving" | "mastered";
 
@@ -132,6 +145,17 @@ export async function updateLearningUnitKnowledge(
 
   if (!studentId || !unitId) {
     return { ok: false, error: "studentId and unitId are required" };
+  }
+
+  if (unitType === "grammar" && !isRegisteredGrammarExerciseSlug(unitId)) {
+    console.error("[updateLearningUnitKnowledge] Rejected grammar unit_id (must be registered exercise_slug, not question_id):", {
+      unitId,
+    });
+    return {
+      ok: false,
+      error:
+        "Invalid grammar unit_id: must be a registered exercise_slug (topic), not a question_id or unknown slug",
+    };
   }
 
   try {

@@ -1,6 +1,6 @@
 # Audyt techniczny: system Irregular Verbs
 
-**Data:** 2026-02-20 (aktualizacja: 2026-03-06)  
+**Data:** 2026-02-20 (aktualizacja: 2026-03-19)  
 **Cel:** Pełne zmapowanie stanu systemu irregular verbs przed integracją z knowledge engine.  
 **Zakres:** Tylko opis stanu obecnego. Bez propozycji zmian, refaktoru ani sugestii.
 
@@ -239,12 +239,12 @@ await supabase.from("exercise_session_completions").upsert({
 - `user_vocab_items` odnosi się do `lexicon_senses` (słownictwo).
 - Irregular ma własną strukturę: `user_irregular_verbs` (pinned) + `irregular_verb_runs` (logi).
 
-### 5.4 Widok typu repeat_suggestions
+### 5.4 Sugestie treningowe (aktualizacja 2026-03)
 
-- Brak odpowiednika `v2_vocab_repeat_suggestions` dla irregular.
-- **intelligent-suggestions-v2** (`/api/app/intelligent-suggestions-v2`) – profil „Twój plan na teraz” pokazuje irregular, ale czyta z `user_learning_unit_knowledge` (unit_type='irregular'). Irregular **nie** zapisuje tam danych, więc sekcja irregular jest zwykle pusta.
-- **Suggestion route** (`/api/app/suggestion`) – nieużywany w UI; mógłby zwracać irregular jako fallback, ale profil korzysta z intelligent-suggestions-v2.
-- Irregular nie jest uwzględniany w logice "typowe błędy" opartej na `vocab_answer_events` (pack/cluster).
+- Brak odpowiednika `v2_vocab_repeat_suggestions` dla irregular (vocab).
+- **Profil i widget „Co trenować”** używają **`GET /api/suggestions`**: irregular z **`irregular_verb_runs`** (per forma, próg accuracy) + opcjonalnie bonus z **`user_learning_unit_knowledge`** dla `unit_type='irregular'` (po zapisach z submit route).
+- **intelligent-suggestions-v2** — endpoint może nadal istnieć w repo; **UI go nie wywołuje** (zob. `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`, `CO_TRENOWAC_AUDIT.md`).
+- Irregular nie jest uwzględniany w logice „typowe błędy” opartej na `vocab_answer_events` (pack/cluster).
 
 ---
 
@@ -261,7 +261,7 @@ await supabase.from("exercise_session_completions").upsert({
 | **Shuffle** | tak | tak | tak (losowy wybór) |
 | **Zapis per odpowiedź** | vocab_answer_events | vocab_answer_events | irregular_verb_runs |
 | **exercise_session_completions** | tak, context_id=pack.id | tak, context_id=cluster.id | tak, **context_id=null** |
-| **updateLearningUnitKnowledge** | tak (answer, per sense) | tak (answer, per cluster) | **nie** |
+| **updateLearningUnitKnowledge** | tak (answer, per sense) | tak (answer, per cluster) | **tak** (submit route — aktualizacja jednostki irregular) |
 | **user_vocab_items** | tak (sense_id) | nie bezpośrednio | **nie** |
 | **v2_vocab_to_learn** | tak | tak | **nie** |
 | **repeat_suggestions** | tak (vocab) | tak (vocab) | **nie** (tylko fallback) |
@@ -294,11 +294,11 @@ await supabase.from("exercise_session_completions").upsert({
 - TrainClient wywołuje `/api/lessons/assignments/${assignmentId}/complete` po award, jeśli `assignmentId` w query.
 - Body: session_id, exercise_type: "irregular", context_slug: null.
 
-### 7.5 Suggestion / intelligent-suggestions
+### 7.5 Sugestie / eventy treningu
 
-- **emitTrainingCompleted({ type: "irregular" })** – TrainClient emituje po complete. ProfilePage subskrybuje i robi refetch intelligent-suggestions-v2.
-- **intelligent-suggestions-v2** – czyta `user_learning_unit_knowledge` (irregular); irregular nie zapisuje tam danych → sekcja pusta.
-- `/api/app/suggestion` – nieużywany; mógłby sugerować irregular na podstawie `irregular_verb_runs`.
+- **emitTrainingCompleted({ type: "irregular" })** – TrainClient emituje po complete. ProfilePage i GlobalTrainingSuggestion subskrybują i **refetchują `GET /api/suggestions`**.
+- **`/api/suggestions`** – irregular z `irregular_verb_runs` (+ knowledge); zob. `app/api/suggestions/route.ts`.
+- `/api/app/suggestion` – **brak referencji w kodzie `.ts`/`.tsx`** (2026-03); nie mylić z `/api/suggestions`.
 
 ---
 
@@ -312,9 +312,9 @@ await supabase.from("exercise_session_completions").upsert({
 
 ### 8.2 Brakujące powiązania
 
-1. **updateLearningUnitKnowledge:** Irregular **nie** wywołuje `updateLearningUnitKnowledge`. Packs (answer) i clusters (questions) tak. Migracja `20260220_recompute_knowledge_state_by_unit_type.sql` przewiduje unit_type='irregular', ale żaden kod nie wstawia/aktualizuje wierszy dla irregular.
-2. **user_learning_unit_knowledge:** Brak integracji. Tabela jest aktualizowana przez migrację dla istniejących wierszy (sense, cluster), ale irregular nie tworzy wierszy w runtime.
-3. **v2_vocab_to_learn / repeat_suggestions:** Irregular nie uczestniczy w systemie "do nauki" opartym na vocab. Ma własną logikę pinned.
+1. **updateLearningUnitKnowledge:** Irregular **wywołuje** `updateLearningUnitKnowledge` w `app/api/irregular-verbs/submit/route.ts` (wcześniejsza wersja audytu była nieaktualna).
+2. **user_learning_unit_knowledge:** Wiersze dla irregular mogą być tworzone/aktualizowane w runtime przez submit; semantyka nadal różni się od pack/cluster.
+3. **v2_vocab_to_learn / repeat_suggestions:** Irregular nie uczestniczy w systemie „do nauki” opartym na vocab. Ma własną logikę pinned.
 
 ### 8.3 Brak determinizmu
 

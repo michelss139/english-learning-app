@@ -1,6 +1,13 @@
 import type { GrammarTenseSlug } from "./types";
 
+/**
+ * Grammar exercise_slug (canonical knowledge unit_id when unit_type = "grammar"):
+ * - Defined here as each exercise's `slug` and as keys in grammarPracticeExercises / conditionalExercises.
+ * - Stable contract: MUST NOT change with UI copy, question rewording, or question reordering.
+ * - Questions under a slug are interchangeable probes of the same topic skill; knowledge aggregates at slug level.
+ */
 export type GrammarPracticeQuestion = {
+  /** Per-question task id for events/diagnostics (e.g. "present-simple-q1"). NOT a learning unit_id. */
   id: string;
   prompt: string;
   base?: string;
@@ -9,6 +16,7 @@ export type GrammarPracticeQuestion = {
 };
 
 export type GrammarPracticeExercise = {
+  /** Topic-level id = session.context_slug = user_learning_unit_knowledge.unit_id for grammar. */
   slug: GrammarTenseSlug;
   title: string;
   questions: GrammarPracticeQuestion[];
@@ -279,4 +287,29 @@ export function getGrammarPracticeQuestion(
   const exercise = getGrammarPracticeExercise(exerciseSlug);
   if (!exercise) return null;
   return exercise.questions.find((q) => q.id === questionId) ?? null;
+}
+
+/** Per-question ids in this catalog use a `-q<number>` suffix. That pattern is NOT a valid exercise_slug / knowledge unit_id. */
+const GRAMMAR_QUESTION_ID_SUFFIX = /-q\d+$/;
+
+/**
+ * True if `value` looks like a question_id (e.g. "present-simple-q1"), not a topic slug.
+ * Used to reject mistaking question_id for the grammar knowledge unit_id.
+ */
+export function looksLikeGrammarQuestionId(value: string): boolean {
+  return GRAMMAR_QUESTION_ID_SUFFIX.test(value.trim());
+}
+
+const GRAMMAR_EXERCISE_SLUG_SHAPE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/**
+ * True if `candidate` is a non-empty, stable topic slug present in this grammar catalog.
+ * Use before persisting training_sessions.context_slug or writing user_learning_unit_knowledge for grammar.
+ */
+export function isRegisteredGrammarExerciseSlug(candidate: string): boolean {
+  const s = candidate.trim();
+  if (!s || s.length > 128) return false;
+  if (looksLikeGrammarQuestionId(s)) return false;
+  if (!GRAMMAR_EXERCISE_SLUG_SHAPE.test(s)) return false;
+  return getGrammarPracticeExercise(s) !== null;
 }

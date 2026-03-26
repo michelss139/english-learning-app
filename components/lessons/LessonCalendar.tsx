@@ -1,14 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { getOrCreateProfile, type Profile } from "@/lib/auth/profile";
 import LessonDay from "@/components/lessons/LessonDay";
+import CalendarDayPanel from "@/components/lessons/CalendarDayPanel";
 
 type CalendarLesson = {
   id: string;
   lesson_date: string;
   topic: string;
+  student_id: string;
+  student_display: string;
   assignment_count: number;
   vocab_count: number;
   topic_type: "conversation" | "grammar" | "mixed" | "none";
@@ -38,6 +42,20 @@ function toIsoDate(date: Date): string {
   return `${y}-${m}-${d}`;
 }
 
+function groupLessonsByDate(lessons: CalendarLesson[]): Map<string, CalendarLesson[]> {
+  const map = new Map<string, CalendarLesson[]>();
+  for (const lesson of lessons) {
+    const key = lesson.lesson_date;
+    const arr = map.get(key);
+    if (arr) arr.push(lesson);
+    else map.set(key, [lesson]);
+  }
+  for (const [, arr] of map) {
+    arr.sort((a, b) => a.id.localeCompare(b.id));
+  }
+  return map;
+}
+
 export default function LessonCalendar() {
   const router = useRouter();
   const [monthDate, setMonthDate] = useState(() => {
@@ -46,10 +64,63 @@ export default function LessonCalendar() {
   });
   const [lessons, setLessons] = useState<CalendarLesson[]>([]);
   const [loading, setLoading] = useState(true);
-  const [creatingForDate, setCreatingForDate] = useState<string | null>(null);
   const [error, setError] = useState("");
 
+  const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
+  const [rosterCount, setRosterCount] = useState(0);
+
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [panelDateIso, setPanelDateIso] = useState<string>("");
+
   const monthKey = useMemo(() => toMonthKey(monthDate), [monthDate]);
+
+  const isTeachingUser = useMemo(() => {
+    if (!profile) return false;
+    return profile.role === "admin" || rosterCount > 0;
+  }, [profile, rosterCount]);
+
+  const useStudentCalendarShortcuts = Boolean(
+    profile && profile.role !== "admin" && rosterCount === 0,
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const prof = await getOrCreateProfile();
+        if (cancelled) return;
+        setProfile(prof ?? null);
+        if (!prof) {
+          setRosterCount(0);
+          return;
+        }
+        const session = await supabase.auth.getSession();
+        const token = session.data.session?.access_token;
+        if (!token) {
+          setRosterCount(0);
+          return;
+        }
+        const res = await fetch("/api/teacher/students", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok || cancelled) {
+          if (!cancelled) setRosterCount(0);
+          return;
+        }
+        const data = (await res.json()) as { students?: unknown[] };
+        const n = Array.isArray(data.students) ? data.students.length : 0;
+        if (!cancelled) setRosterCount(n);
+      } catch {
+        if (!cancelled) {
+          setProfile(null);
+          setRosterCount(0);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const run = async () => {
@@ -85,19 +156,11 @@ export default function LessonCalendar() {
     run();
   }, [monthKey]);
 
-  const lessonsByDate = useMemo(() => {
-    const map = new Map<string, CalendarLesson>();
-    for (const lesson of lessons) {
-      if (!map.has(lesson.lesson_date)) {
-        map.set(lesson.lesson_date, lesson);
-      }
-    }
-    return map;
-  }, [lessons]);
+  const lessonsByDate = useMemo(() => groupLessonsByDate(lessons), [lessons]);
 
   const monthTitle = useMemo(
     () => monthDate.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
-    [monthDate]
+    [monthDate],
   );
 
   const cells = useMemo(() => {
@@ -121,85 +184,70 @@ export default function LessonCalendar() {
     setMonthDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
-  const onDayClick = async (dateIso: string) => {
-    const existing = lessonsByDate.get(dateIso);
-    if (existing) {
-      router.push(`/app/lessons/${existing.id}`);
-      return;
-    }
+  const lessonsForPanel = useMemo(() => {
+    if (!panelDateIso) return [];
+    return lessonsByDate.get(panelDateIso) ?? [];
+  }, [lessonsByDate, panelDateIso]);
 
-    try {
-      setCreatingForDate(dateIso);
-      setError("");
+  const panelShowAdd = isTeachingUser || lessonsForPanel.length === 0;
 
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      if (!token) {
-        throw new Error("Musisz być zalogowany.");
+  const onAddLesson = useCallback(
+    (dateIso: string) => {
+      router.push(`/app/lessons/new?date=${encodeURIComponent(dateIso)}`);
+    },
+    [router],
+  );
+
+  const onDayClick = useCallback(
+    (dateIso: string) => {
+      const forDay = lessonsByDate.get(dateIso) ?? [];
+      if (useStudentCalendarShortcuts && forDay.length === 1) {
+        router.push(`/app/lessons/${forDay[0]!.id}`);
+        return;
       }
-
-      const res = await fetch("/api/lessons", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          lesson_date: dateIso,
-          topic: "",
-        }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-        throw new Error(errorData.error || "Nie udało się utworzyć lekcji.");
-      }
-
-      const data = await res.json();
-      if (!data?.ok || !data?.lesson?.id) {
-        throw new Error("Nieprawidłowa odpowiedź serwera.");
-      }
-
-      router.push(`/app/lessons/${data.lesson.id}`);
-    } catch (e: any) {
-      setError(e?.message ?? "Nie udało się utworzyć lekcji.");
-    } finally {
-      setCreatingForDate(null);
-    }
-  };
+      setPanelDateIso(dateIso);
+      setPanelOpen(true);
+    },
+    [lessonsByDate, router, useStudentCalendarShortcuts],
+  );
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
+    <section
+      className="flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+      aria-busy={loading}
+    >
+      <div className="mb-2 flex shrink-0 items-center justify-between gap-2">
         <button
           type="button"
           onClick={goPrevMonth}
-          className="rounded-lg border border-slate-300 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-lg border border-slate-200/80 px-2.5 py-1 text-xs font-medium text-slate-700 transition-colors duration-200 ease-out hover:bg-slate-50"
         >
           ←
         </button>
-        <h2 className="text-lg font-semibold tracking-tight text-slate-900">{monthTitle}</h2>
+        <h2 className="text-center text-base font-semibold tracking-tight text-slate-900">{monthTitle}</h2>
         <button
           type="button"
           onClick={goNextMonth}
-          className="rounded-lg border border-slate-300 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-lg border border-slate-200/80 px-2.5 py-1 text-xs font-medium text-slate-700 transition-colors duration-200 ease-out hover:bg-slate-50"
         >
           →
         </button>
       </div>
 
-      <div className="mb-2 grid grid-cols-7 gap-2">
+      <div className="mb-1.5 grid shrink-0 grid-cols-7 gap-1.5">
         {WEEKDAY_LABELS.map((label) => (
-          <div key={label} className="px-1 py-1 text-center text-xs font-semibold text-slate-500">
+          <div key={label} className="py-0.5 text-center text-[11px] font-semibold text-slate-500">
             {label}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid min-h-0 min-w-0 flex-1 grid-cols-7 gap-1 [grid-template-rows:repeat(6,minmax(0,1fr))]">
         {cells.map((date) => {
           const dateIso = toIsoDate(date);
-          const lesson = lessonsByDate.get(dateIso);
+          const dayLessons = lessonsByDate.get(dateIso) ?? [];
+          const lessonCount = dayLessons.length;
+          const previewTopic = dayLessons[0]?.topic;
           return (
             <LessonDay
               key={dateIso}
@@ -207,20 +255,34 @@ export default function LessonCalendar() {
               dateIso={dateIso}
               isCurrentMonth={date.getMonth() === monthDate.getMonth()}
               isToday={dateIso === todayIso}
-              hasLesson={Boolean(lesson)}
-              lessonTopic={lesson?.topic}
-              vocabCount={lesson?.vocab_count ?? 0}
-              assignmentCount={lesson?.assignment_count ?? 0}
-              topicType={lesson?.topic_type ?? "none"}
-              disabled={loading || creatingForDate === dateIso}
+              lessonCount={lessonCount}
+              previewTopic={previewTopic}
+              disabled={loading}
               onClick={onDayClick}
             />
           );
         })}
       </div>
 
-      {error ? <p className="mt-4 text-sm text-rose-600">{error}</p> : null}
-      {loading ? <p className="mt-4 text-sm text-slate-500">Loading…</p> : null}
+      {error ? (
+        <p className="mt-2 shrink-0 text-xs leading-snug text-rose-600" role="alert">
+          {error}
+        </p>
+      ) : null}
+      {loading ? <span className="sr-only">Ładowanie kalendarza…</span> : null}
+
+      <CalendarDayPanel
+        open={panelOpen}
+        dateIso={panelDateIso}
+        lessons={lessonsForPanel.map((l) => ({
+          id: l.id,
+          topic: l.topic,
+          student_display: l.student_display,
+        }))}
+        showAddButton={panelShowAdd}
+        onClose={() => setPanelOpen(false)}
+        onAddLesson={onAddLesson}
+      />
     </section>
   );
 }

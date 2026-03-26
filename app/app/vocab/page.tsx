@@ -7,7 +7,7 @@ export default function VocabHubPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Słownictwo</h1>
-            <p className="text-base text-slate-600">Wybierz moduł słownictwa.</p>
+            <p className="text-base font-medium text-slate-600">Wybierz, co chcesz poćwiczyć:</p>
           </div>
           <a
             className="tile-frame"

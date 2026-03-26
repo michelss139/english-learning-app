@@ -8,6 +8,7 @@ import { getWordTip } from "@/lib/coach/wordTips";
 import type { SentenceBuilderVerb } from "@/lib/grammar/sentence-builder/types";
 
 type CoachContent = string | string[];
+
 type GlobalCoachProps = {
   sentenceBuilderVerbs: SentenceBuilderVerb[];
 };
@@ -15,14 +16,12 @@ type GlobalCoachProps = {
 function getCoachContent(
   pathname: string | null,
   currentLemma: string | null,
-  currentIrregularVerbBase: string | null
+  currentIrregularVerbBase: string | null,
 ): CoachContent {
-  // Irregular verbs: mixed verb tip dla sow/sew
   if (pathname?.startsWith("/app/irregular-verbs/train") && currentIrregularVerbBase) {
     const base = currentIrregularVerbBase.toLowerCase().trim();
     if (base === "sow" || base === "sew") return "Uważaj! To tzw Mixed Verb!";
   }
-  // Tipy słówkowe: na fiszkach pokazujemy "ciekawostka!" (pełna treść w WAŻNE! po Sprawdź)
   const wordTip = getWordTip(currentLemma ?? undefined);
   if (wordTip) return "ciekawostka!";
   if (!pathname) return "Witaj na LANGBracket";
@@ -150,7 +149,7 @@ function CoachCard({ tips, onHide }: { tips: string[]; onHide: () => void }) {
           type="button"
           onClick={onHide}
           className="shrink-0 rounded-md px-2 py-1 text-xs text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
-          aria-label="Zamknij coacha"
+          aria-label="Zwiń coacha"
         >
           ✕
         </button>
@@ -162,13 +161,15 @@ function CoachCard({ tips, onHide }: { tips: string[]; onHide: () => void }) {
 export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) {
   const pathname = usePathname();
   const { currentLemma, currentIrregularVerbBase } = useCurrentWord();
-  const [visible, setVisible] = useState(true);
-  const [sentenceBuilderVisible, setSentenceBuilderVisible] = useState(true);
+  /** Domyślnie zwinięte — tylko ikona ? */
+  const [coachExpanded, setCoachExpanded] = useState(false);
+  /** Domyślnie zwinięte — tylko ikona 🔧 */
+  const [sentenceBuilderExpanded, setSentenceBuilderExpanded] = useState(false);
   const [sentenceBuilderOpen, setSentenceBuilderOpen] = useState(false);
 
   const content = useMemo(
     () => getCoachContent(pathname, currentLemma, currentIrregularVerbBase),
-    [pathname, currentLemma, currentIrregularVerbBase]
+    [pathname, currentLemma, currentIrregularVerbBase],
   );
   const tips = Array.isArray(content) ? content : [content];
   const coachKey = `${pathname ?? "root"}:${currentLemma ?? "none"}`;
@@ -176,22 +177,22 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
   return (
     <>
       <div className="fixed top-6 right-6 z-40 flex w-64 flex-col items-stretch gap-3">
-        {sentenceBuilderVisible ? (
+        {sentenceBuilderExpanded ? (
           <div className="flex items-center justify-between gap-2 rounded-xl border border-slate-300 bg-white p-2 shadow-md">
             <button
               type="button"
               onClick={() => setSentenceBuilderOpen(true)}
               className="flex-1 rounded-lg px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-700 transition hover:bg-slate-50"
               title="Sentence Builder"
-              aria-label="Sentence Builder"
+              aria-label="Otwórz Sentence Builder"
             >
               Sentence Builder
             </button>
             <button
               type="button"
-              onClick={() => setSentenceBuilderVisible(false)}
+              onClick={() => setSentenceBuilderExpanded(false)}
               className="shrink-0 rounded-md px-2 py-1 text-xs text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
-              aria-label="Schowaj Sentence Builder"
+              aria-label="Zwiń Sentence Builder"
             >
               ✕
             </button>
@@ -199,24 +200,24 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
         ) : (
           <button
             type="button"
-            onClick={() => setSentenceBuilderVisible(true)}
+            onClick={() => setSentenceBuilderExpanded(true)}
             className="flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-slate-300 bg-white text-lg text-slate-700 shadow-md transition hover:bg-slate-50"
-            title="Pokaż Sentence Builder"
-            aria-label="Pokaż Sentence Builder"
+            title="Sentence Builder"
+            aria-label="Rozwiń Sentence Builder"
           >
             🔧
           </button>
         )}
 
-        {visible ? (
-          <CoachCard key={coachKey} tips={tips} onHide={() => setVisible(false)} />
+        {coachExpanded ? (
+          <CoachCard key={coachKey} tips={tips} onHide={() => setCoachExpanded(false)} />
         ) : (
           <button
             type="button"
-            onClick={() => setVisible(true)}
+            onClick={() => setCoachExpanded(true)}
             className="flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-slate-300 bg-white text-lg font-medium text-slate-700 shadow-md transition hover:bg-slate-50"
-            title="Pokaż coacha"
-            aria-label="Pokaż coacha"
+            title="Coach"
+            aria-label="Rozwiń coacha"
           >
             ?
           </button>
@@ -224,50 +225,46 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
       </div>
 
       {sentenceBuilderOpen && (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        aria-hidden={false}
-      >
-        <button
-          type="button"
-          onClick={() => setSentenceBuilderOpen(false)}
-          className="sb-backdrop absolute inset-0 bg-slate-900/30 backdrop-blur-[1px]"
-          aria-label="Close Sentence Builder panel"
-        />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" aria-hidden={false}>
+          <button
+            type="button"
+            onClick={() => setSentenceBuilderOpen(false)}
+            className="sb-backdrop absolute inset-0 bg-slate-900/30 backdrop-blur-[1px]"
+            aria-label="Zamknij Sentence Builder"
+          />
 
-        <aside
-          className="sb-panel relative z-10 max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Sentence Builder"
-        >
-          <div className="flex max-h-[90vh] flex-col">
-            <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
-              <div className="space-y-1">
-                <h2 className="text-xl font-semibold text-slate-900">Sentence Builder</h2>
-                <p className="text-sm text-slate-600">
-                  Tutaj możesz sprawdzić, jak wyglądają twierdzenia, przeczenia oraz pytania
-                  wykorzystując dowolny czas bądź dowolny czasownik modalny. Wypróbuj także
-                  &quot;challenge&quot;, żeby samemu takie zdania tworzyć!
-                </p>
+          <aside
+            className="sb-panel relative z-10 max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Sentence Builder"
+          >
+            <div className="flex max-h-[90vh] flex-col">
+              <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
+                <div className="space-y-1">
+                  <h2 className="text-xl font-semibold text-slate-900">Sentence Builder</h2>
+                  <p className="text-sm text-slate-600">
+                    Tutaj możesz sprawdzić, jak wyglądają twierdzenia, przeczenia oraz pytania wykorzystując
+                    dowolny czas bądź dowolny czasownik modalny. Wypróbuj także &quot;challenge&quot;, żeby
+                    samemu takie zdania tworzyć!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSentenceBuilderOpen(false)}
+                  className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                >
+                  Close
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setSentenceBuilderOpen(false)}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-              >
-                Close
-              </button>
-            </div>
 
-            <div className="flex-1 overflow-y-auto p-6">
-              <SentenceBuilder verbs={sentenceBuilderVerbs} />
+              <div className="flex-1 overflow-y-auto p-6">
+                <SentenceBuilder verbs={sentenceBuilderVerbs} />
+              </div>
             </div>
-          </div>
-        </aside>
-      </div>
+          </aside>
+        </div>
       )}
     </>
   );
 }
-

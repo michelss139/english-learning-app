@@ -1,6 +1,8 @@
 # Lessons Module — Structural Audit Report
 
 **Date:** 2026-03-02  
+**Aktualizacja:** 2026-03-19 — dopisek: brak zmian treści modułu; przy rozwoju sprawdź spójność z `PROJECT_TECHNICAL_AUDIT.md`, jeśli dotykasz lekcji.
+
 **Purpose:** Full structural audit before extending the Lessons system (e.g. Lessons Calendar).  
 **Scope:** Database schema, API endpoints, frontend, vocabulary integration, data flow, risks.
 
