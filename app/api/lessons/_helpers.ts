@@ -46,6 +46,13 @@ export async function userHasLessonAccess(
   return teacherStudentRelationExists(supabase, userId, lesson.student_id);
 }
 
+function lessonRowToAccessFields(lesson: Record<string, unknown>): LessonAccessRow | null {
+  const student_id = lesson.student_id;
+  const created_by = lesson.created_by;
+  if (typeof student_id !== "string" || typeof created_by !== "string") return null;
+  return { student_id, created_by };
+}
+
 export async function ensureLessonAccess(
   supabase: ReturnType<typeof createSupabaseAdmin>,
   lessonId: string,
@@ -67,12 +74,16 @@ export async function ensureLessonAccess(
     return { error: NextResponse.json({ error: "Lesson not found" }, { status: 404 }) };
   }
 
-  const row = lesson as LessonAccessRow;
+  const lessonRecord = lesson as unknown as Record<string, unknown>;
+  const row = lessonRowToAccessFields(lessonRecord);
+  if (!row) {
+    return { error: NextResponse.json({ error: "Lesson record incomplete" }, { status: 500 }) };
+  }
   if (!(await userHasLessonAccess(supabase, row, userId, role))) {
     return { error: NextResponse.json({ error: "Unauthorized" }, { status: 403 }) };
   }
 
-  return { lesson };
+  return { lesson: lessonRecord };
 }
 
 export async function assertCanCreateLessonForStudent(
@@ -154,10 +165,14 @@ export async function ensureTutoringLessonAccess(
     return { error: NextResponse.json({ error: "Tutoring lesson not found" }, { status: 404 }) };
   }
 
-  const row = lesson as LessonAccessRow;
+  const lessonRecord = lesson as unknown as Record<string, unknown>;
+  const row = lessonRowToAccessFields(lessonRecord);
+  if (!row) {
+    return { error: NextResponse.json({ error: "Lesson record incomplete" }, { status: 500 }) };
+  }
   if (!(await userHasLessonAccess(supabase, row, userId, role))) {
     return { error: NextResponse.json({ error: "Unauthorized" }, { status: 403 }) };
   }
 
-  return { lesson };
+  return { lesson: lessonRecord };
 }

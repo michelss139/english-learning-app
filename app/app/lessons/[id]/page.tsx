@@ -1018,7 +1018,7 @@ export default function LessonDetailPage() {
               ← Wróć do kalendarza
             </Link>
             <h1 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-900">{dateLine}</h1>
-            {counterpartyLine?.solo ? (
+            {counterpartyLine && "solo" in counterpartyLine ? (
               <p className="mt-1.5 text-xs text-slate-500">Lekcja osobista</p>
             ) : counterpartyLine && "label" in counterpartyLine ? (
               <p className="mt-1.5 text-sm text-slate-700">
