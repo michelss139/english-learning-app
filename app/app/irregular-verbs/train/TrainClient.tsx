@@ -70,10 +70,19 @@ type SessionSummary = {
 export type TrainMode = "both" | "past_simple" | "past_participle";
 type StartMode = "manual" | "targeted";
 
-function pill(tone: "neutral" | "good" | "bad") {
-  if (tone === "good") return "border-emerald-400 bg-emerald-50 text-emerald-800";
-  if (tone === "bad") return "border-rose-400 bg-rose-50 text-rose-800";
-  return "border-slate-200 bg-slate-50 text-slate-700";
+function InlineResultGlyph({ ok }: { ok: boolean }) {
+  return (
+    <span
+      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[11px] font-medium leading-none ${
+        ok
+          ? "border-green-500/40 text-green-600/80"
+          : "border-red-500/40 text-red-500/75"
+      }`}
+      aria-hidden
+    >
+      {ok ? "✓" : "✕"}
+    </span>
+  );
 }
 
 const VERB_TIPS: Record<string, string> = {
@@ -88,6 +97,8 @@ export default function IrregularVerbsTrainClient(props: {
   mode: TrainMode;
   startMode: StartMode;
   lessonVerbs?: string;
+  /** UUID of lesson — show „Wróć do lekcji” after lesson-only micro-session. */
+  returnLessonId?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -100,6 +111,9 @@ export default function IrregularVerbsTrainClient(props: {
     [lessonVerbsRaw],
   );
   const wantsLessonVerbsSession = lessonVerbsList.length > 0;
+  const returnLessonId = (props.returnLessonId ?? "").trim();
+  const lessonReturnHref =
+    wantsLessonVerbsSession && returnLessonId ? `/app/lessons/${encodeURIComponent(returnLessonId)}` : null;
   const { setCurrentIrregularVerbBase } = useCurrentWord();
 
   const [error, setError] = useState("");
@@ -390,6 +404,22 @@ export default function IrregularVerbsTrainClient(props: {
     loadNextVerb();
   };
 
+  const handleNextRef = useRef(handleNext);
+  handleNextRef.current = handleNext;
+
+  useEffect(() => {
+    if (!result || submitting || !currentVerb) return;
+    const fullyCorrect =
+      effectiveMode === "past_simple"
+        ? !!(result.past_simple_correct ?? false)
+        : effectiveMode === "past_participle"
+          ? !!(result.past_participle_correct ?? false)
+          : !!(result.correct ?? false);
+    if (!fullyCorrect) return;
+    const timer = window.setTimeout(() => handleNextRef.current(), 500);
+    return () => window.clearTimeout(timer);
+  }, [result, submitting, currentVerb?.id, effectiveMode]);
+
   useEffect(() => {
     const awardXp = async () => {
       if (!sessionComplete || !sessionId) return;
@@ -510,6 +540,7 @@ export default function IrregularVerbsTrainClient(props: {
     return () => setCurrentIrregularVerbBase(null);
   }, [currentVerb?.base, sessionComplete, setCurrentIrregularVerbBase]);
 
+  const showManualNext = Boolean(result && !getEffectiveCorrect(result));
 
   return (
     <main className="space-y-6">
@@ -529,18 +560,12 @@ export default function IrregularVerbsTrainClient(props: {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <a
-              className="tile-frame"
-              href="/app/irregular-verbs"
-            >
+            <a className="tile-frame" href="/app/irregular-verbs">
               <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Lista
+                ← Wszystkie irregular verbs
               </span>
             </a>
-            <a
-              className="tile-frame"
-              href="/app"
-            >
+            <a className="tile-frame" href="/app">
               <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
                 ← Wróć do strony głównej
               </span>
@@ -550,9 +575,9 @@ export default function IrregularVerbsTrainClient(props: {
       </header>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm">
           <div className="flex flex-col gap-3">
-            <div>{error}</div>
+            <div className="text-sm">{error}</div>
             <div className="flex flex-wrap gap-2">
               <button
                 className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900/90 hover:bg-white/10 transition"
@@ -612,16 +637,21 @@ export default function IrregularVerbsTrainClient(props: {
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
             {wantsLessonVerbsSession ? null : <div className="text-sm text-slate-600">Postęp XP</div>}
             {wantsLessonVerbsSession ? (
-              <div className="space-y-3 text-sm text-slate-700">
-                <p className="font-medium text-slate-800">✔ Powtórzyłeś materiał z lekcji</p>
-                <p className="text-slate-600">Może jeszcze raz?</p>
+              <div className="flex flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:items-center">
+                <p className="w-full sm:w-auto">Powtórzyłeś materiał z lekcji.</p>
                 <button
                   type="button"
-                  className="rounded-xl border border-slate-900 bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition duration-150 hover:scale-[1.02] hover:brightness-110 active:scale-[0.99]"
+                  className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
                   onClick={() => void startNewSession()}
                 >
                   Jeszcze raz
                 </button>
+                <a
+                  className="text-sm font-medium text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
+                  href="/app"
+                >
+                  Wróć do strony głównej
+                </a>
               </div>
             ) : award ? (
               <div className="space-y-1 text-sm text-slate-700">
@@ -671,12 +701,14 @@ export default function IrregularVerbsTrainClient(props: {
                 Jeszcze raz to samo
               </button>
             )}
-            <button
-              className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-500 cursor-not-allowed"
-              disabled
-            >
-              Jeszcze raz tylko błędne (Wkrótce)
-            </button>
+            {wantsLessonVerbsSession && lessonReturnHref ? (
+              <a
+                className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
+                href={lessonReturnHref}
+              >
+                Wróć do lekcji
+              </a>
+            ) : null}
             <a
               className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
               href="/app"
@@ -702,127 +734,125 @@ export default function IrregularVerbsTrainClient(props: {
 
           <div className="space-y-4">
             {showPastSimple ? (
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Past Simple</label>
-              <input
-                type="text"
-                value={pastSimple}
-                onChange={(e) => {
-                  if (submitting || result) return;
-                  setPastSimple(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key !== "Enter") return;
-                  e.preventDefault();
-                  if (submitting) return;
-                  if (!result) handleSubmit();
-                  else handleNext();
-                }}
-                readOnly={!!result || submitting}
-                aria-readonly={!!result || submitting}
-                className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
-                  result || submitting ? "opacity-60" : ""
-                }`}
-                ref={pastSimpleInputRef}
-                autoFocus
-              />
-              {result && (() => {
-                const pastSimpleCorrect = result.past_simple_correct ?? false;
-                return (
-                  <div className={`mt-2 rounded-xl border-2 p-3 ${pill(pastSimpleCorrect ? "good" : "bad")}`}>
-                    {pastSimpleCorrect ? (
-                      <span>Past Simple ✓</span>
-                    ) : (
-                      <span>
-                        Past Simple ✗ (poprawna: <strong>{currentVerb.past_simple}</strong>)
-                      </span>
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Past Simple</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="text"
+                    value={pastSimple}
+                    onChange={(e) => {
+                      if (submitting || result) return;
+                      setPastSimple(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter") return;
+                      e.preventDefault();
+                      if (submitting) return;
+                      if (!result) handleSubmit();
+                      else if (showManualNext) handleNext();
+                    }}
+                    readOnly={!!result || submitting}
+                    aria-readonly={!!result || submitting}
+                    className={`min-w-0 flex-1 rounded-xl border bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/25 ${
+                      result
+                        ? (result.past_simple_correct ?? false)
+                          ? "border-green-400"
+                          : "border-red-400"
+                        : "border-slate-300"
+                    }`}
+                    ref={pastSimpleInputRef}
+                    autoFocus
+                  />
+                  {result ? <InlineResultGlyph ok={result.past_simple_correct ?? false} /> : null}
+                </div>
+                {result && !(result.past_simple_correct ?? false) ? (
+                  <p className="mt-1.5 text-xs text-slate-500">
+                    <span className="text-slate-400">→</span> {currentVerb.past_simple}
+                  </p>
+                ) : null}
+              </div>
             ) : null}
 
             {showPastParticiple ? (
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Past Participle</label>
-              <input
-                type="text"
-                value={pastParticiple}
-                onChange={(e) => {
-                  if (submitting || result) return;
-                  setPastParticiple(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key !== "Enter") return;
-                  e.preventDefault();
-                  if (submitting) return;
-                  if (!result) handleSubmit();
-                  else handleNext();
-                }}
-                readOnly={!!result || submitting}
-                aria-readonly={!!result || submitting}
-                className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${
-                  result || submitting ? "opacity-60" : ""
-                }`}
-                ref={pastParticipleInputRef}
-              />
-              {result && (() => {
-                const pastParticipleCorrect = result.past_participle_correct ?? false;
-                return (
-                  <div className={`mt-2 rounded-xl border-2 p-3 ${pill(pastParticipleCorrect ? "good" : "bad")}`}>
-                    {pastParticipleCorrect ? (
-                      <span>Past Participle ✓</span>
-                    ) : (
-                      <span>
-                        Past Participle ✗ (poprawna: <strong>{currentVerb.past_participle}</strong>)
-                      </span>
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Past Participle</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="text"
+                    value={pastParticiple}
+                    onChange={(e) => {
+                      if (submitting || result) return;
+                      setPastParticiple(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter") return;
+                      e.preventDefault();
+                      if (submitting) return;
+                      if (!result) handleSubmit();
+                      else if (showManualNext) handleNext();
+                    }}
+                    readOnly={!!result || submitting}
+                    aria-readonly={!!result || submitting}
+                    className={`min-w-0 flex-1 rounded-xl border bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/25 ${
+                      result
+                        ? (result.past_participle_correct ?? false)
+                          ? "border-green-400"
+                          : "border-red-400"
+                        : "border-slate-300"
+                    }`}
+                    ref={pastParticipleInputRef}
+                  />
+                  {result ? <InlineResultGlyph ok={result.past_participle_correct ?? false} /> : null}
+                </div>
+                {result && !(result.past_participle_correct ?? false) ? (
+                  <p className="mt-1.5 text-xs text-slate-500">
+                    <span className="text-slate-400">→</span> {currentVerb.past_participle}
+                  </p>
+                ) : null}
+              </div>
             ) : null}
           </div>
 
           {result ? (
             <div className="space-y-3">
-              <div className={`rounded-xl border-2 p-4 text-center ${pill(getEffectiveCorrect(result) ? "good" : "bad")}`}>
-                <div className="text-lg font-semibold">
-                  {getEffectiveCorrect(result)
-                    ? "✓ Poprawnie"
-                    : effectiveMode === "both" && (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false)
-                      ? "Prawie! Jedna forma jest poprawna."
-                      : "✗ Błąd"}
-                </div>
-              </div>
+              {!getEffectiveCorrect(result) &&
+              effectiveMode === "both" &&
+              (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false) ? (
+                <p className="text-center text-[11px] leading-snug text-slate-500">
+                  Prawie — jedna forma jest poprawna
+                </p>
+              ) : null}
 
               {currentVerb && (() => {
                 const base = currentVerb.base.toLowerCase().trim();
                 const tip = VERB_TIPS[base] ?? null;
                 if (!tip) return null;
                 return (
-                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
-                    <p className="text-sm font-semibold text-amber-800">WAŻNE!</p>
-                    <div className="mt-1 whitespace-pre-line font-mono text-sm text-amber-900">
+                  <div className="rounded-xl border border-slate-200/90 bg-white p-3">
+                    <p className="text-xs font-medium text-slate-500">WAŻNE!</p>
+                    <div className="mt-1 whitespace-pre-line font-mono text-xs text-slate-600">
                       <TypewriterText text={tip} speed={30} />
                     </div>
                   </div>
                 );
               })()}
 
-              <div className="flex gap-2">
-                <button
-                  className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-900 hover:bg-slate-50 transition"
-                  onClick={handleNext}
-                >
-                  Następny czasownik
-                </button>
-              </div>
+              {showManualNext ? (
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-900 hover:bg-slate-50 transition"
+                    onClick={handleNext}
+                  >
+                    Następny czasownik
+                  </button>
+                </div>
+              ) : null}
             </div>
           ) : (
             <div className="flex gap-2">
               <button
+                type="button"
                 className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-700 hover:bg-slate-50 transition disabled:opacity-60"
                 onClick={handleSubmit}
                 disabled={submitting || !canSubmit}

@@ -172,11 +172,33 @@ export async function POST(req: Request) {
     );
     if ("error" in relationCheck) return relationCheck.error;
 
+    let lessonType: "teacher" | "self" = "teacher";
+    if (profile.role === "admin") {
+      lessonType = "teacher";
+    } else {
+      const { data: relRows, error: relErr } = await supabase
+        .from("teacher_student_relations")
+        .select("student_id")
+        .eq("teacher_id", userId);
+      if (relErr) {
+        return NextResponse.json({ error: relErr.message }, { status: 500 });
+      }
+      const hasRoster = (relRows ?? []).length > 0;
+      lessonType = hasRoster ? "teacher" : "self";
+      if (lessonType === "self" && studentId !== userId) {
+        return NextResponse.json(
+          { error: "Students may only create personal lessons for themselves." },
+          { status: 403 },
+        );
+      }
+    }
+
     const { data: lesson, error: insertErr } = await supabase
       .from("lessons")
       .insert({
         student_id: studentId,
         created_by: userId,
+        lesson_type: lessonType,
         lesson_date: body.lesson_date,
         topic: topicStr,
         summary: body.summary?.trim() || null,

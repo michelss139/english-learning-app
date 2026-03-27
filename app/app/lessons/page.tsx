@@ -4,7 +4,7 @@ import LessonCalendar from "@/components/lessons/LessonCalendar";
 
 export default function LessonsHubPage() {
   return (
-    <main className="flex h-[calc(100dvh-8.5rem)] max-h-[calc(100dvh-8.5rem)] flex-col gap-3 min-h-0 w-full">
+    <main className="flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] flex-col gap-3 min-h-0 w-full">
       <header className="shrink-0 px-0.5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-0.5">
@@ -17,9 +17,9 @@ export default function LessonsHubPage() {
                 Lista lekcji
               </span>
             </a>
-            <a className="tile-frame" href="/app">
+            <a className="tile-frame" href="/app/profile">
               <span className="tile-core inline-flex items-center rounded-[11px] px-3 py-1.5 text-sm font-medium text-slate-700">
-                ← Panel ucznia
+                Profil
               </span>
             </a>
           </div>

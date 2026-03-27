@@ -42,14 +42,9 @@ export default function LessonsListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [lessons, setLessons] = useState<LessonItem[]>([]);
-  const [studentId, setStudentId] = useState("");
 
-  const refreshLessons = async (token: string, role: string, studentIdParam?: string) => {
-    const query = new URLSearchParams();
-    if (role === "admin" && studentIdParam) {
-      query.set("student_id", studentIdParam);
-    }
-    const res = await fetch(`/api/lessons${query.toString() ? `?${query.toString()}` : ""}`, {
+  const refreshLessons = async (token: string) => {
+    const res = await fetch(`/api/lessons`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) {
@@ -76,7 +71,7 @@ export default function LessonsListPage() {
         }
 
         setProfile(p);
-        await refreshLessons(token, p.role, studentId);
+        await refreshLessons(token);
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : "Nieznany błąd");
       } finally {
@@ -85,28 +80,20 @@ export default function LessonsListPage() {
     };
 
     run();
-  }, [studentId]);
+  }, []);
 
   const goCreateLesson = () => {
     if (!profile?.id) {
       setError("Brak profilu. Zaloguj się ponownie.");
       return;
     }
-    if (profile.role === "admin" && !studentId.trim()) {
-      setError("Podaj identyfikator ucznia (UUID).");
-      return;
-    }
     setError("");
-    const q = new URLSearchParams({ date: todayISO() });
-    if (profile.role === "admin") {
-      q.set("student_id", studentId.trim());
-    }
-    router.push(`/app/lessons/new?${q.toString()}`);
+    router.push(`/app/lessons/new?${new URLSearchParams({ date: todayISO() }).toString()}`);
   };
 
   if (loading) {
     return (
-      <main className="flex min-h-[calc(100dvh-9rem)] flex-col gap-5">
+      <main className="flex min-h-[calc(100dvh-10.5rem)] flex-col gap-5">
         <div className={`${cardBase} animate-pulse`}>
           <div className="mb-4 h-10 w-40 rounded-xl bg-slate-100" />
           <div className="h-24 rounded-xl bg-slate-100" />
@@ -121,13 +108,13 @@ export default function LessonsListPage() {
   }
 
   return (
-    <main className="flex min-h-[calc(100dvh-9rem)] flex-col gap-5">
+    <main className="flex min-h-[calc(100dvh-10.5rem)] flex-col gap-5">
       <header>
         <Link
-          href="/app"
+          href="/app/lessons"
           className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
         >
-          ← Panel
+          ← Kalendarz
         </Link>
         <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Lekcje</h1>
       </header>
@@ -146,20 +133,6 @@ export default function LessonsListPage() {
           Utwórz lekcję
         </h2>
         <div className="space-y-4">
-          {profile?.role === "admin" ? (
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-500" htmlFor="lessons-admin-student">
-                UUID ucznia
-              </label>
-              <input
-                id="lessons-admin-student"
-                className="w-full rounded-xl border border-slate-100 bg-white/80 px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                placeholder="Wklej identyfikator ucznia"
-              />
-            </div>
-          ) : null}
           <button
             type="button"
             onClick={() => goCreateLesson()}
@@ -183,17 +156,29 @@ export default function LessonsListPage() {
           <ul className="space-y-2">
             {lessons.map((l) => {
               const title = (l.topic ?? "").trim() || "Bez tematu";
+              const selfSession = l.lesson_type === "self";
               return (
                 <li key={l.id}>
                   <Link
                     href={`/app/lessons/${l.id}`}
-                    className="group/row flex items-center justify-between gap-3 rounded-xl border border-slate-100 px-3.5 py-3 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50"
+                    className={`group/row flex items-center justify-between gap-3 rounded-xl border border-slate-100 px-3.5 py-3 transition-all duration-150 ${
+                      selfSession
+                        ? "hover:border-slate-200/75 hover:bg-slate-50/70"
+                        : "hover:border-slate-200 hover:bg-slate-50"
+                    }`}
                   >
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium text-slate-800">{title}</div>
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                        {selfSession ? "Twoja sesja" : "Lekcja"}
+                      </p>
+                      <div className="mt-0.5 truncate text-sm font-medium text-slate-800">{title}</div>
                       <div className="mt-0.5 text-xs text-slate-400">{formatPolishDate(l.lesson_date)}</div>
                     </div>
-                    <ChevronRight className="shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
+                    <ChevronRight
+                      className={`shrink-0 text-slate-300 transition-colors ${
+                        selfSession ? "group-hover/row:text-slate-400" : "group-hover/row:text-slate-500"
+                      }`}
+                    />
                   </Link>
                 </li>
               );

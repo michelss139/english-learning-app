@@ -6,6 +6,9 @@ import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile } from "@/lib/auth/profile";
 import { DEFAULT_AVATARS } from "@/lib/avatars";
 
+/** Kontakt dla kont nauczycielskich — zmień na firmowy adres. */
+const TEACHER_CONTACT_EMAIL = "email@email.com";
+
 export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -113,6 +116,37 @@ export default function RegisterPage() {
         <h1 className="text-2xl font-semibold">Rejestracja</h1>
 
         <form onSubmit={onSubmit} className="space-y-4 rounded-xl border p-4">
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-900">Zarejestruj się jako</div>
+            <div className="flex gap-2">
+              <span
+                className="flex flex-1 items-center justify-center rounded-lg border border-slate-900 bg-slate-50 px-3 py-2.5 text-sm font-semibold text-slate-900 shadow-sm"
+                aria-current="true"
+              >
+                Uczeń
+              </span>
+              <button
+                type="button"
+                disabled
+                className="flex flex-1 cursor-not-allowed items-center justify-center rounded-lg border border-slate-200 bg-slate-100/80 px-3 py-2.5 text-sm font-medium text-slate-400 opacity-70"
+                aria-disabled="true"
+              >
+                Nauczyciel
+              </button>
+            </div>
+            <p className="text-xs leading-relaxed text-slate-500">
+              Chcesz zostać nauczycielem?
+              <br />
+              Napisz:{" "}
+              <a
+                href={`mailto:${TEACHER_CONTACT_EMAIL}`}
+                className="font-medium text-slate-700 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
+              >
+                {TEACHER_CONTACT_EMAIL}
+              </a>
+            </p>
+          </div>
+
           <div className="space-y-2">
             <label className="text-sm font-medium">Nazwa użytkownika</label>
             <input

@@ -22,6 +22,7 @@ export type DayPanelLesson = {
   id: string;
   topic: string;
   student_display: string;
+  lesson_type: "teacher" | "self";
 };
 
 type CalendarDayPanelProps = {
@@ -114,14 +115,22 @@ export default function CalendarDayPanel({
             <ul className="space-y-1 pb-2" role="list">
               {lessons.map((l) => {
                 const topic = (l.topic ?? "").trim();
+                const selfSession = l.lesson_type === "self";
                 return (
                   <li key={l.id}>
                     <Link
                       href={`/app/lessons/${l.id}`}
                       onClick={onClose}
-                      className="block rounded-xl border border-slate-100 bg-white px-3 py-2 transition hover:border-slate-200 hover:bg-slate-50"
+                      className={`block rounded-xl border border-slate-100 bg-white px-3 py-2 transition ${
+                        selfSession
+                          ? "hover:border-slate-200/80 hover:bg-slate-50/80"
+                          : "hover:border-slate-200 hover:bg-slate-50"
+                      }`}
                     >
                       <p className="text-sm font-semibold text-slate-900">{l.student_display}</p>
+                      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+                        {selfSession ? "Twoja sesja" : "Lekcja"}
+                      </p>
                       {topic ? (
                         <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{topic}</p>
                       ) : (

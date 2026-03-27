@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, type Profile } from "@/lib/auth/profile";
@@ -11,6 +11,11 @@ import {
   STUDENT_LESSON_POLL_INTERVAL_MS,
   TEACHER_NOTE_AUTOSAVE_RETRY_DELAY_MS,
 } from "@/lib/lessons/constants";
+import {
+  encodeLessonVocabPairsForQuery,
+  parseLessonVocabPairsInput,
+  parseLessonVocabPairsStored,
+} from "@/lib/lessons/vocabPairs";
 
 type LessonNoteSaveStatus = "idle" | "saving" | "saved" | "error" | "conflict";
 
@@ -27,6 +32,41 @@ const cardNote =
 
 const topicInputClass =
   "w-full rounded-xl border border-slate-100 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-800 placeholder:font-normal placeholder:text-slate-400 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5";
+
+const modalFieldClass =
+  "w-full rounded-xl border border-slate-100 bg-white/80 px-3 py-2 text-sm leading-relaxed text-slate-800 placeholder:font-normal placeholder:text-slate-400 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5";
+
+function mergeIrregularVerbsAppend(existingRaw: string | null | undefined, newInput: string): string {
+  const existing = (existingRaw ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const seen = new Set(existing.map((v) => v.toLowerCase()));
+  const nextTokens = newInput
+    .split(/[\n,]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const merged = [...existing];
+  for (const t of nextTokens) {
+    const k = t.toLowerCase();
+    if (!seen.has(k)) {
+      seen.add(k);
+      merged.push(t);
+    }
+  }
+  return merged.join(", ");
+}
+
+function appendLessonVocabPairLine(
+  existingRaw: string | null | undefined,
+  en: string,
+  pl: string,
+): string {
+  const line = `${en.trim()} - ${pl.trim()}`;
+  const base = (existingRaw ?? "").trim();
+  if (!base) return line;
+  return `${base}\n${line}`;
+}
 
 function lessonNoteStatusText(status: LessonNoteSaveStatus): string | null {
   switch (status) {
@@ -94,12 +134,13 @@ export default function LessonDetailPage() {
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [assignments, setAssignments] = useState<LessonAssignmentRow[]>([]);
-  const [assignmentsFetchDone, setAssignmentsFetchDone] = useState(false);
-  const [assignmentAddKind, setAssignmentAddKind] = useState<"pack" | "cluster" | null>(null);
-  const [assignmentAddSlug, setAssignmentAddSlug] = useState("");
-  const [assignmentAddBusy, setAssignmentAddBusy] = useState(false);
   const [topicField, setTopicField] = useState("");
-  const [irregularVerbsField, setIrregularVerbsField] = useState("");
+  const [addContentModal, setAddContentModal] = useState<null | "irregular" | "vocab">(null);
+  const [irregularModalDraft, setIrregularModalDraft] = useState("");
+  const [vocabModalEn, setVocabModalEn] = useState("");
+  const [vocabModalPl, setVocabModalPl] = useState("");
+  const [modalIrregularError, setModalIrregularError] = useState<string | null>(null);
+  const [modalVocabError, setModalVocabError] = useState<string | null>(null);
   const [irregularVerbsSaveFeedback, setIrregularVerbsSaveFeedback] = useState<{
     saved: string[];
     ignored: string[];
@@ -109,10 +150,9 @@ export default function LessonDetailPage() {
 
   const topicDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const topicSaveInflightRef = useRef(0);
-  const irregularVerbsDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const irregularVerbsSaveInflightRef = useRef(0);
+  const vocabPairsSaveInflightRef = useRef(0);
   const initialTopicSaveSkippedRef = useRef(false);
-  const initialIrregularVerbsSaveSkippedRef = useRef(false);
 
   const teacherNoteDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const teacherNoteSaveInflightRef = useRef(0);
@@ -130,10 +170,12 @@ export default function LessonDetailPage() {
   const [studentNoteStatus, setStudentNoteStatus] = useState<LessonNoteSaveStatus>("idle");
   const [topicStatus, setTopicStatus] = useState<LessonNoteSaveStatus>("idle");
   const [irregularVerbsStatus, setIrregularVerbsStatus] = useState<LessonNoteSaveStatus>("idle");
+  const [vocabPairsStatus, setVocabPairsStatus] = useState<LessonNoteSaveStatus>("idle");
   const teacherNoteStatusClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const studentNoteStatusClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const topicStatusClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const irregularVerbsStatusClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const vocabPairsStatusClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const getToken = async () => {
     const session = await supabase.auth.getSession();
@@ -168,11 +210,9 @@ export default function LessonDetailPage() {
     initialTeacherNoteSaveSkippedRef.current = false;
     initialStudentNoteSaveSkippedRef.current = false;
     initialTopicSaveSkippedRef.current = false;
-    initialIrregularVerbsSaveSkippedRef.current = false;
 
     setLesson(lessonData.lesson);
     setTopicField(lessonData.lesson.topic ?? "");
-    setIrregularVerbsField(lessonData.lesson.irregular_verbs ?? "");
     setLessonDateField(lessonData.lesson.lesson_date ?? "");
     setTeacherNote(lessonData.lesson.teacher_note ?? "");
     setStudentNote(lessonData.lesson.student_note ?? "");
@@ -181,10 +221,9 @@ export default function LessonDetailPage() {
 
   const loadAssignments = useCallback(async () => {
     if (!lessonId) {
-      setAssignmentsFetchDone(false);
+      setAssignments([]);
       return;
     }
-    setAssignmentsFetchDone(false);
     try {
       const data = (await fetchJsonWithAuth(`/api/lessons/${lessonId}/assignments`)) as {
         ok?: boolean;
@@ -197,44 +236,8 @@ export default function LessonDetailPage() {
       }
     } catch {
       setAssignments([]);
-    } finally {
-      setAssignmentsFetchDone(true);
     }
   }, [lessonId]);
-
-  const submitNewAssignment = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!lessonId || !assignmentAddKind || assignmentAddBusy) return;
-    const slug = assignmentAddSlug.trim();
-    if (!slug) return;
-
-    setAssignmentAddBusy(true);
-    setError("");
-    try {
-      const token = await getToken();
-      if (!token) throw new Error("Musisz być zalogowany.");
-      const res = await fetch(`/api/lessons/${lessonId}/assignments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          exercise_type: assignmentAddKind,
-          context_slug: slug,
-        }),
-      });
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
-      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-      setAssignmentAddSlug("");
-      setAssignmentAddKind(null);
-      await loadAssignments();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Nie udało się dodać przypisania.");
-    } finally {
-      setAssignmentAddBusy(false);
-    }
-  };
 
   useEffect(() => {
     const run = async () => {
@@ -248,7 +251,6 @@ export default function LessonDetailPage() {
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : "Nie udało się wczytać lekcji.");
         setAssignments([]);
-        setAssignmentsFetchDone(true);
       } finally {
         setLoading(false);
       }
@@ -283,19 +285,19 @@ export default function LessonDetailPage() {
   const isLessonStudent = Boolean(
     profile?.id && lesson?.student_id && profile.id === lesson.student_id,
   );
+  const isSelfLesson = lesson?.lesson_type === "self";
 
-  const canEditTeacherNote = isAdminOverride || isLessonTeacher;
+  const canEditTeacherNote = (isAdminOverride || isLessonTeacher) && !isSelfLesson;
   const canEditStudentNote = isAdminOverride || isLessonStudent;
   const canEditTopic = isAdminOverride || isLessonTeacher;
-  const canCreateLessonAssignments = isAdminOverride || isLessonTeacher;
-  const canManageLesson = isAdminOverride || isLessonTeacher || isLessonStudent;
+  /** Date / delete: author or admin only — not enrolled student on a teacher-led lesson. */
+  const canManageLesson = isAdminOverride || isLessonTeacher;
 
   const applyLessonConflict = useCallback(
     (row: Lesson, opts: { syncTeacherText?: boolean; syncStudentText?: boolean }) => {
       lessonSyncVersionRef.current = row.updated_at ?? null;
       setLesson(row);
       setTopicField(row.topic ?? "");
-      setIrregularVerbsField(row.irregular_verbs ?? "");
       setLessonDateField(row.lesson_date ?? "");
       if (opts.syncTeacherText) setTeacherNote(row.teacher_note ?? "");
       if (opts.syncStudentText) setStudentNote(row.student_note ?? "");
@@ -379,12 +381,32 @@ export default function LessonDetailPage() {
     }
   }, []);
 
+  const bumpVocabPairsStatus = useCallback((next: LessonNoteSaveStatus) => {
+    if (vocabPairsStatusClearRef.current) {
+      clearTimeout(vocabPairsStatusClearRef.current);
+      vocabPairsStatusClearRef.current = null;
+    }
+    setVocabPairsStatus(next);
+    if (next === "saved") {
+      vocabPairsStatusClearRef.current = setTimeout(() => {
+        vocabPairsStatusClearRef.current = null;
+        setVocabPairsStatus((s) => (s === "saved" ? "idle" : s));
+      }, NOTE_STATUS_SAVED_CLEAR_MS);
+    } else if (next === "conflict") {
+      vocabPairsStatusClearRef.current = setTimeout(() => {
+        vocabPairsStatusClearRef.current = null;
+        setVocabPairsStatus((s) => (s === "conflict" ? "idle" : s));
+      }, NOTE_STATUS_CONFLICT_CLEAR_MS);
+    }
+  }, []);
+
   useEffect(() => {
     return () => {
       if (teacherNoteStatusClearRef.current) clearTimeout(teacherNoteStatusClearRef.current);
       if (studentNoteStatusClearRef.current) clearTimeout(studentNoteStatusClearRef.current);
       if (topicStatusClearRef.current) clearTimeout(topicStatusClearRef.current);
       if (irregularVerbsStatusClearRef.current) clearTimeout(irregularVerbsStatusClearRef.current);
+      if (vocabPairsStatusClearRef.current) clearTimeout(vocabPairsStatusClearRef.current);
     };
   }, []);
 
@@ -555,8 +577,8 @@ export default function LessonDetailPage() {
   }, [lessonId, topicField, canEditTopic, saveTopicToServer]);
 
   const saveIrregularVerbsToServer = useCallback(
-    async (raw: string) => {
-      if (!lessonId || !canEditTopic) return;
+    async (raw: string): Promise<"ok" | "fail" | "conflict"> => {
+      if (!lessonId || !canEditTopic) return "fail";
 
       irregularVerbsSaveInflightRef.current += 1;
       bumpIrregularVerbsStatus("saving");
@@ -593,7 +615,6 @@ export default function LessonDetailPage() {
             const row = data.lesson as Lesson;
             lessonSyncVersionRef.current = row.updated_at ?? null;
             setLesson(row);
-            setIrregularVerbsField(row.irregular_verbs ?? "");
             setTopicField(row.topic ?? "");
             if (Array.isArray(data.saved_verbs) && Array.isArray(data.ignored_verbs)) {
               setIrregularVerbsSaveFeedback({
@@ -626,18 +647,130 @@ export default function LessonDetailPage() {
           else bumpIrregularVerbsStatus("error");
         }
       }
+      return outcome;
     },
     [lessonId, canEditTopic, applyLessonConflict, bumpIrregularVerbsStatus],
   );
 
-  const debouncedSaveIrregularVerbs = useCallback(() => {
-    if (!lessonId || !canEditTopic) return;
-    if (irregularVerbsDebounceRef.current) clearTimeout(irregularVerbsDebounceRef.current);
-    irregularVerbsDebounceRef.current = setTimeout(() => {
-      irregularVerbsDebounceRef.current = null;
-      void saveIrregularVerbsToServer(irregularVerbsField);
-    }, LESSON_NOTE_AUTOSAVE_DEBOUNCE_MS);
-  }, [lessonId, irregularVerbsField, canEditTopic, saveIrregularVerbsToServer]);
+  const saveVocabPairsToServer = useCallback(
+    async (raw: string): Promise<"ok" | "fail" | "conflict" | "format"> => {
+      if (!lessonId || !canEditTopic) return "fail";
+
+      vocabPairsSaveInflightRef.current += 1;
+      bumpVocabPairsStatus("saving");
+      const attempt = async (): Promise<"ok" | "fail" | "conflict" | "format"> => {
+        const if_lesson_updated_at = lessonSyncVersionRef.current;
+        if (!if_lesson_updated_at) {
+          return "fail";
+        }
+        try {
+          const token = await getToken();
+          if (!token) return "fail";
+          const res = await fetch(`/api/lessons/${lessonId}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ if_lesson_updated_at, vocab_pairs: raw }),
+          });
+          if (res.status === 409) {
+            const data = await res.json().catch(() => null);
+            if (data?.lesson) {
+              applyLessonConflict(data.lesson as Lesson, { syncTeacherText: true, syncStudentText: true });
+            }
+            return "conflict";
+          }
+          if (res.status === 400) {
+            return "format";
+          }
+          if (!res.ok) {
+            return "fail";
+          }
+          const data = await res.json().catch(() => null);
+          if (data?.lesson) {
+            const row = data.lesson as Lesson;
+            lessonSyncVersionRef.current = row.updated_at ?? null;
+            setLesson(row);
+            setTopicField(row.topic ?? "");
+          }
+          return "ok";
+        } catch {
+          return "fail";
+        }
+      };
+
+      let outcome: "ok" | "fail" | "conflict" | "format" = "fail";
+      try {
+        outcome = await attempt();
+        if (outcome === "fail") {
+          await new Promise((r) => setTimeout(r, TEACHER_NOTE_AUTOSAVE_RETRY_DELAY_MS));
+          outcome = await attempt();
+        }
+      } finally {
+        vocabPairsSaveInflightRef.current -= 1;
+        if (vocabPairsSaveInflightRef.current <= 0) {
+          vocabPairsSaveInflightRef.current = 0;
+          if (outcome === "ok") bumpVocabPairsStatus("saved");
+          else if (outcome === "conflict") bumpVocabPairsStatus("conflict");
+          else if (outcome === "format") bumpVocabPairsStatus("idle");
+          else bumpVocabPairsStatus("error");
+        }
+      }
+      return outcome;
+    },
+    [lessonId, canEditTopic, applyLessonConflict, bumpVocabPairsStatus],
+  );
+
+  const closeAddContentModal = useCallback(() => {
+    setAddContentModal(null);
+    setIrregularModalDraft("");
+    setVocabModalEn("");
+    setVocabModalPl("");
+    setModalIrregularError(null);
+    setModalVocabError(null);
+  }, []);
+
+  const handleIrregularModalSave = useCallback(async () => {
+    if (!lesson) return;
+    setModalIrregularError(null);
+    const draft = irregularModalDraft.trim();
+    if (!draft) {
+      setModalIrregularError("Wpisz co najmniej jeden czasownik.");
+      return;
+    }
+    const merged = mergeIrregularVerbsAppend(lesson.irregular_verbs, draft);
+    const outcome = await saveIrregularVerbsToServer(merged);
+    if (outcome === "ok" || outcome === "conflict") {
+      closeAddContentModal();
+    }
+  }, [lesson, irregularModalDraft, saveIrregularVerbsToServer, closeAddContentModal]);
+
+  const handleVocabModalSave = useCallback(async () => {
+    if (!lesson) return;
+    setModalVocabError(null);
+    const en = vocabModalEn.trim();
+    const pl = vocabModalPl.trim();
+    if (!en || !pl) {
+      setModalVocabError("Uzupełnij oba pola.");
+      return;
+    }
+    const merged = appendLessonVocabPairLine(lesson.vocab_pairs, en, pl);
+    const parsed = parseLessonVocabPairsInput(merged);
+    if (!parsed.ok) {
+      setModalVocabError("Błąd w sposobie zapisu");
+      return;
+    }
+    const raw = parsed.stored ?? merged;
+    const outcome = await saveVocabPairsToServer(raw);
+    if (outcome === "format") {
+      setModalVocabError("Błąd w sposobie zapisu");
+      return;
+    }
+    if (outcome === "ok" || outcome === "conflict") {
+      closeAddContentModal();
+    }
+  }, [lesson, vocabModalEn, vocabModalPl, saveVocabPairsToServer, closeAddContentModal]);
 
   const saveLessonDateToServer = useCallback(
     async (iso: string) => {
@@ -837,16 +970,13 @@ export default function LessonDetailPage() {
   }, [topicField, debouncedSaveTopic, lessonId]);
 
   useEffect(() => {
-    if (!lessonId) return;
-    if (!initialIrregularVerbsSaveSkippedRef.current) {
-      initialIrregularVerbsSaveSkippedRef.current = true;
-      return;
-    }
-    debouncedSaveIrregularVerbs();
-    return () => {
-      if (irregularVerbsDebounceRef.current) clearTimeout(irregularVerbsDebounceRef.current);
+    if (!addContentModal) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeAddContentModal();
     };
-  }, [irregularVerbsField, debouncedSaveIrregularVerbs, lessonId]);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [addContentModal, closeAddContentModal]);
 
   useEffect(() => {
     return () => {
@@ -888,9 +1018,12 @@ export default function LessonDetailPage() {
           prev
             ? {
                 ...prev,
+                lesson_type: row.lesson_type ?? prev.lesson_type,
                 teacher_note: row.teacher_note ?? null,
                 topic: row.topic ?? prev.topic,
                 lesson_date: row.lesson_date ?? prev.lesson_date,
+                irregular_verbs: row.irregular_verbs ?? prev.irregular_verbs,
+                vocab_pairs: row.vocab_pairs ?? prev.vocab_pairs,
                 updated_at: row.updated_at,
               }
             : null,
@@ -916,8 +1049,10 @@ export default function LessonDetailPage() {
       return;
     }
 
-    const solo = lesson.student_id === lesson.created_by;
-    if (solo && lesson.student_id === profile.id) {
+    const soloSelf =
+      lesson.lesson_type === "self" ||
+      (lesson.lesson_type == null && lesson.student_id === lesson.created_by);
+    if (soloSelf && lesson.student_id === profile.id) {
       setCounterpartyLine({ solo: true });
       return;
     }
@@ -969,11 +1104,14 @@ export default function LessonDetailPage() {
     return raw.split(",").map((s) => s.trim()).filter(Boolean);
   }, [lesson?.irregular_verbs]);
 
-  const showLessonIrregularVerbsPracticeBar = lessonIrregularVerbsDisplay.length > 0;
+  const lessonVocabPairsDisplay = useMemo(
+    () => parseLessonVocabPairsStored(lesson?.vocab_pairs),
+    [lesson?.vocab_pairs],
+  );
 
   if (loading) {
     return (
-      <main className="mx-auto flex h-[calc(100dvh-8.5rem)] max-h-[calc(100dvh-8.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
+      <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
         <div className={`${cardBase} flex min-h-0 flex-1 animate-pulse flex-col`}>
           <div className="mb-3 h-3 w-40 rounded bg-slate-200" />
           <div className="min-h-0 flex-1 rounded-xl bg-slate-100" />
@@ -984,7 +1122,7 @@ export default function LessonDetailPage() {
 
   if (!lesson) {
     return (
-      <main className="mx-auto flex h-[calc(100dvh-8.5rem)] max-h-[calc(100dvh-8.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
+      <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
         <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
           <p className="text-sm text-rose-700">Nie znaleziono lekcji.</p>
           <Link
@@ -1002,12 +1140,12 @@ export default function LessonDetailPage() {
   const studentNoteStatusLabel = lessonNoteStatusText(studentNoteStatus);
   const topicStatusLabel = lessonNoteStatusText(topicStatus);
   const irregularVerbsStatusLabel = lessonNoteStatusText(irregularVerbsStatus);
+  const vocabPairsStatusLabel = lessonNoteStatusText(vocabPairsStatus);
   const dateLine = formatPolishDate(lesson.lesson_date ?? "");
-  const showPracticeSection =
-    showLessonIrregularVerbsPracticeBar || assignments.length > 0;
+  const showPracticeSection = assignments.length > 0;
 
   return (
-    <main className="mx-auto flex h-[calc(100dvh-8.5rem)] max-h-[calc(100dvh-8.5rem)] w-full max-w-4xl flex-col gap-2 min-h-0">
+    <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-2 min-h-0">
       <header className="flex shrink-0 flex-col gap-2">
         <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
           <div>
@@ -1088,35 +1226,38 @@ export default function LessonDetailPage() {
             )}
           </div>
 
-          {canEditTopic ? (
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0">
-                <label htmlFor="lesson-irregular-verbs" className="text-[11px] font-medium text-slate-400">
-                  Powtórka z lekcji
-                </label>
-                {irregularVerbsStatusLabel ? (
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:items-stretch md:gap-x-4">
+            <div className={`${cardBase} flex min-w-0 flex-col`}>
+              <div className="mb-2 flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
+                <h3 className="text-sm font-semibold tracking-tight text-slate-900">
+                  Czasowniki nieregularne
+                </h3>
+                {canEditTopic && irregularVerbsStatusLabel ? (
                   <span className="text-[11px] font-medium text-slate-400" aria-live="polite">
                     {irregularVerbsStatusLabel}
                   </span>
                 ) : null}
               </div>
-              <input
-                id="lesson-irregular-verbs"
-                type="text"
-                className={topicInputClass}
-                value={irregularVerbsField}
-                onChange={(e) => {
-                  setIrregularVerbsSaveFeedback(null);
-                  setIrregularVerbsField(e.target.value);
-                }}
-                placeholder="np. be, make, take"
-                autoComplete="off"
-                aria-busy={irregularVerbsStatus === "saving"}
-              />
+              <div className="min-h-[3rem] flex-1">
+                {lessonIrregularVerbsDisplay.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {lessonIrregularVerbsDisplay.map((v, i) => (
+                      <span
+                        key={`${i}-${v}`}
+                        className="inline-flex max-w-full truncate rounded-full border border-slate-200/90 bg-slate-50/90 px-2.5 py-0.5 text-xs font-medium text-slate-800"
+                      >
+                        {v}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-400">Brak wpisów</p>
+                )}
+              </div>
               {irregularVerbsSaveFeedback &&
               (irregularVerbsSaveFeedback.saved.length > 0 ||
                 irregularVerbsSaveFeedback.ignored.length > 0) ? (
-                <div className="mt-1 space-y-0.5 text-xs text-slate-600">
+                <div className="mt-2 space-y-0.5 text-xs text-slate-600">
                   {irregularVerbsSaveFeedback.saved.length > 0 &&
                   irregularVerbsSaveFeedback.ignored.length === 0 ? (
                     <p>✔ Dodano: {irregularVerbsSaveFeedback.saved.join(", ")}</p>
@@ -1134,8 +1275,82 @@ export default function LessonDetailPage() {
                   ) : null}
                 </div>
               ) : null}
+              <div className="mt-3 flex flex-wrap gap-2">
+                {canEditTopic ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setModalIrregularError(null);
+                      setIrregularModalDraft("");
+                      setAddContentModal("irregular");
+                    }}
+                    className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                  >
+                    + Dodaj
+                  </button>
+                ) : null}
+                {lessonIrregularVerbsDisplay.length > 0 ? (
+                  <Link
+                    href={`/app/irregular?lessonVerbs=${encodeURIComponent(lessonIrregularVerbsDisplay.join(","))}&lessonId=${encodeURIComponent(lessonId)}`}
+                    className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                  >
+                    Przećwicz
+                  </Link>
+                ) : null}
+              </div>
             </div>
-          ) : null}
+
+            <div className={`${cardBase} flex min-w-0 flex-col`}>
+              <div className="mb-2 flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
+                <h3 className="text-sm font-semibold tracking-tight text-slate-900">Słownictwo</h3>
+                {canEditTopic && vocabPairsStatusLabel ? (
+                  <span className="text-[11px] font-medium text-slate-400" aria-live="polite">
+                    {vocabPairsStatusLabel}
+                  </span>
+                ) : null}
+              </div>
+              {lessonVocabPairsDisplay.length > 0 ? (
+                <ul
+                  className="min-h-[3rem] flex-1 space-y-1 text-sm text-slate-800 [scrollbar-width:thin]"
+                  role="list"
+                >
+                  {lessonVocabPairsDisplay.map((p, idx) => (
+                    <li key={`${idx}-${p.source}`} className="leading-snug">
+                      <span className="font-medium text-slate-900">{p.source}</span>
+                      <span className="text-slate-400"> – </span>
+                      <span className="text-slate-700">{p.target}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="min-h-[3rem] flex-1 text-xs text-slate-400">Brak wpisów</p>
+              )}
+              <div className="mt-3 flex flex-wrap gap-2">
+                {canEditTopic ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setModalVocabError(null);
+                      setVocabModalEn("");
+                      setVocabModalPl("");
+                      setAddContentModal("vocab");
+                    }}
+                    className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                  >
+                    + Dodaj
+                  </button>
+                ) : null}
+                {lessonVocabPairsDisplay.length > 0 ? (
+                  <Link
+                    href={`/app/vocab/lesson?pairs=${encodeLessonVocabPairsForQuery(lessonVocabPairsDisplay)}&lessonId=${encodeURIComponent(lessonId)}`}
+                    className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                  >
+                    Przećwicz
+                  </Link>
+                ) : null}
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -1148,120 +1363,48 @@ export default function LessonDetailPage() {
         </div>
       ) : null}
 
-      {canCreateLessonAssignments ? (
-        <div className="shrink-0 flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-slate-200/60 pb-2.5">
-          <span className="text-sm text-slate-600">Dodaj do przećwiczenia:</span>
-          <div className="flex flex-wrap items-center gap-1.5">
-            <button
-              type="button"
-              disabled={assignmentAddBusy}
-              onClick={() => {
-                setAssignmentAddKind("pack");
-                setAssignmentAddSlug("");
-              }}
-              className={`rounded-md border px-2 py-0.5 text-sm font-medium transition-colors disabled:opacity-50 ${
-                assignmentAddKind === "pack"
-                  ? "border-slate-400 bg-slate-50 text-slate-900"
-                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-              }`}
-            >
-              Pack
-            </button>
-            <button
-              type="button"
-              disabled={assignmentAddBusy}
-              onClick={() => {
-                setAssignmentAddKind("cluster");
-                setAssignmentAddSlug("");
-              }}
-              className={`rounded-md border px-2 py-0.5 text-sm font-medium transition-colors disabled:opacity-50 ${
-                assignmentAddKind === "cluster"
-                  ? "border-slate-400 bg-slate-50 text-slate-900"
-                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-              }`}
-            >
-              Cluster
-            </button>
-          </div>
-          {assignmentAddKind ? (
-            <form
-              onSubmit={(ev) => void submitNewAssignment(ev)}
-              className="flex min-w-0 flex-wrap items-center gap-2"
-            >
-              <input
-                type="text"
-                value={assignmentAddSlug}
-                onChange={(ev) => setAssignmentAddSlug(ev.target.value)}
-                placeholder={
-                  assignmentAddKind === "pack" ? "np. business-vocab" : "np. hear-vs-listen"
-                }
-                autoComplete="off"
-                disabled={assignmentAddBusy}
-                className="min-w-[10rem] max-w-[16rem] flex-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-900/10 disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={assignmentAddBusy || !assignmentAddSlug.trim()}
-                className="rounded-md border border-slate-300 bg-white px-2 py-0.5 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:opacity-50"
-              >
-                {assignmentAddBusy ? "…" : "Dodaj"}
-              </button>
-              <button
-                type="button"
-                disabled={assignmentAddBusy}
-                onClick={() => {
-                  setAssignmentAddKind(null);
-                  setAssignmentAddSlug("");
-                }}
-                className="rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium text-slate-500 hover:bg-slate-100 disabled:opacity-50"
-              >
-                Anuluj
-              </button>
-            </form>
-          ) : null}
-        </div>
-      ) : null}
-
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <div className="grid min-h-[13.5rem] min-w-0 flex-1 grid-cols-1 gap-2 lg:grid-cols-2 lg:items-stretch">
-        <section
-          className={`${cardNote} flex min-h-[13.5rem] flex-col lg:min-h-0 lg:h-full`}
-        >
-          <div className="mb-1.5 flex shrink-0 flex-wrap items-center justify-between gap-2">
-            <div>
-              <h2 className="text-sm font-bold tracking-tight text-slate-900">Nauczyciel</h2>
+        {!isSelfLesson ? (
+          <section
+            className={`${cardNote} flex min-h-[13.5rem] flex-col lg:min-h-0 lg:h-full`}
+          >
+            <div className="mb-1.5 flex shrink-0 flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 className="text-sm font-bold tracking-tight text-slate-900">Nauczyciel</h2>
+              </div>
+              {canEditTeacherNote && teacherNoteStatusLabel ? (
+                <span className="text-[11px] font-medium text-slate-400" aria-live="polite">
+                  {teacherNoteStatusLabel}
+                </span>
+              ) : null}
             </div>
-            {canEditTeacherNote && teacherNoteStatusLabel ? (
-              <span className="text-[11px] font-medium text-slate-400" aria-live="polite">
-                {teacherNoteStatusLabel}
-              </span>
-            ) : null}
-          </div>
-          {canEditTeacherNote ? (
-            <textarea
-              id="lesson-teacher-note"
-              className="min-h-0 max-h-full w-full max-w-full flex-1 resize-none overflow-y-auto rounded-xl border border-slate-100 bg-white/80 px-3 py-2.5 text-sm leading-relaxed text-slate-800 placeholder:text-slate-400 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
-              value={teacherNote}
-              onChange={(e) => setTeacherNote(e.target.value)}
-              placeholder={NOTE_FIELD_PLACEHOLDER}
-              aria-busy={teacherNoteStatus === "saving"}
-            />
-          ) : (
-            <div
-              id="lesson-teacher-note"
-              className="min-h-0 max-h-full flex-1 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5 text-sm leading-relaxed text-slate-800"
-            >
-              {teacherNote.trim() ? (
-                teacherNote
-              ) : (
-                <span className="text-slate-400">{NOTE_FIELD_PLACEHOLDER}</span>
-              )}
-            </div>
-          )}
-        </section>
+            {canEditTeacherNote ? (
+              <textarea
+                id="lesson-teacher-note"
+                className="min-h-0 max-h-full w-full max-w-full flex-1 resize-none overflow-y-auto rounded-xl border border-slate-100 bg-white/80 px-3 py-2.5 text-sm leading-relaxed text-slate-800 placeholder:text-slate-400 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
+                value={teacherNote}
+                onChange={(e) => setTeacherNote(e.target.value)}
+                placeholder={NOTE_FIELD_PLACEHOLDER}
+                aria-busy={teacherNoteStatus === "saving"}
+              />
+            ) : (
+              <div
+                id="lesson-teacher-note"
+                className="min-h-0 max-h-full flex-1 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5 text-sm leading-relaxed text-slate-800"
+              >
+                {teacherNote.trim() ? (
+                  teacherNote
+                ) : (
+                  <span className="text-slate-400">{NOTE_FIELD_PLACEHOLDER}</span>
+                )}
+              </div>
+            )}
+          </section>
+        ) : null}
 
         <section
-          className={`${cardNote} flex min-h-[13.5rem] flex-col lg:min-h-0 lg:h-full`}
+          className={`${cardNote} flex min-h-[13.5rem] flex-col lg:min-h-0 lg:h-full ${isSelfLesson ? "lg:col-span-2" : ""}`}
         >
           <div className="mb-1.5 flex shrink-0 flex-wrap items-center justify-between gap-2">
             <div>
@@ -1300,49 +1443,154 @@ export default function LessonDetailPage() {
 
       {showPracticeSection ? (
         <section className="shrink-0 rounded-xl border border-slate-200/70 bg-slate-50/60 px-3 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-          <div className="space-y-3">
-            {showLessonIrregularVerbsPracticeBar ? (
-              <div className="space-y-1.5">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Czasowniki do przećwiczenia
-                </p>
-                <p className="overflow-x-auto text-sm font-medium tracking-wide text-slate-800 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  {lessonIrregularVerbsDisplay.join(" · ")}
-                </p>
-                <Link
-                  href={`/app/irregular?lessonVerbs=${encodeURIComponent(lessonIrregularVerbsDisplay.join(","))}`}
-                  className="inline-flex rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-white"
-                >
-                  Przećwicz
+          <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Do przećwiczenia
+          </h3>
+          <ul className="space-y-0.5" role="list">
+            {assignments.map((a) => (
+              <li key={a.id}>
+                <Link href={assignmentTrainingHref(a)} className={assignmentLinkMotion}>
+                  <span aria-hidden>→</span> {assignmentDisplayLabel(a)}
+                  {a.status === "done" ? (
+                    <span className="ml-1.5 text-xs font-normal text-slate-400">✓</span>
+                  ) : null}
                 </Link>
-              </div>
-            ) : null}
-
-            {assignments.length > 0 ? (
-              <div
-                className={
-                  showLessonIrregularVerbsPracticeBar ? "border-t border-slate-200/80 pt-3" : ""
-                }
-              >
-                <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Do przećwiczenia
-                </h3>
-                <ul className="space-y-0.5" role="list">
-                  {assignments.map((a) => (
-                    <li key={a.id}>
-                      <Link href={assignmentTrainingHref(a)} className={assignmentLinkMotion}>
-                        <span aria-hidden>→</span> {assignmentDisplayLabel(a)}
-                        {a.status === "done" ? (
-                          <span className="ml-1.5 text-xs font-normal text-slate-400">✓</span>
-                        ) : null}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
+              </li>
+            ))}
+          </ul>
         </section>
+      ) : null}
+
+      {addContentModal ? (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="lesson-add-content-title"
+        >
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px]"
+            aria-label="Zamknij"
+            onClick={closeAddContentModal}
+          />
+          <div className="relative flex max-h-[min(85dvh,32rem)] w-full max-w-md flex-col rounded-t-2xl border border-slate-200/90 bg-white shadow-[0_-4px_24px_rgba(15,23,42,0.12)] sm:rounded-2xl sm:shadow-xl">
+            <div className="shrink-0 border-b border-slate-100 px-4 py-3">
+              <h2
+                id="lesson-add-content-title"
+                className="text-base font-semibold tracking-tight text-slate-900"
+              >
+                {addContentModal === "irregular" ? "Dodaj czasowniki nieregularne" : "Dodaj słownictwo"}
+              </h2>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+              {addContentModal === "irregular" ? (
+                <div className="space-y-2">
+                  <label htmlFor="lesson-add-irregular" className="block text-xs font-medium text-slate-500">
+                    Czasowniki (przecinek lub nowa linia)
+                  </label>
+                  <textarea
+                    id="lesson-add-irregular"
+                    rows={5}
+                    className={`${modalFieldClass} max-w-full resize-y`}
+                    value={irregularModalDraft}
+                    onChange={(e) => {
+                      setModalIrregularError(null);
+                      setIrregularModalDraft(e.target.value);
+                    }}
+                    placeholder={"np. be, make, take"}
+                    autoComplete="off"
+                    spellCheck={false}
+                    aria-busy={irregularVerbsStatus === "saving"}
+                  />
+                  {modalIrregularError ? (
+                    <p className="text-xs font-medium text-rose-600" role="alert">
+                      {modalIrregularError}
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="lesson-add-vocab-en" className="block text-xs font-medium text-slate-500">
+                      Angielski
+                    </label>
+                    <input
+                      id="lesson-add-vocab-en"
+                      type="text"
+                      className={modalFieldClass}
+                      value={vocabModalEn}
+                      onChange={(e) => {
+                        setModalVocabError(null);
+                        setVocabModalEn(e.target.value);
+                      }}
+                      placeholder="np. go over"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="lesson-add-vocab-pl" className="block text-xs font-medium text-slate-500">
+                      Polski
+                    </label>
+                    <input
+                      id="lesson-add-vocab-pl"
+                      type="text"
+                      className={modalFieldClass}
+                      value={vocabModalPl}
+                      onChange={(e) => {
+                        setModalVocabError(null);
+                        setVocabModalPl(e.target.value);
+                      }}
+                      placeholder="np. przejrzeć"
+                      autoComplete="off"
+                    />
+                  </div>
+                  {modalVocabError ? (
+                    <p className="text-xs font-medium text-rose-600" role="alert">
+                      {modalVocabError}
+                    </p>
+                  ) : null}
+                </div>
+              )}
+            </div>
+
+            <div className="shrink-0 border-t border-slate-100 px-4 py-3">
+              <div className="flex flex-wrap justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={closeAddContentModal}
+                  disabled={
+                    addContentModal === "irregular"
+                      ? irregularVerbsStatus === "saving"
+                      : vocabPairsStatus === "saving"
+                  }
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+                >
+                  Anuluj
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void (addContentModal === "irregular" ? handleIrregularModalSave() : handleVocabModalSave())}
+                  disabled={
+                    addContentModal === "irregular"
+                      ? irregularVerbsStatus === "saving"
+                      : vocabPairsStatus === "saving"
+                  }
+                  className="rounded-xl border border-slate-300 bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                >
+                  {addContentModal === "irregular"
+                    ? irregularVerbsStatus === "saving"
+                      ? "Zapisywanie…"
+                      : "Zapisz"
+                    : vocabPairsStatus === "saving"
+                      ? "Zapisywanie…"
+                      : "Zapisz"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : null}
     </main>
   );

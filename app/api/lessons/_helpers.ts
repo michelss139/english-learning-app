@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
 export const LESSON_API_ROW_SELECT =
-  "id, student_id, created_by, lesson_date, topic, summary, teacher_note, student_note, irregular_verbs, created_at, updated_at";
+  "id, student_id, created_by, lesson_type, lesson_date, topic, summary, teacher_note, student_note, irregular_verbs, vocab_pairs, created_at, updated_at";
 
 export type LessonAccessRow = {
   student_id: string;

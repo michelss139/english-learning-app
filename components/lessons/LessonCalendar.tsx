@@ -12,6 +12,7 @@ type CalendarLesson = {
   lesson_date: string;
   topic: string;
   student_id: string;
+  lesson_type: "teacher" | "self";
   student_display: string;
   assignment_count: number;
   vocab_count: number;
@@ -73,11 +74,6 @@ export default function LessonCalendar() {
   const [panelDateIso, setPanelDateIso] = useState<string>("");
 
   const monthKey = useMemo(() => toMonthKey(monthDate), [monthDate]);
-
-  const isTeachingUser = useMemo(() => {
-    if (!profile) return false;
-    return profile.role === "admin" || rosterCount > 0;
-  }, [profile, rosterCount]);
 
   const useStudentCalendarShortcuts = Boolean(
     profile && profile.role !== "admin" && rosterCount === 0,
@@ -144,8 +140,15 @@ export default function LessonCalendar() {
           throw new Error(errorData.error || "Nie udało się pobrać kalendarza.");
         }
 
-        const data = (await res.json()) as CalendarLesson[];
-        setLessons(Array.isArray(data) ? data : []);
+        const raw = (await res.json()) as Partial<CalendarLesson>[];
+        setLessons(
+          Array.isArray(raw)
+            ? raw.map((row) => ({
+                ...(row as CalendarLesson),
+                lesson_type: row.lesson_type === "self" ? "self" : "teacher",
+              }))
+            : [],
+        );
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się pobrać kalendarza.");
       } finally {
@@ -189,7 +192,8 @@ export default function LessonCalendar() {
     return lessonsByDate.get(panelDateIso) ?? [];
   }, [lessonsByDate, panelDateIso]);
 
-  const panelShowAdd = isTeachingUser || lessonsForPanel.length === 0;
+  /** Students may add multiple personal lessons per day; teachers always see add. */
+  const panelShowAdd = true;
 
   const onAddLesson = useCallback(
     (dateIso: string) => {
@@ -248,6 +252,8 @@ export default function LessonCalendar() {
           const dayLessons = lessonsByDate.get(dateIso) ?? [];
           const lessonCount = dayLessons.length;
           const previewTopic = dayLessons[0]?.topic;
+          const previewKind =
+            lessonCount === 1 ? (dayLessons[0]?.lesson_type === "self" ? "self" : "teacher") : undefined;
           return (
             <LessonDay
               key={dateIso}
@@ -257,6 +263,7 @@ export default function LessonCalendar() {
               isToday={dateIso === todayIso}
               lessonCount={lessonCount}
               previewTopic={previewTopic}
+              previewKind={previewKind}
               disabled={loading}
               onClick={onDayClick}
             />
@@ -278,6 +285,7 @@ export default function LessonCalendar() {
           id: l.id,
           topic: l.topic,
           student_display: l.student_display,
+          lesson_type: l.lesson_type,
         }))}
         showAddButton={panelShowAdd}
         onClose={() => setPanelOpen(false)}

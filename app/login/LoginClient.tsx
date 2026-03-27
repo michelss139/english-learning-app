@@ -26,10 +26,9 @@ export default function LoginClient() {
       if (error) throw error;
       if (!data.session) throw new Error("Nie udało się utworzyć sesji.");
 
-      const profile = await getOrCreateProfile();
+      await getOrCreateProfile();
 
-      if (profile?.role === "admin") router.push("/admin");
-      else router.push("/app");
+      router.push("/app");
     } catch (err: unknown) {
       setStatus("error");
       setMessage(err instanceof Error ? err.message : "Nieznany błąd");

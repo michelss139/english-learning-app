@@ -9,6 +9,7 @@ type PageProps = {
     startMode?: string;
     targets?: string;
     lessonVerbs?: string;
+    lessonId?: string;
   }>;
 };
 
@@ -16,6 +17,7 @@ export default async function IrregularVerbsTrainPage({ searchParams }: PageProp
   const sp = await searchParams;
   const assignmentId = sp.assignmentId ?? "";
   const lessonVerbs = sp.lessonVerbs ?? "";
+  const returnLessonId = (sp.lessonId ?? "").trim();
   const mode =
     sp.mode === "past_simple" || sp.mode === "past_participle" || sp.mode === "both"
       ? sp.mode
@@ -29,6 +31,7 @@ export default async function IrregularVerbsTrainPage({ searchParams }: PageProp
       mode={mode}
       startMode={startMode}
       lessonVerbs={lessonVerbs}
+      returnLessonId={returnLessonId || undefined}
     />
   );
 }

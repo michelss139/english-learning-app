@@ -18,6 +18,7 @@ type ProfileRow = {
   email: string | null;
   username: string | null;
   avatar_url: string | null;
+  role: "admin" | "student";
 };
 
 type XpInfo = {
@@ -33,15 +34,13 @@ type StreakInfo = {
   last_activity_date: string | null;
 };
 
-type Badge = {
-  slug: string;
-  title: string;
-  description: string | null;
-  icon: string | null;
-  earned: boolean;
-};
-
 type Suggestion = TrainingSuggestion;
+
+type TeacherRosterRow = {
+  student_id: string;
+  email: string | null;
+  username: string | null;
+};
 
 type SuggestionsResponse = {
   top: Suggestion[];
@@ -55,6 +54,13 @@ function formatIrregularItemLabel(s: Suggestion): string {
   return formLabel ? `${label} (${formLabel})` : label;
 }
 
+function teacherRosterRowToLabel(row: TeacherRosterRow): string {
+  const e = (row.email ?? "").trim();
+  if (e) return e;
+  const u = (row.username ?? "").trim();
+  return u || "—";
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<ProfileRow | null>(null);
@@ -62,7 +68,8 @@ export default function ProfilePage() {
 
   const [xp, setXp] = useState<XpInfo | null>(null);
   const [streak, setStreak] = useState<StreakInfo | null>(null);
-  const [badges, setBadges] = useState<Badge[]>([]);
+  const [roleLine, setRoleLine] = useState<string | null>(null);
+  const [teacherStudentLabels, setTeacherStudentLabels] = useState<string[]>([]);
   const [suggestionsTop, setSuggestionsTop] = useState<Suggestion[]>([]);
   const [suggestionsList, setSuggestionsList] = useState<Suggestion[]>([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(true);
@@ -87,6 +94,7 @@ export default function ProfilePage() {
           email: prof.email ?? null,
           username: prof.username ?? null,
           avatar_url: prof.avatar_url ?? null,
+          role: prof.role,
         });
         if (!prof.avatar_url) {
           const randomAvatar = getRandomAvatar();
@@ -99,10 +107,10 @@ export default function ProfilePage() {
           }
         }
 
-        const [xpRes, streakRes, badgesRes, recRes] = await Promise.all([
+        const [xpRes, streakRes, rosterRes, recRes] = await Promise.all([
           fetch("/api/profile/xp", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/profile/streak", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("/api/profile/badges", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("/api/teacher/students", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/suggestions", { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
@@ -125,10 +133,21 @@ export default function ProfilePage() {
           });
         }
 
-        const badgesJson = await badgesRes.json().catch(() => null);
-        if (badgesRes.ok && badgesJson?.ok) {
-          setBadges((badgesJson.badges ?? []) as Badge[]);
+        const rosterLabels: string[] = [];
+        if (rosterRes.ok) {
+          const rosterJson = (await rosterRes.json().catch(() => null)) as {
+            students?: TeacherRosterRow[];
+          } | null;
+          const rosterList = Array.isArray(rosterJson?.students) ? rosterJson.students : [];
+          const seen = new Set<string>();
+          for (const row of rosterList) {
+            if (!row?.student_id || seen.has(row.student_id)) continue;
+            seen.add(row.student_id);
+            rosterLabels.push(teacherRosterRowToLabel(row));
+          }
         }
+        setTeacherStudentLabels(rosterLabels);
+        setRoleLine(prof.role === "admin" ? "Rola: administrator" : "Rola: uczeń");
 
         const recJson = (await recRes.json().catch(() => null)) as Partial<SuggestionsResponse> | null;
         if (recRes.ok && recJson && typeof recJson === "object") {
@@ -142,6 +161,7 @@ export default function ProfilePage() {
         setError(e?.message ?? "Nie udało się wczytać profilu.");
         setSuggestionsTop([]);
         setSuggestionsList([]);
+        setTeacherStudentLabels([]);
       } finally {
         setSuggestionsLoading(false);
       }
@@ -198,7 +218,6 @@ export default function ProfilePage() {
   }, [currentStreak]);
   const tooltipText =
     "Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia.";
-  const recentBadges = badges.slice(0, 3);
   const trainingPanelOptions = useMemo(() => {
     if (suggestionsLoading) return [];
     const useFallback = suggestionsTop.length === 0;
@@ -225,19 +244,14 @@ export default function ProfilePage() {
     router.push(item.href);
   };
 
-  const renderBadgeIcon = (badge: Badge) => {
-    if (badge.icon && (badge.icon.startsWith("/") || badge.icon.startsWith("http"))) {
-      return <img src={badge.icon} alt="" className="h-8 w-8" />;
-    }
-    if (badge.icon) return badge.icon;
-    return badge.title?.slice(0, 1) || "★";
-  };
-
   return (
     <main className="space-y-6">
       <header className="px-1 py-1">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex flex-col gap-4">
+            {roleLine ? (
+              <p className="text-xs font-medium tracking-wide text-slate-500">{roleLine}</p>
+            ) : null}
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
               Oto Twój postęp, {profile?.username || profile?.email || "Użytkowniku"}!
             </h1>
@@ -270,25 +284,6 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="flex flex-col items-start gap-3 sm:items-end">
-            <a
-              href="/app/profile/badges"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-            >
-              <span>Moje odznaki</span>
-              {recentBadges.length > 0 ? (
-                <span className="inline-flex items-center gap-1">
-                  {recentBadges.map((badge) => (
-                    <span
-                      key={badge.slug}
-                      className="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded-full border border-slate-300 bg-slate-50 text-xs text-slate-700"
-                      aria-hidden
-                    >
-                      {renderBadgeIcon(badge)}
-                    </span>
-                  ))}
-                </span>
-              ) : null}
-            </a>
             <a
               href="/app"
               className="inline-flex w-52 items-center justify-center rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
@@ -398,6 +393,17 @@ export default function ProfilePage() {
           )}
         </div>
       </section>
+
+      {teacherStudentLabels.length > 0 ? (
+        <section className="tile-frame">
+          <div className="tile-core mx-auto w-full max-w-5xl p-6">
+            <p className="text-sm leading-relaxed text-slate-600">
+              <span className="font-medium text-slate-700">Moi uczniowie:</span>{" "}
+              {teacherStudentLabels.join(", ")}
+            </p>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

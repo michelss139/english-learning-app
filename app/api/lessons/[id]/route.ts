@@ -4,6 +4,7 @@ import {
   LESSON_API_ROW_SELECT,
 } from "@/app/api/lessons/_helpers";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { parseLessonVocabPairsInput } from "@/lib/lessons/vocabPairs";
 
 /**
  * PATCH body: optimistic concurrency via `if_lesson_updated_at` (must match DB row).
@@ -21,6 +22,7 @@ const ALLOWED_PATCH_KEYS = new Set([
   "teacher_note",
   "student_note",
   "irregular_verbs",
+  "vocab_pairs",
 ]);
 
 type ParsedPatchBody = {
@@ -31,6 +33,7 @@ type ParsedPatchBody = {
   teacher_note?: string | null;
   student_note?: string | null;
   irregular_verbs?: string;
+  vocab_pairs?: string;
 };
 
 type IrregularVerbsResolveResult = {
@@ -167,11 +170,22 @@ function parsePatchBody(raw: unknown): { ok: true; body: ParsedPatchBody } | { o
     body.irregular_verbs = o.irregular_verbs;
   }
 
+  if ("vocab_pairs" in o) {
+    if (typeof o.vocab_pairs !== "string") {
+      return {
+        ok: false,
+        response: NextResponse.json({ error: "vocab_pairs must be a string" }, { status: 400 }),
+      };
+    }
+    body.vocab_pairs = o.vocab_pairs;
+  }
+
   const wantsMeta =
     body.lesson_date !== undefined ||
     body.topic !== undefined ||
     body.summary !== undefined ||
-    body.irregular_verbs !== undefined;
+    body.irregular_verbs !== undefined ||
+    body.vocab_pairs !== undefined;
   const wantsTeacherNote = body.teacher_note !== undefined;
   const wantsStudentNote = body.student_note !== undefined;
 
@@ -279,17 +293,21 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       student_id: string;
       created_by: string;
       updated_at: string;
+      lesson_type?: string;
     };
 
     const isAdminOverride = role === "admin";
     const isLessonTeacher = userId === lessonRow.created_by;
     const isLessonStudent = userId === lessonRow.student_id;
+    const isSelfLesson = lessonRow.lesson_type === "self";
+    const canPatchTeacherNote = isAdminOverride || (isLessonTeacher && !isSelfLesson);
 
     const wantsLessonDate = body.lesson_date !== undefined;
     const wantsTopic = body.topic !== undefined;
     const wantsSummary = body.summary !== undefined;
     const wantsIrregularVerbs = body.irregular_verbs !== undefined;
-    const wantsMeta = wantsLessonDate || wantsTopic || wantsSummary || wantsIrregularVerbs;
+    const wantsVocabPairs = body.vocab_pairs !== undefined;
+    const wantsMeta = wantsLessonDate || wantsTopic || wantsSummary || wantsIrregularVerbs || wantsVocabPairs;
     const wantsTeacherNote = body.teacher_note !== undefined;
     const wantsStudentNote = body.student_note !== undefined;
 
@@ -300,10 +318,10 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           { status: 403 },
         );
       }
-      if (wantsLessonDate && !isLessonTeacher && !isLessonStudent) {
+      if (wantsLessonDate && !isLessonTeacher) {
         return NextResponse.json(
           {
-            error: "Only the lesson teacher, the enrolled student, or an administrator may change the lesson date",
+            error: "Only the lesson author or an administrator may change the lesson date",
           },
           { status: 403 },
         );
@@ -317,8 +335,17 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           { status: 403 },
         );
       }
-      if (wantsTeacherNote && !isLessonTeacher) {
-        return NextResponse.json({ error: "Only the lesson teacher (author) may update teacher_note" }, { status: 403 });
+      if (wantsVocabPairs && !isLessonTeacher && !isAdminOverride) {
+        return NextResponse.json(
+          { error: "Only the lesson teacher may update vocab_pairs" },
+          { status: 403 },
+        );
+      }
+      if (wantsTeacherNote && !canPatchTeacherNote) {
+        return NextResponse.json(
+          { error: "Only the lesson teacher (author) may update teacher_note, except on self lessons." },
+          { status: 403 },
+        );
       }
       if (wantsStudentNote && !isLessonStudent) {
         return NextResponse.json({ error: "Only the enrolled student may update student_note" }, { status: 403 });
@@ -350,6 +377,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       }
     }
 
+    let vocabPairsStored: string | null | undefined;
+    if (wantsVocabPairs) {
+      const parsed = parseLessonVocabPairsInput(body.vocab_pairs!);
+      if (!parsed.ok) {
+        return NextResponse.json({ error: "Błąd w sposobie zapisu" }, { status: 400 });
+      }
+      vocabPairsStored = parsed.stored;
+    }
+
     const updates: Record<string, string | null> = {};
 
     if (isAdminOverride) {
@@ -359,12 +395,14 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       if (body.teacher_note !== undefined) updates.teacher_note = body.teacher_note;
       if (body.student_note !== undefined) updates.student_note = body.student_note;
       if (wantsIrregularVerbs) updates.irregular_verbs = irregularVerbsStored;
+      if (wantsVocabPairs) updates.vocab_pairs = vocabPairsStored ?? null;
     } else {
-      if (wantsTeacherNote) updates.teacher_note = body.teacher_note!;
+      if (wantsTeacherNote && canPatchTeacherNote) updates.teacher_note = body.teacher_note!;
       if (wantsStudentNote) updates.student_note = body.student_note!;
       if (wantsTopic && isLessonTeacher) updates.topic = body.topic!;
       if (wantsIrregularVerbs && isLessonTeacher) updates.irregular_verbs = irregularVerbsStored;
-      if (wantsLessonDate && (isLessonTeacher || isLessonStudent)) {
+      if (wantsVocabPairs && isLessonTeacher) updates.vocab_pairs = vocabPairsStored ?? null;
+      if (wantsLessonDate && isLessonTeacher) {
         updates.lesson_date = body.lesson_date!;
       }
     }

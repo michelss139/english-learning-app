@@ -66,12 +66,10 @@ function NewLessonInner() {
   };
 
   useEffect(() => {
-    if (!profile || profile.role === "admin") {
-      setRosterLoaded(true);
-      return;
-    }
+    if (!profile) return;
 
     let cancelled = false;
+    setRosterLoaded(false);
     void (async () => {
       try {
         const token = await getToken();
@@ -96,33 +94,41 @@ function NewLessonInner() {
     };
   }, [profile]);
 
-  const needsRosterPicker = Boolean(profile && profile.role !== "admin" && roster.length > 0);
+  const needsStudentDropdown = roster.length > 1;
 
   useEffect(() => {
-    if (!profile || profile.role === "admin") return;
-    if (!rosterLoaded) return;
+    if (!profile || !rosterLoaded) return;
 
     if (roster.length === 0) {
       setSelectedStudentId(profile.id);
       return;
     }
 
-    if (studentIdParam) {
-      if (studentIdParam === profile.id || roster.some((r) => r.student_id === studentIdParam)) {
+    if (roster.length === 1) {
+      const onlyId = roster[0].student_id;
+      if (studentIdParam && (studentIdParam === profile.id || studentIdParam === onlyId)) {
         setSelectedStudentId(studentIdParam);
-        return;
+      } else {
+        setSelectedStudentId(onlyId);
       }
+      return;
     }
 
+    if (
+      studentIdParam &&
+      (studentIdParam === profile.id || roster.some((r) => r.student_id === studentIdParam))
+    ) {
+      setSelectedStudentId(studentIdParam);
+      return;
+    }
     setSelectedStudentId("");
   }, [profile, roster, rosterLoaded, studentIdParam]);
 
   useEffect(() => {
-    if (!profile || profile.role === "admin") return;
-    if (roster.length > 0 && !selectedStudentId) {
+    if (roster.length > 1 && !selectedStudentId) {
       setTopicDraft("");
     }
-  }, [profile, roster.length, selectedStudentId]);
+  }, [roster.length, selectedStudentId]);
 
   const commitCreate = useCallback(
     async (rawTopic: string) => {
@@ -130,7 +136,7 @@ function NewLessonInner() {
       const topic = rawTopic.trim();
       if (!topic) return;
       if (!profile) return;
-      if (profile.role !== "admin" && !rosterLoaded) return;
+      if (!rosterLoaded) return;
 
       inflightRef.current = true;
       setCreating(true);
@@ -141,23 +147,15 @@ function NewLessonInner() {
           setError("Musisz być zalogowany.");
           return;
         }
-        if (profile.role === "admin" && !studentIdParam) {
-          setError("Dla konta administratora w adresie URL musi być podany student_id (UUID ucznia).");
+        if (roster.length > 1 && !selectedStudentId.trim()) {
+          setError("Najpierw wybierz ucznia.");
           return;
         }
-
-        let studentIdForLesson: string;
-        if (profile.role === "admin") {
-          studentIdForLesson = studentIdParam;
-        } else if (roster.length > 0) {
-          if (!selectedStudentId) {
-            setError("Najpierw wybierz ucznia");
-            return;
-          }
-          studentIdForLesson = selectedStudentId;
-        } else {
-          studentIdForLesson = profile.id;
+        if (!selectedStudentId.trim()) {
+          setError("Nie wybrano ucznia.");
+          return;
         }
+        const studentIdForLesson = selectedStudentId.trim();
 
         const body: Record<string, unknown> = {
           lesson_date: dateParam,
@@ -193,15 +191,7 @@ function NewLessonInner() {
         setCreating(false);
       }
     },
-    [
-      dateParam,
-      router,
-      profile,
-      studentIdParam,
-      roster.length,
-      rosterLoaded,
-      selectedStudentId,
-    ],
+    [dateParam, router, profile, roster.length, rosterLoaded, selectedStudentId],
   );
 
   const submitAddStudent = useCallback(async () => {
@@ -265,12 +255,9 @@ function NewLessonInner() {
   }, [dateParam, router]);
 
   const canShowTopicField = useMemo(() => {
-    if (!profile) return false;
-    if (profile.role === "admin") return studentIdParam.length > 0;
-    if (!rosterLoaded) return false;
-    if (roster.length > 0) return selectedStudentId.length > 0;
-    return true;
-  }, [profile, rosterLoaded, roster.length, selectedStudentId, studentIdParam]);
+    if (!profile || !rosterLoaded) return false;
+    return selectedStudentId.length > 0;
+  }, [profile, rosterLoaded, selectedStudentId]);
 
   useEffect(() => {
     if (!isValidIsoDate(dateParam) || createdRef.current) return;
@@ -292,10 +279,8 @@ function NewLessonInner() {
     };
   }, [topicDraft, dateParam, commitCreate, canShowTopicField]);
 
-  const pickerBlocked = Boolean(profile && profile.role !== "admin" && !rosterLoaded);
-
   const selectOptions = useMemo(() => {
-    if (!profile || roster.length === 0) return [];
+    if (!profile || roster.length < 2) return [];
     const selfLabel = "Ty (lekcja osobista)";
     const opts: { value: string; primary: string; secondary: string }[] = [
       { value: profile.id, primary: selfLabel, secondary: profile.email ?? "" },
@@ -312,8 +297,45 @@ function NewLessonInner() {
     return null;
   }
 
+  const addStudentControls = (
+    <>
+      <button
+        type="button"
+        onClick={() => setAddOpen((v) => !v)}
+        className="text-left text-xs font-semibold text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
+      >
+        {addOpen ? "− Anuluj dodawanie" : "+ Dodaj nowego ucznia"}
+      </button>
+      {addOpen ? (
+        <div className="flex flex-col gap-2 rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5">
+          <label htmlFor="new-student-email" className="text-[11px] font-medium text-slate-500">
+            Email ucznia
+          </label>
+          <input
+            id="new-student-email"
+            type="email"
+            autoComplete="email"
+            value={newStudentEmail}
+            onChange={(e) => setNewStudentEmail(e.target.value)}
+            placeholder="jan@example.com"
+            className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-900/10"
+            disabled={addBusy}
+          />
+          <button
+            type="button"
+            onClick={() => void submitAddStudent()}
+            disabled={addBusy || !newStudentEmail.trim()}
+            className="self-start rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-50"
+          >
+            {addBusy ? "…" : "Dodaj"}
+          </button>
+        </div>
+      ) : null}
+    </>
+  );
+
   return (
-    <main className="mx-auto flex h-[calc(100dvh-8.5rem)] max-h-[calc(100dvh-8.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
+    <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
       <header className="shrink-0">
         <Link
           href="/app/lessons"
@@ -330,122 +352,59 @@ function NewLessonInner() {
         </div>
       ) : null}
 
-      {(() => {
-        if (!profile) {
-          return <p className="shrink-0 text-xs text-slate-400">Wczytywanie profilu…</p>;
-        }
-        if (profile.role === "admin") {
-          return null;
-        }
-        return (
-          <div className="shrink-0 space-y-2">
-            <p className="text-sm font-medium text-slate-800">Dla kogo jest ta lekcja?</p>
-            {pickerBlocked ? (
-              <p className="text-xs text-slate-400">Wczytywanie listy uczniów…</p>
-            ) : needsRosterPicker ? (
-              <>
-                <select
-                  id="new-lesson-student"
-                  className={selectClass}
-                  value={selectedStudentId}
-                  onChange={(e) => setSelectedStudentId(e.target.value)}
-                  disabled={creating}
-                  aria-label="Wybierz ucznia"
-                >
-                  <option value="">Wybierz ucznia</option>
-                  {selectOptions.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.primary}
-                      {o.secondary ? ` — ${o.secondary}` : ""}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  onClick={() => setAddOpen((v) => !v)}
-                  className="text-left text-xs font-semibold text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
-                >
-                  {addOpen ? "− Anuluj dodawanie" : "+ Dodaj nowego ucznia"}
-                </button>
-                {addOpen ? (
-                  <div className="flex flex-col gap-2 rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5">
-                    <label htmlFor="new-student-email" className="text-[11px] font-medium text-slate-500">
-                      Email ucznia
-                    </label>
-                    <input
-                      id="new-student-email"
-                      type="email"
-                      autoComplete="email"
-                      value={newStudentEmail}
-                      onChange={(e) => setNewStudentEmail(e.target.value)}
-                      placeholder="jan@example.com"
-                      className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-900/10"
-                      disabled={addBusy}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => void submitAddStudent()}
-                      disabled={addBusy || !newStudentEmail.trim()}
-                      className="self-start rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-50"
-                    >
-                      {addBusy ? "…" : "Dodaj"}
-                    </button>
-                  </div>
+      {!profile ? (
+        <p className="shrink-0 text-xs text-slate-400">Wczytywanie profilu…</p>
+      ) : !rosterLoaded ? (
+        <p className="shrink-0 text-xs text-slate-400">Wczytywanie listy uczniów…</p>
+      ) : (
+        <div className="shrink-0 space-y-2">
+          <p className="text-sm font-medium text-slate-800">Dla kogo jest ta lekcja?</p>
+          {roster.length === 0 ? (
+            <>
+              <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2">
+                <p className="text-sm font-semibold text-slate-900">{personDisplayName(profile)}</p>
+                {profile.email ? <p className="text-xs text-slate-500">{profile.email}</p> : null}
+                <p className="mt-1 text-[11px] text-slate-500">Lekcja osobista</p>
+              </div>
+              {addStudentControls}
+            </>
+          ) : roster.length === 1 ? (
+            <>
+              <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2">
+                <p className="text-[11px] font-medium text-slate-500">Uczeń</p>
+                <p className="text-sm font-semibold text-slate-900">{personDisplayName(roster[0])}</p>
+                {(roster[0].email ?? "").trim() ? (
+                  <p className="text-xs text-slate-500">{roster[0].email}</p>
                 ) : null}
-              </>
-            ) : (
-              <>
-                <div className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2">
-                  <p className="text-sm font-semibold text-slate-900">{personDisplayName(profile)}</p>
-                  {profile.email ? (
-                    <p className="text-xs text-slate-500">{profile.email}</p>
-                  ) : null}
-                  <p className="mt-1 text-[11px] text-slate-500">Lekcja osobista</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setAddOpen((v) => !v)}
-                  className="text-left text-xs font-semibold text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
-                >
-                  {addOpen ? "− Anuluj dodawanie" : "+ Dodaj nowego ucznia"}
-                </button>
-                {addOpen ? (
-                  <div className="flex flex-col gap-2 rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5">
-                    <label htmlFor="new-student-email-solo" className="text-[11px] font-medium text-slate-500">
-                      Email ucznia
-                    </label>
-                    <input
-                      id="new-student-email-solo"
-                      type="email"
-                      autoComplete="email"
-                      value={newStudentEmail}
-                      onChange={(e) => setNewStudentEmail(e.target.value)}
-                      placeholder="jan@example.com"
-                      className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-900/10"
-                      disabled={addBusy}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => void submitAddStudent()}
-                      disabled={addBusy || !newStudentEmail.trim()}
-                      className="self-start rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-50"
-                    >
-                      {addBusy ? "…" : "Dodaj"}
-                    </button>
-                  </div>
-                ) : null}
-              </>
-            )}
-          </div>
-        );
-      })()}
-
-      {profile?.role === "admin" && !studentIdParam ? (
-        <p className="shrink-0 text-xs text-slate-500">
-          Podaj <code className="rounded bg-slate-100 px-1 py-0.5 text-[11px]">student_id</code> w adresie URL
-          (np. z listy lekcji), żeby móc wpisać temat.
-        </p>
-      ) : null}
+              </div>
+              {addStudentControls}
+            </>
+          ) : (
+            <>
+              <label htmlFor="new-lesson-student" className="text-xs font-medium text-slate-500">
+                Uczeń
+              </label>
+              <select
+                id="new-lesson-student"
+                className={selectClass}
+                value={selectedStudentId}
+                onChange={(e) => setSelectedStudentId(e.target.value)}
+                disabled={creating}
+                aria-label="Wybierz ucznia"
+              >
+                <option value="">Wybierz ucznia</option>
+                {selectOptions.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.primary}
+                    {o.secondary ? ` — ${o.secondary}` : ""}
+                  </option>
+                ))}
+              </select>
+              {addStudentControls}
+            </>
+          )}
+        </div>
+      )}
 
       {canShowTopicField ? (
         <div className="shrink-0 space-y-1">
@@ -464,7 +423,7 @@ function NewLessonInner() {
             aria-busy={creating}
           />
         </div>
-      ) : profile && profile.role !== "admin" && rosterLoaded && needsRosterPicker && !selectedStudentId ? (
+      ) : profile && rosterLoaded && needsStudentDropdown && !selectedStudentId ? (
         <p className="shrink-0 text-xs text-slate-500">Wybierz ucznia — potem wpiszesz temat lekcji.</p>
       ) : null}
     </main>
@@ -475,7 +434,7 @@ export default function NewLessonPage() {
   return (
     <Suspense
       fallback={
-        <main className="mx-auto flex h-[calc(100dvh-8.5rem)] max-h-[calc(100dvh-8.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
+        <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
           <div className="h-8 w-48 animate-pulse rounded-lg bg-slate-100" />
         </main>
       }

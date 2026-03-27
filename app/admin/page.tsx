@@ -123,8 +123,10 @@ export default function AdminCoursesPage() {
           </table>
         </div>
 
-        <div className="flex gap-4 text-sm">
-          <a className="underline" href="/admin">← Panel admina</a>
+        <div className="flex flex-wrap gap-4 text-sm">
+          <a className="underline" href="/app">
+            ← Aplikacja
+          </a>
           <a className="underline" href="/logout">Wyloguj</a>
         </div>
       </div>

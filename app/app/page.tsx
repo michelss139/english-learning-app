@@ -3,25 +3,26 @@ import DashboardClient from "./DashboardClient";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 
-export default async function StudentDashboardPage() {
+export default async function AppDashboardPage() {
   const supabaseServer = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabaseServer.auth.getUser();
-  const userId = user!.id;
+  if (!user) {
+    redirect("/login");
+  }
+
+  const userId = user.id;
   const supabase = createSupabaseAdmin();
 
   const { data: profileRow, error: profileErr } = await supabase
     .from("profiles")
-    .select("id, email, username, avatar_url, role")
+    .select("id, email, username, avatar_url")
     .eq("id", userId)
     .maybeSingle();
 
   if (profileErr || !profileRow) {
     redirect("/login");
-  }
-  if (profileRow.role === "admin") {
-    redirect("/admin");
   }
 
   const { data: streakRow } = await supabase
