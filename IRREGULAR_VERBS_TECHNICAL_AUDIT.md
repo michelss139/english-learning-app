@@ -243,7 +243,7 @@ await supabase.from("exercise_session_completions").upsert({
 
 - Brak odpowiednika `v2_vocab_repeat_suggestions` dla irregular (vocab).
 - **Profil i widget „Co trenować”** używają **`GET /api/suggestions`**: irregular z **`irregular_verb_runs`** (per forma, próg accuracy) + opcjonalnie bonus z **`user_learning_unit_knowledge`** dla `unit_type='irregular'` (po zapisach z submit route).
-- **intelligent-suggestions-v2** — endpoint może nadal istnieć w repo; **UI go nie wywołuje** (zob. `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`, `CO_TRENOWAC_AUDIT.md`).
+- **intelligent-suggestions-v2** — endpoint może nadal istnieć w repo; **UI go nie wywołuje** (zob. `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md` §7).
 - Irregular nie jest uwzględniany w logice „typowe błędy” opartej na `vocab_answer_events` (pack/cluster).
 
 ---

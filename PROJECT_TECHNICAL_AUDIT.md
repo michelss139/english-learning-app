@@ -225,7 +225,7 @@ PoolTab i pool page korzystają z `user_vocab_items` przez Supabase. API `pool` 
 | **„Twój plan na teraz”** | `ProfilePage` | Ten sam `GET /api/suggestions` | `top` + `list`; irregular zgrupowane w jedną sesję (URL `mode=targeted`) |
 | **Komponent** | `components/SuggestionsPanel.tsx` | `GET /api/suggestions` (`list`) | Na **2026-03-19** brak importu w stronach – gotowy do podpięcia (np. dashboard) |
 
-**Legacy:** `GET /api/app/recommendations` – **usunięty**; `GET /api/app/intelligent-suggestions-v2` – nadal w repo, **nie** używany przez UI. Szczegóły: `CO_TRENOWAC_AUDIT.md`, `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`.
+**Legacy:** `GET /api/app/recommendations` – **usunięty**; `GET /api/app/intelligent-suggestions-v2` – nadal w repo, **nie** używany przez UI. Szczegóły: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`** (§7).
 
 ### 5.3 Endpointy sugestii (aktualne)
 
@@ -299,7 +299,7 @@ Tabela `lessons` jest polimorficzna (tutoring vs course lesson).
 | Plik | Zakres |
 |------|--------|
 | `AUDIT_SUMMARY.md` | Podsumowanie audytu 2025-01, zmiany, stan |
-| `CO_TRENOWAC_AUDIT.md` | System „Co trenować” / `GET /api/suggestions` (aktualizacja 2026-03) |
+| `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md` | Knowledge engine (`user_learning_unit_knowledge`), „Co trenować”, `GET /api/suggestions`, legacy intelligent-suggestions-v2 / MV |
 | `COACH_SYSTEM_AUDIT.md` | GlobalCoach, GlobalTrainingSuggestion, Coach gramatyki |
 | `CLUSTERS_MODULE_AUDIT_REPORT.md` | Moduł clusterów |
 | `GRAMMAR_MODULE_AUDIT_REPORT.md` | Moduł gramatyki |
@@ -307,7 +307,6 @@ Tabela `lessons` jest polimorficzna (tutoring vs course lesson).
 | `LESSONS_MODULE_AUDIT_REPORT.md` | Lekcje (tutoring + vocab) |
 | `PROFILE_LEARNED_TO_LEARN_AUDIT.md` | Widoki learned/to_learn (v2); UI głównie **Status** — nie obecny profil |
 | `PROFILE_TRAINING_SUBSCRIPTION_AUDIT.md` | subscribeTrainingCompleted |
-| `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md` | Legacy `intelligent-suggestions-v2` (UI używa `/api/suggestions`) |
 | `VOCAB_DB_AUDIT_REPORT.md` | Schemat bazy vocab |
 
 ---

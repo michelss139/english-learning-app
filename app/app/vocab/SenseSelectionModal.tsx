@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase/client";
 import { getVerbFormLabel } from "@/lib/vocab/verbForms";
 
-type LexiconEntry = {
+export type LexiconEntry = {
   id: string;
   lemma: string;
   pos: string;
@@ -48,6 +48,10 @@ type SenseSelectionModalProps = {
   onSelectCustom?: (lemma: string, translation: string | null) => void;
   onSearchForm?: (formTerm: string) => void; // e.g. "went" -> parent sets search to "went" and re-lookups
   lessonId?: string;
+  /** When set, skip /api/vocab/lookup-word and show this entry (e.g. pack search). */
+  prefilledEntry?: LexiconEntry | null;
+  /** Open directly to the “własne słowo” form without calling lookup-word. */
+  initialCustomOnly?: boolean;
 };
 
 const PAST_FORM_TYPES = ["past_simple", "past_participle"] as const;
@@ -66,6 +70,8 @@ export default function SenseSelectionModal({
   onSelectCustom,
   onSearchForm,
   lessonId,
+  prefilledEntry = null,
+  initialCustomOnly = false,
 }: SenseSelectionModalProps) {
   const [loading, setLoading] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -105,6 +111,32 @@ export default function SenseSelectionModal({
       setSelectedSenseId(null);
       setShowCustomForm(false);
       setCustomTranslation("");
+      setAdding(false);
+      return;
+    }
+
+    if (initialCustomOnly) {
+      setLoading(false);
+      setError("");
+      setSuccess("");
+      setEntry(null);
+      setShowCustomForm(true);
+      setSelectedSenseId(null);
+      setAdding(false);
+      return;
+    }
+
+    if (prefilledEntry) {
+      setLoading(false);
+      setError("");
+      setSuccess("");
+      setShowCustomForm(false);
+      setEntry(prefilledEntry);
+      if (prefilledEntry.senses.length === 1) {
+        setSelectedSenseId(prefilledEntry.senses[0].id);
+      } else {
+        setSelectedSenseId(null);
+      }
       setAdding(false);
       return;
     }
@@ -211,7 +243,7 @@ export default function SenseSelectionModal({
     };
 
     lookupWord();
-  }, [isOpen, lemma]);
+  }, [isOpen, lemma, prefilledEntry, initialCustomOnly]);
 
   const loadUserVocabTerms = async () => {
     try {
@@ -467,7 +499,9 @@ export default function SenseSelectionModal({
         {loading && (
           <div className="text-center py-8">
             <p className="text-white/75">Wyszukuję słowo w słowniku...</p>
-            {entry === null && <p className="text-sm text-white/60 mt-2">Może to chwilę potrwać (AI enrichment)</p>}
+            {entry === null && !prefilledEntry && (
+              <p className="text-sm text-white/60 mt-2">Może to chwilę potrwać (AI enrichment)</p>
+            )}
           </div>
         )}
 

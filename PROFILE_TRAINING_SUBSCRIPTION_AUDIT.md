@@ -36,7 +36,7 @@ useEffect(() => {
 ## 2. GlobalTrainingSuggestion
 
 - Subskrybuje `subscribeTrainingCompleted`: czyści lock sesji (`activeSessionHref`, `lockedOptions`) i wywołuje `fetchSuggestions(true)`.
-- Zob. **`CO_TRENOWAC_AUDIT.md`**.
+- Zob. **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`**.
 
 ---
 

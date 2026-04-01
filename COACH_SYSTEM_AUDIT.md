@@ -1,7 +1,7 @@
 # Audyt techniczny: system Coach
 
 **Data oryginału:** 2026-02-20  
-**Aktualizacja:** 2026-03-19 — sugestie treningowe i profil zsynchronizowane z `CO_TRENOWAC_AUDIT.md`.
+**Aktualizacja:** 2026-03-28 — sugestie treningowe i profil: zob. `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`.
 
 **Cel:** Mapowanie komponentów „coach” / podpowiedzi w layoutcie `/app` oraz rozróżnienie od **osobnego** endpointu `GET /api/app/suggestion` (pojedyncza sugestia — nadal w repo, **nie** = profil „Twój plan na teraz”).
 
@@ -40,7 +40,7 @@
 - **Źródło:** `GET /api/suggestions` — pola `top` i `list` (bundling irregular, priorytety z knowledge + runs).
 - **Fallback:** gdy brak danych, 3 statyczne opcje (jak wcześniej).
 - **Sesja:** zamrożenie opcji (`lockedOptions`) + podświetlenie aktywnego `href` do czasu `subscribeTrainingCompleted`.
-- Szczegóły: **`CO_TRENOWAC_AUDIT.md`**.
+- Szczegóły: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`**.
 
 ### 2.3 Coach (grammar)
 

@@ -266,12 +266,12 @@ Po każdym deployu sprawdź:
 ---
 
 **Data oryginalnego audytu:** 2025-01  
-**Ostatnia aktualizacja:** 2026-03-19  
+**Ostatnia aktualizacja:** 2026-03-28  
 **Status:** ✅ Produkcja stabilna; dokument zaktualizowany pod obecną architekturę
 
-**Zmiana 2026-03-19:** Sugestie treningowe ujednolicone w **`GET /api/suggestions`** (profil + widget „Co trenować”). Szczegóły: `CO_TRENOWAC_AUDIT.md`, `PROJECT_TECHNICAL_AUDIT.md`. Endpoint `intelligent-suggestions-v2` nie jest wywoływany z UI.
+**Zmiana 2026-03-19:** Sugestie treningowe ujednolicone w **`GET /api/suggestions`** (profil + widget „Co trenować”). **2026-03-28:** Pełny audyt knowledge engine + sugestii w jednym pliku: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`** (zastępuje `CO_TRENOWAC_AUDIT.md` i `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`). Endpoint `intelligent-suggestions-v2` nie jest wywoływany z UI.
 
 **Inne raporty audytowe:**
 - `CLUSTERS_MODULE_AUDIT_REPORT.md` — moduł clusterów (typowe błędy)
 - `GRAMMAR_MODULE_AUDIT_REPORT.md` — moduł gramatyki
-- `CO_TRENOWAC_AUDIT.md` — „Co trenować” / `/api/suggestions`
+- `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md` — knowledge engine, „Co trenować”, `/api/suggestions`, legacy MV
