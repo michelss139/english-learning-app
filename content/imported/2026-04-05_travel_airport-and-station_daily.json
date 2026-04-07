@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "airport-and-station",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:57:33.756Z"
+  },
+  "items": [
+    {
+      "lemma": "terminal",
+      "pos": "noun",
+      "translation_pl": "terminal",
+      "definition_en": "A terminal is a building at an airport or station where people start or end their journey.",
+      "example_en": "We waited for our friends at the terminal.",
+      "level": "A2"
+    },
+    {
+      "lemma": "runway",
+      "pos": "noun",
+      "translation_pl": "pas startowy",
+      "definition_en": "A runway is a long road at an airport where airplanes take off and land.",
+      "example_en": "The plane is getting ready on the runway.",
+      "level": "A2"
+    },
+    {
+      "lemma": "check-in desk",
+      "pos": "noun",
+      "translation_pl": "stanowisko odprawy",
+      "definition_en": "A check-in desk is where you get your boarding pass and drop off your bags.",
+      "example_en": "We lined up at the check-in desk early.",
+      "level": "A2"
+    },
+    {
+      "lemma": "departure gate",
+      "pos": "noun",
+      "translation_pl": "bramka odlotów",
+      "definition_en": "A departure gate is the place where you wait to get on your plane.",
+      "example_en": "Our departure gate changed at the last minute.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waiting room",
+      "pos": "noun",
+      "translation_pl": "poczekalnia",
+      "definition_en": "A waiting room is a place where people sit until their train or plane is ready.",
+      "example_en": "We stayed in the waiting room before boarding.",
+      "level": "A1"
+    },
+    {
+      "lemma": "information desk",
+      "pos": "noun",
+      "translation_pl": "punkt informacyjny",
+      "definition_en": "An information desk is where you can ask for help or find out information.",
+      "example_en": "She asked for directions at the information desk.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ticket office",
+      "pos": "noun",
+      "translation_pl": "kasa biletowa",
+      "definition_en": "A ticket office is a place where you buy tickets at the station or airport.",
+      "example_en": "He went to the ticket office to buy a train ticket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "baggage claim",
+      "pos": "noun",
+      "translation_pl": "odbiór bagażu",
+      "definition_en": "Baggage claim is where you pick up your bags after a flight.",
+      "example_en": "We went to baggage claim to get our suitcases.",
+      "level": "A2"
+    },
+    {
+      "lemma": "platform",
+      "pos": "noun",
+      "translation_pl": "peron",
+      "definition_en": "A platform is a place beside the tracks where people get on or off a train.",
+      "example_en": "Our train arrived at platform three.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lounge",
+      "pos": "noun",
+      "translation_pl": "poczekalnia",
+      "definition_en": "A lounge is a comfortable room where you can relax before your flight.",
+      "example_en": "We waited in the lounge until boarding started.",
+      "level": "B1"
+    },
+    {
+      "lemma": "security check",
+      "pos": "noun",
+      "translation_pl": "kontrola bezpieczeństwa",
+      "definition_en": "A security check is a place where your bags and you are checked for safety.",
+      "example_en": "The security check took a very long time.",
+      "level": "A2"
+    },
+    {
+      "lemma": "customs",
+      "pos": "noun",
+      "translation_pl": "odprawa celna",
+      "definition_en": "Customs is the place where your bags are checked for goods when you enter a country.",
+      "example_en": "We showed our bags at customs after we landed.",
+      "level": "B1"
+    },
+    {
+      "lemma": "car park",
+      "pos": "noun",
+      "translation_pl": "parking",
+      "definition_en": "A car park is a place where you leave your car at the airport or station.",
+      "example_en": "We parked our car in the car park next to the station.",
+      "level": "A1"
+    },
+    {
+      "lemma": "escalator",
+      "pos": "noun",
+      "translation_pl": "ruchome schody",
+      "definition_en": "An escalator is moving stairs that carry people up or down between floors.",
+      "example_en": "We used the escalator to reach the gates.",
+      "level": "A2"
+    },
+    {
+      "lemma": "locker",
+      "pos": "noun",
+      "translation_pl": "schowek na bagaż",
+      "definition_en": "A locker is a small cupboard you can lock to keep your things safe.",
+      "example_en": "He put his bag in a locker at the station.",
+      "level": "A2"
+    },
+    {
+      "lemma": "announcement",
+      "pos": "noun",
+      "translation_pl": "ogłoszenie",
+      "definition_en": "An announcement is an official message heard at the airport or train station.",
+      "example_en": "We listened for our flight in the announcement.",
+      "level": "A2"
+    },
+    {
+      "lemma": "station hall",
+      "pos": "noun",
+      "translation_pl": "hala dworcowa",
+      "definition_en": "A station hall is a large open space where passengers wait or move between areas.",
+      "example_en": "The station hall was crowded at rush hour.",
+      "level": "B1"
+    },
+    {
+      "lemma": "turnstile",
+      "pos": "noun",
+      "translation_pl": "bramka obrotowa",
+      "definition_en": "A turnstile is a gate with metal bars that turns and lets one person pass at a time.",
+      "example_en": "You need your ticket to use the turnstile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "boarding pass",
+      "pos": "noun",
+      "translation_pl": "karta pokładowa",
+      "definition_en": "A boarding pass is a card that shows your seat and lets you get on the plane.",
+      "example_en": "The staff checked my boarding pass at the gate.",
+      "level": "A2"
+    },
+    {
+      "lemma": "waiting area",
+      "pos": "noun",
+      "translation_pl": "strefa oczekiwania",
+      "definition_en": "A waiting area is a place in the station or airport where you sit before leaving.",
+      "example_en": "We found seats in the waiting area before the train arrived.",
+      "level": "A1"
+    }
+  ]
+}

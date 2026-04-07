@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "academic-subjects",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:20:01.730Z"
+  },
+  "items": [
+    {
+      "lemma": "algebra",
+      "pos": "noun",
+      "translation_pl": "algebra",
+      "definition_en": "Algebra is the branch of mathematics that deals with symbols and the rules for manipulating them.",
+      "example_en": "We're starting algebra next semester in math class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "geometry",
+      "pos": "noun",
+      "translation_pl": "geometria",
+      "definition_en": "Geometry is the study of shapes, sizes, and the properties of space.",
+      "example_en": "I enjoy learning about triangles and circles in geometry.",
+      "level": "B1"
+    },
+    {
+      "lemma": "calculus",
+      "pos": "noun",
+      "translation_pl": "rachunek różniczkowy i całkowy",
+      "definition_en": "Calculus is a branch of mathematics focusing on change and motion.",
+      "example_en": "Calculus is a challenging subject for many high school students.",
+      "level": "B2"
+    },
+    {
+      "lemma": "statistics",
+      "pos": "noun",
+      "translation_pl": "statystyka",
+      "definition_en": "Statistics is the science of collecting and analyzing numerical data.",
+      "example_en": "We analyzed survey results in our statistics class.",
+      "level": "B2"
+    },
+    {
+      "lemma": "world literature",
+      "pos": "noun",
+      "translation_pl": "literatura światowa",
+      "definition_en": "World literature refers to famous written works from various cultures around the world.",
+      "example_en": "Our teacher assigned a novel for world literature this month.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ancient history",
+      "pos": "noun",
+      "translation_pl": "historia starożytna",
+      "definition_en": "Ancient history is the study of people and events from early civilizations.",
+      "example_en": "We are learning about Ancient Egypt in ancient history.",
+      "level": "B1"
+    },
+    {
+      "lemma": "medieval history",
+      "pos": "noun",
+      "translation_pl": "historia średniowieczna",
+      "definition_en": "Medieval history focuses on the period between the fall of Rome and the Renaissance.",
+      "example_en": "Our project for medieval history was about castles.",
+      "level": "B2"
+    },
+    {
+      "lemma": "earth science",
+      "pos": "noun",
+      "translation_pl": "nauki o Ziemi",
+      "definition_en": "Earth science is the study of the planet, including rocks, weather, and oceans.",
+      "example_en": "Earth science classes often include experiments with soil and water.",
+      "level": "B1"
+    },
+    {
+      "lemma": "environmental science",
+      "pos": "noun",
+      "translation_pl": "nauka o środowisku",
+      "definition_en": "Environmental science explores how humans impact the natural world.",
+      "example_en": "We learned about recycling in environmental science.",
+      "level": "B1"
+    },
+    {
+      "lemma": "microbiology",
+      "pos": "noun",
+      "translation_pl": "mikrobiologia",
+      "definition_en": "Microbiology is the study of tiny organisms called microbes.",
+      "example_en": "In microbiology, we observed bacteria using a microscope.",
+      "level": "B2"
+    },
+    {
+      "lemma": "botany",
+      "pos": "noun",
+      "translation_pl": "botanika",
+      "definition_en": "Botany is the branch of biology dealing with plants.",
+      "example_en": "She chose botany for her science research project.",
+      "level": "B2"
+    },
+    {
+      "lemma": "genetics",
+      "pos": "noun",
+      "translation_pl": "genetyka",
+      "definition_en": "Genetics is the study of how traits are passed from parents to offspring.",
+      "example_en": "My teacher explained DNA in our genetics unit.",
+      "level": "B2"
+    },
+    {
+      "lemma": "molecular biology",
+      "pos": "noun",
+      "translation_pl": "biologia molekularna",
+      "definition_en": "Molecular biology studies the structure and function of molecules in living things.",
+      "example_en": "Molecular biology helps us understand diseases at a cellular level.",
+      "level": "B2"
+    },
+    {
+      "lemma": "political science",
+      "pos": "noun",
+      "translation_pl": "nauki polityczne",
+      "definition_en": "Political science examines government systems and political activity.",
+      "example_en": "Alex plans to study political science at university.",
+      "level": "B2"
+    },
+    {
+      "lemma": "psychology",
+      "pos": "noun",
+      "translation_pl": "psychologia",
+      "definition_en": "Psychology is the study of the human mind and behavior.",
+      "example_en": "Psychology classes cover topics like memory and emotions.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sociology",
+      "pos": "noun",
+      "translation_pl": "socjologia",
+      "definition_en": "Sociology explores how societies and groups of people function.",
+      "example_en": "We discussed family structures in sociology.",
+      "level": "B2"
+    },
+    {
+      "lemma": "philosophy",
+      "pos": "noun",
+      "translation_pl": "filozofia",
+      "definition_en": "Philosophy is the study of the nature of knowledge, reality, and existence.",
+      "example_en": "We debated ethics in our philosophy class.",
+      "level": "B2"
+    },
+    {
+      "lemma": "business studies",
+      "pos": "noun",
+      "translation_pl": "zarządzanie i przedsiębiorczość",
+      "definition_en": "Business studies teach about how companies work and how to manage them.",
+      "example_en": "He chose business studies for his elective this year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "information technology",
+      "pos": "noun",
+      "translation_pl": "technologia informacyjna",
+      "definition_en": "Information technology is about using computers to store and process data.",
+      "example_en": "We build websites in information technology class.",
+      "level": "B2"
+    },
+    {
+      "lemma": "drama",
+      "pos": "noun",
+      "translation_pl": "teatr",
+      "definition_en": "Drama is the subject where students learn about acting and theater.",
+      "example_en": "She played the lead role in drama class.",
+      "level": "B1"
+    }
+  ]
+}

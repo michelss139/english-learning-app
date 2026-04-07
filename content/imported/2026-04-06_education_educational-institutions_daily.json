@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "educational-institutions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:20:34.855Z"
+  },
+  "items": [
+    {
+      "lemma": "school",
+      "pos": "noun",
+      "translation_pl": "szkoła",
+      "definition_en": "A place where children go to learn.",
+      "example_en": "He goes to school every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "college",
+      "pos": "noun",
+      "translation_pl": "kolegium",
+      "definition_en": "A place where students study after high school.",
+      "example_en": "She will start college next year.",
+      "level": "A1"
+    },
+    {
+      "lemma": "university",
+      "pos": "noun",
+      "translation_pl": "uniwersytet",
+      "definition_en": "An institution for higher education and research.",
+      "example_en": "My brother studies at the university.",
+      "level": "A2"
+    },
+    {
+      "lemma": "academy",
+      "pos": "noun",
+      "translation_pl": "akademia",
+      "definition_en": "A school or college for special training.",
+      "example_en": "She joined a music academy.",
+      "level": "B1"
+    },
+    {
+      "lemma": "kindergarten",
+      "pos": "noun",
+      "translation_pl": "przedszkole",
+      "definition_en": "A school for young children before primary school.",
+      "example_en": "My daughter loves her kindergarten.",
+      "level": "A2"
+    },
+    {
+      "lemma": "preschool",
+      "pos": "noun",
+      "translation_pl": "przedszkole",
+      "definition_en": "A school for very young children before school age.",
+      "example_en": "Preschool starts at eight o'clock.",
+      "level": "B1"
+    },
+    {
+      "lemma": "boarding school",
+      "pos": "noun",
+      "translation_pl": "internat",
+      "definition_en": "A school where students live and study.",
+      "example_en": "He goes to a boarding school far from home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "middle school",
+      "pos": "noun",
+      "translation_pl": "gimnazjum",
+      "definition_en": "A school for children between elementary and high school.",
+      "example_en": "She is starting middle school this year.",
+      "level": "A2"
+    },
+    {
+      "lemma": "high school",
+      "pos": "noun",
+      "translation_pl": "liceum",
+      "definition_en": "A school for students aged about 14 to 18.",
+      "example_en": "Tom is in high school now.",
+      "level": "A2"
+    },
+    {
+      "lemma": "primary school",
+      "pos": "noun",
+      "translation_pl": "szkoła podstawowa",
+      "definition_en": "A school for children ages five to eleven.",
+      "example_en": "He teaches at a primary school.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nursery school",
+      "pos": "noun",
+      "translation_pl": "żłobek",
+      "definition_en": "A place for very young children while parents work.",
+      "example_en": "She takes her son to nursery school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "technical college",
+      "pos": "noun",
+      "translation_pl": "technikum",
+      "definition_en": "A school for learning special job skills.",
+      "example_en": "He studies computers at a technical college.",
+      "level": "B1"
+    },
+    {
+      "lemma": "language school",
+      "pos": "noun",
+      "translation_pl": "szkoła językowa",
+      "definition_en": "A school where students learn languages.",
+      "example_en": "She attends a language school in summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "evening school",
+      "pos": "noun",
+      "translation_pl": "szkoła wieczorowa",
+      "definition_en": "A school for people who study after work.",
+      "example_en": "He studies mathematics at an evening school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "finishing school",
+      "pos": "noun",
+      "translation_pl": "szkoła dobrych manier",
+      "definition_en": "A private school that teaches manners and culture.",
+      "example_en": "She went to a finishing school in England.",
+      "level": "B1"
+    },
+    {
+      "lemma": "private school",
+      "pos": "noun",
+      "translation_pl": "szkoła prywatna",
+      "definition_en": "A school that is not run by the government.",
+      "example_en": "Her parents pay for her private school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "public school",
+      "pos": "noun",
+      "translation_pl": "szkoła publiczna",
+      "definition_en": "A school that is free and paid for by the government.",
+      "example_en": "Most children go to public school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "art school",
+      "pos": "noun",
+      "translation_pl": "szkoła artystyczna",
+      "definition_en": "A school where students learn about art.",
+      "example_en": "He applied to an art school last year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "adult school",
+      "pos": "noun",
+      "translation_pl": "szkoła dla dorosłych",
+      "definition_en": "A school for grown people to learn new skills.",
+      "example_en": "My father is studying English at an adult school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "special school",
+      "pos": "noun",
+      "translation_pl": "szkoła specjalna",
+      "definition_en": "A school for children with special needs.",
+      "example_en": "Anna attends a special school.",
+      "level": "B1"
+    }
+  ]
+}

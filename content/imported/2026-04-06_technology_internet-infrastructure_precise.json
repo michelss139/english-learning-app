@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "internet-infrastructure",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:23:40.200Z"
+  },
+  "items": [
+    {
+      "lemma": "IP address",
+      "pos": "noun",
+      "translation_pl": "adres IP",
+      "definition_en": "An IP address is a unique number for devices on a network.",
+      "example_en": "You need an IP address to connect your computer online.",
+      "level": "B1"
+    },
+    {
+      "lemma": "DNS server",
+      "pos": "noun",
+      "translation_pl": "serwer DNS",
+      "definition_en": "A DNS server translates website names into IP addresses.",
+      "example_en": "If the DNS server is down, websites might not load.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fiber optic cable",
+      "pos": "noun",
+      "translation_pl": "kabel światłowodowy",
+      "definition_en": "A fiber optic cable transmits data as light for fast internet.",
+      "example_en": "My new apartment uses a fiber optic cable for internet.",
+      "level": "B2"
+    },
+    {
+      "lemma": "network adapter",
+      "pos": "noun",
+      "translation_pl": "karta sieciowa",
+      "definition_en": "A network adapter connects a device to a network.",
+      "example_en": "My laptop has a wireless network adapter built in.",
+      "level": "B1"
+    },
+    {
+      "lemma": "access point",
+      "pos": "noun",
+      "translation_pl": "punkt dostępowy",
+      "definition_en": "An access point lets devices connect to a wireless network.",
+      "example_en": "The office has an access point on every floor.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ethernet port",
+      "pos": "noun",
+      "translation_pl": "port ethernet",
+      "definition_en": "An ethernet port is a socket for wired network cables.",
+      "example_en": "Plug the cable into the ethernet port for a stable connection.",
+      "level": "B1"
+    },
+    {
+      "lemma": "uplink",
+      "pos": "noun",
+      "translation_pl": "łącze uplink",
+      "definition_en": "An uplink is a connection from a device to a higher network.",
+      "example_en": "We improved our internet speed by upgrading the uplink.",
+      "level": "B2"
+    },
+    {
+      "lemma": "load balancer",
+      "pos": "noun",
+      "translation_pl": "urządzenie do rozkładu ruchu",
+      "definition_en": "A load balancer distributes internet traffic across servers.",
+      "example_en": "The website uses a load balancer to handle many users.",
+      "level": "B2"
+    },
+    {
+      "lemma": "proxy server",
+      "pos": "noun",
+      "translation_pl": "serwer proxy",
+      "definition_en": "A proxy server acts as an intermediary for requests from clients.",
+      "example_en": "A proxy server helps hide your real IP address online.",
+      "level": "B2"
+    },
+    {
+      "lemma": "network socket",
+      "pos": "noun",
+      "translation_pl": "gniazdo sieciowe",
+      "definition_en": "A network socket connects devices to a local wired network.",
+      "example_en": "The hotel room has a network socket near the desk.",
+      "level": "B2"
+    },
+    {
+      "lemma": "range extender",
+      "pos": "noun",
+      "translation_pl": "wzmacniacz zasięgu",
+      "definition_en": "A range extender increases the coverage of a wireless network.",
+      "example_en": "We installed a range extender to get WiFi in the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "packet",
+      "pos": "noun",
+      "translation_pl": "pakiet danych",
+      "definition_en": "A packet is a small piece of data sent over a network.",
+      "example_en": "Data travels over the internet in the form of packets.",
+      "level": "B2"
+    },
+    {
+      "lemma": "encryption key",
+      "pos": "noun",
+      "translation_pl": "klucz szyfrujący",
+      "definition_en": "An encryption key is a secret code for securing transmitted data.",
+      "example_en": "Never share your WiFi encryption key with strangers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "subnet",
+      "pos": "noun",
+      "translation_pl": "podsiec",
+      "definition_en": "A subnet is a smaller part of a larger network.",
+      "example_en": "Each department uses a separate subnet for security.",
+      "level": "C1"
+    },
+    {
+      "lemma": "gateway",
+      "pos": "noun",
+      "translation_pl": "brama sieciowa",
+      "definition_en": "A gateway connects different networks and directs traffic between them.",
+      "example_en": "All our email runs through the company’s gateway.",
+      "level": "B1"
+    },
+    {
+      "lemma": "data center",
+      "pos": "noun",
+      "translation_pl": "centrum danych",
+      "definition_en": "A data center houses many servers for internet services.",
+      "example_en": "Big companies store their websites in a data center.",
+      "level": "B1"
+    },
+    {
+      "lemma": "MAC address",
+      "pos": "noun",
+      "translation_pl": "adres MAC",
+      "definition_en": "A MAC address is a unique identifier for a network device.",
+      "example_en": "You can block devices by their MAC address.",
+      "level": "B2"
+    },
+    {
+      "lemma": "static IP",
+      "pos": "noun",
+      "translation_pl": "stały adres IP",
+      "definition_en": "A static IP is a fixed address for a device on a network.",
+      "example_en": "Businesses often prefer a static IP for stability.",
+      "level": "B2"
+    },
+    {
+      "lemma": "SSL certificate",
+      "pos": "noun",
+      "translation_pl": "certyfikat SSL",
+      "definition_en": "An SSL certificate secures information sent between a website and users.",
+      "example_en": "Websites need an SSL certificate to show the padlock icon.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ARP table",
+      "pos": "noun",
+      "translation_pl": "tabela ARP",
+      "definition_en": "An ARP table stores IP and MAC address pairs for a network.",
+      "example_en": "The router uses the ARP table to find devices on the network.",
+      "level": "C1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "medicine-and-treatments",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:11:47.163Z"
+  },
+  "items": [
+    {
+      "lemma": "inhaler",
+      "pos": "noun",
+      "translation_pl": "inhalator",
+      "definition_en": "An inhaler is a device for breathing in medicine for lung problems.",
+      "example_en": "She always carries her inhaler in case of an asthma attack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "IV drip",
+      "pos": "noun",
+      "translation_pl": "kroplówka",
+      "definition_en": "An IV drip is a system for giving fluids or medicines through a vein.",
+      "example_en": "The nurse set up an IV drip for the patient.",
+      "level": "B2"
+    },
+    {
+      "lemma": "blood pressure monitor",
+      "pos": "noun",
+      "translation_pl": "ciśnieniomierz",
+      "definition_en": "A blood pressure monitor is a device used to measure blood pressure.",
+      "example_en": "The doctor used a blood pressure monitor during the check-up.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wheelchair",
+      "pos": "noun",
+      "translation_pl": "wózek inwalidzki",
+      "definition_en": "A wheelchair is a chair with wheels for people who cannot walk.",
+      "example_en": "He needs a wheelchair after his surgery.",
+      "level": "A2"
+    },
+    {
+      "lemma": "defibrillator",
+      "pos": "noun",
+      "translation_pl": "defibrylator",
+      "definition_en": "A defibrillator is a device that can restart a stopped heart using electric shocks.",
+      "example_en": "The hospital has a defibrillator in every hallway.",
+      "level": "B2"
+    },
+    {
+      "lemma": "saline solution",
+      "pos": "noun",
+      "translation_pl": "roztwór soli fizjologicznej",
+      "definition_en": "A saline solution is a liquid with salt used for cleaning or medical purposes.",
+      "example_en": "The nurse cleaned the wound with saline solution.",
+      "level": "B2"
+    },
+    {
+      "lemma": "scalpel",
+      "pos": "noun",
+      "translation_pl": "skalp scalpel",
+      "definition_en": "A scalpel is a very sharp knife used by doctors in surgery.",
+      "example_en": "The surgeon carefully used the scalpel.",
+      "level": "B1"
+    },
+    {
+      "lemma": "allergy medicine",
+      "pos": "noun",
+      "translation_pl": "lek na alergię",
+      "definition_en": "Allergy medicine is a drug that helps reduce allergy symptoms.",
+      "example_en": "I need to take my allergy medicine every spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hearing aid",
+      "pos": "noun",
+      "translation_pl": "aparat słuchowy",
+      "definition_en": "A hearing aid is a small device that helps people hear better.",
+      "example_en": "My grandfather wears his hearing aid all day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "blood test",
+      "pos": "noun",
+      "translation_pl": "badanie krwi",
+      "definition_en": "A blood test is a medical check that uses a sample of blood.",
+      "example_en": "The doctor ordered a blood test to check for infection.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stethoscope",
+      "pos": "noun",
+      "translation_pl": "stetoskop",
+      "definition_en": "A stethoscope is a tool doctors use to listen to the heart and lungs.",
+      "example_en": "The doctor put his stethoscope on my chest.",
+      "level": "B1"
+    },
+    {
+      "lemma": "surgical mask",
+      "pos": "noun",
+      "translation_pl": "maska chirurgiczna",
+      "definition_en": "A surgical mask is a mask worn to stop the spread of germs during medical procedures.",
+      "example_en": "Everyone must wear a surgical mask in the operating room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "patient chart",
+      "pos": "noun",
+      "translation_pl": "karta pacjenta",
+      "definition_en": "A patient chart is a record of a person's medical history and treatment.",
+      "example_en": "The nurse updated the patient chart after the checkup.",
+      "level": "B2"
+    },
+    {
+      "lemma": "splint",
+      "pos": "noun",
+      "translation_pl": "szyna ortopedyczna",
+      "definition_en": "A splint is a device used to keep a body part still after an injury.",
+      "example_en": "They put a splint on his broken finger.",
+      "level": "B1"
+    },
+    {
+      "lemma": "epipen",
+      "pos": "noun",
+      "translation_pl": "adrenalina w automatycznym wstrzykiwaczu",
+      "definition_en": "An epipen is a device for quickly giving a dose of medicine for severe allergic reactions.",
+      "example_en": "He carries an epipen because he is allergic to peanuts.",
+      "level": "B2"
+    },
+    {
+      "lemma": "surgical glove",
+      "pos": "noun",
+      "translation_pl": "rękawica chirurgiczna",
+      "definition_en": "A surgical glove is a thin glove worn by doctors during operations to keep things clean.",
+      "example_en": "The doctor put on surgical gloves before the operation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "medical adhesive tape",
+      "pos": "noun",
+      "translation_pl": "taśma medyczna",
+      "definition_en": "Medical adhesive tape is special tape used to hold bandages in place.",
+      "example_en": "She used medical adhesive tape to fix the gauze.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hearing test",
+      "pos": "noun",
+      "translation_pl": "badanie słuchu",
+      "definition_en": "A hearing test is a medical check to see how well you hear sounds.",
+      "example_en": "He had a hearing test after noticing hearing loss.",
+      "level": "B2"
+    },
+    {
+      "lemma": "eye drops",
+      "pos": "noun",
+      "translation_pl": "krople do oczu",
+      "definition_en": "Eye drops are liquid medicine used to treat eye problems.",
+      "example_en": "The doctor gave me eye drops for my infection.",
+      "level": "B1"
+    },
+    {
+      "lemma": "walking frame",
+      "pos": "noun",
+      "translation_pl": "chodzik do chodzenia",
+      "definition_en": "A walking frame is a metal structure used to help people walk safely.",
+      "example_en": "She uses a walking frame after her hip surgery.",
+      "level": "B2"
+    }
+  ]
+}

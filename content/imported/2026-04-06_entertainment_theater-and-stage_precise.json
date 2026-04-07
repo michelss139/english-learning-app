@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "theater-and-stage",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:42:52.161Z"
+  },
+  "items": [
+    {
+      "lemma": "footlights",
+      "pos": "noun",
+      "translation_pl": "światła przed sceną",
+      "definition_en": "Footlights are lights at the front edge of a theater stage.",
+      "example_en": "The footlights shone brightly during the opening scene.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cue",
+      "pos": "noun",
+      "translation_pl": "sygnał dla aktora",
+      "definition_en": "A cue is a signal for someone to do something on stage.",
+      "example_en": "The actor waited for his cue before entering.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spotlight",
+      "pos": "noun",
+      "translation_pl": "reflektor punktowy",
+      "definition_en": "A spotlight is a powerful light used to focus on one part of the stage.",
+      "example_en": "She stepped into the spotlight to deliver her lines.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stage manager",
+      "pos": "noun",
+      "translation_pl": "inspicjent teatru",
+      "definition_en": "A stage manager is the person who coordinates all parts of a stage production.",
+      "example_en": "The stage manager called everyone for rehearsal.",
+      "level": "B2"
+    },
+    {
+      "lemma": "understudy",
+      "pos": "noun",
+      "translation_pl": "dubler aktora",
+      "definition_en": "An understudy is a person who learns another's role to fill in if needed.",
+      "example_en": "The understudy performed because the main actor was ill.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dress rehearsal",
+      "pos": "noun",
+      "translation_pl": "próba generalna",
+      "definition_en": "A dress rehearsal is a final practice with all costumes and props.",
+      "example_en": "They had their dress rehearsal before the big premiere.",
+      "level": "B2"
+    },
+    {
+      "lemma": "orchestra pit",
+      "pos": "noun",
+      "translation_pl": "loża orkiestry",
+      "definition_en": "The orchestra pit is the area where musicians play below the stage.",
+      "example_en": "The orchestra pit was filled with talented musicians.",
+      "level": "B2"
+    },
+    {
+      "lemma": "playbill",
+      "pos": "noun",
+      "translation_pl": "program teatralny",
+      "definition_en": "A playbill is a booklet with information about a theater performance.",
+      "example_en": "I picked up a playbill as I entered the theater.",
+      "level": "B2"
+    },
+    {
+      "lemma": "leading role",
+      "pos": "noun",
+      "translation_pl": "główna rola",
+      "definition_en": "The leading role is the main character in a play or show.",
+      "example_en": "She played the leading role in the new drama.",
+      "level": "B2"
+    },
+    {
+      "lemma": "matinee",
+      "pos": "noun",
+      "translation_pl": "popołudniowe przedstawienie",
+      "definition_en": "A matinee is a performance held during the day, usually in the afternoon.",
+      "example_en": "We attended a matinee because evening shows were sold out.",
+      "level": "B2"
+    },
+    {
+      "lemma": "scene change",
+      "pos": "noun",
+      "translation_pl": "zmiana sceny",
+      "definition_en": "A scene change is when the stage setting is altered during a performance.",
+      "example_en": "The crew prepared quickly for each scene change.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wings",
+      "pos": "noun",
+      "translation_pl": "kulisy boczne",
+      "definition_en": "The wings are the areas on the sides of a stage hidden from the audience.",
+      "example_en": "She waited in the wings for her turn to act.",
+      "level": "B2"
+    },
+    {
+      "lemma": "costume designer",
+      "pos": "noun",
+      "translation_pl": "projektant kostiumów",
+      "definition_en": "A costume designer is the person who creates outfits for performers.",
+      "example_en": "The costume designer showed sketches for the new play.",
+      "level": "B2"
+    },
+    {
+      "lemma": "set designer",
+      "pos": "noun",
+      "translation_pl": "scenograf",
+      "definition_en": "A set designer is the person who plans and creates stage settings.",
+      "example_en": "The set designer built a realistic town square for the show.",
+      "level": "B2"
+    },
+    {
+      "lemma": "green room",
+      "pos": "noun",
+      "translation_pl": "pokój dla artystów",
+      "definition_en": "The green room is where performers wait before or after going on stage.",
+      "example_en": "The actors relaxed in the green room before the performance.",
+      "level": "B2"
+    },
+    {
+      "lemma": "monologue",
+      "pos": "noun",
+      "translation_pl": "monolog",
+      "definition_en": "A monologue is a long speech by one actor during a play.",
+      "example_en": "Her monologue moved the entire audience.",
+      "level": "B2"
+    },
+    {
+      "lemma": "chorus line",
+      "pos": "noun",
+      "translation_pl": "linia chóru",
+      "definition_en": "A chorus line is a group of dancers who perform together on stage.",
+      "example_en": "The chorus line added energy to the musical.",
+      "level": "B2"
+    },
+    {
+      "lemma": "opening night",
+      "pos": "noun",
+      "translation_pl": "premiera teatralna",
+      "definition_en": "Opening night is the first official public performance of a show.",
+      "example_en": "Everyone was nervous on opening night.",
+      "level": "B2"
+    },
+    {
+      "lemma": "box seat",
+      "pos": "noun",
+      "translation_pl": "loża w teatrze",
+      "definition_en": "A box seat is a private area with a good view in a theater.",
+      "example_en": "They enjoyed the play from a comfortable box seat.",
+      "level": "B2"
+    },
+    {
+      "lemma": "line",
+      "pos": "noun",
+      "translation_pl": "kwestia wypowiadana na scenie",
+      "definition_en": "A line is a sentence that an actor must say during a play.",
+      "example_en": "He forgot his line halfway through the scene.",
+      "level": "B1"
+    }
+  ]
+}

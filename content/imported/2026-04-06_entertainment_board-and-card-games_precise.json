@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "board-and-card-games",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:45:20.994Z"
+  },
+  "items": [
+    {
+      "lemma": "strategy",
+      "pos": "noun",
+      "translation_pl": "strategia gry",
+      "definition_en": "A plan or method used to win a board or card game.",
+      "example_en": "Her strategy helped her win the game quickly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "game piece",
+      "pos": "noun",
+      "translation_pl": "element gry",
+      "definition_en": "A small object used by players to represent their position or role in a game.",
+      "example_en": "Each player picked a different game piece to use.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dealer",
+      "pos": "noun",
+      "translation_pl": "rozdający karty",
+      "definition_en": "The person who gives out the cards in a card game.",
+      "example_en": "You are the dealer for this round.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scoreboard",
+      "pos": "noun",
+      "translation_pl": "tablica wyników",
+      "definition_en": "A board for keeping track of players' points.",
+      "example_en": "The scoreboard showed that he was in the lead.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stack",
+      "pos": "noun",
+      "translation_pl": "stos kart",
+      "definition_en": "A pile of cards placed face down or face up.",
+      "example_en": "Draw a card from the stack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "banker",
+      "pos": "noun",
+      "translation_pl": "bankier w grze",
+      "definition_en": "A player who handles the money or coins in a board game.",
+      "example_en": "She acted as the banker during Monopoly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tile",
+      "pos": "noun",
+      "translation_pl": "płytka do gry",
+      "definition_en": "A flat piece used in games like Scrabble or Mahjong.",
+      "example_en": "I placed the letter tile on the board.",
+      "level": "B1"
+    },
+    {
+      "lemma": "draw pile",
+      "pos": "noun",
+      "translation_pl": "stos do dobierania",
+      "definition_en": "A stack of cards from which players take new cards.",
+      "example_en": "Take a card from the draw pile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "discard pile",
+      "pos": "noun",
+      "translation_pl": "stos kart odrzuconych",
+      "definition_en": "A pile where used or unwanted cards are placed.",
+      "example_en": "Put your used card on the discard pile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "joker",
+      "pos": "noun",
+      "translation_pl": "dżoker",
+      "definition_en": "A special card that can replace another card in some games.",
+      "example_en": "You can use the joker as any card you need.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pawn",
+      "pos": "noun",
+      "translation_pl": "pionek szachowy",
+      "definition_en": "A small playing piece in chess and other board games.",
+      "example_en": "I moved my pawn forward two squares.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hand of cards",
+      "pos": "noun",
+      "translation_pl": "ręka kart",
+      "definition_en": "The cards a player holds at one time.",
+      "example_en": "Each player started with a hand of five cards.",
+      "level": "B1"
+    },
+    {
+      "lemma": "double six",
+      "pos": "noun",
+      "translation_pl": "podwójna szóstka domino",
+      "definition_en": "A domino tile with six spots on both ends.",
+      "example_en": "He placed the double six tile to start the game.",
+      "level": "B2"
+    },
+    {
+      "lemma": "meeple",
+      "pos": "noun",
+      "translation_pl": "pionek meeple",
+      "definition_en": "A small figure used to represent a player in board games.",
+      "example_en": "Move your red meeple to the city space.",
+      "level": "B2"
+    },
+    {
+      "lemma": "suit",
+      "pos": "noun",
+      "translation_pl": "kolor kart",
+      "definition_en": "One of the four types in a deck, like hearts or spades.",
+      "example_en": "He had three cards of the same suit.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ace",
+      "pos": "noun",
+      "translation_pl": "as karta",
+      "definition_en": "A playing card marked with a single symbol, often the highest or lowest.",
+      "example_en": "The ace of spades is her favorite card.",
+      "level": "A2"
+    },
+    {
+      "lemma": "draw",
+      "pos": "noun",
+      "translation_pl": "dobranie karty",
+      "definition_en": "The act of taking a card from the deck or pile.",
+      "example_en": "It's your turn to make a draw.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lifeline",
+      "pos": "noun",
+      "translation_pl": "koło ratunkowe gra",
+      "definition_en": "A special help or advantage given to a player in a game.",
+      "example_en": "She used her last lifeline to stay in the game.",
+      "level": "B2"
+    },
+    {
+      "lemma": "roll",
+      "pos": "noun",
+      "translation_pl": "rzut kostką",
+      "definition_en": "The action or result of throwing dice in a game.",
+      "example_en": "You need a good roll to win this round.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bluff",
+      "pos": "noun",
+      "translation_pl": "blef",
+      "definition_en": "A move where a player pretends to have a better hand or position.",
+      "example_en": "His bluff fooled everyone at the table.",
+      "level": "B2"
+    }
+  ]
+}

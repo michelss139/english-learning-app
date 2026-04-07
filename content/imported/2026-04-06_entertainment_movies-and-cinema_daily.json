@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "movies-and-cinema",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:40:04.030Z"
+  },
+  "items": [
+    {
+      "lemma": "actor",
+      "pos": "noun",
+      "translation_pl": "aktor",
+      "definition_en": "An actor is a person who plays a role in a movie.",
+      "example_en": "The actor smiled on the red carpet.",
+      "level": "A1"
+    },
+    {
+      "lemma": "director",
+      "pos": "noun",
+      "translation_pl": "reżyser",
+      "definition_en": "A director is a person who leads a movie.",
+      "example_en": "The director explained the scene to the actors.",
+      "level": "A2"
+    },
+    {
+      "lemma": "screen",
+      "pos": "noun",
+      "translation_pl": "ekran",
+      "definition_en": "A screen is a large surface for showing movies.",
+      "example_en": "We watched the film on a big screen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ticket",
+      "pos": "noun",
+      "translation_pl": "bilet",
+      "definition_en": "A ticket lets you enter the cinema.",
+      "example_en": "I bought a ticket for the evening show.",
+      "level": "A1"
+    },
+    {
+      "lemma": "seat",
+      "pos": "noun",
+      "translation_pl": "miejsce",
+      "definition_en": "A seat is a place where you sit in the cinema.",
+      "example_en": "Our seats were in the front row.",
+      "level": "A1"
+    },
+    {
+      "lemma": "popcorn",
+      "pos": "noun",
+      "translation_pl": "popcorn",
+      "definition_en": "Popcorn is a snack people often eat at the movies.",
+      "example_en": "He ate a large box of popcorn.",
+      "level": "A1"
+    },
+    {
+      "lemma": "movie theater",
+      "pos": "noun",
+      "translation_pl": "kino",
+      "definition_en": "A movie theater is a place to watch movies.",
+      "example_en": "The movie theater was very busy.",
+      "level": "A1"
+    },
+    {
+      "lemma": "trailer",
+      "pos": "noun",
+      "translation_pl": "zwiastun",
+      "definition_en": "A trailer is a short preview of a movie.",
+      "example_en": "The trailer made me excited to see the film.",
+      "level": "A2"
+    },
+    {
+      "lemma": "villain",
+      "pos": "noun",
+      "translation_pl": "czarny charakter",
+      "definition_en": "A villain is the bad person in a movie.",
+      "example_en": "The villain scared the audience.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hero",
+      "pos": "noun",
+      "translation_pl": "bohater",
+      "definition_en": "A hero is the main good character in a movie.",
+      "example_en": "The hero saved everyone at the end.",
+      "level": "A1"
+    },
+    {
+      "lemma": "costume",
+      "pos": "noun",
+      "translation_pl": "kostium",
+      "definition_en": "A costume is special clothing worn in movies.",
+      "example_en": "The actress wore a beautiful costume.",
+      "level": "A2"
+    },
+    {
+      "lemma": "camera",
+      "pos": "noun",
+      "translation_pl": "kamera",
+      "definition_en": "A camera is used to film movies.",
+      "example_en": "The camera was large and expensive.",
+      "level": "A1"
+    },
+    {
+      "lemma": "subtitle",
+      "pos": "noun",
+      "translation_pl": "napis",
+      "definition_en": "A subtitle is written words on a movie screen.",
+      "example_en": "The movie had English subtitles.",
+      "level": "A2"
+    },
+    {
+      "lemma": "audience",
+      "pos": "noun",
+      "translation_pl": "publiczność",
+      "definition_en": "An audience is the people who watch a movie.",
+      "example_en": "The audience clapped at the end.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scene",
+      "pos": "noun",
+      "translation_pl": "scena",
+      "definition_en": "A scene is part of a movie.",
+      "example_en": "My favorite scene was the last one.",
+      "level": "A1"
+    },
+    {
+      "lemma": "film",
+      "pos": "noun",
+      "translation_pl": "film",
+      "definition_en": "A film is another word for a movie.",
+      "example_en": "We watched a film on Friday night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "soundtrack",
+      "pos": "noun",
+      "translation_pl": "ścieżka dźwiękowa",
+      "definition_en": "A soundtrack is all the music in a movie.",
+      "example_en": "The movie had a great soundtrack.",
+      "level": "A2"
+    },
+    {
+      "lemma": "award",
+      "pos": "noun",
+      "translation_pl": "nagroda",
+      "definition_en": "An award is a prize a movie or person can win.",
+      "example_en": "She won an award for her role.",
+      "level": "A2"
+    },
+    {
+      "lemma": "star",
+      "pos": "noun",
+      "translation_pl": "gwiazda",
+      "definition_en": "A star is a famous actor or actress.",
+      "example_en": "The movie star greeted her fans.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ticket counter",
+      "pos": "noun",
+      "translation_pl": "kasa biletowa",
+      "definition_en": "A ticket counter is where you buy tickets.",
+      "example_en": "We waited at the ticket counter.",
+      "level": "B1"
+    }
+  ]
+}

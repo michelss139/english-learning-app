@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "footwear",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:41:23.094Z"
+  },
+  "items": [
+    {
+      "lemma": "Chelsea boot",
+      "pos": "noun",
+      "translation_pl": "sztyblet",
+      "definition_en": "A Chelsea boot is an ankle-high boot with elastic side panels.",
+      "example_en": "He wore classic black Chelsea boots to work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "desert boot",
+      "pos": "noun",
+      "translation_pl": "pustynny but zamszowy",
+      "definition_en": "A desert boot is an ankle-high suede boot with a crepe sole.",
+      "example_en": "Her brown desert boots were perfect for walking.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hiking boot",
+      "pos": "noun",
+      "translation_pl": "but trekkingowy",
+      "definition_en": "A hiking boot is a sturdy shoe designed for outdoor walks.",
+      "example_en": "He packed his hiking boots for the trip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "platform shoe",
+      "pos": "noun",
+      "translation_pl": "but na platformie",
+      "definition_en": "A platform shoe is a shoe with a thick sole.",
+      "example_en": "Her platform shoes added several inches to her height.",
+      "level": "B2"
+    },
+    {
+      "lemma": "deck shoe",
+      "pos": "noun",
+      "translation_pl": "but żeglarski",
+      "definition_en": "A deck shoe is a casual shoe designed for boating.",
+      "example_en": "He wore blue deck shoes on the yacht.",
+      "level": "B2"
+    },
+    {
+      "lemma": "combat boot",
+      "pos": "noun",
+      "translation_pl": "but wojskowy",
+      "definition_en": "A combat boot is a strong boot worn by soldiers.",
+      "example_en": "She bought new combat boots for the festival.",
+      "level": "B2"
+    },
+    {
+      "lemma": "Mary Jane",
+      "pos": "noun",
+      "translation_pl": "pantofelek z paskiem",
+      "definition_en": "A Mary Jane is a flat shoe with a strap over the foot.",
+      "example_en": "The girl wore her favorite black Mary Janes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "brogue",
+      "pos": "noun",
+      "translation_pl": "but z dziurkowanym wzorem",
+      "definition_en": "A brogue is a leather shoe with decorative perforations.",
+      "example_en": "His brown brogues were perfect for the meeting.",
+      "level": "B2"
+    },
+    {
+      "lemma": "monk strap",
+      "pos": "noun",
+      "translation_pl": "but z klamrą",
+      "definition_en": "A monk strap is a shoe fastened with a buckle instead of laces.",
+      "example_en": "Monk strap shoes look smart with suits.",
+      "level": "C1"
+    },
+    {
+      "lemma": "peep-toe",
+      "pos": "noun",
+      "translation_pl": "but z odkrytymi palcami",
+      "definition_en": "A peep-toe is a shoe with an opening at the toe.",
+      "example_en": "She chose red peep-toes for the party.",
+      "level": "B2"
+    },
+    {
+      "lemma": "work boot",
+      "pos": "noun",
+      "translation_pl": "but roboczy",
+      "definition_en": "A work boot is a strong boot used for manual labor.",
+      "example_en": "He wore heavy work boots on the construction site.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cowboy boot",
+      "pos": "noun",
+      "translation_pl": "kowbojka",
+      "definition_en": "A cowboy boot is a high leather boot with decorative stitching.",
+      "example_en": "He put on cowboy boots for the country dance.",
+      "level": "B1"
+    },
+    {
+      "lemma": "skating boot",
+      "pos": "noun",
+      "translation_pl": "but do łyżwiarstwa",
+      "definition_en": "A skating boot is a shoe used for ice or roller skating.",
+      "example_en": "She tightened her skating boots before entering the rink.",
+      "level": "B2"
+    },
+    {
+      "lemma": "Chelsea sneaker",
+      "pos": "noun",
+      "translation_pl": "sneaker sztyblet",
+      "definition_en": "A Chelsea sneaker is a casual trainer with elastic side panels.",
+      "example_en": "He bought grey Chelsea sneakers for casual wear.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lace-up boot",
+      "pos": "noun",
+      "translation_pl": "sznurowany but za kostkę",
+      "definition_en": "A lace-up boot is a boot fastened with laces.",
+      "example_en": "Her lace-up boots were perfect for autumn.",
+      "level": "B1"
+    },
+    {
+      "lemma": "slip-on shoe",
+      "pos": "noun",
+      "translation_pl": "but wsuwany",
+      "definition_en": "A slip-on shoe is a shoe you can put on without fastening.",
+      "example_en": "He likes slip-on shoes for everyday use.",
+      "level": "B1"
+    },
+    {
+      "lemma": "Jodhpur boot",
+      "pos": "noun",
+      "translation_pl": "sztyblet jeździecki",
+      "definition_en": "A Jodhpur boot is a close-fitting ankle boot with a strap.",
+      "example_en": "She wore Jodhpur boots for horseback riding.",
+      "level": "C1"
+    },
+    {
+      "lemma": "chukka boot",
+      "pos": "noun",
+      "translation_pl": "but chukka",
+      "definition_en": "A chukka boot is an ankle-high leather boot with open lacing.",
+      "example_en": "Chukka boots work well with jeans and chinos.",
+      "level": "B2"
+    },
+    {
+      "lemma": "riding boot",
+      "pos": "noun",
+      "translation_pl": "oficerka jeździecka",
+      "definition_en": "A riding boot is a high boot designed for horse riding.",
+      "example_en": "The rider wore tall riding boots.",
+      "level": "B2"
+    }
+  ]
+}

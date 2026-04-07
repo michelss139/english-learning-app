@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { loadLexiconPatternsForIrregularVerbs } from "@/lib/lexicon/irregularVerbPatternLoader";
 
 /**
  * GET /api/irregular-verbs/list
@@ -14,6 +15,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search")?.trim().toLowerCase() || "";
+    const includeLexicon = searchParams.get("include_lexicon") === "1" || searchParams.get("include_lexicon") === "true";
 
     // Optional auth - if token provided, show pinned status
     const authHeader = req.headers.get("authorization") ?? "";
@@ -31,7 +33,14 @@ export async function GET(req: Request) {
     const supabase = createSupabaseAdmin();
 
     // Get all verbs
-    let query = supabase.from("irregular_verbs").select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants").order("base_norm");
+    let query = supabase
+      .from("irregular_verbs")
+      .select(
+        includeLexicon
+          ? "id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id"
+          : "id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants",
+      )
+      .order("base_norm");
 
     if (search) {
       query = query.ilike("base_norm", `%${search}%`);
@@ -60,16 +69,31 @@ export async function GET(req: Request) {
       }
     }
 
+    const verbList = verbs || [];
+    const patternByVerbId = includeLexicon
+      ? await loadLexiconPatternsForIrregularVerbs(
+          supabase,
+          verbList.map((v) => ({ id: v.id, entry_id: (v as { entry_id?: string | null }).entry_id ?? null })),
+        )
+      : null;
+
     // Combine data
-    const result = (verbs || []).map((verb) => ({
-      id: verb.id,
-      base: verb.base,
-      past_simple: verb.past_simple,
-      past_simple_variants: verb.past_simple_variants || [],
-      past_participle: verb.past_participle,
-      past_participle_variants: verb.past_participle_variants || [],
-      pinned: userId ? pinnedVerbIds.has(verb.id) : false,
-    }));
+    const result = verbList.map((verb) => {
+      const row: Record<string, unknown> = {
+        id: verb.id,
+        base: verb.base,
+        past_simple: verb.past_simple,
+        past_simple_variants: verb.past_simple_variants || [],
+        past_participle: verb.past_participle,
+        past_participle_variants: verb.past_participle_variants || [],
+        pinned: userId ? pinnedVerbIds.has(verb.id) : false,
+      };
+      if (includeLexicon && patternByVerbId) {
+        const patterns = patternByVerbId.get(verb.id);
+        if (patterns?.length) row.patterns = patterns;
+      }
+      return row;
+    });
 
     return NextResponse.json({
       verbs: result,

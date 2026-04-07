@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "soil",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:38:23.503Z"
+  },
+  "items": [
+    {
+      "lemma": "soil",
+      "pos": "noun",
+      "translation_pl": "gleba",
+      "definition_en": "Soil is the top layer of earth in a garden.",
+      "example_en": "The soil in my garden is very soft.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dirt",
+      "pos": "noun",
+      "translation_pl": "ziemia",
+      "definition_en": "Dirt is the loose earth you find on the ground.",
+      "example_en": "The flowers grow best in clean dirt.",
+      "level": "A1"
+    },
+    {
+      "lemma": "earth",
+      "pos": "noun",
+      "translation_pl": "ziemia",
+      "definition_en": "Earth is another word for soil in the garden.",
+      "example_en": "The earth is dark and rich here.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mud",
+      "pos": "noun",
+      "translation_pl": "błoto",
+      "definition_en": "Mud is wet soil mixed with water.",
+      "example_en": "After the rain, there is mud everywhere.",
+      "level": "A1"
+    },
+    {
+      "lemma": "clay",
+      "pos": "noun",
+      "translation_pl": "glina",
+      "definition_en": "Clay is heavy soil that sticks together when wet.",
+      "example_en": "The clay in the garden is hard to dig.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sand",
+      "pos": "noun",
+      "translation_pl": "piasek",
+      "definition_en": "Sand is light soil made of tiny grains.",
+      "example_en": "This plant grows well in sand.",
+      "level": "A2"
+    },
+    {
+      "lemma": "loam",
+      "pos": "noun",
+      "translation_pl": "czarnoziem",
+      "definition_en": "Loam is soil that is a mix of sand, clay and silt.",
+      "example_en": "Loam is perfect for most garden plants.",
+      "level": "B1"
+    },
+    {
+      "lemma": "topsoil",
+      "pos": "noun",
+      "translation_pl": "warstwa wierzchnia gleby",
+      "definition_en": "Topsoil is the upper layer of soil where plants grow.",
+      "example_en": "We added new topsoil to the flower bed.",
+      "level": "B1"
+    },
+    {
+      "lemma": "compost",
+      "pos": "noun",
+      "translation_pl": "kompost",
+      "definition_en": "Compost is decayed plant material used to feed soil.",
+      "example_en": "I put compost on my garden every spring.",
+      "level": "A2"
+    },
+    {
+      "lemma": "humus",
+      "pos": "noun",
+      "translation_pl": "próchnica",
+      "definition_en": "Humus is dark, rich material made from rotting plants.",
+      "example_en": "Humus makes the garden soil fertile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "worm",
+      "pos": "noun",
+      "translation_pl": "robak",
+      "definition_en": "A worm is a small animal that lives in soil.",
+      "example_en": "I saw a worm while digging in the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "manure",
+      "pos": "noun",
+      "translation_pl": "obornik",
+      "definition_en": "Manure is animal waste used to help plants grow.",
+      "example_en": "Farmers often use manure to enrich their soil.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pebble",
+      "pos": "noun",
+      "translation_pl": "kamyk",
+      "definition_en": "A pebble is a small, smooth stone found in the soil.",
+      "example_en": "There are pebbles all around the vegetable patch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "root",
+      "pos": "noun",
+      "translation_pl": "korzeń",
+      "definition_en": "A root is the part of a plant that grows in the soil.",
+      "example_en": "The tree has strong roots in the ground.",
+      "level": "A1"
+    },
+    {
+      "lemma": "stone",
+      "pos": "noun",
+      "translation_pl": "kamień",
+      "definition_en": "A stone is a hard, solid piece of mineral in the soil.",
+      "example_en": "We found a big stone while digging.",
+      "level": "A1"
+    },
+    {
+      "lemma": "silt",
+      "pos": "noun",
+      "translation_pl": "muł",
+      "definition_en": "Silt is fine soil carried by water.",
+      "example_en": "Silt makes the garden bed very soft.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bed",
+      "pos": "noun",
+      "translation_pl": "grządka",
+      "definition_en": "A bed is an area of soil for growing plants.",
+      "example_en": "We planted new flowers in the garden bed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "patch",
+      "pos": "noun",
+      "translation_pl": "grządka",
+      "definition_en": "A patch is a small area of soil for plants.",
+      "example_en": "There is a vegetable patch in the corner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fertilizer",
+      "pos": "noun",
+      "translation_pl": "nawóz",
+      "definition_en": "Fertilizer is something you add to soil to help plants grow.",
+      "example_en": "I use fertilizer to keep my roses healthy.",
+      "level": "A2"
+    },
+    {
+      "lemma": "potting soil",
+      "pos": "noun",
+      "translation_pl": "ziemia do doniczek",
+      "definition_en": "Potting soil is special soil used for plants in pots.",
+      "example_en": "She bought fresh potting soil for her flowers.",
+      "level": "B1"
+    }
+  ]
+}

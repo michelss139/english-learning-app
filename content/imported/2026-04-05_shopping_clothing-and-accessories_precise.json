@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "clothing-and-accessories",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:59:23.661Z"
+  },
+  "items": [
+    {
+      "lemma": "raincoat",
+      "pos": "noun",
+      "translation_pl": "płaszcz przeciwdeszczowy",
+      "definition_en": "A raincoat is a coat that keeps you dry in the rain.",
+      "example_en": "She wore a yellow raincoat during the storm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "leggings",
+      "pos": "noun",
+      "translation_pl": "legginsy",
+      "definition_en": "Leggings are tight-fitting trousers made of stretchy material.",
+      "example_en": "She likes to wear leggings to the gym.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cardigan",
+      "pos": "noun",
+      "translation_pl": "rozpinany sweter",
+      "definition_en": "A cardigan is a knitted sweater that opens at the front.",
+      "example_en": "He put on a cardigan to stay warm in the office.",
+      "level": "B2"
+    },
+    {
+      "lemma": "overalls",
+      "pos": "noun",
+      "translation_pl": "ogrodniczki",
+      "definition_en": "Overalls are a piece of clothing that covers the body and has straps over the shoulders.",
+      "example_en": "Farmers often wear overalls when they work.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tank top",
+      "pos": "noun",
+      "translation_pl": "koszulka na ramiączkach",
+      "definition_en": "A tank top is a sleeveless shirt with shoulder straps.",
+      "example_en": "He wore a tank top on the hot day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flip-flops",
+      "pos": "noun",
+      "translation_pl": "klapki japonki",
+      "definition_en": "Flip-flops are simple sandals with a thong between the toes.",
+      "example_en": "She wore flip-flops to the beach.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tracksuit",
+      "pos": "noun",
+      "translation_pl": "dres",
+      "definition_en": "A tracksuit is a set of loose clothes for sports or exercise.",
+      "example_en": "He changed into his tracksuit before jogging.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mittens",
+      "pos": "noun",
+      "translation_pl": "rękawiczki z jednym palcem",
+      "definition_en": "Mittens are gloves that cover the hand but not the fingers separately.",
+      "example_en": "She bought warm mittens for winter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bikini",
+      "pos": "noun",
+      "translation_pl": "strój kąpielowy dwuczęściowy",
+      "definition_en": "A bikini is a two-piece swimsuit for women.",
+      "example_en": "She wore a red bikini to the pool.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waistcoat",
+      "pos": "noun",
+      "translation_pl": "kamizelka",
+      "definition_en": "A waistcoat is a sleeveless garment worn over a shirt and under a jacket.",
+      "example_en": "He wore a waistcoat with his suit.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rain boots",
+      "pos": "noun",
+      "translation_pl": "kalosze",
+      "definition_en": "Rain boots are waterproof boots worn in wet weather.",
+      "example_en": "Children love to jump in puddles with rain boots.",
+      "level": "B1"
+    },
+    {
+      "lemma": "swimsuit",
+      "pos": "noun",
+      "translation_pl": "strój kąpielowy",
+      "definition_en": "A swimsuit is clothing worn for swimming.",
+      "example_en": "He packed a swimsuit for the vacation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pajamas",
+      "pos": "noun",
+      "translation_pl": "piżama",
+      "definition_en": "Pajamas are clothes worn for sleeping.",
+      "example_en": "He changed into pajamas before bed.",
+      "level": "B1"
+    },
+    {
+      "lemma": "purse",
+      "pos": "noun",
+      "translation_pl": "torebka",
+      "definition_en": "A purse is a small bag for carrying money and personal items.",
+      "example_en": "She found her keys inside her purse.",
+      "level": "B1"
+    },
+    {
+      "lemma": "handbag",
+      "pos": "noun",
+      "translation_pl": "torebka damska",
+      "definition_en": "A handbag is a large purse carried by women.",
+      "example_en": "She placed her handbag on the chair.",
+      "level": "B1"
+    },
+    {
+      "lemma": "trench coat",
+      "pos": "noun",
+      "translation_pl": "prochowiec",
+      "definition_en": "A trench coat is a long, stylish coat often worn in the rain.",
+      "example_en": "He wore a classic trench coat to work.",
+      "level": "B2"
+    },
+    {
+      "lemma": "beanie",
+      "pos": "noun",
+      "translation_pl": "czapka zimowa",
+      "definition_en": "A beanie is a small, tight hat made from knitted wool.",
+      "example_en": "He put on a beanie to stay warm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "overcoat",
+      "pos": "noun",
+      "translation_pl": "płaszcz zimowy",
+      "definition_en": "An overcoat is a heavy coat worn outdoors in cold weather.",
+      "example_en": "He wore a thick overcoat in January.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ballet flats",
+      "pos": "noun",
+      "translation_pl": "baletki",
+      "definition_en": "Ballet flats are flat shoes inspired by ballet slippers.",
+      "example_en": "She prefers ballet flats for comfort.",
+      "level": "B1"
+    },
+    {
+      "lemma": "trousers",
+      "pos": "noun",
+      "translation_pl": "spodnie",
+      "definition_en": "Trousers are a piece of clothing that covers each leg separately.",
+      "example_en": "He bought a new pair of trousers.",
+      "level": "B1"
+    }
+  ]
+}

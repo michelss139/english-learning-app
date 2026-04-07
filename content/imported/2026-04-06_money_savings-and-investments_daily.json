@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "savings-and-investments",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:33:55.261Z"
+  },
+  "items": [
+    {
+      "lemma": "savings account",
+      "pos": "noun",
+      "translation_pl": "konto oszczędnościowe",
+      "definition_en": "A savings account is a bank account where you keep money to save.",
+      "example_en": "She put her birthday money in her savings account.",
+      "level": "A2"
+    },
+    {
+      "lemma": "deposit",
+      "pos": "noun",
+      "translation_pl": "depozyt",
+      "definition_en": "A deposit is money you put into a bank or savings account.",
+      "example_en": "He made a deposit at the bank yesterday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "withdrawal",
+      "pos": "noun",
+      "translation_pl": "wypłata",
+      "definition_en": "A withdrawal is money you take out from your bank account.",
+      "example_en": "She made a withdrawal from the ATM.",
+      "level": "B1"
+    },
+    {
+      "lemma": "balance",
+      "pos": "noun",
+      "translation_pl": "saldo",
+      "definition_en": "A balance is the amount of money you have in your account.",
+      "example_en": "He checked his balance online.",
+      "level": "A2"
+    },
+    {
+      "lemma": "investment",
+      "pos": "noun",
+      "translation_pl": "inwestycja",
+      "definition_en": "An investment is something you put money into to try to make more money.",
+      "example_en": "Buying a house can be a good investment.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bond",
+      "pos": "noun",
+      "translation_pl": "obligacja",
+      "definition_en": "A bond is a way of saving money by lending it to the government or a company.",
+      "example_en": "My grandparents bought a bond for me.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stock",
+      "pos": "noun",
+      "translation_pl": "akcja",
+      "definition_en": "A stock is a type of investment in a company.",
+      "example_en": "He bought stock in a technology company.",
+      "level": "B1"
+    },
+    {
+      "lemma": "share",
+      "pos": "noun",
+      "translation_pl": "udział",
+      "definition_en": "A share is a part of ownership in a company.",
+      "example_en": "She owns a share in the business.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fund",
+      "pos": "noun",
+      "translation_pl": "fundusz",
+      "definition_en": "A fund is a sum of money saved or gathered for a special purpose.",
+      "example_en": "They started a fund for the new playground.",
+      "level": "B1"
+    },
+    {
+      "lemma": "piggy bank",
+      "pos": "noun",
+      "translation_pl": "skarbonka",
+      "definition_en": "A piggy bank is a container used to save small amounts of money.",
+      "example_en": "The boy put coins in his piggy bank every week.",
+      "level": "A1"
+    },
+    {
+      "lemma": "account",
+      "pos": "noun",
+      "translation_pl": "konto",
+      "definition_en": "An account is a place at a bank where you keep your money.",
+      "example_en": "My parents opened an account for me.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cashbox",
+      "pos": "noun",
+      "translation_pl": "kasetka na pieniądze",
+      "definition_en": "A cashbox is a small box where cash is kept.",
+      "example_en": "She placed the day's savings in the cashbox.",
+      "level": "A2"
+    },
+    {
+      "lemma": "treasury",
+      "pos": "noun",
+      "translation_pl": "skarbiec",
+      "definition_en": "A treasury is a place or fund where money is kept or managed.",
+      "example_en": "The country's gold is stored in the treasury.",
+      "level": "B1"
+    },
+    {
+      "lemma": "deposit slip",
+      "pos": "noun",
+      "translation_pl": "formularz wpłaty",
+      "definition_en": "A deposit slip is a form you fill in when putting money into a bank.",
+      "example_en": "He filled out a deposit slip at the bank.",
+      "level": "B1"
+    },
+    {
+      "lemma": "retirement fund",
+      "pos": "noun",
+      "translation_pl": "fundusz emerytalny",
+      "definition_en": "A retirement fund is money saved for when you stop working.",
+      "example_en": "She adds money to her retirement fund every month.",
+      "level": "B1"
+    },
+    {
+      "lemma": "safe",
+      "pos": "noun",
+      "translation_pl": "sejf",
+      "definition_en": "A safe is a strong box used to keep money and valuables secure.",
+      "example_en": "They locked their savings in a safe.",
+      "level": "A2"
+    },
+    {
+      "lemma": "saver",
+      "pos": "noun",
+      "translation_pl": "oszczędzający",
+      "definition_en": "A saver is a person who keeps money instead of spending it.",
+      "example_en": "He became a good saver from a young age.",
+      "level": "A2"
+    },
+    {
+      "lemma": "allowance",
+      "pos": "noun",
+      "translation_pl": "kieszonkowe",
+      "definition_en": "An allowance is money given regularly to save or spend.",
+      "example_en": "His parents give him a weekly allowance.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nest egg",
+      "pos": "noun",
+      "translation_pl": "oszczędności",
+      "definition_en": "A nest egg is money saved for the future.",
+      "example_en": "She has a nest egg for emergencies.",
+      "level": "B1"
+    },
+    {
+      "lemma": "goal",
+      "pos": "noun",
+      "translation_pl": "cel",
+      "definition_en": "A goal is something you hope to save money for.",
+      "example_en": "His goal is to save money for a new bike.",
+      "level": "B1"
+    }
+  ]
+}

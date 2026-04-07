@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "music-and-concerts",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:41:44.036Z"
+  },
+  "items": [
+    {
+      "lemma": "backstage pass",
+      "pos": "noun",
+      "translation_pl": "przepustka za kulisy",
+      "definition_en": "A backstage pass gives special access behind the stage at a concert.",
+      "example_en": "She won a backstage pass to meet the band after the show.",
+      "level": "B2"
+    },
+    {
+      "lemma": "opening act",
+      "pos": "noun",
+      "translation_pl": "zespół otwierający koncert",
+      "definition_en": "An opening act is a performer who plays before the main artist at a concert.",
+      "example_en": "The opening act played some great songs before the headliner appeared.",
+      "level": "B1"
+    },
+    {
+      "lemma": "soundcheck",
+      "pos": "noun",
+      "translation_pl": "próba dźwięku",
+      "definition_en": "A soundcheck is the process of testing sound equipment before a concert.",
+      "example_en": "The band did a soundcheck before the audience entered.",
+      "level": "B2"
+    },
+    {
+      "lemma": "endnote",
+      "pos": "noun",
+      "translation_pl": "ostatni utwór koncertu",
+      "definition_en": "An endnote is the final song played at a concert.",
+      "example_en": "The endnote made everyone cheer and clap loudly.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stage lights",
+      "pos": "noun",
+      "translation_pl": "oświetlenie sceniczne",
+      "definition_en": "Stage lights are used to illuminate performers during a concert.",
+      "example_en": "Bright stage lights filled the hall during the show.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lead singer",
+      "pos": "noun",
+      "translation_pl": "wokalista",
+      "definition_en": "A lead singer is the main vocal performer in a band.",
+      "example_en": "The lead singer spoke to the fans between songs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electric keyboard",
+      "pos": "noun",
+      "translation_pl": "keyboard elektryczny",
+      "definition_en": "An electric keyboard is an electronic musical instrument with keys.",
+      "example_en": "He played the electric keyboard on stage.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bass guitar",
+      "pos": "noun",
+      "translation_pl": "gitara basowa",
+      "definition_en": "A bass guitar plays low-pitched notes in a band.",
+      "example_en": "The bass guitar gave the song a deep sound.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chorus section",
+      "pos": "noun",
+      "translation_pl": "sekcja chórku",
+      "definition_en": "A chorus section is a group singing backup vocals during a concert.",
+      "example_en": "The chorus section added harmony to the main song.",
+      "level": "B2"
+    },
+    {
+      "lemma": "light show",
+      "pos": "noun",
+      "translation_pl": "pokaz świateł na koncercie",
+      "definition_en": "A light show is a visual display of lights during a music event.",
+      "example_en": "The concert's light show made the performance exciting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "press pass",
+      "pos": "noun",
+      "translation_pl": "przepustka prasowa",
+      "definition_en": "A press pass allows journalists entry to a music event.",
+      "example_en": "She entered the venue with her press pass.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tour manager",
+      "pos": "noun",
+      "translation_pl": "manager trasy koncertowej",
+      "definition_en": "A tour manager organizes and manages a band's concerts.",
+      "example_en": "The tour manager arranged the transport and hotels.",
+      "level": "B2"
+    },
+    {
+      "lemma": "road crew",
+      "pos": "noun",
+      "translation_pl": "ekipa techniczna",
+      "definition_en": "A road crew sets up and takes down equipment at concerts.",
+      "example_en": "The road crew quickly prepared the stage for the band.",
+      "level": "B2"
+    },
+    {
+      "lemma": "encore",
+      "pos": "noun",
+      "translation_pl": "bis na koncercie",
+      "definition_en": "An encore is an extra song performed at the end of a concert.",
+      "example_en": "The crowd asked for an encore after the finale.",
+      "level": "B2"
+    },
+    {
+      "lemma": "VIP section",
+      "pos": "noun",
+      "translation_pl": "strefa VIP",
+      "definition_en": "A VIP section is a special area for important guests at a concert.",
+      "example_en": "She sat in the VIP section near the stage.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mixer desk",
+      "pos": "noun",
+      "translation_pl": "konsola mikserska",
+      "definition_en": "A mixer desk is used to control sound levels during concerts.",
+      "example_en": "The sound engineer worked at the mixer desk.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stage dive",
+      "pos": "noun",
+      "translation_pl": "skok ze sceny na widownię",
+      "definition_en": "A stage dive is when a performer jumps into the crowd from the stage.",
+      "example_en": "The singer did a stage dive at the end of the show.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tour bus",
+      "pos": "noun",
+      "translation_pl": "autobus zespołu w trasie",
+      "definition_en": "A tour bus transports a band during their concert tour.",
+      "example_en": "The band slept on the tour bus between cities.",
+      "level": "B1"
+    },
+    {
+      "lemma": "merch table",
+      "pos": "noun",
+      "translation_pl": "stoisko z gadżetami zespołu",
+      "definition_en": "A merch table is where fans can buy band merchandise at concerts.",
+      "example_en": "I bought a T-shirt from the merch table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "acoustic set",
+      "pos": "noun",
+      "translation_pl": "akustyczny występ",
+      "definition_en": "An acoustic set is a concert part with unplugged instruments.",
+      "example_en": "The acoustic set gave the concert a relaxed feeling.",
+      "level": "B2"
+    }
+  ]
+}

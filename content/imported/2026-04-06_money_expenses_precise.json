@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "expenses",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:33:16.508Z"
+  },
+  "items": [
+    {
+      "lemma": "utility bill",
+      "pos": "noun",
+      "translation_pl": "rachunek za media",
+      "definition_en": "A bill for services like electricity, water, or gas.",
+      "example_en": "My utility bill was higher this month.",
+      "level": "B1"
+    },
+    {
+      "lemma": "credit card payment",
+      "pos": "noun",
+      "translation_pl": "spłata karty kredytowej",
+      "definition_en": "The amount you pay to cover your credit card debt.",
+      "example_en": "I made my monthly credit card payment today.",
+      "level": "B2"
+    },
+    {
+      "lemma": "down payment",
+      "pos": "noun",
+      "translation_pl": "zaliczka przy zakupie",
+      "definition_en": "An initial payment for something expensive, like a house or car.",
+      "example_en": "They saved up for a down payment on their new house.",
+      "level": "B2"
+    },
+    {
+      "lemma": "maintenance fee",
+      "pos": "noun",
+      "translation_pl": "opłata za utrzymanie",
+      "definition_en": "A regular charge for keeping something in good condition.",
+      "example_en": "There is a maintenance fee for living in the apartment complex.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tuition",
+      "pos": "noun",
+      "translation_pl": "czesne",
+      "definition_en": "The money paid for instruction at a school or university.",
+      "example_en": "She took out a loan to pay her college tuition.",
+      "level": "B2"
+    },
+    {
+      "lemma": "overdraft fee",
+      "pos": "noun",
+      "translation_pl": "opłata za przekroczenie salda",
+      "definition_en": "A charge when you spend more money than you have in your bank account.",
+      "example_en": "He was charged an overdraft fee after buying groceries.",
+      "level": "C1"
+    },
+    {
+      "lemma": "late fee",
+      "pos": "noun",
+      "translation_pl": "kara za spóźnienie",
+      "definition_en": "Money you pay for missing a payment deadline.",
+      "example_en": "A late fee was added to my credit card bill.",
+      "level": "B1"
+    },
+    {
+      "lemma": "membership fee",
+      "pos": "noun",
+      "translation_pl": "opłata członkowska",
+      "definition_en": "The money you pay to join an organization or club.",
+      "example_en": "There is an annual membership fee for the gym.",
+      "level": "B1"
+    },
+    {
+      "lemma": "service charge",
+      "pos": "noun",
+      "translation_pl": "opłata za usługę",
+      "definition_en": "An extra amount added to a bill for a service.",
+      "example_en": "A service charge is included in the restaurant bill.",
+      "level": "B1"
+    },
+    {
+      "lemma": "withdrawal fee",
+      "pos": "noun",
+      "translation_pl": "opłata za wypłatę",
+      "definition_en": "A charge for taking money out of your account.",
+      "example_en": "ATM withdrawals may come with a withdrawal fee.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cancellation fee",
+      "pos": "noun",
+      "translation_pl": "opłata za anulowanie",
+      "definition_en": "Money you pay when you cancel a service or booking.",
+      "example_en": "They had to pay a cancellation fee for their flight.",
+      "level": "B2"
+    },
+    {
+      "lemma": "subscription",
+      "pos": "noun",
+      "translation_pl": "abonament",
+      "definition_en": "A regular payment for continuous access to a service.",
+      "example_en": "She bought a monthly subscription to a music app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "service fee",
+      "pos": "noun",
+      "translation_pl": "opłata serwisowa",
+      "definition_en": "A charge for a provided service, often in banking or hotels.",
+      "example_en": "The hotel bill included a service fee.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mortgage payment",
+      "pos": "noun",
+      "translation_pl": "spłata kredytu hipotecznego",
+      "definition_en": "A regular payment to pay off a loan for a house.",
+      "example_en": "Their mortgage payment is due at the start of each month.",
+      "level": "B2"
+    },
+    {
+      "lemma": "childcare cost",
+      "pos": "noun",
+      "translation_pl": "koszt opieki nad dzieckiem",
+      "definition_en": "Money spent on looking after children.",
+      "example_en": "Childcare costs can be a big part of the monthly budget.",
+      "level": "B2"
+    },
+    {
+      "lemma": "leasing fee",
+      "pos": "noun",
+      "translation_pl": "opłata leasingowa",
+      "definition_en": "A charge you pay for using something rented, like a car.",
+      "example_en": "The leasing fee for the car is paid every month.",
+      "level": "C1"
+    },
+    {
+      "lemma": "transaction fee",
+      "pos": "noun",
+      "translation_pl": "opłata transakcyjna",
+      "definition_en": "A charge made for carrying out a financial action.",
+      "example_en": "Online banks may charge a small transaction fee.",
+      "level": "B2"
+    },
+    {
+      "lemma": "administration fee",
+      "pos": "noun",
+      "translation_pl": "opłata administracyjna",
+      "definition_en": "Money charged for the processing of documents or services.",
+      "example_en": "An administration fee was added to the total cost.",
+      "level": "B2"
+    },
+    {
+      "lemma": "handling fee",
+      "pos": "noun",
+      "translation_pl": "opłata manipulacyjna",
+      "definition_en": "A fee for processing an order or request.",
+      "example_en": "There's a handling fee when you buy tickets online.",
+      "level": "B2"
+    },
+    {
+      "lemma": "service subscription",
+      "pos": "noun",
+      "translation_pl": "abonament na usługę",
+      "definition_en": "A regular payment for ongoing use of a particular service.",
+      "example_en": "My streaming service subscription renews every month.",
+      "level": "B2"
+    }
+  ]
+}

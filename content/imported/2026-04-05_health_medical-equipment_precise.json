@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "medical-equipment",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:10:10.598Z"
+  },
+  "items": [
+    {
+      "lemma": "pulse oximeter",
+      "pos": "noun",
+      "translation_pl": "pulsoksymetr",
+      "definition_en": "A pulse oximeter is a device used to measure the oxygen level in the blood.",
+      "example_en": "The nurse placed a pulse oximeter on my finger to check my oxygen saturation.",
+      "level": "B2"
+    },
+    {
+      "lemma": "defibrillator",
+      "pos": "noun",
+      "translation_pl": "defibrylator",
+      "definition_en": "A defibrillator is a machine used to restart the heart by sending an electric shock.",
+      "example_en": "The hospital has a defibrillator in every ward for emergencies.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wheelchair ramp",
+      "pos": "noun",
+      "translation_pl": "rampa dla wózków inwalidzkich",
+      "definition_en": "A wheelchair ramp is a sloped surface allowing access for wheelchairs.",
+      "example_en": "The clinic installed a wheelchair ramp for easier access.",
+      "level": "B1"
+    },
+    {
+      "lemma": "IV pole",
+      "pos": "noun",
+      "translation_pl": "stojak na kroplówkę",
+      "definition_en": "An IV pole is a stand used to hold bags for intravenous fluids.",
+      "example_en": "The IV pole kept my medicine bag hanging during treatment.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hearing aid",
+      "pos": "noun",
+      "translation_pl": "aparat słuchowy",
+      "definition_en": "A hearing aid is a small device worn to help people hear better.",
+      "example_en": "My grandfather wears a hearing aid in his right ear.",
+      "level": "B1"
+    },
+    {
+      "lemma": "surgical mask",
+      "pos": "noun",
+      "translation_pl": "maseczka chirurgiczna",
+      "definition_en": "A surgical mask is a protective mask worn by medical staff during procedures.",
+      "example_en": "Doctors put on a surgical mask before every operation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "orthopedic brace",
+      "pos": "noun",
+      "translation_pl": "orteza ortopedyczna",
+      "definition_en": "An orthopedic brace is a support used to hold a limb or joint in place.",
+      "example_en": "She wore an orthopedic brace after spraining her knee.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hospital bed",
+      "pos": "noun",
+      "translation_pl": "łóżko szpitalne",
+      "definition_en": "A hospital bed is a special adjustable bed for patients in hospitals.",
+      "example_en": "The hospital bed could be raised to help the patient sit up.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ECG machine",
+      "pos": "noun",
+      "translation_pl": "aparat EKG",
+      "definition_en": "An ECG machine records the electrical activity of the heart.",
+      "example_en": "The doctor used an ECG machine to monitor my heartbeat.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gurney",
+      "pos": "noun",
+      "translation_pl": "nosze na kółkach",
+      "definition_en": "A gurney is a wheeled stretcher used to move patients.",
+      "example_en": "Paramedics rushed the patient into the hospital on a gurney.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dialysis machine",
+      "pos": "noun",
+      "translation_pl": "aparat do dializy",
+      "definition_en": "A dialysis machine removes waste from the blood for people with kidney failure.",
+      "example_en": "He visits the clinic three times a week to use the dialysis machine.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fetal monitor",
+      "pos": "noun",
+      "translation_pl": "monitor płodu",
+      "definition_en": "A fetal monitor checks a baby's heart rate during pregnancy or labor.",
+      "example_en": "The nurse connected the expectant mother to a fetal monitor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "surgical forceps",
+      "pos": "noun",
+      "translation_pl": "kleszcze chirurgiczne",
+      "definition_en": "Surgical forceps are tools used to hold or grab tissues during surgery.",
+      "example_en": "The surgeon used surgical forceps to remove the foreign object.",
+      "level": "B2"
+    },
+    {
+      "lemma": "nebulizer",
+      "pos": "noun",
+      "translation_pl": "nebulizator",
+      "definition_en": "A nebulizer is a device that turns medicine into a mist for inhalation.",
+      "example_en": "My son uses a nebulizer when he has trouble breathing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "catheter",
+      "pos": "noun",
+      "translation_pl": "cewnik",
+      "definition_en": "A catheter is a tube used to drain fluids from or deliver fluids to the body.",
+      "example_en": "The patient needed a catheter during surgery.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tongue depressor",
+      "pos": "noun",
+      "translation_pl": "patyczek do języka",
+      "definition_en": "A tongue depressor is a flat stick used to press down the tongue for examination.",
+      "example_en": "The doctor used a tongue depressor to check my throat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hospital gown",
+      "pos": "noun",
+      "translation_pl": "koszula szpitalna",
+      "definition_en": "A hospital gown is a loose garment worn by patients in hospitals.",
+      "example_en": "Patients change into a hospital gown before a medical exam.",
+      "level": "B1"
+    },
+    {
+      "lemma": "medical chart",
+      "pos": "noun",
+      "translation_pl": "karta pacjenta",
+      "definition_en": "A medical chart is a record of a patient’s health history and care.",
+      "example_en": "The nurse updated my medical chart after each visit.",
+      "level": "B1"
+    },
+    {
+      "lemma": "medical ventilator",
+      "pos": "noun",
+      "translation_pl": "respirator medyczny",
+      "definition_en": "A medical ventilator is a machine that helps a patient breathe.",
+      "example_en": "The medical ventilator kept the patient alive during his illness.",
+      "level": "B2"
+    },
+    {
+      "lemma": "infusion pump",
+      "pos": "noun",
+      "translation_pl": "pompa infuzyjna",
+      "definition_en": "An infusion pump is a device that delivers fluids into a patient’s body in controlled amounts.",
+      "example_en": "The nurse programmed the infusion pump for my medication.",
+      "level": "B2"
+    }
+  ]
+}

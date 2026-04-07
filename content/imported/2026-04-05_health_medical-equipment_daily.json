@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "medical-equipment",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:09:31.886Z"
+  },
+  "items": [
+    {
+      "lemma": "thermometer",
+      "pos": "noun",
+      "translation_pl": "termometr",
+      "definition_en": "A thermometer is a tool that measures temperature.",
+      "example_en": "The nurse used a thermometer to check my fever.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stethoscope",
+      "pos": "noun",
+      "translation_pl": "stetoskop",
+      "definition_en": "A stethoscope is used by doctors to listen to the heart or lungs.",
+      "example_en": "The doctor put the stethoscope on my chest.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bandage",
+      "pos": "noun",
+      "translation_pl": "bandaż",
+      "definition_en": "A bandage is used to cover and protect a wound.",
+      "example_en": "The nurse wrapped a bandage around my arm.",
+      "level": "A1"
+    },
+    {
+      "lemma": "crutch",
+      "pos": "noun",
+      "translation_pl": "kula do chodzenia",
+      "definition_en": "A crutch helps people walk if their leg is hurt.",
+      "example_en": "He used a crutch after breaking his leg.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wheelchair",
+      "pos": "noun",
+      "translation_pl": "wózek inwalidzki",
+      "definition_en": "A wheelchair helps people move if they cannot walk.",
+      "example_en": "She uses a wheelchair after her accident.",
+      "level": "A2"
+    },
+    {
+      "lemma": "syringe",
+      "pos": "noun",
+      "translation_pl": "strzykawka",
+      "definition_en": "A syringe is used to give medicine with a needle.",
+      "example_en": "The nurse filled the syringe with medicine.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plaster",
+      "pos": "noun",
+      "translation_pl": "plaster opatrunkowy",
+      "definition_en": "A plaster covers small cuts or injuries.",
+      "example_en": "She put a plaster on her finger.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mask",
+      "pos": "noun",
+      "translation_pl": "maska ochronna",
+      "definition_en": "A mask is worn over the nose and mouth to stop disease spread.",
+      "example_en": "Everyone wore a mask in the hospital.",
+      "level": "A1"
+    },
+    {
+      "lemma": "glove",
+      "pos": "noun",
+      "translation_pl": "rękawiczka jednorazowa",
+      "definition_en": "A glove is used to cover hands for protection.",
+      "example_en": "The doctor put on a glove before the exam.",
+      "level": "A1"
+    },
+    {
+      "lemma": "scissors",
+      "pos": "noun",
+      "translation_pl": "nożyczki chirurgiczne",
+      "definition_en": "Scissors are used to cut bandages and other items.",
+      "example_en": "The nurse cut the bandage with scissors.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cane",
+      "pos": "noun",
+      "translation_pl": "laska do chodzenia",
+      "definition_en": "A cane is used to help people walk.",
+      "example_en": "He uses a cane to move around.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gown",
+      "pos": "noun",
+      "translation_pl": "fartuch szpitalny",
+      "definition_en": "A gown is a loose piece of clothing worn by patients or doctors.",
+      "example_en": "The doctor wore a gown during the surgery.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bedpan",
+      "pos": "noun",
+      "translation_pl": "basen szpitalny",
+      "definition_en": "A bedpan is used by sick people to go to the toilet in bed.",
+      "example_en": "The nurse brought a bedpan for the patient.",
+      "level": "B1"
+    },
+    {
+      "lemma": "blood pressure cuff",
+      "pos": "noun",
+      "translation_pl": "mankiet do mierzenia ciśnienia",
+      "definition_en": "A blood pressure cuff is used to measure blood pressure.",
+      "example_en": "She put the blood pressure cuff on my arm.",
+      "level": "A2"
+    },
+    {
+      "lemma": "medicine cup",
+      "pos": "noun",
+      "translation_pl": "kubek na lekarstwa",
+      "definition_en": "A medicine cup is a small cup for holding liquid medicine.",
+      "example_en": "He poured syrup into the medicine cup.",
+      "level": "A2"
+    },
+    {
+      "lemma": "walker",
+      "pos": "noun",
+      "translation_pl": "balkonik",
+      "definition_en": "A walker helps people walk if they are weak or hurt.",
+      "example_en": "She uses a walker after her hip surgery.",
+      "level": "B1"
+    },
+    {
+      "lemma": "inhaler",
+      "pos": "noun",
+      "translation_pl": "inhalator",
+      "definition_en": "An inhaler is a small device used for breathing medicine.",
+      "example_en": "He uses an inhaler for his asthma.",
+      "level": "B1"
+    },
+    {
+      "lemma": "drip",
+      "pos": "noun",
+      "translation_pl": "kroplówka",
+      "definition_en": "A drip is a tool for giving medicine slowly into the body.",
+      "example_en": "The patient has a drip in her arm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "oxygen mask",
+      "pos": "noun",
+      "translation_pl": "maska tlenowa",
+      "definition_en": "An oxygen mask helps people breathe better by giving oxygen.",
+      "example_en": "The nurse put an oxygen mask on the patient.",
+      "level": "A2"
+    },
+    {
+      "lemma": "thermometer strip",
+      "pos": "noun",
+      "translation_pl": "pasek termometru",
+      "definition_en": "A thermometer strip is a thin strip to check body temperature.",
+      "example_en": "She used a thermometer strip for the child.",
+      "level": "B1"
+    }
+  ]
+}

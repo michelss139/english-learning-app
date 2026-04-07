@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "body-parts",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:07:54.327Z"
+  },
+  "items": [
+    {
+      "lemma": "wrist",
+      "pos": "noun",
+      "translation_pl": "nadgarstek",
+      "definition_en": "The wrist is the joint connecting the hand to the arm.",
+      "example_en": "She wore a bracelet on her left wrist.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ankle",
+      "pos": "noun",
+      "translation_pl": "kostka u nogi",
+      "definition_en": "The ankle is the joint connecting the foot and the leg.",
+      "example_en": "He twisted his ankle while running.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cheek",
+      "pos": "noun",
+      "translation_pl": "policzek",
+      "definition_en": "A cheek is the soft part of the face below the eyes.",
+      "example_en": "She kissed him on the cheek.",
+      "level": "A2"
+    },
+    {
+      "lemma": "jaw",
+      "pos": "noun",
+      "translation_pl": "szczęka",
+      "definition_en": "The jaw is the lower part of the face that moves when you chew.",
+      "example_en": "His jaw hurt after the dentist visit.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thumb",
+      "pos": "noun",
+      "translation_pl": "kciuk",
+      "definition_en": "A thumb is the short, thick first finger on your hand.",
+      "example_en": "She gave a thumbs-up to show approval.",
+      "level": "B1"
+    },
+    {
+      "lemma": "eyelash",
+      "pos": "noun",
+      "translation_pl": "rzęsa",
+      "definition_en": "An eyelash is one of the small hairs growing at the edge of the eyelids.",
+      "example_en": "She has very long eyelashes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "eyebrow",
+      "pos": "noun",
+      "translation_pl": "brew",
+      "definition_en": "An eyebrow is the line of hair above the eye.",
+      "example_en": "He raised his eyebrow in surprise.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chin",
+      "pos": "noun",
+      "translation_pl": "broda",
+      "definition_en": "The chin is the part of your face below your mouth.",
+      "example_en": "He rested his chin on his hand.",
+      "level": "A2"
+    },
+    {
+      "lemma": "forehead",
+      "pos": "noun",
+      "translation_pl": "czoło",
+      "definition_en": "The forehead is the part of the face above the eyes.",
+      "example_en": "She has a scar on her forehead.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heel",
+      "pos": "noun",
+      "translation_pl": "pięta",
+      "definition_en": "The heel is the back part of your foot below the ankle.",
+      "example_en": "My heels hurt after walking all day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lip",
+      "pos": "noun",
+      "translation_pl": "warga",
+      "definition_en": "A lip is one of the two soft edges of the mouth.",
+      "example_en": "She bit her lip nervously.",
+      "level": "A2"
+    },
+    {
+      "lemma": "palm",
+      "pos": "noun",
+      "translation_pl": "dłoń",
+      "definition_en": "The palm is the inner surface of your hand.",
+      "example_en": "He placed the coin in her palm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waist",
+      "pos": "noun",
+      "translation_pl": "talia",
+      "definition_en": "The waist is the part of the body above the hips and below the ribs.",
+      "example_en": "She tied a belt around her waist.",
+      "level": "B2"
+    },
+    {
+      "lemma": "chest",
+      "pos": "noun",
+      "translation_pl": "klatka piersiowa",
+      "definition_en": "The chest is the front part of your body between the neck and the stomach.",
+      "example_en": "He crossed his arms over his chest.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thumb nail",
+      "pos": "noun",
+      "translation_pl": "paznokieć kciuka",
+      "definition_en": "A thumb nail is the hard surface that covers the top of your thumb.",
+      "example_en": "He cut his thumb nail too short.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shoulder blade",
+      "pos": "noun",
+      "translation_pl": "łopatka",
+      "definition_en": "The shoulder blade is the flat bone at the back of your shoulder.",
+      "example_en": "She felt pain in her left shoulder blade.",
+      "level": "B2"
+    },
+    {
+      "lemma": "calf",
+      "pos": "noun",
+      "translation_pl": "łydka",
+      "definition_en": "The calf is the back part of the lower leg.",
+      "example_en": "He strained a muscle in his calf.",
+      "level": "B1"
+    },
+    {
+      "lemma": "forearm",
+      "pos": "noun",
+      "translation_pl": "przedramię",
+      "definition_en": "The forearm is the part of the arm between the wrist and the elbow.",
+      "example_en": "She supported her head with her forearm.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rib",
+      "pos": "noun",
+      "translation_pl": "żebro",
+      "definition_en": "A rib is one of the bones that form a cage around your chest.",
+      "example_en": "He broke a rib during the game.",
+      "level": "B1"
+    },
+    {
+      "lemma": "nail",
+      "pos": "noun",
+      "translation_pl": "paznokieć",
+      "definition_en": "A nail is the hard covering at the end of a finger or toe.",
+      "example_en": "She painted her nails bright red.",
+      "level": "A2"
+    }
+  ]
+}

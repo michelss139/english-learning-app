@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "school-supplies",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:18:06.278Z"
+  },
+  "items": [
+    {
+      "lemma": "pencil",
+      "pos": "noun",
+      "translation_pl": "ołówek",
+      "definition_en": "A pencil is a tool for writing or drawing.",
+      "example_en": "I always keep a pencil in my backpack.",
+      "level": "A1"
+    },
+    {
+      "lemma": "notebook",
+      "pos": "noun",
+      "translation_pl": "zeszyt",
+      "definition_en": "A notebook is a book with blank pages for writing notes.",
+      "example_en": "She writes her homework in her notebook.",
+      "level": "A1"
+    },
+    {
+      "lemma": "eraser",
+      "pos": "noun",
+      "translation_pl": "gumka do mazania",
+      "definition_en": "An eraser is used to remove pencil marks.",
+      "example_en": "He used an eraser to fix his mistake.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ruler",
+      "pos": "noun",
+      "translation_pl": "linijka",
+      "definition_en": "A ruler is used to draw straight lines.",
+      "example_en": "I need a ruler for my math class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sharpener",
+      "pos": "noun",
+      "translation_pl": "temperówka",
+      "definition_en": "A sharpener helps you to make pencils sharp.",
+      "example_en": "She lost her sharpener yesterday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pen",
+      "pos": "noun",
+      "translation_pl": "długopis",
+      "definition_en": "A pen is a tool for writing with ink.",
+      "example_en": "Please bring a blue pen to the test.",
+      "level": "A1"
+    },
+    {
+      "lemma": "backpack",
+      "pos": "noun",
+      "translation_pl": "plecak",
+      "definition_en": "A backpack is a bag carried on your back.",
+      "example_en": "He carries his books in his backpack.",
+      "level": "A1"
+    },
+    {
+      "lemma": "folder",
+      "pos": "noun",
+      "translation_pl": "teczka",
+      "definition_en": "A folder is used to hold and organize papers.",
+      "example_en": "She put all her drawings in a red folder.",
+      "level": "A2"
+    },
+    {
+      "lemma": "calculator",
+      "pos": "noun",
+      "translation_pl": "kalkulator",
+      "definition_en": "A calculator helps with math problems.",
+      "example_en": "We need a calculator for the test.",
+      "level": "A2"
+    },
+    {
+      "lemma": "glue stick",
+      "pos": "noun",
+      "translation_pl": "klej w sztyfcie",
+      "definition_en": "A glue stick is used to stick paper together.",
+      "example_en": "I need a glue stick for my art project.",
+      "level": "A2"
+    },
+    {
+      "lemma": "marker",
+      "pos": "noun",
+      "translation_pl": "marker",
+      "definition_en": "A marker is a pen with colored ink.",
+      "example_en": "They use markers to draw pictures in class.",
+      "level": "A2"
+    },
+    {
+      "lemma": "highlighter",
+      "pos": "noun",
+      "translation_pl": "zakreślacz",
+      "definition_en": "A highlighter is used to mark important words.",
+      "example_en": "He used a highlighter to mark new words.",
+      "level": "B1"
+    },
+    {
+      "lemma": "binder",
+      "pos": "noun",
+      "translation_pl": "segregator",
+      "definition_en": "A binder holds loose papers together.",
+      "example_en": "She stores her notes in a big binder.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sticky notes",
+      "pos": "noun",
+      "translation_pl": "karteczki samoprzylepne",
+      "definition_en": "Sticky notes are small pieces of paper with glue.",
+      "example_en": "He uses sticky notes to remember things.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lunchbox",
+      "pos": "noun",
+      "translation_pl": "pudełko na lunch",
+      "definition_en": "A lunchbox is a container for carrying food.",
+      "example_en": "She brings a sandwich in her lunchbox.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pencil case",
+      "pos": "noun",
+      "translation_pl": "piórnik",
+      "definition_en": "A pencil case is used to keep pens and pencils.",
+      "example_en": "Her pencil case is full of colorful pens.",
+      "level": "A2"
+    },
+    {
+      "lemma": "water bottle",
+      "pos": "noun",
+      "translation_pl": "butelka na wodę",
+      "definition_en": "A water bottle is used for carrying water.",
+      "example_en": "He drinks from his water bottle at school.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scissors",
+      "pos": "noun",
+      "translation_pl": "nożyczki",
+      "definition_en": "Scissors are used for cutting paper.",
+      "example_en": "She cut out shapes using scissors.",
+      "level": "A1"
+    },
+    {
+      "lemma": "whiteboard",
+      "pos": "noun",
+      "translation_pl": "biała tablica",
+      "definition_en": "A whiteboard is a smooth board for writing with markers.",
+      "example_en": "The teacher wrote our names on the whiteboard.",
+      "level": "A2"
+    },
+    {
+      "lemma": "paperclip",
+      "pos": "noun",
+      "translation_pl": "spinacz do papieru",
+      "definition_en": "A paperclip holds pieces of paper together.",
+      "example_en": "He attached his homework with a paperclip.",
+      "level": "B1"
+    }
+  ]
+}

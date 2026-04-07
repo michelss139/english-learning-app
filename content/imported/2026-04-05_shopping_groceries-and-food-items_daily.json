@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "groceries-and-food-items",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:00:01.240Z"
+  },
+  "items": [
+    {
+      "lemma": "apple",
+      "pos": "noun",
+      "translation_pl": "jabłko",
+      "definition_en": "An apple is a round fruit that is usually red, green, or yellow.",
+      "example_en": "She put an apple in her shopping basket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bread",
+      "pos": "noun",
+      "translation_pl": "chleb",
+      "definition_en": "Bread is a common food made from flour and water.",
+      "example_en": "He bought fresh bread at the store.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cheese",
+      "pos": "noun",
+      "translation_pl": "ser",
+      "definition_en": "Cheese is a food made from milk.",
+      "example_en": "We need some cheese for the sandwiches.",
+      "level": "A1"
+    },
+    {
+      "lemma": "coffee",
+      "pos": "noun",
+      "translation_pl": "kawa",
+      "definition_en": "Coffee is a hot drink made from roasted beans.",
+      "example_en": "He drinks a cup of coffee every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "egg",
+      "pos": "noun",
+      "translation_pl": "jajko",
+      "definition_en": "An egg is a round object from a bird, used as food.",
+      "example_en": "She bought a dozen eggs at the market.",
+      "level": "A1"
+    },
+    {
+      "lemma": "carrot",
+      "pos": "noun",
+      "translation_pl": "marchewka",
+      "definition_en": "A carrot is a long orange vegetable.",
+      "example_en": "He added a carrot to the soup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "chicken",
+      "pos": "noun",
+      "translation_pl": "kurczak",
+      "definition_en": "Chicken is a common kind of meat from a bird.",
+      "example_en": "We are having chicken for dinner tonight.",
+      "level": "A1"
+    },
+    {
+      "lemma": "rice",
+      "pos": "noun",
+      "translation_pl": "ryż",
+      "definition_en": "Rice is a small white or brown grain used as food.",
+      "example_en": "She served rice with the curry.",
+      "level": "A1"
+    },
+    {
+      "lemma": "banana",
+      "pos": "noun",
+      "translation_pl": "banan",
+      "definition_en": "A banana is a long, yellow fruit.",
+      "example_en": "He brought a banana for his snack.",
+      "level": "A1"
+    },
+    {
+      "lemma": "milk",
+      "pos": "noun",
+      "translation_pl": "mleko",
+      "definition_en": "Milk is a white liquid from cows or other animals.",
+      "example_en": "We need to buy more milk today.",
+      "level": "A1"
+    },
+    {
+      "lemma": "butter",
+      "pos": "noun",
+      "translation_pl": "masło",
+      "definition_en": "Butter is a soft yellow food made from milk.",
+      "example_en": "He spread butter on his toast.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cucumber",
+      "pos": "noun",
+      "translation_pl": "ogórek",
+      "definition_en": "A cucumber is a long green vegetable.",
+      "example_en": "She puts cucumber in her salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "flour",
+      "pos": "noun",
+      "translation_pl": "mąka",
+      "definition_en": "Flour is a white or brown powder used for baking.",
+      "example_en": "He bought flour to make bread.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lettuce",
+      "pos": "noun",
+      "translation_pl": "sałata",
+      "definition_en": "Lettuce is a leafy green vegetable used in salads.",
+      "example_en": "She bought a head of lettuce for the sandwich.",
+      "level": "A2"
+    },
+    {
+      "lemma": "oil",
+      "pos": "noun",
+      "translation_pl": "olej",
+      "definition_en": "Oil is a liquid used in cooking or frying food.",
+      "example_en": "They ran out of oil so they bought more.",
+      "level": "A2"
+    },
+    {
+      "lemma": "orange juice",
+      "pos": "noun",
+      "translation_pl": "sok pomarańczowy",
+      "definition_en": "Orange juice is a drink made from oranges.",
+      "example_en": "She likes to drink orange juice with breakfast.",
+      "level": "A2"
+    },
+    {
+      "lemma": "potato",
+      "pos": "noun",
+      "translation_pl": "ziemniak",
+      "definition_en": "A potato is a round vegetable with brown skin.",
+      "example_en": "He boiled a potato for dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "salt",
+      "pos": "noun",
+      "translation_pl": "sól",
+      "definition_en": "Salt is a white substance used to flavor food.",
+      "example_en": "She always adds salt to her soup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sugar",
+      "pos": "noun",
+      "translation_pl": "cukier",
+      "definition_en": "Sugar is a sweet white or brown substance used in food.",
+      "example_en": "He put sugar in his tea.",
+      "level": "A1"
+    },
+    {
+      "lemma": "yogurt",
+      "pos": "noun",
+      "translation_pl": "jogurt",
+      "definition_en": "Yogurt is a creamy food made from milk.",
+      "example_en": "She eats yogurt for breakfast every day.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "workplace-people",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:06:40.968Z"
+  },
+  "items": [
+    {
+      "lemma": "boss",
+      "pos": "noun",
+      "translation_pl": "szef",
+      "definition_en": "A boss is the person in charge of the workers in an office.",
+      "example_en": "My boss asked me to finish the report by Friday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "manager",
+      "pos": "noun",
+      "translation_pl": "kierownik",
+      "definition_en": "A manager is someone who organizes and directs other people at work.",
+      "example_en": "The manager is holding a meeting this afternoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "colleague",
+      "pos": "noun",
+      "translation_pl": "kolega z pracy",
+      "definition_en": "A colleague is a person you work with in an office.",
+      "example_en": "She had lunch with her colleague yesterday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "employee",
+      "pos": "noun",
+      "translation_pl": "pracownik",
+      "definition_en": "An employee is a person who works for a company or office.",
+      "example_en": "The new employee started on Monday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "receptionist",
+      "pos": "noun",
+      "translation_pl": "recepcjonista",
+      "definition_en": "A receptionist is a person who greets visitors and answers calls in an office.",
+      "example_en": "The receptionist welcomed us with a smile.",
+      "level": "A2"
+    },
+    {
+      "lemma": "secretary",
+      "pos": "noun",
+      "translation_pl": "sekretarka",
+      "definition_en": "A secretary is a person who helps with office work and organizes schedules.",
+      "example_en": "The secretary answered the phone quickly.",
+      "level": "A1"
+    },
+    {
+      "lemma": "supervisor",
+      "pos": "noun",
+      "translation_pl": "nadzorca",
+      "definition_en": "A supervisor is someone who checks the work of others in an office.",
+      "example_en": "Her supervisor gave her useful feedback.",
+      "level": "B1"
+    },
+    {
+      "lemma": "intern",
+      "pos": "noun",
+      "translation_pl": "stażysta",
+      "definition_en": "An intern is a student or recent graduate working in an office to gain experience.",
+      "example_en": "Our team has a new intern for the summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "assistant",
+      "pos": "noun",
+      "translation_pl": "asystent",
+      "definition_en": "An assistant is someone who helps another person in their job at work.",
+      "example_en": "The assistant prepared the documents for the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "director",
+      "pos": "noun",
+      "translation_pl": "dyrektor",
+      "definition_en": "A director is a person who is in charge of part of the company.",
+      "example_en": "The director approved the new project plan.",
+      "level": "B1"
+    },
+    {
+      "lemma": "accountant",
+      "pos": "noun",
+      "translation_pl": "księgowy",
+      "definition_en": "An accountant keeps records of money and accounts in an office.",
+      "example_en": "The accountant checked all the invoices.",
+      "level": "B1"
+    },
+    {
+      "lemma": "team leader",
+      "pos": "noun",
+      "translation_pl": "lider zespołu",
+      "definition_en": "A team leader is the person who leads a group at work.",
+      "example_en": "Our team leader often helps us solve problems.",
+      "level": "B1"
+    },
+    {
+      "lemma": "co-worker",
+      "pos": "noun",
+      "translation_pl": "współpracownik",
+      "definition_en": "A co-worker is someone you work with in the same office.",
+      "example_en": "Her co-worker helped her with the project.",
+      "level": "A2"
+    },
+    {
+      "lemma": "staff",
+      "pos": "noun",
+      "translation_pl": "personel",
+      "definition_en": "Staff are the people who work for a business or office.",
+      "example_en": "The office staff are very friendly and helpful.",
+      "level": "A2"
+    },
+    {
+      "lemma": "executive",
+      "pos": "noun",
+      "translation_pl": "kadra kierownicza",
+      "definition_en": "An executive is a person with a high position in a business or office.",
+      "example_en": "The executives had a meeting about the company's future.",
+      "level": "B1"
+    },
+    {
+      "lemma": "janitor",
+      "pos": "noun",
+      "translation_pl": "woźny",
+      "definition_en": "A janitor cleans and maintains the building at work.",
+      "example_en": "The janitor locks the office every night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "office worker",
+      "pos": "noun",
+      "translation_pl": "pracownik biurowy",
+      "definition_en": "An office worker is a person who works in an office.",
+      "example_en": "Many office workers sit at a desk all day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "clerk",
+      "pos": "noun",
+      "translation_pl": "urzędnik",
+      "definition_en": "A clerk does simple office tasks like filing or answering phones.",
+      "example_en": "The clerk entered the data into the computer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "consultant",
+      "pos": "noun",
+      "translation_pl": "konsultant",
+      "definition_en": "A consultant is a person who gives expert advice in the office.",
+      "example_en": "The company hired a consultant to help with the new project.",
+      "level": "B1"
+    },
+    {
+      "lemma": "human resources",
+      "pos": "noun",
+      "translation_pl": "dział kadr",
+      "definition_en": "Human resources is the department that manages staff in a company.",
+      "example_en": "Human resources organized a training session for the employees.",
+      "level": "B1"
+    }
+  ]
+}

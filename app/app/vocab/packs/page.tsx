@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { aggregatePackItemCounts } from "@/lib/vocab/aggregatePackItemCounts";
 import PacksClient, { type PackDto } from "./PacksClient";
 
 export const dynamic = "force-dynamic";
@@ -21,18 +22,7 @@ export default async function VocabPacksPage() {
   }
 
   const packIds = (packs ?? []).map((p: any) => p.id).filter(Boolean);
-  let counts = new Map<string, number>();
-
-  if (packIds.length > 0) {
-    const { data: items, error: itemsErr } = await supabase.from("vocab_pack_items").select("pack_id").in("pack_id", packIds);
-    if (!itemsErr) {
-      counts = new Map<string, number>();
-      for (const item of items ?? []) {
-        const current = counts.get((item as any).pack_id) ?? 0;
-        counts.set((item as any).pack_id, current + 1);
-      }
-    }
-  }
+  const counts = packIds.length > 0 ? await aggregatePackItemCounts(supabase, packIds) : new Map<string, number>();
 
   const initialPacks: PackDto[] = (packs ?? []).map((p: any) => ({
     id: p.id,

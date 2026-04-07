@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "office-technology",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:04:55.511Z"
+  },
+  "items": [
+    {
+      "lemma": "all-in-one printer",
+      "pos": "noun",
+      "translation_pl": "urządzenie wielofunkcyjne",
+      "definition_en": "An all-in-one printer prints, scans, and copies documents.",
+      "example_en": "We bought an all-in-one printer for the new office.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wireless mouse",
+      "pos": "noun",
+      "translation_pl": "myszka bezprzewodowa",
+      "definition_en": "A wireless mouse connects to a computer without cables.",
+      "example_en": "I prefer a wireless mouse for my laptop.",
+      "level": "B1"
+    },
+    {
+      "lemma": "USB hub",
+      "pos": "noun",
+      "translation_pl": "rozgałęziacz USB",
+      "definition_en": "A USB hub lets you connect many devices to your computer.",
+      "example_en": "He plugged the keyboard into the USB hub.",
+      "level": "B1"
+    },
+    {
+      "lemma": "laser printer",
+      "pos": "noun",
+      "translation_pl": "drukarka laserowa",
+      "definition_en": "A laser printer uses toner to print fast high-quality pages.",
+      "example_en": "The laser printer is faster than the inkjet printer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "external monitor",
+      "pos": "noun",
+      "translation_pl": "zewnętrzny monitor",
+      "definition_en": "An external monitor is a separate screen for your computer.",
+      "example_en": "I use an external monitor for better visibility.",
+      "level": "B1"
+    },
+    {
+      "lemma": "document shredder",
+      "pos": "noun",
+      "translation_pl": "niszczarka dokumentów",
+      "definition_en": "A document shredder cuts paper into small pieces for security.",
+      "example_en": "We use a document shredder for confidential papers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "power strip",
+      "pos": "noun",
+      "translation_pl": "listwa zasilająca",
+      "definition_en": "A power strip allows several devices to use one power outlet.",
+      "example_en": "The power strip is under the meeting table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "surge protector",
+      "pos": "noun",
+      "translation_pl": "zabezpieczenie przepięciowe",
+      "definition_en": "A surge protector keeps electronic devices safe from voltage spikes.",
+      "example_en": "Plug computers into a surge protector during storms.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ergonomic mouse",
+      "pos": "noun",
+      "translation_pl": "myszka ergonomiczna",
+      "definition_en": "An ergonomic mouse is shaped to reduce wrist strain.",
+      "example_en": "She ordered an ergonomic mouse for her workstation.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dual-monitor setup",
+      "pos": "noun",
+      "translation_pl": "podwójny zestaw monitorów",
+      "definition_en": "A dual-monitor setup uses two screens at once.",
+      "example_en": "A dual-monitor setup increases work efficiency.",
+      "level": "B2"
+    },
+    {
+      "lemma": "touchscreen monitor",
+      "pos": "noun",
+      "translation_pl": "monitor dotykowy",
+      "definition_en": "A touchscreen monitor lets you control things by touching.",
+      "example_en": "The receptionist uses a touchscreen monitor.",
+      "level": "B1"
+    },
+    {
+      "lemma": "multifunction device",
+      "pos": "noun",
+      "translation_pl": "wielofunkcyjne urządzenie biurowe",
+      "definition_en": "A multifunction device does printing, scanning, and copying.",
+      "example_en": "Our multifunction device scans to email.",
+      "level": "B1"
+    },
+    {
+      "lemma": "Bluetooth keyboard",
+      "pos": "noun",
+      "translation_pl": "klawiatura Bluetooth",
+      "definition_en": "A Bluetooth keyboard connects to devices wirelessly.",
+      "example_en": "He bought a Bluetooth keyboard for his tablet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "desktop docking station",
+      "pos": "noun",
+      "translation_pl": "stacja dokująca do komputera",
+      "definition_en": "A desktop docking station connects a laptop to many devices.",
+      "example_en": "She leaves her laptop in the docking station at work.",
+      "level": "B2"
+    },
+    {
+      "lemma": "conference phone",
+      "pos": "noun",
+      "translation_pl": "telefon konferencyjny",
+      "definition_en": "A conference phone is made for group calls in meetings.",
+      "example_en": "They called the client using the conference phone.",
+      "level": "B1"
+    },
+    {
+      "lemma": "uninterruptible power supply",
+      "pos": "noun",
+      "translation_pl": "zasilacz awaryjny",
+      "definition_en": "An uninterruptible power supply gives backup electricity during outages.",
+      "example_en": "The server is always connected to an uninterruptible power supply.",
+      "level": "B2"
+    },
+    {
+      "lemma": "all-in-one computer",
+      "pos": "noun",
+      "translation_pl": "komputer typu all in one",
+      "definition_en": "An all-in-one computer combines the monitor and computer in one unit.",
+      "example_en": "The office uses all-in-one computers to save space.",
+      "level": "B2"
+    },
+    {
+      "lemma": "network switch",
+      "pos": "noun",
+      "translation_pl": "przełącznik sieciowy",
+      "definition_en": "A network switch connects multiple computers to one network.",
+      "example_en": "They added a network switch to improve connection speed.",
+      "level": "B2"
+    },
+    {
+      "lemma": "interactive display",
+      "pos": "noun",
+      "translation_pl": "monitor interaktywny",
+      "definition_en": "An interactive display lets people draw or write directly on the screen.",
+      "example_en": "The teacher used the interactive display for her lesson.",
+      "level": "C1"
+    },
+    {
+      "lemma": "multifunction remote",
+      "pos": "noun",
+      "translation_pl": "pilot uniwersalny do urządzeń biurowych",
+      "definition_en": "A multifunction remote controls various office technology devices.",
+      "example_en": "She used the multifunction remote to switch the projector source.",
+      "level": "B2"
+    }
+  ]
+}

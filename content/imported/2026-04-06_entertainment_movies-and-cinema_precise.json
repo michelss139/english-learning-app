@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "movies-and-cinema",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:40:36.908Z"
+  },
+  "items": [
+    {
+      "lemma": "film editor",
+      "pos": "noun",
+      "translation_pl": "montażysta filmowy",
+      "definition_en": "A person who arranges and cuts film shots together.",
+      "example_en": "The film editor worked late to finish the final version.",
+      "level": "B2"
+    },
+    {
+      "lemma": "usher",
+      "pos": "noun",
+      "translation_pl": "bileter kinowy",
+      "definition_en": "A person who shows people to their seats in a cinema.",
+      "example_en": "The usher guided us to the correct row.",
+      "level": "B1"
+    },
+    {
+      "lemma": "poster",
+      "pos": "noun",
+      "translation_pl": "plakat filmowy",
+      "definition_en": "A large printed picture used to advertise a movie.",
+      "example_en": "The new movie poster was hung in the lobby.",
+      "level": "B1"
+    },
+    {
+      "lemma": "film critic",
+      "pos": "noun",
+      "translation_pl": "krytyk filmowy",
+      "definition_en": "A person who reviews and writes about movies.",
+      "example_en": "The film critic gave the movie a positive review.",
+      "level": "B2"
+    },
+    {
+      "lemma": "movie premiere",
+      "pos": "noun",
+      "translation_pl": "premiera filmu",
+      "definition_en": "The first official public showing of a movie.",
+      "example_en": "The movie premiere attracted many celebrities.",
+      "level": "B2"
+    },
+    {
+      "lemma": "blockbuster",
+      "pos": "noun",
+      "translation_pl": "hit kinowy",
+      "definition_en": "A very successful and popular movie.",
+      "example_en": "That superhero film became a summer blockbuster.",
+      "level": "B1"
+    },
+    {
+      "lemma": "movie franchise",
+      "pos": "noun",
+      "translation_pl": "seria filmowa",
+      "definition_en": "A series of related movies about the same characters.",
+      "example_en": "The movie franchise released its fifth film this year.",
+      "level": "B2"
+    },
+    {
+      "lemma": "guest appearance",
+      "pos": "noun",
+      "translation_pl": "gościnny występ",
+      "definition_en": "A short role by a famous person in a movie.",
+      "example_en": "She made a guest appearance as herself in the comedy.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stunt double",
+      "pos": "noun",
+      "translation_pl": "dubler do scen akcji",
+      "definition_en": "A person who performs dangerous scenes instead of an actor.",
+      "example_en": "The stunt double jumped from the moving car.",
+      "level": "B2"
+    },
+    {
+      "lemma": "movie genre",
+      "pos": "noun",
+      "translation_pl": "gatunek filmowy",
+      "definition_en": "A particular type or style of movie.",
+      "example_en": "Comedy is my favorite movie genre.",
+      "level": "B1"
+    },
+    {
+      "lemma": "credits",
+      "pos": "noun",
+      "translation_pl": "napisy końcowe",
+      "definition_en": "A list of people who worked on a movie shown at the end.",
+      "example_en": "We stayed to watch all the credits after the film.",
+      "level": "B1"
+    },
+    {
+      "lemma": "special effects",
+      "pos": "noun",
+      "translation_pl": "efekty specjalne",
+      "definition_en": "Techniques used to create illusions in movies.",
+      "example_en": "The special effects made the monsters look real.",
+      "level": "B1"
+    },
+    {
+      "lemma": "film festival",
+      "pos": "noun",
+      "translation_pl": "festiwal filmowy",
+      "definition_en": "An organized event where many movies are shown and judged.",
+      "example_en": "He won an award at a famous film festival.",
+      "level": "B2"
+    },
+    {
+      "lemma": "movie buff",
+      "pos": "noun",
+      "translation_pl": "miłośnik kina",
+      "definition_en": "A person who loves and knows many movies.",
+      "example_en": "My brother is a real movie buff.",
+      "level": "B2"
+    },
+    {
+      "lemma": "box office",
+      "pos": "noun",
+      "translation_pl": "kasa lub dochód z filmu",
+      "definition_en": "The place where movie tickets are sold or the money made by a film.",
+      "example_en": "The film broke box office records last weekend.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shooting location",
+      "pos": "noun",
+      "translation_pl": "miejsce kręcenia filmu",
+      "definition_en": "A place where a movie is filmed outside the studio.",
+      "example_en": "They traveled to Italy for the shooting location.",
+      "level": "B2"
+    },
+    {
+      "lemma": "matinee",
+      "pos": "noun",
+      "translation_pl": "popołudniowy seans",
+      "definition_en": "A movie show that takes place in the daytime.",
+      "example_en": "We decided to go to the matinee on Sunday.",
+      "level": "B2"
+    },
+    {
+      "lemma": "moviegoer",
+      "pos": "noun",
+      "translation_pl": "widz kinowy",
+      "definition_en": "A person who often goes to the cinema.",
+      "example_en": "Every Friday, the moviegoer watches the latest films.",
+      "level": "B2"
+    },
+    {
+      "lemma": "prop",
+      "pos": "noun",
+      "translation_pl": "rekwizyt filmowy",
+      "definition_en": "An object used by actors during a movie.",
+      "example_en": "The sword is the hero's main prop in the film.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clapperboard",
+      "pos": "noun",
+      "translation_pl": "klaps filmowy",
+      "definition_en": "A board used to mark scenes and synchronize sound in filming.",
+      "example_en": "The clapperboard was snapped before every scene.",
+      "level": "C1"
+    }
+  ]
+}

@@ -8,6 +8,9 @@ import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
 import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
 import { TypewriterText } from "@/lib/coach/TypewriterText";
 import { getWordTip } from "@/lib/coach/wordTips";
+import type { TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
+import type { XpSkipReasonCode } from "@/lib/xp/award";
+import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
 
 export type PackMetaDto = {
   id: string;
@@ -45,6 +48,7 @@ type AwardResult = {
   xp_in_current_level: number;
   xp_to_next_level: number;
   newly_awarded_badges: AwardBadge[];
+  xp_skip_reason: XpSkipReasonCode | null;
 };
 
 type RecommendationItem = {
@@ -74,6 +78,14 @@ type CountChoice = "5" | "10" | "all";
 type VocabMode = "daily" | "precise";
 
 const OPTIMISTIC_XP = 10;
+
+function polishFiszkiLabel(n: number): string {
+  if (n === 1) return "fiszka";
+  const last = n % 10;
+  const lastTwo = n % 100;
+  if (last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14)) return "fiszki";
+  return "fiszek";
+}
 
 const cardBase =
   "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
@@ -148,6 +160,7 @@ export default function PackTrainingClient(props: {
   autoStart: boolean;
   assignmentId: string;
   modeFromUrl: VocabMode | null;
+  trainingEntryContext?: TrainingEntryContext;
 }) {
   const router = useRouter();
 
@@ -176,7 +189,6 @@ export default function PackTrainingClient(props: {
   const [addStatus, setAddStatus] = useState("");
   const [adding, setAdding] = useState(false);
   const [award, setAward] = useState<AwardResult | null>(null);
-  const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
   const [awardError, setAwardError] = useState("");
   const [awardedSessionId, setAwardedSessionId] = useState("");
   const [summary, setSummary] = useState<SessionSummary | null>(null);
@@ -226,7 +238,11 @@ export default function PackTrainingClient(props: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ slug, countMode: countChoice }),
+        body: JSON.stringify({
+          slug,
+          countMode: countChoice,
+          ...(props.trainingEntryContext ? { context: props.trainingEntryContext } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -255,7 +271,6 @@ export default function PackTrainingClient(props: {
       setAward(null);
       setAwardError("");
       setAwardedSessionId("");
-      setXpAlreadyAwarded(false);
       setSummary(null);
       setOptimisticXpAwarded(0);
       assignmentCompleteRef.current = false;
@@ -352,7 +367,6 @@ export default function PackTrainingClient(props: {
     setAward(null);
     setAwardError("");
     setAwardedSessionId("");
-    setXpAlreadyAwarded(false);
     setSummary(null);
     setOptimisticXpAwarded(0);
     assignmentCompleteRef.current = false;
@@ -471,9 +485,9 @@ export default function PackTrainingClient(props: {
           xp_in_current_level: data.xp_in_current_level ?? 0,
           xp_to_next_level: data.xp_to_next_level ?? 0,
           newly_awarded_badges: data.newly_awarded_badges ?? [],
+          xp_skip_reason: data.xp_skip_reason ?? null,
         });
         setSummary(data.summary ?? null);
-        setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         emitTrainingCompleted({ type: "pack", slug });
 
         if (props.assignmentId && !assignmentCompleteRef.current) {
@@ -572,6 +586,11 @@ export default function PackTrainingClient(props: {
           <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
           <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
           <p className="mt-0.5 text-xs font-medium text-slate-400">{pack.description ?? "Ćwicz szybkie tłumaczenia"}</p>
+          {allItems.length > 0 ? (
+            <p className="mt-2 text-sm font-medium tabular-nums text-slate-600">
+              {allItems.length} {polishFiszkiLabel(allItems.length)} w zestawie
+            </p>
+          ) : null}
         </header>
 
         {errorBlock}
@@ -642,7 +661,7 @@ export default function PackTrainingClient(props: {
 
   /* ─── COMPLETED ─── */
   if (completed) {
-    const xpToShow = award ? award.xp_awarded : optimisticXpAwarded || OPTIMISTIC_XP;
+    const optimisticXpLine = optimisticXpAwarded || OPTIMISTIC_XP;
 
     return (
       <div>
@@ -693,11 +712,17 @@ export default function PackTrainingClient(props: {
 
           <section className={cardBase}>
             <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">XP</h2>
-            {award && xpAlreadyAwarded ? (
-              <p className="text-sm text-slate-400">Już otrzymałeś XP za to ćwiczenie dziś.</p>
+            {award ? (
+              award.xp_awarded === 0 ? (
+                <p className="text-sm text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
+              ) : (
+                <p className="text-sm text-slate-600">
+                  <span className="font-semibold text-slate-900">+{award.xp_awarded} XP</span>
+                </p>
+              )
             ) : (
               <p className="text-sm text-slate-600">
-                Zdobyte XP: <span className="font-semibold text-slate-900">+{xpToShow}</span>
+                <span className="font-semibold text-slate-900">+{optimisticXpLine} XP</span>
               </p>
             )}
             {award ? (

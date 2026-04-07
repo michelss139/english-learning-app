@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import PackTrainingClient, { type PackItemDto, type PackMetaDto } from "./PackTrainingClient";
+import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ type PageProps = {
     autostart?: string;
     assignmentId?: string;
     mode?: string;
+    context?: string;
   }>;
 };
 
@@ -66,6 +68,8 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
   const autoStart = sp.autostart === "1";
   const assignmentId = sp.assignmentId ?? "";
   const modeFromUrl = parseVocabMode(sp.mode);
+  const trainingEntryContext: TrainingEntryContext | undefined =
+    sp.context === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
 
   const supabase = await createSupabaseServerClient();
   const {
@@ -156,6 +160,7 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
       autoStart={autoStart}
       assignmentId={assignmentId}
       modeFromUrl={modeFromUrl}
+      trainingEntryContext={trainingEntryContext}
     />
   );
 }

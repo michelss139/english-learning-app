@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "category": "emotions",
+    "subcategory": "emotions-in-social-context",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:15:08.376Z"
+  },
+  "items": [
+    {
+      "lemma": "connection",
+      "pos": "noun",
+      "translation_pl": "więź",
+      "definition_en": "A connection is a feeling of being close to someone.",
+      "example_en": "She felt a strong connection with her friends.",
+      "level": "B1"
+    },
+    {
+      "lemma": "awkwardness",
+      "pos": "noun",
+      "translation_pl": "niezręczność",
+      "definition_en": "Awkwardness is the feeling of being uncomfortable in a social situation.",
+      "example_en": "There was some awkwardness during their first meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "closeness",
+      "pos": "noun",
+      "translation_pl": "bliskość",
+      "definition_en": "Closeness is the feeling of being emotionally near someone.",
+      "example_en": "Closeness helps to build strong relationships.",
+      "level": "A2"
+    },
+    {
+      "lemma": "doubt",
+      "pos": "noun",
+      "translation_pl": "wątpliwość",
+      "definition_en": "Doubt is the feeling of not being sure about something.",
+      "example_en": "He felt doubt about his decision after talking to her.",
+      "level": "A2"
+    },
+    {
+      "lemma": "attraction",
+      "pos": "noun",
+      "translation_pl": "atrakcja",
+      "definition_en": "Attraction is the feeling of liking someone in a special way.",
+      "example_en": "There was a clear attraction between them at the party.",
+      "level": "B1"
+    },
+    {
+      "lemma": "respect",
+      "pos": "noun",
+      "translation_pl": "szacunek",
+      "definition_en": "Respect is the feeling that someone is important or valuable.",
+      "example_en": "She has great respect for her teacher.",
+      "level": "A2"
+    },
+    {
+      "lemma": "suspicion",
+      "pos": "noun",
+      "translation_pl": "podejrzenie",
+      "definition_en": "Suspicion is the feeling that someone might be guilty of something.",
+      "example_en": "He watched his neighbor with suspicion.",
+      "level": "B1"
+    },
+    {
+      "lemma": "support",
+      "pos": "noun",
+      "translation_pl": "wsparcie",
+      "definition_en": "Support is the feeling of being helped by others.",
+      "example_en": "He got a lot of support from his family.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sympathy",
+      "pos": "noun",
+      "translation_pl": "współczucie",
+      "definition_en": "Sympathy is the feeling of caring about someone else's trouble.",
+      "example_en": "They showed their sympathy after she lost her job.",
+      "level": "A2"
+    },
+    {
+      "lemma": "admiration",
+      "pos": "noun",
+      "translation_pl": "podziw",
+      "definition_en": "Admiration is the feeling of liking and respecting someone.",
+      "example_en": "She has admiration for talented artists.",
+      "level": "A2"
+    },
+    {
+      "lemma": "caring",
+      "pos": "noun",
+      "translation_pl": "troska",
+      "definition_en": "Caring is the feeling of wanting to help someone.",
+      "example_en": "He shows caring for his friends every day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "surprise",
+      "pos": "noun",
+      "translation_pl": "zaskoczenie",
+      "definition_en": "Surprise is the feeling when something unexpected happens.",
+      "example_en": "She felt great surprise when she saw him.",
+      "level": "A2"
+    },
+    {
+      "lemma": "appreciation",
+      "pos": "noun",
+      "translation_pl": "uznanie",
+      "definition_en": "Appreciation is the feeling of being thankful and showing it.",
+      "example_en": "He showed his appreciation with a smile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rejection",
+      "pos": "noun",
+      "translation_pl": "odrzucenie",
+      "definition_en": "Rejection is the feeling when someone does not accept you.",
+      "example_en": "She felt rejection after not making the team.",
+      "level": "B1"
+    },
+    {
+      "lemma": "acceptance",
+      "pos": "noun",
+      "translation_pl": "akceptacja",
+      "definition_en": "Acceptance is the feeling that you are included by others.",
+      "example_en": "He found acceptance among his new classmates.",
+      "level": "B1"
+    },
+    {
+      "lemma": "disconnect",
+      "pos": "noun",
+      "translation_pl": "brak więzi",
+      "definition_en": "Disconnect is the feeling when people are not close or together.",
+      "example_en": "There is a disconnect between the two families.",
+      "level": "B1"
+    },
+    {
+      "lemma": "welcoming",
+      "pos": "noun",
+      "translation_pl": "gościnność",
+      "definition_en": "Welcoming is the feeling of being friendly to others.",
+      "example_en": "Her welcoming made me feel at home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tension",
+      "pos": "noun",
+      "translation_pl": "napięcie",
+      "definition_en": "Tension is the feeling of stress between people.",
+      "example_en": "There was tension during the meeting.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
 import { loadClusterPageData, type ClusterTask } from "@/lib/vocab/clusterLoader";
+import { TRAINING_CONTEXT_SUGGESTION } from "@/lib/suggestions/suggestionContext";
 
 type StartBody = {
   slug?: string;
   limit?: number | string;
   questionLimit?: number | string;
+  context?: string;
 };
 
 type StartResponse = {
@@ -66,6 +68,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
     const body = (await req.json().catch(() => ({}))) as StartBody;
     const slug = body.slug?.trim();
     const questionLimit = parseQuestionLimit(body.questionLimit ?? body.limit);
+    const entryContext = body.context === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
 
     if (!slug) {
       return NextResponse.json(
@@ -105,6 +108,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         metadata: {
           limit: questionLimit,
           source: "manual",
+          ...(entryContext ? { context: entryContext } : {}),
         },
       });
 

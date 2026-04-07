@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "tools",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:53:31.407Z"
+  },
+  "items": [
+    {
+      "lemma": "broom",
+      "pos": "noun",
+      "translation_pl": "miotła",
+      "definition_en": "A broom is a tool used for sweeping floors.",
+      "example_en": "She uses a broom to clean the kitchen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bucket",
+      "pos": "noun",
+      "translation_pl": "wiadro",
+      "definition_en": "A bucket is a container used for carrying liquids.",
+      "example_en": "He filled the bucket with water.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mop",
+      "pos": "noun",
+      "translation_pl": "mop",
+      "definition_en": "A mop is used to wash floors.",
+      "example_en": "She cleaned the floor with a wet mop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dustpan",
+      "pos": "noun",
+      "translation_pl": "szufelka",
+      "definition_en": "A dustpan is used to collect dust and dirt from the floor.",
+      "example_en": "He swept the dirt into the dustpan.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sponge",
+      "pos": "noun",
+      "translation_pl": "gąbka",
+      "definition_en": "A sponge is used for cleaning or washing surfaces.",
+      "example_en": "She wiped the table with a sponge.",
+      "level": "A1"
+    },
+    {
+      "lemma": "plunger",
+      "pos": "noun",
+      "translation_pl": "przepychacz do wc",
+      "definition_en": "A plunger is used to clear blockages in drains or toilets.",
+      "example_en": "He used a plunger to fix the sink.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watering can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A watering can is used to water plants.",
+      "example_en": "She used a watering can in the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "screwdriver",
+      "pos": "noun",
+      "translation_pl": "śrubokręt",
+      "definition_en": "A screwdriver is a tool for turning screws.",
+      "example_en": "I need a screwdriver to fix this chair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hammer",
+      "pos": "noun",
+      "translation_pl": "młotek",
+      "definition_en": "A hammer is used for hitting nails into wood.",
+      "example_en": "He used a hammer to build the shelf.",
+      "level": "A1"
+    },
+    {
+      "lemma": "nail",
+      "pos": "noun",
+      "translation_pl": "gwóźdź",
+      "definition_en": "A nail is a small metal stick for joining things together.",
+      "example_en": "She put a nail in the wall to hang the picture.",
+      "level": "A1"
+    },
+    {
+      "lemma": "saw",
+      "pos": "noun",
+      "translation_pl": "piła",
+      "definition_en": "A saw is a tool for cutting wood or other material.",
+      "example_en": "He used the saw to cut the plank.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tape measure",
+      "pos": "noun",
+      "translation_pl": "miarka",
+      "definition_en": "A tape measure is used for measuring length.",
+      "example_en": "She used a tape measure before cutting the fabric.",
+      "level": "A2"
+    },
+    {
+      "lemma": "paintbrush",
+      "pos": "noun",
+      "translation_pl": "pędzel",
+      "definition_en": "A paintbrush is used for putting paint on things.",
+      "example_en": "He painted the wall with a paintbrush.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toolbox",
+      "pos": "noun",
+      "translation_pl": "skrzynka na narzędzia",
+      "definition_en": "A toolbox is a container for keeping tools.",
+      "example_en": "He keeps his tools in a toolbox.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pliers",
+      "pos": "noun",
+      "translation_pl": "szczypce",
+      "definition_en": "Pliers are a tool for holding and bending things.",
+      "example_en": "She used pliers to fix the wire.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wrench",
+      "pos": "noun",
+      "translation_pl": "klucz",
+      "definition_en": "A wrench is used for turning nuts and bolts.",
+      "example_en": "He fixed his bicycle with a wrench.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ladder",
+      "pos": "noun",
+      "translation_pl": "drabina",
+      "definition_en": "A ladder is used for climbing up to reach high places.",
+      "example_en": "She used a ladder to change the light bulb.",
+      "level": "A1"
+    },
+    {
+      "lemma": "light bulb",
+      "pos": "noun",
+      "translation_pl": "żarówka",
+      "definition_en": "A light bulb gives light when electricity flows through it.",
+      "example_en": "He replaced the old light bulb in the lamp.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fuse",
+      "pos": "noun",
+      "translation_pl": "bezpiecznik",
+      "definition_en": "A fuse is a small safety device in electrical circuits.",
+      "example_en": "She changed the fuse after the power went out.",
+      "level": "B1"
+    },
+    {
+      "lemma": "glue",
+      "pos": "noun",
+      "translation_pl": "klej",
+      "definition_en": "Glue is used to stick things together.",
+      "example_en": "He used glue to fix the broken plate.",
+      "level": "A1"
+    }
+  ]
+}

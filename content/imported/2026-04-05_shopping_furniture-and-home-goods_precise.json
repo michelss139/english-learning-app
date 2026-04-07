@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "furniture-and-home-goods",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:01:38.191Z"
+  },
+  "items": [
+    {
+      "lemma": "side table",
+      "pos": "noun",
+      "translation_pl": "stolik boczny",
+      "definition_en": "A small table placed beside a sofa or bed.",
+      "example_en": "She put her coffee cup on the side table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coffee table",
+      "pos": "noun",
+      "translation_pl": "stolik kawowy",
+      "definition_en": "A low table usually placed in front of a sofa.",
+      "example_en": "He set the magazine down on the coffee table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "nightstand",
+      "pos": "noun",
+      "translation_pl": "szafka nocna",
+      "definition_en": "A small table next to a bed for holding items.",
+      "example_en": "Her alarm clock is always on the nightstand.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chest of drawers",
+      "pos": "noun",
+      "translation_pl": "komoda z szufladami",
+      "definition_en": "A piece of furniture with several drawers for storing clothes.",
+      "example_en": "I keep my socks in the chest of drawers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dining chair",
+      "pos": "noun",
+      "translation_pl": "krzesło do jadalni",
+      "definition_en": "A chair designed for use at a dining table.",
+      "example_en": "We bought six new dining chairs for the kitchen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "recliner",
+      "pos": "noun",
+      "translation_pl": "fotel rozkładany",
+      "definition_en": "A comfortable chair that can lean back.",
+      "example_en": "My grandfather always sits in his favorite recliner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ottoman",
+      "pos": "noun",
+      "translation_pl": "pufa",
+      "definition_en": "A low, padded seat without a back, often used as a footrest.",
+      "example_en": "She put her feet up on the ottoman after work.",
+      "level": "B2"
+    },
+    {
+      "lemma": "vanity table",
+      "pos": "noun",
+      "translation_pl": "toaletka",
+      "definition_en": "A small table with a mirror for applying makeup.",
+      "example_en": "She keeps all her cosmetics on her vanity table.",
+      "level": "B2"
+    },
+    {
+      "lemma": "china cabinet",
+      "pos": "noun",
+      "translation_pl": "kredens na zastawę",
+      "definition_en": "A cabinet for displaying and storing dishes and glassware.",
+      "example_en": "Her grandmother keeps fine plates in the china cabinet.",
+      "level": "B2"
+    },
+    {
+      "lemma": "headboard",
+      "pos": "noun",
+      "translation_pl": "zagłówek łóżka",
+      "definition_en": "The upright panel at the end of a bed.",
+      "example_en": "He decorated the wooden headboard with lights.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mattress",
+      "pos": "noun",
+      "translation_pl": "materac",
+      "definition_en": "The soft pad on which you sleep on a bed frame.",
+      "example_en": "We bought a new mattress for better sleep.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coat rack",
+      "pos": "noun",
+      "translation_pl": "wieszak na ubrania",
+      "definition_en": "A stand or wall hooks for hanging coats and hats.",
+      "example_en": "He hung his jacket on the coat rack by the door.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shoe rack",
+      "pos": "noun",
+      "translation_pl": "regał na buty",
+      "definition_en": "A shelf or stand for keeping shoes organized.",
+      "example_en": "The hallway is tidier with a shoe rack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dining set",
+      "pos": "noun",
+      "translation_pl": "zestaw jadalniany",
+      "definition_en": "A table and matching chairs for dining.",
+      "example_en": "They purchased a new dining set for the dining room.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tv stand",
+      "pos": "noun",
+      "translation_pl": "stolik pod telewizor",
+      "definition_en": "A piece of furniture for holding a television.",
+      "example_en": "The tv stand also has space for DVDs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "storage ottoman",
+      "pos": "noun",
+      "translation_pl": "pufa z pojemnikiem",
+      "definition_en": "An ottoman that opens up for storing items inside.",
+      "example_en": "She keeps extra blankets in the storage ottoman.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bunk bed",
+      "pos": "noun",
+      "translation_pl": "łóżko piętrowe",
+      "definition_en": "A set of beds stacked on top of each other.",
+      "example_en": "The children share a room with a bunk bed.",
+      "level": "B1"
+    },
+    {
+      "lemma": "room divider",
+      "pos": "noun",
+      "translation_pl": "parawan pokojowy",
+      "definition_en": "A movable screen used to separate spaces in a room.",
+      "example_en": "They added a room divider to make a private area.",
+      "level": "B2"
+    },
+    {
+      "lemma": "display cabinet",
+      "pos": "noun",
+      "translation_pl": "witryna wystawowa",
+      "definition_en": "A glass-fronted cabinet for showing items.",
+      "example_en": "Their souvenirs are in a display cabinet in the hall.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dressing table",
+      "pos": "noun",
+      "translation_pl": "toaletka z lustrem",
+      "definition_en": "A table with a mirror and drawers for dressing.",
+      "example_en": "She brushes her hair at the dressing table every morning.",
+      "level": "B1"
+    }
+  ]
+}

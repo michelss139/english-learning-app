@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "medical-conditions",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:08:54.921Z"
+  },
+  "items": [
+    {
+      "lemma": "migraine",
+      "pos": "noun",
+      "translation_pl": "migrena",
+      "definition_en": "A migraine is a severe headache that often comes with nausea and sensitivity to light.",
+      "example_en": "She had to lie down because of a strong migraine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sprain",
+      "pos": "noun",
+      "translation_pl": "skręcenie",
+      "definition_en": "A sprain is an injury to a ligament caused by being stretched too far.",
+      "example_en": "His ankle sprain made it hard to walk.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fracture",
+      "pos": "noun",
+      "translation_pl": "złamanie",
+      "definition_en": "A fracture is when a bone is broken or cracked.",
+      "example_en": "She wore a cast because of a wrist fracture.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ulcer",
+      "pos": "noun",
+      "translation_pl": "wrzód",
+      "definition_en": "An ulcer is a sore that forms on the skin or inside the body.",
+      "example_en": "His stomach ulcer caused a lot of discomfort.",
+      "level": "B2"
+    },
+    {
+      "lemma": "eczema",
+      "pos": "noun",
+      "translation_pl": "egzema",
+      "definition_en": "Eczema is a skin condition that makes the skin red and itchy.",
+      "example_en": "The doctor gave her a cream for eczema.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pneumonia",
+      "pos": "noun",
+      "translation_pl": "zapalenie płuc",
+      "definition_en": "Pneumonia is a serious lung infection that makes it hard to breathe.",
+      "example_en": "He was hospitalised with pneumonia.",
+      "level": "B2"
+    },
+    {
+      "lemma": "diabetes",
+      "pos": "noun",
+      "translation_pl": "cukrzyca",
+      "definition_en": "Diabetes is a disease that affects how the body uses sugar.",
+      "example_en": "Her diabetes requires daily insulin shots.",
+      "level": "B1"
+    },
+    {
+      "lemma": "high blood pressure",
+      "pos": "noun",
+      "translation_pl": "nadciśnienie",
+      "definition_en": "High blood pressure is when the force of blood against the walls of the arteries is too high.",
+      "example_en": "High blood pressure can lead to heart problems.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heart attack",
+      "pos": "noun",
+      "translation_pl": "zawał serca",
+      "definition_en": "A heart attack happens when blood flow to the heart is blocked.",
+      "example_en": "He survived a heart attack last year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stroke",
+      "pos": "noun",
+      "translation_pl": "udar",
+      "definition_en": "A stroke is a medical emergency where blood flow to the brain stops.",
+      "example_en": "Quick action is needed if someone is having a stroke.",
+      "level": "B2"
+    },
+    {
+      "lemma": "arthritis",
+      "pos": "noun",
+      "translation_pl": "zapalenie stawów",
+      "definition_en": "Arthritis is a condition that causes pain and swelling in the joints.",
+      "example_en": "Her arthritis makes her hands stiff in the morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "concussion",
+      "pos": "noun",
+      "translation_pl": "wstrząśnienie mózgu",
+      "definition_en": "A concussion is a brain injury caused by a blow to the head.",
+      "example_en": "The athlete was checked for a concussion after the fall.",
+      "level": "B2"
+    },
+    {
+      "lemma": "appendicitis",
+      "pos": "noun",
+      "translation_pl": "zapalenie wyrostka",
+      "definition_en": "Appendicitis is a serious swelling of the appendix.",
+      "example_en": "He had surgery to treat appendicitis.",
+      "level": "B2"
+    },
+    {
+      "lemma": "anemia",
+      "pos": "noun",
+      "translation_pl": "anemia",
+      "definition_en": "Anemia is a condition where the blood does not have enough healthy red cells.",
+      "example_en": "Tiredness can be a sign of anemia.",
+      "level": "B2"
+    },
+    {
+      "lemma": "measles",
+      "pos": "noun",
+      "translation_pl": "odra",
+      "definition_en": "Measles is a highly contagious disease with fever and a red rash.",
+      "example_en": "Children are often vaccinated against measles.",
+      "level": "B2"
+    },
+    {
+      "lemma": "chickenpox",
+      "pos": "noun",
+      "translation_pl": "ospa wietrzna",
+      "definition_en": "Chickenpox is a disease causing itchy skin spots and fever.",
+      "example_en": "He missed school because of chickenpox.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sinus infection",
+      "pos": "noun",
+      "translation_pl": "zakażenie zatok",
+      "definition_en": "A sinus infection is inflammation in the cavities around the nose.",
+      "example_en": "A sinus infection gave her headaches every day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "food poisoning",
+      "pos": "noun",
+      "translation_pl": "zatrucie pokarmowe",
+      "definition_en": "Food poisoning happens when you eat spoiled or contaminated food.",
+      "example_en": "He got food poisoning after eating at a restaurant.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hernia",
+      "pos": "noun",
+      "translation_pl": "przepuklina",
+      "definition_en": "A hernia happens when an organ pushes through an opening in muscles.",
+      "example_en": "The doctor diagnosed him with a hernia.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bronchitis",
+      "pos": "noun",
+      "translation_pl": "zapalenie oskrzeli",
+      "definition_en": "Bronchitis is inflammation of the tubes that carry air to the lungs.",
+      "example_en": "She developed bronchitis after having a cold.",
+      "level": "B2"
+    }
+  ]
+}

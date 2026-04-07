@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "watercraft",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:36:01.475Z"
+  },
+  "items": [
+    {
+      "lemma": "ferry",
+      "pos": "noun",
+      "translation_pl": "prom",
+      "definition_en": "A ferry is a boat that carries people or vehicles across water.",
+      "example_en": "We took a ferry to the island.",
+      "level": "A1"
+    },
+    {
+      "lemma": "canoe",
+      "pos": "noun",
+      "translation_pl": "kanoe",
+      "definition_en": "A canoe is a light boat that you move using a paddle.",
+      "example_en": "They went fishing in a canoe.",
+      "level": "A2"
+    },
+    {
+      "lemma": "kayak",
+      "pos": "noun",
+      "translation_pl": "kajak",
+      "definition_en": "A kayak is a small boat moved with a double-ended paddle.",
+      "example_en": "She learned how to paddle a kayak.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rowboat",
+      "pos": "noun",
+      "translation_pl": "łódź wiosłowa",
+      "definition_en": "A rowboat is a small boat that you move with oars.",
+      "example_en": "We rented a rowboat at the lake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "yacht",
+      "pos": "noun",
+      "translation_pl": "jacht",
+      "definition_en": "A yacht is a large boat for pleasure or sport.",
+      "example_en": "They sailed their yacht along the coast.",
+      "level": "B1"
+    },
+    {
+      "lemma": "barge",
+      "pos": "noun",
+      "translation_pl": "barka",
+      "definition_en": "A barge is a large flat boat used for carrying heavy things.",
+      "example_en": "The barge carried coal down the river.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sailboat",
+      "pos": "noun",
+      "translation_pl": "żaglówka",
+      "definition_en": "A sailboat is a boat that moves using sails and wind.",
+      "example_en": "We saw a sailboat on the lake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dinghy",
+      "pos": "noun",
+      "translation_pl": "pontonik",
+      "definition_en": "A dinghy is a small open boat, sometimes with a motor.",
+      "example_en": "They used a dinghy to reach the shore.",
+      "level": "B1"
+    },
+    {
+      "lemma": "catamaran",
+      "pos": "noun",
+      "translation_pl": "katamaran",
+      "definition_en": "A catamaran is a boat with two parallel hulls.",
+      "example_en": "We enjoyed a ride on the catamaran.",
+      "level": "B1"
+    },
+    {
+      "lemma": "speedboat",
+      "pos": "noun",
+      "translation_pl": "motorówka",
+      "definition_en": "A speedboat is a fast boat with a motor.",
+      "example_en": "He drove a speedboat across the bay.",
+      "level": "B1"
+    },
+    {
+      "lemma": "raft",
+      "pos": "noun",
+      "translation_pl": "tratwa",
+      "definition_en": "A raft is a flat structure used to float on water.",
+      "example_en": "They built a raft from logs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cruise ship",
+      "pos": "noun",
+      "translation_pl": "statek wycieczkowy",
+      "definition_en": "A cruise ship is a large ship for travelling on holiday.",
+      "example_en": "Our holiday was on a big cruise ship.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fishing boat",
+      "pos": "noun",
+      "translation_pl": "łódź rybacka",
+      "definition_en": "A fishing boat is used for catching fish on water.",
+      "example_en": "The fishing boat came back with lots of fish.",
+      "level": "A2"
+    },
+    {
+      "lemma": "submarine",
+      "pos": "noun",
+      "translation_pl": "łódź podwodna",
+      "definition_en": "A submarine can travel under water.",
+      "example_en": "The submarine disappeared beneath the waves.",
+      "level": "B1"
+    },
+    {
+      "lemma": "houseboat",
+      "pos": "noun",
+      "translation_pl": "barka mieszkalna",
+      "definition_en": "A houseboat is a boat with a place to live in.",
+      "example_en": "They live on a houseboat all year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "jet ski",
+      "pos": "noun",
+      "translation_pl": "skuter wodny",
+      "definition_en": "A jet ski is a small water vehicle for fun.",
+      "example_en": "We rented a jet ski at the beach.",
+      "level": "B1"
+    },
+    {
+      "lemma": "paddle boat",
+      "pos": "noun",
+      "translation_pl": "rower wodny",
+      "definition_en": "A paddle boat moves when you turn its pedals with your feet.",
+      "example_en": "They enjoyed riding a paddle boat on the lake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tugboat",
+      "pos": "noun",
+      "translation_pl": "holownik",
+      "definition_en": "A tugboat helps move other boats in the water.",
+      "example_en": "The tugboat pulled the big ship to the dock.",
+      "level": "B1"
+    },
+    {
+      "lemma": "life raft",
+      "pos": "noun",
+      "translation_pl": "tratwa ratunkowa",
+      "definition_en": "A life raft is a small boat used in emergencies.",
+      "example_en": "They used the life raft after the ship accident.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sailing ship",
+      "pos": "noun",
+      "translation_pl": "żaglowiec",
+      "definition_en": "A sailing ship is a big ship that moves with sails.",
+      "example_en": "We toured an old sailing ship in the harbor.",
+      "level": "B1"
+    }
+  ]
+}

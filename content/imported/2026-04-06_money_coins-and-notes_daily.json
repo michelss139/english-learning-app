@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "coins-and-notes",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:28:00.357Z"
+  },
+  "items": [
+    {
+      "lemma": "cent",
+      "pos": "noun",
+      "translation_pl": "cent grosz",
+      "definition_en": "A cent is one hundredth of a dollar or euro.",
+      "example_en": "I found a cent on the street.",
+      "level": "A1"
+    },
+    {
+      "lemma": "quarter",
+      "pos": "noun",
+      "translation_pl": "ćwierćdolarówka",
+      "definition_en": "A quarter is a coin worth twenty-five cents.",
+      "example_en": "He paid with a quarter for the drink.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nickel",
+      "pos": "noun",
+      "translation_pl": "pięciocentówka",
+      "definition_en": "A nickel is a coin worth five cents.",
+      "example_en": "I need one more nickel for the bus ticket.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dime",
+      "pos": "noun",
+      "translation_pl": "dziesięciocentówka",
+      "definition_en": "A dime is a coin worth ten cents.",
+      "example_en": "She gave me a dime for the phone call.",
+      "level": "A2"
+    },
+    {
+      "lemma": "note",
+      "pos": "noun",
+      "translation_pl": "banknot",
+      "definition_en": "A note is a piece of paper money.",
+      "example_en": "He paid with a ten-dollar note.",
+      "level": "A1"
+    },
+    {
+      "lemma": "coin",
+      "pos": "noun",
+      "translation_pl": "moneta",
+      "definition_en": "A coin is a small, round piece of metal money.",
+      "example_en": "I have a coin in my pocket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "banknote",
+      "pos": "noun",
+      "translation_pl": "banknot",
+      "definition_en": "A banknote is a piece of paper money used to pay for things.",
+      "example_en": "The cashier checked the banknote.",
+      "level": "A2"
+    },
+    {
+      "lemma": "change",
+      "pos": "noun",
+      "translation_pl": "drobne pieniądze",
+      "definition_en": "Change is the money you get back after paying more than the price.",
+      "example_en": "She gave me change after my purchase.",
+      "level": "A1"
+    },
+    {
+      "lemma": "penny",
+      "pos": "noun",
+      "translation_pl": "penny pens",
+      "definition_en": "A penny is a coin worth one cent in the US and one pence in the UK.",
+      "example_en": "He found a penny on the sidewalk.",
+      "level": "A1"
+    },
+    {
+      "lemma": "half-dollar",
+      "pos": "noun",
+      "translation_pl": "półdolarówka",
+      "definition_en": "A half-dollar is a coin worth fifty cents.",
+      "example_en": "This half-dollar coin is very shiny.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bill",
+      "pos": "noun",
+      "translation_pl": "banknot",
+      "definition_en": "A bill is a piece of paper money in the US.",
+      "example_en": "He handed the waiter a five-dollar bill.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tenner",
+      "pos": "noun",
+      "translation_pl": "dziesięciofuntówka",
+      "definition_en": "A tenner is a ten-pound note in the UK.",
+      "example_en": "She paid for lunch with a tenner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fiver",
+      "pos": "noun",
+      "translation_pl": "pięciofuntówka",
+      "definition_en": "A fiver is a five-pound note in the UK.",
+      "example_en": "He gave me a fiver for my birthday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "loonie",
+      "pos": "noun",
+      "translation_pl": "jednodolarówka",
+      "definition_en": "A loonie is a one-dollar coin in Canada.",
+      "example_en": "The vending machine only takes loonies.",
+      "level": "B1"
+    },
+    {
+      "lemma": "toonie",
+      "pos": "noun",
+      "translation_pl": "dwudolarówka",
+      "definition_en": "A toonie is a two-dollar coin in Canada.",
+      "example_en": "She put a toonie in the parking meter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "small change",
+      "pos": "noun",
+      "translation_pl": "drobne monety",
+      "definition_en": "Small change means coins of low value.",
+      "example_en": "I keep small change in my purse.",
+      "level": "A2"
+    },
+    {
+      "lemma": "copper",
+      "pos": "noun",
+      "translation_pl": "moneta jednogroszowa",
+      "definition_en": "A copper is a coin made mostly from copper, usually of small value.",
+      "example_en": "He dropped a copper on the floor.",
+      "level": "B1"
+    },
+    {
+      "lemma": "roll of coins",
+      "pos": "noun",
+      "translation_pl": "rolka monet",
+      "definition_en": "A roll of coins is a group of coins wrapped together.",
+      "example_en": "The bank gave him a roll of coins.",
+      "level": "B1"
+    },
+    {
+      "lemma": "silver coin",
+      "pos": "noun",
+      "translation_pl": "srebrna moneta",
+      "definition_en": "A silver coin is a coin made of silver or silver-colored metal.",
+      "example_en": "The old chest held a silver coin.",
+      "level": "B1"
+    },
+    {
+      "lemma": "banknote printer",
+      "pos": "noun",
+      "translation_pl": "drukarka banknotów",
+      "definition_en": "A banknote printer is a machine that prints money notes.",
+      "example_en": "The new banknote printer is very fast.",
+      "level": "B1"
+    }
+  ]
+}

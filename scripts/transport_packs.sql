@@ -2,11 +2,6 @@
 
 begin;
 
--- Transport overview (placeholder)
-insert into vocab_packs (slug, title, description, is_published, order_index)
-values ('transport-overview', 'Transport — overview', 'Podstawowe tematy z transportu.', true, 30)
-on conflict (slug) do nothing;
-
 -- Pack A: Pojazdy
 insert into vocab_packs (slug, title, description, is_published, order_index)
 values ('transport-vehicles', 'Transport — Pojazdy', 'Podstawowe pojazdy i środki transportu.', true, 31)

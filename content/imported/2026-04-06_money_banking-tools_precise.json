@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "banking-tools",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:31:29.683Z"
+  },
+  "items": [
+    {
+      "lemma": "overdraft protection",
+      "pos": "noun",
+      "translation_pl": "ochrona przed debetem",
+      "definition_en": "Overdraft protection is a service that prevents your account from being overdrawn.",
+      "example_en": "He signed up for overdraft protection to avoid fees.",
+      "level": "B1"
+    },
+    {
+      "lemma": "joint account",
+      "pos": "noun",
+      "translation_pl": "konto wspólne",
+      "definition_en": "A joint account is a bank account shared by two or more people.",
+      "example_en": "They opened a joint account after getting married.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mortgage account",
+      "pos": "noun",
+      "translation_pl": "konto hipoteczne",
+      "definition_en": "A mortgage account is used to manage a home loan with the bank.",
+      "example_en": "The mortgage account shows how much they still owe.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mobile banking app",
+      "pos": "noun",
+      "translation_pl": "aplikacja bankowa",
+      "definition_en": "A mobile banking app is software that lets you manage your bank account on a phone.",
+      "example_en": "She pays her bills using her mobile banking app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "online transfer",
+      "pos": "noun",
+      "translation_pl": "przelew online",
+      "definition_en": "An online transfer is sending money from one bank account to another over the internet.",
+      "example_en": "He made an online transfer to pay the rent.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fixed deposit",
+      "pos": "noun",
+      "translation_pl": "lokata terminowa",
+      "definition_en": "A fixed deposit is a bank deposit that cannot be withdrawn before a certain date.",
+      "example_en": "She put her savings into a fixed deposit for one year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wire transfer",
+      "pos": "noun",
+      "translation_pl": "przelew bankowy",
+      "definition_en": "A wire transfer is a method of sending money electronically from one bank to another.",
+      "example_en": "He used a wire transfer to send money abroad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "auto payment",
+      "pos": "noun",
+      "translation_pl": "automatyczna płatność",
+      "definition_en": "An auto payment is a scheduled payment made automatically from your account.",
+      "example_en": "The utility bill is always paid through auto payment.",
+      "level": "B1"
+    },
+    {
+      "lemma": "minimum balance",
+      "pos": "noun",
+      "translation_pl": "minimalne saldo",
+      "definition_en": "A minimum balance is the smallest amount of money required to keep an account open.",
+      "example_en": "He needs to maintain a minimum balance to avoid fees.",
+      "level": "B1"
+    },
+    {
+      "lemma": "account holder",
+      "pos": "noun",
+      "translation_pl": "właściciel konta",
+      "definition_en": "The account holder is the person who owns the bank account.",
+      "example_en": "Only the account holder can close the account.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bank fee",
+      "pos": "noun",
+      "translation_pl": "opłata bankowa",
+      "definition_en": "A bank fee is money charged by the bank for services or transactions.",
+      "example_en": "He was charged a bank fee for using another bank’s ATM.",
+      "level": "B1"
+    },
+    {
+      "lemma": "joint signatory",
+      "pos": "noun",
+      "translation_pl": "współuprawniony do konta",
+      "definition_en": "A joint signatory is a person who must also sign for account transactions.",
+      "example_en": "His wife is a joint signatory on the business account.",
+      "level": "B2"
+    },
+    {
+      "lemma": "standing order",
+      "pos": "noun",
+      "translation_pl": "zlecenie stałe",
+      "definition_en": "A standing order is an instruction to the bank to pay fixed amounts at regular times.",
+      "example_en": "The rent is paid every month by a standing order.",
+      "level": "B1"
+    },
+    {
+      "lemma": "account summary",
+      "pos": "noun",
+      "translation_pl": "podsumowanie konta",
+      "definition_en": "An account summary is a short report showing recent activity and balances.",
+      "example_en": "She checked the account summary on her app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sort code",
+      "pos": "noun",
+      "translation_pl": "kod rozliczeniowy banku",
+      "definition_en": "A sort code is a number that identifies a specific bank branch.",
+      "example_en": "You need the sort code to set up a transfer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "account number",
+      "pos": "noun",
+      "translation_pl": "numer konta",
+      "definition_en": "An account number is a unique number assigned to your bank account.",
+      "example_en": "She gave her account number for the money transfer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "transaction record",
+      "pos": "noun",
+      "translation_pl": "historia transakcji",
+      "definition_en": "A transaction record is a list of all activities made with your account.",
+      "example_en": "He checked the transaction record to find the payment.",
+      "level": "B1"
+    },
+    {
+      "lemma": "certificate of deposit",
+      "pos": "noun",
+      "translation_pl": "certyfikat depozytowy",
+      "definition_en": "A certificate of deposit is a savings certificate with a fixed interest rate and maturity date.",
+      "example_en": "She invested in a certificate of deposit for five years.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bank draft",
+      "pos": "noun",
+      "translation_pl": "przekaz bankowy",
+      "definition_en": "A bank draft is a payment on behalf of a payer that is guaranteed by the issuing bank.",
+      "example_en": "He paid for the car with a bank draft.",
+      "level": "B2"
+    },
+    {
+      "lemma": "balance inquiry",
+      "pos": "noun",
+      "translation_pl": "zapytanie o saldo",
+      "definition_en": "A balance inquiry is when you check how much money is in your bank account.",
+      "example_en": "She made a balance inquiry at the ATM.",
+      "level": "B1"
+    }
+  ]
+}

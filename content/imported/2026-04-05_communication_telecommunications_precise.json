@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "telecommunications",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T21:03:32.985Z"
+  },
+  "items": [
+    {
+      "lemma": "sim card",
+      "pos": "noun",
+      "translation_pl": "karta sim",
+      "definition_en": "A sim card is a small chip which stores data and allows a phone to connect to a network.",
+      "example_en": "I replaced my sim card after switching phone providers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "voicemail",
+      "pos": "noun",
+      "translation_pl": "poczta głosowa",
+      "definition_en": "Voicemail is an audio message recorded when a caller cannot reach you.",
+      "example_en": "She left me a voicemail after I missed her call.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smartphone",
+      "pos": "noun",
+      "translation_pl": "smartfon",
+      "definition_en": "A smartphone is a mobile phone that can use the internet and run apps.",
+      "example_en": "I check my email every morning on my smartphone.",
+      "level": "B1"
+    },
+    {
+      "lemma": "landline",
+      "pos": "noun",
+      "translation_pl": "telefon stacjonarny",
+      "definition_en": "A landline is a telephone that is connected by wires to a network.",
+      "example_en": "My grandparents still use a landline at home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "text message",
+      "pos": "noun",
+      "translation_pl": "wiadomość tekstowa",
+      "definition_en": "A text message is a written message sent electronically between phones.",
+      "example_en": "He sent me a text message to confirm our meeting time.",
+      "level": "B1"
+    },
+    {
+      "lemma": "roaming",
+      "pos": "noun",
+      "translation_pl": "roaming",
+      "definition_en": "Roaming allows you to use your phone outside your usual area or country.",
+      "example_en": "Data roaming is expensive when traveling abroad.",
+      "level": "B2"
+    },
+    {
+      "lemma": "prepaid card",
+      "pos": "noun",
+      "translation_pl": "karta przedpłacona",
+      "definition_en": "A prepaid card lets you pay in advance for phone services.",
+      "example_en": "I bought a prepaid card for my trip to Spain.",
+      "level": "B1"
+    },
+    {
+      "lemma": "headset",
+      "pos": "noun",
+      "translation_pl": "zestaw słuchawkowy",
+      "definition_en": "A headset is a device with headphones and a microphone for calls.",
+      "example_en": "She wears a headset to answer calls at work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "extension",
+      "pos": "noun",
+      "translation_pl": "numer wewnętrzny",
+      "definition_en": "An extension is a shorter phone number within a larger system, such as an office.",
+      "example_en": "To reach John, dial his extension after the main number.",
+      "level": "B2"
+    },
+    {
+      "lemma": "conference call",
+      "pos": "noun",
+      "translation_pl": "rozmowa konferencyjna",
+      "definition_en": "A conference call is a phone call involving several people at different locations.",
+      "example_en": "We have a conference call with the team at 10 a.m.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hands-free",
+      "pos": "noun",
+      "translation_pl": "zestaw głośnomówiący",
+      "definition_en": "Hands-free is a device allowing you to use the phone without holding it.",
+      "example_en": "Using a hands-free is safer while driving.",
+      "level": "B2"
+    },
+    {
+      "lemma": "texting",
+      "pos": "noun",
+      "translation_pl": "wysyłanie smsów",
+      "definition_en": "Texting is the act of sending written messages by phone.",
+      "example_en": "Texting is her favorite way to keep in touch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "caller id",
+      "pos": "noun",
+      "translation_pl": "identyfikacja numeru",
+      "definition_en": "Caller id shows the phone number of the person calling you.",
+      "example_en": "Thanks to caller id, I knew who was ringing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "data plan",
+      "pos": "noun",
+      "translation_pl": "pakiet danych",
+      "definition_en": "A data plan is a phone contract that sets how much internet you can use.",
+      "example_en": "I upgraded my data plan to watch videos on my phone.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hotspot",
+      "pos": "noun",
+      "translation_pl": "hotspot",
+      "definition_en": "A hotspot is a place where you can connect to the internet wirelessly.",
+      "example_en": "He found a free hotspot at the station to check his emails.",
+      "level": "B2"
+    },
+    {
+      "lemma": "text alert",
+      "pos": "noun",
+      "translation_pl": "wiadomość alarmowa",
+      "definition_en": "A text alert is a warning message sent by phone.",
+      "example_en": "I received a text alert about the weather.",
+      "level": "B2"
+    },
+    {
+      "lemma": "contact list",
+      "pos": "noun",
+      "translation_pl": "lista kontaktów",
+      "definition_en": "A contact list is a saved collection of names and numbers in your phone.",
+      "example_en": "I added her phone number to my contact list.",
+      "level": "B1"
+    },
+    {
+      "lemma": "call log",
+      "pos": "noun",
+      "translation_pl": "rejestr połączeń",
+      "definition_en": "A call log is the record of phone calls you have made or received.",
+      "example_en": "Check your call log if you miss a phone call.",
+      "level": "B2"
+    },
+    {
+      "lemma": "call forwarding",
+      "pos": "noun",
+      "translation_pl": "przekierowanie połączeń",
+      "definition_en": "Call forwarding sends your phone calls to another number.",
+      "example_en": "He used call forwarding when out of the office.",
+      "level": "B2"
+    },
+    {
+      "lemma": "speed dial",
+      "pos": "noun",
+      "translation_pl": "szybkie wybieranie",
+      "definition_en": "Speed dial is a feature that lets you call a favorite number quickly.",
+      "example_en": "I put my mom’s number on speed dial.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "natural-weather-events",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:52:21.259Z"
+  },
+  "items": [
+    {
+      "lemma": "storm",
+      "pos": "noun",
+      "translation_pl": "burza",
+      "definition_en": "A storm is a strong disturbance in the weather with wind and rain.",
+      "example_en": "The storm knocked down several trees last night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "thunderstorm",
+      "pos": "noun",
+      "translation_pl": "burza z piorunami",
+      "definition_en": "A thunderstorm is a storm with thunder and lightning.",
+      "example_en": "We stayed indoors during the thunderstorm.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lightning",
+      "pos": "noun",
+      "translation_pl": "błyskawica",
+      "definition_en": "Lightning is a sudden flash of light in the sky during a storm.",
+      "example_en": "Lightning lit up the sky during the night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tornado",
+      "pos": "noun",
+      "translation_pl": "tornado",
+      "definition_en": "A tornado is a violent spinning wind cloud that touches the ground.",
+      "example_en": "A tornado destroyed several houses in the town.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hurricane",
+      "pos": "noun",
+      "translation_pl": "huragan",
+      "definition_en": "A hurricane is a very strong windstorm that forms over the sea.",
+      "example_en": "The hurricane caused heavy damage along the coast.",
+      "level": "B1"
+    },
+    {
+      "lemma": "typhoon",
+      "pos": "noun",
+      "translation_pl": "tajfun",
+      "definition_en": "A typhoon is a powerful storm that happens in the western Pacific Ocean.",
+      "example_en": "The typhoon brought heavy rain to the islands.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gale",
+      "pos": "noun",
+      "translation_pl": "wichura",
+      "definition_en": "A gale is a very strong wind.",
+      "example_en": "The ship struggled against the gale.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heatwave",
+      "pos": "noun",
+      "translation_pl": "fala upałów",
+      "definition_en": "A heatwave is a long period of very hot weather.",
+      "example_en": "The heatwave lasted for over a week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cold snap",
+      "pos": "noun",
+      "translation_pl": "nagłe ochłodzenie",
+      "definition_en": "A cold snap is a short period of very cold weather.",
+      "example_en": "The cold snap surprised everyone in June.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gust",
+      "pos": "noun",
+      "translation_pl": "podmuch wiatru",
+      "definition_en": "A gust is a sudden strong wind.",
+      "example_en": "A gust blew my hat off.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tropical storm",
+      "pos": "noun",
+      "translation_pl": "sztorm tropikalny",
+      "definition_en": "A tropical storm is a strong rainstorm with powerful winds in the tropics.",
+      "example_en": "The tropical storm caused flooding in the city.",
+      "level": "B1"
+    },
+    {
+      "lemma": "monsoon",
+      "pos": "noun",
+      "translation_pl": "monsun",
+      "definition_en": "A monsoon is a season of heavy rain in some countries.",
+      "example_en": "The rice fields depend on the monsoon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cyclone",
+      "pos": "noun",
+      "translation_pl": "cyklon",
+      "definition_en": "A cyclone is a large storm with strong winds that turn in circles.",
+      "example_en": "A cyclone is expected to reach the coast tomorrow.",
+      "level": "B1"
+    },
+    {
+      "lemma": "whirlwind",
+      "pos": "noun",
+      "translation_pl": "trąba powietrzna",
+      "definition_en": "A whirlwind is a fast, spinning wind that lifts things from the ground.",
+      "example_en": "A whirlwind swept up dust from the road.",
+      "level": "B1"
+    },
+    {
+      "lemma": "drought",
+      "pos": "noun",
+      "translation_pl": "susza",
+      "definition_en": "A drought is a long period with no rain.",
+      "example_en": "Farmers worry during a drought.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flood",
+      "pos": "noun",
+      "translation_pl": "powódź",
+      "definition_en": "A flood is when water covers land that is usually dry.",
+      "example_en": "Our school closed after the flood.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tidal wave",
+      "pos": "noun",
+      "translation_pl": "fala pływowa",
+      "definition_en": "A tidal wave is a very large ocean wave caused by strong winds or an earthquake.",
+      "example_en": "A tidal wave hit the village at midnight.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sandstorm",
+      "pos": "noun",
+      "translation_pl": "burza piaskowa",
+      "definition_en": "A sandstorm is a storm that blows a lot of sand into the air.",
+      "example_en": "The sandstorm made it hard to see outside.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dust storm",
+      "pos": "noun",
+      "translation_pl": "burza pyłowa",
+      "definition_en": "A dust storm is a strong wind that blows dust over a wide area.",
+      "example_en": "A dust storm can make driving dangerous.",
+      "level": "B1"
+    },
+    {
+      "lemma": "avalanche",
+      "pos": "noun",
+      "translation_pl": "lawina",
+      "definition_en": "An avalanche is a large mass of snow and ice that falls down a mountain.",
+      "example_en": "An avalanche blocked the mountain road.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "garden-plants",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:31:51.280Z"
+  },
+  "items": [
+    {
+      "lemma": "bamboo",
+      "pos": "noun",
+      "translation_pl": "bambus",
+      "definition_en": "Bamboo is a tall grass with hard, hollow stems.",
+      "example_en": "Bamboo grows quickly in warm gardens.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dandelion",
+      "pos": "noun",
+      "translation_pl": "mlecz",
+      "definition_en": "A dandelion is a common yellow flower that grows in grass.",
+      "example_en": "Children like to blow the seeds of a dandelion.",
+      "level": "A1"
+    },
+    {
+      "lemma": "marigold",
+      "pos": "noun",
+      "translation_pl": "nagietek",
+      "definition_en": "A marigold is a bright orange or yellow garden flower.",
+      "example_en": "Marigolds add color to the garden borders.",
+      "level": "A2"
+    },
+    {
+      "lemma": "poppy",
+      "pos": "noun",
+      "translation_pl": "mak",
+      "definition_en": "A poppy is a plant with bright red flowers.",
+      "example_en": "Red poppies bloom every summer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tulip",
+      "pos": "noun",
+      "translation_pl": "tulipan",
+      "definition_en": "A tulip is a spring flower with a cup-shaped bloom.",
+      "example_en": "Many people plant tulips in the spring.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hydrangea",
+      "pos": "noun",
+      "translation_pl": "hortensja",
+      "definition_en": "A hydrangea is a bush with large round clusters of flowers.",
+      "example_en": "The hydrangea in the garden turns pink in summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "daisy chain",
+      "pos": "noun",
+      "translation_pl": "łańcuszek z stokrotek",
+      "definition_en": "A daisy chain is a string of flowers made by joining stems.",
+      "example_en": "She wore a daisy chain on her head.",
+      "level": "A2"
+    },
+    {
+      "lemma": "peony",
+      "pos": "noun",
+      "translation_pl": "piwonia",
+      "definition_en": "A peony is a large garden flower with many petals.",
+      "example_en": "Peonies bloom in late spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "orchid",
+      "pos": "noun",
+      "translation_pl": "storczyk",
+      "definition_en": "An orchid is a delicate flower often grown indoors.",
+      "example_en": "Orchids can have very striking colors.",
+      "level": "B1"
+    },
+    {
+      "lemma": "camellia",
+      "pos": "noun",
+      "translation_pl": "kamelia",
+      "definition_en": "A camellia is a bush with shiny leaves and pretty flowers.",
+      "example_en": "The pink camellia blooms early in the year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bluebell",
+      "pos": "noun",
+      "translation_pl": "dzwonek",
+      "definition_en": "A bluebell is a wild plant with small blue flowers.",
+      "example_en": "Bluebells cover the garden in spring.",
+      "level": "A2"
+    },
+    {
+      "lemma": "magnolia",
+      "pos": "noun",
+      "translation_pl": "magnolia",
+      "definition_en": "A magnolia is a tree or bush with large white or pink flowers.",
+      "example_en": "Magnolias bloom early in the spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pansy",
+      "pos": "noun",
+      "translation_pl": "bratek",
+      "definition_en": "A pansy is a small plant with colorful flowers.",
+      "example_en": "Pansies are perfect for window boxes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "petunia",
+      "pos": "noun",
+      "translation_pl": "petunia",
+      "definition_en": "A petunia is a garden plant with many bright flowers.",
+      "example_en": "Petunias look lovely in garden pots.",
+      "level": "A1"
+    },
+    {
+      "lemma": "primrose",
+      "pos": "noun",
+      "translation_pl": "pierwiosnek",
+      "definition_en": "A primrose is an early blooming garden flower.",
+      "example_en": "Primroses are one of the first flowers in spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "snapdragon",
+      "pos": "noun",
+      "translation_pl": "lwia paszcza",
+      "definition_en": "A snapdragon is a tall plant with brightly colored flowers.",
+      "example_en": "Snapdragons grow well in sunny places.",
+      "level": "B1"
+    },
+    {
+      "lemma": "violet",
+      "pos": "noun",
+      "translation_pl": "fiołek",
+      "definition_en": "A violet is a small garden flower, often purple.",
+      "example_en": "He picked a violet in the garden.",
+      "level": "A2"
+    },
+    {
+      "lemma": "foxglove",
+      "pos": "noun",
+      "translation_pl": "naparstnica",
+      "definition_en": "A foxglove is a tall plant with bell-shaped flowers.",
+      "example_en": "Foxgloves attract bees and butterflies.",
+      "level": "B1"
+    },
+    {
+      "lemma": "iris",
+      "pos": "noun",
+      "translation_pl": "irys",
+      "definition_en": "An iris is a tall plant with blue or purple flowers.",
+      "example_en": "Irises bloom at the edge of the garden pond.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hosta",
+      "pos": "noun",
+      "translation_pl": "funkia",
+      "definition_en": "A hosta is a leafy plant often grown for its greenery.",
+      "example_en": "Hostas do well in shady garden corners.",
+      "level": "B1"
+    }
+  ]
+}

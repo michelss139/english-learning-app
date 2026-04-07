@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "units-of-time",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:54:04.071Z"
+  },
+  "items": [
+    {
+      "lemma": "quarter-hour",
+      "pos": "noun",
+      "translation_pl": "kwadrans",
+      "definition_en": "A period of fifteen minutes.",
+      "example_en": "The break will last a quarter-hour.",
+      "level": "B1"
+    },
+    {
+      "lemma": "half-hour",
+      "pos": "noun",
+      "translation_pl": "pół godziny",
+      "definition_en": "A period of thirty minutes.",
+      "example_en": "Dinner will be ready in a half-hour.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fortnight",
+      "pos": "noun",
+      "translation_pl": "dwa tygodnie",
+      "definition_en": "A period of two weeks.",
+      "example_en": "I'll see you in a fortnight.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sunrise",
+      "pos": "noun",
+      "translation_pl": "wschód słońca",
+      "definition_en": "The time when the sun appears in the morning.",
+      "example_en": "I enjoy watching the sunrise at the beach.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sunset",
+      "pos": "noun",
+      "translation_pl": "zachód słońca",
+      "definition_en": "The time when the sun goes down in the evening.",
+      "example_en": "We took a walk at sunset.",
+      "level": "B1"
+    },
+    {
+      "lemma": "weekday",
+      "pos": "noun",
+      "translation_pl": "dzień roboczy",
+      "definition_en": "A day from Monday to Friday.",
+      "example_en": "I wake up early on every weekday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "leap year",
+      "pos": "noun",
+      "translation_pl": "rok przestępny",
+      "definition_en": "A year with 366 days instead of 365.",
+      "example_en": "The next leap year will be in four years.",
+      "level": "B2"
+    },
+    {
+      "lemma": "workday",
+      "pos": "noun",
+      "translation_pl": "dzień pracy",
+      "definition_en": "A day on which most people go to work.",
+      "example_en": "It was a busy workday for everyone.",
+      "level": "B1"
+    },
+    {
+      "lemma": "school day",
+      "pos": "noun",
+      "translation_pl": "dzień szkolny",
+      "definition_en": "A day when students attend school.",
+      "example_en": "The school day starts at eight o'clock.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rush hour",
+      "pos": "noun",
+      "translation_pl": "godzina szczytu",
+      "definition_en": "The time when traffic is busy because people are traveling to or from work.",
+      "example_en": "The trains are crowded during rush hour.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tea time",
+      "pos": "noun",
+      "translation_pl": "pora herbaty",
+      "definition_en": "The time of day when people traditionally drink tea.",
+      "example_en": "They always meet for a chat at tea time.",
+      "level": "B2"
+    },
+    {
+      "lemma": "break time",
+      "pos": "noun",
+      "translation_pl": "przerwa",
+      "definition_en": "A short period when you stop working or studying to rest.",
+      "example_en": "Let's meet outside at break time.",
+      "level": "B1"
+    },
+    {
+      "lemma": "siesta",
+      "pos": "noun",
+      "translation_pl": "popołudniowa drzemka",
+      "definition_en": "A short sleep taken in the early afternoon.",
+      "example_en": "He takes a siesta after lunch every day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "payday",
+      "pos": "noun",
+      "translation_pl": "dzień wypłaty",
+      "definition_en": "The day when someone receives their salary.",
+      "example_en": "Everyone looks forward to payday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lifetime",
+      "pos": "noun",
+      "translation_pl": "życie",
+      "definition_en": "The period during which someone is alive.",
+      "example_en": "It was an experience of a lifetime.",
+      "level": "B1"
+    },
+    {
+      "lemma": "deadline",
+      "pos": "noun",
+      "translation_pl": "termin ostateczny",
+      "definition_en": "The final time or date by which something must be completed.",
+      "example_en": "The project deadline is next Monday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "era",
+      "pos": "noun",
+      "translation_pl": "epoka",
+      "definition_en": "A long and distinct period of history.",
+      "example_en": "The computer era changed daily life.",
+      "level": "B2"
+    },
+    {
+      "lemma": "interval",
+      "pos": "noun",
+      "translation_pl": "przerwa",
+      "definition_en": "A period of time between two events.",
+      "example_en": "There was a short interval before the second act.",
+      "level": "B1"
+    },
+    {
+      "lemma": "millennium",
+      "pos": "noun",
+      "translation_pl": "milenium",
+      "definition_en": "A period of one thousand years.",
+      "example_en": "The city celebrated the new millennium with fireworks.",
+      "level": "B2"
+    },
+    {
+      "lemma": "eve",
+      "pos": "noun",
+      "translation_pl": "wigilia",
+      "definition_en": "The day or night before an event.",
+      "example_en": "It was Christmas Eve.",
+      "level": "B1"
+    }
+  ]
+}

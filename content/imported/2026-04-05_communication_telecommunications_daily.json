@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "telecommunications",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T21:02:57.882Z"
+  },
+  "items": [
+    {
+      "lemma": "phone",
+      "pos": "noun",
+      "translation_pl": "telefon",
+      "definition_en": "A phone is a device used to talk to people far away.",
+      "example_en": "He picked up the phone and called his friend.",
+      "level": "A1"
+    },
+    {
+      "lemma": "conversation",
+      "pos": "noun",
+      "translation_pl": "rozmowa",
+      "definition_en": "A conversation is a talk between two or more people.",
+      "example_en": "They had a long conversation about travel plans.",
+      "level": "A2"
+    },
+    {
+      "lemma": "message",
+      "pos": "noun",
+      "translation_pl": "wiadomość",
+      "definition_en": "A message is a piece of information sent to someone.",
+      "example_en": "I left a message on her voicemail.",
+      "level": "A1"
+    },
+    {
+      "lemma": "call",
+      "pos": "noun",
+      "translation_pl": "rozmowa telefoniczna",
+      "definition_en": "A call is when you talk to someone by phone.",
+      "example_en": "The call lasted for fifteen minutes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "receiver",
+      "pos": "noun",
+      "translation_pl": "słuchawka",
+      "definition_en": "A receiver is the part of the phone you listen and speak into.",
+      "example_en": "She picked up the receiver to answer the phone.",
+      "level": "A2"
+    },
+    {
+      "lemma": "line",
+      "pos": "noun",
+      "translation_pl": "linia telefoniczna",
+      "definition_en": "A line is the connection on a telephone network.",
+      "example_en": "The line was busy so I could not call my friend.",
+      "level": "A2"
+    },
+    {
+      "lemma": "signal",
+      "pos": "noun",
+      "translation_pl": "sygnał",
+      "definition_en": "A signal helps phones connect and send messages.",
+      "example_en": "I lost signal in the mountains.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tower",
+      "pos": "noun",
+      "translation_pl": "wieża nadawcza",
+      "definition_en": "A tower is a tall structure for sending phone signals.",
+      "example_en": "The phone tower is near the school.",
+      "level": "A2"
+    },
+    {
+      "lemma": "number",
+      "pos": "noun",
+      "translation_pl": "numer telefonu",
+      "definition_en": "A number is a set of digits used to call someone.",
+      "example_en": "She wrote her phone number on the paper.",
+      "level": "A1"
+    },
+    {
+      "lemma": "network",
+      "pos": "noun",
+      "translation_pl": "sieć",
+      "definition_en": "A network connects people for communication.",
+      "example_en": "The phone network was down during the storm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "connection",
+      "pos": "noun",
+      "translation_pl": "połączenie",
+      "definition_en": "A connection is the link between people who communicate.",
+      "example_en": "The connection was not very good.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ring",
+      "pos": "noun",
+      "translation_pl": "dzwonek",
+      "definition_en": "A ring is the sound a phone makes when someone calls.",
+      "example_en": "I heard the ring and answered quickly.",
+      "level": "A2"
+    },
+    {
+      "lemma": "phone book",
+      "pos": "noun",
+      "translation_pl": "książka telefoniczna",
+      "definition_en": "A phone book is a book with names and phone numbers.",
+      "example_en": "He found the number in the phone book.",
+      "level": "A2"
+    },
+    {
+      "lemma": "operator",
+      "pos": "noun",
+      "translation_pl": "operator",
+      "definition_en": "An operator is a person who helps connect phone calls.",
+      "example_en": "I asked the operator for help.",
+      "level": "A2"
+    },
+    {
+      "lemma": "signal bar",
+      "pos": "noun",
+      "translation_pl": "kreska zasięgu",
+      "definition_en": "A signal bar shows how strong your phone's connection is.",
+      "example_en": "The signal bar is low on my phone right now.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dial tone",
+      "pos": "noun",
+      "translation_pl": "sygnał wybierania",
+      "definition_en": "A dial tone is the sound you hear before making a call.",
+      "example_en": "She waited for the dial tone before dialing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "area code",
+      "pos": "noun",
+      "translation_pl": "kod kierunkowy",
+      "definition_en": "An area code is the first numbers in a phone number.",
+      "example_en": "You must enter the area code for long distance calls.",
+      "level": "B1"
+    },
+    {
+      "lemma": "handset",
+      "pos": "noun",
+      "translation_pl": "słuchawka telefonu",
+      "definition_en": "A handset is the part of a phone you hold to talk and listen.",
+      "example_en": "He placed the handset back on the phone.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cell phone",
+      "pos": "noun",
+      "translation_pl": "telefon komórkowy",
+      "definition_en": "A cell phone is a mobile phone you can carry with you.",
+      "example_en": "She used her cell phone to send a message.",
+      "level": "A1"
+    },
+    {
+      "lemma": "contact",
+      "pos": "noun",
+      "translation_pl": "kontakt",
+      "definition_en": "A contact is a saved person's number on your phone.",
+      "example_en": "I added her as a new contact.",
+      "level": "A2"
+    }
+  ]
+}

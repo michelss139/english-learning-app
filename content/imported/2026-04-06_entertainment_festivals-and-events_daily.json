@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "festivals-and-events",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:45:53.553Z"
+  },
+  "items": [
+    {
+      "lemma": "festival",
+      "pos": "noun",
+      "translation_pl": "festiwal",
+      "definition_en": "A festival is a special event with music or shows.",
+      "example_en": "We go to a music festival every summer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "parade",
+      "pos": "noun",
+      "translation_pl": "parada",
+      "definition_en": "A parade is a line of people or cars celebrating something.",
+      "example_en": "The children watched the parade on the street.",
+      "level": "A2"
+    },
+    {
+      "lemma": "carnival",
+      "pos": "noun",
+      "translation_pl": "karnawał",
+      "definition_en": "A carnival is a fun event with games and rides.",
+      "example_en": "We enjoyed the rides at the carnival.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fireworks",
+      "pos": "noun",
+      "translation_pl": "fajerwerki",
+      "definition_en": "Fireworks are bright lights in the sky for celebrations.",
+      "example_en": "We watched fireworks on New Year's Eve.",
+      "level": "A1"
+    },
+    {
+      "lemma": "costume",
+      "pos": "noun",
+      "translation_pl": "kostium",
+      "definition_en": "A costume is special clothing for an event or party.",
+      "example_en": "Everyone wore a funny costume to the party.",
+      "level": "A2"
+    },
+    {
+      "lemma": "parade float",
+      "pos": "noun",
+      "translation_pl": "platforma na paradzie",
+      "definition_en": "A parade float is a decorated vehicle in a parade.",
+      "example_en": "Children waved from the parade float.",
+      "level": "B1"
+    },
+    {
+      "lemma": "balloon",
+      "pos": "noun",
+      "translation_pl": "balon",
+      "definition_en": "A balloon is a light bag filled with air or gas.",
+      "example_en": "They filled the room with colorful balloons.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ticket",
+      "pos": "noun",
+      "translation_pl": "bilet",
+      "definition_en": "A ticket is something you buy to enter an event.",
+      "example_en": "I bought a ticket to the show.",
+      "level": "A1"
+    },
+    {
+      "lemma": "booth",
+      "pos": "noun",
+      "translation_pl": "stoisko",
+      "definition_en": "A booth is a small stand at a festival or event.",
+      "example_en": "We visited the food booth at the festival.",
+      "level": "B1"
+    },
+    {
+      "lemma": "crowd surfer",
+      "pos": "noun",
+      "translation_pl": "osoba nad tłumem",
+      "definition_en": "A crowd surfer is someone lifted over people at a concert.",
+      "example_en": "A crowd surfer passed right in front of the stage.",
+      "level": "B1"
+    },
+    {
+      "lemma": "confetti",
+      "pos": "noun",
+      "translation_pl": "konfetti",
+      "definition_en": "Confetti is small pieces of paper thrown at celebrations.",
+      "example_en": "Confetti filled the air after the performance.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stage",
+      "pos": "noun",
+      "translation_pl": "scena",
+      "definition_en": "A stage is the area where performers show their act.",
+      "example_en": "The singer walked onto the stage.",
+      "level": "A1"
+    },
+    {
+      "lemma": "organizer",
+      "pos": "noun",
+      "translation_pl": "organizator",
+      "definition_en": "An organizer is a person who plans the event.",
+      "example_en": "The organizer checked the list of performers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tent",
+      "pos": "noun",
+      "translation_pl": "namiot",
+      "definition_en": "A tent is a shelter used for outdoor events.",
+      "example_en": "We waited for the show in a big tent.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fair",
+      "pos": "noun",
+      "translation_pl": "targi",
+      "definition_en": "A fair is a big outdoor event with food and games.",
+      "example_en": "They spent the afternoon at the county fair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "picnic",
+      "pos": "noun",
+      "translation_pl": "piknik",
+      "definition_en": "A picnic is a meal eaten outside, usually at an event.",
+      "example_en": "We had a picnic during the festival.",
+      "level": "A1"
+    },
+    {
+      "lemma": "performer",
+      "pos": "noun",
+      "translation_pl": "występujący",
+      "definition_en": "A performer is someone who puts on a show.",
+      "example_en": "The performer amazed the audience with her act.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tent pole",
+      "pos": "noun",
+      "translation_pl": "maszt namiotu",
+      "definition_en": "A tent pole holds up a large festival tent.",
+      "example_en": "They secured every tent pole before the event started.",
+      "level": "B1"
+    },
+    {
+      "lemma": "marquee",
+      "pos": "noun",
+      "translation_pl": "duży namiot",
+      "definition_en": "A marquee is a large tent used for events.",
+      "example_en": "The food was served under the main marquee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clown",
+      "pos": "noun",
+      "translation_pl": "klaun",
+      "definition_en": "A clown is a funny performer at events and parties.",
+      "example_en": "A clown made everyone laugh at the festival.",
+      "level": "A2"
+    }
+  ]
+}

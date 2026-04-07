@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "transportation-modes",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:54:32.307Z"
+  },
+  "items": [
+    {
+      "lemma": "car",
+      "pos": "noun",
+      "translation_pl": "samochód",
+      "definition_en": "A car is a road vehicle with four wheels for driving people.",
+      "example_en": "They drove to the city by car.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bus",
+      "pos": "noun",
+      "translation_pl": "autobus",
+      "definition_en": "A bus is a large vehicle that carries many people.",
+      "example_en": "We took the bus to school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "train",
+      "pos": "noun",
+      "translation_pl": "pociąg",
+      "definition_en": "A train is a long vehicle that moves on rails and carries people or goods.",
+      "example_en": "The train arrives at the station at noon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bicycle",
+      "pos": "noun",
+      "translation_pl": "rower",
+      "definition_en": "A bicycle is a vehicle with two wheels that you ride by pedaling.",
+      "example_en": "He goes to work by bicycle every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "motorcycle",
+      "pos": "noun",
+      "translation_pl": "motocykl",
+      "definition_en": "A motorcycle is a fast two-wheeled vehicle powered by an engine.",
+      "example_en": "She learned how to ride a motorcycle.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plane",
+      "pos": "noun",
+      "translation_pl": "samolot",
+      "definition_en": "A plane is a flying vehicle used to travel long distances.",
+      "example_en": "We went on holiday by plane.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tram",
+      "pos": "noun",
+      "translation_pl": "tramwaj",
+      "definition_en": "A tram is a vehicle that runs on tracks in a city.",
+      "example_en": "He often takes the tram to university.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ferry",
+      "pos": "noun",
+      "translation_pl": "prom",
+      "definition_en": "A ferry is a boat that carries people or cars across water.",
+      "example_en": "The ferry goes to the island every hour.",
+      "level": "A2"
+    },
+    {
+      "lemma": "taxi",
+      "pos": "noun",
+      "translation_pl": "taksówka",
+      "definition_en": "A taxi is a car that you pay to take you somewhere.",
+      "example_en": "He took a taxi to the airport.",
+      "level": "A1"
+    },
+    {
+      "lemma": "subway",
+      "pos": "noun",
+      "translation_pl": "metro",
+      "definition_en": "The subway is an underground train in a city.",
+      "example_en": "The subway is very fast in New York.",
+      "level": "A2"
+    },
+    {
+      "lemma": "boat",
+      "pos": "noun",
+      "translation_pl": "łódź",
+      "definition_en": "A boat is a small vehicle for traveling on water.",
+      "example_en": "We rented a boat at the lake.",
+      "level": "A1"
+    },
+    {
+      "lemma": "van",
+      "pos": "noun",
+      "translation_pl": "van",
+      "definition_en": "A van is a medium-sized vehicle for carrying people or things.",
+      "example_en": "The family traveled in a big van.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coach",
+      "pos": "noun",
+      "translation_pl": "autokar",
+      "definition_en": "A coach is a comfortable bus used for long trips.",
+      "example_en": "They went to Paris by coach.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scooter",
+      "pos": "noun",
+      "translation_pl": "skuter",
+      "definition_en": "A scooter is a small motor vehicle with two wheels.",
+      "example_en": "He rides a scooter to school.",
+      "level": "A2"
+    },
+    {
+      "lemma": "minibus",
+      "pos": "noun",
+      "translation_pl": "minibus",
+      "definition_en": "A minibus is a small bus for a few people.",
+      "example_en": "The hotel offers a free minibus to the airport.",
+      "level": "A2"
+    },
+    {
+      "lemma": "helicopter",
+      "pos": "noun",
+      "translation_pl": "helikopter",
+      "definition_en": "A helicopter flies using large rotating blades on top.",
+      "example_en": "The rescue team arrived by helicopter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pickup truck",
+      "pos": "noun",
+      "translation_pl": "pickup",
+      "definition_en": "A pickup truck is a small truck with an open back.",
+      "example_en": "They carried the bikes in a pickup truck.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cable car",
+      "pos": "noun",
+      "translation_pl": "kolejka linowa",
+      "definition_en": "A cable car travels on a wire, often up mountains.",
+      "example_en": "We rode a cable car up the hill.",
+      "level": "B1"
+    },
+    {
+      "lemma": "skateboard",
+      "pos": "noun",
+      "translation_pl": "deskorolka",
+      "definition_en": "A skateboard is a small board with wheels for riding.",
+      "example_en": "He goes to the park on his skateboard.",
+      "level": "B1"
+    },
+    {
+      "lemma": "segway",
+      "pos": "noun",
+      "translation_pl": "segway",
+      "definition_en": "A segway is a small electric vehicle you stand on.",
+      "example_en": "We toured the museum on a segway.",
+      "level": "B1"
+    }
+  ]
+}

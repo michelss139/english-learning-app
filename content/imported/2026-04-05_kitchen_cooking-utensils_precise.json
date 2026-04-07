@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "cooking-utensils",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:46:29.317Z"
+  },
+  "items": [
+    {
+      "lemma": "fish spatula",
+      "pos": "noun",
+      "translation_pl": "łopatka do ryb",
+      "definition_en": "A thin, slotted spatula designed for turning fish fillets.",
+      "example_en": "She used a fish spatula to gently flip the salmon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "potato ricer",
+      "pos": "noun",
+      "translation_pl": "praska do ziemniaków",
+      "definition_en": "A hand tool that presses boiled potatoes through small holes.",
+      "example_en": "The potato ricer made the mashed potatoes extra smooth.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pasta fork",
+      "pos": "noun",
+      "translation_pl": "widelec do makaronu",
+      "definition_en": "A large fork with prongs for serving and lifting pasta.",
+      "example_en": "She used a pasta fork to serve the spaghetti.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice cream scoop",
+      "pos": "noun",
+      "translation_pl": "łyżka do lodów",
+      "definition_en": "A utensil for serving portions of ice cream.",
+      "example_en": "He reached for the ice cream scoop after dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "meat tenderizer",
+      "pos": "noun",
+      "translation_pl": "tłuczek do mięsa",
+      "definition_en": "A tool with a heavy head for softening meat.",
+      "example_en": "She used a meat tenderizer to pound the chicken breasts.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pizza cutter",
+      "pos": "noun",
+      "translation_pl": "nóż do pizzy",
+      "definition_en": "A round, rotating blade for slicing pizza.",
+      "example_en": "He used a pizza cutter to divide the pizza into slices.",
+      "level": "A2"
+    },
+    {
+      "lemma": "egg slicer",
+      "pos": "noun",
+      "translation_pl": "krajalnica do jajek",
+      "definition_en": "A device to cut a hard-boiled egg into even slices.",
+      "example_en": "The egg slicer made neat slices for the salad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "zester",
+      "pos": "noun",
+      "translation_pl": "tarka do skórki cytryny",
+      "definition_en": "A small tool for grating citrus fruit rind.",
+      "example_en": "She used a zester to add lemon flavor to the cake.",
+      "level": "B2"
+    },
+    {
+      "lemma": "melon baller",
+      "pos": "noun",
+      "translation_pl": "łyżka do wykrawania melonów",
+      "definition_en": "A small scoop to make round balls from fruit like melon.",
+      "example_en": "He used a melon baller to decorate the fruit salad.",
+      "level": "B2"
+    },
+    {
+      "lemma": "basting spoon",
+      "pos": "noun",
+      "translation_pl": "łyżka do polewania mięsa",
+      "definition_en": "A large spoon for pouring liquids over food while cooking.",
+      "example_en": "She grabbed a basting spoon to keep the meat moist.",
+      "level": "B1"
+    },
+    {
+      "lemma": "turner",
+      "pos": "noun",
+      "translation_pl": "łopatka do przewracania potraw",
+      "definition_en": "A flat utensil for turning food during cooking.",
+      "example_en": "He used a turner to flip the pancakes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "microplane grater",
+      "pos": "noun",
+      "translation_pl": "drobna tarka ręczna",
+      "definition_en": "A fine, handheld grater for zest and hard cheese.",
+      "example_en": "She used a microplane grater for the Parmesan cheese.",
+      "level": "B2"
+    },
+    {
+      "lemma": "salad spinner",
+      "pos": "noun",
+      "translation_pl": "suszarka do sałaty",
+      "definition_en": "A device to dry washed salad leaves using spinning.",
+      "example_en": "The salad spinner removed water from the lettuce.",
+      "level": "B1"
+    },
+    {
+      "lemma": "skimmer",
+      "pos": "noun",
+      "translation_pl": "szumówka",
+      "definition_en": "A flat, holey spoon used to skim food from hot liquids.",
+      "example_en": "He used a skimmer to remove dumplings from the soup.",
+      "level": "B1"
+    },
+    {
+      "lemma": "apple corer",
+      "pos": "noun",
+      "translation_pl": "drylownica do jabłek",
+      "definition_en": "A tool for removing the core from apples.",
+      "example_en": "She used an apple corer for her pie recipe.",
+      "level": "B1"
+    },
+    {
+      "lemma": "egg separator",
+      "pos": "noun",
+      "translation_pl": "separator do jajek",
+      "definition_en": "A small device to separate egg yolks from whites.",
+      "example_en": "The egg separator made baking easier.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pastry blender",
+      "pos": "noun",
+      "translation_pl": "rozdrabniacz do ciasta kruchego",
+      "definition_en": "A hand tool for mixing fat into flour for dough.",
+      "example_en": "She used a pastry blender to make the biscuit dough.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dough scraper",
+      "pos": "noun",
+      "translation_pl": "skrobaczka do ciasta",
+      "definition_en": "A flat tool for scraping and cutting dough.",
+      "example_en": "He used a dough scraper to clean the work surface.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pastry wheel",
+      "pos": "noun",
+      "translation_pl": "kółko do ciasta",
+      "definition_en": "A small, rotating blade for cutting dough strips.",
+      "example_en": "She cut the pie crust with a pastry wheel.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gravy separator",
+      "pos": "noun",
+      "translation_pl": "oddzielacz tłuszczu do sosu",
+      "definition_en": "A pitcher that separates fat from meat juices or gravy.",
+      "example_en": "He poured the drippings into a gravy separator.",
+      "level": "C1"
+    }
+  ]
+}

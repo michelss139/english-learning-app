@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "decor",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:52:58.010Z"
+  },
+  "items": [
+    {
+      "lemma": "vase",
+      "pos": "noun",
+      "translation_pl": "wazon",
+      "definition_en": "A vase is a container used to hold flowers.",
+      "example_en": "She put fresh roses in the vase on the table.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rug",
+      "pos": "noun",
+      "translation_pl": "dywanik",
+      "definition_en": "A rug is a small carpet put on the floor.",
+      "example_en": "There is a colorful rug in front of the sofa.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lamp",
+      "pos": "noun",
+      "translation_pl": "lampa",
+      "definition_en": "A lamp is a device that gives light.",
+      "example_en": "He turned on the lamp for reading.",
+      "level": "A1"
+    },
+    {
+      "lemma": "curtain",
+      "pos": "noun",
+      "translation_pl": "zasłona",
+      "definition_en": "A curtain covers a window inside a room.",
+      "example_en": "She closed the curtain for privacy.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pillow",
+      "pos": "noun",
+      "translation_pl": "poduszka",
+      "definition_en": "A pillow is something soft for your head when you rest.",
+      "example_en": "I put a new pillow on my bed.",
+      "level": "A1"
+    },
+    {
+      "lemma": "blanket",
+      "pos": "noun",
+      "translation_pl": "koc",
+      "definition_en": "A blanket is a warm cover for your body.",
+      "example_en": "He wrapped himself in a soft blanket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "picture frame",
+      "pos": "noun",
+      "translation_pl": "ramka na zdjęcia",
+      "definition_en": "A picture frame holds a photo or painting.",
+      "example_en": "The family photo is in a silver picture frame.",
+      "level": "A2"
+    },
+    {
+      "lemma": "candle",
+      "pos": "noun",
+      "translation_pl": "świeca",
+      "definition_en": "A candle is a stick of wax that gives light when it burns.",
+      "example_en": "She lit a candle in the living room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wall clock",
+      "pos": "noun",
+      "translation_pl": "zegar ścienny",
+      "definition_en": "A wall clock shows the time and hangs on a wall.",
+      "example_en": "They hung a wall clock in the kitchen.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tablecloth",
+      "pos": "noun",
+      "translation_pl": "obrus",
+      "definition_en": "A tablecloth is a cloth covering for a table.",
+      "example_en": "She spread a clean tablecloth before dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cushion",
+      "pos": "noun",
+      "translation_pl": "poduszka ozdobna",
+      "definition_en": "A cushion is a soft bag used for sitting or leaning on.",
+      "example_en": "I bought a new cushion for the armchair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "picture",
+      "pos": "noun",
+      "translation_pl": "obraz",
+      "definition_en": "A picture is a painting or photograph on a wall.",
+      "example_en": "There is a picture of mountains above the sofa.",
+      "level": "A1"
+    },
+    {
+      "lemma": "clock",
+      "pos": "noun",
+      "translation_pl": "zegar",
+      "definition_en": "A clock shows the time.",
+      "example_en": "The clock in the hall is very old.",
+      "level": "A1"
+    },
+    {
+      "lemma": "flower pot",
+      "pos": "noun",
+      "translation_pl": "doniczka",
+      "definition_en": "A flower pot is a container for growing plants indoors.",
+      "example_en": "He watered the flower pot on the window sill.",
+      "level": "A2"
+    },
+    {
+      "lemma": "painting",
+      "pos": "noun",
+      "translation_pl": "obraz",
+      "definition_en": "A painting is a picture made with paint.",
+      "example_en": "There is a beautiful painting in the hallway.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mat",
+      "pos": "noun",
+      "translation_pl": "wycieraczka",
+      "definition_en": "A mat is a small piece of material on the floor.",
+      "example_en": "She wiped her shoes on the mat.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wallpaper",
+      "pos": "noun",
+      "translation_pl": "tapeta",
+      "definition_en": "Wallpaper is paper that covers and decorates walls.",
+      "example_en": "They chose blue wallpaper for the bedroom.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chandelier",
+      "pos": "noun",
+      "translation_pl": "żyrandol",
+      "definition_en": "A chandelier is a large light that hangs from the ceiling.",
+      "example_en": "The chandelier makes the dining room bright and beautiful.",
+      "level": "B1"
+    },
+    {
+      "lemma": "picture rail",
+      "pos": "noun",
+      "translation_pl": "listwa do obrazów",
+      "definition_en": "A picture rail is a strip on a wall for hanging pictures.",
+      "example_en": "They hung the painting from the picture rail.",
+      "level": "B1"
+    },
+    {
+      "lemma": "throw",
+      "pos": "noun",
+      "translation_pl": "narzuta",
+      "definition_en": "A throw is a small blanket for a sofa or chair.",
+      "example_en": "She put a colorful throw on the sofa.",
+      "level": "B1"
+    }
+  ]
+}

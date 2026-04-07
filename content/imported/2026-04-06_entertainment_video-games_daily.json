@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "video-games",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:43:32.417Z"
+  },
+  "items": [
+    {
+      "lemma": "avatar",
+      "pos": "noun",
+      "translation_pl": "postać w grze",
+      "definition_en": "An avatar is the character you play as in a video game.",
+      "example_en": "I changed my avatar to look like a superhero.",
+      "level": "A2"
+    },
+    {
+      "lemma": "controller",
+      "pos": "noun",
+      "translation_pl": "kontroler do gry",
+      "definition_en": "A controller is the device you use to play video games.",
+      "example_en": "My controller stopped working during the game.",
+      "level": "A2"
+    },
+    {
+      "lemma": "console",
+      "pos": "noun",
+      "translation_pl": "konsola do gier",
+      "definition_en": "A console is a machine for playing video games.",
+      "example_en": "We got a new console for Christmas.",
+      "level": "A1"
+    },
+    {
+      "lemma": "level",
+      "pos": "noun",
+      "translation_pl": "poziom gry",
+      "definition_en": "A level is a section or part of a video game.",
+      "example_en": "I finally finished the last level last night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mission",
+      "pos": "noun",
+      "translation_pl": "misja w grze",
+      "definition_en": "A mission is a task you must complete in a game.",
+      "example_en": "I completed the secret mission yesterday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "quest",
+      "pos": "noun",
+      "translation_pl": "zadanie w grze",
+      "definition_en": "A quest is an adventure or task given to the player.",
+      "example_en": "I went on a long quest to find the treasure.",
+      "level": "B1"
+    },
+    {
+      "lemma": "boss",
+      "pos": "noun",
+      "translation_pl": "boss w grze",
+      "definition_en": "A boss is a strong enemy you must defeat in a game.",
+      "example_en": "The final boss was very hard to beat.",
+      "level": "A2"
+    },
+    {
+      "lemma": "score",
+      "pos": "noun",
+      "translation_pl": "wynik w grze",
+      "definition_en": "A score is the number of points you get in a game.",
+      "example_en": "My high score is over 10,000 points.",
+      "level": "A1"
+    },
+    {
+      "lemma": "team",
+      "pos": "noun",
+      "translation_pl": "drużyna",
+      "definition_en": "A team is a group that plays together.",
+      "example_en": "Our team won the match in the game.",
+      "level": "A1"
+    },
+    {
+      "lemma": "match",
+      "pos": "noun",
+      "translation_pl": "mecz",
+      "definition_en": "A match is a game played between two or more people or teams.",
+      "example_en": "We joined a match with friends online.",
+      "level": "A2"
+    },
+    {
+      "lemma": "enemy",
+      "pos": "noun",
+      "translation_pl": "wróg",
+      "definition_en": "An enemy is someone or something you fight against in a game.",
+      "example_en": "An enemy appeared on the screen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "quest item",
+      "pos": "noun",
+      "translation_pl": "przedmiot do zadania",
+      "definition_en": "A quest item is something you must find or collect during a quest.",
+      "example_en": "I need this quest item to finish the mission.",
+      "level": "B1"
+    },
+    {
+      "lemma": "leaderboard",
+      "pos": "noun",
+      "translation_pl": "tablica wyników",
+      "definition_en": "A leaderboard is a list showing the best players in a game.",
+      "example_en": "I reached the top of the leaderboard.",
+      "level": "B1"
+    },
+    {
+      "lemma": "multiplayer",
+      "pos": "noun",
+      "translation_pl": "tryb dla wielu osób",
+      "definition_en": "Multiplayer is a mode where many people play together.",
+      "example_en": "We played in multiplayer and had fun as a group.",
+      "level": "B1"
+    },
+    {
+      "lemma": "power-up",
+      "pos": "noun",
+      "translation_pl": "dopalacz",
+      "definition_en": "A power-up gives you special abilities or extra points in a game.",
+      "example_en": "I found a power-up that made me faster.",
+      "level": "A2"
+    },
+    {
+      "lemma": "save",
+      "pos": "noun",
+      "translation_pl": "zapis gry",
+      "definition_en": "A save is a record of your progress in a game.",
+      "example_en": "I loaded my last save after losing the match.",
+      "level": "A2"
+    },
+    {
+      "lemma": "life",
+      "pos": "noun",
+      "translation_pl": "życie w grze",
+      "definition_en": "A life is a chance to keep playing after losing in a game.",
+      "example_en": "You get an extra life after 1000 points.",
+      "level": "A1"
+    },
+    {
+      "lemma": "skin",
+      "pos": "noun",
+      "translation_pl": "skórka do postaci",
+      "definition_en": "A skin is a new look for your character in a video game.",
+      "example_en": "I won a special skin for my character.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coin",
+      "pos": "noun",
+      "translation_pl": "moneta w grze",
+      "definition_en": "A coin is a small item you collect in games for points or rewards.",
+      "example_en": "I picked up many coins during the level.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pause",
+      "pos": "noun",
+      "translation_pl": "pauza",
+      "definition_en": "A pause is a break that stops the game for a moment.",
+      "example_en": "Let's take a pause before the next game round.",
+      "level": "A1"
+    }
+  ]
+}

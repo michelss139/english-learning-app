@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "nationalities",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:34:40.127Z"
+  },
+  "items": [
+    {
+      "lemma": "American",
+      "pos": "noun",
+      "translation_pl": "Amerykanin",
+      "definition_en": "An American is a person from the United States.",
+      "example_en": "My neighbor is an American from New York.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Brazilian",
+      "pos": "noun",
+      "translation_pl": "Brazylijczyk",
+      "definition_en": "A Brazilian is a person from Brazil.",
+      "example_en": "The Brazilian won the race.",
+      "level": "A1"
+    },
+    {
+      "lemma": "British",
+      "pos": "noun",
+      "translation_pl": "Brytyjczyk",
+      "definition_en": "A British is a person from the United Kingdom.",
+      "example_en": "The British likes to drink tea.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Chinese",
+      "pos": "noun",
+      "translation_pl": "Chińczyk",
+      "definition_en": "A Chinese is a person from China.",
+      "example_en": "He met a Chinese in his class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Egyptian",
+      "pos": "noun",
+      "translation_pl": "Egipcjanin",
+      "definition_en": "An Egyptian is a person from Egypt.",
+      "example_en": "The Egyptian showed us the pyramids.",
+      "level": "A1"
+    },
+    {
+      "lemma": "French",
+      "pos": "noun",
+      "translation_pl": "Francuz",
+      "definition_en": "A French is a person from France.",
+      "example_en": "The French visited our city last year.",
+      "level": "A1"
+    },
+    {
+      "lemma": "German",
+      "pos": "noun",
+      "translation_pl": "Niemiec",
+      "definition_en": "A German is a person from Germany.",
+      "example_en": "The German learned English quickly.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Greek",
+      "pos": "noun",
+      "translation_pl": "Grek",
+      "definition_en": "A Greek is a person from Greece.",
+      "example_en": "A Greek helped me find my hotel.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Hungarian",
+      "pos": "noun",
+      "translation_pl": "Węgier",
+      "definition_en": "A Hungarian is a person from Hungary.",
+      "example_en": "My friend is a Hungarian from Budapest.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Indian",
+      "pos": "noun",
+      "translation_pl": "Hindus",
+      "definition_en": "An Indian is a person from India.",
+      "example_en": "She spoke with an Indian at the airport.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Irish",
+      "pos": "noun",
+      "translation_pl": "Irlandczyk",
+      "definition_en": "An Irish is a person from Ireland.",
+      "example_en": "The Irish told us many stories.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Italian",
+      "pos": "noun",
+      "translation_pl": "Włoch",
+      "definition_en": "An Italian is a person from Italy.",
+      "example_en": "The Italian made delicious pizza.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Japanese",
+      "pos": "noun",
+      "translation_pl": "Japończyk",
+      "definition_en": "A Japanese is a person from Japan.",
+      "example_en": "A Japanese joined our team.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Mexican",
+      "pos": "noun",
+      "translation_pl": "Meksykanin",
+      "definition_en": "A Mexican is a person from Mexico.",
+      "example_en": "We talked to a Mexican in the park.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Polish",
+      "pos": "noun",
+      "translation_pl": "Polak",
+      "definition_en": "A Polish is a person from Poland.",
+      "example_en": "The Polish loves pierogi.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Russian",
+      "pos": "noun",
+      "translation_pl": "Rosjanin",
+      "definition_en": "A Russian is a person from Russia.",
+      "example_en": "A Russian showed us Moscow.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Spanish",
+      "pos": "noun",
+      "translation_pl": "Hiszpan",
+      "definition_en": "A Spanish is a person from Spain.",
+      "example_en": "The Spanish danced very well.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Swedish",
+      "pos": "noun",
+      "translation_pl": "Szwed",
+      "definition_en": "A Swedish is a person from Sweden.",
+      "example_en": "A Swedish visited our class today.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Turkish",
+      "pos": "noun",
+      "translation_pl": "Turek",
+      "definition_en": "A Turkish is a person from Turkey.",
+      "example_en": "The Turkish invited us to dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Ukrainian",
+      "pos": "noun",
+      "translation_pl": "Ukrainiec",
+      "definition_en": "A Ukrainian is a person from Ukraine.",
+      "example_en": "We met a Ukrainian at the museum.",
+      "level": "A1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "sportswear",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:46:01.195Z"
+  },
+  "items": [
+    {
+      "lemma": "tracksuit",
+      "pos": "noun",
+      "translation_pl": "dres sportowy",
+      "definition_en": "A tracksuit is a set of matching jacket and pants worn for sports.",
+      "example_en": "He put on his tracksuit before heading out for a run.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sports bra",
+      "pos": "noun",
+      "translation_pl": "biustonosz sportowy",
+      "definition_en": "A sports bra is a supportive bra worn during exercise.",
+      "example_en": "She wears a sports bra when she goes jogging.",
+      "level": "A2"
+    },
+    {
+      "lemma": "football shirt",
+      "pos": "noun",
+      "translation_pl": "koszulka piłkarska",
+      "definition_en": "A football shirt is a team top worn by football players.",
+      "example_en": "He bought a new football shirt for his favorite team.",
+      "level": "A2"
+    },
+    {
+      "lemma": "joggers",
+      "pos": "noun",
+      "translation_pl": "spodnie dresowe",
+      "definition_en": "Joggers are comfortable pants for exercise or casual wear.",
+      "example_en": "She wore joggers to the gym.",
+      "level": "A2"
+    },
+    {
+      "lemma": "yoga pants",
+      "pos": "noun",
+      "translation_pl": "legginsy do jogi",
+      "definition_en": "Yoga pants are soft, stretchy pants for yoga or exercise.",
+      "example_en": "Yoga pants are comfortable for stretching exercises.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gym shorts",
+      "pos": "noun",
+      "translation_pl": "szorty sportowe",
+      "definition_en": "Gym shorts are light shorts worn for sports or exercise.",
+      "example_en": "He wore gym shorts during his workout.",
+      "level": "A1"
+    },
+    {
+      "lemma": "swimsuit",
+      "pos": "noun",
+      "translation_pl": "kostium kąpielowy",
+      "definition_en": "A swimsuit is clothing worn while swimming.",
+      "example_en": "She packed her swimsuit for the pool.",
+      "level": "A1"
+    },
+    {
+      "lemma": "swimming trunks",
+      "pos": "noun",
+      "translation_pl": "kąpielówki",
+      "definition_en": "Swimming trunks are shorts men wear for swimming.",
+      "example_en": "He bought new swimming trunks for the beach.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sports cap",
+      "pos": "noun",
+      "translation_pl": "czapka sportowa",
+      "definition_en": "A sports cap is a soft hat worn during sports.",
+      "example_en": "He always wears a sports cap when running.",
+      "level": "A2"
+    },
+    {
+      "lemma": "baseball cap",
+      "pos": "noun",
+      "translation_pl": "czapka z daszkiem",
+      "definition_en": "A baseball cap is a soft cap with a rounded crown and a stiff bill.",
+      "example_en": "She put on her baseball cap to keep the sun away.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tennis skirt",
+      "pos": "noun",
+      "translation_pl": "spódniczka tenisowa",
+      "definition_en": "A tennis skirt is a light skirt worn for tennis.",
+      "example_en": "Her tennis skirt is white and comfortable.",
+      "level": "B1"
+    },
+    {
+      "lemma": "polo shirt",
+      "pos": "noun",
+      "translation_pl": "koszulka polo",
+      "definition_en": "A polo shirt is a short-sleeved shirt with a collar.",
+      "example_en": "He wore a blue polo shirt for the match.",
+      "level": "A2"
+    },
+    {
+      "lemma": "running top",
+      "pos": "noun",
+      "translation_pl": "koszulka do biegania",
+      "definition_en": "A running top is a light shirt worn when running.",
+      "example_en": "My running top dries quickly after sweating.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cycling jersey",
+      "pos": "noun",
+      "translation_pl": "koszulka rowerowa",
+      "definition_en": "A cycling jersey is a tight shirt worn for cycling.",
+      "example_en": "He bought a new cycling jersey for his rides.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sports socks",
+      "pos": "noun",
+      "translation_pl": "skarpetki sportowe",
+      "definition_en": "Sports socks are special socks worn during exercise.",
+      "example_en": "Sports socks help keep my feet dry.",
+      "level": "A2"
+    },
+    {
+      "lemma": "headband",
+      "pos": "noun",
+      "translation_pl": "opaska na głowę",
+      "definition_en": "A headband is a band worn around the head to keep hair back.",
+      "example_en": "She wears a headband when she plays tennis.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sweatband",
+      "pos": "noun",
+      "translation_pl": "opaska na nadgarstek",
+      "definition_en": "A sweatband is a band worn to absorb sweat.",
+      "example_en": "He had a sweatband on his wrist during the game.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sports vest",
+      "pos": "noun",
+      "translation_pl": "bezrękawnik sportowy",
+      "definition_en": "A sports vest is a sleeveless top for exercise or competition.",
+      "example_en": "He wore a sports vest during the marathon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hoodie",
+      "pos": "noun",
+      "translation_pl": "bluza z kapturem",
+      "definition_en": "A hoodie is a casual jacket or sweatshirt with a hood.",
+      "example_en": "She put on her hoodie before going outside.",
+      "level": "A2"
+    },
+    {
+      "lemma": "leggings",
+      "pos": "noun",
+      "translation_pl": "legginsy",
+      "definition_en": "Leggings are tight pants usually worn for sports or exercise.",
+      "example_en": "Her leggings are bright and comfortable.",
+      "level": "A2"
+    }
+  ]
+}

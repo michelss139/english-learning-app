@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "currencies",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:27:24.874Z"
+  },
+  "items": [
+    {
+      "lemma": "dollar",
+      "pos": "noun",
+      "translation_pl": "dolar",
+      "definition_en": "A dollar is the basic unit of money in the United States and some other countries.",
+      "example_en": "He paid ten dollars for the book.",
+      "level": "A1"
+    },
+    {
+      "lemma": "euro",
+      "pos": "noun",
+      "translation_pl": "euro",
+      "definition_en": "A euro is the official currency used in many European countries.",
+      "example_en": "Many shops in Spain accept only euros.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pound",
+      "pos": "noun",
+      "translation_pl": "funt",
+      "definition_en": "A pound is the basic unit of money in the United Kingdom.",
+      "example_en": "This shirt costs twenty pounds.",
+      "level": "A1"
+    },
+    {
+      "lemma": "yen",
+      "pos": "noun",
+      "translation_pl": "jen",
+      "definition_en": "A yen is the money used in Japan.",
+      "example_en": "I exchanged my dollars for yen at the airport.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rupee",
+      "pos": "noun",
+      "translation_pl": "rupia",
+      "definition_en": "A rupee is the currency used in India and some other countries.",
+      "example_en": "He gave me fifty rupees for lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "franc",
+      "pos": "noun",
+      "translation_pl": "frank",
+      "definition_en": "A franc is a unit of money used in Switzerland and some other places.",
+      "example_en": "She paid three francs for the coffee.",
+      "level": "A2"
+    },
+    {
+      "lemma": "peso",
+      "pos": "noun",
+      "translation_pl": "peso",
+      "definition_en": "A peso is the currency in countries like Mexico and Argentina.",
+      "example_en": "The price is twenty pesos.",
+      "level": "A2"
+    },
+    {
+      "lemma": "won",
+      "pos": "noun",
+      "translation_pl": "won",
+      "definition_en": "A won is the basic unit of money in South Korea.",
+      "example_en": "He spent ten thousand won on dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lira",
+      "pos": "noun",
+      "translation_pl": "lira",
+      "definition_en": "A lira is the currency once used in Italy and now in Turkey.",
+      "example_en": "I need twenty lira for the bus ticket.",
+      "level": "B1"
+    },
+    {
+      "lemma": "yuan",
+      "pos": "noun",
+      "translation_pl": "juan",
+      "definition_en": "A yuan is the main unit of money in China.",
+      "example_en": "This T-shirt costs one hundred yuan.",
+      "level": "A2"
+    },
+    {
+      "lemma": "krone",
+      "pos": "noun",
+      "translation_pl": "korona",
+      "definition_en": "A krone is the money used in Norway and Denmark.",
+      "example_en": "The bus ticket costs ten kroner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ringgit",
+      "pos": "noun",
+      "translation_pl": "ringgit",
+      "definition_en": "A ringgit is the currency used in Malaysia.",
+      "example_en": "He bought juice for two ringgit.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shekel",
+      "pos": "noun",
+      "translation_pl": "szekel",
+      "definition_en": "A shekel is the money used in Israel.",
+      "example_en": "The apple costs three shekels.",
+      "level": "B1"
+    },
+    {
+      "lemma": "real",
+      "pos": "noun",
+      "translation_pl": "real",
+      "definition_en": "A real is the official currency in Brazil.",
+      "example_en": "He exchanged dollars for reals at the bank.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dirham",
+      "pos": "noun",
+      "translation_pl": "dirham",
+      "definition_en": "A dirham is the currency in Morocco and the UAE.",
+      "example_en": "She spent fifty dirhams on gifts.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dinar",
+      "pos": "noun",
+      "translation_pl": "dinar",
+      "definition_en": "A dinar is the main money in Jordan and some other countries.",
+      "example_en": "One lunch costs two dinars.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lev",
+      "pos": "noun",
+      "translation_pl": "lew",
+      "definition_en": "A lev is the basic money unit in Bulgaria.",
+      "example_en": "One coffee costs two leva.",
+      "level": "B1"
+    },
+    {
+      "lemma": "krona",
+      "pos": "noun",
+      "translation_pl": "korona",
+      "definition_en": "A krona is the money used in Sweden and Iceland.",
+      "example_en": "He paid fifty krona for the meal.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ruble",
+      "pos": "noun",
+      "translation_pl": "rubel",
+      "definition_en": "A ruble is the currency used in Russia.",
+      "example_en": "A train ticket costs one hundred rubles.",
+      "level": "A2"
+    },
+    {
+      "lemma": "zloty",
+      "pos": "noun",
+      "translation_pl": "zloty",
+      "definition_en": "A zloty is the main currency in Poland.",
+      "example_en": "The ticket costs five zloty.",
+      "level": "A2"
+    }
+  ]
+}

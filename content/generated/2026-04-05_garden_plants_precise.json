@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "plants",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:37:50.534Z"
+  },
+  "items": [
+    {
+      "lemma": "perennial",
+      "pos": "noun",
+      "translation_pl": "roślina wieloletnia",
+      "definition_en": "A perennial is a plant that lives for more than two years.",
+      "example_en": "The perennial in my garden blooms every spring.",
+      "level": "B2"
+    },
+    {
+      "lemma": "herbaceous border",
+      "pos": "noun",
+      "translation_pl": "rabata bylinowa",
+      "definition_en": "A herbaceous border is a garden area planted with flowering plants.",
+      "example_en": "She added a herbaceous border to make her garden more colorful.",
+      "level": "B2"
+    },
+    {
+      "lemma": "foliage",
+      "pos": "noun",
+      "translation_pl": "liście",
+      "definition_en": "Foliage is the collective leaves of plants.",
+      "example_en": "The foliage in the garden turns yellow in autumn.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ground cover",
+      "pos": "noun",
+      "translation_pl": "rośliny okrywowe",
+      "definition_en": "Ground cover is a low plant that grows across the soil surface.",
+      "example_en": "We chose ground cover to fill empty spaces under the trees.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shrub",
+      "pos": "noun",
+      "translation_pl": "krzew",
+      "definition_en": "A shrub is a small to medium-sized woody plant.",
+      "example_en": "A shrub provides privacy along the garden fence.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cultivar",
+      "pos": "noun",
+      "translation_pl": "odmiana uprawna",
+      "definition_en": "A cultivar is a plant variety produced by selective breeding.",
+      "example_en": "They planted a new cultivar of rose in the front yard.",
+      "level": "C1"
+    },
+    {
+      "lemma": "sapling",
+      "pos": "noun",
+      "translation_pl": "sadzonka drzewa",
+      "definition_en": "A sapling is a young tree.",
+      "example_en": "Each spring they plant a sapling in the backyard.",
+      "level": "B2"
+    },
+    {
+      "lemma": "specimen plant",
+      "pos": "noun",
+      "translation_pl": "okaz rośliny",
+      "definition_en": "A specimen plant is a plant grown for display as a focal point.",
+      "example_en": "The old oak makes a stunning specimen plant in the garden.",
+      "level": "C1"
+    },
+    {
+      "lemma": "deciduous tree",
+      "pos": "noun",
+      "translation_pl": "drzewo liściaste",
+      "definition_en": "A deciduous tree is a tree that loses its leaves each autumn.",
+      "example_en": "A deciduous tree shades the patio in summer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "evergreen",
+      "pos": "noun",
+      "translation_pl": "roślina zimozielona",
+      "definition_en": "An evergreen is a plant that keeps its leaves all year round.",
+      "example_en": "The evergreen adds color during the winter months.",
+      "level": "B2"
+    },
+    {
+      "lemma": "climber",
+      "pos": "noun",
+      "translation_pl": "pnącze",
+      "definition_en": "A climber is a plant that grows upward by attaching itself to surfaces.",
+      "example_en": "A climber covered the trellis with bright flowers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "annual",
+      "pos": "noun",
+      "translation_pl": "roślina jednoroczna",
+      "definition_en": "An annual is a plant that completes its life cycle in one year.",
+      "example_en": "They planted annuals for a burst of summer color.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cutting",
+      "pos": "noun",
+      "translation_pl": "sadzonka",
+      "definition_en": "A cutting is a piece of a plant used to grow a new plant.",
+      "example_en": "My neighbor shared a cutting from her rose bush.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rootstock",
+      "pos": "noun",
+      "translation_pl": "podkładka",
+      "definition_en": "A rootstock is the root part of a plant onto which another plant is grafted.",
+      "example_en": "The gardener used a strong rootstock for the grafting process.",
+      "level": "C1"
+    },
+    {
+      "lemma": "seedling",
+      "pos": "noun",
+      "translation_pl": "siewka",
+      "definition_en": "A seedling is a young plant grown from a seed.",
+      "example_en": "Each seedling was carefully transplanted into the garden bed.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bulb",
+      "pos": "noun",
+      "translation_pl": "cebula",
+      "definition_en": "A bulb is an underground storage organ of some plants.",
+      "example_en": "She planted tulip bulbs in the autumn.",
+      "level": "B2"
+    },
+    {
+      "lemma": "variegation",
+      "pos": "noun",
+      "translation_pl": "ubarwienie liści",
+      "definition_en": "Variegation is the appearance of differently colored zones in leaves or stems.",
+      "example_en": "The variegation on this hosta makes it stand out.",
+      "level": "C1"
+    },
+    {
+      "lemma": "undershrub",
+      "pos": "noun",
+      "translation_pl": "półkrzew",
+      "definition_en": "An undershrub is a low-growing shrub.",
+      "example_en": "Lavender is often grown as an attractive undershrub.",
+      "level": "C1"
+    },
+    {
+      "lemma": "ornamental grass",
+      "pos": "noun",
+      "translation_pl": "trawa ozdobna",
+      "definition_en": "An ornamental grass is a decorative grass used in gardens.",
+      "example_en": "Ornamental grass adds texture to the flower beds.",
+      "level": "B2"
+    },
+    {
+      "lemma": "standard rose",
+      "pos": "noun",
+      "translation_pl": "róża pienna",
+      "definition_en": "A standard rose is a rose bush trained to grow on a single tall stem.",
+      "example_en": "They planted a standard rose as a centerpiece in the yard.",
+      "level": "C1"
+    }
+  ]
+}

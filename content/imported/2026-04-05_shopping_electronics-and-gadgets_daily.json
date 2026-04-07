@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "electronics-and-gadgets",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:00:31.832Z"
+  },
+  "items": [
+    {
+      "lemma": "mobile phone",
+      "pos": "noun",
+      "translation_pl": "telefon komórkowy",
+      "definition_en": "A small device used to make calls and send messages.",
+      "example_en": "She always carries her mobile phone in her pocket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "laptop",
+      "pos": "noun",
+      "translation_pl": "laptop",
+      "definition_en": "A portable computer you can use on your lap or table.",
+      "example_en": "He takes his laptop to work every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tablet",
+      "pos": "noun",
+      "translation_pl": "tablet",
+      "definition_en": "A flat, touch-screen computer without a keyboard.",
+      "example_en": "The children love watching videos on the tablet.",
+      "level": "A1"
+    },
+    {
+      "lemma": "headphones",
+      "pos": "noun",
+      "translation_pl": "słuchawki nauszne",
+      "definition_en": "A pair of devices worn over the ears to listen to sound.",
+      "example_en": "He listens to music using his headphones.",
+      "level": "A1"
+    },
+    {
+      "lemma": "camera",
+      "pos": "noun",
+      "translation_pl": "aparat fotograficzny",
+      "definition_en": "A device used for taking photos or making videos.",
+      "example_en": "She took many pictures with her new camera.",
+      "level": "A1"
+    },
+    {
+      "lemma": "charger",
+      "pos": "noun",
+      "translation_pl": "ładowarka",
+      "definition_en": "A device used to supply power to your electronics.",
+      "example_en": "Don't forget to pack your phone charger.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mouse",
+      "pos": "noun",
+      "translation_pl": "myszka komputerowa",
+      "definition_en": "A small device used to control a computer screen.",
+      "example_en": "He bought a new mouse for his computer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "keyboard",
+      "pos": "noun",
+      "translation_pl": "klawiatura",
+      "definition_en": "A set of keys used for typing on a computer.",
+      "example_en": "The keyboard on her laptop is very quiet.",
+      "level": "A1"
+    },
+    {
+      "lemma": "printer",
+      "pos": "noun",
+      "translation_pl": "drukarka",
+      "definition_en": "A machine that puts text or pictures onto paper.",
+      "example_en": "We need more paper for the printer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "television",
+      "pos": "noun",
+      "translation_pl": "telewizor",
+      "definition_en": "A device for watching shows and movies at home.",
+      "example_en": "They watched football on the big television.",
+      "level": "A1"
+    },
+    {
+      "lemma": "remote control",
+      "pos": "noun",
+      "translation_pl": "pilot do telewizora",
+      "definition_en": "A handheld tool to control electronic devices from a distance.",
+      "example_en": "He lost the remote control for the TV.",
+      "level": "A2"
+    },
+    {
+      "lemma": "speaker",
+      "pos": "noun",
+      "translation_pl": "głośnik",
+      "definition_en": "A device that plays sound loudly.",
+      "example_en": "The speaker in the living room is very loud.",
+      "level": "A1"
+    },
+    {
+      "lemma": "earphones",
+      "pos": "noun",
+      "translation_pl": "słuchawki douszne",
+      "definition_en": "Small devices you put in your ears to hear sound.",
+      "example_en": "He puts his earphones in to listen to music.",
+      "level": "A1"
+    },
+    {
+      "lemma": "smartwatch",
+      "pos": "noun",
+      "translation_pl": "smartwatch",
+      "definition_en": "A watch with computer functions and a screen.",
+      "example_en": "Her smartwatch can track her steps and calls.",
+      "level": "A2"
+    },
+    {
+      "lemma": "game console",
+      "pos": "noun",
+      "translation_pl": "konsola do gier",
+      "definition_en": "A machine used for playing video games on a screen.",
+      "example_en": "They play video games on their new game console.",
+      "level": "A2"
+    },
+    {
+      "lemma": "microphone",
+      "pos": "noun",
+      "translation_pl": "mikrofon",
+      "definition_en": "A device used to record or transmit sound.",
+      "example_en": "She uses a microphone to sing in the studio.",
+      "level": "A2"
+    },
+    {
+      "lemma": "monitor",
+      "pos": "noun",
+      "translation_pl": "monitor",
+      "definition_en": "A screen used to display computer images and videos.",
+      "example_en": "The monitor on her desk is very large.",
+      "level": "A2"
+    },
+    {
+      "lemma": "power bank",
+      "pos": "noun",
+      "translation_pl": "powerbank przenośna ładowarka",
+      "definition_en": "A portable battery used to charge devices.",
+      "example_en": "He keeps a power bank in his backpack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "router",
+      "pos": "noun",
+      "translation_pl": "router",
+      "definition_en": "A device that gives wireless internet to your home.",
+      "example_en": "The router helps everyone connect to Wi-Fi.",
+      "level": "B1"
+    },
+    {
+      "lemma": "USB stick",
+      "pos": "noun",
+      "translation_pl": "pendrive",
+      "definition_en": "A small device for saving and moving files.",
+      "example_en": "She saves her homework on a USB stick.",
+      "level": "A2"
+    }
+  ]
+}

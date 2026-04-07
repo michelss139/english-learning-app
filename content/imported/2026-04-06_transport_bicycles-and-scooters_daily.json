@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "bicycles-and-scooters",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:38:41.658Z"
+  },
+  "items": [
+    {
+      "lemma": "bicycle",
+      "pos": "noun",
+      "translation_pl": "rower",
+      "definition_en": "A bicycle is a vehicle with two wheels that you ride by pedaling.",
+      "example_en": "He rides his bicycle to school every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bike",
+      "pos": "noun",
+      "translation_pl": "rower",
+      "definition_en": "A bike is a two-wheeled vehicle you use with pedals.",
+      "example_en": "I got a new bike for my birthday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mountain bike",
+      "pos": "noun",
+      "translation_pl": "rower górski",
+      "definition_en": "A mountain bike is a strong bicycle made for rough paths.",
+      "example_en": "She rides her mountain bike in the forest.",
+      "level": "A2"
+    },
+    {
+      "lemma": "road bike",
+      "pos": "noun",
+      "translation_pl": "rower szosowy",
+      "definition_en": "A road bike is a bicycle made for riding on streets.",
+      "example_en": "He enjoys long trips on his road bike.",
+      "level": "A2"
+    },
+    {
+      "lemma": "folding bike",
+      "pos": "noun",
+      "translation_pl": "rower składany",
+      "definition_en": "A folding bike is a bicycle that you can fold for easy carrying.",
+      "example_en": "My folding bike fits easily in my car.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bike rack",
+      "pos": "noun",
+      "translation_pl": "stojak na rowery",
+      "definition_en": "A bike rack is a place where you can park and lock your bike.",
+      "example_en": "He chained his bike to the bike rack.",
+      "level": "A2"
+    },
+    {
+      "lemma": "handlebar",
+      "pos": "noun",
+      "translation_pl": "kierownica",
+      "definition_en": "A handlebar is the part you hold to steer a bike or scooter.",
+      "example_en": "She gripped the handlebar tightly.",
+      "level": "A2"
+    },
+    {
+      "lemma": "saddle",
+      "pos": "noun",
+      "translation_pl": "siodełko rowerowe",
+      "definition_en": "A saddle is the seat on a bicycle.",
+      "example_en": "He adjusted his saddle before riding.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pedal",
+      "pos": "noun",
+      "translation_pl": "pedał",
+      "definition_en": "A pedal is the part you push with your feet to make a bike move.",
+      "example_en": "Her foot slipped off the pedal.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bell",
+      "pos": "noun",
+      "translation_pl": "dzwonek rowerowy",
+      "definition_en": "A bell is a small device on a bike that makes a sound.",
+      "example_en": "He rang the bell to warn the walkers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "helmet",
+      "pos": "noun",
+      "translation_pl": "kask rowerowy",
+      "definition_en": "A helmet is a hard hat you wear for safety while cycling.",
+      "example_en": "You should wear a helmet while riding.",
+      "level": "A1"
+    },
+    {
+      "lemma": "kickstand",
+      "pos": "noun",
+      "translation_pl": "nóżka rowerowa",
+      "definition_en": "A kickstand is a small stand for holding a bicycle upright.",
+      "example_en": "He used the kickstand to park his bike.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tire",
+      "pos": "noun",
+      "translation_pl": "opona",
+      "definition_en": "A tire is the rubber part around a bike wheel.",
+      "example_en": "The front tire was flat.",
+      "level": "A2"
+    },
+    {
+      "lemma": "basket",
+      "pos": "noun",
+      "translation_pl": "kosz rowerowy",
+      "definition_en": "A basket is a container on the front or back of a bike.",
+      "example_en": "She put her bag in the basket.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chain",
+      "pos": "noun",
+      "translation_pl": "łańcuch rowerowy",
+      "definition_en": "A chain is the metal part that connects bike pedals to the wheel.",
+      "example_en": "The chain needs oil.",
+      "level": "B1"
+    },
+    {
+      "lemma": "brake",
+      "pos": "noun",
+      "translation_pl": "hamulec",
+      "definition_en": "A brake is the part of a bike or scooter that makes it stop.",
+      "example_en": "The brake was very strong.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gear",
+      "pos": "noun",
+      "translation_pl": "przerzutka",
+      "definition_en": "A gear is a part that lets you change how hard or easy to pedal.",
+      "example_en": "He shifted to a lower gear.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electric scooter",
+      "pos": "noun",
+      "translation_pl": "hulajnoga elektryczna",
+      "definition_en": "An electric scooter is a small vehicle you stand on that moves with a motor.",
+      "example_en": "She rented an electric scooter in the city.",
+      "level": "A2"
+    },
+    {
+      "lemma": "kick scooter",
+      "pos": "noun",
+      "translation_pl": "hulajnoga",
+      "definition_en": "A kick scooter is a small vehicle you push with your foot.",
+      "example_en": "Children ride their kick scooters in the park.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bicycle lane",
+      "pos": "noun",
+      "translation_pl": "ścieżka rowerowa",
+      "definition_en": "A bicycle lane is a special part of the road for bikes.",
+      "example_en": "She stayed in the bicycle lane while riding.",
+      "level": "A2"
+    }
+  ]
+}

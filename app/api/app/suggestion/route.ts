@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { appendSuggestionContext } from "@/lib/suggestions/suggestionContext";
 
 type Suggestion = {
   title: string;
@@ -78,7 +79,9 @@ export async function GET(req: Request) {
           suggestion = {
             title: `Fiszki: ${shopPack.data.title}`,
             description: "10 pytań • kierunek PL → EN",
-            href: `/app/vocab/pack/${shopPack.data.slug}?limit=10&direction=pl-en&autostart=1`,
+            href: appendSuggestionContext(
+              `/app/vocab/pack/${shopPack.data.slug}?limit=10&direction=pl-en&autostart=1`,
+            ),
           };
         } else {
           const topPackId = Array.from(packCounts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0];
@@ -93,7 +96,9 @@ export async function GET(req: Request) {
               suggestion = {
                 title: `Fiszki: ${packRow.title}`,
                 description: "10 pytań • kierunek PL → EN",
-                href: `/app/vocab/pack/${packRow.slug}?limit=10&direction=pl-en&autostart=1`,
+                href: appendSuggestionContext(
+                  `/app/vocab/pack/${packRow.slug}?limit=10&direction=pl-en&autostart=1`,
+                ),
               };
             }
           }
@@ -112,7 +117,7 @@ export async function GET(req: Request) {
           suggestion = {
             title: `Typowe błędy: ${clusterRow?.title ?? topCluster}`,
             description: "10 pytań • wybór słowa w zdaniu",
-            href: `/app/vocab/cluster/${topCluster}?limit=10&autostart=1`,
+            href: appendSuggestionContext(`/app/vocab/cluster/${topCluster}?limit=10&autostart=1`),
           };
         }
       }
@@ -121,7 +126,7 @@ export async function GET(req: Request) {
         suggestion = {
           title: "Nieregularne czasowniki",
           description: "Minimum 5 czasowników w sesji",
-          href: "/app/irregular-verbs/train",
+          href: appendSuggestionContext("/app/irregular-verbs/train"),
         };
       }
     }
@@ -146,7 +151,9 @@ export async function GET(req: Request) {
           suggestion = {
             title: `Fiszki: ${packRow.title}`,
             description: "10 pytań • kierunek PL → EN",
-            href: `/app/vocab/pack/${packRow.slug}?limit=10&direction=pl-en&autostart=1`,
+            href: appendSuggestionContext(
+              `/app/vocab/pack/${packRow.slug}?limit=10&direction=pl-en&autostart=1`,
+            ),
           };
         }
       } else if (lastEvent?.context_type === "vocab_cluster" && lastEvent.context_id) {
@@ -159,7 +166,9 @@ export async function GET(req: Request) {
         suggestion = {
           title: `Typowe błędy: ${clusterRow?.title ?? lastEvent.context_id}`,
           description: "10 pytań • wybór słowa w zdaniu",
-          href: `/app/vocab/cluster/${lastEvent.context_id}?limit=10&autostart=1`,
+          href: appendSuggestionContext(
+            `/app/vocab/cluster/${lastEvent.context_id}?limit=10&autostart=1`,
+          ),
         };
       } else {
         const { data: lastIrregular } = await supabase
@@ -174,7 +183,7 @@ export async function GET(req: Request) {
           suggestion = {
             title: "Nieregularne czasowniki",
             description: "Minimum 5 czasowników w sesji",
-            href: "/app/irregular-verbs/train",
+            href: appendSuggestionContext("/app/irregular-verbs/train"),
           };
         }
       }
@@ -184,7 +193,9 @@ export async function GET(req: Request) {
           suggestion = {
             title: `Fiszki: ${shopPack.data.title}`,
             description: "10 pytań • kierunek PL → EN",
-            href: `/app/vocab/pack/${shopPack.data.slug}?limit=10&direction=pl-en&autostart=1`,
+            href: appendSuggestionContext(
+              `/app/vocab/pack/${shopPack.data.slug}?limit=10&direction=pl-en&autostart=1`,
+            ),
           };
         } else {
           const { data: firstPack } = await supabase
@@ -199,7 +210,9 @@ export async function GET(req: Request) {
             suggestion = {
               title: `Fiszki: ${firstPack.title}`,
               description: "10 pytań • kierunek PL → EN",
-              href: `/app/vocab/pack/${firstPack.slug}?limit=10&direction=pl-en&autostart=1`,
+              href: appendSuggestionContext(
+                `/app/vocab/pack/${firstPack.slug}?limit=10&direction=pl-en&autostart=1`,
+              ),
             };
           }
         }

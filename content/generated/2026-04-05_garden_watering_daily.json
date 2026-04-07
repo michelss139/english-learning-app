@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "watering",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:38:47.159Z"
+  },
+  "items": [
+    {
+      "lemma": "watering can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A watering can is a container used to pour water on plants.",
+      "example_en": "I filled the watering can to water the flowers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hose",
+      "pos": "noun",
+      "translation_pl": "wąż ogrodowy",
+      "definition_en": "A hose is a long tube that carries water to plants.",
+      "example_en": "He used the hose to water the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bucket",
+      "pos": "noun",
+      "translation_pl": "wiadro",
+      "definition_en": "A bucket is a round container for holding and carrying water.",
+      "example_en": "She filled a bucket with water for the plants.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sprinkler",
+      "pos": "noun",
+      "translation_pl": "zraszacz",
+      "definition_en": "A sprinkler is a device that spreads water over a garden.",
+      "example_en": "The sprinkler watered the lawn in the afternoon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tap",
+      "pos": "noun",
+      "translation_pl": "kran",
+      "definition_en": "A tap is a device that controls the flow of water.",
+      "example_en": "Turn off the tap when you finish watering.",
+      "level": "A1"
+    },
+    {
+      "lemma": "drip system",
+      "pos": "noun",
+      "translation_pl": "system kroplowy",
+      "definition_en": "A drip system gives water to plants slowly through small pipes.",
+      "example_en": "We use a drip system to water the vegetables.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rainwater tank",
+      "pos": "noun",
+      "translation_pl": "zbiornik na deszczówkę",
+      "definition_en": "A rainwater tank is a large container for collecting rain water.",
+      "example_en": "The rainwater tank supplies water for the garden.",
+      "level": "B1"
+    },
+    {
+      "lemma": "nozzle",
+      "pos": "noun",
+      "translation_pl": "dysza",
+      "definition_en": "A nozzle is an end part of a hose or can that directs water flow.",
+      "example_en": "He adjusted the nozzle to spray the plants gently.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spout",
+      "pos": "noun",
+      "translation_pl": "wylewka",
+      "definition_en": "A spout is a part from which water comes out of a watering can.",
+      "example_en": "Water came out of the spout smoothly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sprayer",
+      "pos": "noun",
+      "translation_pl": "opryskiwacz",
+      "definition_en": "A sprayer is a tool that spreads water in a fine mist.",
+      "example_en": "She used a sprayer for the small plants.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watering system",
+      "pos": "noun",
+      "translation_pl": "system nawadniający",
+      "definition_en": "A watering system is equipment set up to water plants easily.",
+      "example_en": "The garden has an automatic watering system.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pipe",
+      "pos": "noun",
+      "translation_pl": "rura",
+      "definition_en": "A pipe is a long tube that carries water to different places.",
+      "example_en": "Water moves through the pipe to the garden bed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pump",
+      "pos": "noun",
+      "translation_pl": "pompa",
+      "definition_en": "A pump is a machine that moves water from one place to another.",
+      "example_en": "The pump helped move water to the higher beds.",
+      "level": "B1"
+    },
+    {
+      "lemma": "water barrel",
+      "pos": "noun",
+      "translation_pl": "beczka na wodę",
+      "definition_en": "A water barrel is a large container for holding water.",
+      "example_en": "Rainwater filled the water barrel quickly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "moisture meter",
+      "pos": "noun",
+      "translation_pl": "miernik wilgotności",
+      "definition_en": "A moisture meter is a tool that checks how wet the soil is.",
+      "example_en": "I used a moisture meter to test the soil before watering.",
+      "level": "B1"
+    },
+    {
+      "lemma": "water tank",
+      "pos": "noun",
+      "translation_pl": "zbiornik na wodę",
+      "definition_en": "A water tank is a container where water is stored.",
+      "example_en": "They filled the water tank before watering the beds.",
+      "level": "B1"
+    },
+    {
+      "lemma": "watering timer",
+      "pos": "noun",
+      "translation_pl": "timer nawadniający",
+      "definition_en": "A watering timer is a device that controls when watering starts and stops.",
+      "example_en": "The watering timer made sure the plants got water every morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "watering wand",
+      "pos": "noun",
+      "translation_pl": "lanca do podlewania",
+      "definition_en": "A watering wand is a long tool for reaching and watering plants easily.",
+      "example_en": "He used a watering wand for the hanging baskets.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tap water",
+      "pos": "noun",
+      "translation_pl": "woda z kranu",
+      "definition_en": "Tap water is water that comes from a tap and is used for watering.",
+      "example_en": "She used tap water to water the tomatoes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watering duty",
+      "pos": "noun",
+      "translation_pl": "obowiązek podlewania",
+      "definition_en": "Watering duty means the job of making sure plants get water.",
+      "example_en": "I have watering duty on weekends.",
+      "level": "B1"
+    }
+  ]
+}

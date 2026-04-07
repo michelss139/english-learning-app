@@ -1,10 +1,17 @@
+import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import ClusterClient from "./ClusterClient";
 import { loadClusterPageData } from "@/lib/vocab/clusterLoader";
+import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ limit?: string; assignmentId?: string }>;
+  searchParams: Promise<{
+    limit?: string;
+    assignmentId?: string;
+    autostart?: string;
+    context?: string;
+  }>;
 };
 
 function clampLimit(raw: string | undefined): number {
@@ -16,8 +23,18 @@ function clampLimit(raw: string | undefined): number {
 export default async function VocabClusterPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const sp = await searchParams;
+  if (sp.autostart === "1") {
+    const q = new URLSearchParams();
+    if (sp.limit) q.set("limit", sp.limit);
+    if (sp.assignmentId) q.set("assignmentId", sp.assignmentId);
+    if (sp.context === TRAINING_CONTEXT_SUGGESTION) q.set("context", TRAINING_CONTEXT_SUGGESTION);
+    const qs = q.toString();
+    redirect(`/app/vocab/cluster/${slug}/practice${qs ? `?${qs}` : ""}`);
+  }
   const limit = clampLimit(sp.limit);
   const assignmentId = sp.assignmentId ?? "";
+  const trainingEntryContext: TrainingEntryContext | undefined =
+    sp.context === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
 
   const supabase = await createSupabaseServerClient();
   const {
@@ -61,6 +78,7 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
       slug={slug}
       limit={limit}
       assignmentId={assignmentId}
+      trainingEntryContext={trainingEntryContext}
       initialCluster={result.data.cluster}
       initialPatterns={result.data.patterns}
       initialQuestions={result.data.tasks}

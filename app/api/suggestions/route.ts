@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { appendSuggestionContext } from "@/lib/suggestions/suggestionContext";
 
 const MIN_ATTEMPTS = 3;
 const MIN_IRREGULAR_RUNS = 2;
@@ -76,19 +77,32 @@ function scorePriority(
 
 function buildHref(unitType: string, unitId: string, form?: string): string {
   switch (unitType) {
+    case "shortcut":
+      switch (unitId) {
+        case "shop":
+          return appendSuggestionContext("/app/vocab/pack/shop?limit=5&direction=pl-en&autostart=1");
+        case "clusters":
+          return appendSuggestionContext("/app/vocab/clusters");
+        default:
+          return appendSuggestionContext("/app/vocab");
+      }
     case "sense":
-      return "/app/vocab";
+      return appendSuggestionContext(
+        `/app/vocab/practice?senseIds=${encodeURIComponent(unitId)}&autostart=1`,
+      );
     case "cluster":
-      return `/app/vocab/cluster/${unitId}?autostart=1`;
+      return appendSuggestionContext(`/app/vocab/cluster/${unitId}?autostart=1`);
     case "grammar":
-      return `/app/grammar/${unitId}/practice`;
+      return appendSuggestionContext(`/app/grammar/${unitId}/practice`);
     case "irregular":
       if (form) {
-        return `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(`${unitId}:${form}`)}`;
+        return appendSuggestionContext(
+          `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(`${unitId}:${form}`)}`,
+        );
       }
-      return "/app/irregular-verbs/train?focus=auto";
+      return appendSuggestionContext("/app/irregular-verbs/train?focus=auto");
     default:
-      return "/app";
+      return appendSuggestionContext("/app");
   }
 }
 
@@ -106,7 +120,12 @@ function buildDisplayName(unitType: string, unitId: string, label?: string, form
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
   }
-  if (unitType === "sense") return "Powtórz słówka";
+  if (unitType === "sense") return "Słowa do powtórki";
+  if (unitType === "shortcut") {
+    if (unitId === "shop") return "Szybka sesja";
+    if (unitId === "clusters") return "Typowe błędy";
+    return "Trening";
+  }
   return unitId;
 }
 
@@ -128,6 +147,22 @@ export async function GET() {
 
     const userId = user.id;
     const scored: Scored[] = [];
+
+    const { data: poolRows, error: poolErr } = await supabase
+      .from("user_vocab_items")
+      .select("sense_id")
+      .eq("student_id", userId)
+      .not("sense_id", "is", null);
+
+    if (poolErr) {
+      return NextResponse.json({ error: poolErr.message }, { status: 500 });
+    }
+
+    const poolSenseIds = new Set(
+      (poolRows ?? [])
+        .map((r: { sense_id: string | null }) => r.sense_id)
+        .filter((id): id is string => typeof id === "string" && id.length > 0),
+    );
 
     const { data: knowledgeRows, error: knowledgeErr } = await supabase
       .from("user_learning_unit_knowledge")
@@ -156,6 +191,10 @@ export async function GET() {
         const wrong = Number(row.wrong_count) || 0;
         const total = correct + wrong;
         if (total < MIN_ATTEMPTS) continue;
+
+        if (row.unit_type === "sense" && !poolSenseIds.has(row.unit_id)) {
+          continue;
+        }
 
         const accuracy = correct / total;
         const priority = scorePriority(accuracy, wrong, row.knowledge_state, row.last_wrong_at);
@@ -249,6 +288,38 @@ export async function GET() {
     }
 
     scored.sort((a, b) => b._sort - a._sort);
+
+    if (scored.length === 0) {
+      const fallbacks: Suggestion[] = [
+        {
+          unitType: "shortcut",
+          unitId: "shop",
+          accuracy: 0,
+          priority: 0,
+          href: buildHref("shortcut", "shop"),
+          displayName: buildDisplayName("shortcut", "shop"),
+        },
+        {
+          unitType: "shortcut",
+          unitId: "clusters",
+          accuracy: 0,
+          priority: 0,
+          href: buildHref("shortcut", "clusters"),
+          displayName: buildDisplayName("shortcut", "clusters"),
+        },
+        {
+          unitType: "irregular",
+          unitId: "nieregularne",
+          accuracy: 0,
+          priority: 0,
+          href: buildHref("irregular", "nieregularne"),
+          displayName: "Czasowniki nieregularne",
+        },
+      ];
+      for (const item of fallbacks) {
+        scored.push({ ...item, _sort: 0 });
+      }
+    }
 
     const seenHrefs = new Set<string>();
     const top: Suggestion[] = [];

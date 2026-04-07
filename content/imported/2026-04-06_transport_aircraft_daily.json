@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "aircraft",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:36:43.458Z"
+  },
+  "items": [
+    {
+      "lemma": "airplane",
+      "pos": "noun",
+      "translation_pl": "samolot",
+      "definition_en": "An airplane is a vehicle that flies in the sky.",
+      "example_en": "The airplane took off from the airport.",
+      "level": "A1"
+    },
+    {
+      "lemma": "helicopter",
+      "pos": "noun",
+      "translation_pl": "helikopter",
+      "definition_en": "A helicopter is an aircraft that flies using rotating blades.",
+      "example_en": "The helicopter landed on the hospital roof.",
+      "level": "A2"
+    },
+    {
+      "lemma": "jet",
+      "pos": "noun",
+      "translation_pl": "odrzutowiec",
+      "definition_en": "A jet is a fast aircraft powered by jet engines.",
+      "example_en": "The jet flew across the ocean.",
+      "level": "A2"
+    },
+    {
+      "lemma": "glider",
+      "pos": "noun",
+      "translation_pl": "szybowiec",
+      "definition_en": "A glider is an aircraft that flies without an engine.",
+      "example_en": "The glider moved quietly through the air.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hot-air balloon",
+      "pos": "noun",
+      "translation_pl": "balon na gorące powietrze",
+      "definition_en": "A hot-air balloon is a large balloon that carries people in a basket.",
+      "example_en": "We saw a hot-air balloon floating over the field.",
+      "level": "B1"
+    },
+    {
+      "lemma": "biplane",
+      "pos": "noun",
+      "translation_pl": "dwupłatowiec",
+      "definition_en": "A biplane is an old-fashioned airplane with two wings on each side.",
+      "example_en": "The biplane performed tricks at the show.",
+      "level": "B1"
+    },
+    {
+      "lemma": "monoplane",
+      "pos": "noun",
+      "translation_pl": "jednopłatowiec",
+      "definition_en": "A monoplane is a plane with one set of wings.",
+      "example_en": "The small monoplane flew low over the village.",
+      "level": "B1"
+    },
+    {
+      "lemma": "airliner",
+      "pos": "noun",
+      "translation_pl": "samolot pasażerski",
+      "definition_en": "An airliner is a large airplane for carrying many passengers.",
+      "example_en": "The airliner was full of holiday travelers.",
+      "level": "A2"
+    },
+    {
+      "lemma": "seaplane",
+      "pos": "noun",
+      "translation_pl": "wodnosamolot",
+      "definition_en": "A seaplane is an airplane that can land on water.",
+      "example_en": "The seaplane landed next to the dock.",
+      "level": "B1"
+    },
+    {
+      "lemma": "aircraft",
+      "pos": "noun",
+      "translation_pl": "statek powietrzny",
+      "definition_en": "An aircraft is any vehicle that flies in the sky.",
+      "example_en": "That museum displays old and new aircraft.",
+      "level": "A2"
+    },
+    {
+      "lemma": "propeller plane",
+      "pos": "noun",
+      "translation_pl": "samolot śmigłowy",
+      "definition_en": "A propeller plane is a type of airplane with spinning blades.",
+      "example_en": "The propeller plane made a loud noise as it started.",
+      "level": "B1"
+    },
+    {
+      "lemma": "blimp",
+      "pos": "noun",
+      "translation_pl": "sterowiec",
+      "definition_en": "A blimp is a large balloon-like aircraft that floats in the air.",
+      "example_en": "The blimp flew over the stadium during the game.",
+      "level": "B1"
+    },
+    {
+      "lemma": "drone",
+      "pos": "noun",
+      "translation_pl": "dron",
+      "definition_en": "A drone is a small aircraft with no pilot on board.",
+      "example_en": "The drone took pictures high above the park.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hang glider",
+      "pos": "noun",
+      "translation_pl": "lotnia",
+      "definition_en": "A hang glider is a light aircraft without an engine held by a pilot.",
+      "example_en": "He flew a hang glider off the mountain.",
+      "level": "B1"
+    },
+    {
+      "lemma": "jumbo jet",
+      "pos": "noun",
+      "translation_pl": "wielki odrzutowiec",
+      "definition_en": "A jumbo jet is a very large jet plane for many passengers.",
+      "example_en": "We flew to New York in a jumbo jet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "private plane",
+      "pos": "noun",
+      "translation_pl": "samolot prywatny",
+      "definition_en": "A private plane is a small aircraft owned by one person or company.",
+      "example_en": "He flew to France in his private plane.",
+      "level": "B1"
+    },
+    {
+      "lemma": "charter flight",
+      "pos": "noun",
+      "translation_pl": "lot czarterowy",
+      "definition_en": "A charter flight is an airplane trip hired by one group.",
+      "example_en": "They booked a charter flight for their wedding trip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "trainer aircraft",
+      "pos": "noun",
+      "translation_pl": "samolot szkoleniowy",
+      "definition_en": "A trainer aircraft is used for teaching people to fly.",
+      "example_en": "The student took lessons in a trainer aircraft.",
+      "level": "B1"
+    },
+    {
+      "lemma": "paraglider",
+      "pos": "noun",
+      "translation_pl": "paralotnia",
+      "definition_en": "A paraglider is a light aircraft with a fabric wing flown by one person.",
+      "example_en": "She went for a flight in a paraglider.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ultralight",
+      "pos": "noun",
+      "translation_pl": "motolotnia",
+      "definition_en": "An ultralight is a very light, small aircraft for one or two people.",
+      "example_en": "He built his own ultralight in his garage.",
+      "level": "B1"
+    }
+  ]
+}

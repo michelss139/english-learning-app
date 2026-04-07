@@ -18,6 +18,25 @@ export type PackDto = {
 type VocabMode = "daily" | "precise";
 const STORAGE_KEY = "vocabMode";
 
+const CATEGORY_SECTION_LABEL: Record<string, string> = {
+  general: "",
+  home: "Dom i mieszkanie",
+  garden: "Ogród",
+  kitchen: "Kuchnia",
+  travel: "Podróże",
+  office: "Biuro i praca",
+  shopping: "Zakupy",
+  health: "Zdrowie",
+  emotions: "Emocje i relacje",
+};
+
+function sectionLabelForCategory(category: string): string {
+  const key = category.trim().toLowerCase();
+  if (CATEGORY_SECTION_LABEL[key]) return CATEGORY_SECTION_LABEL[key];
+  if (!key || key === "general") return "Inne fiszki";
+  return key.charAt(0).toUpperCase() + key.slice(1);
+}
+
 const isValidMode = (value: string | null): value is VocabMode =>
   value === "daily" || value === "precise";
 
@@ -27,6 +46,14 @@ function packHref(slug: string, mode: VocabMode) {
 
 const cardBase =
   "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)]";
+
+function polishFiszkiForm(n: number): string {
+  if (n === 1) return "fiszka";
+  const last = n % 10;
+  const lastTwo = n % 100;
+  if (last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14)) return "fiszki";
+  return "fiszek";
+}
 
 function ChevronRight({ className }: { className?: string }) {
   return (
@@ -86,7 +113,9 @@ function PackSection({ label, packs, mode }: { label: string; packs: PackDto[]; 
                 <ChevronRight className="mt-0.5 shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
               </div>
               <div className="mt-2 flex items-center justify-between gap-2">
-                <span className="text-[11px] text-slate-400">{pack.item_count} fiszek</span>
+                <span className="text-xs font-medium tabular-nums text-slate-600">
+                  {pack.item_count} {polishFiszkiForm(pack.item_count)}
+                </span>
                 {pack.description ? (
                   <span className="truncate text-[10px] text-slate-400">{pack.description}</span>
                 ) : null}
@@ -157,13 +186,27 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
   const transportPacks = filteredPacks.filter((pack) => pack.slug.startsWith("transport-"));
   const contractsPacks = filteredPacks.filter((pack) => pack.slug.startsWith("contracts-"));
   const bodyPacks = filteredPacks.filter((pack) => pack.category === "body");
-  const homePacks = filteredPacks.filter(
-    (pack) =>
-      pack.category !== "body" &&
-      pack.slug !== "shop" &&
-      !pack.slug.startsWith("transport-") &&
-      !pack.slug.startsWith("contracts-"),
-  );
+  const categoryBuckets = useMemo(() => {
+    const bucketPacks = filteredPacks.filter(
+      (pack) =>
+        pack.category !== "body" &&
+        pack.slug !== "shop" &&
+        !pack.slug.startsWith("transport-") &&
+        !pack.slug.startsWith("contracts-"),
+    );
+    const byCat = new Map<string, PackDto[]>();
+    for (const pack of bucketPacks) {
+      const cat = (pack.category ?? "general").trim().toLowerCase() || "general";
+      const list = byCat.get(cat) ?? [];
+      list.push(pack);
+      byCat.set(cat, list);
+    }
+    return [...byCat.entries()].sort(([a], [b]) => {
+      if (a === "general") return 1;
+      if (b === "general") return -1;
+      return sectionLabelForCategory(a).localeCompare(sectionLabelForCategory(b), "pl");
+    });
+  }, [filteredPacks]);
 
   const filterSectionPacks = (label: string, sectionPacks: PackDto[]) => {
     if (!normalizedQuery) return sectionPacks;
@@ -175,13 +218,21 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
   const visibleBodyPacks = filterSectionPacks("Ciało", bodyPacks);
   const visibleTransportPacks = filterSectionPacks("Transport", transportPacks);
   const visibleContractsPacks = filterSectionPacks("Umowy", contractsPacks);
-  const visibleHomePacks = filterSectionPacks("W domu", homePacks);
+
+  const visibleCategoryBuckets = categoryBuckets
+    .map(([catKey, packs]) => {
+      const label = sectionLabelForCategory(catKey);
+      const visible = filterSectionPacks(label, packs);
+      return { catKey, label, packs: visible };
+    })
+    .filter((b) => b.packs.length > 0);
+
   const hasVisibleSections =
     !!visibleShopPack ||
     visibleBodyPacks.length > 0 ||
     visibleTransportPacks.length > 0 ||
     visibleContractsPacks.length > 0 ||
-    visibleHomePacks.length > 0;
+    visibleCategoryBuckets.length > 0;
 
   return (
     <div>
@@ -258,7 +309,9 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
           <PackSection label="Ciało" packs={visibleBodyPacks} mode={vocabMode} />
           <PackSection label="Transport" packs={visibleTransportPacks} mode={vocabMode} />
           <PackSection label="Umowy" packs={visibleContractsPacks} mode={vocabMode} />
-          <PackSection label="W domu" packs={visibleHomePacks} mode={vocabMode} />
+          {visibleCategoryBuckets.map(({ catKey, label, packs }) => (
+            <PackSection key={catKey} label={label} packs={packs} mode={vocabMode} />
+          ))}
         </div>
       )}
     </div>

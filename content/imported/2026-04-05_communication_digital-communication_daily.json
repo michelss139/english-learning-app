@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "digital-communication",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T21:01:44.176Z"
+  },
+  "items": [
+    {
+      "lemma": "call",
+      "pos": "noun",
+      "translation_pl": "rozmowa telefoniczna",
+      "definition_en": "A call is when you talk to someone on the phone.",
+      "example_en": "I got a call from my friend last night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "chat",
+      "pos": "noun",
+      "translation_pl": "czat",
+      "definition_en": "A chat is a short, informal conversation online or in person.",
+      "example_en": "We had a chat online after school.",
+      "level": "A2"
+    },
+    {
+      "lemma": "comment",
+      "pos": "noun",
+      "translation_pl": "komentarz",
+      "definition_en": "A comment is a message people write on a website or app.",
+      "example_en": "She left a comment on my photo.",
+      "level": "A2"
+    },
+    {
+      "lemma": "group chat",
+      "pos": "noun",
+      "translation_pl": "czat grupowy",
+      "definition_en": "A group chat is a conversation between several people online.",
+      "example_en": "Our family has a group chat for sharing news.",
+      "level": "A2"
+    },
+    {
+      "lemma": "phone call",
+      "pos": "noun",
+      "translation_pl": "rozmowa telefoniczna",
+      "definition_en": "A phone call is a talk with someone using a phone.",
+      "example_en": "He made a phone call to his mother.",
+      "level": "A1"
+    },
+    {
+      "lemma": "text",
+      "pos": "noun",
+      "translation_pl": "wiadomość tekstowa",
+      "definition_en": "A text is a written message sent by phone.",
+      "example_en": "I sent her a text this morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "notification",
+      "pos": "noun",
+      "translation_pl": "powiadomienie",
+      "definition_en": "A notification tells you when you have a new message or update.",
+      "example_en": "My phone showed a notification from the app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "profile",
+      "pos": "noun",
+      "translation_pl": "profil",
+      "definition_en": "A profile is personal information shown on a website or app.",
+      "example_en": "You can see her profile on social media.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chat room",
+      "pos": "noun",
+      "translation_pl": "pokój czatowy",
+      "definition_en": "A chat room is a place online where people can talk together.",
+      "example_en": "Many students meet in the chat room after class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "video call",
+      "pos": "noun",
+      "translation_pl": "wideorozmowa",
+      "definition_en": "A video call lets people see and hear each other online.",
+      "example_en": "We had a video call on my birthday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "channel",
+      "pos": "noun",
+      "translation_pl": "kanał",
+      "definition_en": "A channel is a space online where people share posts or videos.",
+      "example_en": "I follow her channel for cooking tips.",
+      "level": "B1"
+    },
+    {
+      "lemma": "username",
+      "pos": "noun",
+      "translation_pl": "nazwa użytkownika",
+      "definition_en": "A username is the name you use to log in online.",
+      "example_en": "Please choose a username for your account.",
+      "level": "B1"
+    },
+    {
+      "lemma": "feed",
+      "pos": "noun",
+      "translation_pl": "strumień wiadomości",
+      "definition_en": "A feed is a list of new posts or updates on a website or app.",
+      "example_en": "She checks her feed every morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "share",
+      "pos": "noun",
+      "translation_pl": "udostępnienie",
+      "definition_en": "A share is when you send something online to others.",
+      "example_en": "He got many shares on his photo.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tag",
+      "pos": "noun",
+      "translation_pl": "oznaczenie",
+      "definition_en": "A tag is a word or name added to link people or topics online.",
+      "example_en": "I saw my tag in her post.",
+      "level": "B1"
+    },
+    {
+      "lemma": "like",
+      "pos": "noun",
+      "translation_pl": "polubienie",
+      "definition_en": "A like shows that someone enjoyed or supported a post online.",
+      "example_en": "Her picture got many likes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "call button",
+      "pos": "noun",
+      "translation_pl": "przycisk połączenia",
+      "definition_en": "A call button is the button you press to start a call.",
+      "example_en": "Press the call button to phone your friend.",
+      "level": "B1"
+    },
+    {
+      "lemma": "link",
+      "pos": "noun",
+      "translation_pl": "odnośnik",
+      "definition_en": "A link is a word or picture you click to go to a website.",
+      "example_en": "Click the link to read the article.",
+      "level": "A2"
+    },
+    {
+      "lemma": "friend request",
+      "pos": "noun",
+      "translation_pl": "zaproszenie do znajomych",
+      "definition_en": "A friend request asks someone to add you as a contact online.",
+      "example_en": "I accepted her friend request yesterday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "story",
+      "pos": "noun",
+      "translation_pl": "relacja",
+      "definition_en": "A story is a short photo or video shared online for a short time.",
+      "example_en": "She posted a story about her holiday.",
+      "level": "B1"
+    }
+  ]
+}

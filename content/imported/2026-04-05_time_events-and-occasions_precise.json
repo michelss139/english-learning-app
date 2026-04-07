@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "events-and-occasions",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:59:04.411Z"
+  },
+  "items": [
+    {
+      "lemma": "graduation",
+      "pos": "noun",
+      "translation_pl": "ukończenie szkoły",
+      "definition_en": "Graduation is a ceremony when you finish school or university.",
+      "example_en": "Her whole family came to her graduation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "job interview",
+      "pos": "noun",
+      "translation_pl": "rozmowa o pracę",
+      "definition_en": "A job interview is a meeting where someone applies for a job.",
+      "example_en": "He was nervous before his job interview.",
+      "level": "B1"
+    },
+    {
+      "lemma": "retirement party",
+      "pos": "noun",
+      "translation_pl": "przyjęcie z okazji emerytury",
+      "definition_en": "A retirement party celebrates a person finishing their career.",
+      "example_en": "The company held a retirement party for Ms. Lee.",
+      "level": "B2"
+    },
+    {
+      "lemma": "housewarming",
+      "pos": "noun",
+      "translation_pl": "parapetówka",
+      "definition_en": "A housewarming is a party to celebrate moving into a new home.",
+      "example_en": "We invited friends to our housewarming.",
+      "level": "B2"
+    },
+    {
+      "lemma": "baby shower",
+      "pos": "noun",
+      "translation_pl": "przyjęcie dla przyszłej mamy",
+      "definition_en": "A baby shower is a celebration before a baby is born.",
+      "example_en": "She received many gifts at her baby shower.",
+      "level": "B2"
+    },
+    {
+      "lemma": "farewell party",
+      "pos": "noun",
+      "translation_pl": "przyjęcie pożegnalne",
+      "definition_en": "A farewell party is a gathering to say goodbye to someone.",
+      "example_en": "His friends threw him a farewell party before he moved.",
+      "level": "B1"
+    },
+    {
+      "lemma": "engagement party",
+      "pos": "noun",
+      "translation_pl": "przyjęcie zaręczynowe",
+      "definition_en": "An engagement party celebrates a couple agreeing to marry.",
+      "example_en": "Their engagement party was in a beautiful garden.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fundraiser",
+      "pos": "noun",
+      "translation_pl": "zbiórka pieniędzy",
+      "definition_en": "A fundraiser is an event held to collect money for a cause.",
+      "example_en": "The school organized a fundraiser for new books.",
+      "level": "B2"
+    },
+    {
+      "lemma": "book launch",
+      "pos": "noun",
+      "translation_pl": "premiera książki",
+      "definition_en": "A book launch is an event to present a new book.",
+      "example_en": "The author signed copies at her book launch.",
+      "level": "B2"
+    },
+    {
+      "lemma": "reception",
+      "pos": "noun",
+      "translation_pl": "przyjęcie",
+      "definition_en": "A reception is a formal event to celebrate something special.",
+      "example_en": "They enjoyed dancing at the wedding reception.",
+      "level": "B1"
+    },
+    {
+      "lemma": "networking event",
+      "pos": "noun",
+      "translation_pl": "spotkanie networkingowe",
+      "definition_en": "A networking event helps people meet for business purposes.",
+      "example_en": "She found a new job at a networking event.",
+      "level": "C1"
+    },
+    {
+      "lemma": "press conference",
+      "pos": "noun",
+      "translation_pl": "konferencja prasowa",
+      "definition_en": "A press conference is a meeting to give news to reporters.",
+      "example_en": "The mayor spoke at a press conference.",
+      "level": "B2"
+    },
+    {
+      "lemma": "job fair",
+      "pos": "noun",
+      "translation_pl": "targi pracy",
+      "definition_en": "A job fair is an event where employers offer job opportunities.",
+      "example_en": "He handed out résumés at the job fair.",
+      "level": "B1"
+    },
+    {
+      "lemma": "quiz night",
+      "pos": "noun",
+      "translation_pl": "wieczór quizowy",
+      "definition_en": "Quiz night is an event where people play quiz games together.",
+      "example_en": "Our local pub hosts a quiz night every Thursday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "midterm exam",
+      "pos": "noun",
+      "translation_pl": "egzamin śródsemestralny",
+      "definition_en": "A midterm exam is a test taken in the middle of a course.",
+      "example_en": "She started studying early for her midterm exam.",
+      "level": "B2"
+    },
+    {
+      "lemma": "protest march",
+      "pos": "noun",
+      "translation_pl": "marsz protestacyjny",
+      "definition_en": "A protest march is a public demonstration against something.",
+      "example_en": "Hundreds joined the protest march downtown.",
+      "level": "B2"
+    },
+    {
+      "lemma": "talent show",
+      "pos": "noun",
+      "translation_pl": "pokaz talentów",
+      "definition_en": "A talent show is an event where people perform skills.",
+      "example_en": "Children sang and danced at the school talent show.",
+      "level": "B1"
+    },
+    {
+      "lemma": "memorial service",
+      "pos": "noun",
+      "translation_pl": "nabożeństwo żałobne",
+      "definition_en": "A memorial service is a gathering to remember someone who died.",
+      "example_en": "The community held a memorial service for the teacher.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sports day",
+      "pos": "noun",
+      "translation_pl": "dzień sportu",
+      "definition_en": "A sports day is a special day with athletic activities.",
+      "example_en": "Our school’s sports day is held each spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "release party",
+      "pos": "noun",
+      "translation_pl": "przyjęcie z okazji premiery",
+      "definition_en": "A release party is a celebration for a new product or album.",
+      "example_en": "The band played live at their album’s release party.",
+      "level": "B2"
+    }
+  ]
+}

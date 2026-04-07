@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "software-applications",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:24:53.826Z"
+  },
+  "items": [
+    {
+      "lemma": "spreadsheet",
+      "pos": "noun",
+      "translation_pl": "arkusz kalkulacyjny",
+      "definition_en": "A spreadsheet is a software tool for organizing data in rows and columns.",
+      "example_en": "She entered the sales data into a spreadsheet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "word processor",
+      "pos": "noun",
+      "translation_pl": "edytor tekstu",
+      "definition_en": "A word processor is a software program used for writing and editing text.",
+      "example_en": "He wrote his essay on a word processor.",
+      "level": "B1"
+    },
+    {
+      "lemma": "presentation software",
+      "pos": "noun",
+      "translation_pl": "oprogramowanie do prezentacji",
+      "definition_en": "Presentation software helps people make visual slideshows.",
+      "example_en": "She made her slides in presentation software.",
+      "level": "B2"
+    },
+    {
+      "lemma": "media player",
+      "pos": "noun",
+      "translation_pl": "odtwarzacz multimedialny",
+      "definition_en": "A media player is a program for playing audio and video files.",
+      "example_en": "He watched the movie on his media player.",
+      "level": "B2"
+    },
+    {
+      "lemma": "photo editor",
+      "pos": "noun",
+      "translation_pl": "edytor zdjęć",
+      "definition_en": "A photo editor is software used to change or fix pictures.",
+      "example_en": "She used a photo editor to make the image brighter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "email client",
+      "pos": "noun",
+      "translation_pl": "klient poczty",
+      "definition_en": "An email client is a program for sending and reading emails.",
+      "example_en": "He checks his work messages in his email client.",
+      "level": "B2"
+    },
+    {
+      "lemma": "search engine",
+      "pos": "noun",
+      "translation_pl": "wyszukiwarka internetowa",
+      "definition_en": "A search engine is a website or program for finding information online.",
+      "example_en": "She used a search engine to look up recipes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "antivirus program",
+      "pos": "noun",
+      "translation_pl": "program antywirusowy",
+      "definition_en": "An antivirus program protects a computer from dangerous software.",
+      "example_en": "He updates his antivirus program every week.",
+      "level": "B2"
+    },
+    {
+      "lemma": "calendar app",
+      "pos": "noun",
+      "translation_pl": "aplikacja kalendarza",
+      "definition_en": "A calendar app is a program for organizing appointments and events.",
+      "example_en": "She added the meeting to her calendar app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "video call app",
+      "pos": "noun",
+      "translation_pl": "aplikacja do wideorozmów",
+      "definition_en": "A video call app lets people talk with video over the Internet.",
+      "example_en": "They chat every week on a video call app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "task manager",
+      "pos": "noun",
+      "translation_pl": "menedżer zadań",
+      "definition_en": "A task manager is a tool for checking and controlling running programs.",
+      "example_en": "He opened the task manager to close a frozen app.",
+      "level": "C1"
+    },
+    {
+      "lemma": "drawing software",
+      "pos": "noun",
+      "translation_pl": "oprogramowanie do rysowania",
+      "definition_en": "Drawing software helps users create digital pictures.",
+      "example_en": "She designed the logo in drawing software.",
+      "level": "B2"
+    },
+    {
+      "lemma": "browser extension",
+      "pos": "noun",
+      "translation_pl": "rozszerzenie do przeglądarki",
+      "definition_en": "A browser extension is a small add-on that gives a browser new features.",
+      "example_en": "He installed a browser extension to block ads.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cloud service",
+      "pos": "noun",
+      "translation_pl": "usługa w chmurze",
+      "definition_en": "A cloud service provides computing or storage over the Internet.",
+      "example_en": "She saves her files with a cloud service.",
+      "level": "B2"
+    },
+    {
+      "lemma": "forum software",
+      "pos": "noun",
+      "translation_pl": "oprogramowanie forum",
+      "definition_en": "Forum software is used to create and run online discussion boards.",
+      "example_en": "They built their community with forum software.",
+      "level": "C1"
+    },
+    {
+      "lemma": "password manager",
+      "pos": "noun",
+      "translation_pl": "menedżer haseł",
+      "definition_en": "A password manager stores and remembers your passwords.",
+      "example_en": "He uses a password manager for all his online accounts.",
+      "level": "C1"
+    },
+    {
+      "lemma": "translation tool",
+      "pos": "noun",
+      "translation_pl": "narzędzie do tłumaczenia",
+      "definition_en": "A translation tool helps people understand text in other languages.",
+      "example_en": "I use a translation tool when reading French emails.",
+      "level": "B2"
+    },
+    {
+      "lemma": "voice assistant",
+      "pos": "noun",
+      "translation_pl": "asystent głosowy",
+      "definition_en": "A voice assistant is software that answers spoken questions.",
+      "example_en": "She asked her voice assistant for the weather.",
+      "level": "B1"
+    },
+    {
+      "lemma": "note-taking app",
+      "pos": "noun",
+      "translation_pl": "aplikacja do notatek",
+      "definition_en": "A note-taking app is a program for writing and saving notes.",
+      "example_en": "He writes his to-do list in a note-taking app.",
+      "level": "B2"
+    },
+    {
+      "lemma": "video editor",
+      "pos": "noun",
+      "translation_pl": "edytor wideo",
+      "definition_en": "A video editor is software for changing and creating video files.",
+      "example_en": "She made her video project in a video editor.",
+      "level": "B2"
+    }
+  ]
+}

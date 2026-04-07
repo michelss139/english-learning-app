@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "garden-containers",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:34:13.952Z"
+  },
+  "items": [
+    {
+      "lemma": "pot",
+      "pos": "noun",
+      "translation_pl": "doniczka",
+      "definition_en": "A pot is a container used for growing plants.",
+      "example_en": "I put my new fern in a clay pot.",
+      "level": "A1"
+    },
+    {
+      "lemma": "planter",
+      "pos": "noun",
+      "translation_pl": "skrzynka na kwiaty",
+      "definition_en": "A planter is a large container for holding plants or flowers.",
+      "example_en": "There is a wooden planter on the balcony.",
+      "level": "A2"
+    },
+    {
+      "lemma": "flower box",
+      "pos": "noun",
+      "translation_pl": "skrzynka na kwiaty",
+      "definition_en": "A flower box is a long, narrow container for growing flowers.",
+      "example_en": "She filled her flower box with colorful pansies.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hanging basket",
+      "pos": "noun",
+      "translation_pl": "wiszący kosz",
+      "definition_en": "A hanging basket is a container that is hung up and used for plants.",
+      "example_en": "The porch has a hanging basket full of petunias.",
+      "level": "A2"
+    },
+    {
+      "lemma": "garden trough",
+      "pos": "noun",
+      "translation_pl": "ogrodowa skrzynka",
+      "definition_en": "A garden trough is a long, shallow container for plants.",
+      "example_en": "Lettuce grows well in a garden trough.",
+      "level": "B1"
+    },
+    {
+      "lemma": "window box",
+      "pos": "noun",
+      "translation_pl": "skrzynka okienna",
+      "definition_en": "A window box is a container attached outside a window for flowers.",
+      "example_en": "The window box is full of red geraniums.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tub",
+      "pos": "noun",
+      "translation_pl": "kubeł",
+      "definition_en": "A tub is a round, open container for growing plants.",
+      "example_en": "He planted strawberries in a large tub.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bucket",
+      "pos": "noun",
+      "translation_pl": "wiadro",
+      "definition_en": "A bucket is a round container with a handle, used for carrying or growing plants.",
+      "example_en": "She used an old bucket to plant tomatoes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "basket",
+      "pos": "noun",
+      "translation_pl": "kosz",
+      "definition_en": "A basket is a container made of woven material to hold plants.",
+      "example_en": "The basket by the door is full of flowers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "barrel planter",
+      "pos": "noun",
+      "translation_pl": "doniczka beczka",
+      "definition_en": "A barrel planter is a cut barrel used for planting.",
+      "example_en": "Lavender grows well in a barrel planter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grow bag",
+      "pos": "noun",
+      "translation_pl": "worek do uprawy",
+      "definition_en": "A grow bag is a soft bag used as a container for growing plants.",
+      "example_en": "Tomatoes thrive in a grow bag on the patio.",
+      "level": "B1"
+    },
+    {
+      "lemma": "seed tray",
+      "pos": "noun",
+      "translation_pl": "tacka na nasiona",
+      "definition_en": "A seed tray is a shallow container for planting seeds.",
+      "example_en": "She started her vegetables in a seed tray.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cold frame",
+      "pos": "noun",
+      "translation_pl": "inspekt ogrodowy",
+      "definition_en": "A cold frame is a low container with a glass cover for plants.",
+      "example_en": "The lettuce seedlings are in the cold frame.",
+      "level": "B1"
+    },
+    {
+      "lemma": "trough planter",
+      "pos": "noun",
+      "translation_pl": "skrzynka doniczkowa",
+      "definition_en": "A trough planter is a rectangular container for growing plants.",
+      "example_en": "They placed a trough planter by the fence.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plant pot",
+      "pos": "noun",
+      "translation_pl": "doniczka na rośliny",
+      "definition_en": "A plant pot is a small container used to grow individual plants.",
+      "example_en": "She bought a new plant pot for her cactus.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sand bucket",
+      "pos": "noun",
+      "translation_pl": "wiaderko na piasek",
+      "definition_en": "A sand bucket is a small container, often used for planting by children.",
+      "example_en": "He used a sand bucket to plant marigolds.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grow pot",
+      "pos": "noun",
+      "translation_pl": "doniczka do uprawy",
+      "definition_en": "A grow pot is a simple container where plants start to grow.",
+      "example_en": "The herbs are in a black grow pot.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clay pot",
+      "pos": "noun",
+      "translation_pl": "gliniana doniczka",
+      "definition_en": "A clay pot is a container made from clay for plants.",
+      "example_en": "She prefers a clay pot for her succulents.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watering jar",
+      "pos": "noun",
+      "translation_pl": "słoik do podlewania",
+      "definition_en": "A watering jar is a container used to water or hold small plants.",
+      "example_en": "She keeps a watering jar near the seedlings.",
+      "level": "A2"
+    },
+    {
+      "lemma": "self-watering pot",
+      "pos": "noun",
+      "translation_pl": "doniczka samonawadniająca",
+      "definition_en": "A self-watering pot is a container that helps water the plant automatically.",
+      "example_en": "A self-watering pot makes plant care easier.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "wind-related",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:49:56.025Z"
+  },
+  "items": [
+    {
+      "lemma": "wind",
+      "pos": "noun",
+      "translation_pl": "wiatr",
+      "definition_en": "Wind is air that moves from one place to another.",
+      "example_en": "The wind was strong and blew my hat away.",
+      "level": "A1"
+    },
+    {
+      "lemma": "breeze",
+      "pos": "noun",
+      "translation_pl": "bryza",
+      "definition_en": "A breeze is a gentle and cool wind.",
+      "example_en": "We enjoyed the evening breeze by the lake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gust",
+      "pos": "noun",
+      "translation_pl": "podmuch",
+      "definition_en": "A gust is a sudden, strong burst of wind.",
+      "example_en": "A gust knocked over the empty chair outside.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gale",
+      "pos": "noun",
+      "translation_pl": "wichura",
+      "definition_en": "A gale is a very strong wind.",
+      "example_en": "The gale broke tree branches in the park.",
+      "level": "B1"
+    },
+    {
+      "lemma": "draft",
+      "pos": "noun",
+      "translation_pl": "przeciąg",
+      "definition_en": "A draft is cold air that comes into a room.",
+      "example_en": "I felt a draft near the window when it opened.",
+      "level": "A2"
+    },
+    {
+      "lemma": "windstorm",
+      "pos": "noun",
+      "translation_pl": "burza wiatrowa",
+      "definition_en": "A windstorm is a storm with very strong winds.",
+      "example_en": "Last night a windstorm knocked out the power.",
+      "level": "B1"
+    },
+    {
+      "lemma": "whirlwind",
+      "pos": "noun",
+      "translation_pl": "trąba powietrzna",
+      "definition_en": "A whirlwind is a strong, spinning wind.",
+      "example_en": "A small whirlwind lifted leaves into the air.",
+      "level": "B1"
+    },
+    {
+      "lemma": "airflow",
+      "pos": "noun",
+      "translation_pl": "przepływ powietrza",
+      "definition_en": "Airflow is how air moves from one place to another.",
+      "example_en": "Open windows improve the airflow in the house.",
+      "level": "B1"
+    },
+    {
+      "lemma": "breeze block",
+      "pos": "noun",
+      "translation_pl": "bloczki przepuszczające powietrze",
+      "definition_en": "A breeze block is something that blocks the wind.",
+      "example_en": "They put a breeze block wall in the garden.",
+      "level": "B1"
+    },
+    {
+      "lemma": "windmill",
+      "pos": "noun",
+      "translation_pl": "wiatrak",
+      "definition_en": "A windmill is a building with blades turned by the wind.",
+      "example_en": "The old windmill stands on top of the hill.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tailwind",
+      "pos": "noun",
+      "translation_pl": "wiatr w plecy",
+      "definition_en": "A tailwind is a wind that blows behind something moving.",
+      "example_en": "Cyclists go faster when they have a tailwind.",
+      "level": "B1"
+    },
+    {
+      "lemma": "headwind",
+      "pos": "noun",
+      "translation_pl": "wiatr przeciwny",
+      "definition_en": "A headwind is a wind that blows against you as you move.",
+      "example_en": "It is harder to run against a headwind.",
+      "level": "B1"
+    },
+    {
+      "lemma": "windchill",
+      "pos": "noun",
+      "translation_pl": "odczuwalna temperatura",
+      "definition_en": "Windchill is the cold you feel because of the wind.",
+      "example_en": "The windchill made it feel much colder outside.",
+      "level": "B1"
+    },
+    {
+      "lemma": "twister",
+      "pos": "noun",
+      "translation_pl": "tornado",
+      "definition_en": "A twister is a strong, turning wind that moves in a circle.",
+      "example_en": "The town was hit by a twister last year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "air current",
+      "pos": "noun",
+      "translation_pl": "prąd powietrzny",
+      "definition_en": "An air current is a flow of moving air.",
+      "example_en": "Birds can glide on warm air currents.",
+      "level": "B1"
+    },
+    {
+      "lemma": "breeze way",
+      "pos": "noun",
+      "translation_pl": "przestrzeń wietrzna",
+      "definition_en": "A breeze way connects two buildings and lets wind pass through.",
+      "example_en": "We walked through the cool breeze way between the houses.",
+      "level": "B1"
+    },
+    {
+      "lemma": "windbreak",
+      "pos": "noun",
+      "translation_pl": "wiatrochron",
+      "definition_en": "A windbreak is something that protects from the wind.",
+      "example_en": "Farmers plant trees as a windbreak for crops.",
+      "level": "B1"
+    },
+    {
+      "lemma": "storm",
+      "pos": "noun",
+      "translation_pl": "burza",
+      "definition_en": "A storm is weather with strong wind and rain.",
+      "example_en": "We stayed inside during the storm.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tempest",
+      "pos": "noun",
+      "translation_pl": "nawałnica",
+      "definition_en": "A tempest is a violent storm with strong wind.",
+      "example_en": "The ship was caught in a wild tempest at sea.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wind vane",
+      "pos": "noun",
+      "translation_pl": "wiatrowskaz",
+      "definition_en": "A wind vane shows the direction the wind is blowing.",
+      "example_en": "A metal wind vane spun on the barn roof.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "seafood",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:31:02.146Z"
+  },
+  "items": [
+    {
+      "lemma": "king crab",
+      "pos": "noun",
+      "translation_pl": "krab królewski",
+      "definition_en": "A large crab species known for its long legs and sweet meat.",
+      "example_en": "Many people enjoy king crab during special occasions.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bluefin tuna",
+      "pos": "noun",
+      "translation_pl": "tuńczyk błękitnopłetwy",
+      "definition_en": "A prized species of tuna valued for its rich flavor.",
+      "example_en": "Bluefin tuna is often used in high-quality sushi.",
+      "level": "C1"
+    },
+    {
+      "lemma": "albacore",
+      "pos": "noun",
+      "translation_pl": "albik",
+      "definition_en": "A type of white-fleshed tuna used in canned products.",
+      "example_en": "Canned albacore is popular for making sandwiches.",
+      "level": "B2"
+    },
+    {
+      "lemma": "prawn",
+      "pos": "noun",
+      "translation_pl": "krewetka tygrysia",
+      "definition_en": "A large shrimp often used in seafood dishes.",
+      "example_en": "Prawns are served grilled or in pasta.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sea bream",
+      "pos": "noun",
+      "translation_pl": "dorada",
+      "definition_en": "A popular fish with tender white flesh.",
+      "example_en": "Sea bream is commonly baked whole with herbs.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mackerel",
+      "pos": "noun",
+      "translation_pl": "makrela",
+      "definition_en": "A small oily fish known for its strong flavor.",
+      "example_en": "Smoked mackerel makes a tasty salad addition.",
+      "level": "B1"
+    },
+    {
+      "lemma": "monkfish",
+      "pos": "noun",
+      "translation_pl": "żabnica",
+      "definition_en": "A fish with firm texture and mild flavor often called 'poor man's lobster.'",
+      "example_en": "Monkfish is delicious when roasted with spices.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sea urchin",
+      "pos": "noun",
+      "translation_pl": "jeżowiec",
+      "definition_en": "A round marine animal whose orange roe is a delicacy.",
+      "example_en": "Sea urchin is served raw in Japanese cuisine.",
+      "level": "C1"
+    },
+    {
+      "lemma": "swordfish",
+      "pos": "noun",
+      "translation_pl": "miecznik",
+      "definition_en": "A large fish with a long pointed bill and firm meat.",
+      "example_en": "Swordfish steaks are perfect for grilling.",
+      "level": "B1"
+    },
+    {
+      "lemma": "seaweed",
+      "pos": "noun",
+      "translation_pl": "wodorosty",
+      "definition_en": "Edible marine plants used in soups and sushi.",
+      "example_en": "Seaweed is packed with nutrients and flavor.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cuttlefish",
+      "pos": "noun",
+      "translation_pl": "mątwa",
+      "definition_en": "A marine animal similar to squid with a softer body.",
+      "example_en": "Cuttlefish is often served as grilled slices.",
+      "level": "B2"
+    },
+    {
+      "lemma": "trout",
+      "pos": "noun",
+      "translation_pl": "pstrąg",
+      "definition_en": "A freshwater fish valued for its tender meat.",
+      "example_en": "Trout is tasty when baked with lemon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grouper",
+      "pos": "noun",
+      "translation_pl": "granik",
+      "definition_en": "A large fish with firm white flesh popular in tropical areas.",
+      "example_en": "Grouper is often served as fish fillets in restaurants.",
+      "level": "B2"
+    },
+    {
+      "lemma": "catfish",
+      "pos": "noun",
+      "translation_pl": "sum",
+      "definition_en": "A freshwater fish with whisker-like barbels around its mouth.",
+      "example_en": "Fried catfish is a Southern specialty.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pollock",
+      "pos": "noun",
+      "translation_pl": "mintaj",
+      "definition_en": "A white fish used in many processed seafood products.",
+      "example_en": "Pollock is the main fish in fish sticks.",
+      "level": "B1"
+    },
+    {
+      "lemma": "perch",
+      "pos": "noun",
+      "translation_pl": "okoń",
+      "definition_en": "A freshwater fish with tender, mild-flavored meat.",
+      "example_en": "Fried perch is a favorite at lakeside cafes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plaice",
+      "pos": "noun",
+      "translation_pl": "flądra",
+      "definition_en": "A flat fish with white, delicate flesh.",
+      "example_en": "Plaice is popular in European fish and chips.",
+      "level": "B2"
+    },
+    {
+      "lemma": "king prawns",
+      "pos": "noun",
+      "translation_pl": "krewetki królewskie",
+      "definition_en": "Large prawns often used in grilled or fried dishes.",
+      "example_en": "Grilled king prawns are served as a starter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "razor clam",
+      "pos": "noun",
+      "translation_pl": "ostrygowiec nożowaty",
+      "definition_en": "A long, narrow shellfish with tender white meat.",
+      "example_en": "Razor clam can be cooked with garlic and parsley.",
+      "level": "B2"
+    },
+    {
+      "lemma": "whitefish",
+      "pos": "noun",
+      "translation_pl": "sielawa lub inna biała ryba",
+      "definition_en": "A general term for fish with white, mild flesh.",
+      "example_en": "Smoked whitefish is used in many traditional spreads.",
+      "level": "B2"
+    }
+  ]
+}

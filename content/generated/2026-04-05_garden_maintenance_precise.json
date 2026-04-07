@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "maintenance",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:39:38.666Z"
+  },
+  "items": [
+    {
+      "lemma": "pruning shears",
+      "pos": "noun",
+      "translation_pl": "sekator",
+      "definition_en": "Pruning shears are scissors designed for cutting plants.",
+      "example_en": "I use pruning shears to trim the rose bushes every spring.",
+      "level": "B2"
+    },
+    {
+      "lemma": "compost heap",
+      "pos": "noun",
+      "translation_pl": "sterta kompostowa",
+      "definition_en": "A compost heap is a pile where garden waste breaks down into soil.",
+      "example_en": "We added the dead leaves to the compost heap in the corner of the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watering can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A watering can is a container used to pour water onto plants.",
+      "example_en": "She filled the watering can and watered the flowers on the patio.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mulch",
+      "pos": "noun",
+      "translation_pl": "ściółka",
+      "definition_en": "Mulch is material spread around plants to keep soil moist and reduce weeds.",
+      "example_en": "He puts mulch around his tomatoes to prevent the soil from drying out.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wheelbarrow",
+      "pos": "noun",
+      "translation_pl": "taczka",
+      "definition_en": "A wheelbarrow is a small cart with one wheel used to move loads in the garden.",
+      "example_en": "They used a wheelbarrow to carry tools and soil across the yard.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rake",
+      "pos": "noun",
+      "translation_pl": "grabie",
+      "definition_en": "A rake is a tool with a row of teeth used for gathering leaves or smoothing soil.",
+      "example_en": "I grabbed a rake to clear the fallen leaves from the lawn.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fertilizer",
+      "pos": "noun",
+      "translation_pl": "nawóz",
+      "definition_en": "Fertilizer is a substance added to soil to help plants grow.",
+      "example_en": "We spread fertilizer in the garden to promote healthy growth.",
+      "level": "B2"
+    },
+    {
+      "lemma": "trowel",
+      "pos": "noun",
+      "translation_pl": "łopatka ogrodowa",
+      "definition_en": "A trowel is a small hand tool used for digging or planting in the garden.",
+      "example_en": "She used a trowel to plant the new seedlings.",
+      "level": "B2"
+    },
+    {
+      "lemma": "weeding",
+      "pos": "noun",
+      "translation_pl": "odchwaszczanie",
+      "definition_en": "Weeding is the act of removing unwanted plants from a garden.",
+      "example_en": "Weeding is necessary to keep the flower beds tidy.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lawnmower",
+      "pos": "noun",
+      "translation_pl": "kosiarka",
+      "definition_en": "A lawnmower is a machine for cutting grass to an even height.",
+      "example_en": "He pushed the lawnmower across the yard every weekend.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hedge trimmer",
+      "pos": "noun",
+      "translation_pl": "nożyce do żywopłotu",
+      "definition_en": "A hedge trimmer is a tool for cutting and shaping bushes and hedges.",
+      "example_en": "She used the hedge trimmer to keep the shrubs neat and tidy.",
+      "level": "B2"
+    },
+    {
+      "lemma": "garden hose",
+      "pos": "noun",
+      "translation_pl": "wąż ogrodowy",
+      "definition_en": "A garden hose is a flexible tube used to water plants and grass.",
+      "example_en": "He unrolled the garden hose to water the vegetable patch.",
+      "level": "B2"
+    },
+    {
+      "lemma": "compost bin",
+      "pos": "noun",
+      "translation_pl": "pojemnik na kompost",
+      "definition_en": "A compost bin is a container where organic waste is turned into compost.",
+      "example_en": "They put all kitchen scraps into the compost bin every day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "topsoil",
+      "pos": "noun",
+      "translation_pl": "wierzchnia warstwa gleby",
+      "definition_en": "Topsoil is the upper layer of soil that is rich in nutrients for plants.",
+      "example_en": "We added new topsoil to the flower beds before planting.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shovel",
+      "pos": "noun",
+      "translation_pl": "łopata",
+      "definition_en": "A shovel is a tool with a broad blade used for digging and moving soil.",
+      "example_en": "He used a shovel to dig holes for the new trees.",
+      "level": "B2"
+    },
+    {
+      "lemma": "garden fork",
+      "pos": "noun",
+      "translation_pl": "widły ogrodowe",
+      "definition_en": "A garden fork is a tool with long prongs for loosening soil or turning compost.",
+      "example_en": "She used the garden fork to break up the hard earth.",
+      "level": "B2"
+    },
+    {
+      "lemma": "potting mix",
+      "pos": "noun",
+      "translation_pl": "ziemia do doniczek",
+      "definition_en": "Potting mix is a special soil for growing plants in containers.",
+      "example_en": "He filled the planters with potting mix before adding the flowers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gloves",
+      "pos": "noun",
+      "translation_pl": "rękawice",
+      "definition_en": "Gloves are hand coverings worn to protect your hands while gardening.",
+      "example_en": "She always wears gloves when handling thorny bushes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "plant food",
+      "pos": "noun",
+      "translation_pl": "pokarm dla roślin",
+      "definition_en": "Plant food is a substance that gives plants the nutrients they need.",
+      "example_en": "He adds plant food to the watering can every week.",
+      "level": "B2"
+    },
+    {
+      "lemma": "soil conditioner",
+      "pos": "noun",
+      "translation_pl": "poprawiacz gleby",
+      "definition_en": "A soil conditioner is a product used to improve the structure of garden soil.",
+      "example_en": "They used a soil conditioner to help the new plants grow better.",
+      "level": "C1"
+    }
+  ]
+}

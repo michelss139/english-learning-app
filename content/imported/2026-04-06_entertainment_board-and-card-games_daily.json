@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "board-and-card-games",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:44:49.655Z"
+  },
+  "items": [
+    {
+      "lemma": "board game",
+      "pos": "noun",
+      "translation_pl": "gra planszowa",
+      "definition_en": "A board game is a game played on a flat surface using pieces or cards.",
+      "example_en": "We played a board game with friends last night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "card game",
+      "pos": "noun",
+      "translation_pl": "gra karciana",
+      "definition_en": "A card game is a game played using a set of playing cards.",
+      "example_en": "My family loves to play a card game after dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dice",
+      "pos": "noun",
+      "translation_pl": "kostka",
+      "definition_en": "A dice is a small cube with numbers on each side used in games.",
+      "example_en": "Roll the dice to see who starts first.",
+      "level": "A1"
+    },
+    {
+      "lemma": "piece",
+      "pos": "noun",
+      "translation_pl": "pionek",
+      "definition_en": "A piece is a small object used to play a board game.",
+      "example_en": "Move your piece to the next square.",
+      "level": "A1"
+    },
+    {
+      "lemma": "deck",
+      "pos": "noun",
+      "translation_pl": "talia kart",
+      "definition_en": "A deck is a full set of cards used to play games.",
+      "example_en": "He shuffled the deck and dealt the cards.",
+      "level": "A2"
+    },
+    {
+      "lemma": "turn",
+      "pos": "noun",
+      "translation_pl": "kolejka",
+      "definition_en": "A turn is the time when it is your chance to play in a game.",
+      "example_en": "It is your turn to draw a card.",
+      "level": "A1"
+    },
+    {
+      "lemma": "token",
+      "pos": "noun",
+      "translation_pl": "żeton",
+      "definition_en": "A token is a small object used to show your place in a game.",
+      "example_en": "She chose a red token for the game.",
+      "level": "A2"
+    },
+    {
+      "lemma": "move",
+      "pos": "noun",
+      "translation_pl": "ruch",
+      "definition_en": "A move is a play or action taken during a game.",
+      "example_en": "That was a smart move in chess.",
+      "level": "A2"
+    },
+    {
+      "lemma": "winner",
+      "pos": "noun",
+      "translation_pl": "zwycięzca",
+      "definition_en": "The winner is the person who wins a game.",
+      "example_en": "Anna was the winner of the card game.",
+      "level": "A1"
+    },
+    {
+      "lemma": "loser",
+      "pos": "noun",
+      "translation_pl": "przegrany",
+      "definition_en": "The loser is the person who does not win a game.",
+      "example_en": "He was not happy to be the loser this time.",
+      "level": "A1"
+    },
+    {
+      "lemma": "rule",
+      "pos": "noun",
+      "translation_pl": "zasada",
+      "definition_en": "A rule tells people how to play a game.",
+      "example_en": "We learned the rule before we started playing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "card",
+      "pos": "noun",
+      "translation_pl": "karta",
+      "definition_en": "A card is a small rectangular piece used in card games.",
+      "example_en": "He picked a card from the deck.",
+      "level": "A1"
+    },
+    {
+      "lemma": "square",
+      "pos": "noun",
+      "translation_pl": "pole",
+      "definition_en": "A square is one part of the board in many games.",
+      "example_en": "Move your piece to the blue square.",
+      "level": "A2"
+    },
+    {
+      "lemma": "game board",
+      "pos": "noun",
+      "translation_pl": "plansza do gry",
+      "definition_en": "A game board is the flat surface where a board game is played.",
+      "example_en": "Put the game board on the table to start.",
+      "level": "A1"
+    },
+    {
+      "lemma": "player",
+      "pos": "noun",
+      "translation_pl": "gracz",
+      "definition_en": "A player is a person who takes part in a game.",
+      "example_en": "Each player takes a turn to play.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hand",
+      "pos": "noun",
+      "translation_pl": "ręka karta",
+      "definition_en": "A hand is the group of cards a player holds.",
+      "example_en": "She looked at the cards in her hand.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shuffle",
+      "pos": "noun",
+      "translation_pl": "tasowanie",
+      "definition_en": "A shuffle is the act of mixing cards before playing.",
+      "example_en": "He did a quick shuffle before dealing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "match",
+      "pos": "noun",
+      "translation_pl": "partia",
+      "definition_en": "A match is a single game or round between players.",
+      "example_en": "The match started at seven o'clock.",
+      "level": "A2"
+    },
+    {
+      "lemma": "table",
+      "pos": "noun",
+      "translation_pl": "stół do gry",
+      "definition_en": "A table is the place where players sit to play games.",
+      "example_en": "Everyone sat at the table to start the game.",
+      "level": "A1"
+    },
+    {
+      "lemma": "score",
+      "pos": "noun",
+      "translation_pl": "wynik",
+      "definition_en": "A score is the points a player gets in a game.",
+      "example_en": "She kept the highest score in the game.",
+      "level": "A2"
+    }
+  ]
+}

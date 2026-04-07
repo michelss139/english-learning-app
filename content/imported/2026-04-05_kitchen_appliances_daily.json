@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "appliances",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:47:04.509Z"
+  },
+  "items": [
+    {
+      "lemma": "blender",
+      "pos": "noun",
+      "translation_pl": "blender",
+      "definition_en": "A blender mixes or chops food quickly.",
+      "example_en": "She made a smoothie in the blender.",
+      "level": "A2"
+    },
+    {
+      "lemma": "toaster",
+      "pos": "noun",
+      "translation_pl": "toster",
+      "definition_en": "A toaster quickly browns slices of bread.",
+      "example_en": "He put the bread in the toaster this morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "microwave",
+      "pos": "noun",
+      "translation_pl": "kuchenka mikrofalowa",
+      "definition_en": "A microwave heats food very fast.",
+      "example_en": "She heats her lunch in the microwave every day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fridge",
+      "pos": "noun",
+      "translation_pl": "lodówka",
+      "definition_en": "A fridge keeps food cold and fresh.",
+      "example_en": "Please put the milk in the fridge.",
+      "level": "A1"
+    },
+    {
+      "lemma": "freezer",
+      "pos": "noun",
+      "translation_pl": "zamrażarka",
+      "definition_en": "A freezer keeps food frozen.",
+      "example_en": "Ice cream stays hard in the freezer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "oven",
+      "pos": "noun",
+      "translation_pl": "piekarnik",
+      "definition_en": "An oven bakes or roasts food.",
+      "example_en": "The cake is baking in the oven.",
+      "level": "A1"
+    },
+    {
+      "lemma": "kettle",
+      "pos": "noun",
+      "translation_pl": "czajnik",
+      "definition_en": "A kettle is used to boil water.",
+      "example_en": "She made tea with the kettle.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dishwasher",
+      "pos": "noun",
+      "translation_pl": "zmywarka",
+      "definition_en": "A dishwasher washes dirty dishes.",
+      "example_en": "He put the plates in the dishwasher.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coffee maker",
+      "pos": "noun",
+      "translation_pl": "ekspres do kawy",
+      "definition_en": "A coffee maker brews coffee.",
+      "example_en": "The coffee maker is on the kitchen counter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rice cooker",
+      "pos": "noun",
+      "translation_pl": "urządzenie do gotowania ryżu",
+      "definition_en": "A rice cooker cooks rice easily.",
+      "example_en": "She made dinner using the rice cooker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "slow cooker",
+      "pos": "noun",
+      "translation_pl": "wolnowar",
+      "definition_en": "A slow cooker cooks food over many hours.",
+      "example_en": "He prepared stew in the slow cooker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "food processor",
+      "pos": "noun",
+      "translation_pl": "robot kuchenny",
+      "definition_en": "A food processor chops or mixes food fast.",
+      "example_en": "She uses her food processor for baking.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stove",
+      "pos": "noun",
+      "translation_pl": "kuchenka",
+      "definition_en": "A stove is used for cooking food.",
+      "example_en": "He turned on the stove to cook pasta.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mixer",
+      "pos": "noun",
+      "translation_pl": "mikser",
+      "definition_en": "A mixer blends or stirs ingredients.",
+      "example_en": "Mix the eggs with the mixer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grill",
+      "pos": "noun",
+      "translation_pl": "grill",
+      "definition_en": "A grill cooks food over heat or fire.",
+      "example_en": "They put burgers on the grill.",
+      "level": "A2"
+    },
+    {
+      "lemma": "deep fryer",
+      "pos": "noun",
+      "translation_pl": "frytownica",
+      "definition_en": "A deep fryer cooks food in hot oil.",
+      "example_en": "He made fries with the deep fryer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bread maker",
+      "pos": "noun",
+      "translation_pl": "maszyna do chleba",
+      "definition_en": "A bread maker bakes bread automatically.",
+      "example_en": "She uses a bread maker every week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "juicer",
+      "pos": "noun",
+      "translation_pl": "wyciskarka do soku",
+      "definition_en": "A juicer squeezes juice from fruit or vegetables.",
+      "example_en": "He made orange juice with the juicer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sandwich maker",
+      "pos": "noun",
+      "translation_pl": "opiekacz do kanapek",
+      "definition_en": "A sandwich maker toasts sandwiches.",
+      "example_en": "I made a quick lunch with the sandwich maker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "steam cooker",
+      "pos": "noun",
+      "translation_pl": "parowar",
+      "definition_en": "A steam cooker cooks food with steam.",
+      "example_en": "Vegetables are healthy from the steam cooker.",
+      "level": "B1"
+    }
+  ]
+}

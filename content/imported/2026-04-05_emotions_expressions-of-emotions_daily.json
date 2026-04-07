@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "category": "emotions",
+    "subcategory": "expressions-of-emotions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:14:40.859Z"
+  },
+  "items": [
+    {
+      "lemma": "surprise",
+      "pos": "noun",
+      "translation_pl": "zaskoczenie",
+      "definition_en": "Surprise is a feeling you get when something happens that you did not expect.",
+      "example_en": "Her birthday party was a big surprise for her.",
+      "level": "A2"
+    },
+    {
+      "lemma": "curiosity",
+      "pos": "noun",
+      "translation_pl": "ciekawość",
+      "definition_en": "Curiosity is the feeling of wanting to know or learn about something.",
+      "example_en": "Children often show great curiosity about the world.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tension",
+      "pos": "noun",
+      "translation_pl": "napięcie",
+      "definition_en": "Tension is a feeling of nervousness or worry.",
+      "example_en": "There was tension in the room before the results were announced.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wonder",
+      "pos": "noun",
+      "translation_pl": "zachwyt",
+      "definition_en": "Wonder is a feeling of amazement and admiration.",
+      "example_en": "The children looked at the fireworks with wonder.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shock",
+      "pos": "noun",
+      "translation_pl": "szok",
+      "definition_en": "Shock is a strong feeling of surprise and fear.",
+      "example_en": "He was in shock after hearing the bad news.",
+      "level": "A2"
+    },
+    {
+      "lemma": "desire",
+      "pos": "noun",
+      "translation_pl": "pragnienie",
+      "definition_en": "Desire is a strong feeling of wanting something.",
+      "example_en": "She has a strong desire to travel the world.",
+      "level": "B1"
+    },
+    {
+      "lemma": "longing",
+      "pos": "noun",
+      "translation_pl": "tęsknota",
+      "definition_en": "Longing is the feeling of wanting something very much.",
+      "example_en": "She felt a deep longing for her hometown.",
+      "level": "B1"
+    },
+    {
+      "lemma": "anger",
+      "pos": "noun",
+      "translation_pl": "złość",
+      "definition_en": "Anger is a strong feeling of being upset or annoyed.",
+      "example_en": "She could not hide her anger during the meeting.",
+      "level": "A1"
+    },
+    {
+      "lemma": "warmth",
+      "pos": "noun",
+      "translation_pl": "ciepło uczucie",
+      "definition_en": "Warmth is a feeling of kindness and friendliness.",
+      "example_en": "He felt warmth from her smile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ease",
+      "pos": "noun",
+      "translation_pl": "spokój",
+      "definition_en": "Ease is a feeling of being comfortable or relaxed.",
+      "example_en": "She spoke with ease in front of the class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fearlessness",
+      "pos": "noun",
+      "translation_pl": "nieustraszoność",
+      "definition_en": "Fearlessness is the feeling of not being afraid at all.",
+      "example_en": "His fearlessness helped him climb the mountain.",
+      "level": "B1"
+    },
+    {
+      "lemma": "relief",
+      "pos": "noun",
+      "translation_pl": "ulga",
+      "definition_en": "Relief is a feeling of happiness because something difficult is over.",
+      "example_en": "They felt great relief when the exam was finished.",
+      "level": "A2"
+    },
+    {
+      "lemma": "adoration",
+      "pos": "noun",
+      "translation_pl": "uwielbienie",
+      "definition_en": "Adoration is a strong feeling of love and respect.",
+      "example_en": "The fans showed their adoration for the singer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "disbelief",
+      "pos": "noun",
+      "translation_pl": "niedowierzanie",
+      "definition_en": "Disbelief is the feeling of not being able to accept something as true.",
+      "example_en": "She looked at the results in disbelief.",
+      "level": "B1"
+    },
+    {
+      "lemma": "contentment",
+      "pos": "noun",
+      "translation_pl": "zadowolenie",
+      "definition_en": "Contentment is the feeling of being happy and satisfied.",
+      "example_en": "He smiled with contentment after a good meal.",
+      "level": "B1"
+    },
+    {
+      "lemma": "resentment",
+      "pos": "noun",
+      "translation_pl": "uraza",
+      "definition_en": "Resentment is the feeling of anger or unhappiness because you think you have been treated badly.",
+      "example_en": "She felt resentment after being left out of the group.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pleasure",
+      "pos": "noun",
+      "translation_pl": "przyjemność",
+      "definition_en": "Pleasure is a feeling of happiness or enjoyment.",
+      "example_en": "Eating ice cream gives me pleasure.",
+      "level": "A2"
+    },
+    {
+      "lemma": "melancholy",
+      "pos": "noun",
+      "translation_pl": "melancholia",
+      "definition_en": "Melancholy is a feeling of gentle sadness.",
+      "example_en": "A sense of melancholy filled the quiet room.",
+      "level": "B1"
+    }
+  ]
+}

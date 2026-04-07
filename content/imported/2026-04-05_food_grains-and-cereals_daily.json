@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "grains-and-cereals",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:26:55.628Z"
+  },
+  "items": [
+    {
+      "lemma": "bread",
+      "pos": "noun",
+      "translation_pl": "chleb",
+      "definition_en": "Bread is a common food made from flour and water.",
+      "example_en": "She ate a slice of bread with butter.",
+      "level": "A1"
+    },
+    {
+      "lemma": "rice",
+      "pos": "noun",
+      "translation_pl": "ryż",
+      "definition_en": "Rice is a small white or brown grain used in many meals.",
+      "example_en": "We had rice and vegetables for lunch.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pasta",
+      "pos": "noun",
+      "translation_pl": "makaron",
+      "definition_en": "Pasta is a food made from flour and water in many shapes.",
+      "example_en": "He cooked pasta for dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "oats",
+      "pos": "noun",
+      "translation_pl": "owies",
+      "definition_en": "Oats are small grains used to make porridge.",
+      "example_en": "She likes oats for breakfast.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cornflakes",
+      "pos": "noun",
+      "translation_pl": "płatki kukurydziane",
+      "definition_en": "Cornflakes are thin crispy breakfast cereal made from corn.",
+      "example_en": "He eats cornflakes every morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "barley",
+      "pos": "noun",
+      "translation_pl": "jęczmień",
+      "definition_en": "Barley is a grain used in soups and bread.",
+      "example_en": "Barley is often used in healthy salads.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wheat",
+      "pos": "noun",
+      "translation_pl": "pszenica",
+      "definition_en": "Wheat is a plant used to make flour and bread.",
+      "example_en": "Bread is usually made from wheat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cereal",
+      "pos": "noun",
+      "translation_pl": "płatki śniadaniowe",
+      "definition_en": "Cereal is a breakfast food made from grains.",
+      "example_en": "He pours milk over his cereal.",
+      "level": "A1"
+    },
+    {
+      "lemma": "popcorn",
+      "pos": "noun",
+      "translation_pl": "popcorn",
+      "definition_en": "Popcorn is a light snack made from heated corn.",
+      "example_en": "We had popcorn at the movie.",
+      "level": "A2"
+    },
+    {
+      "lemma": "quinoa",
+      "pos": "noun",
+      "translation_pl": "komosa ryżowa",
+      "definition_en": "Quinoa is a small round grain often used in salads.",
+      "example_en": "They cooked quinoa for dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "muesli",
+      "pos": "noun",
+      "translation_pl": "musli",
+      "definition_en": "Muesli is a mix of cereals, nuts and dried fruit.",
+      "example_en": "She likes muesli with yogurt.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bun",
+      "pos": "noun",
+      "translation_pl": "bułka",
+      "definition_en": "A bun is a small round bread.",
+      "example_en": "He eats a bun for breakfast.",
+      "level": "A1"
+    },
+    {
+      "lemma": "loaf",
+      "pos": "noun",
+      "translation_pl": "bochenek",
+      "definition_en": "A loaf is a large piece of bread.",
+      "example_en": "She bought a loaf of bread.",
+      "level": "A2"
+    },
+    {
+      "lemma": "porridge",
+      "pos": "noun",
+      "translation_pl": "owsianka",
+      "definition_en": "Porridge is a hot breakfast dish made from oats.",
+      "example_en": "She eats porridge every morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cracker",
+      "pos": "noun",
+      "translation_pl": "krakers",
+      "definition_en": "A cracker is a thin, crisp snack made from grains.",
+      "example_en": "He had some cheese and a cracker.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bagel",
+      "pos": "noun",
+      "translation_pl": "bajgiel",
+      "definition_en": "A bagel is a round bread with a hole in the middle.",
+      "example_en": "She likes her bagel toasted.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tortilla",
+      "pos": "noun",
+      "translation_pl": "tortilla",
+      "definition_en": "A tortilla is a flat bread made from wheat or corn.",
+      "example_en": "We put cheese in the tortilla.",
+      "level": "B1"
+    },
+    {
+      "lemma": "roll",
+      "pos": "noun",
+      "translation_pl": "bułka",
+      "definition_en": "A roll is a small piece of bread.",
+      "example_en": "He ate a roll with soup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grain",
+      "pos": "noun",
+      "translation_pl": "ziarno",
+      "definition_en": "A grain is a small hard seed from plants like wheat.",
+      "example_en": "Grain is used to make bread and pasta.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pita bread",
+      "pos": "noun",
+      "translation_pl": "chleb pita",
+      "definition_en": "Pita bread is flat bread with a pocket inside.",
+      "example_en": "They filled the pita bread with salad.",
+      "level": "B1"
+    }
+  ]
+}

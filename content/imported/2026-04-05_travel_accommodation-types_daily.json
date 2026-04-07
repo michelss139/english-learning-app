@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "accommodation-types",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:55:37.222Z"
+  },
+  "items": [
+    {
+      "lemma": "hotel",
+      "pos": "noun",
+      "translation_pl": "hotel",
+      "definition_en": "A hotel is a building where people can stay when they travel.",
+      "example_en": "We stayed at a nice hotel near the beach.",
+      "level": "A1"
+    },
+    {
+      "lemma": "motel",
+      "pos": "noun",
+      "translation_pl": "motel",
+      "definition_en": "A motel is a place to stay, usually by the road, with rooms for travelers.",
+      "example_en": "They rested at a motel during their road trip.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hostel",
+      "pos": "noun",
+      "translation_pl": "hostel",
+      "definition_en": "A hostel is a budget place where many people can sleep in shared rooms.",
+      "example_en": "Sara met new friends while staying at the hostel.",
+      "level": "A2"
+    },
+    {
+      "lemma": "apartment",
+      "pos": "noun",
+      "translation_pl": "mieszkanie",
+      "definition_en": "An apartment is a set of rooms where people can live or stay temporarily.",
+      "example_en": "We rented an apartment for our holiday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "guesthouse",
+      "pos": "noun",
+      "translation_pl": "pensjonat",
+      "definition_en": "A guesthouse is a small place where people can stay overnight.",
+      "example_en": "They booked a room at a friendly guesthouse.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bed and breakfast",
+      "pos": "noun",
+      "translation_pl": "nocleg ze śniadaniem",
+      "definition_en": "A bed and breakfast is a small place to sleep and have breakfast.",
+      "example_en": "We found a cozy bed and breakfast in the village.",
+      "level": "A2"
+    },
+    {
+      "lemma": "villa",
+      "pos": "noun",
+      "translation_pl": "willa",
+      "definition_en": "A villa is a large, comfortable house where people can stay on holiday.",
+      "example_en": "They rented a villa with a swimming pool.",
+      "level": "B1"
+    },
+    {
+      "lemma": "campsite",
+      "pos": "noun",
+      "translation_pl": "pole namiotowe",
+      "definition_en": "A campsite is a place where people put up tents when traveling.",
+      "example_en": "The children stayed at a campsite in the forest.",
+      "level": "A2"
+    },
+    {
+      "lemma": "caravan",
+      "pos": "noun",
+      "translation_pl": "przyczepa kempingowa",
+      "definition_en": "A caravan is a vehicle you can live in while traveling.",
+      "example_en": "We spent our holiday in a caravan by the lake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lodge",
+      "pos": "noun",
+      "translation_pl": "domek",
+      "definition_en": "A lodge is a small house or cabin where travelers can stay.",
+      "example_en": "They slept in a mountain lodge during their trip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "resort",
+      "pos": "noun",
+      "translation_pl": "kurort",
+      "definition_en": "A resort is a place with many activities where people stay for holidays.",
+      "example_en": "The resort offers swimming and tennis for guests.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cabin",
+      "pos": "noun",
+      "translation_pl": "domek",
+      "definition_en": "A cabin is a small house made of wood where people can stay.",
+      "example_en": "We rented a cabin in the mountains last winter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bungalow",
+      "pos": "noun",
+      "translation_pl": "bungalow",
+      "definition_en": "A bungalow is a small house with one floor where people stay.",
+      "example_en": "Our family stayed in a bungalow near the sea.",
+      "level": "B1"
+    },
+    {
+      "lemma": "inn",
+      "pos": "noun",
+      "translation_pl": "zajazd",
+      "definition_en": "An inn is a small hotel, usually in the countryside.",
+      "example_en": "They had lunch at a country inn on their way home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "holiday home",
+      "pos": "noun",
+      "translation_pl": "dom wakacyjny",
+      "definition_en": "A holiday home is a house you rent or use for a vacation.",
+      "example_en": "They spend every summer at their holiday home.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dormitory",
+      "pos": "noun",
+      "translation_pl": "internat",
+      "definition_en": "A dormitory is a large room where many people sleep, often in hostels.",
+      "example_en": "I shared a dormitory with five travelers last night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "treehouse",
+      "pos": "noun",
+      "translation_pl": "domek na drzewie",
+      "definition_en": "A treehouse is a small house built in a tree to stay in.",
+      "example_en": "They booked a treehouse for a special holiday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "farmstay",
+      "pos": "noun",
+      "translation_pl": "pobyt w gospodarstwie",
+      "definition_en": "A farmstay is when you stay at a working farm during your holiday.",
+      "example_en": "We enjoyed feeding animals during our farmstay.",
+      "level": "B1"
+    },
+    {
+      "lemma": "studio apartment",
+      "pos": "noun",
+      "translation_pl": "kawalerka",
+      "definition_en": "A studio apartment is a small one-room flat for staying.",
+      "example_en": "I stayed in a small studio apartment in the city.",
+      "level": "B1"
+    },
+    {
+      "lemma": "suite",
+      "pos": "noun",
+      "translation_pl": "apartament",
+      "definition_en": "A suite is a set of connected rooms in a hotel.",
+      "example_en": "They enjoyed the large suite with a view of the ocean.",
+      "level": "B1"
+    }
+  ]
+}

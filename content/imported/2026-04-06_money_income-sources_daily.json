@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "income-sources",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:32:05.317Z"
+  },
+  "items": [
+    {
+      "lemma": "salary",
+      "pos": "noun",
+      "translation_pl": "wynagrodzenie",
+      "definition_en": "A salary is money you get every month for your work.",
+      "example_en": "He receives his salary at the end of each month.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wage",
+      "pos": "noun",
+      "translation_pl": "płaca",
+      "definition_en": "A wage is money you get paid for your job, usually weekly.",
+      "example_en": "She earns a good wage at the factory.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bonus",
+      "pos": "noun",
+      "translation_pl": "premia",
+      "definition_en": "A bonus is extra money you get at work for good performance.",
+      "example_en": "He got a bonus for his excellent sales.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pension",
+      "pos": "noun",
+      "translation_pl": "emerytura",
+      "definition_en": "A pension is money you get after you retire from work.",
+      "example_en": "She lives on her pension now.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stipend",
+      "pos": "noun",
+      "translation_pl": "stypendium",
+      "definition_en": "A stipend is a small amount of money paid regularly, often for study.",
+      "example_en": "He receives a monthly stipend during his internship.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dividend",
+      "pos": "noun",
+      "translation_pl": "dywidenda",
+      "definition_en": "A dividend is money paid to people who own shares in a company.",
+      "example_en": "She enjoys getting a dividend from her investments.",
+      "level": "B1"
+    },
+    {
+      "lemma": "allowance",
+      "pos": "noun",
+      "translation_pl": "kieszonkowe",
+      "definition_en": "An allowance is money given regularly, usually by parents to children.",
+      "example_en": "He spends his weekly allowance on snacks.",
+      "level": "A2"
+    },
+    {
+      "lemma": "commission",
+      "pos": "noun",
+      "translation_pl": "prowizja",
+      "definition_en": "A commission is money earned from sales or business deals.",
+      "example_en": "She gets a commission for every car she sells.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fee",
+      "pos": "noun",
+      "translation_pl": "opłata",
+      "definition_en": "A fee is money paid for a service.",
+      "example_en": "There is a small fee for joining the club.",
+      "level": "A2"
+    },
+    {
+      "lemma": "interest",
+      "pos": "noun",
+      "translation_pl": "odsetki",
+      "definition_en": "Interest is extra money earned on savings or paid on loans.",
+      "example_en": "The bank pays him interest on his savings.",
+      "level": "A2"
+    },
+    {
+      "lemma": "income",
+      "pos": "noun",
+      "translation_pl": "dochód",
+      "definition_en": "Income is the money you get from work or investments.",
+      "example_en": "Her income is enough to cover all her bills.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grant",
+      "pos": "noun",
+      "translation_pl": "dotacja",
+      "definition_en": "A grant is money given for a special purpose, often by the government.",
+      "example_en": "He received a grant to study abroad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tip",
+      "pos": "noun",
+      "translation_pl": "napiwek",
+      "definition_en": "A tip is extra money given to someone for their service.",
+      "example_en": "She left a tip for the waiter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "profit",
+      "pos": "noun",
+      "translation_pl": "zysk",
+      "definition_en": "Profit is the money you make after costs are taken away.",
+      "example_en": "Their business made a big profit last year.",
+      "level": "A2"
+    },
+    {
+      "lemma": "royalty",
+      "pos": "noun",
+      "translation_pl": "honorarium autorskie",
+      "definition_en": "Royalty is money paid to someone for using their work or idea.",
+      "example_en": "He earned royalty from his book sales.",
+      "level": "B1"
+    },
+    {
+      "lemma": "welfare",
+      "pos": "noun",
+      "translation_pl": "zasiłek",
+      "definition_en": "Welfare is money given by the government to people in need.",
+      "example_en": "She receives welfare while looking for a job.",
+      "level": "B1"
+    },
+    {
+      "lemma": "scholarship",
+      "pos": "noun",
+      "translation_pl": "stypendium naukowe",
+      "definition_en": "A scholarship is money given to students for their studies.",
+      "example_en": "He won a scholarship to attend university.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tip jar",
+      "pos": "noun",
+      "translation_pl": "słoik na napiwki",
+      "definition_en": "A tip jar is a container where customers can leave money for workers.",
+      "example_en": "The café had a tip jar on the counter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "honorarium",
+      "pos": "noun",
+      "translation_pl": "honorarium",
+      "definition_en": "An honorarium is money paid for a service that is usually free.",
+      "example_en": "The speaker received an honorarium for her talk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rental income",
+      "pos": "noun",
+      "translation_pl": "dochód z wynajmu",
+      "definition_en": "Rental income is money earned from letting someone use your property.",
+      "example_en": "He earns rental income from two apartments.",
+      "level": "B1"
+    }
+  ]
+}

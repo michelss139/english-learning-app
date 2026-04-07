@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "tableware",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:49:23.058Z"
+  },
+  "items": [
+    {
+      "lemma": "wine glass",
+      "pos": "noun",
+      "translation_pl": "kieliszek do wina",
+      "definition_en": "A wine glass is a stemmed glass used to drink wine.",
+      "example_en": "He filled his wine glass before dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "water goblet",
+      "pos": "noun",
+      "translation_pl": "kielich do wody",
+      "definition_en": "A water goblet is a large, stemmed glass used for water.",
+      "example_en": "A water goblet was set at each place at the table.",
+      "level": "B2"
+    },
+    {
+      "lemma": "salad plate",
+      "pos": "noun",
+      "translation_pl": "talerzyk do sałatki",
+      "definition_en": "A salad plate is a small plate for serving salad.",
+      "example_en": "Place the salad plate to the left of the main plate.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bread plate",
+      "pos": "noun",
+      "translation_pl": "talerzyk na pieczywo",
+      "definition_en": "A bread plate is a small dish used for bread and butter.",
+      "example_en": "She put a roll on her bread plate.",
+      "level": "B1"
+    },
+    {
+      "lemma": "soup plate",
+      "pos": "noun",
+      "translation_pl": "talerz na zupę",
+      "definition_en": "A soup plate is a deep plate used to serve soup.",
+      "example_en": "He poured the tomato soup into his soup plate.",
+      "level": "B1"
+    },
+    {
+      "lemma": "demitasse cup",
+      "pos": "noun",
+      "translation_pl": "filiżanka do espresso",
+      "definition_en": "A demitasse cup is a small cup used for serving espresso.",
+      "example_en": "She sipped coffee from a demitasse cup.",
+      "level": "B2"
+    },
+    {
+      "lemma": "egg cup",
+      "pos": "noun",
+      "translation_pl": "kieliszek do jajek",
+      "definition_en": "An egg cup is a small cup for holding a boiled egg upright.",
+      "example_en": "He placed a soft-boiled egg in the egg cup.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bread basket",
+      "pos": "noun",
+      "translation_pl": "koszyk na pieczywo",
+      "definition_en": "A bread basket is a container for serving bread at the table.",
+      "example_en": "She put slices of bread in the bread basket.",
+      "level": "B1"
+    },
+    {
+      "lemma": "soup tureen",
+      "pos": "noun",
+      "translation_pl": "waza do zupy",
+      "definition_en": "A soup tureen is a large, deep serving dish for soup.",
+      "example_en": "The waiter brought the soup tureen to the table.",
+      "level": "B2"
+    },
+    {
+      "lemma": "side plate",
+      "pos": "noun",
+      "translation_pl": "talerzyk deserowy",
+      "definition_en": "A side plate is a small plate used for side dishes or bread.",
+      "example_en": "He placed his salad on the side plate.",
+      "level": "B1"
+    },
+    {
+      "lemma": "charger plate",
+      "pos": "noun",
+      "translation_pl": "talerz dekoracyjny pod talerz",
+      "definition_en": "A charger plate is a large decorative base for other plates.",
+      "example_en": "Charger plates decorated the dinner table.",
+      "level": "C1"
+    },
+    {
+      "lemma": "fish knife",
+      "pos": "noun",
+      "translation_pl": "nóż do ryb",
+      "definition_en": "A fish knife is a special knife for eating fish.",
+      "example_en": "They set a fish knife next to the dinner plate.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dessert fork",
+      "pos": "noun",
+      "translation_pl": "widelec do deseru",
+      "definition_en": "A dessert fork is a small fork used to eat dessert.",
+      "example_en": "She ate her cake with a dessert fork.",
+      "level": "B1"
+    },
+    {
+      "lemma": "oyster fork",
+      "pos": "noun",
+      "translation_pl": "widelec do ostryg",
+      "definition_en": "An oyster fork is a small, narrow fork for eating shellfish.",
+      "example_en": "He picked up the oyster fork to try the shellfish.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cake server",
+      "pos": "noun",
+      "translation_pl": "łopatka do ciasta",
+      "definition_en": "A cake server is a tool for serving slices of cake.",
+      "example_en": "She used the cake server to serve the birthday cake.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cream jug",
+      "pos": "noun",
+      "translation_pl": "dzbanuszek do śmietanki",
+      "definition_en": "A cream jug is a small pitcher for serving cream.",
+      "example_en": "Please pass the cream jug for my coffee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "espresso cup",
+      "pos": "noun",
+      "translation_pl": "filiżanka do espresso",
+      "definition_en": "An espresso cup is a small cup used for espresso coffee.",
+      "example_en": "He ordered an espresso in a small espresso cup.",
+      "level": "B1"
+    },
+    {
+      "lemma": "placemat",
+      "pos": "noun",
+      "translation_pl": "podkładka na stół",
+      "definition_en": "A placemat is a small mat placed under a plate on a table.",
+      "example_en": "Each setting had a red placemat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coaster",
+      "pos": "noun",
+      "translation_pl": "podstawka pod kubek",
+      "definition_en": "A coaster is a small mat to protect a surface from a drink.",
+      "example_en": "He put a coaster under his glass of juice.",
+      "level": "B1"
+    },
+    {
+      "lemma": "milk jug",
+      "pos": "noun",
+      "translation_pl": "dzbanek na mleko",
+      "definition_en": "A milk jug is a small jug for serving milk.",
+      "example_en": "The milk jug was next to the sugar bowl.",
+      "level": "B1"
+    }
+  ]
+}

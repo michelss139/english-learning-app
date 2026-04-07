@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "furniture-and-home-goods",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:01:13.620Z"
+  },
+  "items": [
+    {
+      "lemma": "sofa",
+      "pos": "noun",
+      "translation_pl": "sofa",
+      "definition_en": "A sofa is a long seat for several people.",
+      "example_en": "They bought a new sofa for the living room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "table",
+      "pos": "noun",
+      "translation_pl": "stół",
+      "definition_en": "A table is a piece of furniture with a flat top and legs.",
+      "example_en": "We eat dinner at the table every night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bed",
+      "pos": "noun",
+      "translation_pl": "łóżko",
+      "definition_en": "A bed is furniture for sleeping on.",
+      "example_en": "My bed is in the corner of my room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "chair",
+      "pos": "noun",
+      "translation_pl": "krzesło",
+      "definition_en": "A chair is a piece of furniture for one person to sit on.",
+      "example_en": "She sat on the chair by the window.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lamp",
+      "pos": "noun",
+      "translation_pl": "lampa",
+      "definition_en": "A lamp is a device that gives light.",
+      "example_en": "He turned on the lamp to read.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wardrobe",
+      "pos": "noun",
+      "translation_pl": "szafa",
+      "definition_en": "A wardrobe is a large cabinet for clothes.",
+      "example_en": "My clothes are hanging in the wardrobe.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bookshelf",
+      "pos": "noun",
+      "translation_pl": "regał na książki",
+      "definition_en": "A bookshelf is a shelf for holding books.",
+      "example_en": "She put her favorite books on the bookshelf.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rug",
+      "pos": "noun",
+      "translation_pl": "dywanik",
+      "definition_en": "A rug is a small carpet.",
+      "example_en": "There is a soft rug next to the bed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mirror",
+      "pos": "noun",
+      "translation_pl": "lustro",
+      "definition_en": "A mirror is glass that reflects your image.",
+      "example_en": "He looked at himself in the mirror.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pillow",
+      "pos": "noun",
+      "translation_pl": "poduszka",
+      "definition_en": "A pillow is a soft cushion for your head.",
+      "example_en": "She rests her head on the pillow.",
+      "level": "A1"
+    },
+    {
+      "lemma": "blanket",
+      "pos": "noun",
+      "translation_pl": "koc",
+      "definition_en": "A blanket is a warm cover for a bed.",
+      "example_en": "He pulled the blanket up to his chin.",
+      "level": "A1"
+    },
+    {
+      "lemma": "drawer",
+      "pos": "noun",
+      "translation_pl": "szuflada",
+      "definition_en": "A drawer is a sliding box in furniture for storage.",
+      "example_en": "I keep my socks in the drawer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cushion",
+      "pos": "noun",
+      "translation_pl": "poduszka dekoracyjna",
+      "definition_en": "A cushion is a soft pad for a chair or sofa.",
+      "example_en": "The blue cushion is on the sofa.",
+      "level": "A2"
+    },
+    {
+      "lemma": "curtains",
+      "pos": "noun",
+      "translation_pl": "zasłony",
+      "definition_en": "Curtains are cloth used to cover windows.",
+      "example_en": "He closed the curtains at night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cupboard",
+      "pos": "noun",
+      "translation_pl": "szafka",
+      "definition_en": "A cupboard is a piece of furniture with doors for storage.",
+      "example_en": "There are plates in the cupboard.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stool",
+      "pos": "noun",
+      "translation_pl": "stołek",
+      "definition_en": "A stool is a simple seat without a back or arms.",
+      "example_en": "He sat on a wooden stool at the bar.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dresser",
+      "pos": "noun",
+      "translation_pl": "komoda",
+      "definition_en": "A dresser is a chest of drawers for clothes.",
+      "example_en": "She put her shirts in the dresser.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clock",
+      "pos": "noun",
+      "translation_pl": "zegar",
+      "definition_en": "A clock is a device that shows the time.",
+      "example_en": "The clock on the wall is very old.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shelf",
+      "pos": "noun",
+      "translation_pl": "półka",
+      "definition_en": "A shelf is a flat surface for putting things on.",
+      "example_en": "He put the keys on the shelf.",
+      "level": "A1"
+    },
+    {
+      "lemma": "armchair",
+      "pos": "noun",
+      "translation_pl": "fotel",
+      "definition_en": "An armchair is a comfortable chair with armrests.",
+      "example_en": "Grandpa sat in his armchair to read.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "professions",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:33:10.762Z"
+  },
+  "items": [
+    {
+      "lemma": "paramedic",
+      "pos": "noun",
+      "translation_pl": "ratownik medyczny",
+      "definition_en": "A paramedic gives emergency medical help outside of hospitals.",
+      "example_en": "The paramedic arrived quickly to help the injured man.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pharmacist",
+      "pos": "noun",
+      "translation_pl": "farmaceuta",
+      "definition_en": "A pharmacist prepares and sells medicines in a pharmacy.",
+      "example_en": "She asked the pharmacist about her prescription.",
+      "level": "B1"
+    },
+    {
+      "lemma": "journalist",
+      "pos": "noun",
+      "translation_pl": "dziennikarz",
+      "definition_en": "A journalist writes news stories for newspapers or TV.",
+      "example_en": "The journalist interviewed the mayor after the event.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electrician",
+      "pos": "noun",
+      "translation_pl": "elektryk",
+      "definition_en": "An electrician installs or repairs electrical systems.",
+      "example_en": "We called an electrician to fix the broken lights.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mechanic",
+      "pos": "noun",
+      "translation_pl": "mechanik",
+      "definition_en": "A mechanic repairs and maintains cars and machines.",
+      "example_en": "The mechanic replaced the car's battery.",
+      "level": "B1"
+    },
+    {
+      "lemma": "receptionist",
+      "pos": "noun",
+      "translation_pl": "recepcjonista",
+      "definition_en": "A receptionist greets visitors and answers phones at a business.",
+      "example_en": "The receptionist gave me a visitor badge.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plumber",
+      "pos": "noun",
+      "translation_pl": "hydraulik",
+      "definition_en": "A plumber installs and fixes pipes and water systems.",
+      "example_en": "They needed a plumber for the leaking kitchen sink.",
+      "level": "B1"
+    },
+    {
+      "lemma": "carpenter",
+      "pos": "noun",
+      "translation_pl": "stolarz",
+      "definition_en": "A carpenter makes and repairs things from wood.",
+      "example_en": "A carpenter built the shelves in our living room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "software developer",
+      "pos": "noun",
+      "translation_pl": "programista",
+      "definition_en": "A software developer designs and creates computer programs.",
+      "example_en": "He works as a software developer for a large company.",
+      "level": "B2"
+    },
+    {
+      "lemma": "graphic designer",
+      "pos": "noun",
+      "translation_pl": "grafik komputerowy",
+      "definition_en": "A graphic designer creates images and layouts for print or web.",
+      "example_en": "The graphic designer made a new logo for the shop.",
+      "level": "B2"
+    },
+    {
+      "lemma": "accountant",
+      "pos": "noun",
+      "translation_pl": "księgowy",
+      "definition_en": "An accountant keeps and checks financial records for businesses.",
+      "example_en": "Their accountant prepares the budget every year.",
+      "level": "B1"
+    },
+    {
+      "lemma": "architect",
+      "pos": "noun",
+      "translation_pl": "architekt",
+      "definition_en": "An architect designs buildings and structures.",
+      "example_en": "The architect showed us plans for the new school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flight attendant",
+      "pos": "noun",
+      "translation_pl": "stewardessa",
+      "definition_en": "A flight attendant helps and serves passengers on planes.",
+      "example_en": "The flight attendant handed out snacks during the flight.",
+      "level": "B1"
+    },
+    {
+      "lemma": "photographer",
+      "pos": "noun",
+      "translation_pl": "fotograf",
+      "definition_en": "A photographer takes professional photos as a job.",
+      "example_en": "The photographer took pictures at the wedding.",
+      "level": "B1"
+    },
+    {
+      "lemma": "translator",
+      "pos": "noun",
+      "translation_pl": "tłumacz",
+      "definition_en": "A translator changes written texts from one language to another.",
+      "example_en": "The translator worked on the book for several months.",
+      "level": "B2"
+    },
+    {
+      "lemma": "veterinarian",
+      "pos": "noun",
+      "translation_pl": "weterynarz",
+      "definition_en": "A veterinarian is a doctor who takes care of animals.",
+      "example_en": "The veterinarian helped our sick dog recover.",
+      "level": "B2"
+    },
+    {
+      "lemma": "psychologist",
+      "pos": "noun",
+      "translation_pl": "psycholog",
+      "definition_en": "A psychologist studies and helps with people's mental health.",
+      "example_en": "She saw a psychologist to talk about her stress.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pilot",
+      "pos": "noun",
+      "translation_pl": "pilot samolotu",
+      "definition_en": "A pilot is a person who flies an aircraft.",
+      "example_en": "The pilot announced our arrival time over the speakers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "personal trainer",
+      "pos": "noun",
+      "translation_pl": "trener osobisty",
+      "definition_en": "A personal trainer helps people exercise and reach fitness goals.",
+      "example_en": "My personal trainer designed a new workout plan for me.",
+      "level": "B2"
+    },
+    {
+      "lemma": "social worker",
+      "pos": "noun",
+      "translation_pl": "pracownik socjalny",
+      "definition_en": "A social worker helps people with social and personal problems.",
+      "example_en": "The social worker visited families to offer support.",
+      "level": "B2"
+    }
+  ]
+}

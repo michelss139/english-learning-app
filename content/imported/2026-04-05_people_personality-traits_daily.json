@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "personality-traits",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:35:50.377Z"
+  },
+  "items": [
+    {
+      "lemma": "friend",
+      "pos": "noun",
+      "translation_pl": "przyjaciel",
+      "definition_en": "A person you know well and like.",
+      "example_en": "My friend helped me with my homework.",
+      "level": "A1"
+    },
+    {
+      "lemma": "leader",
+      "pos": "noun",
+      "translation_pl": "przywódca",
+      "definition_en": "A person who guides or is in charge of others.",
+      "example_en": "She is the leader of our group.",
+      "level": "A2"
+    },
+    {
+      "lemma": "helper",
+      "pos": "noun",
+      "translation_pl": "pomocnik",
+      "definition_en": "Someone who gives support or assistance.",
+      "example_en": "He is a good helper in the kitchen.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stranger",
+      "pos": "noun",
+      "translation_pl": "nieznajomy",
+      "definition_en": "A person you do not know.",
+      "example_en": "A stranger asked me for directions.",
+      "level": "A2"
+    },
+    {
+      "lemma": "optimist",
+      "pos": "noun",
+      "translation_pl": "optymista",
+      "definition_en": "A person who sees the good side of things.",
+      "example_en": "My brother is a real optimist.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pessimist",
+      "pos": "noun",
+      "translation_pl": "pesymista",
+      "definition_en": "A person who often expects bad things.",
+      "example_en": "He is known as a pessimist at work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "introvert",
+      "pos": "noun",
+      "translation_pl": "introwertyk",
+      "definition_en": "A person who is quiet and likes being alone.",
+      "example_en": "She is an introvert and enjoys reading.",
+      "level": "B1"
+    },
+    {
+      "lemma": "extrovert",
+      "pos": "noun",
+      "translation_pl": "ekstrawertyk",
+      "definition_en": "A person who likes meeting people.",
+      "example_en": "Mike is an extrovert and loves parties.",
+      "level": "B1"
+    },
+    {
+      "lemma": "neighbor",
+      "pos": "noun",
+      "translation_pl": "sąsiad",
+      "definition_en": "A person who lives near you.",
+      "example_en": "My neighbor is very friendly.",
+      "level": "A1"
+    },
+    {
+      "lemma": "joker",
+      "pos": "noun",
+      "translation_pl": "żartowniś",
+      "definition_en": "A person who likes to make jokes.",
+      "example_en": "He is the joker of the class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dreamer",
+      "pos": "noun",
+      "translation_pl": "marzyciel",
+      "definition_en": "A person who thinks about exciting things.",
+      "example_en": "He has always been a dreamer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thinker",
+      "pos": "noun",
+      "translation_pl": "myśliciel",
+      "definition_en": "A person who enjoys thinking deeply.",
+      "example_en": "Einstein was a great thinker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "listener",
+      "pos": "noun",
+      "translation_pl": "słuchacz",
+      "definition_en": "A person who pays attention when others talk.",
+      "example_en": "She is a good listener.",
+      "level": "A2"
+    },
+    {
+      "lemma": "companion",
+      "pos": "noun",
+      "translation_pl": "towarzysz",
+      "definition_en": "A person who spends time with you.",
+      "example_en": "My dog is my best companion.",
+      "level": "B1"
+    },
+    {
+      "lemma": "winner",
+      "pos": "noun",
+      "translation_pl": "zwycięzca",
+      "definition_en": "A person who finishes first or succeeds.",
+      "example_en": "He was the winner of the contest.",
+      "level": "A2"
+    },
+    {
+      "lemma": "loser",
+      "pos": "noun",
+      "translation_pl": "przegrany",
+      "definition_en": "A person who does not win.",
+      "example_en": "No one likes to be a loser.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chatterbox",
+      "pos": "noun",
+      "translation_pl": "gaduła",
+      "definition_en": "A person who talks a lot.",
+      "example_en": "My little sister is a real chatterbox.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bully",
+      "pos": "noun",
+      "translation_pl": "tyran",
+      "definition_en": "A person who hurts or frightens others.",
+      "example_en": "No one likes a bully at school.",
+      "level": "B1"
+    }
+  ]
+}

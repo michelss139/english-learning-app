@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "coins-and-notes",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:28:40.373Z"
+  },
+  "items": [
+    {
+      "lemma": "two-dollar bill",
+      "pos": "noun",
+      "translation_pl": "banknot dwudolarowy",
+      "definition_en": "A piece of paper money worth two dollars.",
+      "example_en": "He found a rare two-dollar bill in his wallet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fifty-cent piece",
+      "pos": "noun",
+      "translation_pl": "moneta pięćdziesięciocentowa",
+      "definition_en": "A coin with a value of fifty cents.",
+      "example_en": "She put a fifty-cent piece into the machine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "five-dollar bill",
+      "pos": "noun",
+      "translation_pl": "banknot pięciodolarowy",
+      "definition_en": "A paper note with a value of five dollars.",
+      "example_en": "The cashier gave me a five-dollar bill as change.",
+      "level": "B1"
+    },
+    {
+      "lemma": "metal coin",
+      "pos": "noun",
+      "translation_pl": "metalowa moneta",
+      "definition_en": "A coin made of metal.",
+      "example_en": "He tossed a metal coin into the fountain.",
+      "level": "B1"
+    },
+    {
+      "lemma": "paper currency",
+      "pos": "noun",
+      "translation_pl": "papierowy pieniądz",
+      "definition_en": "Money made from paper and used as legal tender.",
+      "example_en": "Most countries now use paper currency.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fifty-dollar bill",
+      "pos": "noun",
+      "translation_pl": "banknot pięćdziesięciodolarowy",
+      "definition_en": "A note worth fifty dollars.",
+      "example_en": "He paid for dinner with a fifty-dollar bill.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gold coin",
+      "pos": "noun",
+      "translation_pl": "złota moneta",
+      "definition_en": "A coin made of gold.",
+      "example_en": "Collectors often seek out rare gold coins.",
+      "level": "B2"
+    },
+    {
+      "lemma": "twenty-dollar bill",
+      "pos": "noun",
+      "translation_pl": "banknot dwudziestodolarowy",
+      "definition_en": "A paper bill worth twenty dollars.",
+      "example_en": "She withdrew a twenty-dollar bill from the ATM.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ten-dollar bill",
+      "pos": "noun",
+      "translation_pl": "banknot dziesięciodolarowy",
+      "definition_en": "A note with the value of ten dollars.",
+      "example_en": "I only have a ten-dollar bill left.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fifty-cent coin",
+      "pos": "noun",
+      "translation_pl": "moneta pięćdziesięciocentowa",
+      "definition_en": "A coin equal to fifty cents.",
+      "example_en": "She found a shiny fifty-cent coin.",
+      "level": "B1"
+    },
+    {
+      "lemma": "one-dollar bill",
+      "pos": "noun",
+      "translation_pl": "banknot jednodolarowy",
+      "definition_en": "A paper note valued at one dollar.",
+      "example_en": "He always carries a one-dollar bill for tips.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coin roll",
+      "pos": "noun",
+      "translation_pl": "rolka monet",
+      "definition_en": "A tube or wrapper filled with coins of the same value.",
+      "example_en": "The bank gave me a coin roll for my savings jar.",
+      "level": "B2"
+    },
+    {
+      "lemma": "commemorative coin",
+      "pos": "noun",
+      "translation_pl": "moneta okolicznościowa",
+      "definition_en": "A special coin made to honor a person or event.",
+      "example_en": "He collects commemorative coins from different countries.",
+      "level": "B2"
+    },
+    {
+      "lemma": "minted coin",
+      "pos": "noun",
+      "translation_pl": "wybita moneta",
+      "definition_en": "A coin produced at a mint.",
+      "example_en": "Each minted coin has a year stamped on it.",
+      "level": "B2"
+    },
+    {
+      "lemma": "legal tender note",
+      "pos": "noun",
+      "translation_pl": "banknot prawnym środkiem płatniczym",
+      "definition_en": "A banknote that must be accepted as payment by law.",
+      "example_en": "This shop only accepts legal tender notes.",
+      "level": "C1"
+    },
+    {
+      "lemma": "counterfeit note",
+      "pos": "noun",
+      "translation_pl": "fałszywy banknot",
+      "definition_en": "A fake bill made to look like a real one.",
+      "example_en": "The cashier spotted a counterfeit note in the pile.",
+      "level": "B2"
+    },
+    {
+      "lemma": "coin slot",
+      "pos": "noun",
+      "translation_pl": "szczelina na monety",
+      "definition_en": "An opening in a machine where you put coins.",
+      "example_en": "Insert a coin in the coin slot to start the dryer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plastic note",
+      "pos": "noun",
+      "translation_pl": "polimerowy banknot",
+      "definition_en": "A banknote made from plastic instead of paper.",
+      "example_en": "Plastic notes last longer than paper ones.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cash register drawer",
+      "pos": "noun",
+      "translation_pl": "szuflada kasy fiskalnej",
+      "definition_en": "The part of a cash register where coins and notes are kept.",
+      "example_en": "She placed the bills in the cash register drawer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cash bundle",
+      "pos": "noun",
+      "translation_pl": "pliki banknotów",
+      "definition_en": "A stack of paper money tied or banded together.",
+      "example_en": "He handed the cashier a cash bundle to pay for the car.",
+      "level": "B2"
+    }
+  ]
+}

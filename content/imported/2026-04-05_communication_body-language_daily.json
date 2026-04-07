@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "body-language",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:59:41.699Z"
+  },
+  "items": [
+    {
+      "lemma": "smile",
+      "pos": "noun",
+      "translation_pl": "uśmiech",
+      "definition_en": "A smile is an expression on your face when you are happy or friendly.",
+      "example_en": "Her smile made everyone feel welcome.",
+      "level": "A1"
+    },
+    {
+      "lemma": "frown",
+      "pos": "noun",
+      "translation_pl": "zmarszczenie brwi",
+      "definition_en": "A frown is a serious or angry look on your face.",
+      "example_en": "He had a deep frown during the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nod",
+      "pos": "noun",
+      "translation_pl": "kiwnięcie głową",
+      "definition_en": "A nod is the act of moving your head up and down to say yes.",
+      "example_en": "She gave a quick nod to show agreement.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wink",
+      "pos": "noun",
+      "translation_pl": "puszczenie oka",
+      "definition_en": "A wink is closing one eye quickly as a signal.",
+      "example_en": "He gave her a wink before leaving.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wave",
+      "pos": "noun",
+      "translation_pl": "machanie ręką",
+      "definition_en": "A wave is moving your hand to say hello or goodbye.",
+      "example_en": "She gave her friend a cheerful wave.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shrug",
+      "pos": "noun",
+      "translation_pl": "wzruszenie ramion",
+      "definition_en": "A shrug is raising your shoulders to show you do not know something.",
+      "example_en": "His only answer was a shrug.",
+      "level": "B1"
+    },
+    {
+      "lemma": "glance",
+      "pos": "noun",
+      "translation_pl": "spojrzenie",
+      "definition_en": "A glance is a quick look at someone or something.",
+      "example_en": "He gave his watch a quick glance.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stare",
+      "pos": "noun",
+      "translation_pl": "gapienie się",
+      "definition_en": "A stare is a long and direct look at someone or something.",
+      "example_en": "Her stare made him feel uncomfortable.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hug",
+      "pos": "noun",
+      "translation_pl": "przytulenie",
+      "definition_en": "A hug is putting your arms around someone to show care.",
+      "example_en": "She gave him a big hug.",
+      "level": "A1"
+    },
+    {
+      "lemma": "handshake",
+      "pos": "noun",
+      "translation_pl": "uścisk dłoni",
+      "definition_en": "A handshake is holding someone's hand to greet or agree.",
+      "example_en": "They ended the meeting with a firm handshake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pat",
+      "pos": "noun",
+      "translation_pl": "poklepanie",
+      "definition_en": "A pat is a gentle touch with your hand to show support.",
+      "example_en": "She gave the child a pat on the back.",
+      "level": "A2"
+    },
+    {
+      "lemma": "thumbs-up",
+      "pos": "noun",
+      "translation_pl": "kciuk w górę",
+      "definition_en": "A thumbs-up is lifting your thumb to show something is good.",
+      "example_en": "He gave me a thumbs-up before the race.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bow",
+      "pos": "noun",
+      "translation_pl": "ukłon",
+      "definition_en": "A bow is bending your body forward to show respect.",
+      "example_en": "She made a small bow before leaving.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grimace",
+      "pos": "noun",
+      "translation_pl": "grymas",
+      "definition_en": "A grimace is a look on your face that shows pain or dislike.",
+      "example_en": "He made a grimace after tasting the lemon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gesture",
+      "pos": "noun",
+      "translation_pl": "gest",
+      "definition_en": "A gesture is a movement of your hand or body to show meaning.",
+      "example_en": "She used a gesture to ask for help.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nod of approval",
+      "pos": "noun",
+      "translation_pl": "kiwnięcie głową na znak zgody",
+      "definition_en": "A nod of approval is moving your head to show you agree.",
+      "example_en": "Her boss gave her a nod of approval.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shoulder tap",
+      "pos": "noun",
+      "translation_pl": "stukanie w ramię",
+      "definition_en": "A shoulder tap is touching someone on the shoulder to get attention.",
+      "example_en": "A gentle shoulder tap made him turn around.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gaze",
+      "pos": "noun",
+      "translation_pl": "spojrzenie",
+      "definition_en": "A gaze is when you look at someone or something for a long time.",
+      "example_en": "Her gaze was fixed on the painting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sigh",
+      "pos": "noun",
+      "translation_pl": "westchnienie",
+      "definition_en": "A sigh is when you breathe out loudly to show sadness or relief.",
+      "example_en": "He let out a sigh after the long day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "poke",
+      "pos": "noun",
+      "translation_pl": "szturchnięcie",
+      "definition_en": "A poke is a quick push with your finger or hand.",
+      "example_en": "She gave him a poke to wake him up.",
+      "level": "A2"
+    }
+  ]
+}

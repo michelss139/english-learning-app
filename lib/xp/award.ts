@@ -14,6 +14,8 @@ export type AwardInput = {
   sessionId: string;
   dedupeKey: string;
   perfect: boolean;
+  /** When set (e.g. irregular verbs), this amount is granted instead of the default 10/20 XP. */
+  xp?: number;
   meta?: Record<string, any> | null;
   eligibleForAward?: boolean;
   repeatQualified?: boolean;
@@ -23,6 +25,15 @@ export type AwardInput = {
   };
 };
 
+/** Machine-readable reason when `xp_awarded === 0` (API + UI mapping). */
+export type XpSkipReasonCode =
+  | "already_awarded_today"
+  | "not_eligible_for_award"
+  | "repeat_not_qualified"
+  | "xp_insert_duplicate"
+  | "session_already_completed"
+  | "isolated_lesson_no_xp";
+
 export type AwardResult = {
   xp_awarded: number;
   xp_total: number;
@@ -30,6 +41,7 @@ export type AwardResult = {
   xp_in_current_level: number;
   xp_to_next_level: number;
   newly_awarded_badges: NewlyAwardedBadge[];
+  xp_skip_reason: XpSkipReasonCode | null;
 };
 
 export function getWarsawDateString(date = new Date()): string {
@@ -121,6 +133,7 @@ export async function awardXpAndBadges(input: AwardInput): Promise<AwardResult> 
     eligibleForAward = true,
     repeatQualified = true,
     badgeContext,
+    xp: xpOverride,
   } = input;
 
   const awardedOn = getWarsawDateString();
@@ -142,10 +155,15 @@ export async function awardXpAndBadges(input: AwardInput): Promise<AwardResult> 
   const userXpRow = await ensureUserXp(supabase, userId);
   let xpTotal = userXpRow.xp_total ?? 0;
   let xpAwarded = 0;
+  let xpInsertDuplicate = false;
   let newlyAwardedBadges: NewlyAwardedBadge[] = [];
 
   if (!awardedToday && eligibleForAward && (!hasAnyAward || repeatQualified)) {
-    xpAwarded = perfect ? 20 : 10;
+    if (typeof xpOverride === "number" && Number.isFinite(xpOverride) && xpOverride >= 0) {
+      xpAwarded = Math.min(Math.max(Math.trunc(xpOverride), 0), 1000);
+    } else {
+      xpAwarded = perfect ? 20 : 10;
+    }
 
     const { error: insertErr } = await supabase.from("xp_events").insert({
       user_id: userId,
@@ -162,6 +180,7 @@ export async function awardXpAndBadges(input: AwardInput): Promise<AwardResult> 
     if (insertErr) {
       if (insertErr.code === "23505") {
         xpAwarded = 0;
+        xpInsertDuplicate = true;
       } else {
         throw insertErr;
       }
@@ -196,6 +215,19 @@ export async function awardXpAndBadges(input: AwardInput): Promise<AwardResult> 
 
   const finalLevelInfo = calculateLevelInfo(xpTotal);
 
+  let xp_skip_reason: XpSkipReasonCode | null = null;
+  if (xpAwarded === 0) {
+    if (xpInsertDuplicate) {
+      xp_skip_reason = "xp_insert_duplicate";
+    } else if (awardedToday) {
+      xp_skip_reason = "already_awarded_today";
+    } else if (!eligibleForAward) {
+      xp_skip_reason = "not_eligible_for_award";
+    } else if (hasAnyAward && !repeatQualified) {
+      xp_skip_reason = "repeat_not_qualified";
+    }
+  }
+
   return {
     xp_awarded: xpAwarded,
     xp_total: xpTotal,
@@ -203,5 +235,6 @@ export async function awardXpAndBadges(input: AwardInput): Promise<AwardResult> 
     xp_in_current_level: finalLevelInfo.xp_in_current_level,
     xp_to_next_level: finalLevelInfo.xp_to_next_level,
     newly_awarded_badges: newlyAwardedBadges,
+    xp_skip_reason,
   };
 }

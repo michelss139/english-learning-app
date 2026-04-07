@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { appendSuggestionContext } from "@/lib/suggestions/suggestionContext";
 
 type Suggestion = {
   unitType: string;
@@ -9,7 +10,47 @@ type Suggestion = {
   accuracy: number;
   form?: "past_simple" | "past_participle";
   label?: string;
+  href?: string;
+  displayName?: string;
+  description?: string;
 };
+
+/** Subtitle for aggregated sense card (Polish plural rules). */
+function senseReviewSubtitle(distinctCount: number): string {
+  const n = distinctCount;
+  if (n === 1) return "1 słowo wymaga powtórki";
+  const n100 = n % 100;
+  const n10 = n % 10;
+  if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) {
+    return `${n} słowa wymagają powtórki`;
+  }
+  return `${n} słów wymaga powtórki`;
+}
+
+/** One dashboard row for multiple sense suggestions (same title was duplicated before). */
+function prepareItemsForDisplay(items: Suggestion[]): Suggestion[] {
+  const senseItems = items.filter((i) => i.unitType === "sense");
+  const otherItems = items.filter((i) => i.unitType !== "sense");
+  if (senseItems.length === 0) return items;
+
+  const uniqueIds = [...new Set(senseItems.map((i) => i.unitId))];
+  const distinctCount = uniqueIds.length;
+  const idsForHref = uniqueIds.slice(0, 8);
+  const href = appendSuggestionContext(
+    `/app/vocab/practice?senseIds=${encodeURIComponent(idsForHref.join(","))}&autostart=1`,
+  );
+
+  const aggregated: Suggestion = {
+    unitType: "sense",
+    unitId: "sense-aggregated",
+    accuracy: 0,
+    href,
+    displayName: "Słowa do powtórki",
+    description: senseReviewSubtitle(distinctCount),
+  };
+
+  return [aggregated, ...otherItems];
+}
 
 function formatNonIrregularTitle(s: Suggestion): string {
   if (s.unitType === "cluster") return s.unitId.replace(/-/g, " / ");
@@ -32,11 +73,13 @@ function buildIrregularTargetLink(items: Suggestion[]): string {
     .slice(0, 5);
 
   if (targetItems.length === 0) {
-    return "/app/irregular-verbs/train";
+    return appendSuggestionContext("/app/irregular-verbs/train");
   }
 
   const targets = targetItems.map((item) => `${item.unitId}:${item.form}`).join(",");
-  return `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`;
+  return appendSuggestionContext(
+    `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`,
+  );
 }
 
 function formatIrregularItemLabel(s: Suggestion): string {
@@ -59,7 +102,10 @@ function buildDisplayRows(items: Suggestion[]): DisplayRow[] {
     .slice(0, 5);
 
   const irregularHref = buildIrregularTargetLink(irregularItems);
-  const otherItems = items.filter((i) => i.unitType !== "irregular");
+  const otherItems = items.filter((i) => {
+    if (i.unitType !== "irregular") return true;
+    return i.form !== "past_simple" && i.form !== "past_participle";
+  });
 
   const rows: DisplayRow[] = [];
 
@@ -74,11 +120,16 @@ function buildDisplayRows(items: Suggestion[]): DisplayRow[] {
 
   for (const s of otherItems) {
     const href =
-      s.unitType === "grammar"
-        ? `/app/grammar/${s.unitId}/practice`
+      s.href ??
+      (s.unitType === "grammar"
+        ? appendSuggestionContext(`/app/grammar/${s.unitId}/practice`)
         : s.unitType === "cluster"
-          ? `/app/vocab/cluster/${s.unitId}`
-          : "/";
+          ? appendSuggestionContext(`/app/vocab/cluster/${s.unitId}?autostart=1`)
+          : s.unitType === "sense"
+            ? appendSuggestionContext(
+                `/app/vocab/practice?senseIds=${encodeURIComponent(s.unitId)}&autostart=1`,
+              )
+            : appendSuggestionContext("/app"));
     rows.push({ type: "other", suggestion: s, href });
   }
 
@@ -88,7 +139,7 @@ function buildDisplayRows(items: Suggestion[]): DisplayRow[] {
 export function SuggestionsPanel() {
   const [items, setItems] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
-  const displayRows = useMemo(() => buildDisplayRows(items), [items]);
+  const displayRows = useMemo(() => buildDisplayRows(prepareItemsForDisplay(items)), [items]);
 
   useEffect(() => {
     fetch("/api/suggestions")
@@ -142,7 +193,19 @@ export function SuggestionsPanel() {
                 href={row.href}
                 className="block rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-800 transition hover:bg-slate-50 hover:border-slate-300"
               >
-                {formatNonIrregularTitle(row.suggestion)}
+                {(() => {
+                  const title =
+                    row.suggestion.displayName?.trim() || formatNonIrregularTitle(row.suggestion);
+                  const sub = row.suggestion.description?.trim();
+                  return sub ? (
+                    <>
+                      <div className="font-medium">{title}</div>
+                      <div className="mt-0.5 text-xs text-slate-600">{sub}</div>
+                    </>
+                  ) : (
+                    title
+                  );
+                })()}
               </Link>
             </li>
           ),

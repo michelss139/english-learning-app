@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "bicycles-and-scooters",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:39:26.991Z"
+  },
+  "items": [
+    {
+      "lemma": "rear reflector",
+      "pos": "noun",
+      "translation_pl": "odblask tylny",
+      "definition_en": "A rear reflector is a safety device that reflects light on the back of a bicycle or scooter.",
+      "example_en": "Remember to check the rear reflector before riding at night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "valve cap",
+      "pos": "noun",
+      "translation_pl": "korek wentyla",
+      "definition_en": "A valve cap covers the valve on a tire to protect it from dirt.",
+      "example_en": "He lost the valve cap from his bicycle tire.",
+      "level": "B1"
+    },
+    {
+      "lemma": "frame lock",
+      "pos": "noun",
+      "translation_pl": "blokada ramy",
+      "definition_en": "A frame lock is a tool for securing a bicycle by locking the frame.",
+      "example_en": "The frame lock makes it easy to secure your bike quickly.",
+      "level": "B2"
+    },
+    {
+      "lemma": "drop bar",
+      "pos": "noun",
+      "translation_pl": "kierownica szosowa",
+      "definition_en": "A drop bar is a curved bicycle handlebar often used on road bikes.",
+      "example_en": "Drop bars give you more positions for your hands while riding.",
+      "level": "B2"
+    },
+    {
+      "lemma": "quick release",
+      "pos": "noun",
+      "translation_pl": "zatrzask szybkozłączny",
+      "definition_en": "A quick release is a lever that allows fast removal of a wheel or seat from a bicycle.",
+      "example_en": "Use the quick release to remove the front wheel easily.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chain guard",
+      "pos": "noun",
+      "translation_pl": "osłona łańcucha",
+      "definition_en": "A chain guard is a cover that keeps the bicycle chain protected and clothes clean.",
+      "example_en": "The chain guard stopped my jeans from getting dirty.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spoke",
+      "pos": "noun",
+      "translation_pl": "szprycha",
+      "definition_en": "A spoke is a rod that connects the hub to the rim on a bicycle wheel.",
+      "example_en": "One of the spokes on my wheel is bent.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shock absorber",
+      "pos": "noun",
+      "translation_pl": "amortyzator",
+      "definition_en": "A shock absorber reduces the impact and vibration while riding.",
+      "example_en": "Good shock absorbers make mountain biking more comfortable.",
+      "level": "B2"
+    },
+    {
+      "lemma": "front light",
+      "pos": "noun",
+      "translation_pl": "przednie światło",
+      "definition_en": "A front light is a lamp on the front of a bicycle or scooter for visibility.",
+      "example_en": "You must use your front light at night for safety.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pannier",
+      "pos": "noun",
+      "translation_pl": "sakwa rowerowa",
+      "definition_en": "A pannier is a bag attached to a bicycle for carrying belongings.",
+      "example_en": "She packed her lunch in the bicycle pannier.",
+      "level": "B2"
+    },
+    {
+      "lemma": "grip tape",
+      "pos": "noun",
+      "translation_pl": "taśma antypoślizgowa",
+      "definition_en": "Grip tape is a material applied to handlebars or scooter decks for better hold.",
+      "example_en": "The grip tape on my scooter helps prevent slipping.",
+      "level": "B1"
+    },
+    {
+      "lemma": "training wheels",
+      "pos": "noun",
+      "translation_pl": "kółka boczne",
+      "definition_en": "Training wheels are small wheels that help children learn to ride a bicycle.",
+      "example_en": "My daughter uses training wheels on her first bike.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mudguard",
+      "pos": "noun",
+      "translation_pl": "błotnik",
+      "definition_en": "A mudguard is a curved cover over a bicycle wheel to keep mud from splashing.",
+      "example_en": "The mudguard kept me dry during the rain.",
+      "level": "A2"
+    },
+    {
+      "lemma": "crankset",
+      "pos": "noun",
+      "translation_pl": "mechanizm korbowy",
+      "definition_en": "A crankset is the part of a bicycle that connects the pedals and transfers power to the chain.",
+      "example_en": "He cleaned the crankset to improve the bike's performance.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rim",
+      "pos": "noun",
+      "translation_pl": "obręcz koła",
+      "definition_en": "A rim is the outer edge of a bicycle wheel where the tire is mounted.",
+      "example_en": "The rim needs to be straight for safe riding.",
+      "level": "B1"
+    },
+    {
+      "lemma": "step-through frame",
+      "pos": "noun",
+      "translation_pl": "rama z niskim przekrokiem",
+      "definition_en": "A step-through frame allows the rider to get on and off easily.",
+      "example_en": "A step-through frame is good for commuting in a dress or skirt.",
+      "level": "B2"
+    },
+    {
+      "lemma": "kickplate",
+      "pos": "noun",
+      "translation_pl": "platforma hulajnogi",
+      "definition_en": "A kickplate is the flat part on a scooter where you place your foot.",
+      "example_en": "Stand with both feet on the kickplate for stability.",
+      "level": "B1"
+    },
+    {
+      "lemma": "child seat",
+      "pos": "noun",
+      "translation_pl": "fotelik dziecięcy rowerowy",
+      "definition_en": "A child seat is a seat attached to a bicycle for carrying small children.",
+      "example_en": "I mounted a child seat so I can cycle with my son.",
+      "level": "A2"
+    },
+    {
+      "lemma": "frame bag",
+      "pos": "noun",
+      "translation_pl": "torba na ramę",
+      "definition_en": "A frame bag is a storage bag attached to the frame of a bicycle.",
+      "example_en": "He kept his tools in the frame bag during the trip.",
+      "level": "B2"
+    },
+    {
+      "lemma": "balance bike",
+      "pos": "noun",
+      "translation_pl": "rowerek biegowy",
+      "definition_en": "A balance bike has no pedals and helps children learn balance before using a regular bike.",
+      "example_en": "My son learned quickly on his balance bike.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "formal-wear",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:44:51.435Z"
+  },
+  "items": [
+    {
+      "lemma": "tuxedo",
+      "pos": "noun",
+      "translation_pl": "smoking",
+      "definition_en": "A tuxedo is a formal suit worn by men for special occasions.",
+      "example_en": "He wore a black tuxedo to the wedding.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bow tie",
+      "pos": "noun",
+      "translation_pl": "mucha",
+      "definition_en": "A bow tie is a special kind of tie shaped like a bow.",
+      "example_en": "He learned how to tie a bow tie for the party.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dress shirt",
+      "pos": "noun",
+      "translation_pl": "koszula wizytowa",
+      "definition_en": "A dress shirt is a formal shirt usually worn with a suit.",
+      "example_en": "He ironed his white dress shirt for the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tie",
+      "pos": "noun",
+      "translation_pl": "krawat",
+      "definition_en": "A tie is a long piece of cloth worn around the neck for formal occasions.",
+      "example_en": "He picked a blue tie to match his suit.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dress",
+      "pos": "noun",
+      "translation_pl": "sukienka",
+      "definition_en": "A dress is a piece of clothing worn by women or girls that covers the body and part of the legs.",
+      "example_en": "She wore a red dress to the dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "skirt suit",
+      "pos": "noun",
+      "translation_pl": "garnitur damski ze spódnicą",
+      "definition_en": "A skirt suit is a formal outfit with a jacket and matching skirt.",
+      "example_en": "She bought a navy skirt suit for work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waistcoat",
+      "pos": "noun",
+      "translation_pl": "kamizelka",
+      "definition_en": "A waistcoat is a formal vest worn over a shirt and under a suit jacket.",
+      "example_en": "The groom wore a grey waistcoat with his suit.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cummebund",
+      "pos": "noun",
+      "translation_pl": "pas smokingowy",
+      "definition_en": "A cummerbund is a wide sash worn around the waist with a tuxedo.",
+      "example_en": "He put on a black cummerbund for the ceremony.",
+      "level": "B1"
+    },
+    {
+      "lemma": "evening gown",
+      "pos": "noun",
+      "translation_pl": "suknia wieczorowa",
+      "definition_en": "An evening gown is a long, formal dress for special events.",
+      "example_en": "She wore a sparkling evening gown to the gala.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cocktail dress",
+      "pos": "noun",
+      "translation_pl": "sukienka koktajlowa",
+      "definition_en": "A cocktail dress is a smart dress worn for parties or formal events.",
+      "example_en": "She chose a blue cocktail dress for the party.",
+      "level": "A2"
+    },
+    {
+      "lemma": "suit",
+      "pos": "noun",
+      "translation_pl": "garnitur",
+      "definition_en": "A suit is a set of matching jacket and pants worn for formal occasions.",
+      "example_en": "He put on a new suit for his job interview.",
+      "level": "A1"
+    },
+    {
+      "lemma": "blouse",
+      "pos": "noun",
+      "translation_pl": "bluzka",
+      "definition_en": "A blouse is a light, loose shirt for women.",
+      "example_en": "She wore a white blouse with her skirt.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dress pants",
+      "pos": "noun",
+      "translation_pl": "spodnie od garnituru",
+      "definition_en": "Dress pants are formal trousers worn for special occasions or work.",
+      "example_en": "He needs new dress pants for the office.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gown",
+      "pos": "noun",
+      "translation_pl": "suknia",
+      "definition_en": "A gown is a long dress for women, often worn for parties or ceremonies.",
+      "example_en": "The bride's gown was very beautiful.",
+      "level": "A2"
+    },
+    {
+      "lemma": "necktie",
+      "pos": "noun",
+      "translation_pl": "krawat",
+      "definition_en": "A necktie is a formal piece of clothing worn around the neck with a shirt.",
+      "example_en": "He wore a red necktie with his white shirt.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tailcoat",
+      "pos": "noun",
+      "translation_pl": "frak",
+      "definition_en": "A tailcoat is a formal jacket with long tails at the back.",
+      "example_en": "He wore a black tailcoat to the formal dance.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shawl",
+      "pos": "noun",
+      "translation_pl": "szal",
+      "definition_en": "A shawl is a large piece of cloth worn around the shoulders.",
+      "example_en": "She put on a shawl over her dress.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tuxedo shirt",
+      "pos": "noun",
+      "translation_pl": "koszula smokingowa",
+      "definition_en": "A tuxedo shirt is a formal shirt worn with a tuxedo.",
+      "example_en": "He bought a new tuxedo shirt for the ball.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dress shoes",
+      "pos": "noun",
+      "translation_pl": "buty wizytowe",
+      "definition_en": "Dress shoes are formal shoes worn with suits.",
+      "example_en": "He polished his dress shoes before the event.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sash",
+      "pos": "noun",
+      "translation_pl": "szarfa",
+      "definition_en": "A sash is a long piece of cloth worn around the waist or shoulder.",
+      "example_en": "She wore a red sash with her evening dress.",
+      "level": "A2"
+    }
+  ]
+}

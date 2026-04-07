@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "appliances",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:51:45.059Z"
+  },
+  "items": [
+    {
+      "lemma": "blender",
+      "pos": "noun",
+      "translation_pl": "blender",
+      "definition_en": "A blender is an electric machine for mixing foods or making smoothies.",
+      "example_en": "She made a fruit smoothie in the blender.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dishwasher",
+      "pos": "noun",
+      "translation_pl": "zmywarka",
+      "definition_en": "A dishwasher is a machine that washes dirty dishes and glasses.",
+      "example_en": "The dishwasher is full of clean plates.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fan",
+      "pos": "noun",
+      "translation_pl": "wiatrak",
+      "definition_en": "A fan is a device that moves air around a room to keep it cool.",
+      "example_en": "We use a fan to stay cool in summer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "heater",
+      "pos": "noun",
+      "translation_pl": "grzejnik",
+      "definition_en": "A heater is a machine that makes a room warmer.",
+      "example_en": "He turned on the heater during the cold night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "iron",
+      "pos": "noun",
+      "translation_pl": "żelazko",
+      "definition_en": "An iron is an electrical device used to make clothes smooth.",
+      "example_en": "I use an iron to remove wrinkles from my shirt.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lamp",
+      "pos": "noun",
+      "translation_pl": "lampa",
+      "definition_en": "A lamp is a device that gives light in a room.",
+      "example_en": "She read her book by the lamp.",
+      "level": "A1"
+    },
+    {
+      "lemma": "light bulb",
+      "pos": "noun",
+      "translation_pl": "żarówka",
+      "definition_en": "A light bulb is the part of a lamp that makes light.",
+      "example_en": "The light bulb needs to be changed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mop",
+      "pos": "noun",
+      "translation_pl": "mop",
+      "definition_en": "A mop is a tool for washing floors.",
+      "example_en": "He cleaned the kitchen with a mop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "remote control",
+      "pos": "noun",
+      "translation_pl": "pilot do telewizora",
+      "definition_en": "A remote control is a device used to operate appliances from a distance.",
+      "example_en": "She looked for the remote control to change the channel.",
+      "level": "A2"
+    },
+    {
+      "lemma": "telephone",
+      "pos": "noun",
+      "translation_pl": "telefon",
+      "definition_en": "A telephone is a device for talking to people who are far away.",
+      "example_en": "I called my friend on the telephone.",
+      "level": "A1"
+    },
+    {
+      "lemma": "television",
+      "pos": "noun",
+      "translation_pl": "telewizor",
+      "definition_en": "A television is a machine that shows pictures and sounds for people to watch.",
+      "example_en": "The children watched cartoons on television.",
+      "level": "A1"
+    },
+    {
+      "lemma": "vacuum cleaner",
+      "pos": "noun",
+      "translation_pl": "odkurzacz",
+      "definition_en": "A vacuum cleaner is a machine that cleans floors by sucking up dirt.",
+      "example_en": "She uses a vacuum cleaner every Saturday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "air conditioner",
+      "pos": "noun",
+      "translation_pl": "klimatyzator",
+      "definition_en": "An air conditioner is a machine that keeps the air in a room cool.",
+      "example_en": "They switched on the air conditioner during the heat wave.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ceiling fan",
+      "pos": "noun",
+      "translation_pl": "wentylator sufitowy",
+      "definition_en": "A ceiling fan is a large fan fixed to the ceiling to move air.",
+      "example_en": "The ceiling fan helps during hot days.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hair dryer",
+      "pos": "noun",
+      "translation_pl": "suszarka do włosów",
+      "definition_en": "A hair dryer is a device used to dry your hair after washing it.",
+      "example_en": "She used her hair dryer in the morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rice cooker",
+      "pos": "noun",
+      "translation_pl": "parowar do ryżu",
+      "definition_en": "A rice cooker is a machine that cooks rice automatically.",
+      "example_en": "He prepared dinner with his rice cooker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "steam iron",
+      "pos": "noun",
+      "translation_pl": "żelazko parowe",
+      "definition_en": "A steam iron is an iron that uses steam to help remove wrinkles.",
+      "example_en": "She prefers her steam iron for shirts.",
+      "level": "B1"
+    },
+    {
+      "lemma": "water filter",
+      "pos": "noun",
+      "translation_pl": "filtr do wody",
+      "definition_en": "A water filter is a device that makes water cleaner to drink.",
+      "example_en": "The water filter is in the kitchen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "food processor",
+      "pos": "noun",
+      "translation_pl": "robot kuchenny",
+      "definition_en": "A food processor is a machine that cuts, mixes, or prepares food quickly.",
+      "example_en": "She uses a food processor to slice vegetables.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electric blanket",
+      "pos": "noun",
+      "translation_pl": "koc elektryczny",
+      "definition_en": "An electric blanket is a blanket that becomes warm when plugged in.",
+      "example_en": "He stayed warm with an electric blanket.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "areas",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:38:03.331Z"
+  },
+  "items": [
+    {
+      "lemma": "lawn",
+      "pos": "noun",
+      "translation_pl": "trawnik",
+      "definition_en": "A lawn is an area of short grass in a garden.",
+      "example_en": "Children are playing on the lawn.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pond",
+      "pos": "noun",
+      "translation_pl": "staw",
+      "definition_en": "A pond is a small area of water in a garden.",
+      "example_en": "There are fish swimming in the pond.",
+      "level": "A2"
+    },
+    {
+      "lemma": "path",
+      "pos": "noun",
+      "translation_pl": "ścieżka",
+      "definition_en": "A path is a small road or walkway in a garden.",
+      "example_en": "They walked down the path to the shed.",
+      "level": "A1"
+    },
+    {
+      "lemma": "greenhouse",
+      "pos": "noun",
+      "translation_pl": "szklarnia",
+      "definition_en": "A greenhouse is a glass building used to grow plants.",
+      "example_en": "Tom keeps his tomatoes in the greenhouse.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hedge",
+      "pos": "noun",
+      "translation_pl": "żywopłot",
+      "definition_en": "A hedge is a row of bushes that marks a garden area.",
+      "example_en": "The hedge needs to be trimmed soon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "orchard",
+      "pos": "noun",
+      "translation_pl": "sad",
+      "definition_en": "An orchard is an area with many fruit trees.",
+      "example_en": "We picked apples in the orchard.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rockery",
+      "pos": "noun",
+      "translation_pl": "skalniak",
+      "definition_en": "A rockery is a garden area with rocks and special plants.",
+      "example_en": "She added more stones to the rockery.",
+      "level": "B1"
+    },
+    {
+      "lemma": "terrace",
+      "pos": "noun",
+      "translation_pl": "taras",
+      "definition_en": "A terrace is a flat open area next to a house where you can sit.",
+      "example_en": "We drink coffee on the terrace every morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "arbour",
+      "pos": "noun",
+      "translation_pl": "altanka ogrodowa",
+      "definition_en": "An arbour is a shaded garden area with climbing plants.",
+      "example_en": "The arbour is covered in roses.",
+      "level": "B1"
+    },
+    {
+      "lemma": "driveway",
+      "pos": "noun",
+      "translation_pl": "podjazd",
+      "definition_en": "A driveway is a path for cars at the front of a house or garden.",
+      "example_en": "There is a car parked in the driveway.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shed",
+      "pos": "noun",
+      "translation_pl": "szopa",
+      "definition_en": "A shed is a small building used for storing garden tools.",
+      "example_en": "He keeps the lawn mower in the shed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pergola",
+      "pos": "noun",
+      "translation_pl": "pergola",
+      "definition_en": "A pergola is a garden structure with open sides and climbing plants.",
+      "example_en": "The pergola gives some shade on sunny days.",
+      "level": "B1"
+    },
+    {
+      "lemma": "compost",
+      "pos": "noun",
+      "translation_pl": "kompost",
+      "definition_en": "Compost is a mixture of garden waste that turns into soil.",
+      "example_en": "Organic waste goes into the compost.",
+      "level": "B1"
+    },
+    {
+      "lemma": "courtyard",
+      "pos": "noun",
+      "translation_pl": "dziedziniec",
+      "definition_en": "A courtyard is an open space surrounded by walls or buildings.",
+      "example_en": "The courtyard is a quiet place to relax in summer.",
+      "level": "B1"
+    }
+  ]
+}

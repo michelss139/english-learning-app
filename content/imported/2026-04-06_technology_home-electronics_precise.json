@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "home-electronics",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:26:47.185Z"
+  },
+  "items": [
+    {
+      "lemma": "bluetooth speaker",
+      "pos": "noun",
+      "translation_pl": "głośnik bluetooth",
+      "definition_en": "A wireless speaker that connects to devices using Bluetooth technology.",
+      "example_en": "She played music from her Bluetooth speaker in the garden.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smart thermostat",
+      "pos": "noun",
+      "translation_pl": "inteligentny termostat",
+      "definition_en": "An electronic device for automatically controlling home temperature with smart features.",
+      "example_en": "He adjusted the smart thermostat from his phone.",
+      "level": "B2"
+    },
+    {
+      "lemma": "streaming device",
+      "pos": "noun",
+      "translation_pl": "urządzenie do strumieniowania",
+      "definition_en": "A gadget that lets you watch online content on your TV.",
+      "example_en": "They use a streaming device for watching movies online.",
+      "level": "B2"
+    },
+    {
+      "lemma": "robot vacuum",
+      "pos": "noun",
+      "translation_pl": "robot odkurzający",
+      "definition_en": "A small machine that cleans floors automatically.",
+      "example_en": "The robot vacuum cleaned the living room while they were out.",
+      "level": "B1"
+    },
+    {
+      "lemma": "soundbar",
+      "pos": "noun",
+      "translation_pl": "belka dźwiękowa",
+      "definition_en": "A long, narrow speaker for better TV sound quality.",
+      "example_en": "He connected the soundbar to his television for deeper sound.",
+      "level": "B2"
+    },
+    {
+      "lemma": "e-reader",
+      "pos": "noun",
+      "translation_pl": "czytnik ebooków",
+      "definition_en": "A portable electronic device for reading digital books.",
+      "example_en": "She always brings her e-reader on holiday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smart plug",
+      "pos": "noun",
+      "translation_pl": "inteligentna wtyczka",
+      "definition_en": "A plug that lets you control power using your phone or voice.",
+      "example_en": "He switched off the lamp with a smart plug.",
+      "level": "B2"
+    },
+    {
+      "lemma": "desktop computer",
+      "pos": "noun",
+      "translation_pl": "komputer stacjonarny",
+      "definition_en": "A personal computer designed to be used at a desk.",
+      "example_en": "Her desktop computer starts up quickly in the morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "video doorbell",
+      "pos": "noun",
+      "translation_pl": "wideo dzwonek do drzwi",
+      "definition_en": "A doorbell with a camera that shows visitors on your phone.",
+      "example_en": "The video doorbell recorded when someone rang.",
+      "level": "B2"
+    },
+    {
+      "lemma": "air purifier",
+      "pos": "noun",
+      "translation_pl": "oczyszczacz powietrza",
+      "definition_en": "A machine that cleans the air in a room from dust and allergens.",
+      "example_en": "She bought an air purifier for her allergy symptoms.",
+      "level": "B1"
+    },
+    {
+      "lemma": "charging station",
+      "pos": "noun",
+      "translation_pl": "stacja ładowania",
+      "definition_en": "A device or area for charging several electronic items at once.",
+      "example_en": "They keep all their phones at the charging station overnight.",
+      "level": "B2"
+    },
+    {
+      "lemma": "digital frame",
+      "pos": "noun",
+      "translation_pl": "cyfrowa ramka na zdjęcia",
+      "definition_en": "A screen that shows digital photos in a frame.",
+      "example_en": "A digital frame displays his family pictures on the shelf.",
+      "level": "B1"
+    },
+    {
+      "lemma": "surround system",
+      "pos": "noun",
+      "translation_pl": "system dźwięku przestrzennego",
+      "definition_en": "Several speakers placed around a room for 3D audio.",
+      "example_en": "The surround system made the movie sound amazing.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cordless phone",
+      "pos": "noun",
+      "translation_pl": "telefon bezprzewodowy",
+      "definition_en": "A home phone that can be used without a cord.",
+      "example_en": "She answered the cordless phone from the kitchen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fitness tracker",
+      "pos": "noun",
+      "translation_pl": "opaska fitness",
+      "definition_en": "A wearable device that records your activities and steps.",
+      "example_en": "His fitness tracker counts how many steps he takes each day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dehumidifier",
+      "pos": "noun",
+      "translation_pl": "osuszacz powietrza",
+      "definition_en": "A machine used to reduce humidity in a room.",
+      "example_en": "They run a dehumidifier to keep the air dry.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rice cooker",
+      "pos": "noun",
+      "translation_pl": "urządzenie do gotowania ryżu",
+      "definition_en": "An electronic kitchen appliance for cooking rice automatically.",
+      "example_en": "He always uses a rice cooker for dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dishwasher",
+      "pos": "noun",
+      "translation_pl": "zmywarka",
+      "definition_en": "A machine that washes dishes automatically.",
+      "example_en": "She turned the dishwasher on after dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ice maker",
+      "pos": "noun",
+      "translation_pl": "maszyna do lodu",
+      "definition_en": "A device that produces ice automatically.",
+      "example_en": "The ice maker is built into the refrigerator.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smart light",
+      "pos": "noun",
+      "translation_pl": "inteligentna żarówka",
+      "definition_en": "A light bulb you control with an app or voice assistant.",
+      "example_en": "He set the smart light to turn on at sunset.",
+      "level": "B2"
+    }
+  ]
+}

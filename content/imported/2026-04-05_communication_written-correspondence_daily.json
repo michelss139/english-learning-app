@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "written-correspondence",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T21:00:21.006Z"
+  },
+  "items": [
+    {
+      "lemma": "letter",
+      "pos": "noun",
+      "translation_pl": "list",
+      "definition_en": "A letter is a written message sent to someone.",
+      "example_en": "I wrote a letter to my friend yesterday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "note",
+      "pos": "noun",
+      "translation_pl": "notatka",
+      "definition_en": "A note is a short written message.",
+      "example_en": "She left a note on the table for him.",
+      "level": "A1"
+    },
+    {
+      "lemma": "postcard",
+      "pos": "noun",
+      "translation_pl": "pocztówka",
+      "definition_en": "A postcard is a card sent with a message on one side.",
+      "example_en": "I sent a postcard from my holiday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "message",
+      "pos": "noun",
+      "translation_pl": "wiadomość",
+      "definition_en": "A message is written or spoken information sent to someone.",
+      "example_en": "I got a message from my brother.",
+      "level": "A1"
+    },
+    {
+      "lemma": "email",
+      "pos": "noun",
+      "translation_pl": "email",
+      "definition_en": "An email is an electronic letter sent by computer.",
+      "example_en": "He checks his email every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "invitation",
+      "pos": "noun",
+      "translation_pl": "zaproszenie",
+      "definition_en": "An invitation is a written request to come to an event.",
+      "example_en": "She sent out the wedding invitation last week.",
+      "level": "A2"
+    },
+    {
+      "lemma": "reply",
+      "pos": "noun",
+      "translation_pl": "odpowiedź",
+      "definition_en": "A reply is a written answer to a letter or message.",
+      "example_en": "He wrote a reply to her letter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "post",
+      "pos": "noun",
+      "translation_pl": "poczta",
+      "definition_en": "Post is letters and parcels sent by mail.",
+      "example_en": "The post arrived late today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "greeting card",
+      "pos": "noun",
+      "translation_pl": "kartka z życzeniami",
+      "definition_en": "A greeting card is a card with a message for a special occasion.",
+      "example_en": "I bought a greeting card for her birthday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "report",
+      "pos": "noun",
+      "translation_pl": "raport",
+      "definition_en": "A report is a written account about something.",
+      "example_en": "She finished writing her school report.",
+      "level": "B1"
+    },
+    {
+      "lemma": "application",
+      "pos": "noun",
+      "translation_pl": "wniosek",
+      "definition_en": "An application is a written request for something.",
+      "example_en": "He filled out a job application.",
+      "level": "B1"
+    },
+    {
+      "lemma": "form",
+      "pos": "noun",
+      "translation_pl": "formularz",
+      "definition_en": "A form is a paper with spaces to write information.",
+      "example_en": "Please fill in this registration form.",
+      "level": "B1"
+    },
+    {
+      "lemma": "reminder",
+      "pos": "noun",
+      "translation_pl": "przypomnienie",
+      "definition_en": "A reminder is a short message to help you remember.",
+      "example_en": "She sent me a reminder about the meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "contract",
+      "pos": "noun",
+      "translation_pl": "kontrakt",
+      "definition_en": "A contract is a written agreement between people.",
+      "example_en": "He signed the new work contract today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "list",
+      "pos": "noun",
+      "translation_pl": "lista",
+      "definition_en": "A list is a series of items written down.",
+      "example_en": "She wrote a shopping list.",
+      "level": "A1"
+    },
+    {
+      "lemma": "diary",
+      "pos": "noun",
+      "translation_pl": "pamiętnik",
+      "definition_en": "A diary is a book to write about daily events.",
+      "example_en": "He writes in his diary every night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "document",
+      "pos": "noun",
+      "translation_pl": "dokument",
+      "definition_en": "A document is a written paper with information.",
+      "example_en": "She showed me the document from the office.",
+      "level": "A2"
+    },
+    {
+      "lemma": "article",
+      "pos": "noun",
+      "translation_pl": "artykuł",
+      "definition_en": "An article is a written piece in a magazine or newspaper.",
+      "example_en": "He read an article about travel.",
+      "level": "A2"
+    },
+    {
+      "lemma": "announcement",
+      "pos": "noun",
+      "translation_pl": "ogłoszenie",
+      "definition_en": "An announcement is an official written notice.",
+      "example_en": "The announcement was posted on the wall.",
+      "level": "B1"
+    },
+    {
+      "lemma": "reminder note",
+      "pos": "noun",
+      "translation_pl": "krótka notatka przypominająca",
+      "definition_en": "A reminder note is a small message to help remember something.",
+      "example_en": "He put a reminder note on his fridge.",
+      "level": "B1"
+    }
+  ]
+}

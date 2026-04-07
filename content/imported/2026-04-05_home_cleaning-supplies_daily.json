@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "cleaning-supplies",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:53:58.514Z"
+  },
+  "items": [
+    {
+      "lemma": "broom",
+      "pos": "noun",
+      "translation_pl": "miotła",
+      "definition_en": "A broom is a tool for sweeping floors.",
+      "example_en": "She used a broom to clean the kitchen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mop",
+      "pos": "noun",
+      "translation_pl": "mop",
+      "definition_en": "A mop is used for washing floors.",
+      "example_en": "He grabbed the mop to clean up the spill.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bucket",
+      "pos": "noun",
+      "translation_pl": "wiadro",
+      "definition_en": "A bucket is a container for holding water.",
+      "example_en": "She filled the bucket with soapy water.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dustpan",
+      "pos": "noun",
+      "translation_pl": "szufelka",
+      "definition_en": "A dustpan collects dirt swept from the floor.",
+      "example_en": "Use the dustpan to pick up the crumbs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "vacuum cleaner",
+      "pos": "noun",
+      "translation_pl": "odkurzacz",
+      "definition_en": "A vacuum cleaner is a machine for cleaning carpets.",
+      "example_en": "The vacuum cleaner is in the closet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sponge",
+      "pos": "noun",
+      "translation_pl": "gąbka",
+      "definition_en": "A sponge is used for washing and cleaning.",
+      "example_en": "He wiped the counter with a sponge.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cleaning cloth",
+      "pos": "noun",
+      "translation_pl": "ściereczka do czyszczenia",
+      "definition_en": "A cleaning cloth is used to wipe surfaces.",
+      "example_en": "She always keeps a cleaning cloth in the kitchen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "disinfectant",
+      "pos": "noun",
+      "translation_pl": "środek dezynfekujący",
+      "definition_en": "A disinfectant kills germs on surfaces.",
+      "example_en": "He sprayed disinfectant on the bathroom sink.",
+      "level": "B1"
+    },
+    {
+      "lemma": "washing powder",
+      "pos": "noun",
+      "translation_pl": "proszek do prania",
+      "definition_en": "Washing powder is used to clean clothes.",
+      "example_en": "She added washing powder to the laundry.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bleach",
+      "pos": "noun",
+      "translation_pl": "wybielacz",
+      "definition_en": "Bleach is a strong liquid for cleaning and whitening.",
+      "example_en": "He used bleach to clean the tiles.",
+      "level": "B1"
+    },
+    {
+      "lemma": "floor cleaner",
+      "pos": "noun",
+      "translation_pl": "płyn do mycia podłóg",
+      "definition_en": "A floor cleaner is a liquid for washing floors.",
+      "example_en": "She poured some floor cleaner into the bucket.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scrubbing brush",
+      "pos": "noun",
+      "translation_pl": "szczotka do szorowania",
+      "definition_en": "A scrubbing brush is a stiff brush for cleaning.",
+      "example_en": "He used a scrubbing brush to clean the bath.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scouring pad",
+      "pos": "noun",
+      "translation_pl": "druciak",
+      "definition_en": "A scouring pad is used to scrub tough stains.",
+      "example_en": "She cleaned the pots with a scouring pad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rubber gloves",
+      "pos": "noun",
+      "translation_pl": "gumowe rękawice",
+      "definition_en": "Rubber gloves protect hands while cleaning.",
+      "example_en": "He wore rubber gloves to wash the dishes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "window cleaner",
+      "pos": "noun",
+      "translation_pl": "płyn do mycia okien",
+      "definition_en": "Window cleaner is a liquid for cleaning glass.",
+      "example_en": "She sprayed window cleaner on the glass.",
+      "level": "A2"
+    },
+    {
+      "lemma": "feather duster",
+      "pos": "noun",
+      "translation_pl": "miotła do kurzu",
+      "definition_en": "A feather duster removes dust from surfaces.",
+      "example_en": "He used a feather duster on the shelves.",
+      "level": "A2"
+    },
+    {
+      "lemma": "waste bin",
+      "pos": "noun",
+      "translation_pl": "kosz na śmieci",
+      "definition_en": "A waste bin is used for throwing away rubbish.",
+      "example_en": "He emptied the waste bin every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dish soap",
+      "pos": "noun",
+      "translation_pl": "płyn do mycia naczyń",
+      "definition_en": "Dish soap is a liquid for washing dishes.",
+      "example_en": "She poured dish soap into the sink.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fabric softener",
+      "pos": "noun",
+      "translation_pl": "płyn do płukania tkanin",
+      "definition_en": "Fabric softener is added to laundry for softness.",
+      "example_en": "He always uses fabric softener for his clothes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "squeegee",
+      "pos": "noun",
+      "translation_pl": "ściągaczka do szyb",
+      "definition_en": "A squeegee is a tool for cleaning windows.",
+      "example_en": "She cleaned the window with a squeegee.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "travel-places",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:56:58.191Z"
+  },
+  "items": [
+    {
+      "lemma": "airport",
+      "pos": "noun",
+      "translation_pl": "lotnisko",
+      "definition_en": "An airport is a place where planes take off and land.",
+      "example_en": "We arrived at the airport two hours before the flight.",
+      "level": "A1"
+    },
+    {
+      "lemma": "beach",
+      "pos": "noun",
+      "translation_pl": "plaża",
+      "definition_en": "A beach is a sandy or rocky area next to water.",
+      "example_en": "They spent the whole day at the beach.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mountain",
+      "pos": "noun",
+      "translation_pl": "góra",
+      "definition_en": "A mountain is a very high hill.",
+      "example_en": "We climbed a mountain during our trip.",
+      "level": "A1"
+    },
+    {
+      "lemma": "city",
+      "pos": "noun",
+      "translation_pl": "miasto",
+      "definition_en": "A city is a large town where many people live.",
+      "example_en": "London is a big city with many attractions.",
+      "level": "A1"
+    },
+    {
+      "lemma": "island",
+      "pos": "noun",
+      "translation_pl": "wyspa",
+      "definition_en": "An island is a piece of land surrounded by water.",
+      "example_en": "They traveled to a small island for vacation.",
+      "level": "A1"
+    },
+    {
+      "lemma": "market",
+      "pos": "noun",
+      "translation_pl": "rynek",
+      "definition_en": "A market is a place where people buy and sell things.",
+      "example_en": "We visited the local market every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "museum",
+      "pos": "noun",
+      "translation_pl": "muzeum",
+      "definition_en": "A museum is a place where you can see old or interesting things.",
+      "example_en": "The art museum was full of beautiful paintings.",
+      "level": "A1"
+    },
+    {
+      "lemma": "park",
+      "pos": "noun",
+      "translation_pl": "park",
+      "definition_en": "A park is a green area in a city for people to enjoy.",
+      "example_en": "Children played in the park after school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "castle",
+      "pos": "noun",
+      "translation_pl": "zamek",
+      "definition_en": "A castle is a large building where kings or queens used to live.",
+      "example_en": "They visited an ancient castle during their trip.",
+      "level": "A1"
+    },
+    {
+      "lemma": "forest",
+      "pos": "noun",
+      "translation_pl": "las",
+      "definition_en": "A forest is a large area filled with trees.",
+      "example_en": "We walked through the forest in the morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "desert",
+      "pos": "noun",
+      "translation_pl": "pustynia",
+      "definition_en": "A desert is a very dry area with a lot of sand.",
+      "example_en": "Camels live in the desert.",
+      "level": "A2"
+    },
+    {
+      "lemma": "temple",
+      "pos": "noun",
+      "translation_pl": "świątynia",
+      "definition_en": "A temple is a building used for religious activities.",
+      "example_en": "They took photos of the old temple.",
+      "level": "A2"
+    },
+    {
+      "lemma": "square",
+      "pos": "noun",
+      "translation_pl": "plac",
+      "definition_en": "A square is an open area in a town where people meet.",
+      "example_en": "The main square is full of cafes and shops.",
+      "level": "A2"
+    },
+    {
+      "lemma": "harbor",
+      "pos": "noun",
+      "translation_pl": "port",
+      "definition_en": "A harbor is a place for boats and ships to stay.",
+      "example_en": "We ate at a restaurant right next to the harbor.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bridge",
+      "pos": "noun",
+      "translation_pl": "most",
+      "definition_en": "A bridge is a structure built to cross over rivers or roads.",
+      "example_en": "We walked across the old stone bridge.",
+      "level": "A2"
+    },
+    {
+      "lemma": "monument",
+      "pos": "noun",
+      "translation_pl": "pomnik",
+      "definition_en": "A monument is a statue or building that honors a person or event.",
+      "example_en": "They stopped to look at the war monument.",
+      "level": "A2"
+    },
+    {
+      "lemma": "palace",
+      "pos": "noun",
+      "translation_pl": "pałac",
+      "definition_en": "A palace is a large, grand building where kings or queens live.",
+      "example_en": "The royal family lives in a large palace.",
+      "level": "A2"
+    },
+    {
+      "lemma": "village",
+      "pos": "noun",
+      "translation_pl": "wieś",
+      "definition_en": "A village is a small group of houses in the countryside.",
+      "example_en": "We spent the night in a quiet village.",
+      "level": "A1"
+    },
+    {
+      "lemma": "waterfall",
+      "pos": "noun",
+      "translation_pl": "wodospad",
+      "definition_en": "A waterfall is water that falls from a height.",
+      "example_en": "The view of the waterfall was amazing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "zoo",
+      "pos": "noun",
+      "translation_pl": "zoo",
+      "definition_en": "A zoo is a place where people can see wild animals.",
+      "example_en": "We saw many animals at the zoo.",
+      "level": "A1"
+    }
+  ]
+}

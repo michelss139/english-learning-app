@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "video-games",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:44:13.306Z"
+  },
+  "items": [
+    {
+      "lemma": "checkpoint",
+      "pos": "noun",
+      "translation_pl": "punkt kontrolny",
+      "definition_en": "A checkpoint is a saved point in a game where you start again after losing.",
+      "example_en": "After each big battle, the game sets a checkpoint.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spawn point",
+      "pos": "noun",
+      "translation_pl": "punkt odrodzenia",
+      "definition_en": "A spawn point is the place where a character starts or returns in a video game.",
+      "example_en": "My avatar kept dying near the enemy spawn point.",
+      "level": "B2"
+    },
+    {
+      "lemma": "expansion pack",
+      "pos": "noun",
+      "translation_pl": "dodatek do gry",
+      "definition_en": "An expansion pack is extra content added to a video game.",
+      "example_en": "The expansion pack offered new missions and characters.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cutscene",
+      "pos": "noun",
+      "translation_pl": "scenka filmowa",
+      "definition_en": "A cutscene is a short movie or scene in a video game.",
+      "example_en": "The cutscene explained why the hero had to leave the city.",
+      "level": "B2"
+    },
+    {
+      "lemma": "patch",
+      "pos": "noun",
+      "translation_pl": "łatka do gry",
+      "definition_en": "A patch is an update to fix or improve a video game.",
+      "example_en": "After the patch, the game stopped crashing.",
+      "level": "B2"
+    },
+    {
+      "lemma": "inventory",
+      "pos": "noun",
+      "translation_pl": "ekwipunek",
+      "definition_en": "Inventory is all the items a player has collected in a game.",
+      "example_en": "You should check your inventory before the boss fight.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tutorial",
+      "pos": "noun",
+      "translation_pl": "samouczek gry",
+      "definition_en": "A tutorial is a part of a game that teaches you how to play.",
+      "example_en": "The tutorial was very helpful for beginners.",
+      "level": "B1"
+    },
+    {
+      "lemma": "game mode",
+      "pos": "noun",
+      "translation_pl": "tryb gry",
+      "definition_en": "A game mode is a specific way to play a video game.",
+      "example_en": "We tried the new survival game mode.",
+      "level": "B1"
+    },
+    {
+      "lemma": "loot box",
+      "pos": "noun",
+      "translation_pl": "skrzynka z nagrodami",
+      "definition_en": "A loot box is a virtual box containing random rewards in video games.",
+      "example_en": "You can unlock costumes with a loot box.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mini-game",
+      "pos": "noun",
+      "translation_pl": "minigra",
+      "definition_en": "A mini-game is a short game inside another video game.",
+      "example_en": "This mini-game lets you fish in the RPG world.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gameplay",
+      "pos": "noun",
+      "translation_pl": "rozgrywka",
+      "definition_en": "Gameplay is how a video game is played and experienced.",
+      "example_en": "The gameplay is fast and exciting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "non-player character",
+      "pos": "noun",
+      "translation_pl": "postać niezależna",
+      "definition_en": "A non-player character is a character controlled by the game.",
+      "example_en": "The non-player character gave us useful advice.",
+      "level": "B2"
+    },
+    {
+      "lemma": "game developer",
+      "pos": "noun",
+      "translation_pl": "twórca gry",
+      "definition_en": "A game developer is a person who creates video games.",
+      "example_en": "The game developer announced a new update.",
+      "level": "B1"
+    },
+    {
+      "lemma": "in-game currency",
+      "pos": "noun",
+      "translation_pl": "waluta w grze",
+      "definition_en": "In-game currency is the money used inside a video game.",
+      "example_en": "She saved up her in-game currency to buy a new weapon.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tutorial level",
+      "pos": "noun",
+      "translation_pl": "poziom samouczka",
+      "definition_en": "A tutorial level is the first stage that teaches the basic controls in a game.",
+      "example_en": "The tutorial level is easy for new players.",
+      "level": "B1"
+    },
+    {
+      "lemma": "game engine",
+      "pos": "noun",
+      "translation_pl": "silnik gry",
+      "definition_en": "A game engine is the software that builds and runs a video game.",
+      "example_en": "The new game engine makes graphics look better.",
+      "level": "B2"
+    },
+    {
+      "lemma": "speedrun",
+      "pos": "noun",
+      "translation_pl": "przechodzenie gry na czas",
+      "definition_en": "A speedrun is a playthrough of a game as fast as possible.",
+      "example_en": "He recorded a speedrun of the whole game in one hour.",
+      "level": "C1"
+    },
+    {
+      "lemma": "walkthrough",
+      "pos": "noun",
+      "translation_pl": "poradnik do gry",
+      "definition_en": "A walkthrough is a guide that shows how to finish a game.",
+      "example_en": "I used a walkthrough to pass the difficult puzzle.",
+      "level": "B1"
+    },
+    {
+      "lemma": "game tester",
+      "pos": "noun",
+      "translation_pl": "tester gier",
+      "definition_en": "A game tester is a person who checks video games for problems.",
+      "example_en": "A game tester found several bugs before release.",
+      "level": "B1"
+    },
+    {
+      "lemma": "soundtrack",
+      "pos": "noun",
+      "translation_pl": "ścieżka dźwiękowa",
+      "definition_en": "A soundtrack is all the music used in a video game.",
+      "example_en": "The soundtrack made the game more exciting.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "clothing-and-accessories",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:58:46.546Z"
+  },
+  "items": [
+    {
+      "lemma": "shirt",
+      "pos": "noun",
+      "translation_pl": "koszula",
+      "definition_en": "A shirt is a piece of clothing worn on the upper body.",
+      "example_en": "He wore a blue shirt to work.",
+      "level": "A1"
+    },
+    {
+      "lemma": "jeans",
+      "pos": "noun",
+      "translation_pl": "dżinsy",
+      "definition_en": "Jeans are heavy cotton trousers often worn casually.",
+      "example_en": "She bought new jeans at the mall.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dress",
+      "pos": "noun",
+      "translation_pl": "sukienka",
+      "definition_en": "A dress is a piece of clothing worn by women and girls that covers the body and part or all of the legs.",
+      "example_en": "She chose a red dress for the party.",
+      "level": "A1"
+    },
+    {
+      "lemma": "skirt",
+      "pos": "noun",
+      "translation_pl": "spódnica",
+      "definition_en": "A skirt is a piece of clothing for women or girls that hangs from the waist.",
+      "example_en": "The skirt was long and green.",
+      "level": "A1"
+    },
+    {
+      "lemma": "jacket",
+      "pos": "noun",
+      "translation_pl": "kurtka",
+      "definition_en": "A jacket is a piece of clothing worn over other clothes, usually for warmth.",
+      "example_en": "He put on his jacket before going out.",
+      "level": "A1"
+    },
+    {
+      "lemma": "socks",
+      "pos": "noun",
+      "translation_pl": "skarpetki",
+      "definition_en": "Socks are pieces of clothing worn on your feet inside your shoes.",
+      "example_en": "Her socks had colorful stripes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "scarf",
+      "pos": "noun",
+      "translation_pl": "szalik",
+      "definition_en": "A scarf is a piece of cloth you wear around your neck for warmth or decoration.",
+      "example_en": "He wrapped a scarf around his neck.",
+      "level": "A2"
+    },
+    {
+      "lemma": "belt",
+      "pos": "noun",
+      "translation_pl": "pasek",
+      "definition_en": "A belt is a strip of leather or cloth worn around the waist.",
+      "example_en": "My belt is too tight.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hat",
+      "pos": "noun",
+      "translation_pl": "kapelusz",
+      "definition_en": "A hat is something you wear on your head.",
+      "example_en": "He wore a hat to keep his head warm.",
+      "level": "A1"
+    },
+    {
+      "lemma": "gloves",
+      "pos": "noun",
+      "translation_pl": "rękawiczki",
+      "definition_en": "Gloves are pieces of clothing that cover your hands.",
+      "example_en": "She put on her gloves before going outside.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tie",
+      "pos": "noun",
+      "translation_pl": "krawat",
+      "definition_en": "A tie is a long, narrow piece of cloth worn around the neck.",
+      "example_en": "He wore a tie to the interview.",
+      "level": "A2"
+    },
+    {
+      "lemma": "suit",
+      "pos": "noun",
+      "translation_pl": "garnitur",
+      "definition_en": "A suit is a set of matching jacket and trousers or skirt.",
+      "example_en": "He bought a new suit for work.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shorts",
+      "pos": "noun",
+      "translation_pl": "krótkie spodenki",
+      "definition_en": "Shorts are short trousers worn in hot weather or for sport.",
+      "example_en": "He wears shorts in the summer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sweater",
+      "pos": "noun",
+      "translation_pl": "sweter",
+      "definition_en": "A sweater is a warm knitted piece of clothing for the upper body.",
+      "example_en": "She put on a sweater because it was cold.",
+      "level": "A2"
+    },
+    {
+      "lemma": "boots",
+      "pos": "noun",
+      "translation_pl": "buty",
+      "definition_en": "Boots are shoes that cover the foot and ankle and sometimes the leg.",
+      "example_en": "He wore boots in the snow.",
+      "level": "A2"
+    },
+    {
+      "lemma": "T-shirt",
+      "pos": "noun",
+      "translation_pl": "koszulka",
+      "definition_en": "A T-shirt is a simple shirt with short sleeves and no collar.",
+      "example_en": "She bought a new T-shirt at the shop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "blouse",
+      "pos": "noun",
+      "translation_pl": "bluzka",
+      "definition_en": "A blouse is a type of shirt worn by women.",
+      "example_en": "The blouse matched her skirt.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cap",
+      "pos": "noun",
+      "translation_pl": "czapka z daszkiem",
+      "definition_en": "A cap is a soft flat hat with a curved part at the front.",
+      "example_en": "He wears a cap when playing baseball.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sneakers",
+      "pos": "noun",
+      "translation_pl": "trampki",
+      "definition_en": "Sneakers are comfortable sports shoes.",
+      "example_en": "She wore sneakers to the gym.",
+      "level": "A2"
+    },
+    {
+      "lemma": "watch",
+      "pos": "noun",
+      "translation_pl": "zegarek na rękę",
+      "definition_en": "A watch is a small clock worn on the wrist.",
+      "example_en": "He checked the time on his watch.",
+      "level": "B1"
+    }
+  ]
+}

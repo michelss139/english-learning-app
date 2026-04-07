@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "medical-conditions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:08:20.617Z"
+  },
+  "items": [
+    {
+      "lemma": "fever",
+      "pos": "noun",
+      "translation_pl": "gorączka",
+      "definition_en": "Fever is when your body temperature is higher than normal.",
+      "example_en": "He stayed home from school because he had a fever.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cough",
+      "pos": "noun",
+      "translation_pl": "kaszel",
+      "definition_en": "Cough is a sudden, loud sound you make when your throat hurts.",
+      "example_en": "Her cough kept her up all night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cold",
+      "pos": "noun",
+      "translation_pl": "przeziębienie",
+      "definition_en": "A cold is an illness with a runny nose and sneezing.",
+      "example_en": "I caught a cold after going out in the rain.",
+      "level": "A1"
+    },
+    {
+      "lemma": "flu",
+      "pos": "noun",
+      "translation_pl": "grypa",
+      "definition_en": "The flu is a sickness with fever, aches, and tiredness.",
+      "example_en": "The flu made me stay in bed for days.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pain",
+      "pos": "noun",
+      "translation_pl": "ból",
+      "definition_en": "Pain is the feeling you have when something hurts.",
+      "example_en": "She felt pain in her arm after the fall.",
+      "level": "A1"
+    },
+    {
+      "lemma": "allergy",
+      "pos": "noun",
+      "translation_pl": "alergia",
+      "definition_en": "An allergy is when your body reacts badly to something.",
+      "example_en": "She takes medicine for her allergy to pollen.",
+      "level": "A2"
+    },
+    {
+      "lemma": "asthma",
+      "pos": "noun",
+      "translation_pl": "astma",
+      "definition_en": "Asthma is a condition that makes it hard to breathe.",
+      "example_en": "He always carries an inhaler for his asthma.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rash",
+      "pos": "noun",
+      "translation_pl": "wysypka",
+      "definition_en": "A rash is red or sore skin, often from an allergy.",
+      "example_en": "Her skin had a rash after eating strawberries.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cut",
+      "pos": "noun",
+      "translation_pl": "skaleczenie",
+      "definition_en": "A cut is a place where the skin has been opened by something sharp.",
+      "example_en": "He got a small cut on his finger.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bruise",
+      "pos": "noun",
+      "translation_pl": "siniak",
+      "definition_en": "A bruise is a dark mark on the skin after being hit.",
+      "example_en": "She has a bruise on her knee from falling.",
+      "level": "A1"
+    },
+    {
+      "lemma": "burn",
+      "pos": "noun",
+      "translation_pl": "oparzenie",
+      "definition_en": "A burn is an injury caused by something hot.",
+      "example_en": "He showed his mother the burn on his hand.",
+      "level": "A1"
+    },
+    {
+      "lemma": "infection",
+      "pos": "noun",
+      "translation_pl": "infekcja",
+      "definition_en": "An infection is when germs make you sick.",
+      "example_en": "The doctor said he had a chest infection.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sore throat",
+      "pos": "noun",
+      "translation_pl": "ból gardła",
+      "definition_en": "A sore throat is pain or irritation in the throat.",
+      "example_en": "She cannot sing because of her sore throat.",
+      "level": "A2"
+    },
+    {
+      "lemma": "headache",
+      "pos": "noun",
+      "translation_pl": "ból głowy",
+      "definition_en": "A headache is a pain in your head.",
+      "example_en": "He took medicine for his headache.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toothache",
+      "pos": "noun",
+      "translation_pl": "ból zęba",
+      "definition_en": "Toothache is pain in a tooth or teeth.",
+      "example_en": "She couldn't eat because of toothache.",
+      "level": "A1"
+    },
+    {
+      "lemma": "stomachache",
+      "pos": "noun",
+      "translation_pl": "ból brzucha",
+      "definition_en": "A stomachache is pain in your stomach.",
+      "example_en": "He got a stomachache after eating too much.",
+      "level": "A1"
+    },
+    {
+      "lemma": "diarrhea",
+      "pos": "noun",
+      "translation_pl": "biegunka",
+      "definition_en": "Diarrhea is a sickness where you need to go to the toilet often.",
+      "example_en": "She stayed home from work because of diarrhea.",
+      "level": "A2"
+    },
+    {
+      "lemma": "vomiting",
+      "pos": "noun",
+      "translation_pl": "wymioty",
+      "definition_en": "Vomiting is when food and drink come out from your mouth suddenly.",
+      "example_en": "After the ride, he started vomiting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "injury",
+      "pos": "noun",
+      "translation_pl": "uraz",
+      "definition_en": "An injury is harm or damage to your body.",
+      "example_en": "He missed the game because of an injury.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bleeding",
+      "pos": "noun",
+      "translation_pl": "krwawienie",
+      "definition_en": "Bleeding is when blood is coming out of your body.",
+      "example_en": "She tried to stop the bleeding with a tissue.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "family-members",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:33:40.884Z"
+  },
+  "items": [
+    {
+      "lemma": "mother",
+      "pos": "noun",
+      "translation_pl": "matka",
+      "definition_en": "A mother is a woman who has a child.",
+      "example_en": "My mother makes the best cookies.",
+      "level": "A1"
+    },
+    {
+      "lemma": "father",
+      "pos": "noun",
+      "translation_pl": "ojciec",
+      "definition_en": "A father is a man who has a child.",
+      "example_en": "His father works at a bank.",
+      "level": "A1"
+    },
+    {
+      "lemma": "brother",
+      "pos": "noun",
+      "translation_pl": "brat",
+      "definition_en": "A brother is a boy or man who has the same parents as you.",
+      "example_en": "My brother plays soccer every weekend.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sister",
+      "pos": "noun",
+      "translation_pl": "siostra",
+      "definition_en": "A sister is a girl or woman who has the same parents as you.",
+      "example_en": "Her sister is older than her.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grandmother",
+      "pos": "noun",
+      "translation_pl": "babcia",
+      "definition_en": "A grandmother is your mother's or father's mother.",
+      "example_en": "My grandmother tells funny stories.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grandfather",
+      "pos": "noun",
+      "translation_pl": "dziadek",
+      "definition_en": "A grandfather is your mother's or father's father.",
+      "example_en": "Her grandfather lives in the village.",
+      "level": "A1"
+    },
+    {
+      "lemma": "aunt",
+      "pos": "noun",
+      "translation_pl": "ciocia",
+      "definition_en": "An aunt is your parent's sister.",
+      "example_en": "His aunt visits them every summer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "uncle",
+      "pos": "noun",
+      "translation_pl": "wujek",
+      "definition_en": "An uncle is your parent's brother.",
+      "example_en": "My uncle has a big dog.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cousin",
+      "pos": "noun",
+      "translation_pl": "kuzyn",
+      "definition_en": "A cousin is the child of your aunt or uncle.",
+      "example_en": "My cousin lives in another city.",
+      "level": "A1"
+    },
+    {
+      "lemma": "son",
+      "pos": "noun",
+      "translation_pl": "syn",
+      "definition_en": "A son is a male child of a parent.",
+      "example_en": "Their son goes to primary school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "daughter",
+      "pos": "noun",
+      "translation_pl": "córka",
+      "definition_en": "A daughter is a female child of a parent.",
+      "example_en": "Her daughter likes to draw pictures.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wife",
+      "pos": "noun",
+      "translation_pl": "żona",
+      "definition_en": "A wife is a woman who is married.",
+      "example_en": "His wife works at the hospital.",
+      "level": "A1"
+    },
+    {
+      "lemma": "husband",
+      "pos": "noun",
+      "translation_pl": "mąż",
+      "definition_en": "A husband is a man who is married.",
+      "example_en": "My husband is learning Spanish.",
+      "level": "A1"
+    },
+    {
+      "lemma": "parent",
+      "pos": "noun",
+      "translation_pl": "rodzic",
+      "definition_en": "A parent is a mother or father.",
+      "example_en": "Every parent wants the best for their child.",
+      "level": "A1"
+    },
+    {
+      "lemma": "child",
+      "pos": "noun",
+      "translation_pl": "dziecko",
+      "definition_en": "A child is a young person who is not an adult.",
+      "example_en": "The child is playing in the park.",
+      "level": "A1"
+    },
+    {
+      "lemma": "twin",
+      "pos": "noun",
+      "translation_pl": "bliźniak",
+      "definition_en": "A twin is one of two children born at the same time to the same mother.",
+      "example_en": "She has a twin who looks just like her.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stepfather",
+      "pos": "noun",
+      "translation_pl": "ojczym",
+      "definition_en": "A stepfather is a man who is married to your mother but is not your real father.",
+      "example_en": "My stepfather taught me to ride a bike.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stepmother",
+      "pos": "noun",
+      "translation_pl": "macocha",
+      "definition_en": "A stepmother is a woman who is married to your father but is not your real mother.",
+      "example_en": "Her stepmother gave her a nice birthday gift.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nephew",
+      "pos": "noun",
+      "translation_pl": "bratanek",
+      "definition_en": "A nephew is the son of your brother or sister.",
+      "example_en": "Their nephew is coming to visit tomorrow.",
+      "level": "B1"
+    },
+    {
+      "lemma": "niece",
+      "pos": "noun",
+      "translation_pl": "bratanica",
+      "definition_en": "A niece is the daughter of your brother or sister.",
+      "example_en": "My niece loves to paint pictures.",
+      "level": "B1"
+    }
+  ]
+}

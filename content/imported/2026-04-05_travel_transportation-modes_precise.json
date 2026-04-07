@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "transportation-modes",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:55:03.389Z"
+  },
+  "items": [
+    {
+      "lemma": "shuttle bus",
+      "pos": "noun",
+      "translation_pl": "autobus wahadłowy",
+      "definition_en": "A shuttle bus is a vehicle that regularly travels between two places, such as an airport and a hotel.",
+      "example_en": "We took the shuttle bus from the airport to our hotel.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bullet train",
+      "pos": "noun",
+      "translation_pl": "szybki pociąg",
+      "definition_en": "A bullet train is a very fast passenger train mainly found in Japan and some other countries.",
+      "example_en": "The bullet train travels between Tokyo and Osaka in less than three hours.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sailing yacht",
+      "pos": "noun",
+      "translation_pl": "jacht żaglowy",
+      "definition_en": "A sailing yacht is a boat that uses sails and wind for movement.",
+      "example_en": "We spent our holiday cruising on a sailing yacht.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cruise ship",
+      "pos": "noun",
+      "translation_pl": "statek wycieczkowy",
+      "definition_en": "A cruise ship is a large passenger ship used for pleasure voyages.",
+      "example_en": "The cruise ship stopped at several Mediterranean ports.",
+      "level": "B1"
+    },
+    {
+      "lemma": "jet",
+      "pos": "noun",
+      "translation_pl": "odrzutowiec",
+      "definition_en": "A jet is a fast aircraft powered by jet engines.",
+      "example_en": "They flew to Paris on a private jet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rickshaw",
+      "pos": "noun",
+      "translation_pl": "ryksza",
+      "definition_en": "A rickshaw is a small vehicle with two wheels pulled by a person or a bicycle.",
+      "example_en": "We took a rickshaw through the busy streets of Delhi.",
+      "level": "B1"
+    },
+    {
+      "lemma": "monorail",
+      "pos": "noun",
+      "translation_pl": "kolej jednoszynowa",
+      "definition_en": "A monorail is a train that runs on a single rail, usually above ground.",
+      "example_en": "The city’s monorail connects the airport with downtown.",
+      "level": "B2"
+    },
+    {
+      "lemma": "trolleybus",
+      "pos": "noun",
+      "translation_pl": "trolejbus",
+      "definition_en": "A trolleybus is an electric bus that gets power from overhead wires.",
+      "example_en": "We used a trolleybus to reach the city center.",
+      "level": "B1"
+    },
+    {
+      "lemma": "limousine",
+      "pos": "noun",
+      "translation_pl": "limuzyna",
+      "definition_en": "A limousine is a long, luxurious car driven by a chauffeur.",
+      "example_en": "They arrived at the event in a white limousine.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gondola",
+      "pos": "noun",
+      "translation_pl": "gondola",
+      "definition_en": "A gondola is a long, narrow boat used mainly in the canals of Venice.",
+      "example_en": "We took a gondola ride during our visit to Venice.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rowboat",
+      "pos": "noun",
+      "translation_pl": "łódka wiosłowa",
+      "definition_en": "A rowboat is a small boat that you move by using oars.",
+      "example_en": "They crossed the lake in a rowboat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cargo ship",
+      "pos": "noun",
+      "translation_pl": "statek towarowy",
+      "definition_en": "A cargo ship is a large ship used for transporting goods.",
+      "example_en": "The cargo ship carried containers across the ocean.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hot air balloon",
+      "pos": "noun",
+      "translation_pl": "balon na ogrzane powietrze",
+      "definition_en": "A hot air balloon is a large balloon that flies by filling with warm air.",
+      "example_en": "We enjoyed a hot air balloon ride over the valley.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hovercraft",
+      "pos": "noun",
+      "translation_pl": "poduszkowiec",
+      "definition_en": "A hovercraft is a vehicle that floats over water or ground on a cushion of air.",
+      "example_en": "The hovercraft crossed the channel quickly.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jet ski",
+      "pos": "noun",
+      "translation_pl": "skuter wodny",
+      "definition_en": "A jet ski is a small water vehicle for one or two people, powered by a jet engine.",
+      "example_en": "We rented a jet ski at the beach.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tandem bicycle",
+      "pos": "noun",
+      "translation_pl": "rower dwuosobowy",
+      "definition_en": "A tandem bicycle is a bike designed for two riders.",
+      "example_en": "They rode through the park on a tandem bicycle.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sightseeing bus",
+      "pos": "noun",
+      "translation_pl": "autobus wycieczkowy",
+      "definition_en": "A sightseeing bus is used for tours of famous places in a city.",
+      "example_en": "We took a sightseeing bus around London.",
+      "level": "B1"
+    },
+    {
+      "lemma": "convertible",
+      "pos": "noun",
+      "translation_pl": "kabriolet",
+      "definition_en": "A convertible is a car with a roof that can be removed or folded down.",
+      "example_en": "She drove a red convertible along the coast.",
+      "level": "B2"
+    },
+    {
+      "lemma": "camper van",
+      "pos": "noun",
+      "translation_pl": "kamper",
+      "definition_en": "A camper van is a vehicle equipped for camping and sleeping in.",
+      "example_en": "They traveled across Europe in a camper van.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spaceship",
+      "pos": "noun",
+      "translation_pl": "statek kosmiczny",
+      "definition_en": "A spaceship is a vehicle designed for travel in outer space.",
+      "example_en": "The astronauts boarded the spaceship for their mission.",
+      "level": "B2"
+    }
+  ]
+}

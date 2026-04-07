@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "wind-related",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:50:32.299Z"
+  },
+  "items": [
+    {
+      "lemma": "crosswind",
+      "pos": "noun",
+      "translation_pl": "wiatr boczny",
+      "definition_en": "A crosswind is wind that blows across your direction of travel.",
+      "example_en": "The plane struggled to land because of a strong crosswind.",
+      "level": "B1"
+    },
+    {
+      "lemma": "downburst",
+      "pos": "noun",
+      "translation_pl": "gwałtowny prąd zstępujący",
+      "definition_en": "A downburst is a strong downward rush of wind from a storm.",
+      "example_en": "The trees fell over after a downburst hit the area.",
+      "level": "C1"
+    },
+    {
+      "lemma": "microburst",
+      "pos": "noun",
+      "translation_pl": "mikrowybuch powietrza",
+      "definition_en": "A microburst is a very localized, intense downburst of wind.",
+      "example_en": "Pilots are trained to recognize the dangers of a microburst.",
+      "level": "C1"
+    },
+    {
+      "lemma": "trade wind",
+      "pos": "noun",
+      "translation_pl": "pasat",
+      "definition_en": "A trade wind is a steady wind that blows towards the equator.",
+      "example_en": "Sailors relied on the trade wind to cross the ocean.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sea breeze",
+      "pos": "noun",
+      "translation_pl": "wiatr morski",
+      "definition_en": "A sea breeze is a cool wind that blows from the sea to the land.",
+      "example_en": "A refreshing sea breeze cooled the beach in the afternoon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "land breeze",
+      "pos": "noun",
+      "translation_pl": "wiatr od lądu",
+      "definition_en": "A land breeze is a wind that blows from the land to the sea at night.",
+      "example_en": "Fishermen set sail early helped by the land breeze.",
+      "level": "B2"
+    },
+    {
+      "lemma": "jet stream",
+      "pos": "noun",
+      "translation_pl": "prąd strumieniowy",
+      "definition_en": "A jet stream is a strong, fast wind high in the atmosphere.",
+      "example_en": "Planes sometimes fly faster when they enter a jet stream.",
+      "level": "B2"
+    },
+    {
+      "lemma": "updraft",
+      "pos": "noun",
+      "translation_pl": "prąd wznoszący",
+      "definition_en": "An updraft is a rising current of air.",
+      "example_en": "Birds use an updraft to soar higher in the sky.",
+      "level": "B2"
+    },
+    {
+      "lemma": "downdraft",
+      "pos": "noun",
+      "translation_pl": "prąd zstępujący",
+      "definition_en": "A downdraft is a downward current of air.",
+      "example_en": "The downdraft pushed the smoke quickly to the ground.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wind shear",
+      "pos": "noun",
+      "translation_pl": "ścianie wiatru",
+      "definition_en": "Wind shear is a sudden change in wind speed or direction.",
+      "example_en": "Wind shear can create dangerous flying conditions for pilots.",
+      "level": "C1"
+    },
+    {
+      "lemma": "foehn",
+      "pos": "noun",
+      "translation_pl": "fen",
+      "definition_en": "A foehn is a warm, dry wind that blows down mountains.",
+      "example_en": "A foehn melted the snow in the valley quickly.",
+      "level": "C1"
+    },
+    {
+      "lemma": "sirocco",
+      "pos": "noun",
+      "translation_pl": "sirocco gorący wiatr",
+      "definition_en": "A sirocco is a hot, dry wind from North Africa.",
+      "example_en": "The city was covered in dust after a sirocco.",
+      "level": "C1"
+    },
+    {
+      "lemma": "monsoon wind",
+      "pos": "noun",
+      "translation_pl": "wiatr monsunowy",
+      "definition_en": "A monsoon wind is a seasonal wind that brings heavy rain.",
+      "example_en": "Farmers depend on the monsoon wind for water.",
+      "level": "B2"
+    },
+    {
+      "lemma": "katabatic wind",
+      "pos": "noun",
+      "translation_pl": "wiatr katabatyczny",
+      "definition_en": "A katabatic wind is a cold wind that flows down slopes or mountains.",
+      "example_en": "The katabatic wind made the valley much colder at night.",
+      "level": "C1"
+    },
+    {
+      "lemma": "anabatic wind",
+      "pos": "noun",
+      "translation_pl": "wiatr anabatyczny",
+      "definition_en": "An anabatic wind is a wind that moves upward along a hill or mountain.",
+      "example_en": "Gliders waited for the afternoon anabatic wind to take off.",
+      "level": "C1"
+    },
+    {
+      "lemma": "squall line",
+      "pos": "noun",
+      "translation_pl": "linia szkwałów",
+      "definition_en": "A squall line is a row of thunderstorms with strong winds.",
+      "example_en": "A squall line moved in and caused heavy wind damage.",
+      "level": "C1"
+    },
+    {
+      "lemma": "wind surge",
+      "pos": "noun",
+      "translation_pl": "uderzenie wiatru",
+      "definition_en": "A wind surge is a sudden increase in wind strength.",
+      "example_en": "The wind surge toppled the old fence in minutes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wind tunnel",
+      "pos": "noun",
+      "translation_pl": "tunel aerodynamiczny",
+      "definition_en": "A wind tunnel is a structure used to test how wind moves over objects.",
+      "example_en": "The car was tested in a wind tunnel for better aerodynamics.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wind farm",
+      "pos": "noun",
+      "translation_pl": "farma wiatrowa",
+      "definition_en": "A wind farm is an area with many wind turbines to produce electricity.",
+      "example_en": "Wind farms are common in windy regions.",
+      "level": "B2"
+    },
+    {
+      "lemma": "zephyr",
+      "pos": "noun",
+      "translation_pl": "łagodny wietrzyk",
+      "definition_en": "A zephyr is a gentle, mild wind.",
+      "example_en": "A soft zephyr cooled us during our picnic.",
+      "level": "C1"
+    }
+  ]
+}

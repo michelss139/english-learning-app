@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "formal-wear",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:45:24.890Z"
+  },
+  "items": [
+    {
+      "lemma": "lapel pin",
+      "pos": "noun",
+      "translation_pl": "przypinka do klapy",
+      "definition_en": "A small decorative piece worn on the lapel of a jacket.",
+      "example_en": "He added a silver lapel pin to his tuxedo.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cufflink",
+      "pos": "noun",
+      "translation_pl": "spinka do mankietów",
+      "definition_en": "A decorative fastener used to close shirt cuffs.",
+      "example_en": "He wore gold cufflinks with his dress shirt.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pocket square",
+      "pos": "noun",
+      "translation_pl": "poszetka",
+      "definition_en": "A small decorative handkerchief in a suit pocket.",
+      "example_en": "His blue pocket square matched his tie.",
+      "level": "B2"
+    },
+    {
+      "lemma": "morning coat",
+      "pos": "noun",
+      "translation_pl": "żakiet męski",
+      "definition_en": "A formal men's coat with a cutaway front.",
+      "example_en": "He wore a morning coat for the wedding.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ball gown",
+      "pos": "noun",
+      "translation_pl": "suknia balowa",
+      "definition_en": "A long, formal dress usually worn at balls.",
+      "example_en": "She looked beautiful in her blue ball gown.",
+      "level": "B1"
+    },
+    {
+      "lemma": "opera gloves",
+      "pos": "noun",
+      "translation_pl": "rękawiczki do łokcia",
+      "definition_en": "Long gloves worn with formal evening wear.",
+      "example_en": "She wore white opera gloves to the gala.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shirt stud",
+      "pos": "noun",
+      "translation_pl": "guzik ozdobny do koszuli",
+      "definition_en": "A decorative button used in formal shirts.",
+      "example_en": "He fastened his shirt with black shirt studs.",
+      "level": "C1"
+    },
+    {
+      "lemma": "evening bag",
+      "pos": "noun",
+      "translation_pl": "torebka wieczorowa",
+      "definition_en": "A small, elegant bag for formal occasions.",
+      "example_en": "She carried a silver evening bag to the dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wing collar",
+      "pos": "noun",
+      "translation_pl": "kołnierzyk frakowy",
+      "definition_en": "A stiff, stand-up collar worn with formal shirts.",
+      "example_en": "A wing collar is required for white tie events.",
+      "level": "C1"
+    },
+    {
+      "lemma": "double-breasted jacket",
+      "pos": "noun",
+      "translation_pl": "marynarka dwurzędowa",
+      "definition_en": "A jacket with two parallel rows of buttons.",
+      "example_en": "He chose a double-breasted jacket for the ceremony.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fascinator",
+      "pos": "noun",
+      "translation_pl": "ozdobne nakrycie głowy",
+      "definition_en": "A decorative headpiece often worn at formal events.",
+      "example_en": "Many women wore fascinators to the wedding.",
+      "level": "B2"
+    },
+    {
+      "lemma": "corsage",
+      "pos": "noun",
+      "translation_pl": "kwiat do przypięcia",
+      "definition_en": "A small bouquet worn on a woman’s dress or wrist.",
+      "example_en": "She wore a pink corsage to the prom.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mandarin collar",
+      "pos": "noun",
+      "translation_pl": "kołnierz mandarynka",
+      "definition_en": "A short, stand-up collar style on formal shirts.",
+      "example_en": "His shirt had a smart mandarin collar.",
+      "level": "C1"
+    },
+    {
+      "lemma": "peplum jacket",
+      "pos": "noun",
+      "translation_pl": "marynarka z baskinką",
+      "definition_en": "A jacket with a short, gathered strip at the waist.",
+      "example_en": "She wore a peplum jacket over her dress.",
+      "level": "C1"
+    },
+    {
+      "lemma": "dress watch",
+      "pos": "noun",
+      "translation_pl": "zegarek elegancki",
+      "definition_en": "An elegant watch meant for formal occasions.",
+      "example_en": "He put on his dress watch for the gala.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stole",
+      "pos": "noun",
+      "translation_pl": "szal elegancki",
+      "definition_en": "A long, elegant scarf often worn with evening wear.",
+      "example_en": "She draped a silk stole over her shoulders.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mermaid dress",
+      "pos": "noun",
+      "translation_pl": "suknia syrenka",
+      "definition_en": "A fitted dress that flares out at the bottom.",
+      "example_en": "Her mermaid dress was perfect for the formal dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "clip-on tie",
+      "pos": "noun",
+      "translation_pl": "krawat na zatrzask",
+      "definition_en": "A tie attached with a clip instead of being tied.",
+      "example_en": "He quickly put on his clip-on tie before leaving.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garter",
+      "pos": "noun",
+      "translation_pl": "podwiązka",
+      "definition_en": "A band worn to hold up stockings.",
+      "example_en": "The bride wore a blue garter at her wedding.",
+      "level": "B2"
+    },
+    {
+      "lemma": "trouser brace",
+      "pos": "noun",
+      "translation_pl": "szelki do spodni",
+      "definition_en": "A pair of straps worn over the shoulders to hold up trousers.",
+      "example_en": "Trousers braces kept his dress pants in place.",
+      "level": "B2"
+    }
+  ]
+}

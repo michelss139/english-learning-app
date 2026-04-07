@@ -13,7 +13,7 @@ Packs are sense-based (`lexicon_senses`) and live in:
 | description | text | nullable |
 | is_published | boolean | default false |
 | order_index | int | default 0 |
-| vocab_mode | text | 'daily' \| 'mixed' \| 'precise', default 'mixed' |
+| vocab_mode | text | **`daily` \| `precise` only** (legacy `mixed` usunięte w migracji — istniejące wpisy ustawiono na `daily`) |
 | category | text | default 'general' |
 
 ## Sposoby tworzenia packów
@@ -21,8 +21,8 @@ Packs are sense-based (`lexicon_senses`) and live in:
 ### 1. Content pipeline (zalecane)
 
 - `scripts/content-pipeline/build-pack.ts` – buduje pack z nouns (generate-nouns → import-nouns → vocab_packs/vocab_pack_items)
-- Użycie: `npm run build:pack <category> <subcategory> <mode> [--publish]`
-- Przykład: `npm run build:pack garden plants daily --publish`
+- Użycie: `npm run build:pack <category> <subcategory> <mode> <path-to-imported-json> [--publish]`
+- Przykład: `npm run build:pack garden plants daily content/imported/2026-04-05_garden_plants_daily.json --publish`
 - `scripts/content-pipeline/generate-nouns.ts`, `import-nouns.ts` – pipeline dla rzeczowników
 
 ### 2. Ręczne SQL (shop, home, transport, body, contracts)
@@ -39,7 +39,7 @@ Batch scripts w `scripts/`:
 
 ```sql
 insert into vocab_packs (slug, title, description, is_published, order_index, vocab_mode, category)
-values ('travel', 'W podróży', 'Słówka przydatne w podróży.', true, 2, 'mixed', 'general')
+values ('travel', 'W podróży', 'Słówka przydatne w podróży.', true, 2, 'daily', 'general')
 on conflict (slug) do nothing;
 ```
 

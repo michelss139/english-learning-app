@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { TRAINING_CONTEXT_SUGGESTION } from "@/lib/suggestions/suggestionContext";
 
 type CountMode = "5" | "10" | "all";
 
@@ -7,6 +8,7 @@ type StartBody = {
   slug?: string;
   countMode?: CountMode;
   count_mode?: CountMode;
+  context?: string;
 };
 
 type PackItemDto = {
@@ -115,6 +117,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
     const body = (await req.json().catch(() => ({}))) as StartBody;
     const slug = body.slug?.trim();
     const countMode = parseCountMode(body.countMode ?? body.count_mode);
+    const entryContext = body.context === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
 
     if (!slug) {
       return NextResponse.json(
@@ -211,6 +214,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         metadata: {
           countMode,
           source: "manual",
+          ...(entryContext ? { context: entryContext } : {}),
         },
       });
 

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "emotions",
+    "subcategory": "positive-emotions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:12:20.096Z"
+  },
+  "items": [
+    {
+      "lemma": "happiness",
+      "pos": "noun",
+      "translation_pl": "szczęście",
+      "definition_en": "Happiness is the feeling of being very pleased and content.",
+      "example_en": "Her happiness was clear on her wedding day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "joy",
+      "pos": "noun",
+      "translation_pl": "radość",
+      "definition_en": "Joy is a strong feeling of great pleasure and delight.",
+      "example_en": "Children feel joy when they play together.",
+      "level": "A1"
+    },
+    {
+      "lemma": "love",
+      "pos": "noun",
+      "translation_pl": "miłość",
+      "definition_en": "Love is a deep feeling of strong affection for someone or something.",
+      "example_en": "A mother's love is very special.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hope",
+      "pos": "noun",
+      "translation_pl": "nadzieja",
+      "definition_en": "Hope is the feeling that something good will happen in the future.",
+      "example_en": "She has hope that things will get better.",
+      "level": "A2"
+    },
+    {
+      "lemma": "delight",
+      "pos": "noun",
+      "translation_pl": "zachwyt",
+      "definition_en": "Delight is a feeling of great pleasure and satisfaction.",
+      "example_en": "He watched the fireworks with delight.",
+      "level": "A2"
+    },
+    {
+      "lemma": "comfort",
+      "pos": "noun",
+      "translation_pl": "pocieszenie",
+      "definition_en": "Comfort is the feeling of being relaxed and without worry.",
+      "example_en": "Her words gave me comfort during hard times.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pride",
+      "pos": "noun",
+      "translation_pl": "duma",
+      "definition_en": "Pride is a feeling of pleasure when you or someone you know has done something good.",
+      "example_en": "Parents feel pride in their children's work.",
+      "level": "A2"
+    },
+    {
+      "lemma": "trust",
+      "pos": "noun",
+      "translation_pl": "zaufanie",
+      "definition_en": "Trust is the belief that someone or something is honest and reliable.",
+      "example_en": "Good friends share a strong trust.",
+      "level": "A2"
+    },
+    {
+      "lemma": "relief",
+      "pos": "noun",
+      "translation_pl": "ulga",
+      "definition_en": "Relief is the good feeling you have when something difficult ends.",
+      "example_en": "He felt relief after finding his lost keys.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gratitude",
+      "pos": "noun",
+      "translation_pl": "wdzięczność",
+      "definition_en": "Gratitude is a feeling of thankfulness for help or kindness.",
+      "example_en": "She expressed gratitude for their support.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cheerfulness",
+      "pos": "noun",
+      "translation_pl": "pogoda ducha",
+      "definition_en": "Cheerfulness is the quality of being bright and happy.",
+      "example_en": "His cheerfulness makes everyone smile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "calm",
+      "pos": "noun",
+      "translation_pl": "spokój",
+      "definition_en": "Calm is a peaceful and relaxed mental state.",
+      "example_en": "She spoke with calm during the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "confidence",
+      "pos": "noun",
+      "translation_pl": "pewność siebie",
+      "definition_en": "Confidence is the feeling that you can do something well.",
+      "example_en": "He had confidence before the race.",
+      "level": "A2"
+    },
+    {
+      "lemma": "admiration",
+      "pos": "noun",
+      "translation_pl": "podziw",
+      "definition_en": "Admiration is a feeling of respect and pleasure for someone or something.",
+      "example_en": "She looked at the artist with admiration.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pleasure",
+      "pos": "noun",
+      "translation_pl": "przyjemność",
+      "definition_en": "Pleasure is a feeling of enjoyment and happiness.",
+      "example_en": "Reading gives her great pleasure.",
+      "level": "A2"
+    },
+    {
+      "lemma": "peace",
+      "pos": "noun",
+      "translation_pl": "pokój",
+      "definition_en": "Peace is a calm and quiet state of mind or place.",
+      "example_en": "He felt peace in the countryside.",
+      "level": "A2"
+    },
+    {
+      "lemma": "excitement",
+      "pos": "noun",
+      "translation_pl": "podekscytowanie",
+      "definition_en": "Excitement is a strong feeling of happy interest and energy.",
+      "example_en": "There was excitement before the concert.",
+      "level": "B1"
+    },
+    {
+      "lemma": "amusement",
+      "pos": "noun",
+      "translation_pl": "rozbawienie",
+      "definition_en": "Amusement is the feeling when something is funny or entertaining.",
+      "example_en": "Her joke gave everyone great amusement.",
+      "level": "B1"
+    },
+    {
+      "lemma": "affection",
+      "pos": "noun",
+      "translation_pl": "uczucie",
+      "definition_en": "Affection is a gentle and loving feeling for someone.",
+      "example_en": "The dog showed affection to its owner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "enthusiasm",
+      "pos": "noun",
+      "translation_pl": "entuzjazm",
+      "definition_en": "Enthusiasm is a strong feeling of interest or excitement about something.",
+      "example_en": "She spoke with great enthusiasm about her plans.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "meeting-spaces",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:05:31.924Z"
+  },
+  "items": [
+    {
+      "lemma": "meeting room",
+      "pos": "noun",
+      "translation_pl": "sala spotkań",
+      "definition_en": "A meeting room is a place where people talk together for work.",
+      "example_en": "We booked the meeting room for our team discussion.",
+      "level": "A1"
+    },
+    {
+      "lemma": "whiteboard",
+      "pos": "noun",
+      "translation_pl": "biała tablica",
+      "definition_en": "A whiteboard is a smooth board to write on with markers.",
+      "example_en": "She drew the plan on the whiteboard during the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chair",
+      "pos": "noun",
+      "translation_pl": "krzesło",
+      "definition_en": "A chair is a seat for one person, often with a back.",
+      "example_en": "Each chair in the meeting space was comfortable.",
+      "level": "A1"
+    },
+    {
+      "lemma": "table",
+      "pos": "noun",
+      "translation_pl": "stół",
+      "definition_en": "A table is a flat surface with legs where people put things.",
+      "example_en": "There was a large table in the center of the meeting room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "window",
+      "pos": "noun",
+      "translation_pl": "okno",
+      "definition_en": "A window is a glass opening in a wall to let in light.",
+      "example_en": "Natural light came into the meeting space through the window.",
+      "level": "A1"
+    },
+    {
+      "lemma": "door",
+      "pos": "noun",
+      "translation_pl": "drzwi",
+      "definition_en": "A door is used to enter or exit a room.",
+      "example_en": "Please close the door after you enter the meeting room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "light",
+      "pos": "noun",
+      "translation_pl": "światło",
+      "definition_en": "Light is what helps people see in a room.",
+      "example_en": "The meeting space has bright light for reading.",
+      "level": "A1"
+    },
+    {
+      "lemma": "clock",
+      "pos": "noun",
+      "translation_pl": "zegar",
+      "definition_en": "A clock shows the time in a room.",
+      "example_en": "There is a clock on the wall in our meeting area.",
+      "level": "A1"
+    },
+    {
+      "lemma": "podium",
+      "pos": "noun",
+      "translation_pl": "mównica",
+      "definition_en": "A podium is a small stand where someone speaks to a group.",
+      "example_en": "The manager stood at the podium to give his speech.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flip chart",
+      "pos": "noun",
+      "translation_pl": "tablica flipchart",
+      "definition_en": "A flip chart is a paper pad used for writing during meetings.",
+      "example_en": "He wrote the ideas on the flip chart for everyone to see.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sofa",
+      "pos": "noun",
+      "translation_pl": "sofa",
+      "definition_en": "A sofa is a long seat for several people.",
+      "example_en": "We sat on the sofa while waiting for the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "waiting area",
+      "pos": "noun",
+      "translation_pl": "poczekalnia",
+      "definition_en": "A waiting area is a space where people sit before meetings.",
+      "example_en": "Guests waited in the waiting area before entering.",
+      "level": "A2"
+    },
+    {
+      "lemma": "carpet",
+      "pos": "noun",
+      "translation_pl": "dywan",
+      "definition_en": "A carpet is a soft cover for the floor.",
+      "example_en": "The carpet made the meeting room feel more comfortable.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wall",
+      "pos": "noun",
+      "translation_pl": "ściana",
+      "definition_en": "A wall is a vertical part that makes up a room.",
+      "example_en": "Photos were hanging on the wall of the meeting space.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ceiling",
+      "pos": "noun",
+      "translation_pl": "sufit",
+      "definition_en": "A ceiling is the top inside surface of a room.",
+      "example_en": "The ceiling in the meeting space was very high.",
+      "level": "A2"
+    },
+    {
+      "lemma": "air conditioner",
+      "pos": "noun",
+      "translation_pl": "klimatyzator",
+      "definition_en": "An air conditioner is a machine that keeps the room cool.",
+      "example_en": "The air conditioner made the meeting space comfortable in summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plant",
+      "pos": "noun",
+      "translation_pl": "roślina",
+      "definition_en": "A plant is a living thing with green leaves.",
+      "example_en": "There was a plant in the corner of the meeting room.",
+      "level": "A1"
+    },
+    {
+      "lemma": "remote control",
+      "pos": "noun",
+      "translation_pl": "pilot",
+      "definition_en": "A remote control is a device used to change things from far away.",
+      "example_en": "She used the remote control to turn on the projector.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sign",
+      "pos": "noun",
+      "translation_pl": "znak",
+      "definition_en": "A sign shows information or directions in a place.",
+      "example_en": "There is a sign outside the meeting room door.",
+      "level": "A1"
+    },
+    {
+      "lemma": "curtain",
+      "pos": "noun",
+      "translation_pl": "zasłona",
+      "definition_en": "A curtain is cloth that covers a window.",
+      "example_en": "He closed the curtain to reduce sunlight during the meeting.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "emotions",
+    "subcategory": "negative-emotions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:12:54.785Z"
+  },
+  "items": [
+    {
+      "lemma": "fear",
+      "pos": "noun",
+      "translation_pl": "strach",
+      "definition_en": "Fear is the feeling you get when you think something bad might happen.",
+      "example_en": "She felt fear when she heard a noise at night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "anger",
+      "pos": "noun",
+      "translation_pl": "złość",
+      "definition_en": "Anger is the strong feeling you have when something makes you upset.",
+      "example_en": "His face was red with anger.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sadness",
+      "pos": "noun",
+      "translation_pl": "smutek",
+      "definition_en": "Sadness is the feeling you have when you are unhappy.",
+      "example_en": "There was sadness in her eyes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "worry",
+      "pos": "noun",
+      "translation_pl": "zmartwienie",
+      "definition_en": "Worry is the feeling you have when you think something bad will happen.",
+      "example_en": "He felt worry about the test.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hate",
+      "pos": "noun",
+      "translation_pl": "nienawiść",
+      "definition_en": "Hate is a strong feeling of not liking someone or something.",
+      "example_en": "There is no place for hate here.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stress",
+      "pos": "noun",
+      "translation_pl": "stres",
+      "definition_en": "Stress is the feeling of being worried or unable to relax.",
+      "example_en": "She gets stress from too much work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "disgust",
+      "pos": "noun",
+      "translation_pl": "wstręt",
+      "definition_en": "Disgust is a strong feeling of dislike or sickening.",
+      "example_en": "He showed his disgust at the smell.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shame",
+      "pos": "noun",
+      "translation_pl": "wstyd",
+      "definition_en": "Shame is the bad feeling you have when you've done something wrong.",
+      "example_en": "She felt shame about her mistake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "boredom",
+      "pos": "noun",
+      "translation_pl": "nuda",
+      "definition_en": "Boredom is the feeling you get when nothing interests you.",
+      "example_en": "He sighed with boredom during the long meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "loneliness",
+      "pos": "noun",
+      "translation_pl": "samotność",
+      "definition_en": "Loneliness is the sad feeling of being alone.",
+      "example_en": "She tried to fight her loneliness.",
+      "level": "B1"
+    },
+    {
+      "lemma": "regret",
+      "pos": "noun",
+      "translation_pl": "żal",
+      "definition_en": "Regret is the feeling of being sorry about something you did.",
+      "example_en": "He had deep regret after yelling.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pain",
+      "pos": "noun",
+      "translation_pl": "ból",
+      "definition_en": "Pain is the feeling you have when something hurts you.",
+      "example_en": "He was in pain after the fall.",
+      "level": "A1"
+    },
+    {
+      "lemma": "jealousy",
+      "pos": "noun",
+      "translation_pl": "zazdrość",
+      "definition_en": "Jealousy is the unhappy feeling you have when you want what someone else has.",
+      "example_en": "Her jealousy caused many arguments.",
+      "level": "B1"
+    },
+    {
+      "lemma": "guilt",
+      "pos": "noun",
+      "translation_pl": "wina",
+      "definition_en": "Guilt is the bad feeling you have after doing something wrong.",
+      "example_en": "He felt guilt for breaking the vase.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shock",
+      "pos": "noun",
+      "translation_pl": "szok",
+      "definition_en": "Shock is the strong feeling you have after something very surprising or bad happens.",
+      "example_en": "He could not speak because of shock.",
+      "level": "B1"
+    },
+    {
+      "lemma": "disappointment",
+      "pos": "noun",
+      "translation_pl": "rozczarowanie",
+      "definition_en": "Disappointment is the sad feeling when something is not as good as you hoped.",
+      "example_en": "Her face was full of disappointment.",
+      "level": "B1"
+    },
+    {
+      "lemma": "envy",
+      "pos": "noun",
+      "translation_pl": "zazdrość",
+      "definition_en": "Envy is the feeling of wanting what another person has.",
+      "example_en": "He felt envy when he saw the new car.",
+      "level": "B1"
+    },
+    {
+      "lemma": "frustration",
+      "pos": "noun",
+      "translation_pl": "frustracja",
+      "definition_en": "Frustration is the feeling you get when you cannot do something you want.",
+      "example_en": "She hit the table in frustration.",
+      "level": "B1"
+    },
+    {
+      "lemma": "anxiety",
+      "pos": "noun",
+      "translation_pl": "niepokój",
+      "definition_en": "Anxiety is the feeling of being very worried about something that might happen.",
+      "example_en": "She felt anxiety before the exam.",
+      "level": "B1"
+    },
+    {
+      "lemma": "resentment",
+      "pos": "noun",
+      "translation_pl": "uraza",
+      "definition_en": "Resentment is the angry feeling you have when you think something is not fair.",
+      "example_en": "He had resentment toward his boss.",
+      "level": "B1"
+    }
+  ]
+}

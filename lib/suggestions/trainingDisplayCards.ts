@@ -1,3 +1,5 @@
+import { appendSuggestionContext } from "@/lib/suggestions/suggestionContext";
+
 /**
  * Shared display logic for GET /api/suggestions (`top` + `list`).
  * Keeps irregular bundling and display names aligned with the API (no duplicate scoring).
@@ -16,6 +18,8 @@ export type TrainingSuggestion = {
   accuracy?: number;
   form?: "past_simple" | "past_participle";
   label?: string;
+  /** When set, subtitle shows Polish count phrase (“N słów wymaga powtórki”). */
+  senseAggregateCount?: number;
 };
 
 export type TrainingDisplayCard = {
@@ -44,6 +48,41 @@ function humanizeDisplayFallback(displayName: string): string {
   return displayName.trim();
 }
 
+function senseReviewSubtitle(distinctCount: number): string {
+  const n = distinctCount;
+  if (n === 1) return "1 słowo wymaga powtórki";
+  const n100 = n % 100;
+  const n10 = n % 10;
+  if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) {
+    return `${n} słowa wymagają powtórki`;
+  }
+  return `${n} słów wymaga powtórki`;
+}
+
+/** Merge all `sense` rows into one card (same title/href pattern as `SuggestionsPanel`). */
+function aggregateSenseSuggestionsInOrder(items: TrainingSuggestion[]): TrainingSuggestion[] {
+  const senseItems = items.filter((i) => i.unitType === "sense");
+  const otherItems = items.filter((i) => i.unitType !== "sense");
+  if (senseItems.length === 0) return items;
+
+  const uniqueIds = [...new Set(senseItems.map((i) => i.unitId))];
+  const distinctCount = uniqueIds.length;
+  const idsForHref = uniqueIds.slice(0, 8);
+  const href = appendSuggestionContext(
+    `/app/vocab/practice?senseIds=${encodeURIComponent(idsForHref.join(","))}&autostart=1`,
+  );
+
+  const merged: TrainingSuggestion = {
+    ...senseItems[0],
+    unitId: "sense-aggregated",
+    href,
+    displayName: "Słowa do powtórki",
+    senseAggregateCount: distinctCount,
+  };
+
+  return [merged, ...otherItems];
+}
+
 /**
  * Title hook for a single suggestion (no raw slugs as title).
  */
@@ -59,7 +98,12 @@ function titleHookForSuggestion(s: TrainingSuggestion): string {
       return dn.length <= 22 ? dn : "Ćwiczenie w kontekście";
     }
     case "sense":
-      return "Twoje słówka";
+      return "Słowa do powtórki";
+    case "shortcut": {
+      if (s.unitId === "shop") return "Szybka sesja";
+      if (s.unitId === "clusters") return "Typowe błędy";
+      return s.displayName.trim() || "Trening";
+    }
     case "grammar":
       return "Ćwicz gramatykę";
     case "irregular":
@@ -81,7 +125,14 @@ function subtitleForSuggestion(s: TrainingSuggestion): string {
       return `Powtórz i utrwal: ${h}`;
     }
     case "sense":
+      if (s.senseAggregateCount != null) return senseReviewSubtitle(s.senseAggregateCount);
       return "Powtórz słowa, które już znasz";
+    case "shortcut": {
+      if (s.unitId === "shop") return "Krótki zestaw ze sklepu — start od razu";
+      if (s.unitId === "clusters")
+        return "Ćwiczenia na pary często mylonych słów";
+      return s.displayName.trim() || "Wybierz trening dopasowany do Ciebie";
+    }
     case "grammar": {
       const dn = s.displayName.trim();
       if (dn && !looksLikeSlug(dn)) return `Temat: ${dn}`;
@@ -105,9 +156,11 @@ export function buildIrregularTargetLink(items: TrainingSuggestion[]): string {
         i.unitType === "irregular" && (i.form === "past_simple" || i.form === "past_participle"),
     )
     .slice(0, 5);
-  if (targetItems.length === 0) return "/app/irregular-verbs/train";
+  if (targetItems.length === 0) return appendSuggestionContext("/app/irregular-verbs/train");
   const targets = targetItems.map((i) => `${i.unitId}:${i.form}`).join(",");
-  return `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`;
+  return appendSuggestionContext(
+    `/app/irregular-verbs/train?mode=targeted&targets=${encodeURIComponent(targets)}`,
+  );
 }
 
 /** Irregular forms for bundled card: scan `top` first, then `list` (dedupe), so we never drop bundle when `list` is empty but `top` has irregular. */
@@ -131,7 +184,10 @@ export function buildDisplayCards(top: TrainingSuggestion[], list: TrainingSugge
   const irregularFromList = collectIrregularFormsForBundle(top, list);
 
   const hasIrregularInTop = top.some((t) => t.unitType === "irregular");
-  const nonIrregularTop = top.filter((t) => t.unitType !== "irregular");
+  const nonIrregularTop = top.filter((t) => {
+    if (t.unitType !== "irregular") return true;
+    return t.form !== "past_simple" && t.form !== "past_participle";
+  });
 
   const cards: TrainingDisplayCard[] = [];
 
@@ -144,7 +200,8 @@ export function buildDisplayCards(top: TrainingSuggestion[], list: TrainingSugge
     });
   }
 
-  for (const s of nonIrregularTop) {
+  const displayTop = aggregateSenseSuggestionsInOrder(nonIrregularTop);
+  for (const s of displayTop) {
     cards.push({
       title: titleHookForSuggestion(s),
       description: subtitleForSuggestion(s),
@@ -167,7 +224,7 @@ export function buildDashboardTrainingCards(
 
   const seen = new Set<string>();
   const out: TrainingDisplayCard[] = [];
-  const fallbackPool = list.length > 0 ? list : top;
+  const fallbackPool = aggregateSenseSuggestionsInOrder(list.length > 0 ? list : top);
   for (const s of fallbackPool) {
     if (seen.has(s.href)) continue;
     seen.add(s.href);

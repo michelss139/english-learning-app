@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "computing-devices",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:22:30.266Z"
+  },
+  "items": [
+    {
+      "lemma": "computer",
+      "pos": "noun",
+      "translation_pl": "komputer",
+      "definition_en": "A computer is a machine for working with information.",
+      "example_en": "I use my computer for work and fun.",
+      "level": "A1"
+    },
+    {
+      "lemma": "laptop",
+      "pos": "noun",
+      "translation_pl": "laptop",
+      "definition_en": "A laptop is a small computer you can carry.",
+      "example_en": "He takes his laptop to school every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tablet",
+      "pos": "noun",
+      "translation_pl": "tablet",
+      "definition_en": "A tablet is a thin, portable computer with a touchscreen.",
+      "example_en": "She reads ebooks on her tablet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "monitor",
+      "pos": "noun",
+      "translation_pl": "monitor",
+      "definition_en": "A monitor is a screen for seeing what a computer shows.",
+      "example_en": "The monitor is bigger than my old one.",
+      "level": "A2"
+    },
+    {
+      "lemma": "keyboard",
+      "pos": "noun",
+      "translation_pl": "klawiatura",
+      "definition_en": "A keyboard is a set of keys for typing on a computer.",
+      "example_en": "He bought a new keyboard for his desk.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mouse",
+      "pos": "noun",
+      "translation_pl": "mysz komputerowa",
+      "definition_en": "A mouse is a device you move to control a pointer on the screen.",
+      "example_en": "My mouse stops working sometimes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "desktop",
+      "pos": "noun",
+      "translation_pl": "komputer stacjonarny",
+      "definition_en": "A desktop is a large computer that stays on a desk.",
+      "example_en": "The office uses a desktop for printing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "printer",
+      "pos": "noun",
+      "translation_pl": "drukarka",
+      "definition_en": "A printer makes paper copies from a computer.",
+      "example_en": "The printer is out of ink.",
+      "level": "A1"
+    },
+    {
+      "lemma": "scanner",
+      "pos": "noun",
+      "translation_pl": "skaner",
+      "definition_en": "A scanner copies pictures or papers to the computer.",
+      "example_en": "I use the scanner for old photos.",
+      "level": "A2"
+    },
+    {
+      "lemma": "smartphone",
+      "pos": "noun",
+      "translation_pl": "smartfon",
+      "definition_en": "A smartphone is a small phone that can do many computer tasks.",
+      "example_en": "He checks the weather on his smartphone.",
+      "level": "A1"
+    },
+    {
+      "lemma": "server",
+      "pos": "noun",
+      "translation_pl": "serwer",
+      "definition_en": "A server is a powerful computer that helps other computers connect.",
+      "example_en": "The server stores all the files for our team.",
+      "level": "B1"
+    },
+    {
+      "lemma": "touchscreen",
+      "pos": "noun",
+      "translation_pl": "ekran dotykowy",
+      "definition_en": "A touchscreen is a screen you can touch to give commands.",
+      "example_en": "My phone has a bright touchscreen.",
+      "level": "A2"
+    },
+    {
+      "lemma": "webcam",
+      "pos": "noun",
+      "translation_pl": "kamera internetowa",
+      "definition_en": "A webcam is a small camera for video chat on a computer.",
+      "example_en": "She uses a webcam to call her family.",
+      "level": "A2"
+    },
+    {
+      "lemma": "charger",
+      "pos": "noun",
+      "translation_pl": "ładowarka",
+      "definition_en": "A charger is a device that gives power to electronic devices.",
+      "example_en": "I forgot my charger at home.",
+      "level": "A1"
+    },
+    {
+      "lemma": "headphones",
+      "pos": "noun",
+      "translation_pl": "słuchawki",
+      "definition_en": "Headphones are used for listening to sound from a device.",
+      "example_en": "He listens to music with his headphones.",
+      "level": "A1"
+    },
+    {
+      "lemma": "router",
+      "pos": "noun",
+      "translation_pl": "router",
+      "definition_en": "A router connects computers to the internet.",
+      "example_en": "The router is behind the TV.",
+      "level": "B1"
+    },
+    {
+      "lemma": "USB stick",
+      "pos": "noun",
+      "translation_pl": "pendrive",
+      "definition_en": "A USB stick is a small device for saving and moving files.",
+      "example_en": "I keep my documents on a USB stick.",
+      "level": "A2"
+    },
+    {
+      "lemma": "speaker",
+      "pos": "noun",
+      "translation_pl": "głośnik",
+      "definition_en": "A speaker makes sounds from a computer or device.",
+      "example_en": "She turned up the speaker volume.",
+      "level": "A1"
+    },
+    {
+      "lemma": "smartwatch",
+      "pos": "noun",
+      "translation_pl": "smartwatch",
+      "definition_en": "A smartwatch is a watch with computer features.",
+      "example_en": "He tracks his steps with his smartwatch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hard drive",
+      "pos": "noun",
+      "translation_pl": "dysk twardy",
+      "definition_en": "A hard drive stores information inside a computer.",
+      "example_en": "The hard drive is almost full.",
+      "level": "A2"
+    }
+  ]
+}

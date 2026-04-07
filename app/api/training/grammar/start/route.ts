@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
 import { isRegisteredGrammarExerciseSlug } from "@/lib/grammar/practice";
+import { TRAINING_CONTEXT_SUGGESTION } from "@/lib/suggestions/suggestionContext";
 
 /** Body uses `slug` for backward compatibility; value is the grammar exercise_slug (topic), not question_id. */
 type StartBody = {
   slug?: string;
+  context?: string;
 };
 
 type StartResponse = {
@@ -46,6 +48,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
 
     const body = (await req.json().catch(() => ({}))) as StartBody;
     const exerciseSlug = body.slug?.trim();
+    const entryContext = body.context === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
 
     if (!exerciseSlug) {
       return NextResponse.json(
@@ -78,7 +81,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         context_slug: exerciseSlug,
         context_id: null,
         question_count: 1,
-        metadata: { source: "manual" },
+        metadata: { source: "manual", ...(entryContext ? { context: entryContext } : {}) },
       });
 
     if (sessionInsertErr) {

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "days-and-dates",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:56:59.278Z"
+  },
+  "items": [
+    {
+      "lemma": "public holiday",
+      "pos": "noun",
+      "translation_pl": "dzień wolny od pracy",
+      "definition_en": "A day when most people do not have to work or go to school.",
+      "example_en": "Christmas is a public holiday in many countries.",
+      "level": "B1"
+    },
+    {
+      "lemma": "exam day",
+      "pos": "noun",
+      "translation_pl": "dzień egzaminu",
+      "definition_en": "The specific day scheduled for taking an exam.",
+      "example_en": "She was nervous on her final exam day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "due date",
+      "pos": "noun",
+      "translation_pl": "termin oddania",
+      "definition_en": "The final day by which something must be completed or submitted.",
+      "example_en": "The due date for the assignment is next Monday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wedding anniversary",
+      "pos": "noun",
+      "translation_pl": "rocznica ślubu",
+      "definition_en": "The yearly celebration of the day of a marriage.",
+      "example_en": "They celebrated their tenth wedding anniversary in Paris.",
+      "level": "B1"
+    },
+    {
+      "lemma": "name day",
+      "pos": "noun",
+      "translation_pl": "imieniny",
+      "definition_en": "A special day each year to celebrate a person's given name.",
+      "example_en": "In Poland, people often give gifts for someone's name day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "holiday weekend",
+      "pos": "noun",
+      "translation_pl": "długi weekend",
+      "definition_en": "A weekend that includes or is extended by a public holiday.",
+      "example_en": "We're going on a trip during the holiday weekend.",
+      "level": "B1"
+    },
+    {
+      "lemma": "start date",
+      "pos": "noun",
+      "translation_pl": "data rozpoczęcia",
+      "definition_en": "The first day something begins.",
+      "example_en": "The project start date is April 10th.",
+      "level": "B1"
+    },
+    {
+      "lemma": "end date",
+      "pos": "noun",
+      "translation_pl": "data zakończenia",
+      "definition_en": "The last day that something happens or is valid.",
+      "example_en": "The contract's end date is in December.",
+      "level": "B1"
+    },
+    {
+      "lemma": "opening day",
+      "pos": "noun",
+      "translation_pl": "dzień otwarcia",
+      "definition_en": "The first day an event, business, or activity is available to people.",
+      "example_en": "Fans waited for the baseball opening day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "closing date",
+      "pos": "noun",
+      "translation_pl": "termin zamknięcia",
+      "definition_en": "The final day when something is available or open.",
+      "example_en": "The exhibition's closing date is next week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "school holiday",
+      "pos": "noun",
+      "translation_pl": "ferie szkolne",
+      "definition_en": "A period when schools are closed for a break.",
+      "example_en": "Summer school holidays are the favorite time for students.",
+      "level": "A2"
+    },
+    {
+      "lemma": "payday",
+      "pos": "noun",
+      "translation_pl": "dzień wypłaty",
+      "definition_en": "The day when employees receive their wages.",
+      "example_en": "I'm going shopping on payday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "work anniversary",
+      "pos": "noun",
+      "translation_pl": "rocznica pracy",
+      "definition_en": "The yearly celebration of the day someone started a job.",
+      "example_en": "She received a gift for her ten-year work anniversary.",
+      "level": "B2"
+    },
+    {
+      "lemma": "retirement date",
+      "pos": "noun",
+      "translation_pl": "data emerytury",
+      "definition_en": "The official day a person stops working, usually because of age.",
+      "example_en": "He is looking forward to his retirement date next spring.",
+      "level": "B2"
+    },
+    {
+      "lemma": "graduation day",
+      "pos": "noun",
+      "translation_pl": "dzień ukończenia szkoły",
+      "definition_en": "The day when students formally complete their course of study.",
+      "example_en": "Her family attended her graduation day ceremony.",
+      "level": "B1"
+    },
+    {
+      "lemma": "first day",
+      "pos": "noun",
+      "translation_pl": "pierwszy dzień",
+      "definition_en": "The initial day of an event or period.",
+      "example_en": "He felt nervous on his first day at the new job.",
+      "level": "A2"
+    },
+    {
+      "lemma": "last day",
+      "pos": "noun",
+      "translation_pl": "ostatni dzień",
+      "definition_en": "The final day of an event or period.",
+      "example_en": "On the last day of school, students were excited for summer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "national day",
+      "pos": "noun",
+      "translation_pl": "święto narodowe",
+      "definition_en": "A special day to celebrate a country's importance or history.",
+      "example_en": "The city holds fireworks on the national day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "midterm date",
+      "pos": "noun",
+      "translation_pl": "termin egzaminu śródsemestralnego",
+      "definition_en": "The day scheduled for a midterm exam in school or university.",
+      "example_en": "Students marked the midterm date on their calendars.",
+      "level": "B2"
+    },
+    {
+      "lemma": "founding day",
+      "pos": "noun",
+      "translation_pl": "dzień założenia",
+      "definition_en": "The anniversary of the day an organization or city was founded.",
+      "example_en": "The university celebrates its founding day every October.",
+      "level": "B2"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { isPerfectSession } from "@/lib/xp/perfect";
 import { updateStreak } from "@/lib/streaks";
 import { getSessionSummary } from "@/lib/sessionSummary";
 import { loadClusterMasterySnapshot } from "@/lib/vocab/clusterLoader";
+import { isSuggestionTrainingMetadata } from "@/lib/suggestions/suggestionContext";
 
 type CompleteBody = {
   session_id: string;
@@ -62,6 +63,26 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     if (!cluster) {
       return NextResponse.json({ error: "Cluster not found", code: "NOT_FOUND" }, { status: 404 });
     }
+
+    const { data: trainSession, error: tsErr } = await supabase
+      .from("training_sessions")
+      .select("metadata, context_slug")
+      .eq("id", body.session_id)
+      .eq("student_id", userId)
+      .eq("exercise_type", "cluster")
+      .maybeSingle();
+
+    if (tsErr) {
+      return NextResponse.json({ error: tsErr.message }, { status: 500 });
+    }
+    if (!trainSession || trainSession.context_slug !== slug) {
+      return NextResponse.json(
+        { error: "Training session not found for this cluster", code: "SESSION_MISMATCH" },
+        { status: 400 },
+      );
+    }
+
+    const fromSuggestion = isSuggestionTrainingMetadata(trainSession.metadata);
 
     const { count: totalCount, error: totalErr } = await supabase
       .from("vocab_answer_events")
@@ -139,10 +160,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       sessionId: body.session_id,
       dedupeKey: `cluster:${slug}`,
       perfect,
-      repeatQualified: hasToLearn,
+      repeatQualified: hasToLearn || fromSuggestion,
       meta: {
         total: totalCount,
         correct: correctCount,
+        from_suggestion: fromSuggestion,
       },
     });
 

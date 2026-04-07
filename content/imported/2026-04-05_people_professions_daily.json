@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "professions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:32:38.588Z"
+  },
+  "items": [
+    {
+      "lemma": "teacher",
+      "pos": "noun",
+      "translation_pl": "nauczyciel",
+      "definition_en": "A teacher is a person who helps people learn.",
+      "example_en": "The teacher explains the lesson to the class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "doctor",
+      "pos": "noun",
+      "translation_pl": "lekarz",
+      "definition_en": "A doctor is someone who helps sick people feel better.",
+      "example_en": "The doctor checks the small child.",
+      "level": "A1"
+    },
+    {
+      "lemma": "nurse",
+      "pos": "noun",
+      "translation_pl": "pielęgniarka",
+      "definition_en": "A nurse is a person who helps doctors and cares for patients.",
+      "example_en": "The nurse brings water to the patient.",
+      "level": "A1"
+    },
+    {
+      "lemma": "police officer",
+      "pos": "noun",
+      "translation_pl": "policjant",
+      "definition_en": "A police officer is a person who keeps people safe and stops crime.",
+      "example_en": "A police officer helps the lost child.",
+      "level": "A2"
+    },
+    {
+      "lemma": "firefighter",
+      "pos": "noun",
+      "translation_pl": "strażak",
+      "definition_en": "A firefighter puts out fires and helps in emergencies.",
+      "example_en": "The firefighter quickly entered the burning house.",
+      "level": "A2"
+    },
+    {
+      "lemma": "driver",
+      "pos": "noun",
+      "translation_pl": "kierowca",
+      "definition_en": "A driver is someone who drives a car, bus, or truck.",
+      "example_en": "The driver stops at the red light.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cook",
+      "pos": "noun",
+      "translation_pl": "kucharz",
+      "definition_en": "A cook is a person who makes food in a kitchen.",
+      "example_en": "The cook prepares a big meal.",
+      "level": "A1"
+    },
+    {
+      "lemma": "waiter",
+      "pos": "noun",
+      "translation_pl": "kelner",
+      "definition_en": "A waiter takes orders and serves food in a restaurant.",
+      "example_en": "The waiter brings our food to the table.",
+      "level": "A1"
+    },
+    {
+      "lemma": "farmer",
+      "pos": "noun",
+      "translation_pl": "rolnik",
+      "definition_en": "A farmer grows food and looks after animals.",
+      "example_en": "The farmer works in the fields every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shop assistant",
+      "pos": "noun",
+      "translation_pl": "sprzedawca",
+      "definition_en": "A shop assistant helps customers in a shop.",
+      "example_en": "The shop assistant helps me choose shoes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "worker",
+      "pos": "noun",
+      "translation_pl": "pracownik",
+      "definition_en": "A worker is someone who does a job.",
+      "example_en": "The worker starts his shift at the factory.",
+      "level": "A1"
+    },
+    {
+      "lemma": "manager",
+      "pos": "noun",
+      "translation_pl": "kierownik",
+      "definition_en": "A manager is a person who leads people in their work.",
+      "example_en": "The manager talks to the team every morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "actor",
+      "pos": "noun",
+      "translation_pl": "aktor",
+      "definition_en": "An actor is a person who plays roles in films or plays.",
+      "example_en": "The actor is on the stage at the theater.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cleaner",
+      "pos": "noun",
+      "translation_pl": "sprzątaczka",
+      "definition_en": "A cleaner is someone who cleans places like offices or homes.",
+      "example_en": "The cleaner sweeps the floor every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "engineer",
+      "pos": "noun",
+      "translation_pl": "inżynier",
+      "definition_en": "An engineer plans and builds things like machines or roads.",
+      "example_en": "The engineer checks the bridge carefully.",
+      "level": "A2"
+    },
+    {
+      "lemma": "builder",
+      "pos": "noun",
+      "translation_pl": "budowniczy",
+      "definition_en": "A builder is a person who makes houses and buildings.",
+      "example_en": "The builder works on the new house.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dentist",
+      "pos": "noun",
+      "translation_pl": "dentysta",
+      "definition_en": "A dentist is a person who takes care of teeth.",
+      "example_en": "The dentist checks my teeth every year.",
+      "level": "A2"
+    },
+    {
+      "lemma": "artist",
+      "pos": "noun",
+      "translation_pl": "artysta",
+      "definition_en": "An artist draws, paints, or creates art.",
+      "example_en": "The artist paints a big picture.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hairdresser",
+      "pos": "noun",
+      "translation_pl": "fryzjer",
+      "definition_en": "A hairdresser cuts and styles people's hair.",
+      "example_en": "The hairdresser cuts my hair every month.",
+      "level": "A2"
+    },
+    {
+      "lemma": "student",
+      "pos": "noun",
+      "translation_pl": "uczeń",
+      "definition_en": "A student is a person who goes to school or studies.",
+      "example_en": "The student writes notes in class.",
+      "level": "A1"
+    }
+  ]
+}

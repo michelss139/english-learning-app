@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "academic-subjects",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:19:22.752Z"
+  },
+  "items": [
+    {
+      "lemma": "math",
+      "pos": "noun",
+      "translation_pl": "matematyka",
+      "definition_en": "Math is the subject where you learn about numbers and calculations.",
+      "example_en": "I have math class every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "science",
+      "pos": "noun",
+      "translation_pl": "nauki ścisłe",
+      "definition_en": "Science is the study of the natural world and how it works.",
+      "example_en": "We do experiments in science class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "history",
+      "pos": "noun",
+      "translation_pl": "historia",
+      "definition_en": "History is the study of past events and people.",
+      "example_en": "History is my favorite subject at school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "geography",
+      "pos": "noun",
+      "translation_pl": "geografia",
+      "definition_en": "Geography is the study of places, countries, and nature.",
+      "example_en": "We learn about countries in geography.",
+      "level": "A2"
+    },
+    {
+      "lemma": "art",
+      "pos": "noun",
+      "translation_pl": "sztuka",
+      "definition_en": "Art is the subject where you draw and paint.",
+      "example_en": "We made paintings in art class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "music",
+      "pos": "noun",
+      "translation_pl": "muzyka",
+      "definition_en": "Music is the subject where you learn about songs and instruments.",
+      "example_en": "She plays the guitar in music class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "English",
+      "pos": "noun",
+      "translation_pl": "angielski",
+      "definition_en": "English is the subject where you read and write in English.",
+      "example_en": "We practice speaking in English class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "biology",
+      "pos": "noun",
+      "translation_pl": "biologia",
+      "definition_en": "Biology is the study of living things like plants and animals.",
+      "example_en": "We look at plants in biology.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chemistry",
+      "pos": "noun",
+      "translation_pl": "chemia",
+      "definition_en": "Chemistry is a subject where you learn about different substances and how they change.",
+      "example_en": "We wear safety glasses in chemistry class.",
+      "level": "A2"
+    },
+    {
+      "lemma": "physics",
+      "pos": "noun",
+      "translation_pl": "fizyka",
+      "definition_en": "Physics is the study of matter, energy, and how they interact.",
+      "example_en": "We talk about gravity in physics.",
+      "level": "A2"
+    },
+    {
+      "lemma": "computer science",
+      "pos": "noun",
+      "translation_pl": "informatyka",
+      "definition_en": "Computer science is the subject where you learn about computers and programming.",
+      "example_en": "We write simple programs in computer science.",
+      "level": "B1"
+    },
+    {
+      "lemma": "literature",
+      "pos": "noun",
+      "translation_pl": "literatura",
+      "definition_en": "Literature is the subject where you read books, stories, and poems.",
+      "example_en": "We read novels in literature class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grammar",
+      "pos": "noun",
+      "translation_pl": "gramatyka",
+      "definition_en": "Grammar is the study of how words and sentences are used.",
+      "example_en": "We learn English grammar at school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "French",
+      "pos": "noun",
+      "translation_pl": "francuski",
+      "definition_en": "French is the subject in which you learn the French language.",
+      "example_en": "My sister studies French at school.",
+      "level": "A2"
+    },
+    {
+      "lemma": "PE",
+      "pos": "noun",
+      "translation_pl": "wychowanie fizyczne",
+      "definition_en": "PE is the subject where you do physical exercises and play sports.",
+      "example_en": "We run races in PE class.",
+      "level": "A1"
+    },
+    {
+      "lemma": "spelling",
+      "pos": "noun",
+      "translation_pl": "pisownia",
+      "definition_en": "Spelling is the way words are written using letters.",
+      "example_en": "I practice spelling words every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "reading",
+      "pos": "noun",
+      "translation_pl": "czytanie",
+      "definition_en": "Reading is the activity of understanding written words.",
+      "example_en": "We have reading time after lunch.",
+      "level": "A1"
+    },
+    {
+      "lemma": "writing",
+      "pos": "noun",
+      "translation_pl": "pisanie",
+      "definition_en": "Writing is the activity of making words and sentences on paper.",
+      "example_en": "Good writing is important in school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "economics",
+      "pos": "noun",
+      "translation_pl": "ekonomia",
+      "definition_en": "Economics is the study of money, work, and business.",
+      "example_en": "We learn about prices in economics class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "social studies",
+      "pos": "noun",
+      "translation_pl": "wiedza o społeczeństwie",
+      "definition_en": "Social studies is the subject where you learn about people and communities.",
+      "example_en": "Social studies teaches us about different cultures.",
+      "level": "A2"
+    }
+  ]
+}

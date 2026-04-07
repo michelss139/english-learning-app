@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "garden-wildlife",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:33:01.440Z"
+  },
+  "items": [
+    {
+      "lemma": "bee",
+      "pos": "noun",
+      "translation_pl": "pszczoła",
+      "definition_en": "A bee is an insect that makes honey.",
+      "example_en": "A bee landed on the flower.",
+      "level": "A1"
+    },
+    {
+      "lemma": "butterfly",
+      "pos": "noun",
+      "translation_pl": "motyl",
+      "definition_en": "A butterfly is an insect with colorful wings.",
+      "example_en": "A butterfly flew over the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ant",
+      "pos": "noun",
+      "translation_pl": "mrówka",
+      "definition_en": "An ant is a small insect that lives in groups.",
+      "example_en": "Ants carried food across the path.",
+      "level": "A1"
+    },
+    {
+      "lemma": "snail",
+      "pos": "noun",
+      "translation_pl": "ślimak",
+      "definition_en": "A snail is a small animal with a spiral shell.",
+      "example_en": "A snail moved slowly on the wet grass.",
+      "level": "A1"
+    },
+    {
+      "lemma": "slug",
+      "pos": "noun",
+      "translation_pl": "pomrów",
+      "definition_en": "A slug is a soft animal without a shell.",
+      "example_en": "A slug ate holes in the lettuce leaves.",
+      "level": "A2"
+    },
+    {
+      "lemma": "worm",
+      "pos": "noun",
+      "translation_pl": "robak",
+      "definition_en": "A worm is a small, thin animal that lives in the soil.",
+      "example_en": "A worm helps the soil in the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ladybird",
+      "pos": "noun",
+      "translation_pl": "biedronka",
+      "definition_en": "A ladybird is a small beetle with spots on its back.",
+      "example_en": "A ladybird crawled on the plant.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spider",
+      "pos": "noun",
+      "translation_pl": "pająk",
+      "definition_en": "A spider is a small animal that makes webs.",
+      "example_en": "A spider built a web between the branches.",
+      "level": "A1"
+    },
+    {
+      "lemma": "frog",
+      "pos": "noun",
+      "translation_pl": "żaba",
+      "definition_en": "A frog is a small animal that jumps and lives near water.",
+      "example_en": "A frog sat on a stone by the pond.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toad",
+      "pos": "noun",
+      "translation_pl": "ropucha",
+      "definition_en": "A toad is an animal like a frog but with dry skin.",
+      "example_en": "A toad hid under the leaves.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hedgehog",
+      "pos": "noun",
+      "translation_pl": "jeż",
+      "definition_en": "A hedgehog is a small animal with sharp spines.",
+      "example_en": "A hedgehog walked along the garden fence.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mouse",
+      "pos": "noun",
+      "translation_pl": "mysz",
+      "definition_en": "A mouse is a small rodent with a long tail.",
+      "example_en": "A mouse ran across the garden path.",
+      "level": "A1"
+    },
+    {
+      "lemma": "blackbird",
+      "pos": "noun",
+      "translation_pl": "kos",
+      "definition_en": "A blackbird is a bird with black feathers and a yellow beak.",
+      "example_en": "A blackbird sang in the tree.",
+      "level": "A2"
+    },
+    {
+      "lemma": "robin",
+      "pos": "noun",
+      "translation_pl": "rudzik",
+      "definition_en": "A robin is a small bird with a red breast.",
+      "example_en": "A robin looked for worms on the lawn.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sparrow",
+      "pos": "noun",
+      "translation_pl": "wróbel",
+      "definition_en": "A sparrow is a small, brown and grey bird.",
+      "example_en": "A sparrow perched on the fence.",
+      "level": "A2"
+    },
+    {
+      "lemma": "crow",
+      "pos": "noun",
+      "translation_pl": "kruk",
+      "definition_en": "A crow is a large black bird.",
+      "example_en": "A crow flew over the garden.",
+      "level": "A2"
+    },
+    {
+      "lemma": "squirrel",
+      "pos": "noun",
+      "translation_pl": "wiewiórka",
+      "definition_en": "A squirrel is a small animal with a bushy tail that climbs trees.",
+      "example_en": "A squirrel chased another up the tree.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mole",
+      "pos": "noun",
+      "translation_pl": "kret",
+      "definition_en": "A mole is a small animal that lives under the ground.",
+      "example_en": "A mole made small hills in the lawn.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fox",
+      "pos": "noun",
+      "translation_pl": "lis",
+      "definition_en": "A fox is a wild animal with a pointed nose and bushy tail.",
+      "example_en": "A fox walked quietly at the edge of the garden.",
+      "level": "A2"
+    },
+    {
+      "lemma": "newt",
+      "pos": "noun",
+      "translation_pl": "traszka",
+      "definition_en": "A newt is a small animal like a lizard that lives in water.",
+      "example_en": "A newt hid under the pond plants.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "dairy-products",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:28:40.477Z"
+  },
+  "items": [
+    {
+      "lemma": "parmesan",
+      "pos": "noun",
+      "translation_pl": "parmezan",
+      "definition_en": "Parmesan is a hard, aged Italian cheese with a strong flavor.",
+      "example_en": "She sprinkled parmesan on her pasta.",
+      "level": "B1"
+    },
+    {
+      "lemma": "brie",
+      "pos": "noun",
+      "translation_pl": "brie",
+      "definition_en": "Brie is a soft French cheese with a white rind.",
+      "example_en": "They served brie with crackers at the party.",
+      "level": "B1"
+    },
+    {
+      "lemma": "blue cheese",
+      "pos": "noun",
+      "translation_pl": "ser pleśniowy",
+      "definition_en": "Blue cheese is a cheese with blue mold veins and a strong taste.",
+      "example_en": "He added blue cheese to his salad.",
+      "level": "B2"
+    },
+    {
+      "lemma": "camembert",
+      "pos": "noun",
+      "translation_pl": "camembert",
+      "definition_en": "Camembert is a creamy, soft French cheese with a white rind.",
+      "example_en": "Camembert tastes best at room temperature.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mascarpone",
+      "pos": "noun",
+      "translation_pl": "mascarpone",
+      "definition_en": "Mascarpone is a rich, creamy Italian cheese often used in desserts.",
+      "example_en": "Tiramisu is made with mascarpone.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cheddar",
+      "pos": "noun",
+      "translation_pl": "cheddar",
+      "definition_en": "Cheddar is a firm yellow or white cheese with a sharp flavor.",
+      "example_en": "She likes cheddar on her sandwiches.",
+      "level": "B1"
+    },
+    {
+      "lemma": "quark",
+      "pos": "noun",
+      "translation_pl": "twaróg sernikowy",
+      "definition_en": "Quark is a fresh dairy product similar to soft cheese or thick yogurt.",
+      "example_en": "He mixes fruit with quark for breakfast.",
+      "level": "B2"
+    },
+    {
+      "lemma": "evaporated milk",
+      "pos": "noun",
+      "translation_pl": "mleko skondensowane niesłodzone",
+      "definition_en": "Evaporated milk is canned milk with some water removed.",
+      "example_en": "She uses evaporated milk in her coffee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "condensed milk",
+      "pos": "noun",
+      "translation_pl": "mleko skondensowane słodzone",
+      "definition_en": "Condensed milk is thick, sweetened milk in a can.",
+      "example_en": "Condensed milk is often used in desserts.",
+      "level": "B1"
+    },
+    {
+      "lemma": "buttermilk",
+      "pos": "noun",
+      "translation_pl": "maślanka",
+      "definition_en": "Buttermilk is a tangy liquid left after churning butter.",
+      "example_en": "He drank a glass of buttermilk with lunch.",
+      "level": "B2"
+    },
+    {
+      "lemma": "halloumi",
+      "pos": "noun",
+      "translation_pl": "halloumi",
+      "definition_en": "Halloumi is a salty, semi-hard cheese from Cyprus, often grilled or fried.",
+      "example_en": "Halloumi tastes delicious when grilled.",
+      "level": "B2"
+    },
+    {
+      "lemma": "feta",
+      "pos": "noun",
+      "translation_pl": "feta",
+      "definition_en": "Feta is a crumbly, salty cheese made from sheep's or goat's milk.",
+      "example_en": "She added feta to her Greek salad.",
+      "level": "B1"
+    },
+    {
+      "lemma": "goat cheese",
+      "pos": "noun",
+      "translation_pl": "ser kozi",
+      "definition_en": "Goat cheese is cheese made from goat's milk and usually has a tangy flavor.",
+      "example_en": "I like spreading goat cheese on toast.",
+      "level": "B2"
+    },
+    {
+      "lemma": "processed cheese",
+      "pos": "noun",
+      "translation_pl": "ser topiony",
+      "definition_en": "Processed cheese is a cheese product made from blended natural cheeses.",
+      "example_en": "Processed cheese melts easily on burgers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "milk powder",
+      "pos": "noun",
+      "translation_pl": "mleko w proszku",
+      "definition_en": "Milk powder is dehydrated milk used for cooking or drinking.",
+      "example_en": "She uses milk powder in bread recipes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "string cheese",
+      "pos": "noun",
+      "translation_pl": "ser wędzony do odrywania",
+      "definition_en": "String cheese is a type of cheese that can be pulled apart into strips.",
+      "example_en": "Kids often eat string cheese as a snack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "triple cream",
+      "pos": "noun",
+      "translation_pl": "ser potrójnie śmietankowy",
+      "definition_en": "Triple cream is a very rich, soft cheese with a high cream content.",
+      "example_en": "Triple cream cheese is smooth and buttery.",
+      "level": "C1"
+    },
+    {
+      "lemma": "paneer",
+      "pos": "noun",
+      "translation_pl": "paneer ser indyjski",
+      "definition_en": "Paneer is a fresh, mild Indian cheese made from curdled milk.",
+      "example_en": "Paneer is popular in many Indian dishes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "milk chocolate",
+      "pos": "noun",
+      "translation_pl": "czekolada mleczna",
+      "definition_en": "Milk chocolate is chocolate made with milk for a sweeter taste.",
+      "example_en": "He bought a bar of milk chocolate.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lactose-free milk",
+      "pos": "noun",
+      "translation_pl": "mleko bez laktozy",
+      "definition_en": "Lactose-free milk is cow's milk with the lactose removed for sensitive people.",
+      "example_en": "She drinks lactose-free milk for breakfast.",
+      "level": "B1"
+    }
+  ]
+}

@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { GrammarPracticeClient } from "@/components/grammar/GrammarPracticeClient";
 import { getGrammarPracticeExercise } from "@/lib/grammar/practice";
+import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 
 export function InputPracticeClient({
   exerciseSlug,
@@ -16,6 +18,9 @@ export function InputPracticeClient({
   mapHref: string;
   mapLabel: string;
 }) {
+  const searchParams = useSearchParams();
+  const trainingEntryContext: TrainingEntryContext | undefined =
+    searchParams.get("context") === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
   const exercise = useMemo(() => getGrammarPracticeExercise(exerciseSlug), [exerciseSlug]);
   const question = exercise?.questions?.[0] ?? null;
 
@@ -44,6 +49,7 @@ export function InputPracticeClient({
           questionId={question.id}
           mapHref={mapHref}
           exerciseSlug={exerciseSlug}
+          trainingEntryContext={trainingEntryContext}
         />
       ) : (
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-slate-600">

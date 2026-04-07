@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import { awardXpAndBadges } from "@/lib/xp/award";
+import { awardXpAndBadges, type XpSkipReasonCode } from "@/lib/xp/award";
 import { isPerfectSession } from "@/lib/xp/perfect";
 import { updateStreak } from "@/lib/streaks";
 import { getSessionSummary } from "@/lib/sessionSummary";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
 import { isRegisteredGrammarExerciseSlug } from "@/lib/grammar/practice";
+import { isSuggestionTrainingMetadata } from "@/lib/suggestions/suggestionContext";
 
 /** `slug` in JSON is the grammar exercise_slug (topic); same as training_sessions.context_slug / event context_id. */
 type Body = { session_id: string; slug: string };
@@ -45,6 +46,26 @@ export async function POST(req: Request) {
         { status: 400 },
       );
     }
+
+    const { data: trainSession, error: tsErr } = await supabase
+      .from("training_sessions")
+      .select("metadata, context_slug")
+      .eq("id", body.session_id)
+      .eq("student_id", userId)
+      .eq("exercise_type", "grammar")
+      .maybeSingle();
+
+    if (tsErr) {
+      return NextResponse.json({ error: tsErr.message }, { status: 500 });
+    }
+    if (!trainSession || trainSession.context_slug !== exerciseSlug) {
+      return NextResponse.json(
+        { error: "Training session not found for this exercise", code: "SESSION_MISMATCH" },
+        { status: 400 },
+      );
+    }
+
+    const fromSuggestion = isSuggestionTrainingMetadata(trainSession.metadata);
 
     /*
      * ARCHITECTURE NOTE – grammar events in vocab_answer_events (read side):
@@ -97,13 +118,22 @@ export async function POST(req: Request) {
 
     const alreadyCompleted = !!existingCompletion;
 
-    let award = {
+    let award: {
+      xp_awarded: number;
+      xp_total: number;
+      level: number;
+      xp_in_current_level: number;
+      xp_to_next_level: number;
+      newly_awarded_badges: { slug: string; title: string; description: string | null }[];
+      xp_skip_reason: XpSkipReasonCode | null;
+    } = {
       xp_awarded: 0,
       xp_total: 0,
       level: 0,
       xp_in_current_level: 0,
       xp_to_next_level: 0,
-      newly_awarded_badges: [] as { slug: string; title: string; description: string | null }[],
+      newly_awarded_badges: [],
+      xp_skip_reason: alreadyCompleted ? "session_already_completed" : null,
     };
 
     if (!alreadyCompleted) {
@@ -118,12 +148,13 @@ export async function POST(req: Request) {
         dedupeKey: `grammar:${exerciseSlug}`,
         perfect,
         eligibleForAward: true,
-        repeatQualified: false,
+        repeatQualified: fromSuggestion,
         meta: {
           total,
           correct,
           wrong,
           exercise_slug: exerciseSlug,
+          from_suggestion: fromSuggestion,
         },
       });
 

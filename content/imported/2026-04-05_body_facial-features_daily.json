@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "body",
+    "subcategory": "facial-features",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:38:45.083Z"
+  },
+  "items": [
+    {
+      "lemma": "eyebrow",
+      "pos": "noun",
+      "translation_pl": "brew",
+      "definition_en": "An eyebrow is the line of hair above your eye.",
+      "example_en": "She raised her eyebrow in surprise.",
+      "level": "A2"
+    },
+    {
+      "lemma": "eyelash",
+      "pos": "noun",
+      "translation_pl": "rzęsa",
+      "definition_en": "An eyelash is one of the small hairs on the edge of your eyelid.",
+      "example_en": "He has very long eyelashes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chin",
+      "pos": "noun",
+      "translation_pl": "broda",
+      "definition_en": "The chin is the part below your mouth.",
+      "example_en": "She rested her chin on her hand.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lip",
+      "pos": "noun",
+      "translation_pl": "warga",
+      "definition_en": "A lip is one of the two soft parts around your mouth.",
+      "example_en": "His lips were dry after running.",
+      "level": "A1"
+    },
+    {
+      "lemma": "forehead",
+      "pos": "noun",
+      "translation_pl": "czoło",
+      "definition_en": "The forehead is the flat part above your eyes and below your hair.",
+      "example_en": "She wiped sweat from her forehead.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cheek",
+      "pos": "noun",
+      "translation_pl": "policzek",
+      "definition_en": "A cheek is the soft part on the side of your face below your eyes.",
+      "example_en": "The baby has round cheeks.",
+      "level": "A1"
+    },
+    {
+      "lemma": "jaw",
+      "pos": "noun",
+      "translation_pl": "szczęka",
+      "definition_en": "The jaw is the lower part of your face that moves when you eat.",
+      "example_en": "He hurt his jaw while chewing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ear",
+      "pos": "noun",
+      "translation_pl": "ucho",
+      "definition_en": "An ear is the part of your body used for hearing.",
+      "example_en": "She has a small earring in her ear.",
+      "level": "A1"
+    },
+    {
+      "lemma": "nose",
+      "pos": "noun",
+      "translation_pl": "nos",
+      "definition_en": "A nose is the part of your face you use to smell and breathe.",
+      "example_en": "His nose is cold.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mustache",
+      "pos": "noun",
+      "translation_pl": "wąsy",
+      "definition_en": "A mustache is hair that grows above the lip.",
+      "example_en": "He grew a mustache last summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "beard",
+      "pos": "noun",
+      "translation_pl": "broda zarost",
+      "definition_en": "A beard is hair that grows on a man’s chin and face.",
+      "example_en": "His beard is very thick.",
+      "level": "A2"
+    },
+    {
+      "lemma": "freckle",
+      "pos": "noun",
+      "translation_pl": "piegi",
+      "definition_en": "A freckle is a small brown spot on the skin.",
+      "example_en": "She has freckles on her cheeks.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pore",
+      "pos": "noun",
+      "translation_pl": "por",
+      "definition_en": "A pore is a tiny hole in your skin.",
+      "example_en": "You can see the pores on your nose with a mirror.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mole",
+      "pos": "noun",
+      "translation_pl": "pieprzyk",
+      "definition_en": "A mole is a small dark spot on the skin.",
+      "example_en": "She has a mole above her lip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dimple",
+      "pos": "noun",
+      "translation_pl": "dołek w policzku",
+      "definition_en": "A dimple is a small dent in your cheek when you smile.",
+      "example_en": "He has a cute dimple on his left cheek.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wrinkle",
+      "pos": "noun",
+      "translation_pl": "zmarszczka",
+      "definition_en": "A wrinkle is a small line on your skin caused by age.",
+      "example_en": "She has a few wrinkles around her eyes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "face",
+      "pos": "noun",
+      "translation_pl": "twarz",
+      "definition_en": "The face is the front part of your head.",
+      "example_en": "She washed her face in the morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "temple",
+      "pos": "noun",
+      "translation_pl": "skroń",
+      "definition_en": "The temple is the flat area on the side of your forehead.",
+      "example_en": "He touched his temple lightly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "jawline",
+      "pos": "noun",
+      "translation_pl": "linia szczęki",
+      "definition_en": "A jawline is the shape made by your lower jaw.",
+      "example_en": "He has a strong jawline.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sideburn",
+      "pos": "noun",
+      "translation_pl": "baki",
+      "definition_en": "A sideburn is hair growing down the sides of the face in front of the ears.",
+      "example_en": "He trimmed his sideburns regularly.",
+      "level": "B1"
+    }
+  ]
+}

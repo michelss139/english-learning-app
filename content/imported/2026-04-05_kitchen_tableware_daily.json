@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "tableware",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:48:49.876Z"
+  },
+  "items": [
+    {
+      "lemma": "plate",
+      "pos": "noun",
+      "translation_pl": "talerz",
+      "definition_en": "A plate is a flat dish for eating food.",
+      "example_en": "I put my sandwich on a plate.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bowl",
+      "pos": "noun",
+      "translation_pl": "miska",
+      "definition_en": "A bowl is a deep round dish for holding food or liquid.",
+      "example_en": "She ate soup from a bowl.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cup",
+      "pos": "noun",
+      "translation_pl": "kubek",
+      "definition_en": "A cup is a small container used to drink liquids.",
+      "example_en": "He drank tea from a cup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "glass",
+      "pos": "noun",
+      "translation_pl": "szklanka",
+      "definition_en": "A glass is a container for drinking, usually made of glass.",
+      "example_en": "She poured water into a glass.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mug",
+      "pos": "noun",
+      "translation_pl": "kubek",
+      "definition_en": "A mug is a large cup for hot drinks like tea or coffee.",
+      "example_en": "He likes his coffee in a big mug.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fork",
+      "pos": "noun",
+      "translation_pl": "widelec",
+      "definition_en": "A fork is a tool with prongs for eating or serving food.",
+      "example_en": "Please use your fork to eat the salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "knife",
+      "pos": "noun",
+      "translation_pl": "nóż",
+      "definition_en": "A knife is a tool with a sharp edge for cutting.",
+      "example_en": "I need a knife to slice the bread.",
+      "level": "A1"
+    },
+    {
+      "lemma": "teaspoon",
+      "pos": "noun",
+      "translation_pl": "łyżeczka",
+      "definition_en": "A teaspoon is a small spoon used for stirring or eating.",
+      "example_en": "Add sugar with a teaspoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tablespoon",
+      "pos": "noun",
+      "translation_pl": "łyżka stołowa",
+      "definition_en": "A tablespoon is a large spoon used to serve or measure food.",
+      "example_en": "She mixed the soup with a tablespoon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "saucer",
+      "pos": "noun",
+      "translation_pl": "spodek",
+      "definition_en": "A saucer is a small, flat plate for a cup.",
+      "example_en": "The cup sits on a saucer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "jug",
+      "pos": "noun",
+      "translation_pl": "dzbanek",
+      "definition_en": "A jug is a container for holding and pouring liquids.",
+      "example_en": "She filled the jug with juice.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pitcher",
+      "pos": "noun",
+      "translation_pl": "dzbanek",
+      "definition_en": "A pitcher is a large container for serving drinks.",
+      "example_en": "We put lemonade in the pitcher.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tray",
+      "pos": "noun",
+      "translation_pl": "taca",
+      "definition_en": "A tray is a flat object for carrying dishes or food.",
+      "example_en": "She carried the cups on a tray.",
+      "level": "A2"
+    },
+    {
+      "lemma": "butter dish",
+      "pos": "noun",
+      "translation_pl": "maselniczka",
+      "definition_en": "A butter dish is a small container for holding butter.",
+      "example_en": "The butter dish was on the table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "serving bowl",
+      "pos": "noun",
+      "translation_pl": "miska do serwowania",
+      "definition_en": "A serving bowl is a large bowl to hold and serve food.",
+      "example_en": "She put the salad in a serving bowl.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gravy boat",
+      "pos": "noun",
+      "translation_pl": "sosjerka",
+      "definition_en": "A gravy boat is a small jug for serving sauce.",
+      "example_en": "The gravy boat was filled with sauce.",
+      "level": "B1"
+    },
+    {
+      "lemma": "salt shaker",
+      "pos": "noun",
+      "translation_pl": "solniczka",
+      "definition_en": "A salt shaker is a small container for sprinkling salt.",
+      "example_en": "He reached for the salt shaker.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pepper mill",
+      "pos": "noun",
+      "translation_pl": "młynek do pieprzu",
+      "definition_en": "A pepper mill is a container that grinds pepper.",
+      "example_en": "She used the pepper mill for her soup.",
+      "level": "B1"
+    },
+    {
+      "lemma": "napkin holder",
+      "pos": "noun",
+      "translation_pl": "stojak na serwetki",
+      "definition_en": "A napkin holder keeps napkins together on the table.",
+      "example_en": "The napkin holder was on the counter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chopsticks",
+      "pos": "noun",
+      "translation_pl": "pałeczki",
+      "definition_en": "Chopsticks are two thin sticks for eating food.",
+      "example_en": "He eats noodles with chopsticks.",
+      "level": "A2"
+    }
+  ]
+}

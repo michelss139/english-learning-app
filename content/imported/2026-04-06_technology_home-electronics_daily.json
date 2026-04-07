@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "home-electronics",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:26:05.914Z"
+  },
+  "items": [
+    {
+      "lemma": "remote control",
+      "pos": "noun",
+      "translation_pl": "pilot do urządzeń",
+      "definition_en": "A remote control lets you operate electronic devices from a distance.",
+      "example_en": "He used the remote control to change the TV channel.",
+      "level": "A1"
+    },
+    {
+      "lemma": "speaker",
+      "pos": "noun",
+      "translation_pl": "głośnik",
+      "definition_en": "A speaker makes sound from a device louder.",
+      "example_en": "The music played through the speaker.",
+      "level": "A1"
+    },
+    {
+      "lemma": "television",
+      "pos": "noun",
+      "translation_pl": "telewizor",
+      "definition_en": "A television shows pictures and sounds for people to watch.",
+      "example_en": "She watched a movie on her new television.",
+      "level": "A1"
+    },
+    {
+      "lemma": "smartphone",
+      "pos": "noun",
+      "translation_pl": "smartfon",
+      "definition_en": "A smartphone is a mobile phone with many functions.",
+      "example_en": "He takes photos with his smartphone.",
+      "level": "A1"
+    },
+    {
+      "lemma": "printer",
+      "pos": "noun",
+      "translation_pl": "drukarka",
+      "definition_en": "A printer makes copies of documents on paper.",
+      "example_en": "The printer is out of ink.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tablet",
+      "pos": "noun",
+      "translation_pl": "tablet",
+      "definition_en": "A tablet is a small flat computer with a touchscreen.",
+      "example_en": "She reads books on her tablet.",
+      "level": "A1"
+    },
+    {
+      "lemma": "camera",
+      "pos": "noun",
+      "translation_pl": "aparat",
+      "definition_en": "A camera is used to take pictures or videos.",
+      "example_en": "He bought a new camera for his trip.",
+      "level": "A1"
+    },
+    {
+      "lemma": "monitor",
+      "pos": "noun",
+      "translation_pl": "monitor",
+      "definition_en": "A monitor is a screen for a computer.",
+      "example_en": "She replaced her old computer monitor.",
+      "level": "A1"
+    },
+    {
+      "lemma": "laptop",
+      "pos": "noun",
+      "translation_pl": "laptop",
+      "definition_en": "A laptop is a portable computer.",
+      "example_en": "He does his homework on his laptop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "battery",
+      "pos": "noun",
+      "translation_pl": "bateria",
+      "definition_en": "A battery stores power for electronic devices.",
+      "example_en": "The battery in my phone is low.",
+      "level": "A2"
+    },
+    {
+      "lemma": "charger",
+      "pos": "noun",
+      "translation_pl": "ładowarka",
+      "definition_en": "A charger gives power to a device.",
+      "example_en": "She forgot her phone charger at home.",
+      "level": "A2"
+    },
+    {
+      "lemma": "power strip",
+      "pos": "noun",
+      "translation_pl": "listwa zasilająca",
+      "definition_en": "A power strip lets you plug in several devices at once.",
+      "example_en": "We connected all the computers to a power strip.",
+      "level": "A2"
+    },
+    {
+      "lemma": "projector",
+      "pos": "noun",
+      "translation_pl": "projektor",
+      "definition_en": "A projector shows images on a wall or screen.",
+      "example_en": "The teacher used a projector for the lesson.",
+      "level": "A2"
+    },
+    {
+      "lemma": "game console",
+      "pos": "noun",
+      "translation_pl": "konsola do gier",
+      "definition_en": "A game console is used to play video games.",
+      "example_en": "My brother got a new game console.",
+      "level": "A2"
+    },
+    {
+      "lemma": "microwave",
+      "pos": "noun",
+      "translation_pl": "mikrofalówka",
+      "definition_en": "A microwave is an electric oven for heating food.",
+      "example_en": "She warmed up soup in the microwave.",
+      "level": "A2"
+    },
+    {
+      "lemma": "washing machine",
+      "pos": "noun",
+      "translation_pl": "pralka",
+      "definition_en": "A washing machine is used to wash clothes.",
+      "example_en": "The washing machine is running now.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fan",
+      "pos": "noun",
+      "translation_pl": "wiatrak",
+      "definition_en": "A fan moves air to make a room cooler.",
+      "example_en": "They turned on the fan during the hot day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "speaker system",
+      "pos": "noun",
+      "translation_pl": "zestaw głośników",
+      "definition_en": "A speaker system plays music in a room or house.",
+      "example_en": "The speaker system filled the house with sound.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smartwatch",
+      "pos": "noun",
+      "translation_pl": "inteligentny zegarek",
+      "definition_en": "A smartwatch is a small computer you wear on your wrist.",
+      "example_en": "She checks her messages on her smartwatch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "vacuum cleaner",
+      "pos": "noun",
+      "translation_pl": "odkurzacz",
+      "definition_en": "A vacuum cleaner is used to clean floors.",
+      "example_en": "They bought a new vacuum cleaner.",
+      "level": "A1"
+    }
+  ]
+}

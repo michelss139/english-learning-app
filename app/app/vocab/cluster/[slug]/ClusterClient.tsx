@@ -12,6 +12,9 @@ import {
   type ClusterTask,
   type TranslationEvaluationResult,
 } from "@/lib/vocab/clusterLoader";
+import { appendSuggestionContext, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
+import type { XpSkipReasonCode } from "@/lib/xp/award";
+import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
 
 type Question = ClusterTask & {
   answer?: string; // filled after scoring
@@ -43,6 +46,7 @@ type AwardResult = {
   xp_in_current_level: number;
   xp_to_next_level: number;
   newly_awarded_badges: AwardBadge[];
+  xp_skip_reason: XpSkipReasonCode | null;
 };
 
 type SessionSummary = {
@@ -63,6 +67,7 @@ export default function ClusterClient({
   slug,
   limit,
   assignmentId,
+  trainingEntryContext,
   initialCluster,
   initialPatterns,
   initialQuestions,
@@ -71,6 +76,7 @@ export default function ClusterClient({
   slug: string;
   limit: number;
   assignmentId: string;
+  trainingEntryContext?: TrainingEntryContext;
   initialCluster: ClusterMeta;
   initialPatterns: ClusterPattern[];
   initialQuestions: ClusterTask[];
@@ -78,6 +84,8 @@ export default function ClusterClient({
 }) {
   const router = useRouter();
   const isPracticeView = view === "practice";
+  const withSuggestionCtx = (path: string) =>
+    trainingEntryContext === "suggestion" ? appendSuggestionContext(path) : path;
 
   const [error, setError] = useState("");
   const [startLoading, setStartLoading] = useState(isPracticeView);
@@ -93,7 +101,6 @@ export default function ClusterClient({
   const [sessionId, setSessionId] = useState("");
   const [award, setAward] = useState<AwardResult | null>(null);
   const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number | null>(null);
-  const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
   const [awarding, setAwarding] = useState(false);
   const [awardError, setAwardError] = useState("");
   const [saveToast, setSaveToast] = useState("");
@@ -130,7 +137,11 @@ export default function ClusterClient({
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ slug, limit }),
+        body: JSON.stringify({
+          slug,
+          limit,
+          ...(trainingEntryContext ? { context: trainingEntryContext } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -157,7 +168,6 @@ export default function ClusterClient({
       setAwardError("");
       setSaveToast("");
       setAwardedSessionId("");
-      setXpAlreadyAwarded(false);
       setSummary(null);
       setTranslationFeedback(null);
       assignmentCompleteRef.current = false;
@@ -167,7 +177,7 @@ export default function ClusterClient({
     } finally {
       setStartLoading(false);
     }
-  }, [slug, limit]);
+  }, [slug, limit, trainingEntryContext]);
 
   const loadQuestions = () => {
     if (!isPracticeView) return;
@@ -315,6 +325,7 @@ export default function ClusterClient({
               xp_in_current_level: data.xp_in_current_level ?? 0,
               xp_to_next_level: data.xp_to_next_level ?? 0,
               newly_awarded_badges: data.newly_awarded_badges ?? [],
+              xp_skip_reason: data.xp_skip_reason ?? null,
             });
             setSummary(data.summary ?? null);
             setMastery((prev) => ({
@@ -325,7 +336,6 @@ export default function ClusterClient({
               latest_activity_date: data.latest_activity_date ?? prev.latest_activity_date,
               rolling_accuracy: data.rolling_accuracy ?? prev.rolling_accuracy,
             }));
-            setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
             setOptimisticXpAwarded(null);
             emitTrainingCompleted({ type: "cluster", slug });
 
@@ -476,7 +486,11 @@ export default function ClusterClient({
           <div className="flex flex-wrap gap-2">
             <a
               className="tile-frame"
-              href={isPracticeView ? `/app/vocab/cluster/${slug}` : `/app/vocab/cluster/${slug}/practice`}
+              href={
+                isPracticeView
+                  ? withSuggestionCtx(`/app/vocab/cluster/${slug}`)
+                  : withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)
+              }
             >
               <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
                 {isPracticeView ? "Teoria" : "Ćwicz"}
@@ -511,7 +525,7 @@ export default function ClusterClient({
             </div>
             <a
               className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-              href={`/app/vocab/cluster/${slug}/practice`}
+              href={withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)}
             >
               Otwórz ćwiczenia
             </a>
@@ -832,13 +846,11 @@ export default function ClusterClient({
             <div className="text-sm text-slate-600">Postęp XP</div>
             {award ? (
               <div className="space-y-1 text-sm text-slate-700">
-                {xpAlreadyAwarded ? (
-                  <div className="text-amber-700">
-                    Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
-                  </div>
+                {award.xp_awarded === 0 ? (
+                  <div className="text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</div>
                 ) : (
                   <div>
-                    Zdobyte XP: <span className="font-medium text-slate-900">+{award.xp_awarded}</span>
+                    <span className="font-medium text-slate-900">+{award.xp_awarded} XP</span>
                   </div>
                 )}
                 <div>
@@ -851,7 +863,7 @@ export default function ClusterClient({
             ) : optimisticXpAwarded != null ? (
               <div className="space-y-1 text-sm text-slate-700">
                 <div>
-                  Zdobyte XP: <span className="font-medium text-slate-900">+{optimisticXpAwarded}</span>
+                  <span className="font-medium text-slate-900">+{optimisticXpAwarded} XP</span>
                 </div>
               </div>
             ) : awarding ? (

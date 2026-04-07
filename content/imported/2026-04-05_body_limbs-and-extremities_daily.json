@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "body",
+    "subcategory": "limbs-and-extremities",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:39:21.161Z"
+  },
+  "items": [
+    {
+      "lemma": "arm",
+      "pos": "noun",
+      "translation_pl": "ręka",
+      "definition_en": "The arm is the long part of your body from your shoulder to your hand.",
+      "example_en": "He broke his right arm playing football.",
+      "level": "A1"
+    },
+    {
+      "lemma": "leg",
+      "pos": "noun",
+      "translation_pl": "noga",
+      "definition_en": "A leg is one of the parts of your body that you use for walking.",
+      "example_en": "She hurt her leg while running.",
+      "level": "A1"
+    },
+    {
+      "lemma": "foot",
+      "pos": "noun",
+      "translation_pl": "stopa",
+      "definition_en": "Your foot is the part of your body at the end of your leg.",
+      "example_en": "He put on his shoes and socks on each foot.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fist",
+      "pos": "noun",
+      "translation_pl": "pięść",
+      "definition_en": "A fist is a hand with the fingers closed tightly together.",
+      "example_en": "She knocked on the door with her fist.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ankle",
+      "pos": "noun",
+      "translation_pl": "kostka",
+      "definition_en": "The ankle is the joint connecting your foot and your leg.",
+      "example_en": "He twisted his ankle while playing tennis.",
+      "level": "A2"
+    },
+    {
+      "lemma": "toe",
+      "pos": "noun",
+      "translation_pl": "palec u nogi",
+      "definition_en": "A toe is one of the five small parts at the end of your foot.",
+      "example_en": "She painted each toe in a different color.",
+      "level": "A1"
+    },
+    {
+      "lemma": "thumb",
+      "pos": "noun",
+      "translation_pl": "kciuk",
+      "definition_en": "A thumb is the short, thick finger on each hand.",
+      "example_en": "He gave a thumbs up to show approval.",
+      "level": "A1"
+    },
+    {
+      "lemma": "elbow",
+      "pos": "noun",
+      "translation_pl": "łokieć",
+      "definition_en": "The elbow is the joint in the middle of your arm.",
+      "example_en": "She rested her elbows on the table.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wrist",
+      "pos": "noun",
+      "translation_pl": "nadgarstek",
+      "definition_en": "The wrist is the joint that connects your hand to your arm.",
+      "example_en": "He wore a watch on his left wrist.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shoulder",
+      "pos": "noun",
+      "translation_pl": "ramię",
+      "definition_en": "The shoulder is the part of your body where your arm joins your body.",
+      "example_en": "She carried her bag on her right shoulder.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fingernail",
+      "pos": "noun",
+      "translation_pl": "paznokieć u ręki",
+      "definition_en": "A fingernail is the hard surface on the tip of each finger.",
+      "example_en": "She painted her fingernails bright red.",
+      "level": "B1"
+    },
+    {
+      "lemma": "forearm",
+      "pos": "noun",
+      "translation_pl": "przedramię",
+      "definition_en": "The forearm is the part of your arm between your elbow and wrist.",
+      "example_en": "He has a tattoo on his forearm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shin",
+      "pos": "noun",
+      "translation_pl": "goleń",
+      "definition_en": "The shin is the front part of your leg below the knee.",
+      "example_en": "She bruised her shin on the table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "knee",
+      "pos": "noun",
+      "translation_pl": "kolano",
+      "definition_en": "The knee is the joint in the middle of your leg.",
+      "example_en": "He knelt down and touched his knee to the ground.",
+      "level": "A2"
+    },
+    {
+      "lemma": "calf",
+      "pos": "noun",
+      "translation_pl": "łydka",
+      "definition_en": "The calf is the back part of your lower leg.",
+      "example_en": "Her calf hurt after running upstairs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "knuckle",
+      "pos": "noun",
+      "translation_pl": "kostka u ręki",
+      "definition_en": "A knuckle is a part of a finger where it bends.",
+      "example_en": "He cracked his knuckles nervously.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heel",
+      "pos": "noun",
+      "translation_pl": "pięta",
+      "definition_en": "The heel is the back part of your foot below your ankle.",
+      "example_en": "Her shoes rubbed against her heel.",
+      "level": "A2"
+    },
+    {
+      "lemma": "index finger",
+      "pos": "noun",
+      "translation_pl": "palec wskazujący",
+      "definition_en": "The index finger is the finger next to your thumb.",
+      "example_en": "He pointed with his index finger.",
+      "level": "B1"
+    },
+    {
+      "lemma": "little finger",
+      "pos": "noun",
+      "translation_pl": "mały palec",
+      "definition_en": "The little finger is the smallest finger on your hand.",
+      "example_en": "She wore a ring on her little finger.",
+      "level": "B1"
+    },
+    {
+      "lemma": "middle finger",
+      "pos": "noun",
+      "translation_pl": "środkowy palec",
+      "definition_en": "The middle finger is the longest finger on your hand.",
+      "example_en": "He injured his middle finger at work.",
+      "level": "B1"
+    }
+  ]
+}

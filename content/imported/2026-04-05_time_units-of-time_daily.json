@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "units-of-time",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:53:29.055Z"
+  },
+  "items": [
+    {
+      "lemma": "minute",
+      "pos": "noun",
+      "translation_pl": "minuta",
+      "definition_en": "A minute is a unit of time that is sixty seconds.",
+      "example_en": "It takes five minutes to walk to the store.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hour",
+      "pos": "noun",
+      "translation_pl": "godzina",
+      "definition_en": "An hour is a unit of time equal to sixty minutes.",
+      "example_en": "The lesson lasts one hour.",
+      "level": "A1"
+    },
+    {
+      "lemma": "second",
+      "pos": "noun",
+      "translation_pl": "sekunda",
+      "definition_en": "A second is a very short unit of time.",
+      "example_en": "She waited for a few seconds.",
+      "level": "A1"
+    },
+    {
+      "lemma": "day",
+      "pos": "noun",
+      "translation_pl": "dzień",
+      "definition_en": "A day is a period of twenty-four hours.",
+      "example_en": "We met the next day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "week",
+      "pos": "noun",
+      "translation_pl": "tydzień",
+      "definition_en": "A week is a period of seven days.",
+      "example_en": "I go shopping every week.",
+      "level": "A1"
+    },
+    {
+      "lemma": "month",
+      "pos": "noun",
+      "translation_pl": "miesiąc",
+      "definition_en": "A month is one of the twelve parts of a year.",
+      "example_en": "February is the shortest month.",
+      "level": "A1"
+    },
+    {
+      "lemma": "year",
+      "pos": "noun",
+      "translation_pl": "rok",
+      "definition_en": "A year is a period of twelve months.",
+      "example_en": "He was born last year.",
+      "level": "A1"
+    },
+    {
+      "lemma": "moment",
+      "pos": "noun",
+      "translation_pl": "chwila",
+      "definition_en": "A moment is a very short period of time.",
+      "example_en": "Please wait a moment.",
+      "level": "A2"
+    },
+    {
+      "lemma": "morning",
+      "pos": "noun",
+      "translation_pl": "rano",
+      "definition_en": "Morning is the time from sunrise until noon.",
+      "example_en": "He eats breakfast in the morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "evening",
+      "pos": "noun",
+      "translation_pl": "wieczór",
+      "definition_en": "Evening is the time from sunset to bedtime.",
+      "example_en": "They watch TV in the evening.",
+      "level": "A1"
+    },
+    {
+      "lemma": "afternoon",
+      "pos": "noun",
+      "translation_pl": "popołudnie",
+      "definition_en": "Afternoon is the time between noon and evening.",
+      "example_en": "We often drink coffee in the afternoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "night",
+      "pos": "noun",
+      "translation_pl": "noc",
+      "definition_en": "Night is the time when it is dark and most people sleep.",
+      "example_en": "He works at night sometimes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lunch time",
+      "pos": "noun",
+      "translation_pl": "pora lunchu",
+      "definition_en": "Lunch time is the part of the day when people eat lunch.",
+      "example_en": "We usually talk during lunch time.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bedtime",
+      "pos": "noun",
+      "translation_pl": "pora spania",
+      "definition_en": "Bedtime is the usual time to go to bed.",
+      "example_en": "Children have an early bedtime.",
+      "level": "A2"
+    },
+    {
+      "lemma": "century",
+      "pos": "noun",
+      "translation_pl": "wiek",
+      "definition_en": "A century is a period of one hundred years.",
+      "example_en": "The building is two centuries old.",
+      "level": "B1"
+    },
+    {
+      "lemma": "decade",
+      "pos": "noun",
+      "translation_pl": "dekada",
+      "definition_en": "A decade is a period of ten years.",
+      "example_en": "He lived there for a decade.",
+      "level": "B1"
+    },
+    {
+      "lemma": "holiday",
+      "pos": "noun",
+      "translation_pl": "święto",
+      "definition_en": "A holiday is a special day when people do not work.",
+      "example_en": "Christmas is my favorite holiday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dawn",
+      "pos": "noun",
+      "translation_pl": "świt",
+      "definition_en": "Dawn is the time when the sun begins to rise.",
+      "example_en": "Birds sing at dawn.",
+      "level": "B1"
+    },
+    {
+      "lemma": "midnight",
+      "pos": "noun",
+      "translation_pl": "północ",
+      "definition_en": "Midnight is twelve o'clock at night.",
+      "example_en": "The train arrives at midnight.",
+      "level": "A2"
+    },
+    {
+      "lemma": "weekend",
+      "pos": "noun",
+      "translation_pl": "weekend",
+      "definition_en": "A weekend is the time from Friday evening to Sunday night.",
+      "example_en": "We relax during the weekend.",
+      "level": "A1"
+    }
+  ]
+}

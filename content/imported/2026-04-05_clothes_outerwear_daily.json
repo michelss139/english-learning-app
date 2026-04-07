@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "outerwear",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:43:10.331Z"
+  },
+  "items": [
+    {
+      "lemma": "cardigan",
+      "pos": "noun",
+      "translation_pl": "sweter rozpinany",
+      "definition_en": "A cardigan is a knitted sweater that opens in the front.",
+      "example_en": "She wore a red cardigan over her dress.",
+      "level": "A2"
+    },
+    {
+      "lemma": "jacket",
+      "pos": "noun",
+      "translation_pl": "kurtka",
+      "definition_en": "A jacket is a short coat for the upper body.",
+      "example_en": "He put on his jacket before going outside.",
+      "level": "A1"
+    },
+    {
+      "lemma": "raincoat",
+      "pos": "noun",
+      "translation_pl": "płaszcz przeciwdeszczowy",
+      "definition_en": "A raincoat is a coat that keeps you dry in the rain.",
+      "example_en": "She grabbed her raincoat when it started to rain.",
+      "level": "A2"
+    },
+    {
+      "lemma": "parka",
+      "pos": "noun",
+      "translation_pl": "parka",
+      "definition_en": "A parka is a warm jacket with a hood.",
+      "example_en": "He wore a thick parka during winter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coat",
+      "pos": "noun",
+      "translation_pl": "płaszcz",
+      "definition_en": "A coat is a piece of outer clothing for cold weather.",
+      "example_en": "She wore a warm coat in December.",
+      "level": "A1"
+    },
+    {
+      "lemma": "anorak",
+      "pos": "noun",
+      "translation_pl": "anorak",
+      "definition_en": "An anorak is a hooded jacket that protects from wind and rain.",
+      "example_en": "He zipped up his anorak before heading outdoors.",
+      "level": "B1"
+    },
+    {
+      "lemma": "windbreaker",
+      "pos": "noun",
+      "translation_pl": "wiatrówka",
+      "definition_en": "A windbreaker is a light jacket that protects from wind.",
+      "example_en": "She put on her windbreaker for her morning walk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "blazer",
+      "pos": "noun",
+      "translation_pl": "marynarka",
+      "definition_en": "A blazer is a smart jacket often worn as part of a suit.",
+      "example_en": "He wore a blue blazer to the meeting.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cape",
+      "pos": "noun",
+      "translation_pl": "peleryna",
+      "definition_en": "A cape is a loose cloak worn over the shoulders.",
+      "example_en": "She put on a black cape for the costume party.",
+      "level": "B1"
+    },
+    {
+      "lemma": "duster coat",
+      "pos": "noun",
+      "translation_pl": "płaszcz duster",
+      "definition_en": "A duster coat is a long light coat.",
+      "example_en": "He wore a beige duster coat in spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "overcoat",
+      "pos": "noun",
+      "translation_pl": "płaszcz zimowy",
+      "definition_en": "An overcoat is a thick coat worn over other clothes.",
+      "example_en": "He removed his overcoat and hung it by the door.",
+      "level": "B1"
+    },
+    {
+      "lemma": "trench coat",
+      "pos": "noun",
+      "translation_pl": "trencz",
+      "definition_en": "A trench coat is a long raincoat with a belt.",
+      "example_en": "She likes to wear her trench coat in autumn.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gilet",
+      "pos": "noun",
+      "translation_pl": "kamizelka bez rękawów",
+      "definition_en": "A gilet is a sleeveless jacket.",
+      "example_en": "He wore a gilet over his shirt for extra warmth.",
+      "level": "B1"
+    },
+    {
+      "lemma": "duffle coat",
+      "pos": "noun",
+      "translation_pl": "budrysówka",
+      "definition_en": "A duffle coat is a thick coat with toggle fastenings.",
+      "example_en": "She wore a navy duffle coat to school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fur coat",
+      "pos": "noun",
+      "translation_pl": "futro",
+      "definition_en": "A fur coat is a coat made from animal fur or synthetic fur.",
+      "example_en": "She wore a long fur coat to the event.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pea coat",
+      "pos": "noun",
+      "translation_pl": "bosmanka",
+      "definition_en": "A pea coat is a short double-breasted wool coat.",
+      "example_en": "He bought a classic navy pea coat last winter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "puffer jacket",
+      "pos": "noun",
+      "translation_pl": "kurtka puchowa",
+      "definition_en": "A puffer jacket is a jacket filled with down or synthetic material.",
+      "example_en": "He wore a puffer jacket because it was very cold.",
+      "level": "B1"
+    },
+    {
+      "lemma": "down jacket",
+      "pos": "noun",
+      "translation_pl": "kurtka puchowa",
+      "definition_en": "A down jacket is a warm jacket filled with down feathers.",
+      "example_en": "She wore a down jacket during the ski trip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shawl",
+      "pos": "noun",
+      "translation_pl": "szal",
+      "definition_en": "A shawl is a piece of cloth worn around the shoulders.",
+      "example_en": "She wrapped a shawl around her shoulders.",
+      "level": "A2"
+    },
+    {
+      "lemma": "poncho",
+      "pos": "noun",
+      "translation_pl": "ponczo",
+      "definition_en": "A poncho is a large piece of cloth with a hole for the head.",
+      "example_en": "He wore a poncho to stay dry in the rain.",
+      "level": "B1"
+    }
+  ]
+}

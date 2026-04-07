@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "time-measuring-devices",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:58:02.561Z"
+  },
+  "items": [
+    {
+      "lemma": "clock",
+      "pos": "noun",
+      "translation_pl": "zegar",
+      "definition_en": "A clock shows the time.",
+      "example_en": "The clock on the wall shows 3 o'clock.",
+      "level": "A1"
+    },
+    {
+      "lemma": "watch",
+      "pos": "noun",
+      "translation_pl": "zegarek",
+      "definition_en": "A watch is worn to tell the time.",
+      "example_en": "He looked at his watch to check the time.",
+      "level": "A1"
+    },
+    {
+      "lemma": "alarm clock",
+      "pos": "noun",
+      "translation_pl": "budzik",
+      "definition_en": "An alarm clock wakes you up at a set time.",
+      "example_en": "My alarm clock rings at seven every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "timer",
+      "pos": "noun",
+      "translation_pl": "minutnik",
+      "definition_en": "A timer counts down to zero.",
+      "example_en": "Set the timer for ten minutes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stopwatch",
+      "pos": "noun",
+      "translation_pl": "stoper",
+      "definition_en": "A stopwatch measures how long something takes.",
+      "example_en": "The coach used a stopwatch during the race.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wall clock",
+      "pos": "noun",
+      "translation_pl": "zegar ścienny",
+      "definition_en": "A wall clock hangs on the wall and shows time.",
+      "example_en": "She checked the wall clock in her office.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sand timer",
+      "pos": "noun",
+      "translation_pl": "klepsydra",
+      "definition_en": "A sand timer measures time with moving sand.",
+      "example_en": "They used a sand timer for the game.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wristwatch",
+      "pos": "noun",
+      "translation_pl": "zegarek na rękę",
+      "definition_en": "A wristwatch is worn on your wrist to tell time.",
+      "example_en": "She wears a wristwatch every day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grandfather clock",
+      "pos": "noun",
+      "translation_pl": "zegar stojący",
+      "definition_en": "A grandfather clock is a tall, old clock.",
+      "example_en": "The grandfather clock chimed at midday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "digital watch",
+      "pos": "noun",
+      "translation_pl": "zegarek cyfrowy",
+      "definition_en": "A digital watch shows time with numbers.",
+      "example_en": "His digital watch has a bright display.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pocket watch",
+      "pos": "noun",
+      "translation_pl": "zegar kieszonkowy",
+      "definition_en": "A pocket watch is a small clock carried in a pocket.",
+      "example_en": "He keeps a pocket watch from his grandfather.",
+      "level": "B1"
+    },
+    {
+      "lemma": "table clock",
+      "pos": "noun",
+      "translation_pl": "zegar stołowy",
+      "definition_en": "A table clock stands on a desk or table.",
+      "example_en": "She placed a table clock next to her books.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cuckoo clock",
+      "pos": "noun",
+      "translation_pl": "zegar z kukułką",
+      "definition_en": "A cuckoo clock sounds when the hour changes.",
+      "example_en": "The cuckoo clock made a loud sound at noon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "kitchen timer",
+      "pos": "noun",
+      "translation_pl": "minutnik kuchenny",
+      "definition_en": "A kitchen timer is used to measure cooking times.",
+      "example_en": "Please set the kitchen timer for the cake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hourglass",
+      "pos": "noun",
+      "translation_pl": "klepsydra",
+      "definition_en": "An hourglass shows time with falling sand.",
+      "example_en": "The hourglass ran out during the test.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tower clock",
+      "pos": "noun",
+      "translation_pl": "zegar wieżowy",
+      "definition_en": "A tower clock is a large clock on a tower.",
+      "example_en": "The city tower clock can be seen from far away.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wall timer",
+      "pos": "noun",
+      "translation_pl": "minutnik ścienny",
+      "definition_en": "A wall timer is used to count time on the wall.",
+      "example_en": "Turn the wall timer to set the lights.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sundial",
+      "pos": "noun",
+      "translation_pl": "zegar słoneczny",
+      "definition_en": "A sundial uses the sun to show the time.",
+      "example_en": "The sundial in the garden is very old.",
+      "level": "B1"
+    },
+    {
+      "lemma": "alarm",
+      "pos": "noun",
+      "translation_pl": "alarm",
+      "definition_en": "An alarm makes a sound at a certain time.",
+      "example_en": "He set an alarm for his meeting.",
+      "level": "A1"
+    },
+    {
+      "lemma": "egg timer",
+      "pos": "noun",
+      "translation_pl": "minutnik do jajek",
+      "definition_en": "An egg timer helps to boil eggs for the right time.",
+      "example_en": "Use the egg timer to check when the eggs are ready.",
+      "level": "A2"
+    }
+  ]
+}

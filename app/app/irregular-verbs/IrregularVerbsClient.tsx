@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { PatternWithType } from "@/lib/lexicon/patternType";
 
 export type TrainMode = "both" | "past_simple" | "past_participle";
 
@@ -13,6 +14,8 @@ export type IrregularVerbDto = {
   past_participle: string;
   past_participle_variants: string[];
   pinned: boolean;
+  /** Lexicon usage patterns (enriched); classified in UI only, not stored in DB. */
+  patterns?: PatternWithType[];
 };
 
 export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDto[] }) {
@@ -291,6 +294,28 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
                           <span className="text-slate-900/60"> ({verb.past_participle_variants.join(", ")})</span>
                         )}
                       </div>
+                      {verb.patterns && verb.patterns.length > 0 ? (
+                        <div className="mt-2 space-y-1">
+                          <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                            Wzorce użycia
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {verb.patterns.map((p, idx) => (
+                              <span
+                                key={`${p.pattern}:${idx}`}
+                                className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-slate-200/80 bg-white px-2 py-1 text-xs text-slate-700"
+                              >
+                                <span className="min-w-0 break-words">{p.pattern}</span>
+                                {p.type === "structure" ? (
+                                  <span className="shrink-0 rounded bg-violet-100 px-1 py-0.5 text-[10px] font-medium text-violet-800">
+                                    Struktura
+                                  </span>
+                                ) : null}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ) : null}
                     </div>
 
                     <label

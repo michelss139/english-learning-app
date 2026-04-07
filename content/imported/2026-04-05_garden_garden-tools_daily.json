@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "garden-tools",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:31:14.030Z"
+  },
+  "items": [
+    {
+      "lemma": "trowel",
+      "pos": "noun",
+      "translation_pl": "mała łopatka ogrodowa",
+      "definition_en": "A trowel is a small tool used for digging in the garden.",
+      "example_en": "She planted the seeds with a trowel.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hoe",
+      "pos": "noun",
+      "translation_pl": "motyka",
+      "definition_en": "A hoe is a tool for breaking up soil and removing weeds.",
+      "example_en": "He used a hoe to clear the weeds.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pruner",
+      "pos": "noun",
+      "translation_pl": "nożyce do przycinania",
+      "definition_en": "A pruner is a tool for cutting branches and plants.",
+      "example_en": "She used a pruner to trim the rose bush.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden shears",
+      "pos": "noun",
+      "translation_pl": "nożyce ogrodowe",
+      "definition_en": "Garden shears are large scissors for cutting plants.",
+      "example_en": "He cut the hedge with garden shears.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dibber",
+      "pos": "noun",
+      "translation_pl": "sadzak",
+      "definition_en": "A dibber is a stick for making holes in the soil for seeds.",
+      "example_en": "She made holes for seeds with a dibber.",
+      "level": "B1"
+    },
+    {
+      "lemma": "watering gun",
+      "pos": "noun",
+      "translation_pl": "pistolet do podlewania",
+      "definition_en": "A watering gun is a nozzle for spraying water on plants.",
+      "example_en": "He watered the flowers with a watering gun.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden cart",
+      "pos": "noun",
+      "translation_pl": "wózek ogrodowy",
+      "definition_en": "A garden cart is a cart for carrying tools and soil in the garden.",
+      "example_en": "We moved the soil using a garden cart.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plant pot",
+      "pos": "noun",
+      "translation_pl": "doniczka",
+      "definition_en": "A plant pot is a container used to grow plants.",
+      "example_en": "The new plant sits in a plant pot on the patio.",
+      "level": "A1"
+    },
+    {
+      "lemma": "seed tray",
+      "pos": "noun",
+      "translation_pl": "tacka na nasiona",
+      "definition_en": "A seed tray is a flat container for growing seeds.",
+      "example_en": "We started the seeds in a seed tray.",
+      "level": "A2"
+    },
+    {
+      "lemma": "garden string",
+      "pos": "noun",
+      "translation_pl": "sznurek do ogrodu",
+      "definition_en": "Garden string is string used for tying plants or marking rows.",
+      "example_en": "She tied the tomato plants with garden string.",
+      "level": "A2"
+    },
+    {
+      "lemma": "weeder",
+      "pos": "noun",
+      "translation_pl": "narzędzie do usuwania chwastów",
+      "definition_en": "A weeder is a tool for removing weeds from soil.",
+      "example_en": "He used a weeder to pull out dandelions.",
+      "level": "B1"
+    },
+    {
+      "lemma": "edger",
+      "pos": "noun",
+      "translation_pl": "narzędzie do brzegów trawnika",
+      "definition_en": "An edger is a tool for making clean edges in a garden.",
+      "example_en": "She used an edger to tidy the lawn border.",
+      "level": "B1"
+    },
+    {
+      "lemma": "watering wand",
+      "pos": "noun",
+      "translation_pl": "lanca do podlewania",
+      "definition_en": "A watering wand is a long tool for watering plants easily.",
+      "example_en": "He watered the hanging plants with a watering wand.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden knife",
+      "pos": "noun",
+      "translation_pl": "nóż ogrodowy",
+      "definition_en": "A garden knife is a sharp tool for cutting plants or roots.",
+      "example_en": "She cut the roots with a garden knife.",
+      "level": "A2"
+    },
+    {
+      "lemma": "loppers",
+      "pos": "noun",
+      "translation_pl": "sekator dwuręczny",
+      "definition_en": "Loppers are large scissors for cutting thick branches.",
+      "example_en": "He trimmed the tree with loppers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cultivator",
+      "pos": "noun",
+      "translation_pl": "kultywator ręczny",
+      "definition_en": "A cultivator is a tool for loosening and turning soil.",
+      "example_en": "She used a cultivator to prepare the garden bed.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden net",
+      "pos": "noun",
+      "translation_pl": "siatka ogrodowa",
+      "definition_en": "A garden net is a net for protecting plants from birds or animals.",
+      "example_en": "They covered the strawberries with a garden net.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spray bottle",
+      "pos": "noun",
+      "translation_pl": "butelka ze spryskiwaczem",
+      "definition_en": "A spray bottle is a bottle used for spraying water or chemicals.",
+      "example_en": "She misted the leaves with a spray bottle.",
+      "level": "A1"
+    },
+    {
+      "lemma": "garden roller",
+      "pos": "noun",
+      "translation_pl": "walec ogrodowy",
+      "definition_en": "A garden roller is a heavy tool used to flatten soil or grass.",
+      "example_en": "He rolled the lawn with a garden roller.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden bench",
+      "pos": "noun",
+      "translation_pl": "ławka ogrodowa",
+      "definition_en": "A garden bench is a seat placed in a garden.",
+      "example_en": "They rested on the garden bench after working.",
+      "level": "A1"
+    }
+  ]
+}

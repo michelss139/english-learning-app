@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "school-personnel",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:18:47.125Z"
+  },
+  "items": [
+    {
+      "lemma": "teacher",
+      "pos": "noun",
+      "translation_pl": "nauczyciel",
+      "definition_en": "A teacher helps students learn in school.",
+      "example_en": "The teacher started the math lesson.",
+      "level": "A1"
+    },
+    {
+      "lemma": "student",
+      "pos": "noun",
+      "translation_pl": "uczeń",
+      "definition_en": "A student goes to school to learn.",
+      "example_en": "The student finished his homework.",
+      "level": "A1"
+    },
+    {
+      "lemma": "principal",
+      "pos": "noun",
+      "translation_pl": "dyrektor szkoły",
+      "definition_en": "A principal is the head of a school.",
+      "example_en": "The principal greeted everyone in the morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "librarian",
+      "pos": "noun",
+      "translation_pl": "bibliotekarz",
+      "definition_en": "A librarian takes care of books in the library.",
+      "example_en": "The librarian helped me find a history book.",
+      "level": "A2"
+    },
+    {
+      "lemma": "caretaker",
+      "pos": "noun",
+      "translation_pl": "woźny",
+      "definition_en": "A caretaker keeps the school clean and safe.",
+      "example_en": "The caretaker cleaned the hallway after lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coach",
+      "pos": "noun",
+      "translation_pl": "trener",
+      "definition_en": "A coach helps students train in sports.",
+      "example_en": "The coach organized a football game.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nurse",
+      "pos": "noun",
+      "translation_pl": "pielęgniarka",
+      "definition_en": "A nurse cares for sick or hurt students.",
+      "example_en": "The nurse gave Anna a bandage.",
+      "level": "A1"
+    },
+    {
+      "lemma": "secretary",
+      "pos": "noun",
+      "translation_pl": "sekretarka",
+      "definition_en": "A secretary works in the school office.",
+      "example_en": "The secretary answered the phone.",
+      "level": "A2"
+    },
+    {
+      "lemma": "assistant teacher",
+      "pos": "noun",
+      "translation_pl": "asystent nauczyciela",
+      "definition_en": "An assistant teacher helps the main teacher.",
+      "example_en": "The assistant teacher helped in the art class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "classmate",
+      "pos": "noun",
+      "translation_pl": "kolega z klasy",
+      "definition_en": "A classmate is someone in your class.",
+      "example_en": "I sat next to my classmate during English.",
+      "level": "A2"
+    },
+    {
+      "lemma": "counselor",
+      "pos": "noun",
+      "translation_pl": "pedagog szkolny",
+      "definition_en": "A counselor helps students with problems.",
+      "example_en": "The counselor listened to my worries.",
+      "level": "B1"
+    },
+    {
+      "lemma": "head teacher",
+      "pos": "noun",
+      "translation_pl": "nauczyciel prowadzący",
+      "definition_en": "A head teacher is in charge of a class.",
+      "example_en": "The head teacher gave us new books.",
+      "level": "B1"
+    },
+    {
+      "lemma": "substitute teacher",
+      "pos": "noun",
+      "translation_pl": "nauczyciel zastępca",
+      "definition_en": "A substitute teacher fills in when the teacher is away.",
+      "example_en": "We had a substitute teacher in math today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "supervisor",
+      "pos": "noun",
+      "translation_pl": "opiekun",
+      "definition_en": "A supervisor watches students during activities.",
+      "example_en": "The supervisor checked our work in the lab.",
+      "level": "B1"
+    },
+    {
+      "lemma": "janitor",
+      "pos": "noun",
+      "translation_pl": "dozorca",
+      "definition_en": "A janitor fixes things and keeps the school tidy.",
+      "example_en": "The janitor repaired the broken door.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lunch lady",
+      "pos": "noun",
+      "translation_pl": "pani z stołówki",
+      "definition_en": "A lunch lady serves food at school.",
+      "example_en": "The lunch lady gave us soup with bread.",
+      "level": "A2"
+    },
+    {
+      "lemma": "class monitor",
+      "pos": "noun",
+      "translation_pl": "przewodniczący klasy",
+      "definition_en": "A class monitor helps the teacher with small tasks.",
+      "example_en": "The class monitor collected the homework.",
+      "level": "B1"
+    },
+    {
+      "lemma": "school guard",
+      "pos": "noun",
+      "translation_pl": "ochroniarz szkolny",
+      "definition_en": "A school guard protects students and staff.",
+      "example_en": "The school guard stands near the entrance.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bus driver",
+      "pos": "noun",
+      "translation_pl": "kierowca autobusu szkolnego",
+      "definition_en": "A bus driver drives students to school.",
+      "example_en": "The bus driver waited for us at the stop.",
+      "level": "A2"
+    },
+    {
+      "lemma": "administrator",
+      "pos": "noun",
+      "translation_pl": "administrator",
+      "definition_en": "An administrator helps run the school.",
+      "example_en": "The administrator handled our school forms.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "precipitation",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:47:31.334Z"
+  },
+  "items": [
+    {
+      "lemma": "rain",
+      "pos": "noun",
+      "translation_pl": "deszcz",
+      "definition_en": "Rain is water that falls from clouds.",
+      "example_en": "We forgot our umbrella and got wet in the rain.",
+      "level": "A1"
+    },
+    {
+      "lemma": "snow",
+      "pos": "noun",
+      "translation_pl": "śnieg",
+      "definition_en": "Snow is soft white pieces of frozen water that fall from the sky.",
+      "example_en": "The children are playing in the snow.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hail",
+      "pos": "noun",
+      "translation_pl": "grad",
+      "definition_en": "Hail is small hard balls of ice that fall from the sky.",
+      "example_en": "Hail damaged the car last night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "drizzle",
+      "pos": "noun",
+      "translation_pl": "mżawka",
+      "definition_en": "Drizzle is light rain with very small drops.",
+      "example_en": "There was a drizzle all morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shower",
+      "pos": "noun",
+      "translation_pl": "przelotny deszcz",
+      "definition_en": "A shower is a short period of rain.",
+      "example_en": "We had a quick shower in the afternoon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "downpour",
+      "pos": "noun",
+      "translation_pl": "ulewa",
+      "definition_en": "A downpour is a very heavy rain.",
+      "example_en": "The downpour made the streets flood.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sleet",
+      "pos": "noun",
+      "translation_pl": "deszcz ze śniegiem",
+      "definition_en": "Sleet is a mix of rain and snow.",
+      "example_en": "Sleet made the roads slippery today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mist",
+      "pos": "noun",
+      "translation_pl": "mgiełka",
+      "definition_en": "Mist is a light fog often mixed with small drops of water.",
+      "example_en": "Mist covered the field early in the morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sprinkle",
+      "pos": "noun",
+      "translation_pl": "lekki deszcz",
+      "definition_en": "A sprinkle is a small amount of rain.",
+      "example_en": "There was only a sprinkle, so we kept walking.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flurry",
+      "pos": "noun",
+      "translation_pl": "przelotny opad śniegu",
+      "definition_en": "A flurry is a sudden short period of light snow.",
+      "example_en": "We saw a flurry while driving to work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "frost",
+      "pos": "noun",
+      "translation_pl": "szron",
+      "definition_en": "Frost is a thin layer of ice on surfaces when it is cold.",
+      "example_en": "There was frost on the windows this morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rainstorm",
+      "pos": "noun",
+      "translation_pl": "burza deszczowa",
+      "definition_en": "A rainstorm is a weather event with a lot of rain and wind.",
+      "example_en": "The rainstorm kept us inside all day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice pellet",
+      "pos": "noun",
+      "translation_pl": "kulka lodu",
+      "definition_en": "An ice pellet is a small hard piece of ice falling from the sky.",
+      "example_en": "Ice pellets hit the roof during the evening.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dew",
+      "pos": "noun",
+      "translation_pl": "rosa",
+      "definition_en": "Dew is small drops of water found on grass in the morning.",
+      "example_en": "Morning dew made the grass wet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "freezing rain",
+      "pos": "noun",
+      "translation_pl": "marznący deszcz",
+      "definition_en": "Freezing rain is rain that turns to ice when it hits the ground.",
+      "example_en": "Driving is dangerous when there is freezing rain.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rainfall",
+      "pos": "noun",
+      "translation_pl": "opad deszczu",
+      "definition_en": "Rainfall is the amount of rain that falls in a period.",
+      "example_en": "This month we had a lot of rainfall.",
+      "level": "B1"
+    },
+    {
+      "lemma": "raindrop",
+      "pos": "noun",
+      "translation_pl": "kropla deszczu",
+      "definition_en": "A raindrop is a single drop of rain.",
+      "example_en": "A raindrop hit my face as I walked outside.",
+      "level": "B1"
+    },
+    {
+      "lemma": "snowflake",
+      "pos": "noun",
+      "translation_pl": "płatek śniegu",
+      "definition_en": "A snowflake is a single piece of snow in a unique shape.",
+      "example_en": "Each snowflake looks a little different.",
+      "level": "A2"
+    },
+    {
+      "lemma": "blizzard",
+      "pos": "noun",
+      "translation_pl": "zamieć śnieżna",
+      "definition_en": "A blizzard is a very strong snowstorm with wind.",
+      "example_en": "The blizzard closed many roads last winter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cloudburst",
+      "pos": "noun",
+      "translation_pl": "gwałtowny ulewny deszcz",
+      "definition_en": "A cloudburst is a sudden very heavy rain.",
+      "example_en": "A cloudburst surprised everyone at the picnic.",
+      "level": "B1"
+    }
+  ]
+}

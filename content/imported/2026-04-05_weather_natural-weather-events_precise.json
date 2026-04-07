@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "natural-weather-events",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:52:53.001Z"
+  },
+  "items": [
+    {
+      "lemma": "flash flood",
+      "pos": "noun",
+      "translation_pl": "gwałtowna powódź",
+      "definition_en": "A flash flood is a sudden and strong flood that happens quickly after heavy rain.",
+      "example_en": "The village was destroyed by a flash flood last night.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hailstorm",
+      "pos": "noun",
+      "translation_pl": "burza gradowa",
+      "definition_en": "A hailstorm is a storm with a lot of hail falling from the sky.",
+      "example_en": "Cars were damaged during last night's hailstorm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice jam",
+      "pos": "noun",
+      "translation_pl": "zator lodowy",
+      "definition_en": "An ice jam is a build-up of ice in a river that blocks the flow of water.",
+      "example_en": "The ice jam caused the river to flood nearby streets.",
+      "level": "C1"
+    },
+    {
+      "lemma": "polar vortex",
+      "pos": "noun",
+      "translation_pl": "wir polarny",
+      "definition_en": "A polar vortex is a large pocket of very cold air over the polar regions.",
+      "example_en": "The polar vortex brought freezing temperatures to the city.",
+      "level": "C1"
+    },
+    {
+      "lemma": "derecho",
+      "pos": "noun",
+      "translation_pl": "wiatr linijny",
+      "definition_en": "A derecho is a long-lasting and powerful windstorm that moves in a straight line.",
+      "example_en": "The derecho knocked down hundreds of trees in the area.",
+      "level": "C1"
+    },
+    {
+      "lemma": "microburst",
+      "pos": "noun",
+      "translation_pl": "gwałtowny poryw wiatru",
+      "definition_en": "A microburst is a sudden, strong, and brief downward wind.",
+      "example_en": "The microburst damaged several roofs in our neighborhood.",
+      "level": "C1"
+    },
+    {
+      "lemma": "supercell",
+      "pos": "noun",
+      "translation_pl": "superkomórka burzowa",
+      "definition_en": "A supercell is a very powerful thunderstorm with a rotating core.",
+      "example_en": "A supercell can cause large hail and tornadoes.",
+      "level": "C1"
+    },
+    {
+      "lemma": "sea fog",
+      "pos": "noun",
+      "translation_pl": "mgła morska",
+      "definition_en": "Sea fog is a thick fog that forms over the sea and moves onto land.",
+      "example_en": "The ship entered heavy sea fog at dawn.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ice fog",
+      "pos": "noun",
+      "translation_pl": "mgła lodowa",
+      "definition_en": "Ice fog occurs when tiny ice crystals form in the air in cold weather.",
+      "example_en": "The village was covered in thick ice fog this morning.",
+      "level": "C1"
+    },
+    {
+      "lemma": "river flood",
+      "pos": "noun",
+      "translation_pl": "powódź rzeczna",
+      "definition_en": "A river flood happens when a river overflows its banks.",
+      "example_en": "Spring rains often cause a river flood in the valley.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ice floe",
+      "pos": "noun",
+      "translation_pl": "kra lodowa",
+      "definition_en": "An ice floe is a large flat piece of floating ice.",
+      "example_en": "Polar bears sometimes travel on an ice floe.",
+      "level": "B2"
+    },
+    {
+      "lemma": "freezing fog",
+      "pos": "noun",
+      "translation_pl": "mgła zamarzająca",
+      "definition_en": "Freezing fog is fog that forms when water droplets freeze on contact.",
+      "example_en": "Driving became dangerous because of the freezing fog.",
+      "level": "C1"
+    },
+    {
+      "lemma": "storm surge",
+      "pos": "noun",
+      "translation_pl": "fala sztormowa",
+      "definition_en": "A storm surge is a rise in sea level caused by a storm's winds.",
+      "example_en": "The coastal town was flooded by a storm surge.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ice storm damage",
+      "pos": "noun",
+      "translation_pl": "zniszczenia po gołoledzi",
+      "definition_en": "Ice storm damage means harm caused to buildings or trees by ice storms.",
+      "example_en": "Many trees fell due to ice storm damage.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lake-effect snow",
+      "pos": "noun",
+      "translation_pl": "śnieg znad jeziora",
+      "definition_en": "Lake-effect snow is heavy snow that falls when cold air moves over warm lake water.",
+      "example_en": "The city receives a lot of lake-effect snow every winter.",
+      "level": "C1"
+    },
+    {
+      "lemma": "river ice",
+      "pos": "noun",
+      "translation_pl": "lód na rzece",
+      "definition_en": "River ice is frozen water that covers the surface of a river.",
+      "example_en": "Fishermen waited until the river ice was thick enough.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rainstorm damage",
+      "pos": "noun",
+      "translation_pl": "zniszczenia po ulewie",
+      "definition_en": "Rainstorm damage refers to harm caused by heavy rainfall.",
+      "example_en": "The roof collapsed from rainstorm damage.",
+      "level": "B1"
+    },
+    {
+      "lemma": "storm warning",
+      "pos": "noun",
+      "translation_pl": "ostrzeżenie przed burzą",
+      "definition_en": "A storm warning is an official alert about an approaching storm.",
+      "example_en": "The government issued a storm warning for the coast.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wind chill",
+      "pos": "noun",
+      "translation_pl": "odczuwalna temperatura",
+      "definition_en": "Wind chill is what the temperature feels like because of the wind.",
+      "example_en": "The wind chill made it feel much colder than it really was.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heat index",
+      "pos": "noun",
+      "translation_pl": "wskaźnik ciepła",
+      "definition_en": "The heat index shows how hot the weather feels when humidity is included.",
+      "example_en": "The heat index reached dangerous levels today.",
+      "level": "B1"
+    }
+  ]
+}

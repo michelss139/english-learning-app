@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "body-parts",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:07:20.923Z"
+  },
+  "items": [
+    {
+      "lemma": "head",
+      "pos": "noun",
+      "translation_pl": "głowa",
+      "definition_en": "The head is the top part of your body with your brain, eyes, and mouth.",
+      "example_en": "She put her hat on her head.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hand",
+      "pos": "noun",
+      "translation_pl": "ręka",
+      "definition_en": "A hand is the part at the end of your arm that you use to hold things.",
+      "example_en": "He washed his hands before dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "leg",
+      "pos": "noun",
+      "translation_pl": "noga",
+      "definition_en": "A leg is a part of your body that you use for walking or standing.",
+      "example_en": "She hurt her leg while running.",
+      "level": "A1"
+    },
+    {
+      "lemma": "foot",
+      "pos": "noun",
+      "translation_pl": "stopa",
+      "definition_en": "A foot is the part at the end of your leg that you stand on.",
+      "example_en": "His foot was cold without a sock.",
+      "level": "A1"
+    },
+    {
+      "lemma": "arm",
+      "pos": "noun",
+      "translation_pl": "ręka",
+      "definition_en": "An arm is a part of your body that connects your hand to your shoulder.",
+      "example_en": "She lifted the box with one arm.",
+      "level": "A1"
+    },
+    {
+      "lemma": "eye",
+      "pos": "noun",
+      "translation_pl": "oko",
+      "definition_en": "An eye is the part of your face you use to see.",
+      "example_en": "He rubbed his eyes because he was tired.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ear",
+      "pos": "noun",
+      "translation_pl": "ucho",
+      "definition_en": "An ear is the part of your body you use to hear sounds.",
+      "example_en": "She put an earring in her ear.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mouth",
+      "pos": "noun",
+      "translation_pl": "usta",
+      "definition_en": "Your mouth is the opening on your face you use to eat and speak.",
+      "example_en": "He smiled with his mouth open.",
+      "level": "A1"
+    },
+    {
+      "lemma": "nose",
+      "pos": "noun",
+      "translation_pl": "nos",
+      "definition_en": "A nose is the part of your face you use to smell and breathe.",
+      "example_en": "Her nose was cold in the winter air.",
+      "level": "A1"
+    },
+    {
+      "lemma": "face",
+      "pos": "noun",
+      "translation_pl": "twarz",
+      "definition_en": "Your face is the front part of your head where your eyes, nose, and mouth are.",
+      "example_en": "He washed his face in the morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "back",
+      "pos": "noun",
+      "translation_pl": "plecy",
+      "definition_en": "Your back is the part of your body behind you from your neck to your waist.",
+      "example_en": "Her back hurts after working all day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shoulder",
+      "pos": "noun",
+      "translation_pl": "ramię",
+      "definition_en": "A shoulder is the part of your body where your arm joins your body.",
+      "example_en": "He carried his bag on his shoulder.",
+      "level": "A2"
+    },
+    {
+      "lemma": "knee",
+      "pos": "noun",
+      "translation_pl": "kolano",
+      "definition_en": "A knee is the middle part of your leg that bends.",
+      "example_en": "She scraped her knee while playing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "elbow",
+      "pos": "noun",
+      "translation_pl": "łokieć",
+      "definition_en": "An elbow is the joint in the middle of your arm that bends.",
+      "example_en": "He leaned on his elbow while reading.",
+      "level": "A2"
+    },
+    {
+      "lemma": "neck",
+      "pos": "noun",
+      "translation_pl": "szyja",
+      "definition_en": "Your neck is the part of your body that connects your head to your shoulders.",
+      "example_en": "She wore a necklace around her neck.",
+      "level": "A1"
+    },
+    {
+      "lemma": "stomach",
+      "pos": "noun",
+      "translation_pl": "brzuch",
+      "definition_en": "Your stomach is the front part of your body between your chest and legs.",
+      "example_en": "His stomach hurt after eating too much.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toe",
+      "pos": "noun",
+      "translation_pl": "palec u nogi",
+      "definition_en": "A toe is one of the small parts at the end of your foot.",
+      "example_en": "She painted her big toe red.",
+      "level": "A2"
+    },
+    {
+      "lemma": "finger",
+      "pos": "noun",
+      "translation_pl": "palec u ręki",
+      "definition_en": "A finger is one of the small parts on your hand.",
+      "example_en": "He wore a ring on his finger.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hair",
+      "pos": "noun",
+      "translation_pl": "włosy",
+      "definition_en": "Hair is the stuff that grows on your head and other parts of your body.",
+      "example_en": "She brushes her hair every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "skin",
+      "pos": "noun",
+      "translation_pl": "skóra",
+      "definition_en": "Skin is the layer that covers and protects your body.",
+      "example_en": "He has soft skin on his hands.",
+      "level": "A2"
+    }
+  ]
+}

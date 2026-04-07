@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "meat-and-poultry",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:29:49.787Z"
+  },
+  "items": [
+    {
+      "lemma": "sirloin",
+      "pos": "noun",
+      "translation_pl": "rostbef",
+      "definition_en": "Sirloin is a tender cut of beef from the back of the animal.",
+      "example_en": "He ordered a grilled sirloin for dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tenderloin",
+      "pos": "noun",
+      "translation_pl": "polędwica",
+      "definition_en": "Tenderloin is a very soft and lean cut of meat often used for steaks.",
+      "example_en": "The chef recommended the pork tenderloin tonight.",
+      "level": "B1"
+    },
+    {
+      "lemma": "brisket",
+      "pos": "noun",
+      "translation_pl": "mostek wołowy",
+      "definition_en": "Brisket is a flavorful, tough cut of beef best cooked slowly.",
+      "example_en": "The smoked brisket was delicious and juicy.",
+      "level": "B2"
+    },
+    {
+      "lemma": "prosciutto",
+      "pos": "noun",
+      "translation_pl": "prosciutto",
+      "definition_en": "Prosciutto is a thinly sliced, dry-cured Italian ham.",
+      "example_en": "She wrapped the melon slices in prosciutto.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pork chop",
+      "pos": "noun",
+      "translation_pl": "kotlet schabowy",
+      "definition_en": "A pork chop is a thick slice of pork usually including a bone.",
+      "example_en": "He fried a pork chop for lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ribeye",
+      "pos": "noun",
+      "translation_pl": "stek ribeye",
+      "definition_en": "Ribeye is a juicy cut of beef steak with marbled fat.",
+      "example_en": "The ribeye steak was cooked medium rare.",
+      "level": "B2"
+    },
+    {
+      "lemma": "drumette",
+      "pos": "noun",
+      "translation_pl": "pałka z kurczaka",
+      "definition_en": "A drumette is the meaty part of a chicken wing.",
+      "example_en": "She served spicy chicken drumettes at the party.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bratwurst",
+      "pos": "noun",
+      "translation_pl": "biała kiełbasa",
+      "definition_en": "Bratwurst is a type of German sausage made from pork or beef.",
+      "example_en": "We grilled bratwurst for the barbecue.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cutlet",
+      "pos": "noun",
+      "translation_pl": "kotelet",
+      "definition_en": "A cutlet is a slice of meat coated and fried or baked.",
+      "example_en": "He made a chicken cutlet for dinner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tender",
+      "pos": "noun",
+      "translation_pl": "filecik z kurczaka",
+      "definition_en": "A tender is a small, breaded strip of chicken meat.",
+      "example_en": "She ordered chicken tenders with fries.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dripping",
+      "pos": "noun",
+      "translation_pl": "smalec z pieczeni",
+      "definition_en": "Dripping is fat collected from roasted meat.",
+      "example_en": "Dripping can be spread on bread for flavor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "corned beef",
+      "pos": "noun",
+      "translation_pl": "wołowina peklowana",
+      "definition_en": "Corned beef is salt-cured beef often served sliced or canned.",
+      "example_en": "She made a sandwich with corned beef.",
+      "level": "B2"
+    },
+    {
+      "lemma": "giblets",
+      "pos": "noun",
+      "translation_pl": "podroby drobiowe",
+      "definition_en": "Giblets are the edible organs of poultry such as heart and liver.",
+      "example_en": "The gravy contains chicken giblets for extra flavor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "thigh",
+      "pos": "noun",
+      "translation_pl": "udko kurczaka",
+      "definition_en": "A thigh is the upper part of a chicken leg.",
+      "example_en": "She baked chicken thighs for dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "prosciutto cotto",
+      "pos": "noun",
+      "translation_pl": "szynka gotowana",
+      "definition_en": "Prosciutto cotto is an Italian cooked ham, milder than cured ham.",
+      "example_en": "We added slices of prosciutto cotto to the sandwich.",
+      "level": "B2"
+    },
+    {
+      "lemma": "brat",
+      "pos": "noun",
+      "translation_pl": "kiełbasa grillowa",
+      "definition_en": "A brat is a short form for bratwurst, a grilled German sausage.",
+      "example_en": "He served a grilled brat with mustard.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wingette",
+      "pos": "noun",
+      "translation_pl": "środkowa część skrzydełka",
+      "definition_en": "A wingette is the middle, flat section of a chicken wing.",
+      "example_en": "The platter had plenty of spicy wingettes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pastrami",
+      "pos": "noun",
+      "translation_pl": "pastrami",
+      "definition_en": "Pastrami is beef that has been brined, seasoned, and smoked.",
+      "example_en": "He loves pastrami sandwiches on rye bread.",
+      "level": "B2"
+    },
+    {
+      "lemma": "duck breast",
+      "pos": "noun",
+      "translation_pl": "pierś z kaczki",
+      "definition_en": "Duck breast is the tender meat from the chest of a duck.",
+      "example_en": "We enjoyed roasted duck breast at the restaurant.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cornish hen",
+      "pos": "noun",
+      "translation_pl": "kurczak cornish",
+      "definition_en": "A Cornish hen is a small, young chicken often served whole.",
+      "example_en": "She roasted a Cornish hen with herbs.",
+      "level": "B2"
+    }
+  ]
+}

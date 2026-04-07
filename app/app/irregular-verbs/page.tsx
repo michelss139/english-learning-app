@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { loadLexiconPatternsForIrregularVerbs } from "@/lib/lexicon/irregularVerbPatternLoader";
 import IrregularVerbsClient, { type IrregularVerbDto } from "./IrregularVerbsClient";
 
 export default async function IrregularVerbsPage() {
@@ -10,7 +11,9 @@ export default async function IrregularVerbsPage() {
 
   const { data: verbs, error: verbsErr } = await supabase
     .from("irregular_verbs")
-    .select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants")
+    .select(
+      "id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id",
+    )
     .order("base_norm");
 
   if (verbsErr) {
@@ -34,7 +37,10 @@ export default async function IrregularVerbsPage() {
 
   const pinnedSet = new Set((pinnedRows ?? []).map((r) => r.irregular_verb_id));
 
-  const payload: IrregularVerbDto[] = (verbs ?? []).map((v) => ({
+  const verbRows = verbs ?? [];
+  const verbIdToPatterns = await loadLexiconPatternsForIrregularVerbs(supabase, verbRows);
+
+  const payload: IrregularVerbDto[] = verbRows.map((v) => ({
     id: v.id,
     base: v.base,
     past_simple: v.past_simple,
@@ -42,6 +48,7 @@ export default async function IrregularVerbsPage() {
     past_participle: v.past_participle,
     past_participle_variants: v.past_participle_variants ?? [],
     pinned: pinnedSet.has(v.id),
+    patterns: verbIdToPatterns.get(v.id),
   }));
 
   return <IrregularVerbsClient verbs={payload} />;

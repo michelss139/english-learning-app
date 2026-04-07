@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "produce",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:39:08.457Z"
+  },
+  "items": [
+    {
+      "lemma": "apple",
+      "pos": "noun",
+      "translation_pl": "jabłko",
+      "definition_en": "An apple is a round fruit with red or green skin.",
+      "example_en": "I brought an apple for my lunch today.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pear",
+      "pos": "noun",
+      "translation_pl": "gruszka",
+      "definition_en": "A pear is a sweet fruit with green or yellow skin.",
+      "example_en": "She ate a juicy pear after dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tomato",
+      "pos": "noun",
+      "translation_pl": "pomidor",
+      "definition_en": "A tomato is a soft red or yellow fruit used in salads.",
+      "example_en": "We picked a big tomato from the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "carrot",
+      "pos": "noun",
+      "translation_pl": "marchewka",
+      "definition_en": "A carrot is a long orange vegetable that grows in the ground.",
+      "example_en": "He put a carrot in the salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lettuce",
+      "pos": "noun",
+      "translation_pl": "sałata",
+      "definition_en": "Lettuce is a green leafy vegetable used in salads.",
+      "example_en": "She bought fresh lettuce at the market.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cucumber",
+      "pos": "noun",
+      "translation_pl": "ogórek",
+      "definition_en": "A cucumber is a long green vegetable often eaten raw.",
+      "example_en": "I like to add cucumber to my sandwich.",
+      "level": "A1"
+    },
+    {
+      "lemma": "potato",
+      "pos": "noun",
+      "translation_pl": "ziemniak",
+      "definition_en": "A potato is a round vegetable that grows underground.",
+      "example_en": "We grew a lot of potatoes last year.",
+      "level": "A1"
+    },
+    {
+      "lemma": "onion",
+      "pos": "noun",
+      "translation_pl": "cebula",
+      "definition_en": "An onion is a round vegetable with many layers and a strong smell.",
+      "example_en": "I need an onion for this soup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pepper",
+      "pos": "noun",
+      "translation_pl": "papryka",
+      "definition_en": "A pepper is a colorful, sweet or spicy vegetable.",
+      "example_en": "He cut a red pepper for the salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bean",
+      "pos": "noun",
+      "translation_pl": "fasola",
+      "definition_en": "A bean is a small, edible seed that grows in pods.",
+      "example_en": "We picked beans from the garden this morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pumpkin",
+      "pos": "noun",
+      "translation_pl": "dynia",
+      "definition_en": "A pumpkin is a large, round, orange vegetable.",
+      "example_en": "We grew a big pumpkin for Halloween.",
+      "level": "A2"
+    },
+    {
+      "lemma": "strawberry",
+      "pos": "noun",
+      "translation_pl": "truskawka",
+      "definition_en": "A strawberry is a small, red, sweet fruit with tiny seeds on its surface.",
+      "example_en": "She likes to eat a strawberry with yogurt.",
+      "level": "A1"
+    },
+    {
+      "lemma": "raspberry",
+      "pos": "noun",
+      "translation_pl": "malina",
+      "definition_en": "A raspberry is a soft, red, sweet fruit made of many small parts.",
+      "example_en": "He picked a raspberry and ate it.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grape",
+      "pos": "noun",
+      "translation_pl": "winogrono",
+      "definition_en": "A grape is a small, round fruit that grows in bunches.",
+      "example_en": "I bought a bunch of grapes from the shop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "melon",
+      "pos": "noun",
+      "translation_pl": "melon",
+      "definition_en": "A melon is a large, sweet fruit with a hard skin.",
+      "example_en": "She cut a melon for our snack.",
+      "level": "A2"
+    },
+    {
+      "lemma": "zucchini",
+      "pos": "noun",
+      "translation_pl": "cukinia",
+      "definition_en": "A zucchini is a green vegetable shaped like a long cylinder.",
+      "example_en": "We cooked zucchini with some herbs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pea",
+      "pos": "noun",
+      "translation_pl": "groszek",
+      "definition_en": "A pea is a small, green, round vegetable.",
+      "example_en": "Little peas are my sister's favorite vegetable.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cabbage",
+      "pos": "noun",
+      "translation_pl": "kapusta",
+      "definition_en": "Cabbage is a green or purple vegetable with many leaves.",
+      "example_en": "She made a salad with fresh cabbage.",
+      "level": "A2"
+    },
+    {
+      "lemma": "radish",
+      "pos": "noun",
+      "translation_pl": "rzodkiewka",
+      "definition_en": "A radish is a small, round vegetable that is often red on the outside.",
+      "example_en": "He sliced a radish for the salad.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sweet corn",
+      "pos": "noun",
+      "translation_pl": "kukurydza cukrowa",
+      "definition_en": "Sweet corn is a yellow vegetable with soft, sweet kernels.",
+      "example_en": "We boiled sweet corn for lunch today.",
+      "level": "A2"
+    }
+  ]
+}

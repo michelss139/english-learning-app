@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "events-and-occasions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:58:34.925Z"
+  },
+  "items": [
+    {
+      "lemma": "birthday",
+      "pos": "noun",
+      "translation_pl": "urodziny",
+      "definition_en": "A birthday is the yearly celebration of the day someone was born.",
+      "example_en": "We had a big party for her birthday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "anniversary",
+      "pos": "noun",
+      "translation_pl": "rocznica",
+      "definition_en": "An anniversary is a date when something important happened in a previous year.",
+      "example_en": "They celebrate their wedding anniversary every June.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wedding",
+      "pos": "noun",
+      "translation_pl": "ślub",
+      "definition_en": "A wedding is a ceremony where two people get married.",
+      "example_en": "My cousin’s wedding was last summer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "meeting",
+      "pos": "noun",
+      "translation_pl": "spotkanie",
+      "definition_en": "A meeting is when people gather to talk about something.",
+      "example_en": "We have a team meeting on Monday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "appointment",
+      "pos": "noun",
+      "translation_pl": "umówione spotkanie",
+      "definition_en": "An appointment is a set time to meet someone, often for business or health.",
+      "example_en": "I have a doctor’s appointment at 10.",
+      "level": "A2"
+    },
+    {
+      "lemma": "festival",
+      "pos": "noun",
+      "translation_pl": "festiwal",
+      "definition_en": "A festival is a special event with music, food, or traditions.",
+      "example_en": "We went to the music festival together.",
+      "level": "A2"
+    },
+    {
+      "lemma": "party",
+      "pos": "noun",
+      "translation_pl": "przyjęcie",
+      "definition_en": "A party is a social gathering to celebrate or have fun.",
+      "example_en": "The children enjoyed the birthday party.",
+      "level": "A1"
+    },
+    {
+      "lemma": "celebration",
+      "pos": "noun",
+      "translation_pl": "świętowanie",
+      "definition_en": "A celebration is a joyful event for a special reason.",
+      "example_en": "There was a big celebration for the new year.",
+      "level": "A2"
+    },
+    {
+      "lemma": "holiday season",
+      "pos": "noun",
+      "translation_pl": "sezon świąteczny",
+      "definition_en": "The holiday season is the time around Christmas and New Year.",
+      "example_en": "The town is decorated during the holiday season.",
+      "level": "B1"
+    },
+    {
+      "lemma": "picnic",
+      "pos": "noun",
+      "translation_pl": "piknik",
+      "definition_en": "A picnic is a meal you eat outdoors, usually on a trip.",
+      "example_en": "We had a picnic in the park.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ceremony",
+      "pos": "noun",
+      "translation_pl": "ceremonia",
+      "definition_en": "A ceremony is a formal event usually marking an important occasion.",
+      "example_en": "The graduation ceremony was very moving.",
+      "level": "B1"
+    },
+    {
+      "lemma": "parade",
+      "pos": "noun",
+      "translation_pl": "parada",
+      "definition_en": "A parade is an event where people march or ride in lines to celebrate.",
+      "example_en": "There is a big parade on Independence Day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gathering",
+      "pos": "noun",
+      "translation_pl": "zgromadzenie",
+      "definition_en": "A gathering is when people come together, often socially.",
+      "example_en": "The family gathering was held in December.",
+      "level": "A2"
+    },
+    {
+      "lemma": "concert",
+      "pos": "noun",
+      "translation_pl": "koncert",
+      "definition_en": "A concert is a live performance of music.",
+      "example_en": "We went to a concert last night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "opening day",
+      "pos": "noun",
+      "translation_pl": "dzień otwarcia",
+      "definition_en": "Opening day is the first time something is open or happens.",
+      "example_en": "The store was crowded on opening day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "family reunion",
+      "pos": "noun",
+      "translation_pl": "zjazd rodzinny",
+      "definition_en": "A family reunion is a special event where family members meet.",
+      "example_en": "We see all our relatives at the family reunion.",
+      "level": "B1"
+    },
+    {
+      "lemma": "deadline day",
+      "pos": "noun",
+      "translation_pl": "dzień terminu",
+      "definition_en": "Deadline day is the last day something must be finished.",
+      "example_en": "Everyone was busy on deadline day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "open house",
+      "pos": "noun",
+      "translation_pl": "dzień otwarty",
+      "definition_en": "An open house is an event where people can freely visit a place.",
+      "example_en": "Many parents came to the school’s open house.",
+      "level": "B1"
+    },
+    {
+      "lemma": "remembrance day",
+      "pos": "noun",
+      "translation_pl": "dzień pamięci",
+      "definition_en": "Remembrance day is a special day to remember important people or events.",
+      "example_en": "They laid flowers on remembrance day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "movie night",
+      "pos": "noun",
+      "translation_pl": "wieczór filmowy",
+      "definition_en": "Movie night is a time when people watch films together.",
+      "example_en": "We have movie night every Friday at home.",
+      "level": "A2"
+    }
+  ]
+}

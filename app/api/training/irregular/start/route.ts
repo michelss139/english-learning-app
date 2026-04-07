@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { TRAINING_CONTEXT_SUGGESTION } from "@/lib/suggestions/suggestionContext";
 
 type TrainMode = "both" | "past_simple" | "past_participle";
 type StartMode = "manual" | "targeted" | "lesson_verbs";
@@ -102,10 +103,13 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
           mode?: TrainMode;
           targets?: TargetItem[];
           lessonVerbs?: string[];
+          context?: string;
         }
       | null;
     const startMode = normalizeStartMode(body?.startMode);
     const mode = normalizeMode(body?.mode);
+    const entryContext = body?.context === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
+    const suggestionMeta = entryContext ? { context: entryContext } : {};
 
     if (startMode === "lesson_verbs") {
       const rawList = Array.isArray(body?.lessonVerbs) ? body.lessonVerbs : [];
@@ -166,6 +170,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
           lesson_verbs_isolated: true,
           mode,
           items: sessionItems.length,
+          ...suggestionMeta,
         },
       });
 
@@ -261,6 +266,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
             source: "targeted",
             mode,
             targetsCount: sessionItems.length,
+            ...suggestionMeta,
           },
         });
 
@@ -334,6 +340,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         metadata: {
           source: "manual",
           mode,
+          ...suggestionMeta,
         },
       });
 

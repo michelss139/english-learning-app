@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "precipitation",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:48:07.196Z"
+  },
+  "items": [
+    {
+      "lemma": "rainfall total",
+      "pos": "noun",
+      "translation_pl": "całkowity opad deszczu",
+      "definition_en": "The complete amount of rain that falls during a specific period.",
+      "example_en": "The rainfall total for June was higher than usual.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice storm",
+      "pos": "noun",
+      "translation_pl": "burza lodowa",
+      "definition_en": "A weather event where rain freezes on surfaces, creating layers of ice.",
+      "example_en": "Driving was dangerous after last night's ice storm.",
+      "level": "B2"
+    },
+    {
+      "lemma": "snowstorm",
+      "pos": "noun",
+      "translation_pl": "burza śnieżna",
+      "definition_en": "A storm characterized by a large amount of falling snow and strong wind.",
+      "example_en": "Many flights were canceled due to the snowstorm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "graupel",
+      "pos": "noun",
+      "translation_pl": "śnieżny grad",
+      "definition_en": "Small, soft balls of snow covered with ice that fall during cold weather.",
+      "example_en": "The ground was covered with graupel after the storm.",
+      "level": "B2"
+    },
+    {
+      "lemma": "slush",
+      "pos": "noun",
+      "translation_pl": "roztopiony śnieg",
+      "definition_en": "Partly melted snow or ice, usually mixed with water.",
+      "example_en": "The sidewalks were full of dirty slush.",
+      "level": "B1"
+    },
+    {
+      "lemma": "snowdrift",
+      "pos": "noun",
+      "translation_pl": "zaspa śnieżna",
+      "definition_en": "A deep pile of snow formed by the wind.",
+      "example_en": "We had to walk around a high snowdrift.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rainband",
+      "pos": "noun",
+      "translation_pl": "pasmo deszczu",
+      "definition_en": "A narrow area of heavy rainfall, usually associated with storms.",
+      "example_en": "A rainband moved across the city in the afternoon.",
+      "level": "C1"
+    },
+    {
+      "lemma": "thundersnow",
+      "pos": "noun",
+      "translation_pl": "burza śnieżna z grzmotami",
+      "definition_en": "A rare weather event where thunder occurs during a snowstorm.",
+      "example_en": "Thundersnow surprised the residents last night.",
+      "level": "C1"
+    },
+    {
+      "lemma": "ice crystal",
+      "pos": "noun",
+      "translation_pl": "kryształek lodu",
+      "definition_en": "A small piece of ice that forms naturally in the air or on surfaces.",
+      "example_en": "The window was covered with tiny ice crystals.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sheeting rain",
+      "pos": "noun",
+      "translation_pl": "ściana deszczu",
+      "definition_en": "Rain that falls so heavily it looks like a solid sheet.",
+      "example_en": "We could barely see through the sheeting rain.",
+      "level": "B2"
+    },
+    {
+      "lemma": "icicle",
+      "pos": "noun",
+      "translation_pl": "sopel lodu",
+      "definition_en": "A long, thin piece of ice hanging from a surface.",
+      "example_en": "An icicle dangled from the edge of the roof.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rainwater",
+      "pos": "noun",
+      "translation_pl": "woda deszczowa",
+      "definition_en": "Water that comes from rain and is collected or found on the ground.",
+      "example_en": "They collect rainwater to water their plants.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wet snow",
+      "pos": "noun",
+      "translation_pl": "mokry śnieg",
+      "definition_en": "Snow that has a high water content and feels heavy.",
+      "example_en": "It is hard to shovel all the wet snow from the driveway.",
+      "level": "B1"
+    },
+    {
+      "lemma": "light snow",
+      "pos": "noun",
+      "translation_pl": "lekki opad śniegu",
+      "definition_en": "A small amount of snow falling at a gentle rate.",
+      "example_en": "There was light snow in the morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rain squall",
+      "pos": "noun",
+      "translation_pl": "nawalny deszcz",
+      "definition_en": "A brief, sudden, and intense burst of rain and wind.",
+      "example_en": "A rain squall caught us by surprise at the park.",
+      "level": "B2"
+    },
+    {
+      "lemma": "melting snow",
+      "pos": "noun",
+      "translation_pl": "topniejący śnieg",
+      "definition_en": "Snow that is changing into water because of warmer temperatures.",
+      "example_en": "The streets are wet with melting snow.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hard frost",
+      "pos": "noun",
+      "translation_pl": "silny przymrozek",
+      "definition_en": "A frost that is cold enough to freeze the ground and other surfaces firmly.",
+      "example_en": "Crops were damaged by last night's hard frost.",
+      "level": "B2"
+    },
+    {
+      "lemma": "snow cover",
+      "pos": "noun",
+      "translation_pl": "pokrywa śnieżna",
+      "definition_en": "The total layer of snow lying on the ground.",
+      "example_en": "Snow cover was deep after the storm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice sheet",
+      "pos": "noun",
+      "translation_pl": "warstwa lodu",
+      "definition_en": "A large flat area of ice covering the ground.",
+      "example_en": "An ice sheet made walking dangerous.",
+      "level": "B2"
+    },
+    {
+      "lemma": "whiteout",
+      "pos": "noun",
+      "translation_pl": "biel śnieżna",
+      "definition_en": "A weather condition where snowfall makes it impossible to see clearly.",
+      "example_en": "Driving in a whiteout is very risky.",
+      "level": "B2"
+    }
+  ]
+}

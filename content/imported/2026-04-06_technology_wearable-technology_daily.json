@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "wearable-technology",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:25:30.754Z"
+  },
+  "items": [
+    {
+      "lemma": "smartwatch",
+      "pos": "noun",
+      "translation_pl": "inteligentny zegarek",
+      "definition_en": "A smartwatch is a watch that connects to your phone and shows information.",
+      "example_en": "He wears a smartwatch to check his messages.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fitness band",
+      "pos": "noun",
+      "translation_pl": "opaska fitness",
+      "definition_en": "A fitness band is a device you wear to track your activity.",
+      "example_en": "She uses her fitness band to count her steps.",
+      "level": "A2"
+    },
+    {
+      "lemma": "step counter",
+      "pos": "noun",
+      "translation_pl": "licznik kroków",
+      "definition_en": "A step counter is a tool that counts how many steps you take.",
+      "example_en": "His step counter helps him walk more every day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "virtual glasses",
+      "pos": "noun",
+      "translation_pl": "wirtualne okulary",
+      "definition_en": "Virtual glasses are electronic glasses that show digital images.",
+      "example_en": "He likes playing games with virtual glasses.",
+      "level": "A2"
+    },
+    {
+      "lemma": "smart ring",
+      "pos": "noun",
+      "translation_pl": "inteligentny pierścień",
+      "definition_en": "A smart ring is a ring that tracks your activity or health.",
+      "example_en": "Her smart ring tells her when she gets a message.",
+      "level": "A2"
+    },
+    {
+      "lemma": "activity tracker",
+      "pos": "noun",
+      "translation_pl": "monitor aktywności",
+      "definition_en": "An activity tracker is a wearable device that watches your movement.",
+      "example_en": "He wears an activity tracker to see how much he walks.",
+      "level": "A2"
+    },
+    {
+      "lemma": "smart shoes",
+      "pos": "noun",
+      "translation_pl": "inteligentne buty",
+      "definition_en": "Smart shoes are shoes with electronic sensors inside.",
+      "example_en": "She bought smart shoes to help her run better.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sleep monitor",
+      "pos": "noun",
+      "translation_pl": "monitor snu",
+      "definition_en": "A sleep monitor is a device that checks how well you sleep.",
+      "example_en": "The sleep monitor tells him how many hours he slept.",
+      "level": "A2"
+    },
+    {
+      "lemma": "smart belt",
+      "pos": "noun",
+      "translation_pl": "inteligentny pasek",
+      "definition_en": "A smart belt is a belt with sensors to track your waist or steps.",
+      "example_en": "He uses a smart belt to check his health.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wearable camera",
+      "pos": "noun",
+      "translation_pl": "kamera noszona",
+      "definition_en": "A wearable camera is a small camera you wear on your body.",
+      "example_en": "She records her bike rides with a wearable camera.",
+      "level": "A2"
+    },
+    {
+      "lemma": "heart monitor",
+      "pos": "noun",
+      "translation_pl": "monitor serca",
+      "definition_en": "A heart monitor is a device that checks your heartbeat.",
+      "example_en": "He wears a heart monitor when he runs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hearing aid",
+      "pos": "noun",
+      "translation_pl": "aparat słuchowy",
+      "definition_en": "A hearing aid is a small device to help people hear better.",
+      "example_en": "Her grandfather uses a hearing aid at home.",
+      "level": "A1"
+    },
+    {
+      "lemma": "smart badge",
+      "pos": "noun",
+      "translation_pl": "inteligentna plakietka",
+      "definition_en": "A smart badge is a card or tag with technology inside.",
+      "example_en": "The worker uses a smart badge to enter the office.",
+      "level": "A2"
+    },
+    {
+      "lemma": "body sensor",
+      "pos": "noun",
+      "translation_pl": "czujnik ciała",
+      "definition_en": "A body sensor is a small device that measures your body activity.",
+      "example_en": "Athletes use body sensors during training.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smart glove",
+      "pos": "noun",
+      "translation_pl": "inteligentna rękawica",
+      "definition_en": "A smart glove is a glove with special sensors inside.",
+      "example_en": "The smart glove helps him play games.",
+      "level": "B1"
+    },
+    {
+      "lemma": "health tracker",
+      "pos": "noun",
+      "translation_pl": "monitor zdrowia",
+      "definition_en": "A health tracker is a device that helps you watch your health.",
+      "example_en": "Her health tracker shows her heart rate.",
+      "level": "A2"
+    },
+    {
+      "lemma": "smart shirt",
+      "pos": "noun",
+      "translation_pl": "inteligentna koszula",
+      "definition_en": "A smart shirt is a shirt with tiny sensors inside.",
+      "example_en": "He wears a smart shirt during exercise.",
+      "level": "A2"
+    },
+    {
+      "lemma": "Bluetooth headset",
+      "pos": "noun",
+      "translation_pl": "słuchawka Bluetooth",
+      "definition_en": "A Bluetooth headset is worn on the ear to talk or listen.",
+      "example_en": "She makes calls using her Bluetooth headset.",
+      "level": "A2"
+    },
+    {
+      "lemma": "medical watch",
+      "pos": "noun",
+      "translation_pl": "zegarek medyczny",
+      "definition_en": "A medical watch is worn to check your health information.",
+      "example_en": "He uses a medical watch to watch his health.",
+      "level": "B1"
+    },
+    {
+      "lemma": "GPS tracker",
+      "pos": "noun",
+      "translation_pl": "lokalizator GPS",
+      "definition_en": "A GPS tracker is a device that shows your location.",
+      "example_en": "The GPS tracker helps her find her lost bag.",
+      "level": "A2"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "assessment-tools",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:21:11.005Z"
+  },
+  "items": [
+    {
+      "lemma": "quiz",
+      "pos": "noun",
+      "translation_pl": "krótki test",
+      "definition_en": "A quiz is a short test of knowledge.",
+      "example_en": "We had a quiz in math class today.",
+      "level": "A1"
+    },
+    {
+      "lemma": "test",
+      "pos": "noun",
+      "translation_pl": "test",
+      "definition_en": "A test is a set of questions to check what you know.",
+      "example_en": "I studied hard for the test.",
+      "level": "A1"
+    },
+    {
+      "lemma": "exam",
+      "pos": "noun",
+      "translation_pl": "egzamin",
+      "definition_en": "An exam is a formal test for students.",
+      "example_en": "She is nervous about the English exam.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mark",
+      "pos": "noun",
+      "translation_pl": "ocena",
+      "definition_en": "A mark is the number or letter you get on a test.",
+      "example_en": "He got a high mark in science.",
+      "level": "A1"
+    },
+    {
+      "lemma": "score",
+      "pos": "noun",
+      "translation_pl": "wynik",
+      "definition_en": "A score shows how many points you get in an exam.",
+      "example_en": "My score was better this time.",
+      "level": "A1"
+    },
+    {
+      "lemma": "grade",
+      "pos": "noun",
+      "translation_pl": "stopień",
+      "definition_en": "A grade is a letter or number that shows your result.",
+      "example_en": "She got the best grade in class.",
+      "level": "A2"
+    },
+    {
+      "lemma": "worksheet",
+      "pos": "noun",
+      "translation_pl": "arkusz ćwiczeń",
+      "definition_en": "A worksheet is a paper for writing answers.",
+      "example_en": "The teacher gave us a worksheet for homework.",
+      "level": "A1"
+    },
+    {
+      "lemma": "answer key",
+      "pos": "noun",
+      "translation_pl": "klucz odpowiedzi",
+      "definition_en": "An answer key has the correct answers to a test.",
+      "example_en": "I checked my worksheet with the answer key.",
+      "level": "B1"
+    },
+    {
+      "lemma": "checklist",
+      "pos": "noun",
+      "translation_pl": "lista kontrolna",
+      "definition_en": "A checklist helps you remember what to do or check.",
+      "example_en": "We used a checklist to review our writing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rubric",
+      "pos": "noun",
+      "translation_pl": "rubryka oceny",
+      "definition_en": "A rubric explains how work will be graded.",
+      "example_en": "The teacher gave us a rubric before we started.",
+      "level": "B1"
+    },
+    {
+      "lemma": "feedback",
+      "pos": "noun",
+      "translation_pl": "opinia zwrotna",
+      "definition_en": "Feedback tells you how well you did something.",
+      "example_en": "My teacher gave me feedback on my essay.",
+      "level": "A2"
+    },
+    {
+      "lemma": "portfolio",
+      "pos": "noun",
+      "translation_pl": "teczka prac",
+      "definition_en": "A portfolio is a folder of your work over time.",
+      "example_en": "I showed my portfolio to the teacher.",
+      "level": "B1"
+    },
+    {
+      "lemma": "progress chart",
+      "pos": "noun",
+      "translation_pl": "wykres postępów",
+      "definition_en": "A progress chart shows how much someone has improved.",
+      "example_en": "The progress chart is on the classroom wall.",
+      "level": "B1"
+    },
+    {
+      "lemma": "questionnaire",
+      "pos": "noun",
+      "translation_pl": "kwestionariusz",
+      "definition_en": "A questionnaire is a list of questions to answer.",
+      "example_en": "We filled out a questionnaire in class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "report card",
+      "pos": "noun",
+      "translation_pl": "świadectwo szkolne",
+      "definition_en": "A report card shows a student's marks for the year.",
+      "example_en": "My parents looked at my report card.",
+      "level": "A2"
+    },
+    {
+      "lemma": "survey",
+      "pos": "noun",
+      "translation_pl": "ankieta",
+      "definition_en": "A survey is a way to collect information from people.",
+      "example_en": "Our teacher did a survey of our favorite books.",
+      "level": "A2"
+    },
+    {
+      "lemma": "record sheet",
+      "pos": "noun",
+      "translation_pl": "arkusz wyników",
+      "definition_en": "A record sheet is a paper to write down results.",
+      "example_en": "I wrote my spelling scores on the record sheet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "progress test",
+      "pos": "noun",
+      "translation_pl": "test postępów",
+      "definition_en": "A progress test checks what you have learned so far.",
+      "example_en": "We have a progress test every month.",
+      "level": "B1"
+    },
+    {
+      "lemma": "oral test",
+      "pos": "noun",
+      "translation_pl": "test ustny",
+      "definition_en": "An oral test is spoken instead of written.",
+      "example_en": "I passed my oral test in English.",
+      "level": "B1"
+    },
+    {
+      "lemma": "practice test",
+      "pos": "noun",
+      "translation_pl": "test próbny",
+      "definition_en": "A practice test helps you get ready for the real test.",
+      "example_en": "We did a practice test before the exam.",
+      "level": "B1"
+    }
+  ]
+}

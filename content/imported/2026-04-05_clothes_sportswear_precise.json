@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "sportswear",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:46:39.508Z"
+  },
+  "items": [
+    {
+      "lemma": "compression shirt",
+      "pos": "noun",
+      "translation_pl": "koszulka kompresyjna",
+      "definition_en": "A tight-fitting shirt designed to support muscles during exercise.",
+      "example_en": "He wore a compression shirt for his workout.",
+      "level": "B1"
+    },
+    {
+      "lemma": "athletic tank",
+      "pos": "noun",
+      "translation_pl": "top sportowy bez rękawów",
+      "definition_en": "A sleeveless top worn for athletic activities.",
+      "example_en": "She wore an athletic tank to yoga class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "goalkeeper gloves",
+      "pos": "noun",
+      "translation_pl": "rękawice bramkarskie",
+      "definition_en": "Special gloves worn by goalkeepers in football for grip and protection.",
+      "example_en": "He put on his goalkeeper gloves before the match.",
+      "level": "B2"
+    },
+    {
+      "lemma": "basketball shorts",
+      "pos": "noun",
+      "translation_pl": "spodenki koszykarskie",
+      "definition_en": "Loose-fitting shorts worn for playing basketball.",
+      "example_en": "He changed into his basketball shorts after school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ski jacket",
+      "pos": "noun",
+      "translation_pl": "kurtka narciarska",
+      "definition_en": "A warm, weatherproof jacket worn for skiing.",
+      "example_en": "She packed her ski jacket for the trip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "triathlon suit",
+      "pos": "noun",
+      "translation_pl": "strój triathlonowy",
+      "definition_en": "A one-piece outfit worn by triathletes for all three events.",
+      "example_en": "He bought a new triathlon suit for the competition.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rugby shirt",
+      "pos": "noun",
+      "translation_pl": "koszulka rugby",
+      "definition_en": "A durable, collared shirt worn by rugby players.",
+      "example_en": "She wore a striped rugby shirt on game day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "judo gi",
+      "pos": "noun",
+      "translation_pl": "strój do judo",
+      "definition_en": "A special uniform used for practicing judo.",
+      "example_en": "He changed into his judo gi before training.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wetsuit",
+      "pos": "noun",
+      "translation_pl": "pianka do nurkowania",
+      "definition_en": "A rubber suit worn for warmth while swimming or diving.",
+      "example_en": "She put on her wetsuit to surf in cold water.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cycling bib",
+      "pos": "noun",
+      "translation_pl": "spodenki rowerowe z szelkami",
+      "definition_en": "Padded cycling shorts held up by shoulder straps.",
+      "example_en": "He prefers wearing a cycling bib for long rides.",
+      "level": "B2"
+    },
+    {
+      "lemma": "shin guard",
+      "pos": "noun",
+      "translation_pl": "ochraniacz na piszczel",
+      "definition_en": "A protective pad worn over the lower leg in sports.",
+      "example_en": "All players must wear a shin guard during the match.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice hockey helmet",
+      "pos": "noun",
+      "translation_pl": "kask hokejowy",
+      "definition_en": "A hard helmet worn to protect the head in ice hockey.",
+      "example_en": "He made sure his ice hockey helmet fit properly.",
+      "level": "B1"
+    },
+    {
+      "lemma": "athletic socks",
+      "pos": "noun",
+      "translation_pl": "skarpetki do sportu",
+      "definition_en": "Cushioned socks designed for physical activities.",
+      "example_en": "She always wears athletic socks with her sneakers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "base layer",
+      "pos": "noun",
+      "translation_pl": "warstwa podstawowa odzieży",
+      "definition_en": "A thin garment worn next to the skin for warmth and comfort.",
+      "example_en": "He wore a base layer under his ski outfit.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fencing jacket",
+      "pos": "noun",
+      "translation_pl": "kurtka do szermierki",
+      "definition_en": "A padded jacket worn for protection in fencing.",
+      "example_en": "The fencing jacket must be zipped up during practice.",
+      "level": "B2"
+    },
+    {
+      "lemma": "leotard",
+      "pos": "noun",
+      "translation_pl": "body gimnastyczne",
+      "definition_en": "A tight, one-piece garment worn in gymnastics or dance.",
+      "example_en": "She wore her new leotard to gymnastics class.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sports arm sleeve",
+      "pos": "noun",
+      "translation_pl": "rękaw sportowy na ramię",
+      "definition_en": "A tight sleeve worn on the arm for compression and support.",
+      "example_en": "He wore a sports arm sleeve for his tennis match.",
+      "level": "B2"
+    },
+    {
+      "lemma": "goalkeeper jersey",
+      "pos": "noun",
+      "translation_pl": "koszulka bramkarska",
+      "definition_en": "A special shirt worn by football goalkeepers.",
+      "example_en": "The goalkeeper jersey is usually a bright color.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ski pants",
+      "pos": "noun",
+      "translation_pl": "spodnie narciarskie",
+      "definition_en": "Insulated pants designed for skiing.",
+      "example_en": "She bought new ski pants for the holiday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "training bib",
+      "pos": "noun",
+      "translation_pl": "znacznik treningowy",
+      "definition_en": "A colored vest worn to identify teams during training.",
+      "example_en": "Players wore a training bib for the scrimmage.",
+      "level": "B2"
+    }
+  ]
+}

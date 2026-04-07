@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "appliances",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:52:18.755Z"
+  },
+  "items": [
+    {
+      "lemma": "slow cooker",
+      "pos": "noun",
+      "translation_pl": "wolnowar",
+      "definition_en": "A slow cooker is an electric pot that cooks food at a low temperature over a long time.",
+      "example_en": "I use a slow cooker to make soup while I’m at work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "air purifier",
+      "pos": "noun",
+      "translation_pl": "oczyszczacz powietrza",
+      "definition_en": "An air purifier is a device that removes dust and allergens from indoor air.",
+      "example_en": "We bought an air purifier because of our allergies.",
+      "level": "B1"
+    },
+    {
+      "lemma": "espresso machine",
+      "pos": "noun",
+      "translation_pl": "ekspres do espresso",
+      "definition_en": "An espresso machine is an appliance that brews strong coffee by forcing hot water through ground coffee beans.",
+      "example_en": "She makes coffee every morning with her espresso machine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bread maker",
+      "pos": "noun",
+      "translation_pl": "maszyna do chleba",
+      "definition_en": "A bread maker is a machine used for mixing, kneading, and baking bread at home.",
+      "example_en": "I like using my bread maker to try new recipes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "deep fryer",
+      "pos": "noun",
+      "translation_pl": "frytownica",
+      "definition_en": "A deep fryer is an appliance used for frying foods by submerging them in hot oil.",
+      "example_en": "He uses a deep fryer to make crispy fries.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electric kettle",
+      "pos": "noun",
+      "translation_pl": "czajnik elektryczny",
+      "definition_en": "An electric kettle is a device that quickly boils water using electricity.",
+      "example_en": "She boiled water for tea in the electric kettle.",
+      "level": "A2"
+    },
+    {
+      "lemma": "garment steamer",
+      "pos": "noun",
+      "translation_pl": "parownica do ubrań",
+      "definition_en": "A garment steamer is an appliance that removes wrinkles from clothes using hot steam.",
+      "example_en": "I use a garment steamer for my delicate blouses.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ice maker",
+      "pos": "noun",
+      "translation_pl": "kostkarka do lodu",
+      "definition_en": "An ice maker is a machine that freezes water into cubes or crushed ice.",
+      "example_en": "The ice maker automatically refills the bin in the freezer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "juicer",
+      "pos": "noun",
+      "translation_pl": "wyciskarka do soków",
+      "definition_en": "A juicer is a kitchen machine that extracts juice from fruits or vegetables.",
+      "example_en": "He starts the day with fresh orange juice from his juicer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "robot vacuum",
+      "pos": "noun",
+      "translation_pl": "odkurzacz robot",
+      "definition_en": "A robot vacuum is an automatic cleaner that moves around and vacuums floors by itself.",
+      "example_en": "The robot vacuum cleans while I'm at work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dehumidifier",
+      "pos": "noun",
+      "translation_pl": "osuszacz powietrza",
+      "definition_en": "A dehumidifier is a device that reduces humidity in the air.",
+      "example_en": "We use a dehumidifier to prevent mold in the basement.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wine cooler",
+      "pos": "noun",
+      "translation_pl": "chłodziarka do wina",
+      "definition_en": "A wine cooler is a small fridge made to keep wine at the best temperature.",
+      "example_en": "He installed a wine cooler in his kitchen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "food dehydrator",
+      "pos": "noun",
+      "translation_pl": "suszarka do żywności",
+      "definition_en": "A food dehydrator is a device that dries food for preservation by removing moisture.",
+      "example_en": "She uses a food dehydrator to make dried fruit snacks.",
+      "level": "B2"
+    },
+    {
+      "lemma": "egg cooker",
+      "pos": "noun",
+      "translation_pl": "urządzenie do gotowania jajek",
+      "definition_en": "An egg cooker is a machine designed to boil or steam eggs automatically.",
+      "example_en": "The egg cooker perfectly prepares soft or hard-boiled eggs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coffee grinder",
+      "pos": "noun",
+      "translation_pl": "młynek do kawy",
+      "definition_en": "A coffee grinder is a tool for grinding coffee beans into smaller pieces.",
+      "example_en": "He prefers to use a coffee grinder for fresh coffee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electric grill",
+      "pos": "noun",
+      "translation_pl": "grill elektryczny",
+      "definition_en": "An electric grill is a cooking appliance used to grill food indoors.",
+      "example_en": "They grilled burgers on the electric grill.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cordless phone",
+      "pos": "noun",
+      "translation_pl": "telefon bezprzewodowy",
+      "definition_en": "A cordless phone is a telephone you can carry around the house.",
+      "example_en": "She answered the cordless phone in the garden.",
+      "level": "A2"
+    },
+    {
+      "lemma": "space heater",
+      "pos": "noun",
+      "translation_pl": "nagrzewnica elektryczna",
+      "definition_en": "A space heater is a portable device used to heat one small area or room.",
+      "example_en": "The space heater kept the bedroom warm all night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "humidifier",
+      "pos": "noun",
+      "translation_pl": "nawilżacz powietrza",
+      "definition_en": "A humidifier is a machine that adds moisture to the air.",
+      "example_en": "In winter, we use a humidifier to prevent dry skin.",
+      "level": "B1"
+    },
+    {
+      "lemma": "electric shaver",
+      "pos": "noun",
+      "translation_pl": "golarka elektryczna",
+      "definition_en": "An electric shaver is a machine used for shaving hair without water or cream.",
+      "example_en": "He uses an electric shaver every morning.",
+      "level": "A2"
+    }
+  ]
+}

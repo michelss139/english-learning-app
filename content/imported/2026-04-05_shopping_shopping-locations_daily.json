@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "shopping",
+    "subcategory": "shopping-locations",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:02:06.707Z"
+  },
+  "items": [
+    {
+      "lemma": "supermarket",
+      "pos": "noun",
+      "translation_pl": "supermarket",
+      "definition_en": "A supermarket is a big store where you can buy food and other things.",
+      "example_en": "I go to the supermarket every Saturday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mall",
+      "pos": "noun",
+      "translation_pl": "centrum handlowe",
+      "definition_en": "A mall is a large building with many shops inside.",
+      "example_en": "We spent the afternoon at the mall.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bakery",
+      "pos": "noun",
+      "translation_pl": "piekarnia",
+      "definition_en": "A bakery is a shop where you can buy bread and cakes.",
+      "example_en": "She bought a fresh loaf at the bakery.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pharmacy",
+      "pos": "noun",
+      "translation_pl": "apteka",
+      "definition_en": "A pharmacy is a place where you can buy medicine.",
+      "example_en": "I need to go to the pharmacy for some pills.",
+      "level": "A1"
+    },
+    {
+      "lemma": "market",
+      "pos": "noun",
+      "translation_pl": "targ",
+      "definition_en": "A market is a place where many people sell food and goods.",
+      "example_en": "He buys vegetables at the market.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bookstore",
+      "pos": "noun",
+      "translation_pl": "księgarnia",
+      "definition_en": "A bookstore is a shop where you can buy books.",
+      "example_en": "She visits the bookstore every week.",
+      "level": "A1"
+    },
+    {
+      "lemma": "butcher",
+      "pos": "noun",
+      "translation_pl": "sklep mięsny",
+      "definition_en": "A butcher is a shop that sells meat.",
+      "example_en": "He got some beef at the butcher.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pet shop",
+      "pos": "noun",
+      "translation_pl": "sklep zoologiczny",
+      "definition_en": "A pet shop is a store where you buy animals and pet food.",
+      "example_en": "We bought our cat from the pet shop.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flower shop",
+      "pos": "noun",
+      "translation_pl": "kwiaciarnia",
+      "definition_en": "A flower shop is a place where you can buy flowers.",
+      "example_en": "He stops at the flower shop to buy roses.",
+      "level": "A2"
+    },
+    {
+      "lemma": "boutique",
+      "pos": "noun",
+      "translation_pl": "butik",
+      "definition_en": "A boutique is a small shop that sells fashionable clothes or gifts.",
+      "example_en": "She found a nice dress at the boutique.",
+      "level": "B1"
+    },
+    {
+      "lemma": "greengrocer",
+      "pos": "noun",
+      "translation_pl": "warzywniak",
+      "definition_en": "A greengrocer is a shop that sells fruit and vegetables.",
+      "example_en": "He buys apples from the greengrocer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "jewelry store",
+      "pos": "noun",
+      "translation_pl": "jubiler",
+      "definition_en": "A jewelry store is a shop that sells rings, necklaces, and other jewelry.",
+      "example_en": "They bought wedding rings at the jewelry store.",
+      "level": "A2"
+    },
+    {
+      "lemma": "toy store",
+      "pos": "noun",
+      "translation_pl": "sklep z zabawkami",
+      "definition_en": "A toy store is a shop where you can buy toys.",
+      "example_en": "He went to the toy store for a birthday gift.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stationery shop",
+      "pos": "noun",
+      "translation_pl": "sklep papierniczy",
+      "definition_en": "A stationery shop is a place where you buy pens, paper, and school things.",
+      "example_en": "She bought notebooks at the stationery shop.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shoe shop",
+      "pos": "noun",
+      "translation_pl": "sklep obuwniczy",
+      "definition_en": "A shoe shop is a shop where you can buy shoes.",
+      "example_en": "He tried on new boots at the shoe shop.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clothing store",
+      "pos": "noun",
+      "translation_pl": "sklep odzieżowy",
+      "definition_en": "A clothing store is a place where you can buy clothes.",
+      "example_en": "She prefers shopping at her local clothing store.",
+      "level": "A1"
+    },
+    {
+      "lemma": "convenience store",
+      "pos": "noun",
+      "translation_pl": "sklep osiedlowy",
+      "definition_en": "A convenience store is a small shop open long hours that sells everyday things.",
+      "example_en": "He grabbed some milk at the convenience store.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fishmonger",
+      "pos": "noun",
+      "translation_pl": "sklep rybny",
+      "definition_en": "A fishmonger is a shop that sells fish and seafood.",
+      "example_en": "She likes to buy fresh salmon from the fishmonger.",
+      "level": "B1"
+    },
+    {
+      "lemma": "discount store",
+      "pos": "noun",
+      "translation_pl": "sklep dyskontowy",
+      "definition_en": "A discount store is a shop where things are sold at lower prices.",
+      "example_en": "He got new headphones at the discount store.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hardware store",
+      "pos": "noun",
+      "translation_pl": "sklep z narzędziami",
+      "definition_en": "A hardware store is a place to buy tools, paint, and things for the home.",
+      "example_en": "They went to the hardware store to get nails.",
+      "level": "B1"
+    }
+  ]
+}

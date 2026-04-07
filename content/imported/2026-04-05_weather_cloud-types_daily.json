@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "cloud-types",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:48:42.322Z"
+  },
+  "items": [
+    {
+      "lemma": "altocumulus",
+      "pos": "noun",
+      "translation_pl": "chmura altocumulus",
+      "definition_en": "Altocumulus is a type of white or gray cloud in the middle level of the sky.",
+      "example_en": "Altocumulus clouds were scattered across the afternoon sky.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cirrus",
+      "pos": "noun",
+      "translation_pl": "chmura cirrus",
+      "definition_en": "A cirrus is a thin, wispy cloud found high in the sky.",
+      "example_en": "Cirrus clouds look like long feathers above us.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stratus",
+      "pos": "noun",
+      "translation_pl": "chmura stratus",
+      "definition_en": "Stratus is a low, gray cloud that often covers the whole sky.",
+      "example_en": "Stratus clouds made the morning very gloomy.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cumulus",
+      "pos": "noun",
+      "translation_pl": "chmura cumulus",
+      "definition_en": "A cumulus is a fluffy, white cloud with a flat bottom.",
+      "example_en": "The children watched the cumulus clouds on a sunny day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nimbus",
+      "pos": "noun",
+      "translation_pl": "chmura nimbus",
+      "definition_en": "Nimbus is a dark cloud that often brings rain.",
+      "example_en": "A nimbus cloud passed and we needed umbrellas.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fog bank",
+      "pos": "noun",
+      "translation_pl": "pasmo mgły",
+      "definition_en": "A fog bank is a thick area of fog.",
+      "example_en": "A fog bank rolled over the road in the morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cloud base",
+      "pos": "noun",
+      "translation_pl": "podstawa chmury",
+      "definition_en": "Cloud base is the lowest part of a cloud.",
+      "example_en": "The hills disappeared below the cloud base.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cloud layer",
+      "pos": "noun",
+      "translation_pl": "warstwa chmur",
+      "definition_en": "A cloud layer is a sheet of clouds in the sky.",
+      "example_en": "The sun set behind a thick cloud layer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clearing",
+      "pos": "noun",
+      "translation_pl": "przejaśnienie",
+      "definition_en": "A clearing is a break in the clouds showing the sky.",
+      "example_en": "There was a clearing after the rain stopped.",
+      "level": "B1"
+    },
+    {
+      "lemma": "overcast",
+      "pos": "noun",
+      "translation_pl": "zachmurzenie",
+      "definition_en": "Overcast is a sky covered with clouds.",
+      "example_en": "The weather was overcast all day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "stratocumulus",
+      "pos": "noun",
+      "translation_pl": "chmura stratocumulus",
+      "definition_en": "Stratocumulus is a low, lumpy cloud often covering the sky.",
+      "example_en": "Stratocumulus clouds made the morning look dull.",
+      "level": "B1"
+    },
+    {
+      "lemma": "altostratus",
+      "pos": "noun",
+      "translation_pl": "chmura altostratus",
+      "definition_en": "Altostratus is a gray or blue middle cloud covering the sky.",
+      "example_en": "Altostratus clouds covered the sun completely.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cirrostratus",
+      "pos": "noun",
+      "translation_pl": "chmura cirrostratus",
+      "definition_en": "Cirrostratus is a high, thin, white cloud covering the sky.",
+      "example_en": "A soft halo appeared around the sun because of cirrostratus clouds.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wall cloud",
+      "pos": "noun",
+      "translation_pl": "chmura ścianowa",
+      "definition_en": "A wall cloud is a low cloud under a thunderstorm.",
+      "example_en": "We saw a wall cloud before the heavy rain began.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cloud top",
+      "pos": "noun",
+      "translation_pl": "wierzchołek chmury",
+      "definition_en": "Cloud top is the highest part of a cloud.",
+      "example_en": "The plane flew above the cloud top.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cloud bank",
+      "pos": "noun",
+      "translation_pl": "pasmo chmur",
+      "definition_en": "A cloud bank is a mass of clouds, often low in the sky.",
+      "example_en": "A thick cloud bank hid the mountains for hours.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cloud shadow",
+      "pos": "noun",
+      "translation_pl": "cień chmury",
+      "definition_en": "A cloud shadow is a shadow made by a cloud.",
+      "example_en": "We sat under a cloud shadow to cool down.",
+      "level": "B1"
+    },
+    {
+      "lemma": "towering cloud",
+      "pos": "noun",
+      "translation_pl": "wznosząca się chmura",
+      "definition_en": "A towering cloud is a very tall cloud in the sky.",
+      "example_en": "A towering cloud appeared before the storm.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mackerel sky",
+      "pos": "noun",
+      "translation_pl": "niebo makrelowe",
+      "definition_en": "A mackerel sky is a sky with small, patchy clouds.",
+      "example_en": "People noticed a mackerel sky in the afternoon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cloud street",
+      "pos": "noun",
+      "translation_pl": "pasmo chmur",
+      "definition_en": "A cloud street is a long row of clouds in the sky.",
+      "example_en": "A cloud street stretched over the field.",
+      "level": "B1"
+    }
+  ]
+}

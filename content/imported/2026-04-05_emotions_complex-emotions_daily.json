@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "category": "emotions",
+    "subcategory": "complex-emotions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:14:11.957Z"
+  },
+  "items": [
+    {
+      "lemma": "confusion",
+      "pos": "noun",
+      "translation_pl": "zamieszanie",
+      "definition_en": "Confusion is the feeling when you do not understand something.",
+      "example_en": "He felt confusion when he read the message.",
+      "level": "A2"
+    },
+    {
+      "lemma": "curiosity",
+      "pos": "noun",
+      "translation_pl": "ciekawość",
+      "definition_en": "Curiosity is the desire to learn or know more.",
+      "example_en": "Children have a lot of curiosity about the world.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sympathy",
+      "pos": "noun",
+      "translation_pl": "współczucie",
+      "definition_en": "Sympathy is caring about someone’s suffering or problems.",
+      "example_en": "She showed sympathy for her friend’s loss.",
+      "level": "B1"
+    },
+    {
+      "lemma": "surprise",
+      "pos": "noun",
+      "translation_pl": "zaskoczenie",
+      "definition_en": "Surprise is the feeling when something unexpected happens.",
+      "example_en": "My birthday party was a big surprise for me.",
+      "level": "A2"
+    },
+    {
+      "lemma": "satisfaction",
+      "pos": "noun",
+      "translation_pl": "satysfakcja",
+      "definition_en": "Satisfaction is feeling happy with what you did or got.",
+      "example_en": "He felt satisfaction after finishing his work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "relief",
+      "pos": "noun",
+      "translation_pl": "ulga",
+      "definition_en": "Relief is feeling better after being worried or afraid.",
+      "example_en": "She felt relief after hearing the good news.",
+      "level": "A2"
+    },
+    {
+      "lemma": "courage",
+      "pos": "noun",
+      "translation_pl": "odwaga",
+      "definition_en": "Courage is being brave even when you are scared.",
+      "example_en": "He showed courage during the difficult situation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "interest",
+      "pos": "noun",
+      "translation_pl": "zainteresowanie",
+      "definition_en": "Interest is wanting to know or learn about something.",
+      "example_en": "Her interest in music grew over time.",
+      "level": "A1"
+    },
+    {
+      "lemma": "suspicion",
+      "pos": "noun",
+      "translation_pl": "podejrzenie",
+      "definition_en": "Suspicion is thinking that something may be wrong.",
+      "example_en": "He had a suspicion that his friend was lying.",
+      "level": "B1"
+    },
+    {
+      "lemma": "disbelief",
+      "pos": "noun",
+      "translation_pl": "niedowierzanie",
+      "definition_en": "Disbelief is the feeling of not believing something.",
+      "example_en": "She stared in disbelief at the broken vase.",
+      "level": "B1"
+    },
+    {
+      "lemma": "anticipation",
+      "pos": "noun",
+      "translation_pl": "oczekiwanie",
+      "definition_en": "Anticipation is the feeling of waiting for something to happen.",
+      "example_en": "There was anticipation before the concert started.",
+      "level": "B1"
+    },
+    {
+      "lemma": "kindness",
+      "pos": "noun",
+      "translation_pl": "życzliwość",
+      "definition_en": "Kindness is being nice and helpful to others.",
+      "example_en": "A little kindness can make someone's day better.",
+      "level": "A2"
+    },
+    {
+      "lemma": "admiration",
+      "pos": "noun",
+      "translation_pl": "podziw",
+      "definition_en": "Admiration is the feeling of respecting and liking someone.",
+      "example_en": "He looked at her with admiration.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tension",
+      "pos": "noun",
+      "translation_pl": "napięcie",
+      "definition_en": "Tension is the feeling of stress or worry between people.",
+      "example_en": "There was tension in the room during the meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "longing",
+      "pos": "noun",
+      "translation_pl": "tęsknota",
+      "definition_en": "Longing is a strong feeling of wanting something or someone.",
+      "example_en": "She felt a deep longing for her home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "indifference",
+      "pos": "noun",
+      "translation_pl": "obojętność",
+      "definition_en": "Indifference is not caring about something or someone.",
+      "example_en": "He showed indifference to the outcome of the game.",
+      "level": "B1"
+    }
+  ]
+}

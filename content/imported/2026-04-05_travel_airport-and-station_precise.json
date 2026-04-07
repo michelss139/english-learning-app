@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "airport-and-station",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:58:08.178Z"
+  },
+  "items": [
+    {
+      "lemma": "baggage trolley",
+      "pos": "noun",
+      "translation_pl": "wózek na bagaż",
+      "definition_en": "A cart used to carry luggage at airports or stations.",
+      "example_en": "She loaded her suitcases onto a baggage trolley.",
+      "level": "B1"
+    },
+    {
+      "lemma": "passport control",
+      "pos": "noun",
+      "translation_pl": "kontrola paszportowa",
+      "definition_en": "A place where passports are checked at borders or airports.",
+      "example_en": "They waited in line at passport control.",
+      "level": "B1"
+    },
+    {
+      "lemma": "arrivals hall",
+      "pos": "noun",
+      "translation_pl": "hala przylotów",
+      "definition_en": "The area where people wait for passengers who have just arrived.",
+      "example_en": "We met them in the arrivals hall.",
+      "level": "B1"
+    },
+    {
+      "lemma": "departure board",
+      "pos": "noun",
+      "translation_pl": "tablica odlotów",
+      "definition_en": "A sign showing times and gates for upcoming departures.",
+      "example_en": "Check the departure board for your flight details.",
+      "level": "B1"
+    },
+    {
+      "lemma": "luggage belt",
+      "pos": "noun",
+      "translation_pl": "taśma bagażowa",
+      "definition_en": "A moving belt that delivers baggage to passengers.",
+      "example_en": "Our bags came out on the luggage belt.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ticket barrier",
+      "pos": "noun",
+      "translation_pl": "bramka biletowa",
+      "definition_en": "A gate at a station where you must show your ticket to pass.",
+      "example_en": "Scan your ticket at the ticket barrier.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lost property office",
+      "pos": "noun",
+      "translation_pl": "biuro rzeczy znalezionych",
+      "definition_en": "An office for items that have been found in public places.",
+      "example_en": "I went to the lost property office for my umbrella.",
+      "level": "B1"
+    },
+    {
+      "lemma": "first class lounge",
+      "pos": "noun",
+      "translation_pl": "lounge pierwszej klasy",
+      "definition_en": "A comfortable waiting area for first class passengers.",
+      "example_en": "She relaxed in the first class lounge before her flight.",
+      "level": "B2"
+    },
+    {
+      "lemma": "automatic door",
+      "pos": "noun",
+      "translation_pl": "drzwi automatyczne",
+      "definition_en": "A door that opens automatically when you approach.",
+      "example_en": "He walked through the automatic door at the entrance.",
+      "level": "B1"
+    },
+    {
+      "lemma": "train timetable",
+      "pos": "noun",
+      "translation_pl": "rozkład jazdy pociągów",
+      "definition_en": "A schedule of trains’ departure and arrival times.",
+      "example_en": "Check the train timetable for the next departure.",
+      "level": "B1"
+    },
+    {
+      "lemma": "platform number",
+      "pos": "noun",
+      "translation_pl": "numer peronu",
+      "definition_en": "The number identifying which platform a train leaves from.",
+      "example_en": "The platform number is printed on your ticket.",
+      "level": "A2"
+    },
+    {
+      "lemma": "overhead compartment",
+      "pos": "noun",
+      "translation_pl": "schowek nad głową",
+      "definition_en": "A storage area above passengers’ seats for baggage.",
+      "example_en": "Put your carry-on bag in the overhead compartment.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waiting line",
+      "pos": "noun",
+      "translation_pl": "kolejka do czekania",
+      "definition_en": "A line of people waiting for their turn.",
+      "example_en": "We stood in the waiting line for security.",
+      "level": "A2"
+    },
+    {
+      "lemma": "loading zone",
+      "pos": "noun",
+      "translation_pl": "strefa załadunku",
+      "definition_en": "An area for loading and unloading passengers or baggage.",
+      "example_en": "The taxi stopped in the loading zone.",
+      "level": "B2"
+    },
+    {
+      "lemma": "self check-in kiosk",
+      "pos": "noun",
+      "translation_pl": "kiosk do samodzielnej odprawy",
+      "definition_en": "A machine where passengers can check themselves in.",
+      "example_en": "He uses the self check-in kiosk to print his boarding pass.",
+      "level": "B2"
+    },
+    {
+      "lemma": "airport shuttle",
+      "pos": "noun",
+      "translation_pl": "autobus lotniskowy",
+      "definition_en": "A bus that transports people between the airport and other locations.",
+      "example_en": "We took the airport shuttle to the hotel.",
+      "level": "B1"
+    },
+    {
+      "lemma": "railway underpass",
+      "pos": "noun",
+      "translation_pl": "przejście pod torami",
+      "definition_en": "A tunnel that allows people to cross under railway tracks.",
+      "example_en": "Please use the railway underpass to reach platform two.",
+      "level": "B2"
+    },
+    {
+      "lemma": "train conductor",
+      "pos": "noun",
+      "translation_pl": "konduktor pociągu",
+      "definition_en": "A person who checks tickets and helps passengers on a train.",
+      "example_en": "The train conductor checked everyone's tickets.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flight information screen",
+      "pos": "noun",
+      "translation_pl": "ekran informacji o lotach",
+      "definition_en": "An electronic display showing the status of flights.",
+      "example_en": "Look at the flight information screen for updates.",
+      "level": "B2"
+    },
+    {
+      "lemma": "platform shelter",
+      "pos": "noun",
+      "translation_pl": "wiata na peronie",
+      "definition_en": "A covered area on a platform to protect passengers from weather.",
+      "example_en": "We waited for the train under the platform shelter.",
+      "level": "B1"
+    }
+  ]
+}

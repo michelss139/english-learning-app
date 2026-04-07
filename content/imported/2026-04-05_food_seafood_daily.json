@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "seafood",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:30:23.968Z"
+  },
+  "items": [
+    {
+      "lemma": "shrimp",
+      "pos": "noun",
+      "translation_pl": "krewetka",
+      "definition_en": "A small sea animal with a shell that you can eat.",
+      "example_en": "I love eating shrimp in my salad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "crab",
+      "pos": "noun",
+      "translation_pl": "krab",
+      "definition_en": "A sea animal with a hard shell and two large claws.",
+      "example_en": "The crab walked sideways on the sand.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lobster",
+      "pos": "noun",
+      "translation_pl": "homar",
+      "definition_en": "A large sea animal with a hard shell and big claws.",
+      "example_en": "We ordered lobster for dinner last night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clam",
+      "pos": "noun",
+      "translation_pl": "małż",
+      "definition_en": "A small shellfish that lives in sand or mud.",
+      "example_en": "He found a clam on the beach.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mussel",
+      "pos": "noun",
+      "translation_pl": "omułek",
+      "definition_en": "A small sea animal with a dark shell.",
+      "example_en": "They cooked mussel soup for lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "oyster",
+      "pos": "noun",
+      "translation_pl": "ostryga",
+      "definition_en": "A sea animal with a rough shell, eaten as food.",
+      "example_en": "Oyster is a popular dish in some countries.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tuna",
+      "pos": "noun",
+      "translation_pl": "tuńczyk",
+      "definition_en": "A large fish that people often eat fresh or canned.",
+      "example_en": "Tuna sandwiches are my favorite snack.",
+      "level": "A1"
+    },
+    {
+      "lemma": "salmon",
+      "pos": "noun",
+      "translation_pl": "łosoś",
+      "definition_en": "A pink fish that is popular to eat.",
+      "example_en": "Grilled salmon tastes delicious.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cod",
+      "pos": "noun",
+      "translation_pl": "dorsz",
+      "definition_en": "A white fish that is often used for fish and chips.",
+      "example_en": "He ordered cod with fries at the restaurant.",
+      "level": "A2"
+    },
+    {
+      "lemma": "herring",
+      "pos": "noun",
+      "translation_pl": "śledź",
+      "definition_en": "A small fish eaten fresh, smoked, or preserved.",
+      "example_en": "Herring is common in European cuisine.",
+      "level": "A2"
+    },
+    {
+      "lemma": "anchovy",
+      "pos": "noun",
+      "translation_pl": "anchois",
+      "definition_en": "A small, salty fish often used on pizza.",
+      "example_en": "Some people like anchovy on their pizza.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sardine",
+      "pos": "noun",
+      "translation_pl": "sardynka",
+      "definition_en": "A small silver fish that is often canned.",
+      "example_en": "We had sardine sandwiches for lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "octopus",
+      "pos": "noun",
+      "translation_pl": "ośmiornica",
+      "definition_en": "A sea animal with eight arms.",
+      "example_en": "Octopus is a special dish in some places.",
+      "level": "B1"
+    },
+    {
+      "lemma": "squid",
+      "pos": "noun",
+      "translation_pl": "kałamarnica",
+      "definition_en": "A soft sea animal with ten arms.",
+      "example_en": "Fried squid is a tasty seafood snack.",
+      "level": "B1"
+    },
+    {
+      "lemma": "scallop",
+      "pos": "noun",
+      "translation_pl": "przegrzebek",
+      "definition_en": "A shellfish with a fan-shaped shell.",
+      "example_en": "She tried scallop for the first time yesterday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "eel",
+      "pos": "noun",
+      "translation_pl": "węgorz",
+      "definition_en": "A long, snake-like fish.",
+      "example_en": "Smoked eel is popular in some countries.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tilapia",
+      "pos": "noun",
+      "translation_pl": "tilapia",
+      "definition_en": "A mild white fish often used in cooking.",
+      "example_en": "Tilapia is an easy fish to cook.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sea bass",
+      "pos": "noun",
+      "translation_pl": "okoń morski",
+      "definition_en": "A popular white fish found in saltwater.",
+      "example_en": "They served grilled sea bass at the party.",
+      "level": "B1"
+    },
+    {
+      "lemma": "halibut",
+      "pos": "noun",
+      "translation_pl": "halibut",
+      "definition_en": "A large flat fish used for food.",
+      "example_en": "Halibut steaks are thick and white.",
+      "level": "B1"
+    },
+    {
+      "lemma": "calamari",
+      "pos": "noun",
+      "translation_pl": "kalmar",
+      "definition_en": "Fried squid rings served as food.",
+      "example_en": "Calamari is my favorite appetizer.",
+      "level": "B1"
+    }
+  ]
+}

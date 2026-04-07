@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "education",
+    "subcategory": "assessment-tools",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:21:46.173Z"
+  },
+  "items": [
+    {
+      "lemma": "multiple-choice test",
+      "pos": "noun",
+      "translation_pl": "test wielokrotnego wyboru",
+      "definition_en": "A test where each question has several answers to choose from.",
+      "example_en": "The final exam was a multiple-choice test.",
+      "level": "B1"
+    },
+    {
+      "lemma": "placement test",
+      "pos": "noun",
+      "translation_pl": "test poziomujący",
+      "definition_en": "A test used to decide a student's starting level in a subject.",
+      "example_en": "All new students take a placement test.",
+      "level": "B1"
+    },
+    {
+      "lemma": "essay question",
+      "pos": "noun",
+      "translation_pl": "pytanie do wypracowania",
+      "definition_en": "A question on a test that requires a long written answer.",
+      "example_en": "The history exam had an essay question about World War II.",
+      "level": "B2"
+    },
+    {
+      "lemma": "self-assessment",
+      "pos": "noun",
+      "translation_pl": "samoocena",
+      "definition_en": "A process where students judge their own work.",
+      "example_en": "We did a self-assessment before turning in the project.",
+      "level": "B2"
+    },
+    {
+      "lemma": "diagnostic test",
+      "pos": "noun",
+      "translation_pl": "test diagnostyczny",
+      "definition_en": "A test used to find out what students already know.",
+      "example_en": "The teacher gave a diagnostic test at the start of term.",
+      "level": "B2"
+    },
+    {
+      "lemma": "case study",
+      "pos": "noun",
+      "translation_pl": "studium przypadku",
+      "definition_en": "A detailed analysis of a single situation or example used in learning.",
+      "example_en": "Students analyzed a case study for their business class.",
+      "level": "B2"
+    },
+    {
+      "lemma": "peer review",
+      "pos": "noun",
+      "translation_pl": "recenzja koleżeńska",
+      "definition_en": "A process where classmates give feedback on each other’s work.",
+      "example_en": "She improved her essay after a peer review.",
+      "level": "B2"
+    },
+    {
+      "lemma": "open-book test",
+      "pos": "noun",
+      "translation_pl": "test z otwartą książką",
+      "definition_en": "A test in which students can use textbooks or notes.",
+      "example_en": "We had an open-book test in biology today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "final project",
+      "pos": "noun",
+      "translation_pl": "projekt końcowy",
+      "definition_en": "A big piece of work given at the end of a course.",
+      "example_en": "The final project counts for half our grade.",
+      "level": "B1"
+    },
+    {
+      "lemma": "midterm exam",
+      "pos": "noun",
+      "translation_pl": "egzamin śródsemestralny",
+      "definition_en": "An important test given in the middle of a course.",
+      "example_en": "His midterm exam is scheduled for next week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "practical exam",
+      "pos": "noun",
+      "translation_pl": "egzamin praktyczny",
+      "definition_en": "A test where students show skills by doing tasks.",
+      "example_en": "The practical exam involves doing a science experiment.",
+      "level": "B2"
+    },
+    {
+      "lemma": "open-ended question",
+      "pos": "noun",
+      "translation_pl": "pytanie otwarte",
+      "definition_en": "A test question that can have many different answers.",
+      "example_en": "Teachers like to use open-ended questions to check thinking.",
+      "level": "B2"
+    },
+    {
+      "lemma": "take-home assignment",
+      "pos": "noun",
+      "translation_pl": "zadanie do domu",
+      "definition_en": "A test or homework that students do outside the classroom.",
+      "example_en": "The math test was a take-home assignment this week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "observation record",
+      "pos": "noun",
+      "translation_pl": "arkusz obserwacji",
+      "definition_en": "A form used by teachers to note student performance.",
+      "example_en": "The teacher filled out an observation record during the lesson.",
+      "level": "B2"
+    },
+    {
+      "lemma": "short-answer question",
+      "pos": "noun",
+      "translation_pl": "pytanie krótkiej odpowiedzi",
+      "definition_en": "A test question that needs only a brief answer.",
+      "example_en": "There was a short-answer question about the main idea.",
+      "level": "B1"
+    },
+    {
+      "lemma": "practice sheet",
+      "pos": "noun",
+      "translation_pl": "arkusz ćwiczeniowy",
+      "definition_en": "A sheet with exercises for skill practice.",
+      "example_en": "Students completed a practice sheet for extra grammar work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spelling test",
+      "pos": "noun",
+      "translation_pl": "dyktando",
+      "definition_en": "A test to check how well students spell words.",
+      "example_en": "We have a spelling test every Friday.",
+      "level": "A2"
+    },
+    {
+      "lemma": "performance task",
+      "pos": "noun",
+      "translation_pl": "zadanie wykonawcze",
+      "definition_en": "An assignment where students demonstrate what they can do.",
+      "example_en": "Her performance task was to give a short speech.",
+      "level": "B2"
+    },
+    {
+      "lemma": "written report",
+      "pos": "noun",
+      "translation_pl": "raport pisemny",
+      "definition_en": "A document where students explain findings or results.",
+      "example_en": "Students must submit a written report with their project.",
+      "level": "B2"
+    },
+    {
+      "lemma": "retake form",
+      "pos": "noun",
+      "translation_pl": "formularz poprawkowy",
+      "definition_en": "A document students fill out to request a new chance at a test.",
+      "example_en": "If you fail the test, you need to submit a retake form.",
+      "level": "B1"
+    }
+  ]
+}

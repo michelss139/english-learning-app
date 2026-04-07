@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "body",
+    "subcategory": "body-parts",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:37:18.499Z"
+  },
+  "items": [
+    {
+      "lemma": "thumb",
+      "pos": "noun",
+      "translation_pl": "kciuk",
+      "definition_en": "The short, thick first finger on your hand.",
+      "example_en": "She gave a thumbs-up sign.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wrist",
+      "pos": "noun",
+      "translation_pl": "nadgarstek",
+      "definition_en": "The joint connecting the hand with the arm.",
+      "example_en": "He wore a watch on his left wrist.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ankle",
+      "pos": "noun",
+      "translation_pl": "kostka u nogi",
+      "definition_en": "The joint between the foot and the leg.",
+      "example_en": "I twisted my ankle playing soccer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heel",
+      "pos": "noun",
+      "translation_pl": "pięta",
+      "definition_en": "The back part of your foot below the ankle.",
+      "example_en": "Her shoes rubbed against her heel.",
+      "level": "B1"
+    },
+    {
+      "lemma": "palm",
+      "pos": "noun",
+      "translation_pl": "dłoń wewnętrzna strona",
+      "definition_en": "The inside part of your hand.",
+      "example_en": "He placed the coin in my palm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "forehead",
+      "pos": "noun",
+      "translation_pl": "czoło",
+      "definition_en": "The flat part of your face above your eyes.",
+      "example_en": "She wiped sweat from her forehead.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cheek",
+      "pos": "noun",
+      "translation_pl": "policzek",
+      "definition_en": "The soft sides of your face below the eyes.",
+      "example_en": "A tear ran down her cheek.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chin",
+      "pos": "noun",
+      "translation_pl": "broda",
+      "definition_en": "The bottom part of your face below your mouth.",
+      "example_en": "He rested his chin on his hand.",
+      "level": "B1"
+    },
+    {
+      "lemma": "jaw",
+      "pos": "noun",
+      "translation_pl": "szczęka",
+      "definition_en": "The bones that form the framework of the mouth.",
+      "example_en": "She has a strong jaw.",
+      "level": "B2"
+    },
+    {
+      "lemma": "eyebrow",
+      "pos": "noun",
+      "translation_pl": "brew",
+      "definition_en": "The line of short hairs above the eye.",
+      "example_en": "He raised his eyebrow in surprise.",
+      "level": "B1"
+    },
+    {
+      "lemma": "eyelash",
+      "pos": "noun",
+      "translation_pl": "rzęsa",
+      "definition_en": "One of the short hairs on the edge of your eyelids.",
+      "example_en": "She brushed her eyelashes with mascara.",
+      "level": "B1"
+    },
+    {
+      "lemma": "eyelid",
+      "pos": "noun",
+      "translation_pl": "powieka",
+      "definition_en": "The skin that covers and protects your eyes.",
+      "example_en": "He closed his eyelids tightly.",
+      "level": "B2"
+    },
+    {
+      "lemma": "temple",
+      "pos": "noun",
+      "translation_pl": "skroń",
+      "definition_en": "The flat area on each side of your forehead.",
+      "example_en": "He rubbed his temples because of a headache.",
+      "level": "B2"
+    },
+    {
+      "lemma": "nostril",
+      "pos": "noun",
+      "translation_pl": "nozdrze",
+      "definition_en": "One of the two holes at the end of your nose.",
+      "example_en": "She breathed through her nostrils.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tongue",
+      "pos": "noun",
+      "translation_pl": "język",
+      "definition_en": "The soft part inside your mouth that moves and tastes.",
+      "example_en": "She stuck out her tongue playfully.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waist",
+      "pos": "noun",
+      "translation_pl": "talia",
+      "definition_en": "The narrow part of your body above your hips.",
+      "example_en": "The belt was too tight for her waist.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thumb nail",
+      "pos": "noun",
+      "translation_pl": "paznokieć kciuka",
+      "definition_en": "The hard covering at the end of your thumb.",
+      "example_en": "He bit his thumbnail nervously.",
+      "level": "C1"
+    },
+    {
+      "lemma": "calf",
+      "pos": "noun",
+      "translation_pl": "łydka",
+      "definition_en": "The back part of your lower leg.",
+      "example_en": "Running made his calf muscles ache.",
+      "level": "B2"
+    },
+    {
+      "lemma": "forearm",
+      "pos": "noun",
+      "translation_pl": "przedramię",
+      "definition_en": "The part of your arm between the elbow and the wrist.",
+      "example_en": "He rolled up his sleeves to show his forearm.",
+      "level": "B2"
+    },
+    {
+      "lemma": "spine",
+      "pos": "noun",
+      "translation_pl": "kręgosłup",
+      "definition_en": "The line of bones down the middle of your back.",
+      "example_en": "She hurt her spine in the accident.",
+      "level": "B2"
+    }
+  ]
+}

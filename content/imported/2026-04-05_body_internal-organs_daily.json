@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "category": "body",
+    "subcategory": "internal-organs",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:37:43.367Z"
+  },
+  "items": [
+    {
+      "lemma": "heart",
+      "pos": "noun",
+      "translation_pl": "serce",
+      "definition_en": "The heart is the organ that pumps blood through the body.",
+      "example_en": "Exercise is good for your heart.",
+      "level": "A1"
+    },
+    {
+      "lemma": "brain",
+      "pos": "noun",
+      "translation_pl": "mózg",
+      "definition_en": "The brain controls how you think, feel, and move.",
+      "example_en": "He used his brain to solve the problem.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lung",
+      "pos": "noun",
+      "translation_pl": "płuco",
+      "definition_en": "A lung is the organ that helps you breathe.",
+      "example_en": "Smoking can harm your lung.",
+      "level": "A2"
+    },
+    {
+      "lemma": "kidney",
+      "pos": "noun",
+      "translation_pl": "nerka",
+      "definition_en": "A kidney helps clean your blood inside the body.",
+      "example_en": "Each person usually has two kidneys.",
+      "level": "A2"
+    },
+    {
+      "lemma": "liver",
+      "pos": "noun",
+      "translation_pl": "wątroba",
+      "definition_en": "The liver is an organ that helps clean the blood.",
+      "example_en": "Alcohol is bad for your liver.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stomach",
+      "pos": "noun",
+      "translation_pl": "żołądek",
+      "definition_en": "The stomach is where your food goes after you eat.",
+      "example_en": "Her stomach hurts after eating too much.",
+      "level": "A1"
+    },
+    {
+      "lemma": "throat",
+      "pos": "noun",
+      "translation_pl": "gardło",
+      "definition_en": "The throat is the inside part of your neck.",
+      "example_en": "I have a sore throat today.",
+      "level": "A1"
+    },
+    {
+      "lemma": "vein",
+      "pos": "noun",
+      "translation_pl": "żyła",
+      "definition_en": "A vein is a tube that carries blood to your heart.",
+      "example_en": "The nurse could see the vein in his arm.",
+      "level": "B1"
+    },
+    {
+      "lemma": "artery",
+      "pos": "noun",
+      "translation_pl": "tętnica",
+      "definition_en": "An artery is a blood vessel that carries blood from the heart.",
+      "example_en": "A healthy artery keeps blood moving well.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bladder",
+      "pos": "noun",
+      "translation_pl": "pęcherz",
+      "definition_en": "The bladder is the part of the body that holds urine.",
+      "example_en": "He went to the bathroom because his bladder was full.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gallbladder",
+      "pos": "noun",
+      "translation_pl": "pęcherzyk żółciowy",
+      "definition_en": "The gallbladder stores a liquid that helps digest food.",
+      "example_en": "She had an operation to remove her gallbladder.",
+      "level": "B1"
+    },
+    {
+      "lemma": "esophagus",
+      "pos": "noun",
+      "translation_pl": "przełyk",
+      "definition_en": "The esophagus is the tube that carries food to your stomach.",
+      "example_en": "Food goes down the esophagus after you swallow.",
+      "level": "B1"
+    },
+    {
+      "lemma": "intestine",
+      "pos": "noun",
+      "translation_pl": "jelito",
+      "definition_en": "The intestine is where food is digested after the stomach.",
+      "example_en": "The intestine moves food through the body.",
+      "level": "B1"
+    },
+    {
+      "lemma": "colon",
+      "pos": "noun",
+      "translation_pl": "okrężnica",
+      "definition_en": "The colon is the last part of the intestine.",
+      "example_en": "A healthy colon helps you feel good.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pancreas",
+      "pos": "noun",
+      "translation_pl": "trzustka",
+      "definition_en": "The pancreas makes chemicals that help digest food.",
+      "example_en": "The pancreas helps control sugar in your body.",
+      "level": "B1"
+    },
+    {
+      "lemma": "diaphragm",
+      "pos": "noun",
+      "translation_pl": "przepona",
+      "definition_en": "The diaphragm is a muscle that helps you breathe.",
+      "example_en": "The diaphragm moves when you breathe in deeply.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bone marrow",
+      "pos": "noun",
+      "translation_pl": "szpik kostny",
+      "definition_en": "Bone marrow is the soft part inside your bones.",
+      "example_en": "Bone marrow makes blood cells.",
+      "level": "B1"
+    },
+    {
+      "lemma": "skin",
+      "pos": "noun",
+      "translation_pl": "skóra",
+      "definition_en": "Skin covers and protects your body.",
+      "example_en": "Remember to put cream on your skin.",
+      "level": "A1"
+    },
+    {
+      "lemma": "appendix",
+      "pos": "noun",
+      "translation_pl": "wyrostek robaczkowy",
+      "definition_en": "The appendix is a small organ near the intestine.",
+      "example_en": "Her appendix was removed last year.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "temperature-conditions",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:51:45.392Z"
+  },
+  "items": [
+    {
+      "lemma": "frostbite",
+      "pos": "noun",
+      "translation_pl": "odmrożenie",
+      "definition_en": "Frostbite is a condition where skin freezes due to extreme cold.",
+      "example_en": "He had to go to the hospital because of frostbite on his fingers.",
+      "level": "B2"
+    },
+    {
+      "lemma": "heatstroke",
+      "pos": "noun",
+      "translation_pl": "udar cieplny",
+      "definition_en": "Heatstroke is a serious illness from being in very hot conditions for too long.",
+      "example_en": "Working in the sun for hours can cause heatstroke.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wind chill",
+      "pos": "noun",
+      "translation_pl": "temperatura odczuwalna",
+      "definition_en": "Wind chill is the way the wind makes cold temperatures feel colder.",
+      "example_en": "The wind chill made it feel like minus ten degrees outside.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thermal inversion",
+      "pos": "noun",
+      "translation_pl": "inwersja termiczna",
+      "definition_en": "Thermal inversion happens when warmer air sits above cooler air near the ground.",
+      "example_en": "Smog increased in the city due to a thermal inversion.",
+      "level": "C1"
+    },
+    {
+      "lemma": "dew point",
+      "pos": "noun",
+      "translation_pl": "punkt rosy",
+      "definition_en": "The dew point is the temperature at which air becomes saturated with moisture.",
+      "example_en": "The dew point was high so it felt muggy all day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "heat dome",
+      "pos": "noun",
+      "translation_pl": "kopuła gorąca",
+      "definition_en": "A heat dome is a weather event where a hot air mass gets trapped over an area.",
+      "example_en": "The city experienced record temperatures during the heat dome.",
+      "level": "C1"
+    },
+    {
+      "lemma": "frost line",
+      "pos": "noun",
+      "translation_pl": "linia przemarzania",
+      "definition_en": "The frost line is the deepest point that ground freezes during winter.",
+      "example_en": "Pipes must be installed below the frost line to prevent freezing.",
+      "level": "B2"
+    },
+    {
+      "lemma": "summer high",
+      "pos": "noun",
+      "translation_pl": "maksimum letnie",
+      "definition_en": "A summer high is the highest temperature reached in summer.",
+      "example_en": "Yesterday saw the summer high break records.",
+      "level": "B1"
+    },
+    {
+      "lemma": "winter low",
+      "pos": "noun",
+      "translation_pl": "minimum zimowe",
+      "definition_en": "A winter low is the lowest temperature during the winter months.",
+      "example_en": "The winter low last night was below freezing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "oven heat",
+      "pos": "noun",
+      "translation_pl": "gorąco jak w piecu",
+      "definition_en": "Oven heat describes very intense, dry heat.",
+      "example_en": "It felt like oven heat as soon as I stepped outside.",
+      "level": "B2"
+    },
+    {
+      "lemma": "permafrost",
+      "pos": "noun",
+      "translation_pl": "wieloletnia zmarzlina",
+      "definition_en": "Permafrost is ground that remains frozen for years.",
+      "example_en": "Houses in the Arctic are built on permafrost.",
+      "level": "B2"
+    },
+    {
+      "lemma": "relative humidity",
+      "pos": "noun",
+      "translation_pl": "wilgotność względna",
+      "definition_en": "Relative humidity measures how much water vapor is in the air compared to the maximum possible.",
+      "example_en": "The relative humidity was at 80%, making it feel much warmer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thermal comfort",
+      "pos": "noun",
+      "translation_pl": "komfort cieplny",
+      "definition_en": "Thermal comfort is the condition of feeling satisfied with the surrounding temperature.",
+      "example_en": "Proper insulation improves thermal comfort at home.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ground frost",
+      "pos": "noun",
+      "translation_pl": "przymrozek przygruntowy",
+      "definition_en": "Ground frost is a thin layer of ice that forms on the ground overnight.",
+      "example_en": "The grass was white from ground frost this morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "radiant heat",
+      "pos": "noun",
+      "translation_pl": "ciepło promieniowania",
+      "definition_en": "Radiant heat is heat that is felt directly from the sun or other sources.",
+      "example_en": "You can feel radiant heat through the window even in winter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "tropical night",
+      "pos": "noun",
+      "translation_pl": "noc tropikalna",
+      "definition_en": "A tropical night is an event when the temperature stays above 20°C all night.",
+      "example_en": "We had a tropical night yesterday and barely slept.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cold spell",
+      "pos": "noun",
+      "translation_pl": "okres zimna",
+      "definition_en": "A cold spell is a period of low temperatures lasting several days.",
+      "example_en": "A cold spell in April surprised everyone.",
+      "level": "B1"
+    },
+    {
+      "lemma": "boiling point",
+      "pos": "noun",
+      "translation_pl": "punkt wrzenia",
+      "definition_en": "Boiling point is the temperature at which a liquid turns to gas.",
+      "example_en": "Water reaches its boiling point at 100 degrees Celsius.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice day",
+      "pos": "noun",
+      "translation_pl": "dzień lodowy",
+      "definition_en": "An ice day is when the temperature stays below freezing all day.",
+      "example_en": "School was canceled due to the first ice day of the year.",
+      "level": "B2"
+    },
+    {
+      "lemma": "arctic blast",
+      "pos": "noun",
+      "translation_pl": "arktyczny podmuch",
+      "definition_en": "An arctic blast is a sudden arrival of very cold air from the Arctic.",
+      "example_en": "The city braced for an arctic blast this weekend.",
+      "level": "B2"
+    }
+  ]
+}

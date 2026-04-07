@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "public-speaking",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T21:00:56.215Z"
+  },
+  "items": [
+    {
+      "lemma": "announcement",
+      "pos": "noun",
+      "translation_pl": "ogłoszenie",
+      "definition_en": "An announcement is something said to tell people important news.",
+      "example_en": "The teacher made an announcement about the test.",
+      "level": "A2"
+    },
+    {
+      "lemma": "audience",
+      "pos": "noun",
+      "translation_pl": "publiczność",
+      "definition_en": "An audience is a group of people who listen to or watch something.",
+      "example_en": "The audience listened carefully to the speaker.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mic",
+      "pos": "noun",
+      "translation_pl": "mikrofon",
+      "definition_en": "A mic is a device used to make your voice louder.",
+      "example_en": "She spoke into the mic during her speech.",
+      "level": "A1"
+    },
+    {
+      "lemma": "speaker",
+      "pos": "noun",
+      "translation_pl": "mówca",
+      "definition_en": "A speaker is a person who talks to a group of people.",
+      "example_en": "The speaker started the presentation with a joke.",
+      "level": "A2"
+    },
+    {
+      "lemma": "speech",
+      "pos": "noun",
+      "translation_pl": "przemówienie",
+      "definition_en": "A speech is a talk given to a group of people.",
+      "example_en": "She gave a short speech at the ceremony.",
+      "level": "A1"
+    },
+    {
+      "lemma": "question",
+      "pos": "noun",
+      "translation_pl": "pytanie",
+      "definition_en": "A question is something you ask to get information.",
+      "example_en": "He asked a question after the talk.",
+      "level": "A1"
+    },
+    {
+      "lemma": "answer",
+      "pos": "noun",
+      "translation_pl": "odpowiedź",
+      "definition_en": "An answer is something you say when someone asks you a question.",
+      "example_en": "She gave a clear answer to the question.",
+      "level": "A1"
+    },
+    {
+      "lemma": "joke",
+      "pos": "noun",
+      "translation_pl": "żart",
+      "definition_en": "A joke is something you say to make people laugh.",
+      "example_en": "He started his talk with a funny joke.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pause",
+      "pos": "noun",
+      "translation_pl": "pauza",
+      "definition_en": "A pause is a short stop while speaking.",
+      "example_en": "She made a pause to think before continuing.",
+      "level": "A2"
+    },
+    {
+      "lemma": "opinion",
+      "pos": "noun",
+      "translation_pl": "opinia",
+      "definition_en": "An opinion is what someone thinks or feels about something.",
+      "example_en": "He shared his opinion during the discussion.",
+      "level": "A2"
+    },
+    {
+      "lemma": "topic",
+      "pos": "noun",
+      "translation_pl": "temat",
+      "definition_en": "A topic is the subject you talk about.",
+      "example_en": "Today's topic is healthy eating.",
+      "level": "A2"
+    },
+    {
+      "lemma": "introduction",
+      "pos": "noun",
+      "translation_pl": "wstęp",
+      "definition_en": "An introduction is the beginning part of a speech.",
+      "example_en": "The introduction helped everyone understand the talk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stage",
+      "pos": "noun",
+      "translation_pl": "scena",
+      "definition_en": "A stage is a place where people stand and speak to an audience.",
+      "example_en": "She walked onto the stage with confidence.",
+      "level": "A2"
+    },
+    {
+      "lemma": "microphone",
+      "pos": "noun",
+      "translation_pl": "mikrofon",
+      "definition_en": "A microphone is a tool that makes your voice louder.",
+      "example_en": "He used the microphone during his speech.",
+      "level": "A2"
+    },
+    {
+      "lemma": "presentation",
+      "pos": "noun",
+      "translation_pl": "prezentacja",
+      "definition_en": "A presentation is when someone shows or explains something to a group.",
+      "example_en": "Her presentation was very interesting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "applause",
+      "pos": "noun",
+      "translation_pl": "brawa",
+      "definition_en": "Applause is the sound people make by clapping their hands to show they enjoyed something.",
+      "example_en": "The speaker received loud applause from the audience.",
+      "level": "B1"
+    },
+    {
+      "lemma": "talk",
+      "pos": "noun",
+      "translation_pl": "przemowa",
+      "definition_en": "A talk is a short speech or presentation to people.",
+      "example_en": "He gave a talk about travel.",
+      "level": "A1"
+    },
+    {
+      "lemma": "question time",
+      "pos": "noun",
+      "translation_pl": "czas na pytania",
+      "definition_en": "Question time is when people can ask questions after a speech.",
+      "example_en": "At the end, there was a question time for the audience.",
+      "level": "B1"
+    },
+    {
+      "lemma": "panel",
+      "pos": "noun",
+      "translation_pl": "panel",
+      "definition_en": "A panel is a small group of people talking in front of an audience.",
+      "example_en": "The panel answered questions from students.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plan",
+      "pos": "noun",
+      "translation_pl": "plan",
+      "definition_en": "A plan is a list of things you want to do or say.",
+      "example_en": "She made a plan for her speech.",
+      "level": "A1"
+    }
+  ]
+}

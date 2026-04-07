@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "grains-and-cereals",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:27:34.422Z"
+  },
+  "items": [
+    {
+      "lemma": "couscous",
+      "pos": "noun",
+      "translation_pl": "kuskus",
+      "definition_en": "Couscous is tiny steamed balls made from crushed wheat.",
+      "example_en": "She served chicken on a bed of couscous.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bulgur",
+      "pos": "noun",
+      "translation_pl": "bulgur",
+      "definition_en": "Bulgur is whole grain wheat that is boiled, dried, and cracked.",
+      "example_en": "Bulgur is commonly used in Middle Eastern salads.",
+      "level": "B2"
+    },
+    {
+      "lemma": "granola",
+      "pos": "noun",
+      "translation_pl": "granola",
+      "definition_en": "Granola is a crunchy mix of baked oats, nuts, and honey.",
+      "example_en": "He eats granola with yogurt every morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rye bread",
+      "pos": "noun",
+      "translation_pl": "chleb żytni",
+      "definition_en": "Rye bread is dark bread made mostly from rye flour.",
+      "example_en": "The café offers sandwiches with rye bread.",
+      "level": "B2"
+    },
+    {
+      "lemma": "spelt",
+      "pos": "noun",
+      "translation_pl": "orkisz",
+      "definition_en": "Spelt is an ancient grain related to wheat.",
+      "example_en": "Spelt is becoming popular in healthy diets.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sourdough",
+      "pos": "noun",
+      "translation_pl": "zakwas",
+      "definition_en": "Sourdough is bread made with a fermented dough starter.",
+      "example_en": "She loves sourdough for its tangy flavor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "crouton",
+      "pos": "noun",
+      "translation_pl": "grzanka do zup i sałatek",
+      "definition_en": "A crouton is a small cube of fried or baked bread.",
+      "example_en": "She added croutons to the salad for crunch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "matzo",
+      "pos": "noun",
+      "translation_pl": "maca",
+      "definition_en": "Matzo is a flat, unleavened bread used during Passover.",
+      "example_en": "They bought matzo for the holiday meal.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cornmeal",
+      "pos": "noun",
+      "translation_pl": "kasza kukurydziana",
+      "definition_en": "Cornmeal is ground dried corn used in baking and cooking.",
+      "example_en": "She dusted the baking tray with cornmeal.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bran",
+      "pos": "noun",
+      "translation_pl": "otręby",
+      "definition_en": "Bran is the hard outer layer of cereal grains.",
+      "example_en": "He adds bran to his cereal for extra fiber.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wholemeal bread",
+      "pos": "noun",
+      "translation_pl": "chleb pełnoziarnisty",
+      "definition_en": "Wholemeal bread is bread made from whole grain flour.",
+      "example_en": "Wholemeal bread is healthier than white bread.",
+      "level": "B1"
+    },
+    {
+      "lemma": "white bread",
+      "pos": "noun",
+      "translation_pl": "chleb biały",
+      "definition_en": "White bread is made from refined wheat flour.",
+      "example_en": "Children often prefer white bread sandwiches.",
+      "level": "A2"
+    },
+    {
+      "lemma": "semolina",
+      "pos": "noun",
+      "translation_pl": "kasza manna",
+      "definition_en": "Semolina is coarse flour made from durum wheat.",
+      "example_en": "Semolina is used to make traditional puddings.",
+      "level": "B2"
+    },
+    {
+      "lemma": "crumpet",
+      "pos": "noun",
+      "translation_pl": "brytyjska bułeczka drożdżowa",
+      "definition_en": "A crumpet is a small, round, spongy British bread.",
+      "example_en": "He likes his crumpet toasted with butter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wrap",
+      "pos": "noun",
+      "translation_pl": "zawijana kanapka z placka",
+      "definition_en": "A wrap is a soft thin flatbread rolled around fillings.",
+      "example_en": "She ate a chicken and veggie wrap for lunch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "multigrain bread",
+      "pos": "noun",
+      "translation_pl": "chleb wieloziarnisty",
+      "definition_en": "Multigrain bread is made from two or more types of grain.",
+      "example_en": "Multigrain bread is a common choice for sandwiches.",
+      "level": "B2"
+    },
+    {
+      "lemma": "focaccia",
+      "pos": "noun",
+      "translation_pl": "focaccia",
+      "definition_en": "Focaccia is a flat Italian yeast bread with olive oil.",
+      "example_en": "Focaccia tastes great with tomatoes and herbs.",
+      "level": "B2"
+    },
+    {
+      "lemma": "naan",
+      "pos": "noun",
+      "translation_pl": "naan",
+      "definition_en": "Naan is a soft, leavened flatbread served in Indian cuisine.",
+      "example_en": "He ordered curry with naan on the side.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pumpernickel",
+      "pos": "noun",
+      "translation_pl": "pumpernikiel",
+      "definition_en": "Pumpernickel is a dense, dark German rye bread.",
+      "example_en": "Pumpernickel is known for its intense flavor.",
+      "level": "B2"
+    },
+    {
+      "lemma": "farro",
+      "pos": "noun",
+      "translation_pl": "farro",
+      "definition_en": "Farro is an ancient wheat grain used in salads and soups.",
+      "example_en": "She made a hearty salad with farro and vegetables.",
+      "level": "C1"
+    }
+  ]
+}

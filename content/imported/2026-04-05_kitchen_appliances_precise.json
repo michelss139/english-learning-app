@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "appliances",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:47:34.919Z"
+  },
+  "items": [
+    {
+      "lemma": "espresso machine",
+      "pos": "noun",
+      "translation_pl": "ekspres do espresso",
+      "definition_en": "An espresso machine is a device used to brew espresso coffee.",
+      "example_en": "He learned to make coffee with an espresso machine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "food dehydrator",
+      "pos": "noun",
+      "translation_pl": "suszarka do żywności",
+      "definition_en": "A food dehydrator is an appliance that removes water from food.",
+      "example_en": "She made dried fruits with her food dehydrator.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wine cooler",
+      "pos": "noun",
+      "translation_pl": "chłodziarka do wina",
+      "definition_en": "A wine cooler is a small refrigerator used for chilling wine.",
+      "example_en": "They stored their bottles in a wine cooler.",
+      "level": "B1"
+    },
+    {
+      "lemma": "popcorn maker",
+      "pos": "noun",
+      "translation_pl": "maszyna do popcornu",
+      "definition_en": "A popcorn maker is a machine for popping corn kernels.",
+      "example_en": "We used the popcorn maker for movie night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice maker",
+      "pos": "noun",
+      "translation_pl": "kostkarka do lodu",
+      "definition_en": "An ice maker is a device that produces ice cubes automatically.",
+      "example_en": "They filled the drinks with ice from the ice maker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "induction cooktop",
+      "pos": "noun",
+      "translation_pl": "płyta indukcyjna",
+      "definition_en": "An induction cooktop is a stove that uses electromagnetism to heat cookware.",
+      "example_en": "The induction cooktop heats pans quickly.",
+      "level": "B2"
+    },
+    {
+      "lemma": "stand mixer",
+      "pos": "noun",
+      "translation_pl": "mikser stojący",
+      "definition_en": "A stand mixer is a stationary electric mixer for mixing ingredients.",
+      "example_en": "She made bread dough in her stand mixer.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hot plate",
+      "pos": "noun",
+      "translation_pl": "kuchenka elektryczna jednopalnikowa",
+      "definition_en": "A hot plate is a small portable stove with one or two burners.",
+      "example_en": "Students often use a hot plate in their dorm room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "water dispenser",
+      "pos": "noun",
+      "translation_pl": "dystrybutor wody",
+      "definition_en": "A water dispenser provides chilled or hot water instantly.",
+      "example_en": "The office kitchen has a water dispenser.",
+      "level": "B1"
+    },
+    {
+      "lemma": "air fryer",
+      "pos": "noun",
+      "translation_pl": "frytkownica beztłuszczowa",
+      "definition_en": "An air fryer cooks food by blowing hot air around it.",
+      "example_en": "He made fries in his air fryer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "warming drawer",
+      "pos": "noun",
+      "translation_pl": "szuflada grzewcza",
+      "definition_en": "A warming drawer keeps cooked food warm until served.",
+      "example_en": "She put the rolls in the warming drawer during dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "electric skillet",
+      "pos": "noun",
+      "translation_pl": "patelnia elektryczna",
+      "definition_en": "An electric skillet is a frying pan powered by electricity.",
+      "example_en": "He cooked pancakes on the electric skillet.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pressure cooker",
+      "pos": "noun",
+      "translation_pl": "szybkowar",
+      "definition_en": "A pressure cooker is a sealed pot that cooks food quickly using steam pressure.",
+      "example_en": "Beans cook much faster in a pressure cooker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "range hood",
+      "pos": "noun",
+      "translation_pl": "okap kuchenny",
+      "definition_en": "A range hood is a device above the stove that removes smoke and steam.",
+      "example_en": "She turned on the range hood while frying fish.",
+      "level": "B1"
+    },
+    {
+      "lemma": "combination oven",
+      "pos": "noun",
+      "translation_pl": "piec kombinowany",
+      "definition_en": "A combination oven can cook with both steam and convection heat.",
+      "example_en": "The new combination oven saves time in the kitchen.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sous vide machine",
+      "pos": "noun",
+      "translation_pl": "urządzenie do sous vide",
+      "definition_en": "A sous vide machine precisely cooks food in water at a controlled temperature.",
+      "example_en": "They use a sous vide machine for perfect steaks.",
+      "level": "C1"
+    },
+    {
+      "lemma": "electric griddle",
+      "pos": "noun",
+      "translation_pl": "płyta grillowa elektryczna",
+      "definition_en": "An electric griddle is a flat cooking appliance for frying foods.",
+      "example_en": "He makes breakfast on the electric griddle.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bean grinder",
+      "pos": "noun",
+      "translation_pl": "młynek do kawy lub fasoli",
+      "definition_en": "A bean grinder is used for grinding coffee beans or other beans.",
+      "example_en": "She uses a bean grinder every morning for fresh coffee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "yogurt maker",
+      "pos": "noun",
+      "translation_pl": "jogurtownica",
+      "definition_en": "A yogurt maker is an appliance for making yogurt at home.",
+      "example_en": "Her homemade yogurt is delicious thanks to the yogurt maker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rotisserie oven",
+      "pos": "noun",
+      "translation_pl": "piecyk z rożnem",
+      "definition_en": "A rotisserie oven cooks meat by slowly turning it on a spit.",
+      "example_en": "He roasted a chicken in a rotisserie oven.",
+      "level": "B2"
+    }
+  ]
+}

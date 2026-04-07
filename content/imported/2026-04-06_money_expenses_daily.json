@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "expenses",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:32:43.843Z"
+  },
+  "items": [
+    {
+      "lemma": "rent",
+      "pos": "noun",
+      "translation_pl": "czynsz",
+      "definition_en": "Rent is the money you pay to live in a house or apartment that is not yours.",
+      "example_en": "I pay the rent every month.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fee",
+      "pos": "noun",
+      "translation_pl": "opłata",
+      "definition_en": "A fee is money you pay for a service or to enter a place.",
+      "example_en": "There is a fee to join the club.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cost",
+      "pos": "noun",
+      "translation_pl": "koszt",
+      "definition_en": "The cost is the amount of money needed to buy or do something.",
+      "example_en": "The cost of the ticket was too high.",
+      "level": "A1"
+    },
+    {
+      "lemma": "charge",
+      "pos": "noun",
+      "translation_pl": "opłata",
+      "definition_en": "A charge is an amount of money that you have to pay for something.",
+      "example_en": "There is a small charge for delivery.",
+      "level": "A2"
+    },
+    {
+      "lemma": "payment",
+      "pos": "noun",
+      "translation_pl": "płatność",
+      "definition_en": "A payment is the act of giving money for something you receive.",
+      "example_en": "She made the payment online.",
+      "level": "A2"
+    },
+    {
+      "lemma": "debt",
+      "pos": "noun",
+      "translation_pl": "dług",
+      "definition_en": "A debt is money that someone owes to another person or company.",
+      "example_en": "He is working hard to pay off his debt.",
+      "level": "B1"
+    },
+    {
+      "lemma": "salary",
+      "pos": "noun",
+      "translation_pl": "pensja",
+      "definition_en": "A salary is the money you get every month for your work.",
+      "example_en": "Her salary is paid on the first day of each month.",
+      "level": "A2"
+    },
+    {
+      "lemma": "budget",
+      "pos": "noun",
+      "translation_pl": "budżet",
+      "definition_en": "A budget is a plan for how you will spend your money.",
+      "example_en": "I need to make a monthly budget.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tax",
+      "pos": "noun",
+      "translation_pl": "podatek",
+      "definition_en": "Tax is money you must pay to the government.",
+      "example_en": "You pay tax on your income.",
+      "level": "A2"
+    },
+    {
+      "lemma": "expense",
+      "pos": "noun",
+      "translation_pl": "wydatek",
+      "definition_en": "An expense is money you spend on something.",
+      "example_en": "Food is my biggest expense.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fine",
+      "pos": "noun",
+      "translation_pl": "mandat",
+      "definition_en": "A fine is money you must pay as a punishment.",
+      "example_en": "He got a fine for speeding.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fare",
+      "pos": "noun",
+      "translation_pl": "opłata za przejazd",
+      "definition_en": "A fare is the money you pay for a journey by bus, train, or taxi.",
+      "example_en": "The train fare is five dollars.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bill",
+      "pos": "noun",
+      "translation_pl": "rachunek",
+      "definition_en": "A bill is a piece of paper showing how much you must pay for something.",
+      "example_en": "The phone bill arrived yesterday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "loan",
+      "pos": "noun",
+      "translation_pl": "pożyczka",
+      "definition_en": "A loan is money that someone borrows from a bank or other person.",
+      "example_en": "He took a loan to buy a car.",
+      "level": "B1"
+    },
+    {
+      "lemma": "insurance",
+      "pos": "noun",
+      "translation_pl": "ubezpieczenie",
+      "definition_en": "Insurance is protection you buy against loss or damage.",
+      "example_en": "Car insurance is often expensive.",
+      "level": "B1"
+    },
+    {
+      "lemma": "allowance",
+      "pos": "noun",
+      "translation_pl": "kieszonkowe",
+      "definition_en": "An allowance is money you get regularly to spend as you like.",
+      "example_en": "My son gets a small allowance each week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "price",
+      "pos": "noun",
+      "translation_pl": "cena",
+      "definition_en": "A price is the amount of money needed to buy something.",
+      "example_en": "The price of this shirt is quite low.",
+      "level": "A1"
+    },
+    {
+      "lemma": "deposit",
+      "pos": "noun",
+      "translation_pl": "zaliczka",
+      "definition_en": "A deposit is money you pay first when buying or renting something.",
+      "example_en": "I left a deposit for the new apartment.",
+      "level": "B1"
+    },
+    {
+      "lemma": "refund",
+      "pos": "noun",
+      "translation_pl": "zwrot pieniędzy",
+      "definition_en": "A refund is money you get back when you return something.",
+      "example_en": "They gave me a refund for the broken watch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tip",
+      "pos": "noun",
+      "translation_pl": "napiwek",
+      "definition_en": "A tip is extra money you give to someone for good service.",
+      "example_en": "We left a tip for the waiter.",
+      "level": "A2"
+    }
+  ]
+}

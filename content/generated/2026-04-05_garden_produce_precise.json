@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "produce",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:39:18.392Z"
+  },
+  "items": [
+    {
+      "lemma": "artichoke",
+      "pos": "noun",
+      "translation_pl": "karczoch",
+      "definition_en": "An artichoke is a green vegetable with thick leaves and a tender heart.",
+      "example_en": "I added an artichoke to the salad.",
+      "level": "B2"
+    },
+    {
+      "lemma": "asparagus",
+      "pos": "noun",
+      "translation_pl": "szparag",
+      "definition_en": "Asparagus is a long, green vegetable with a tender tip.",
+      "example_en": "We grilled some asparagus for dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "blueberry",
+      "pos": "noun",
+      "translation_pl": "borówka",
+      "definition_en": "A blueberry is a small, round, blue fruit.",
+      "example_en": "Blueberries grow well in this garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cabbage",
+      "pos": "noun",
+      "translation_pl": "kapusta",
+      "definition_en": "Cabbage is a leafy vegetable with a tight, round head.",
+      "example_en": "She picked a fresh cabbage from the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "courgette",
+      "pos": "noun",
+      "translation_pl": "cukinia",
+      "definition_en": "A courgette is a green vegetable also known as zucchini.",
+      "example_en": "He sliced the courgette for the stew.",
+      "level": "B2"
+    },
+    {
+      "lemma": "currant",
+      "pos": "noun",
+      "translation_pl": "porzeczka",
+      "definition_en": "A currant is a small, juicy fruit that grows in clusters.",
+      "example_en": "Red currants are ready to be picked.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fig",
+      "pos": "noun",
+      "translation_pl": "figa",
+      "definition_en": "A fig is a soft, sweet fruit with many seeds inside.",
+      "example_en": "The fig tree is full of ripe fruit this year.",
+      "level": "B2"
+    },
+    {
+      "lemma": "gooseberry",
+      "pos": "noun",
+      "translation_pl": "agrest",
+      "definition_en": "A gooseberry is a small, round, green or yellow fruit.",
+      "example_en": "She made a pie with gooseberries from her garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "herb",
+      "pos": "noun",
+      "translation_pl": "zioło",
+      "definition_en": "A herb is a plant used for its flavor or smell in cooking.",
+      "example_en": "Fresh herbs can really improve a dish.",
+      "level": "B2"
+    },
+    {
+      "lemma": "kale",
+      "pos": "noun",
+      "translation_pl": "jarmuż",
+      "definition_en": "Kale is a dark green leafy vegetable rich in nutrients.",
+      "example_en": "Spinach and kale are both popular garden greens.",
+      "level": "B2"
+    },
+    {
+      "lemma": "parsnip",
+      "pos": "noun",
+      "translation_pl": "pasternak",
+      "definition_en": "A parsnip is a long, white root vegetable.",
+      "example_en": "She roasted parsnips with carrots for lunch.",
+      "level": "B2"
+    },
+    {
+      "lemma": "raspberry",
+      "pos": "noun",
+      "translation_pl": "malina",
+      "definition_en": "A raspberry is a soft, red fruit made up of tiny segments.",
+      "example_en": "Raspberries grow on thorny bushes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rocket",
+      "pos": "noun",
+      "translation_pl": "rukola",
+      "definition_en": "Rocket is a leafy green with a peppery taste.",
+      "example_en": "I like to add rocket to my salads.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rhubarb",
+      "pos": "noun",
+      "translation_pl": "rabarbar",
+      "definition_en": "Rhubarb is a plant with thick, red stalks that are sour.",
+      "example_en": "She used fresh rhubarb to make a tart.",
+      "level": "B2"
+    },
+    {
+      "lemma": "squash",
+      "pos": "noun",
+      "translation_pl": "dynia",
+      "definition_en": "Squash is a vegetable with a hard or soft outer skin.",
+      "example_en": "They grew squash of many shapes and sizes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "turnip",
+      "pos": "noun",
+      "translation_pl": "rzepa",
+      "definition_en": "A turnip is a round, white or purple root vegetable.",
+      "example_en": "He harvested turnips before the first frost.",
+      "level": "B2"
+    },
+    {
+      "lemma": "sugar snap pea",
+      "pos": "noun",
+      "translation_pl": "groszek cukrowy",
+      "definition_en": "A sugar snap pea is a sweet and crunchy green pod.",
+      "example_en": "Sugar snap peas are great for snacking in the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "blackberry",
+      "pos": "noun",
+      "translation_pl": "jeżyna",
+      "definition_en": "A blackberry is a dark purple fruit with a sweet flavor.",
+      "example_en": "We picked blackberries in the morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "garden pea",
+      "pos": "noun",
+      "translation_pl": "groch łuskowy",
+      "definition_en": "A garden pea is a small, round, green vegetable found in pods.",
+      "example_en": "He shelled garden peas for tonight’s dinner.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watercress",
+      "pos": "noun",
+      "translation_pl": "rzodkiew wodna",
+      "definition_en": "Watercress is a leafy green with a spicy taste.",
+      "example_en": "She sprinkled fresh watercress on her sandwich.",
+      "level": "B2"
+    }
+  ]
+}

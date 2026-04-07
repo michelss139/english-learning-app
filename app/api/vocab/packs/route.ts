@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { aggregatePackItemCounts } from "@/lib/vocab/aggregatePackItemCounts";
 
 type PackListItem = {
   id: string;
@@ -45,24 +46,7 @@ export async function GET(req: Request) {
     }
 
     const packIds = (packs ?? []).map((p) => p.id);
-    let counts = new Map<string, number>();
-
-    if (packIds.length > 0) {
-      const { data: items, error: itemsErr } = await supabase
-        .from("vocab_pack_items")
-        .select("pack_id")
-        .in("pack_id", packIds);
-
-      if (itemsErr) {
-        return NextResponse.json({ error: itemsErr.message }, { status: 500 });
-      }
-
-      counts = new Map<string, number>();
-      for (const item of items ?? []) {
-        const current = counts.get(item.pack_id) ?? 0;
-        counts.set(item.pack_id, current + 1);
-      }
-    }
+    const counts = packIds.length > 0 ? await aggregatePackItemCounts(supabase, packIds) : new Map<string, number>();
 
     const payload: PackListItem[] = (packs ?? []).map((p) => ({
       id: p.id,

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "garden-surfaces",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:33:40.453Z"
+  },
+  "items": [
+    {
+      "lemma": "patio",
+      "pos": "noun",
+      "translation_pl": "taras ogrodowy",
+      "definition_en": "A patio is a flat area outside a house for sitting or eating.",
+      "example_en": "We ate breakfast on the patio.",
+      "level": "A2"
+    },
+    {
+      "lemma": "path",
+      "pos": "noun",
+      "translation_pl": "ścieżka",
+      "definition_en": "A path is a narrow track for people to walk on.",
+      "example_en": "The path leads to the back gate.",
+      "level": "A1"
+    },
+    {
+      "lemma": "terrace",
+      "pos": "noun",
+      "translation_pl": "taras",
+      "definition_en": "A terrace is a flat area next to a building where people can sit.",
+      "example_en": "We sat on the terrace and drank tea.",
+      "level": "A2"
+    },
+    {
+      "lemma": "deck",
+      "pos": "noun",
+      "translation_pl": "drewniany taras",
+      "definition_en": "A deck is a flat wooden floor outside a house.",
+      "example_en": "She put some chairs on the deck.",
+      "level": "A2"
+    },
+    {
+      "lemma": "driveway",
+      "pos": "noun",
+      "translation_pl": "podjazd",
+      "definition_en": "A driveway is a short road leading from the street to a house.",
+      "example_en": "He parked his car in the driveway.",
+      "level": "A2"
+    },
+    {
+      "lemma": "paving stone",
+      "pos": "noun",
+      "translation_pl": "kostka brukowa",
+      "definition_en": "A paving stone is a flat stone used to make a hard surface outside.",
+      "example_en": "They put new paving stones in the garden.",
+      "level": "B1"
+    },
+    {
+      "lemma": "gravel",
+      "pos": "noun",
+      "translation_pl": "żwir",
+      "definition_en": "Gravel is small pieces of stone often used on garden paths.",
+      "example_en": "The path was covered in gravel.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mulch",
+      "pos": "noun",
+      "translation_pl": "ściółka",
+      "definition_en": "Mulch is material spread on the ground to protect plants.",
+      "example_en": "We put mulch around the trees.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flagstone",
+      "pos": "noun",
+      "translation_pl": "płyta kamienna",
+      "definition_en": "A flagstone is a thin flat stone used to make a path.",
+      "example_en": "The flagstones in the yard were uneven.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stepping stone",
+      "pos": "noun",
+      "translation_pl": "kamień do chodzenia",
+      "definition_en": "A stepping stone is a stone for walking across wet ground.",
+      "example_en": "Children jumped from stepping stone to stepping stone.",
+      "level": "B1"
+    },
+    {
+      "lemma": "border",
+      "pos": "noun",
+      "translation_pl": "obrzeże",
+      "definition_en": "A border is the edge or line around a garden or surface.",
+      "example_en": "Plants grew along the border of the path.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bed",
+      "pos": "noun",
+      "translation_pl": "grządka",
+      "definition_en": "A bed is a small area of ground set aside for plants.",
+      "example_en": "The flower bed was full of tulips.",
+      "level": "A1"
+    },
+    {
+      "lemma": "patio slab",
+      "pos": "noun",
+      "translation_pl": "płyta tarasowa",
+      "definition_en": "A patio slab is a flat piece of stone for a patio surface.",
+      "example_en": "We laid new patio slabs this spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "terrace wall",
+      "pos": "noun",
+      "translation_pl": "mur tarasowy",
+      "definition_en": "A terrace wall is a wall used to hold soil on a slope.",
+      "example_en": "The terrace wall was made of bricks.",
+      "level": "B1"
+    },
+    {
+      "lemma": "boardwalk",
+      "pos": "noun",
+      "translation_pl": "drewniana ścieżka",
+      "definition_en": "A boardwalk is a wooden path, usually in a garden or park.",
+      "example_en": "They built a boardwalk over the wet ground.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stepping path",
+      "pos": "noun",
+      "translation_pl": "ścieżka z kamieni",
+      "definition_en": "A stepping path is a path made of flat stones or bricks.",
+      "example_en": "The stepping path goes around the pond.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden tile",
+      "pos": "noun",
+      "translation_pl": "płytka ogrodowa",
+      "definition_en": "A garden tile is a flat piece of material for outdoor floors.",
+      "example_en": "The patio was covered with garden tiles.",
+      "level": "B1"
+    },
+    {
+      "lemma": "walkway",
+      "pos": "noun",
+      "translation_pl": "chodnik",
+      "definition_en": "A walkway is a path made for walking.",
+      "example_en": "A stone walkway led to the house.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shingle",
+      "pos": "noun",
+      "translation_pl": "żwir kamienny",
+      "definition_en": "Shingle is small round stones on the ground or a path.",
+      "example_en": "The garden path was made of shingle.",
+      "level": "B1"
+    },
+    {
+      "lemma": "courtyard",
+      "pos": "noun",
+      "translation_pl": "dziedziniec",
+      "definition_en": "A courtyard is an open space surrounded by walls or buildings.",
+      "example_en": "They had lunch in the garden courtyard.",
+      "level": "A2"
+    }
+  ]
+}

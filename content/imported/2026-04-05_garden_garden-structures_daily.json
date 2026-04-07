@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "garden-structures",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:32:28.454Z"
+  },
+  "items": [
+    {
+      "lemma": "arch",
+      "pos": "noun",
+      "translation_pl": "łuk ogrodowy",
+      "definition_en": "An arch is a curved structure that people can walk under in a garden.",
+      "example_en": "Roses grew over the arch at the garden entrance.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bench",
+      "pos": "noun",
+      "translation_pl": "ławka ogrodowa",
+      "definition_en": "A bench is a long seat for several people in the garden.",
+      "example_en": "We sat on the bench and watched the birds.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bird table",
+      "pos": "noun",
+      "translation_pl": "stolik dla ptaków",
+      "definition_en": "A bird table is a small table where people leave food for birds.",
+      "example_en": "A sparrow landed on the bird table to eat.",
+      "level": "A2"
+    },
+    {
+      "lemma": "conservatory",
+      "pos": "noun",
+      "translation_pl": "oranżeria",
+      "definition_en": "A conservatory is a glass room attached to a house for growing plants.",
+      "example_en": "We keep many plants in the conservatory.",
+      "level": "B1"
+    },
+    {
+      "lemma": "deck",
+      "pos": "noun",
+      "translation_pl": "taras drewniany",
+      "definition_en": "A deck is a flat wooden floor outside the house in the garden.",
+      "example_en": "We had breakfast together on the deck.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fence",
+      "pos": "noun",
+      "translation_pl": "płot",
+      "definition_en": "A fence is a structure that goes around a garden for protection.",
+      "example_en": "He painted the wooden fence white.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fire pit",
+      "pos": "noun",
+      "translation_pl": "miejsce na ognisko",
+      "definition_en": "A fire pit is a place in the garden for safely making a fire.",
+      "example_en": "We sat by the fire pit and roasted marshmallows.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fountain",
+      "pos": "noun",
+      "translation_pl": "fontanna ogrodowa",
+      "definition_en": "A fountain is a structure that sends water into the air in a garden.",
+      "example_en": "There is a beautiful fountain in the center of the garden.",
+      "level": "A2"
+    },
+    {
+      "lemma": "gate",
+      "pos": "noun",
+      "translation_pl": "bramka ogrodowa",
+      "definition_en": "A gate is a door in a fence or wall of a garden.",
+      "example_en": "She opened the gate to let the dog in.",
+      "level": "A1"
+    },
+    {
+      "lemma": "gazebo",
+      "pos": "noun",
+      "translation_pl": "altana",
+      "definition_en": "A gazebo is a small, open building in a garden for sitting.",
+      "example_en": "We had tea in the gazebo on Sunday afternoon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "greenhouse",
+      "pos": "noun",
+      "translation_pl": "szklarnia",
+      "definition_en": "A greenhouse is a glass building for growing plants.",
+      "example_en": "Tom grows tomatoes in his greenhouse.",
+      "level": "A2"
+    },
+    {
+      "lemma": "hut",
+      "pos": "noun",
+      "translation_pl": "domek ogrodowy",
+      "definition_en": "A hut is a small simple house or building in a garden.",
+      "example_en": "The children played in the garden hut.",
+      "level": "A2"
+    },
+    {
+      "lemma": "path",
+      "pos": "noun",
+      "translation_pl": "ścieżka ogrodowa",
+      "definition_en": "A path is a track in the garden where people can walk.",
+      "example_en": "She walked slowly along the garden path.",
+      "level": "A1"
+    },
+    {
+      "lemma": "patio",
+      "pos": "noun",
+      "translation_pl": "patio",
+      "definition_en": "A patio is a paved area outside a house for sitting.",
+      "example_en": "We ate lunch on the patio.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pergola",
+      "pos": "noun",
+      "translation_pl": "pergola",
+      "definition_en": "A pergola is a structure in the garden with open sides and a roof for climbing plants.",
+      "example_en": "Vines grew all over the pergola.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pond",
+      "pos": "noun",
+      "translation_pl": "staw ogrodowy",
+      "definition_en": "A pond is a small area of water in a garden.",
+      "example_en": "There are frogs in the garden pond.",
+      "level": "A2"
+    },
+    {
+      "lemma": "shed",
+      "pos": "noun",
+      "translation_pl": "szopa",
+      "definition_en": "A shed is a small building in a garden where tools are kept.",
+      "example_en": "He keeps his tools in the garden shed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "statue",
+      "pos": "noun",
+      "translation_pl": "posąg ogrodowy",
+      "definition_en": "A statue is an object shaped like a person or animal in a garden.",
+      "example_en": "There is a stone statue near the flowers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "swing",
+      "pos": "noun",
+      "translation_pl": "huśtawka ogrodowa",
+      "definition_en": "A swing is a seat hanging from ropes for sitting and moving in the garden.",
+      "example_en": "The children played on the swing all afternoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "trellis",
+      "pos": "noun",
+      "translation_pl": "kratka ogrodowa",
+      "definition_en": "A trellis is a structure made of crossed strips to support climbing plants.",
+      "example_en": "The roses grew up the wooden trellis.",
+      "level": "B1"
+    }
+  ]
+}

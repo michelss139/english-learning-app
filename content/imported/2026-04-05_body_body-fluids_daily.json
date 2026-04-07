@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "body",
+    "subcategory": "body-fluids",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:39:57.948Z"
+  },
+  "items": [
+    {
+      "lemma": "blood",
+      "pos": "noun",
+      "translation_pl": "krew",
+      "definition_en": "Blood is the red liquid that flows in your body.",
+      "example_en": "She cut her finger and a drop of blood appeared.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sweat",
+      "pos": "noun",
+      "translation_pl": "pot",
+      "definition_en": "Sweat is the salty liquid that comes from your skin when you are hot or nervous.",
+      "example_en": "He wiped the sweat from his forehead after running.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tears",
+      "pos": "noun",
+      "translation_pl": "łzy",
+      "definition_en": "Tears are the drops of salty water that come from your eyes when you cry.",
+      "example_en": "Her tears fell when she was feeling sad.",
+      "level": "A1"
+    },
+    {
+      "lemma": "saliva",
+      "pos": "noun",
+      "translation_pl": "ślina",
+      "definition_en": "Saliva is the watery liquid in your mouth.",
+      "example_en": "He swallowed his saliva before speaking.",
+      "level": "A2"
+    },
+    {
+      "lemma": "urine",
+      "pos": "noun",
+      "translation_pl": "mocz",
+      "definition_en": "Urine is the yellow liquid waste that comes from your body when you use the toilet.",
+      "example_en": "Doctors sometimes test urine to check your health.",
+      "level": "B1"
+    },
+    {
+      "lemma": "snot",
+      "pos": "noun",
+      "translation_pl": "smarki",
+      "definition_en": "Snot is the thick liquid from your nose, especially when you have a cold.",
+      "example_en": "The child wiped snot from his nose with a tissue.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pus",
+      "pos": "noun",
+      "translation_pl": "ropa",
+      "definition_en": "Pus is a thick yellow or green liquid that comes from an infected cut or wound.",
+      "example_en": "The cut on her arm was full of pus.",
+      "level": "B1"
+    },
+    {
+      "lemma": "vomit",
+      "pos": "noun",
+      "translation_pl": "wymiociny",
+      "definition_en": "Vomit is the food and liquid that comes out of your mouth when you are sick.",
+      "example_en": "He cleaned the vomit from the carpet after his child was ill.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mucus",
+      "pos": "noun",
+      "translation_pl": "śluz",
+      "definition_en": "Mucus is the slippery liquid in your nose and throat.",
+      "example_en": "Mucus helps protect your nose from dust and germs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "phlegm",
+      "pos": "noun",
+      "translation_pl": "flegma",
+      "definition_en": "Phlegm is the thick liquid that you cough up from your lungs or throat.",
+      "example_en": "She had a cough with lots of phlegm during her cold.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spit",
+      "pos": "noun",
+      "translation_pl": "plwocina",
+      "definition_en": "Spit is the wet liquid in your mouth that you can throw out.",
+      "example_en": "He spit on the ground after chewing gum.",
+      "level": "A2"
+    },
+    {
+      "lemma": "breast milk",
+      "pos": "noun",
+      "translation_pl": "mleko matki",
+      "definition_en": "Breast milk is the milk produced by mothers for their babies.",
+      "example_en": "Breast milk gives babies the nutrients they need.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sperm",
+      "pos": "noun",
+      "translation_pl": "plemniki",
+      "definition_en": "Sperm is the male cell needed to create a baby.",
+      "example_en": "Sperm is part of the male reproductive system.",
+      "level": "B1"
+    },
+    {
+      "lemma": "semen",
+      "pos": "noun",
+      "translation_pl": "nasienie",
+      "definition_en": "Semen is the white liquid that carries sperm from the male body.",
+      "example_en": "Doctors can test semen to check fertility.",
+      "level": "B1"
+    },
+    {
+      "lemma": "earwax",
+      "pos": "noun",
+      "translation_pl": "wosk uszny",
+      "definition_en": "Earwax is the yellow substance that forms in your ears.",
+      "example_en": "You should not clean earwax too deeply from your ears.",
+      "level": "B1"
+    },
+    {
+      "lemma": "discharge",
+      "pos": "noun",
+      "translation_pl": "wydzielina",
+      "definition_en": "Discharge is a liquid that can come from the body, often from a wound or infection.",
+      "example_en": "The doctor checked the discharge to find the cause of the infection.",
+      "level": "B1"
+    },
+    {
+      "lemma": "secretion",
+      "pos": "noun",
+      "translation_pl": "wydzielina",
+      "definition_en": "Secretion is any liquid substance the body produces.",
+      "example_en": "The skin makes an oil as a secretion.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bile",
+      "pos": "noun",
+      "translation_pl": "żółć",
+      "definition_en": "Bile is the greenish-yellow fluid made by the liver that helps digest food.",
+      "example_en": "Bile is stored in the gallbladder until needed for digestion.",
+      "level": "B1"
+    },
+    {
+      "lemma": "menstrual blood",
+      "pos": "noun",
+      "translation_pl": "krew miesiączkowa",
+      "definition_en": "Menstrual blood is the blood that comes from a woman's body during her period.",
+      "example_en": "She used pads to absorb menstrual blood every month.",
+      "level": "B1"
+    },
+    {
+      "lemma": "amniotic fluid",
+      "pos": "noun",
+      "translation_pl": "płyn owodniowy",
+      "definition_en": "Amniotic fluid is the liquid that surrounds a baby in the mother's womb.",
+      "example_en": "Amniotic fluid helps protect the baby before birth.",
+      "level": "B1"
+    }
+  ]
+}

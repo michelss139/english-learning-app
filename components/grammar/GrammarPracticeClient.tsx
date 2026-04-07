@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import type { TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
+import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
+
 type GrammarPracticeClientProps = {
   sentence: string;
   base: string;
@@ -10,6 +13,7 @@ type GrammarPracticeClientProps = {
   questionId: string;
   mapHref: string;
   exerciseSlug: string;
+  trainingEntryContext?: TrainingEntryContext;
 };
 
 export function GrammarPracticeClient({
@@ -19,6 +23,7 @@ export function GrammarPracticeClient({
   questionId,
   mapHref,
   exerciseSlug,
+  trainingEntryContext,
 }: GrammarPracticeClientProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const startedRef = useRef(false);
@@ -27,6 +32,7 @@ export function GrammarPracticeClient({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [xpAwarded, setXpAwarded] = useState<number | null>(null);
+  const [xpSkipReason, setXpSkipReason] = useState<string | null>(null);
   const [gradingError, setGradingError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -42,14 +48,17 @@ export function GrammarPracticeClient({
     fetch("/api/training/grammar/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: exerciseSlug }),
+      body: JSON.stringify({
+        slug: exerciseSlug,
+        ...(trainingEntryContext ? { context: trainingEntryContext } : {}),
+      }),
     })
       .then((res) => res.json().catch(() => ({})))
       .then((data) => {
         if (data?.sessionId) setSessionId(data.sessionId);
       })
       .catch(() => {});
-  }, [exerciseSlug]);
+  }, [exerciseSlug, trainingEntryContext]);
 
   const handleCheck = () => {
     if (checked && isCorrect === true) return;
@@ -102,8 +111,12 @@ export function GrammarPracticeClient({
           const completeData = await completeRes.json().catch(() => ({}));
           if (completeRes.ok && typeof completeData.xp_awarded === "number") {
             setXpAwarded(completeData.xp_awarded);
+            setXpSkipReason(
+              typeof completeData.xp_skip_reason === "string" ? completeData.xp_skip_reason : null,
+            );
           } else {
             setXpAwarded(-1);
+            setXpSkipReason(null);
           }
         }
       } catch {
@@ -119,6 +132,7 @@ export function GrammarPracticeClient({
     setIsCorrect(null);
     setGradingError(null);
     setAnswer("");
+    setXpSkipReason(null);
     setTimeout(() => inputRef.current?.focus(), 0);
   };
 
@@ -163,13 +177,11 @@ export function GrammarPracticeClient({
               <p className="text-sky-700 font-medium">Poprawnie</p>
               {xpAwarded !== null && xpAwarded > 0 && (
                 <p className="text-sm text-slate-600">
-                  Zdobyte XP: <span className="font-medium text-slate-900">+{xpAwarded}</span>
+                  <span className="font-medium text-slate-900">+{xpAwarded} XP</span>
                 </p>
               )}
               {xpAwarded === 0 && (
-                <p className="text-sm text-amber-700">
-                  Już dostałeś XP za to ćwiczenie dziś. Wróć jutro po więcej!
-                </p>
+                <p className="text-sm text-amber-700">{xpZeroSessionMessage(xpSkipReason)}</p>
               )}
               {xpAwarded === null && sessionId && (
                 <p className="text-sm text-slate-500">Przyznaję XP…</p>

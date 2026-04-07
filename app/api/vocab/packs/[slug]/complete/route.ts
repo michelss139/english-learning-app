@@ -4,6 +4,7 @@ import { awardXpAndBadges } from "@/lib/xp/award";
 import { isPerfectSession } from "@/lib/xp/perfect";
 import { updateStreak } from "@/lib/streaks";
 import { getSessionSummary } from "@/lib/sessionSummary";
+import { isSuggestionTrainingMetadata } from "@/lib/suggestions/suggestionContext";
 
 type CompleteBody = {
   session_id: string;
@@ -63,6 +64,26 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     if (!pack || !pack.is_published) {
       return NextResponse.json({ error: "Pack not found", code: "NOT_FOUND" }, { status: 404 });
     }
+
+    const { data: trainSession, error: tsErr } = await supabase
+      .from("training_sessions")
+      .select("metadata, context_slug")
+      .eq("id", body.session_id)
+      .eq("student_id", userId)
+      .eq("exercise_type", "pack")
+      .maybeSingle();
+
+    if (tsErr) {
+      return NextResponse.json({ error: tsErr.message }, { status: 500 });
+    }
+    if (!trainSession || trainSession.context_slug !== slug) {
+      return NextResponse.json(
+        { error: "Training session not found for this pack", code: "SESSION_MISMATCH" },
+        { status: 400 },
+      );
+    }
+
+    const fromSuggestion = isSuggestionTrainingMetadata(trainSession.metadata);
 
     let totalQuery = supabase
       .from("vocab_answer_events")
@@ -158,12 +179,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       sessionId: body.session_id,
       dedupeKey: `pack:${slug}:${body.direction}:${body.count_mode}`,
       perfect,
-      repeatQualified: hasToLearn,
+      repeatQualified: hasToLearn || fromSuggestion,
       meta: {
         direction: body.direction,
         count_mode: body.count_mode,
         total: totalCount,
         correct: correctCount,
+        from_suggestion: fromSuggestion,
       },
       badgeContext: {
         packSlug: slug,

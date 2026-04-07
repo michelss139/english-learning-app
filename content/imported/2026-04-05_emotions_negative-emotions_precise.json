@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "emotions",
+    "subcategory": "negative-emotions",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:13:36.454Z"
+  },
+  "items": [
+    {
+      "lemma": "panic",
+      "pos": "noun",
+      "translation_pl": "panika",
+      "definition_en": "Panic is a sudden and intense feeling of fear.",
+      "example_en": "When the fire alarm rang, there was panic in the office.",
+      "level": "B1"
+    },
+    {
+      "lemma": "embarrassment",
+      "pos": "noun",
+      "translation_pl": "zakłopotanie",
+      "definition_en": "Embarrassment is the feeling you get when you are uncomfortable or ashamed.",
+      "example_en": "He felt deep embarrassment after forgetting her name.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grief",
+      "pos": "noun",
+      "translation_pl": "żałoba smutek po stracie",
+      "definition_en": "Grief is the deep sadness people feel after losing someone or something important.",
+      "example_en": "She was filled with grief after her cat died.",
+      "level": "B2"
+    },
+    {
+      "lemma": "remorse",
+      "pos": "noun",
+      "translation_pl": "wyrzuty sumienia",
+      "definition_en": "Remorse is a strong feeling of regret or guilt about something wrong you did.",
+      "example_en": "He showed real remorse for his actions.",
+      "level": "B2"
+    },
+    {
+      "lemma": "discouragement",
+      "pos": "noun",
+      "translation_pl": "zniechęcenie",
+      "definition_en": "Discouragement is the feeling of losing hope or confidence.",
+      "example_en": "After many failures, she struggled with discouragement.",
+      "level": "B2"
+    },
+    {
+      "lemma": "isolation",
+      "pos": "noun",
+      "translation_pl": "izolacja odosobnienie",
+      "definition_en": "Isolation is the feeling of being separated from others.",
+      "example_en": "The long winter led to his feeling of isolation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hopelessness",
+      "pos": "noun",
+      "translation_pl": "poczucie beznadziei",
+      "definition_en": "Hopelessness is the feeling that nothing will get better.",
+      "example_en": "She struggled with hopelessness during her illness.",
+      "level": "B2"
+    },
+    {
+      "lemma": "nervousness",
+      "pos": "noun",
+      "translation_pl": "nerwowość",
+      "definition_en": "Nervousness is the state of feeling worried or uncomfortable about something.",
+      "example_en": "He could not hide his nervousness before the exam.",
+      "level": "B1"
+    },
+    {
+      "lemma": "powerlessness",
+      "pos": "noun",
+      "translation_pl": "bezsilność",
+      "definition_en": "Powerlessness is the feeling that you cannot control or change a situation.",
+      "example_en": "The parents felt powerlessness about their son's problems.",
+      "level": "B2"
+    },
+    {
+      "lemma": "insecurity",
+      "pos": "noun",
+      "translation_pl": "niepewność siebie",
+      "definition_en": "Insecurity is the lack of confidence and certainty about yourself.",
+      "example_en": "His insecurity made it hard for him to speak in public.",
+      "level": "B1"
+    },
+    {
+      "lemma": "outrage",
+      "pos": "noun",
+      "translation_pl": "oburzenie",
+      "definition_en": "Outrage is strong anger or shock caused by something unfair or wrong.",
+      "example_en": "There was public outrage after the news broke.",
+      "level": "B2"
+    },
+    {
+      "lemma": "humiliation",
+      "pos": "noun",
+      "translation_pl": "upokorzenie",
+      "definition_en": "Humiliation is the feeling of being made to feel foolish or ashamed.",
+      "example_en": "She never forgot the humiliation of being laughed at.",
+      "level": "B2"
+    },
+    {
+      "lemma": "dread",
+      "pos": "noun",
+      "translation_pl": "strach przed czymś",
+      "definition_en": "Dread is a strong fear about something that might happen.",
+      "example_en": "He felt dread before giving his speech.",
+      "level": "B1"
+    },
+    {
+      "lemma": "anger management",
+      "pos": "noun",
+      "translation_pl": "radzenie sobie z gniewem",
+      "definition_en": "Anger management is the process of controlling your anger.",
+      "example_en": "He attended anger management classes to learn to calm down.",
+      "level": "B2"
+    },
+    {
+      "lemma": "resentfulness",
+      "pos": "noun",
+      "translation_pl": "poczucie urazy",
+      "definition_en": "Resentfulness is a feeling of bitterness or anger because of unfair treatment.",
+      "example_en": "His resentfulness grew after he was passed over for promotion.",
+      "level": "C1"
+    },
+    {
+      "lemma": "agitation",
+      "pos": "noun",
+      "translation_pl": "zdenerwowanie podenerwowanie",
+      "definition_en": "Agitation is a state of nervousness and restlessness.",
+      "example_en": "She noticed his agitation during the meeting.",
+      "level": "B2"
+    },
+    {
+      "lemma": "self-doubt",
+      "pos": "noun",
+      "translation_pl": "zwątpienie w siebie",
+      "definition_en": "Self-doubt is uncertainty about your own abilities or decisions.",
+      "example_en": "Self-doubt made her hesitate before answering.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bitterness",
+      "pos": "noun",
+      "translation_pl": "gorycz",
+      "definition_en": "Bitterness is a strong feeling of anger and unhappiness because of unfair treatment.",
+      "example_en": "She let go of the bitterness she felt after the breakup.",
+      "level": "B2"
+    },
+    {
+      "lemma": "apprehension",
+      "pos": "noun",
+      "translation_pl": "obawa lęk",
+      "definition_en": "Apprehension is a feeling of worry or fear about the future.",
+      "example_en": "He waited with apprehension for the exam results.",
+      "level": "B2"
+    },
+    {
+      "lemma": "defeat",
+      "pos": "noun",
+      "translation_pl": "poczucie porażki",
+      "definition_en": "Defeat is the feeling of losing or failure.",
+      "example_en": "She struggled with defeat after the competition.",
+      "level": "B1"
+    }
+  ]
+}

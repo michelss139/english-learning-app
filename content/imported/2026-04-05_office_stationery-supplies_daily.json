@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "stationery-supplies",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:03:50.297Z"
+  },
+  "items": [
+    {
+      "lemma": "pen",
+      "pos": "noun",
+      "translation_pl": "długopis",
+      "definition_en": "A pen is used for writing.",
+      "example_en": "I wrote a note with my pen.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pencil",
+      "pos": "noun",
+      "translation_pl": "ołówek",
+      "definition_en": "A pencil is used for drawing or writing.",
+      "example_en": "She drew a picture with a pencil.",
+      "level": "A1"
+    },
+    {
+      "lemma": "notebook",
+      "pos": "noun",
+      "translation_pl": "zeszyt",
+      "definition_en": "A notebook is a book for writing notes.",
+      "example_en": "He keeps his ideas in a notebook.",
+      "level": "A1"
+    },
+    {
+      "lemma": "envelope",
+      "pos": "noun",
+      "translation_pl": "koperta",
+      "definition_en": "An envelope is used to send letters.",
+      "example_en": "I put the letter in an envelope.",
+      "level": "A2"
+    },
+    {
+      "lemma": "eraser",
+      "pos": "noun",
+      "translation_pl": "gumka do mazania",
+      "definition_en": "An eraser removes pencil marks.",
+      "example_en": "She used an eraser to fix her mistake.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ruler",
+      "pos": "noun",
+      "translation_pl": "linijka",
+      "definition_en": "A ruler is used to draw straight lines.",
+      "example_en": "He measured the paper with a ruler.",
+      "level": "A2"
+    },
+    {
+      "lemma": "marker",
+      "pos": "noun",
+      "translation_pl": "marker",
+      "definition_en": "A marker is a pen for writing or drawing in bold lines.",
+      "example_en": "She colored the sign with a red marker.",
+      "level": "A2"
+    },
+    {
+      "lemma": "paper clip",
+      "pos": "noun",
+      "translation_pl": "spinacz do papieru",
+      "definition_en": "A paper clip holds sheets of paper together.",
+      "example_en": "I kept the papers together with a paper clip.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stapler",
+      "pos": "noun",
+      "translation_pl": "zszywacz",
+      "definition_en": "A stapler attaches papers with metal staples.",
+      "example_en": "He needs a stapler to join the documents.",
+      "level": "A2"
+    },
+    {
+      "lemma": "highlighter",
+      "pos": "noun",
+      "translation_pl": "zakreślacz",
+      "definition_en": "A highlighter makes important words stand out.",
+      "example_en": "She uses a highlighter for key points.",
+      "level": "B1"
+    },
+    {
+      "lemma": "folder",
+      "pos": "noun",
+      "translation_pl": "teczka",
+      "definition_en": "A folder is used to keep documents together.",
+      "example_en": "Please put the forms in a folder.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sticky note",
+      "pos": "noun",
+      "translation_pl": "karteczka samoprzylepna",
+      "definition_en": "A sticky note is a small piece of paper that sticks.",
+      "example_en": "I left him a sticky note on his desk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "scissors",
+      "pos": "noun",
+      "translation_pl": "nożyczki",
+      "definition_en": "Scissors are used for cutting paper.",
+      "example_en": "She cut the photo with scissors.",
+      "level": "A2"
+    },
+    {
+      "lemma": "glue stick",
+      "pos": "noun",
+      "translation_pl": "klej w sztyfcie",
+      "definition_en": "A glue stick is used to stick paper together.",
+      "example_en": "He used a glue stick for the project.",
+      "level": "B1"
+    },
+    {
+      "lemma": "calculator",
+      "pos": "noun",
+      "translation_pl": "kalkulator",
+      "definition_en": "A calculator helps with math problems.",
+      "example_en": "She uses a calculator for her work.",
+      "level": "A2"
+    },
+    {
+      "lemma": "clipboard",
+      "pos": "noun",
+      "translation_pl": "podkładka z klipsem",
+      "definition_en": "A clipboard holds papers while you write.",
+      "example_en": "He took notes on his clipboard.",
+      "level": "B1"
+    },
+    {
+      "lemma": "envelope opener",
+      "pos": "noun",
+      "translation_pl": "otwieracz do kopert",
+      "definition_en": "An envelope opener helps open envelopes easily.",
+      "example_en": "She used an envelope opener to open the mail.",
+      "level": "B1"
+    },
+    {
+      "lemma": "binder",
+      "pos": "noun",
+      "translation_pl": "segregator",
+      "definition_en": "A binder keeps loose sheets of paper together.",
+      "example_en": "The papers are organized in a binder.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sharpener",
+      "pos": "noun",
+      "translation_pl": "temperówka",
+      "definition_en": "A sharpener is used to make pencils sharp.",
+      "example_en": "She used a sharpener for her new pencil.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sticky tape",
+      "pos": "noun",
+      "translation_pl": "taśma klejąca",
+      "definition_en": "Sticky tape is used to fasten things together.",
+      "example_en": "He closed the box with sticky tape.",
+      "level": "B1"
+    }
+  ]
+}

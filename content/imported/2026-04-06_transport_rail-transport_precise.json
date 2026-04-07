@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "rail-transport",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:38:06.301Z"
+  },
+  "items": [
+    {
+      "lemma": "freight train",
+      "pos": "noun",
+      "translation_pl": "pociąg towarowy",
+      "definition_en": "A freight train is a train used to carry goods rather than people.",
+      "example_en": "The freight train passed through the city late at night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "signal box",
+      "pos": "noun",
+      "translation_pl": "nastawnia kolejowa",
+      "definition_en": "A signal box is a building from which signals and points are controlled on a railway.",
+      "example_en": "The operator worked inside the signal box by the tracks.",
+      "level": "B2"
+    },
+    {
+      "lemma": "railway bridge",
+      "pos": "noun",
+      "translation_pl": "most kolejowy",
+      "definition_en": "A railway bridge is a bridge built for trains to cross over something.",
+      "example_en": "The train crossed the river on a high railway bridge.",
+      "level": "B1"
+    },
+    {
+      "lemma": "level crossing",
+      "pos": "noun",
+      "translation_pl": "przejazd kolejowy",
+      "definition_en": "A level crossing is a place where a road and railway cross at the same level.",
+      "example_en": "Cars waited at the level crossing for the train to pass.",
+      "level": "B1"
+    },
+    {
+      "lemma": "railway tunnel",
+      "pos": "noun",
+      "translation_pl": "tunel kolejowy",
+      "definition_en": "A railway tunnel is a tunnel built for trains to travel through.",
+      "example_en": "The railway tunnel cuts through the mountain.",
+      "level": "B1"
+    },
+    {
+      "lemma": "signal light",
+      "pos": "noun",
+      "translation_pl": "sygnalizator kolejowy",
+      "definition_en": "A signal light is a lamp that controls train movements on the railway.",
+      "example_en": "The train stopped in front of the red signal light.",
+      "level": "B1"
+    },
+    {
+      "lemma": "overhead line",
+      "pos": "noun",
+      "translation_pl": "trakcja elektryczna",
+      "definition_en": "An overhead line is a system of wires above the tracks to supply power to trains.",
+      "example_en": "The electric train takes power from the overhead line.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ticket inspector",
+      "pos": "noun",
+      "translation_pl": "kontroler biletów",
+      "definition_en": "A ticket inspector is someone who checks passengers' tickets on a train.",
+      "example_en": "The ticket inspector walked through the carriage checking tickets.",
+      "level": "B1"
+    },
+    {
+      "lemma": "goods wagon",
+      "pos": "noun",
+      "translation_pl": "wagon towarowy",
+      "definition_en": "A goods wagon is a railway vehicle used for carrying cargo.",
+      "example_en": "The goods wagon was full of fresh produce.",
+      "level": "B2"
+    },
+    {
+      "lemma": "train schedule",
+      "pos": "noun",
+      "translation_pl": "rozkład jazdy pociągów",
+      "definition_en": "A train schedule shows the times when trains arrive and depart.",
+      "example_en": "She checked the train schedule before buying her ticket.",
+      "level": "B1"
+    },
+    {
+      "lemma": "control room",
+      "pos": "noun",
+      "translation_pl": "centrum sterowania ruchem",
+      "definition_en": "A control room is a place where railway operations are monitored and directed.",
+      "example_en": "Workers in the control room monitored the train movements on their screens.",
+      "level": "B2"
+    },
+    {
+      "lemma": "first-class",
+      "pos": "noun",
+      "translation_pl": "pierwsza klasa",
+      "definition_en": "First-class is a higher and more comfortable section in a train.",
+      "example_en": "She bought a ticket for first-class to have more space.",
+      "level": "B1"
+    },
+    {
+      "lemma": "compartment",
+      "pos": "noun",
+      "translation_pl": "przedział",
+      "definition_en": "A compartment is a small section inside a train carriage.",
+      "example_en": "They shared a compartment with another family.",
+      "level": "B1"
+    },
+    {
+      "lemma": "luggage rack",
+      "pos": "noun",
+      "translation_pl": "półka na bagaż",
+      "definition_en": "A luggage rack is a shelf for storing bags above the seats on a train.",
+      "example_en": "He put his suitcase on the luggage rack above his seat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "train operator",
+      "pos": "noun",
+      "translation_pl": "przewoźnik kolejowy",
+      "definition_en": "A train operator is a company that runs trains on a railway.",
+      "example_en": "The train operator announced a delay due to maintenance.",
+      "level": "B2"
+    },
+    {
+      "lemma": "automated gate",
+      "pos": "noun",
+      "translation_pl": "zautomatyzowana bramka",
+      "definition_en": "An automated gate is a mechanical gate at a station that opens with a valid ticket.",
+      "example_en": "Passengers used their tickets to open the automated gate.",
+      "level": "B2"
+    },
+    {
+      "lemma": "control panel",
+      "pos": "noun",
+      "translation_pl": "panel sterowania",
+      "definition_en": "A control panel is a set of controls for operating trains or signals.",
+      "example_en": "The control panel shows the position of all nearby trains.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rail junction",
+      "pos": "noun",
+      "translation_pl": "rozwidlenie torów",
+      "definition_en": "A rail junction is a point where two or more railway lines meet or cross.",
+      "example_en": "The train slowed down as it approached the rail junction.",
+      "level": "B2"
+    },
+    {
+      "lemma": "departure board",
+      "pos": "noun",
+      "translation_pl": "tablica odjazdów",
+      "definition_en": "A departure board is a display showing times and platforms of departing trains.",
+      "example_en": "I checked the departure board for my train’s platform.",
+      "level": "B1"
+    },
+    {
+      "lemma": "platform ticket",
+      "pos": "noun",
+      "translation_pl": "bilet peronowy",
+      "definition_en": "A platform ticket allows someone to enter a station platform without travelling.",
+      "example_en": "She bought a platform ticket to say goodbye to her friend at the train.",
+      "level": "B2"
+    }
+  ]
+}

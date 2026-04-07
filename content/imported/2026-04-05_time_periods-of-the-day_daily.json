@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "periods-of-the-day",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:55:49.909Z"
+  },
+  "items": [
+    {
+      "lemma": "brunch time",
+      "pos": "noun",
+      "translation_pl": "pora brunchu",
+      "definition_en": "Brunch time is the period between breakfast and lunch.",
+      "example_en": "We always meet during brunch time on Sundays.",
+      "level": "B1"
+    },
+    {
+      "lemma": "early morning",
+      "pos": "noun",
+      "translation_pl": "wczesny ranek",
+      "definition_en": "Early morning is the period just after the sun rises.",
+      "example_en": "She likes to go for a run in the early morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "late afternoon",
+      "pos": "noun",
+      "translation_pl": "późne popołudnie",
+      "definition_en": "Late afternoon is the time before evening begins.",
+      "example_en": "He usually finishes work in the late afternoon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mid-morning",
+      "pos": "noun",
+      "translation_pl": "środek poranka",
+      "definition_en": "Mid-morning is the middle part of the morning.",
+      "example_en": "She takes a short walk in the mid-morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "midday",
+      "pos": "noun",
+      "translation_pl": "południe",
+      "definition_en": "Midday is the middle of the day, around twelve o'clock.",
+      "example_en": "We have lunch at midday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "noon",
+      "pos": "noun",
+      "translation_pl": "południe",
+      "definition_en": "Noon is twelve o'clock in the day.",
+      "example_en": "The meeting starts at noon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "early evening",
+      "pos": "noun",
+      "translation_pl": "wczesny wieczór",
+      "definition_en": "Early evening is the beginning of the evening.",
+      "example_en": "It gets dark in the early evening during winter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "late night",
+      "pos": "noun",
+      "translation_pl": "późna noc",
+      "definition_en": "Late night is the period after most people go to bed.",
+      "example_en": "He likes to read in the late night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "midnight snack",
+      "pos": "noun",
+      "translation_pl": "przekąska o północy",
+      "definition_en": "A midnight snack is food eaten late at night.",
+      "example_en": "She sometimes has a midnight snack if she feels hungry.",
+      "level": "B1"
+    },
+    {
+      "lemma": "study time",
+      "pos": "noun",
+      "translation_pl": "czas nauki",
+      "definition_en": "Study time is the period when you do your school work.",
+      "example_en": "Every day, he has study time after dinner.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bath time",
+      "pos": "noun",
+      "translation_pl": "czas kąpieli",
+      "definition_en": "Bath time is when someone has a bath.",
+      "example_en": "Bath time is her favorite part of the day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "playtime",
+      "pos": "noun",
+      "translation_pl": "czas zabawy",
+      "definition_en": "Playtime is the time set for playing.",
+      "example_en": "Kids enjoy playtime at school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "nap time",
+      "pos": "noun",
+      "translation_pl": "pora drzemki",
+      "definition_en": "Nap time is when someone takes a short sleep.",
+      "example_en": "Babies usually have nap time in the afternoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mealtime",
+      "pos": "noun",
+      "translation_pl": "pora posiłku",
+      "definition_en": "Mealtime is the period when meals are eaten.",
+      "example_en": "They like to talk together at mealtime.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dinnertime",
+      "pos": "noun",
+      "translation_pl": "pora kolacji",
+      "definition_en": "Dinnertime is the time to eat dinner.",
+      "example_en": "Dinnertime is usually at six o'clock in my house.",
+      "level": "A1"
+    },
+    {
+      "lemma": "reading time",
+      "pos": "noun",
+      "translation_pl": "czas czytania",
+      "definition_en": "Reading time is the period for reading books.",
+      "example_en": "The teacher gives us reading time each day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "quiet time",
+      "pos": "noun",
+      "translation_pl": "czas ciszy",
+      "definition_en": "Quiet time is when you are calm and silent.",
+      "example_en": "I like to have some quiet time before bed.",
+      "level": "A1"
+    },
+    {
+      "lemma": "family time",
+      "pos": "noun",
+      "translation_pl": "czas z rodziną",
+      "definition_en": "Family time is a period spent with family members.",
+      "example_en": "We play games during family time in the evenings.",
+      "level": "A1"
+    },
+    {
+      "lemma": "supper time",
+      "pos": "noun",
+      "translation_pl": "pora na kolację",
+      "definition_en": "Supper time is when you eat a light evening meal.",
+      "example_en": "Supper time is at seven in our home.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wake-up time",
+      "pos": "noun",
+      "translation_pl": "czas pobudki",
+      "definition_en": "Wake-up time is when someone gets up in the morning.",
+      "example_en": "My wake-up time is seven o’clock on weekdays.",
+      "level": "A1"
+    }
+  ]
+}

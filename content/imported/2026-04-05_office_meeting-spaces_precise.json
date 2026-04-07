@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "meeting-spaces",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:06:05.251Z"
+  },
+  "items": [
+    {
+      "lemma": "conference table",
+      "pos": "noun",
+      "translation_pl": "stół konferencyjny",
+      "definition_en": "A large table for meetings and discussions.",
+      "example_en": "Everyone gathered around the conference table for the team meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "meeting agenda",
+      "pos": "noun",
+      "translation_pl": "porządek spotkania",
+      "definition_en": "A list of topics to be discussed during a meeting.",
+      "example_en": "The project manager shared the meeting agenda before we started.",
+      "level": "B1"
+    },
+    {
+      "lemma": "conference chair",
+      "pos": "noun",
+      "translation_pl": "krzesło konferencyjne",
+      "definition_en": "A comfortable chair used in meeting rooms.",
+      "example_en": "The staff replaced the old seats with new conference chairs.",
+      "level": "B1"
+    },
+    {
+      "lemma": "meeting invitation",
+      "pos": "noun",
+      "translation_pl": "zaproszenie na spotkanie",
+      "definition_en": "A message asking someone to attend a meeting.",
+      "example_en": "She sent out the meeting invitation via email.",
+      "level": "B1"
+    },
+    {
+      "lemma": "teleconference system",
+      "pos": "noun",
+      "translation_pl": "system telekonferencyjny",
+      "definition_en": "Equipment used for long-distance meetings by phone or video.",
+      "example_en": "Their teleconference system allows teams to connect from anywhere.",
+      "level": "B2"
+    },
+    {
+      "lemma": "partition wall",
+      "pos": "noun",
+      "translation_pl": "ścianka działowa",
+      "definition_en": "A wall that divides a large room into smaller spaces.",
+      "example_en": "We closed the partition wall to make two smaller meeting spaces.",
+      "level": "B1"
+    },
+    {
+      "lemma": "video projector",
+      "pos": "noun",
+      "translation_pl": "projektor wideo",
+      "definition_en": "A device that displays video or images on a screen.",
+      "example_en": "The presentation was shown with a video projector.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sound system",
+      "pos": "noun",
+      "translation_pl": "system nagłośnienia",
+      "definition_en": "A set of speakers and microphones for clear audio.",
+      "example_en": "The sound system made it easy to hear everyone in the meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "breakout room",
+      "pos": "noun",
+      "translation_pl": "pokój do pracy w grupach",
+      "definition_en": "A small room for group discussions during meetings.",
+      "example_en": "Each team worked in a separate breakout room.",
+      "level": "B2"
+    },
+    {
+      "lemma": "conference badge",
+      "pos": "noun",
+      "translation_pl": "identyfikator konferencyjny",
+      "definition_en": "A card worn to identify participants at a meeting or event.",
+      "example_en": "She wore her conference badge with her name on it.",
+      "level": "B1"
+    },
+    {
+      "lemma": "meeting scheduler",
+      "pos": "noun",
+      "translation_pl": "planer spotkań",
+      "definition_en": "A tool or app that helps plan meetings.",
+      "example_en": "We used a meeting scheduler to find a suitable time.",
+      "level": "B2"
+    },
+    {
+      "lemma": "presentation screen",
+      "pos": "noun",
+      "translation_pl": "ekran prezentacyjny",
+      "definition_en": "A screen for showing slides or videos in a meeting room.",
+      "example_en": "The presentation screen was set up at the front.",
+      "level": "B1"
+    },
+    {
+      "lemma": "microphone stand",
+      "pos": "noun",
+      "translation_pl": "stojak na mikrofon",
+      "definition_en": "A support used to hold a microphone in place.",
+      "example_en": "He adjusted the microphone stand before starting the talk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "marker tray",
+      "pos": "noun",
+      "translation_pl": "półka na markery",
+      "definition_en": "A small shelf for holding markers near a board.",
+      "example_en": "Put the markers back on the marker tray after use.",
+      "level": "B2"
+    },
+    {
+      "lemma": "notepad holder",
+      "pos": "noun",
+      "translation_pl": "uchwyt na notes",
+      "definition_en": "A device or tray for keeping notepads organized.",
+      "example_en": "Each seat had a notepad holder on the table.",
+      "level": "B2"
+    },
+    {
+      "lemma": "laser pointer",
+      "pos": "noun",
+      "translation_pl": "wskaźnik laserowy",
+      "definition_en": "A small device that shines a colored spot for pointing.",
+      "example_en": "The speaker used a laser pointer during the slideshow.",
+      "level": "B1"
+    },
+    {
+      "lemma": "projector screen",
+      "pos": "noun",
+      "translation_pl": "ekran do projektora",
+      "definition_en": "A large surface for displaying projected images.",
+      "example_en": "The room has a pull-down projector screen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "water dispenser",
+      "pos": "noun",
+      "translation_pl": "dystrybutor wody",
+      "definition_en": "A machine that provides cold or hot water.",
+      "example_en": "There is a water dispenser at the back of the meeting space.",
+      "level": "B1"
+    },
+    {
+      "lemma": "glass panel",
+      "pos": "noun",
+      "translation_pl": "szklana ścianka",
+      "definition_en": "A section made of glass to separate spaces or let in light.",
+      "example_en": "The glass panel lets natural light into the meeting area.",
+      "level": "B2"
+    },
+    {
+      "lemma": "guest chair",
+      "pos": "noun",
+      "translation_pl": "krzesło dla gościa",
+      "definition_en": "A chair provided for visitors in a meeting space.",
+      "example_en": "She brought in extra guest chairs for the clients.",
+      "level": "B1"
+    }
+  ]
+}

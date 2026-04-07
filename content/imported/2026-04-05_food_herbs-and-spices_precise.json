@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "herbs-and-spices",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:32:06.411Z"
+  },
+  "items": [
+    {
+      "lemma": "turmeric",
+      "pos": "noun",
+      "translation_pl": "kurkuma",
+      "definition_en": "Turmeric is a yellow spice made from the root of a plant.",
+      "example_en": "Turmeric gives curry its yellow color.",
+      "level": "B1"
+    },
+    {
+      "lemma": "saffron",
+      "pos": "noun",
+      "translation_pl": "szafran",
+      "definition_en": "Saffron is a red spice made from the dried stigmas of a flower.",
+      "example_en": "Saffron is used to flavor and color rice dishes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "black pepper",
+      "pos": "noun",
+      "translation_pl": "czarny pieprz",
+      "definition_en": "Black pepper is a common spice made from dried berries.",
+      "example_en": "Add some black pepper to the soup for extra flavor.",
+      "level": "A2"
+    },
+    {
+      "lemma": "white pepper",
+      "pos": "noun",
+      "translation_pl": "biały pieprz",
+      "definition_en": "White pepper is made from ripe pepper berries with the skin removed.",
+      "example_en": "White pepper is often used in light-colored sauces.",
+      "level": "B2"
+    },
+    {
+      "lemma": "curry powder",
+      "pos": "noun",
+      "translation_pl": "przyprawa curry",
+      "definition_en": "Curry powder is a mix of many spices often used in Indian cooking.",
+      "example_en": "She added curry powder to the chicken for more taste.",
+      "level": "B1"
+    },
+    {
+      "lemma": "allspice",
+      "pos": "noun",
+      "translation_pl": "ziele angielskie",
+      "definition_en": "Allspice is a spice made from dried berries that tastes like a mix of cloves, cinnamon, and nutmeg.",
+      "example_en": "Allspice is often added to stews and baked goods.",
+      "level": "B2"
+    },
+    {
+      "lemma": "mustard seed",
+      "pos": "noun",
+      "translation_pl": "ziarno gorczycy",
+      "definition_en": "Mustard seed is the small round seed used to make mustard condiments.",
+      "example_en": "Mustard seed gives pickles a strong flavor.",
+      "level": "B1"
+    },
+    {
+      "lemma": "star anise",
+      "pos": "noun",
+      "translation_pl": "anyż gwiazdkowy",
+      "definition_en": "Star anise is a spice shaped like a star and tastes like licorice.",
+      "example_en": "Star anise is popular in Asian soups and stews.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lemongrass",
+      "pos": "noun",
+      "translation_pl": "trawa cytrynowa",
+      "definition_en": "Lemongrass is an herb with a strong citrus flavor used in cooking.",
+      "example_en": "Lemongrass adds a bright taste to Thai dishes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "marjoram",
+      "pos": "noun",
+      "translation_pl": "majeranek",
+      "definition_en": "Marjoram is a green herb related to oregano with a mild flavor.",
+      "example_en": "She sprinkled marjoram over the roasted potatoes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "curry leaf",
+      "pos": "noun",
+      "translation_pl": "liść curry",
+      "definition_en": "Curry leaf is an aromatic leaf used in Indian and Asian cooking.",
+      "example_en": "Fresh curry leaves are added to many Indian dishes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "garlic powder",
+      "pos": "noun",
+      "translation_pl": "czosnek w proszku",
+      "definition_en": "Garlic powder is a seasoning made from dried and ground garlic.",
+      "example_en": "Garlic powder can replace fresh garlic in many recipes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "onion powder",
+      "pos": "noun",
+      "translation_pl": "cebula w proszku",
+      "definition_en": "Onion powder is a seasoning made from dried and ground onions.",
+      "example_en": "Onion powder adds extra flavor to sauces and soups.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chive",
+      "pos": "noun",
+      "translation_pl": "szczypiorek",
+      "definition_en": "Chive is a thin green herb that tastes like a mild onion.",
+      "example_en": "Chive is often added to salads and scrambled eggs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wasabi",
+      "pos": "noun",
+      "translation_pl": "wasabi",
+      "definition_en": "Wasabi is a green, spicy paste often served with sushi.",
+      "example_en": "She likes to eat her sushi with extra wasabi.",
+      "level": "B1"
+    },
+    {
+      "lemma": "celery seed",
+      "pos": "noun",
+      "translation_pl": "nasiona selera",
+      "definition_en": "Celery seed is a tiny seed used as a spice to add celery flavor.",
+      "example_en": "Celery seed is sometimes used in salad dressings.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pink peppercorn",
+      "pos": "noun",
+      "translation_pl": "różowy pieprz",
+      "definition_en": "A pink peppercorn is a dried berry with a sweet, peppery taste.",
+      "example_en": "Pink peppercorn can be used in both sweet and savory dishes.",
+      "level": "B2"
+    },
+    {
+      "lemma": "five-spice powder",
+      "pos": "noun",
+      "translation_pl": "przyprawa pięciu smaków",
+      "definition_en": "Five-spice powder is a Chinese blend of five different spices.",
+      "example_en": "He added five-spice powder to the stir fry for extra flavor.",
+      "level": "C1"
+    },
+    {
+      "lemma": "herbes de Provence",
+      "pos": "noun",
+      "translation_pl": "zioła prowansalskie",
+      "definition_en": "Herbes de Provence is a mix of dried herbs from southern France.",
+      "example_en": "Herbes de Provence are sprinkled over grilled chicken.",
+      "level": "C1"
+    },
+    {
+      "lemma": "sea salt",
+      "pos": "noun",
+      "translation_pl": "sól morska",
+      "definition_en": "Sea salt is salt made by evaporating seawater and is less processed than table salt.",
+      "example_en": "She prefers to use sea salt in her cooking.",
+      "level": "A2"
+    }
+  ]
+}

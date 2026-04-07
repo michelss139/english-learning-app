@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "health",
+    "subcategory": "medicine-and-treatments",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:11:11.496Z"
+  },
+  "items": [
+    {
+      "lemma": "bandage",
+      "pos": "noun",
+      "translation_pl": "bandaż",
+      "definition_en": "A bandage is a piece of cloth for covering a wound.",
+      "example_en": "The nurse wrapped a bandage around my arm.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pill",
+      "pos": "noun",
+      "translation_pl": "tabletka",
+      "definition_en": "A pill is a small round form of medicine that you swallow.",
+      "example_en": "He took a pill for his headache.",
+      "level": "A1"
+    },
+    {
+      "lemma": "syringe",
+      "pos": "noun",
+      "translation_pl": "strzykawka",
+      "definition_en": "A syringe is a tool used to inject medicine into your body.",
+      "example_en": "The doctor filled the syringe before giving the injection.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tablet",
+      "pos": "noun",
+      "translation_pl": "tabletka",
+      "definition_en": "A tablet is a flat round piece of medicine.",
+      "example_en": "She takes one tablet every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "stretcher",
+      "pos": "noun",
+      "translation_pl": "nosze",
+      "definition_en": "A stretcher is a special bed for carrying sick or injured people.",
+      "example_en": "The paramedics brought a stretcher to the accident.",
+      "level": "A2"
+    },
+    {
+      "lemma": "operation",
+      "pos": "noun",
+      "translation_pl": "operacja",
+      "definition_en": "An operation is when doctors fix or remove something in your body.",
+      "example_en": "She needs an operation on her knee.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scan",
+      "pos": "noun",
+      "translation_pl": "skan",
+      "definition_en": "A scan is a medical test that uses machines to look inside the body.",
+      "example_en": "He had a scan to check his stomach.",
+      "level": "B1"
+    },
+    {
+      "lemma": "injection",
+      "pos": "noun",
+      "translation_pl": "zastrzyk",
+      "definition_en": "An injection is medicine given using a needle.",
+      "example_en": "The child cried during the injection.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cast",
+      "pos": "noun",
+      "translation_pl": "gips",
+      "definition_en": "A cast is a hard cover to protect a broken bone.",
+      "example_en": "He wore a cast on his leg for six weeks.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ointment",
+      "pos": "noun",
+      "translation_pl": "maść",
+      "definition_en": "Ointment is a smooth substance you put on the skin to heal it.",
+      "example_en": "The doctor gave her ointment for the burn.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sling",
+      "pos": "noun",
+      "translation_pl": "temblak",
+      "definition_en": "A sling is a piece of cloth used to support an injured arm.",
+      "example_en": "His arm was in a sling after the accident.",
+      "level": "B1"
+    },
+    {
+      "lemma": "crutch",
+      "pos": "noun",
+      "translation_pl": "kule",
+      "definition_en": "A crutch is a stick that supports you when you hurt your leg.",
+      "example_en": "She used a crutch to help her walk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dropper",
+      "pos": "noun",
+      "translation_pl": "zakraplacz",
+      "definition_en": "A dropper is a small tool used for putting drops of liquid in the eyes or nose.",
+      "example_en": "He used a dropper to put medicine in his eye.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mask",
+      "pos": "noun",
+      "translation_pl": "maska",
+      "definition_en": "A mask is a covering for your face to protect from illness.",
+      "example_en": "Doctors wear a mask during surgery.",
+      "level": "A1"
+    },
+    {
+      "lemma": "plaster",
+      "pos": "noun",
+      "translation_pl": "plaster",
+      "definition_en": "A plaster is a small sticky piece used to cover a cut.",
+      "example_en": "She put a plaster on her finger.",
+      "level": "A1"
+    },
+    {
+      "lemma": "antibiotic",
+      "pos": "noun",
+      "translation_pl": "antybiotyk",
+      "definition_en": "An antibiotic is medicine that kills bacteria.",
+      "example_en": "The doctor gave him an antibiotic for the infection.",
+      "level": "B1"
+    },
+    {
+      "lemma": "thermometer",
+      "pos": "noun",
+      "translation_pl": "termometr",
+      "definition_en": "A thermometer is a tool to measure your body temperature.",
+      "example_en": "She used a thermometer to check her fever.",
+      "level": "A2"
+    },
+    {
+      "lemma": "medicine",
+      "pos": "noun",
+      "translation_pl": "lek",
+      "definition_en": "Medicine is something you take to feel better when you are sick.",
+      "example_en": "He takes medicine every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cough syrup",
+      "pos": "noun",
+      "translation_pl": "syrop na kaszel",
+      "definition_en": "Cough syrup is a liquid taken to help stop coughing.",
+      "example_en": "She drank some cough syrup for her sore throat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "painkiller",
+      "pos": "noun",
+      "translation_pl": "środek przeciwbólowy",
+      "definition_en": "A painkiller is medicine that stops pain.",
+      "example_en": "He took a painkiller for his headache.",
+      "level": "A2"
+    }
+  ]
+}

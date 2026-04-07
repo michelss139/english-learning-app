@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "communication",
+    "subcategory": "digital-communication",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T21:02:19.993Z"
+  },
+  "items": [
+    {
+      "lemma": "voice message",
+      "pos": "noun",
+      "translation_pl": "wiadomość głosowa",
+      "definition_en": "A short audio recording sent to someone online.",
+      "example_en": "I left a voice message for her on the app.",
+      "level": "B1"
+    },
+    {
+      "lemma": "direct message",
+      "pos": "noun",
+      "translation_pl": "wiadomość prywatna",
+      "definition_en": "A private message sent directly to another user.",
+      "example_en": "He sent me a direct message on Instagram.",
+      "level": "B2"
+    },
+    {
+      "lemma": "group video call",
+      "pos": "noun",
+      "translation_pl": "grupowa rozmowa wideo",
+      "definition_en": "A video call that includes more than two people.",
+      "example_en": "We had a group video call for our project.",
+      "level": "B1"
+    },
+    {
+      "lemma": "friend list",
+      "pos": "noun",
+      "translation_pl": "lista znajomych",
+      "definition_en": "A list of people you are connected with online.",
+      "example_en": "I checked my friend list to find his profile.",
+      "level": "B2"
+    },
+    {
+      "lemma": "chat history",
+      "pos": "noun",
+      "translation_pl": "historia czatu",
+      "definition_en": "A record of all messages exchanged in a chat.",
+      "example_en": "I scrolled through our chat history to find the date.",
+      "level": "B1"
+    },
+    {
+      "lemma": "online status",
+      "pos": "noun",
+      "translation_pl": "status online",
+      "definition_en": "Information showing if a user is currently online.",
+      "example_en": "Her online status says she is available.",
+      "level": "B2"
+    },
+    {
+      "lemma": "notification sound",
+      "pos": "noun",
+      "translation_pl": "dźwięk powiadomienia",
+      "definition_en": "A sound that alerts you to a new message or event.",
+      "example_en": "I changed my notification sound to something quieter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "typing indicator",
+      "pos": "noun",
+      "translation_pl": "wskaźnik pisania",
+      "definition_en": "A sign that shows someone is writing a message.",
+      "example_en": "I saw the typing indicator before she sent her reply.",
+      "level": "B2"
+    },
+    {
+      "lemma": "emoji",
+      "pos": "noun",
+      "translation_pl": "emotikon",
+      "definition_en": "A small digital image used to express an emotion.",
+      "example_en": "He sent a smiley emoji with his message.",
+      "level": "B1"
+    },
+    {
+      "lemma": "post",
+      "pos": "noun",
+      "translation_pl": "post",
+      "definition_en": "A message or update published on social media.",
+      "example_en": "I shared a post about my vacation.",
+      "level": "B1"
+    },
+    {
+      "lemma": "message request",
+      "pos": "noun",
+      "translation_pl": "prośba o wiadomość",
+      "definition_en": "A request to start chatting with someone you do not know.",
+      "example_en": "I ignored the message request from a stranger.",
+      "level": "B2"
+    },
+    {
+      "lemma": "read receipt",
+      "pos": "noun",
+      "translation_pl": "potwierdzenie przeczytania",
+      "definition_en": "A sign that shows your message was read.",
+      "example_en": "I saw the read receipt and knew he had seen my text.",
+      "level": "B2"
+    },
+    {
+      "lemma": "reply thread",
+      "pos": "noun",
+      "translation_pl": "wątek odpowiedzi",
+      "definition_en": "A series of connected replies in a chat or forum.",
+      "example_en": "The reply thread made it easy to follow the conversation.",
+      "level": "B2"
+    },
+    {
+      "lemma": "display name",
+      "pos": "noun",
+      "translation_pl": "nazwa wyświetlana",
+      "definition_en": "The name shown to others in a digital space.",
+      "example_en": "She changed her display name to something funnier.",
+      "level": "B2"
+    },
+    {
+      "lemma": "message bubble",
+      "pos": "noun",
+      "translation_pl": "dymek wiadomości",
+      "definition_en": "A visual area showing a single message in a chat.",
+      "example_en": "The message bubble turned blue after I sent my text.",
+      "level": "B2"
+    },
+    {
+      "lemma": "contact list",
+      "pos": "noun",
+      "translation_pl": "lista kontaktów",
+      "definition_en": "A collection of saved personal or professional contacts.",
+      "example_en": "Please check your contact list for my number.",
+      "level": "B1"
+    },
+    {
+      "lemma": "message notification",
+      "pos": "noun",
+      "translation_pl": "powiadomienie o wiadomości",
+      "definition_en": "An alert that tells you a new message has arrived.",
+      "example_en": "I get a message notification every time she texts me.",
+      "level": "B1"
+    },
+    {
+      "lemma": "status update",
+      "pos": "noun",
+      "translation_pl": "aktualizacja statusu",
+      "definition_en": "A new post to let people know what you are doing.",
+      "example_en": "He posted a status update about his new job.",
+      "level": "B1"
+    },
+    {
+      "lemma": "unread message",
+      "pos": "noun",
+      "translation_pl": "nieprzeczytana wiadomość",
+      "definition_en": "A message that has not been opened or read.",
+      "example_en": "I found two unread messages in my inbox.",
+      "level": "B1"
+    },
+    {
+      "lemma": "admin",
+      "pos": "noun",
+      "translation_pl": "administrator",
+      "definition_en": "A person who manages a chat group or forum.",
+      "example_en": "Ask the admin if you have any questions about the rules.",
+      "level": "B2"
+    }
+  ]
+}

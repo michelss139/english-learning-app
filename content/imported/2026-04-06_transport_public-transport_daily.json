@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "public-transport",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:34:46.614Z"
+  },
+  "items": [
+    {
+      "lemma": "bus",
+      "pos": "noun",
+      "translation_pl": "autobus",
+      "definition_en": "A bus is a large vehicle that carries many people.",
+      "example_en": "We took the bus to school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "train",
+      "pos": "noun",
+      "translation_pl": "pociąg",
+      "definition_en": "A train is a long vehicle that runs on tracks.",
+      "example_en": "He waits for the train every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tram",
+      "pos": "noun",
+      "translation_pl": "tramwaj",
+      "definition_en": "A tram is a street car that travels on rails.",
+      "example_en": "The tram stopped at the corner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "subway",
+      "pos": "noun",
+      "translation_pl": "metro",
+      "definition_en": "A subway is an underground train.",
+      "example_en": "She rides the subway to work.",
+      "level": "A1"
+    },
+    {
+      "lemma": "taxi",
+      "pos": "noun",
+      "translation_pl": "taksówka",
+      "definition_en": "A taxi is a car you pay to take you somewhere.",
+      "example_en": "He called a taxi after the party.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ferry",
+      "pos": "noun",
+      "translation_pl": "prom",
+      "definition_en": "A ferry is a boat that carries people or cars.",
+      "example_en": "We crossed the river on a ferry.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coach",
+      "pos": "noun",
+      "translation_pl": "autokar",
+      "definition_en": "A coach is a large bus for long trips.",
+      "example_en": "The tourists traveled by coach.",
+      "level": "A2"
+    },
+    {
+      "lemma": "minibus",
+      "pos": "noun",
+      "translation_pl": "minibus",
+      "definition_en": "A minibus is a small bus for a few people.",
+      "example_en": "We took a minibus to the airport.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shuttle",
+      "pos": "noun",
+      "translation_pl": "wahadłowiec",
+      "definition_en": "A shuttle is a vehicle that goes back and forth.",
+      "example_en": "The hotel offers a shuttle to the station.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rickshaw",
+      "pos": "noun",
+      "translation_pl": "ryksza",
+      "definition_en": "A rickshaw is a small two-wheeled vehicle pulled by a person.",
+      "example_en": "We took a rickshaw through the city streets.",
+      "level": "B1"
+    },
+    {
+      "lemma": "trolleybus",
+      "pos": "noun",
+      "translation_pl": "trolejbus",
+      "definition_en": "A trolleybus is an electric bus using wires above the street.",
+      "example_en": "They took the trolleybus downtown.",
+      "level": "B1"
+    },
+    {
+      "lemma": "commuter train",
+      "pos": "noun",
+      "translation_pl": "pociąg podmiejski",
+      "definition_en": "A commuter train takes people between their home and work.",
+      "example_en": "He takes a commuter train every weekday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "double-decker",
+      "pos": "noun",
+      "translation_pl": "autobus piętrowy",
+      "definition_en": "A double-decker is a tall bus with two levels.",
+      "example_en": "London is famous for its red double-deckers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "monorail",
+      "pos": "noun",
+      "translation_pl": "kolej jednoszynowa",
+      "definition_en": "A monorail is a train running on a single rail.",
+      "example_en": "The monorail takes visitors around the park.",
+      "level": "B1"
+    },
+    {
+      "lemma": "light rail",
+      "pos": "noun",
+      "translation_pl": "lekka kolej miejska",
+      "definition_en": "Light rail is a fast city passenger train.",
+      "example_en": "The city introduced a new light rail line.",
+      "level": "B1"
+    },
+    {
+      "lemma": "funicular",
+      "pos": "noun",
+      "translation_pl": "kolej linowa",
+      "definition_en": "A funicular is a train that goes up a steep hill.",
+      "example_en": "We took the funicular to the top of the hill.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cable car",
+      "pos": "noun",
+      "translation_pl": "tramwaj linowy",
+      "definition_en": "A cable car moves on rails by pulling cables.",
+      "example_en": "We rode the cable car in San Francisco.",
+      "level": "B1"
+    },
+    {
+      "lemma": "city bus",
+      "pos": "noun",
+      "translation_pl": "autobus miejski",
+      "definition_en": "A city bus is a public bus in a town or city.",
+      "example_en": "The city bus stops near my house.",
+      "level": "A1"
+    },
+    {
+      "lemma": "night bus",
+      "pos": "noun",
+      "translation_pl": "autobus nocny",
+      "definition_en": "A night bus is a bus that travels late at night.",
+      "example_en": "I took the night bus home after midnight.",
+      "level": "B1"
+    },
+    {
+      "lemma": "express train",
+      "pos": "noun",
+      "translation_pl": "pociąg ekspresowy",
+      "definition_en": "An express train travels faster and stops less often.",
+      "example_en": "The express train got us there quickly.",
+      "level": "B1"
+    }
+  ]
+}

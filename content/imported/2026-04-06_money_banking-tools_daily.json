@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "money",
+    "subcategory": "banking-tools",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:30:50.820Z"
+  },
+  "items": [
+    {
+      "lemma": "ATM",
+      "pos": "noun",
+      "translation_pl": "bankomat",
+      "definition_en": "An ATM is a machine where you can get cash from your bank account.",
+      "example_en": "I used the ATM to take out money.",
+      "level": "A2"
+    },
+    {
+      "lemma": "debit card",
+      "pos": "noun",
+      "translation_pl": "karta debetowa",
+      "definition_en": "A debit card is a card you use to pay with money from your bank account.",
+      "example_en": "He paid for lunch with his debit card.",
+      "level": "A2"
+    },
+    {
+      "lemma": "credit card",
+      "pos": "noun",
+      "translation_pl": "karta kredytowa",
+      "definition_en": "A credit card is a card that lets you borrow money to pay for things.",
+      "example_en": "She bought a new jacket with her credit card.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bank account",
+      "pos": "noun",
+      "translation_pl": "konto bankowe",
+      "definition_en": "A bank account is where your money is kept in a bank.",
+      "example_en": "He opened a new bank account at the local branch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "checkbook",
+      "pos": "noun",
+      "translation_pl": "książeczka czekowa",
+      "definition_en": "A checkbook is a book of checks you use to pay people.",
+      "example_en": "She carried her checkbook in her purse.",
+      "level": "A2"
+    },
+    {
+      "lemma": "PIN",
+      "pos": "noun",
+      "translation_pl": "kod PIN",
+      "definition_en": "A PIN is a secret number for using your card or account.",
+      "example_en": "He always remembers his PIN at the ATM.",
+      "level": "A2"
+    },
+    {
+      "lemma": "deposit slip",
+      "pos": "noun",
+      "translation_pl": "blankiet wpłaty",
+      "definition_en": "A deposit slip is a form to put money into your bank account.",
+      "example_en": "She filled out a deposit slip before giving her cash to the teller.",
+      "level": "B1"
+    },
+    {
+      "lemma": "withdrawal slip",
+      "pos": "noun",
+      "translation_pl": "blankiet wypłaty",
+      "definition_en": "A withdrawal slip is a piece of paper for taking money out of your account.",
+      "example_en": "He used a withdrawal slip to get cash at the bank.",
+      "level": "B1"
+    },
+    {
+      "lemma": "safe deposit box",
+      "pos": "noun",
+      "translation_pl": "skrytka bankowa",
+      "definition_en": "A safe deposit box is a locked box in a bank for keeping valuables safe.",
+      "example_en": "They keep their jewelry in a safe deposit box.",
+      "level": "B1"
+    },
+    {
+      "lemma": "check",
+      "pos": "noun",
+      "translation_pl": "czek",
+      "definition_en": "A check is a printed paper you sign to pay money from your bank.",
+      "example_en": "He wrote a check to pay the rent.",
+      "level": "A2"
+    },
+    {
+      "lemma": "savings book",
+      "pos": "noun",
+      "translation_pl": "książeczka oszczędnościowa",
+      "definition_en": "A savings book is a small book that records money in your savings account.",
+      "example_en": "Her savings book shows all her deposits.",
+      "level": "B1"
+    },
+    {
+      "lemma": "receipt",
+      "pos": "noun",
+      "translation_pl": "paragon",
+      "definition_en": "A receipt is a piece of paper that shows you paid for something.",
+      "example_en": "Don’t forget to keep your receipt from the ATM.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cash card",
+      "pos": "noun",
+      "translation_pl": "karta płatnicza",
+      "definition_en": "A cash card is a card you use at a bank machine to get money.",
+      "example_en": "He used his cash card at the bank.",
+      "level": "A2"
+    },
+    {
+      "lemma": "statement",
+      "pos": "noun",
+      "translation_pl": "wyciąg bankowy",
+      "definition_en": "A statement is a paper that shows all the money in your account.",
+      "example_en": "She checked her statement online.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bankbook",
+      "pos": "noun",
+      "translation_pl": "książeczka bankowa",
+      "definition_en": "A bankbook is a small book with a record of your savings at the bank.",
+      "example_en": "He updated his bankbook at the counter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "deposit box",
+      "pos": "noun",
+      "translation_pl": "skrzynka depozytowa",
+      "definition_en": "A deposit box is a secure box at the bank to store important things.",
+      "example_en": "They keep their documents in a deposit box.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bank card",
+      "pos": "noun",
+      "translation_pl": "karta bankowa",
+      "definition_en": "A bank card is a card from your bank to use for transactions.",
+      "example_en": "She lost her bank card and called the bank.",
+      "level": "A2"
+    },
+    {
+      "lemma": "signature card",
+      "pos": "noun",
+      "translation_pl": "karta podpisu",
+      "definition_en": "A signature card is a card at the bank with your signature for identification.",
+      "example_en": "He signed a signature card to open the account.",
+      "level": "B1"
+    },
+    {
+      "lemma": "envelope",
+      "pos": "noun",
+      "translation_pl": "koperta",
+      "definition_en": "An envelope is a paper cover for holding money or important papers.",
+      "example_en": "He put the cash in an envelope at the bank.",
+      "level": "A1"
+    },
+    {
+      "lemma": "check register",
+      "pos": "noun",
+      "translation_pl": "rejestr czeków",
+      "definition_en": "A check register is a book for keeping track of checks and deposits.",
+      "example_en": "She wrote the payment in her check register.",
+      "level": "B1"
+    }
+  ]
+}

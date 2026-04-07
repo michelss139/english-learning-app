@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "rail-transport",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:37:35.161Z"
+  },
+  "items": [
+    {
+      "lemma": "train",
+      "pos": "noun",
+      "translation_pl": "pociąg",
+      "definition_en": "A train is a set of connected vehicles that run on tracks.",
+      "example_en": "We took the train to the city.",
+      "level": "A1"
+    },
+    {
+      "lemma": "railway",
+      "pos": "noun",
+      "translation_pl": "kolej",
+      "definition_en": "A railway is a system of tracks for trains.",
+      "example_en": "The railway connects many towns.",
+      "level": "A2"
+    },
+    {
+      "lemma": "station",
+      "pos": "noun",
+      "translation_pl": "stacja",
+      "definition_en": "A station is a place where trains stop for people to get on or off.",
+      "example_en": "She waited for him at the train station.",
+      "level": "A1"
+    },
+    {
+      "lemma": "track",
+      "pos": "noun",
+      "translation_pl": "tor kolejowy",
+      "definition_en": "A track is the pair of rails where trains run.",
+      "example_en": "The train came down the track.",
+      "level": "A2"
+    },
+    {
+      "lemma": "platform",
+      "pos": "noun",
+      "translation_pl": "peron",
+      "definition_en": "A platform is a raised area next to railway tracks for people to board trains.",
+      "example_en": "They waited on the platform for their train.",
+      "level": "A2"
+    },
+    {
+      "lemma": "carriage",
+      "pos": "noun",
+      "translation_pl": "wagon",
+      "definition_en": "A carriage is one of the sections of a train for people to sit in.",
+      "example_en": "We found seats in the last carriage.",
+      "level": "A2"
+    },
+    {
+      "lemma": "conductor",
+      "pos": "noun",
+      "translation_pl": "konduktor",
+      "definition_en": "A conductor checks tickets on a train.",
+      "example_en": "The conductor walked down the aisle.",
+      "level": "A2"
+    },
+    {
+      "lemma": "engine",
+      "pos": "noun",
+      "translation_pl": "lokomotywa",
+      "definition_en": "An engine pulls the train along the tracks.",
+      "example_en": "The engine was at the front of the train.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ticket",
+      "pos": "noun",
+      "translation_pl": "bilet",
+      "definition_en": "A ticket is a piece of paper you need to travel on a train.",
+      "example_en": "He bought a ticket to London.",
+      "level": "A1"
+    },
+    {
+      "lemma": "railcard",
+      "pos": "noun",
+      "translation_pl": "karta kolejowa",
+      "definition_en": "A railcard offers a discount on train tickets.",
+      "example_en": "She used her railcard to get a cheaper fare.",
+      "level": "B1"
+    },
+    {
+      "lemma": "passenger",
+      "pos": "noun",
+      "translation_pl": "pasażer",
+      "definition_en": "A passenger is a person who travels on a train.",
+      "example_en": "Many passengers boarded the morning train.",
+      "level": "A2"
+    },
+    {
+      "lemma": "driver",
+      "pos": "noun",
+      "translation_pl": "maszynista",
+      "definition_en": "A driver is a person who operates a train.",
+      "example_en": "The driver started the engine.",
+      "level": "A2"
+    },
+    {
+      "lemma": "timetable",
+      "pos": "noun",
+      "translation_pl": "rozkład jazdy",
+      "definition_en": "A timetable shows the times trains arrive and leave.",
+      "example_en": "He checked the timetable for the next train.",
+      "level": "A2"
+    },
+    {
+      "lemma": "signal",
+      "pos": "noun",
+      "translation_pl": "sygnał kolejowy",
+      "definition_en": "A signal tells trains when they can move.",
+      "example_en": "The train stopped for a red signal.",
+      "level": "B1"
+    },
+    {
+      "lemma": "waiting room",
+      "pos": "noun",
+      "translation_pl": "poczekalnia",
+      "definition_en": "A waiting room is where people sit before their train arrives.",
+      "example_en": "She sat in the waiting room at the station.",
+      "level": "A2"
+    },
+    {
+      "lemma": "guard",
+      "pos": "noun",
+      "translation_pl": "kierownik pociągu",
+      "definition_en": "A guard is a person who looks after the train and its safety.",
+      "example_en": "The guard checked the doors before leaving.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sleeper",
+      "pos": "noun",
+      "translation_pl": "wagon sypialny",
+      "definition_en": "A sleeper is a train carriage with beds for sleeping.",
+      "example_en": "We booked a sleeper for the night trip.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rail pass",
+      "pos": "noun",
+      "translation_pl": "bilet okresowy",
+      "definition_en": "A rail pass lets you travel on many trains for a set time.",
+      "example_en": "He bought a rail pass for his holiday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "turnstile",
+      "pos": "noun",
+      "translation_pl": "bramka obrotowa",
+      "definition_en": "A turnstile is a gate in a station that only lets one person through at a time.",
+      "example_en": "You must scan your ticket at the turnstile.",
+      "level": "B1"
+    },
+    {
+      "lemma": "buffer",
+      "pos": "noun",
+      "translation_pl": "bufor kolejowy",
+      "definition_en": "A buffer is a device at the end of a track to stop trains.",
+      "example_en": "The train stopped safely at the buffer.",
+      "level": "B1"
+    }
+  ]
+}

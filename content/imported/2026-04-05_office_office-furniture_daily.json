@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "office-furniture",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:03:23.560Z"
+  },
+  "items": [
+    {
+      "lemma": "desk",
+      "pos": "noun",
+      "translation_pl": "biurko",
+      "definition_en": "A desk is a piece of furniture you use to work.",
+      "example_en": "She keeps her computer on her desk.",
+      "level": "A1"
+    },
+    {
+      "lemma": "chair",
+      "pos": "noun",
+      "translation_pl": "krzesło",
+      "definition_en": "A chair is a seat for one person.",
+      "example_en": "He sat on his chair to write.",
+      "level": "A1"
+    },
+    {
+      "lemma": "table",
+      "pos": "noun",
+      "translation_pl": "stół",
+      "definition_en": "A table is a flat surface with legs for working or eating.",
+      "example_en": "They put the books on the table.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cabinet",
+      "pos": "noun",
+      "translation_pl": "szafka",
+      "definition_en": "A cabinet is a piece of furniture with doors for storing things.",
+      "example_en": "The keys are in the cabinet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bookshelf",
+      "pos": "noun",
+      "translation_pl": "regał na książki",
+      "definition_en": "A bookshelf is a piece of furniture for holding books.",
+      "example_en": "The report is on the bookshelf.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sofa",
+      "pos": "noun",
+      "translation_pl": "sofa",
+      "definition_en": "A sofa is a long, comfortable seat for several people.",
+      "example_en": "They talked while sitting on the sofa.",
+      "level": "A2"
+    },
+    {
+      "lemma": "couch",
+      "pos": "noun",
+      "translation_pl": "kanapa",
+      "definition_en": "A couch is a soft piece of furniture to sit or lie on.",
+      "example_en": "He relaxed on the couch after lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cupboard",
+      "pos": "noun",
+      "translation_pl": "szafka",
+      "definition_en": "A cupboard is a piece of furniture with shelves for storing things.",
+      "example_en": "I keep the cups in the cupboard.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wardrobe",
+      "pos": "noun",
+      "translation_pl": "szafa",
+      "definition_en": "A wardrobe is a tall piece of furniture for hanging clothes.",
+      "example_en": "She put her jacket in the wardrobe.",
+      "level": "B1"
+    },
+    {
+      "lemma": "drawer",
+      "pos": "noun",
+      "translation_pl": "szuflada",
+      "definition_en": "A drawer is a box in a desk or table that you pull out.",
+      "example_en": "Pens are kept in this drawer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "file cabinet",
+      "pos": "noun",
+      "translation_pl": "szafka na dokumenty",
+      "definition_en": "A file cabinet is a piece of furniture for storing files.",
+      "example_en": "The contracts are in the file cabinet.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stool",
+      "pos": "noun",
+      "translation_pl": "stołek",
+      "definition_en": "A stool is a seat with no back or arms.",
+      "example_en": "He sat on a stool at the counter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "armchair",
+      "pos": "noun",
+      "translation_pl": "fotel",
+      "definition_en": "An armchair is a soft chair with supports for your arms.",
+      "example_en": "She read a book in the armchair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bench",
+      "pos": "noun",
+      "translation_pl": "ławka",
+      "definition_en": "A bench is a long seat for several people.",
+      "example_en": "They waited on the bench outside.",
+      "level": "A2"
+    },
+    {
+      "lemma": "meeting table",
+      "pos": "noun",
+      "translation_pl": "stół konferencyjny",
+      "definition_en": "A meeting table is a large table used during group discussions.",
+      "example_en": "We gather around the meeting table every Monday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "reception desk",
+      "pos": "noun",
+      "translation_pl": "lada recepcyjna",
+      "definition_en": "A reception desk is a desk where visitors are welcomed.",
+      "example_en": "She greeted guests at the reception desk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "locker",
+      "pos": "noun",
+      "translation_pl": "szafka zamykana",
+      "definition_en": "A locker is a small cupboard that locks for keeping things safe.",
+      "example_en": "He put his bag in the locker.",
+      "level": "B1"
+    },
+    {
+      "lemma": "office divider",
+      "pos": "noun",
+      "translation_pl": "ścianka działowa",
+      "definition_en": "An office divider is a screen that separates workspaces.",
+      "example_en": "They put up an office divider for more privacy.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bookcase",
+      "pos": "noun",
+      "translation_pl": "biblioteczka",
+      "definition_en": "A bookcase is a set of shelves for keeping books.",
+      "example_en": "The office bookcase is full of files.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coffee table",
+      "pos": "noun",
+      "translation_pl": "stolik kawowy",
+      "definition_en": "A coffee table is a small table in front of a sofa.",
+      "example_en": "The coffee table holds magazines and tea.",
+      "level": "B1"
+    }
+  ]
+}

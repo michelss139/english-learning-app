@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "dairy-products",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:28:08.217Z"
+  },
+  "items": [
+    {
+      "lemma": "cheese",
+      "pos": "noun",
+      "translation_pl": "ser",
+      "definition_en": "Cheese is a solid food made from milk.",
+      "example_en": "He put cheese on his sandwich.",
+      "level": "A1"
+    },
+    {
+      "lemma": "butter",
+      "pos": "noun",
+      "translation_pl": "masło",
+      "definition_en": "Butter is a yellow fat food made from milk.",
+      "example_en": "She spread butter on her toast.",
+      "level": "A1"
+    },
+    {
+      "lemma": "yogurt",
+      "pos": "noun",
+      "translation_pl": "jogurt",
+      "definition_en": "Yogurt is a creamy food made from milk.",
+      "example_en": "I like to eat yogurt for breakfast.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cream",
+      "pos": "noun",
+      "translation_pl": "śmietana",
+      "definition_en": "Cream is the thick part of milk used in food.",
+      "example_en": "We added cream to the soup.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ice cream",
+      "pos": "noun",
+      "translation_pl": "lody",
+      "definition_en": "Ice cream is a cold sweet dessert made from milk or cream.",
+      "example_en": "The children ate chocolate ice cream.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cottage cheese",
+      "pos": "noun",
+      "translation_pl": "twaróg",
+      "definition_en": "Cottage cheese is a soft white cheese with small pieces.",
+      "example_en": "She sprinkled fruit on her cottage cheese.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sour cream",
+      "pos": "noun",
+      "translation_pl": "śmietana kwaśna",
+      "definition_en": "Sour cream is a thick, tangy cream often used in cooking.",
+      "example_en": "We put sour cream on our baked potatoes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "yoghurt drink",
+      "pos": "noun",
+      "translation_pl": "napój jogurtowy",
+      "definition_en": "A yoghurt drink is a liquid dairy product made from yogurt.",
+      "example_en": "He bought a strawberry yoghurt drink for lunch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ghee",
+      "pos": "noun",
+      "translation_pl": "klarowane masło",
+      "definition_en": "Ghee is a type of clarified butter used in cooking.",
+      "example_en": "She cooked the vegetables in ghee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "whey",
+      "pos": "noun",
+      "translation_pl": "serwatka",
+      "definition_en": "Whey is the liquid part left after making cheese.",
+      "example_en": "Whey is sometimes used in drinks and baking.",
+      "level": "B1"
+    },
+    {
+      "lemma": "curd",
+      "pos": "noun",
+      "translation_pl": "skrzep",
+      "definition_en": "Curd is the thick part of milk that forms when it turns sour.",
+      "example_en": "Curd is used in many Indian dishes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "whipped cream",
+      "pos": "noun",
+      "translation_pl": "bita śmietana",
+      "definition_en": "Whipped cream is cream that has been beaten until light and fluffy.",
+      "example_en": "The pie was topped with whipped cream.",
+      "level": "A2"
+    },
+    {
+      "lemma": "skim milk",
+      "pos": "noun",
+      "translation_pl": "odtłuszczone mleko",
+      "definition_en": "Skim milk is milk with almost all the fat removed.",
+      "example_en": "He prefers skim milk in his coffee.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hard cheese",
+      "pos": "noun",
+      "translation_pl": "ser twardy",
+      "definition_en": "Hard cheese is a firm type of cheese like cheddar.",
+      "example_en": "They served hard cheese on crackers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "soft cheese",
+      "pos": "noun",
+      "translation_pl": "ser miękki",
+      "definition_en": "Soft cheese is a creamy type of cheese like brie.",
+      "example_en": "She likes soft cheese with bread.",
+      "level": "B1"
+    },
+    {
+      "lemma": "kefir",
+      "pos": "noun",
+      "translation_pl": "kefir",
+      "definition_en": "Kefir is a sour dairy drink made by fermenting milk.",
+      "example_en": "Kefir is often enjoyed as a healthy drink.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clotted cream",
+      "pos": "noun",
+      "translation_pl": "śmietana gęsta",
+      "definition_en": "Clotted cream is a very thick, rich cream.",
+      "example_en": "They served clotted cream with scones.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ricotta",
+      "pos": "noun",
+      "translation_pl": "ricotta",
+      "definition_en": "Ricotta is a soft, creamy Italian cheese.",
+      "example_en": "She added ricotta to the pasta.",
+      "level": "B1"
+    },
+    {
+      "lemma": "mozzarella",
+      "pos": "noun",
+      "translation_pl": "mozzarella",
+      "definition_en": "Mozzarella is a white, soft Italian cheese.",
+      "example_en": "He put mozzarella on the pizza.",
+      "level": "A2"
+    },
+    {
+      "lemma": "crème fraîche",
+      "pos": "noun",
+      "translation_pl": "crème fraîche",
+      "definition_en": "Crème fraîche is a thick, slightly sour cream used in recipes.",
+      "example_en": "They stirred crème fraîche into the sauce.",
+      "level": "B1"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "watering",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:38:57.706Z"
+  },
+  "items": [
+    {
+      "lemma": "irrigation system",
+      "pos": "noun",
+      "translation_pl": "system nawadniania",
+      "definition_en": "An irrigation system is a set of equipment used to supply water to plants.",
+      "example_en": "The irrigation system in our garden saves us a lot of time.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watering can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A watering can is a container with a spout used to water plants by hand.",
+      "example_en": "She filled the watering can to help water the flowers.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sprinkler",
+      "pos": "noun",
+      "translation_pl": "zraszacz",
+      "definition_en": "A sprinkler is a device that sprays water onto plants or grass.",
+      "example_en": "The sprinkler covers the entire lawn with a gentle mist.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hosepipe",
+      "pos": "noun",
+      "translation_pl": "wąż ogrodowy",
+      "definition_en": "A hosepipe is a flexible tube used to carry water for gardening.",
+      "example_en": "He connected the hosepipe to the tap to reach the vegetable patch.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rain barrel",
+      "pos": "noun",
+      "translation_pl": "beczka na deszczówkę",
+      "definition_en": "A rain barrel is a large container used to collect rainwater.",
+      "example_en": "We use a rain barrel to collect water for the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watering schedule",
+      "pos": "noun",
+      "translation_pl": "harmonogram podlewania",
+      "definition_en": "A watering schedule is a planned timetable for when to water plants.",
+      "example_en": "I follow a strict watering schedule to keep my plants healthy.",
+      "level": "C1"
+    },
+    {
+      "lemma": "soaker hose",
+      "pos": "noun",
+      "translation_pl": "wąż nawadniający",
+      "definition_en": "A soaker hose is a type of hose that slowly releases water along its length.",
+      "example_en": "A soaker hose is perfect for watering the vegetable beds evenly.",
+      "level": "C1"
+    },
+    {
+      "lemma": "watering technique",
+      "pos": "noun",
+      "translation_pl": "technika podlewania",
+      "definition_en": "A watering technique is a specific way of delivering water to plants.",
+      "example_en": "She learned a new watering technique to minimize waste.",
+      "level": "C1"
+    },
+    {
+      "lemma": "drip irrigation",
+      "pos": "noun",
+      "translation_pl": "nawadnianie kropelkowe",
+      "definition_en": "Drip irrigation is a method of supplying water directly to plant roots.",
+      "example_en": "Drip irrigation reduces water usage in the garden.",
+      "level": "B2"
+    },
+    {
+      "lemma": "moisture sensor",
+      "pos": "noun",
+      "translation_pl": "czujnik wilgotności",
+      "definition_en": "A moisture sensor is a device that measures how much water is in the soil.",
+      "example_en": "The moisture sensor indicates when the soil is too dry.",
+      "level": "C2"
+    },
+    {
+      "lemma": "watering timer",
+      "pos": "noun",
+      "translation_pl": "timer do podlewania",
+      "definition_en": "A watering timer is a device that automatically controls when watering starts and stops.",
+      "example_en": "We set the watering timer to run every morning.",
+      "level": "C1"
+    },
+    {
+      "lemma": "mulch layer",
+      "pos": "noun",
+      "translation_pl": "warstwa ściółki",
+      "definition_en": "A mulch layer is a covering of material on soil to keep in moisture.",
+      "example_en": "We applied a fresh mulch layer to help retain moisture in the beds.",
+      "level": "C2"
+    },
+    {
+      "lemma": "rainwater collection",
+      "pos": "noun",
+      "translation_pl": "zbieranie deszczówki",
+      "definition_en": "Rainwater collection is the process of gathering and storing rainwater for use.",
+      "example_en": "Rainwater collection helps us water the garden sustainably.",
+      "level": "C1"
+    },
+    {
+      "lemma": "nozzle",
+      "pos": "noun",
+      "translation_pl": "dysza",
+      "definition_en": "A nozzle is a device for controlling the direction or flow of water.",
+      "example_en": "The adjustable nozzle lets you change the water's spray pattern.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watering rose",
+      "pos": "noun",
+      "translation_pl": "sito konewki",
+      "definition_en": "A watering rose is a perforated cap for a watering can to give a gentle spray.",
+      "example_en": "Attach the watering rose to sprinkle water over delicate seedlings.",
+      "level": "C1"
+    },
+    {
+      "lemma": "garden reservoir",
+      "pos": "noun",
+      "translation_pl": "zbiornik ogrodowy",
+      "definition_en": "A garden reservoir is a large container storing water for garden use.",
+      "example_en": "The garden reservoir provides enough water during dry spells.",
+      "level": "C2"
+    },
+    {
+      "lemma": "drought",
+      "pos": "noun",
+      "translation_pl": "susza",
+      "definition_en": "A drought is a long period with little or no rain.",
+      "example_en": "Many plants struggled during the recent drought.",
+      "level": "B2"
+    },
+    {
+      "lemma": "watering wand",
+      "pos": "noun",
+      "translation_pl": "lanca do podlewania",
+      "definition_en": "A watering wand is a long tool attached to a hose for reaching plants.",
+      "example_en": "I use a watering wand to water hanging baskets easily.",
+      "level": "B2"
+    },
+    {
+      "lemma": "root zone",
+      "pos": "noun",
+      "translation_pl": "strefa korzeniowa",
+      "definition_en": "A root zone is the area of soil around the roots of a plant.",
+      "example_en": "Make sure the root zone gets enough moisture when you water.",
+      "level": "C1"
+    },
+    {
+      "lemma": "water conservation",
+      "pos": "noun",
+      "translation_pl": "oszczędzanie wody",
+      "definition_en": "Water conservation is the practice of using water efficiently to reduce waste.",
+      "example_en": "Water conservation is essential during the dry season.",
+      "level": "C1"
+    }
+  ]
+}

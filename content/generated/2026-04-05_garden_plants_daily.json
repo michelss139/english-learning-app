@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "plants",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:37:36.607Z"
+  },
+  "items": [
+    {
+      "lemma": "flower",
+      "pos": "noun",
+      "translation_pl": "kwiat",
+      "definition_en": "A flower is the colorful part of a plant that often smells nice.",
+      "example_en": "She picked a red flower from the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tree",
+      "pos": "noun",
+      "translation_pl": "drzewo",
+      "definition_en": "A tree is a tall plant with a trunk and branches.",
+      "example_en": "The tree in our garden gives us lots of shade.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bush",
+      "pos": "noun",
+      "translation_pl": "krzew",
+      "definition_en": "A bush is a plant that is smaller than a tree and has many branches.",
+      "example_en": "The children hid behind the bush.",
+      "level": "A2"
+    },
+    {
+      "lemma": "grass",
+      "pos": "noun",
+      "translation_pl": "trawa",
+      "definition_en": "Grass is a short green plant that covers the ground.",
+      "example_en": "We sat on the grass and had a picnic.",
+      "level": "A1"
+    },
+    {
+      "lemma": "herb",
+      "pos": "noun",
+      "translation_pl": "zioło",
+      "definition_en": "An herb is a plant that people use for cooking or medicine.",
+      "example_en": "She grows mint and basil, which are her favorite herbs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rose",
+      "pos": "noun",
+      "translation_pl": "róża",
+      "definition_en": "A rose is a beautiful flower that often has a sweet smell.",
+      "example_en": "There is a pink rose blooming near the path.",
+      "level": "A2"
+    },
+    {
+      "lemma": "leaf",
+      "pos": "noun",
+      "translation_pl": "liść",
+      "definition_en": "A leaf is the flat, green part of a plant that grows from the stem.",
+      "example_en": "A leaf fell from the plant onto the ground.",
+      "level": "A1"
+    },
+    {
+      "lemma": "root",
+      "pos": "noun",
+      "translation_pl": "korzeń",
+      "definition_en": "A root is the part of a plant that grows underground and takes in water.",
+      "example_en": "The carrot is a root we can eat.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fruit",
+      "pos": "noun",
+      "translation_pl": "owoc",
+      "definition_en": "A fruit is the part of a plant that has seeds and can be eaten.",
+      "example_en": "The apple tree in my garden is full of fruit.",
+      "level": "A1"
+    },
+    {
+      "lemma": "vegetable",
+      "pos": "noun",
+      "translation_pl": "warzywo",
+      "definition_en": "A vegetable is a plant or part of a plant that people eat.",
+      "example_en": "We grow a different vegetable in each part of the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "seed",
+      "pos": "noun",
+      "translation_pl": "nasiono",
+      "definition_en": "A seed is a small part of a plant that can grow into a new plant.",
+      "example_en": "He planted a seed in the ground.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shrub",
+      "pos": "noun",
+      "translation_pl": "krzew",
+      "definition_en": "A shrub is a low bush with woody stems.",
+      "example_en": "We have planted a new shrub next to the fence.",
+      "level": "B1"
+    },
+    {
+      "lemma": "vine",
+      "pos": "noun",
+      "translation_pl": "pnącze",
+      "definition_en": "A vine is a plant with a long stem that climbs or spreads.",
+      "example_en": "Grapes grow on a vine in our backyard.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fern",
+      "pos": "noun",
+      "translation_pl": "paproć",
+      "definition_en": "A fern is a green plant with long, feathery leaves.",
+      "example_en": "The fern grows well in shady corners of the garden.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bulb",
+      "pos": "noun",
+      "translation_pl": "cebula kwiatowa",
+      "definition_en": "A bulb is a round part of some plants that grows underground.",
+      "example_en": "She planted a tulip bulb in the spring.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cactus",
+      "pos": "noun",
+      "translation_pl": "kaktus",
+      "definition_en": "A cactus is a plant with thick stems and sharp spines.",
+      "example_en": "The cactus in the pot does not need much water.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stem",
+      "pos": "noun",
+      "translation_pl": "łodyga",
+      "definition_en": "A stem is the long, thin part of a plant that supports the leaves and flowers.",
+      "example_en": "The flower has a strong green stem.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bean",
+      "pos": "noun",
+      "translation_pl": "fasola",
+      "definition_en": "A bean is a small seed or pod from a plant that people can eat.",
+      "example_en": "We grow bean plants along the back fence.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lettuce",
+      "pos": "noun",
+      "translation_pl": "sałata",
+      "definition_en": "Lettuce is a green leafy plant that people use in salads.",
+      "example_en": "Fresh lettuce grows quickly in warm weather.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sunflower",
+      "pos": "noun",
+      "translation_pl": "słonecznik",
+      "definition_en": "A sunflower is a tall plant with a large yellow flower.",
+      "example_en": "Every summer, tall sunflowers grow along the fence.",
+      "level": "A2"
+    }
+  ]
+}

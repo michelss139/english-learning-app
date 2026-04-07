@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "herbs-and-spices",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:31:36.295Z"
+  },
+  "items": [
+    {
+      "lemma": "basil",
+      "pos": "noun",
+      "translation_pl": "bazylia",
+      "definition_en": "Basil is a green herb often used in cooking.",
+      "example_en": "She added fresh basil to the pasta.",
+      "level": "A2"
+    },
+    {
+      "lemma": "thyme",
+      "pos": "noun",
+      "translation_pl": "tymianek",
+      "definition_en": "Thyme is a small herb used to flavor food.",
+      "example_en": "They put thyme into the soup.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cinnamon",
+      "pos": "noun",
+      "translation_pl": "cynamon",
+      "definition_en": "Cinnamon is a brown spice often used in sweet dishes.",
+      "example_en": "She sprinkled cinnamon on her oatmeal.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mint",
+      "pos": "noun",
+      "translation_pl": "mięta",
+      "definition_en": "Mint is a green herb with a fresh taste.",
+      "example_en": "He put mint leaves in his drink.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dill",
+      "pos": "noun",
+      "translation_pl": "koperek",
+      "definition_en": "Dill is a green plant used for flavor in food.",
+      "example_en": "She sprinkled dill on the potatoes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rosemary",
+      "pos": "noun",
+      "translation_pl": "rozmaryn",
+      "definition_en": "Rosemary is a fragrant herb used in cooking.",
+      "example_en": "They used rosemary to season the chicken.",
+      "level": "A2"
+    },
+    {
+      "lemma": "parsley",
+      "pos": "noun",
+      "translation_pl": "pietruszka",
+      "definition_en": "Parsley is a common green herb added to food.",
+      "example_en": "She garnished the soup with parsley.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ginger",
+      "pos": "noun",
+      "translation_pl": "imbir",
+      "definition_en": "Ginger is a spicy root used in cooking.",
+      "example_en": "Ginger adds flavor to tea and cakes.",
+      "level": "A2"
+    },
+    {
+      "lemma": "coriander",
+      "pos": "noun",
+      "translation_pl": "kolendra",
+      "definition_en": "Coriander is a green herb with a strong taste.",
+      "example_en": "Coriander is used in many Asian dishes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "paprika",
+      "pos": "noun",
+      "translation_pl": "papryka w proszku",
+      "definition_en": "Paprika is a red spice made from dried peppers.",
+      "example_en": "He added paprika to the stew for color.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nutmeg",
+      "pos": "noun",
+      "translation_pl": "gałka muszkatołowa",
+      "definition_en": "Nutmeg is a spice with a warm, sweet taste.",
+      "example_en": "She put a little nutmeg in the sauce.",
+      "level": "B1"
+    },
+    {
+      "lemma": "chili powder",
+      "pos": "noun",
+      "translation_pl": "proszek chili",
+      "definition_en": "Chili powder is a spicy red powder used in food.",
+      "example_en": "He likes to add chili powder to his beans.",
+      "level": "A2"
+    },
+    {
+      "lemma": "oregano",
+      "pos": "noun",
+      "translation_pl": "oregano",
+      "definition_en": "Oregano is a herb often used in pizza and pasta.",
+      "example_en": "She sprinkled oregano on the pizza.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fennel",
+      "pos": "noun",
+      "translation_pl": "koper włoski",
+      "definition_en": "Fennel is a plant with seeds and leaves used in food.",
+      "example_en": "Fennel adds a sweet flavor to dishes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clove",
+      "pos": "noun",
+      "translation_pl": "goździk",
+      "definition_en": "A clove is a small brown spice used in cooking.",
+      "example_en": "Cloves give a warm taste to baked goods.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sage",
+      "pos": "noun",
+      "translation_pl": "szałwia",
+      "definition_en": "Sage is a herb with grey-green leaves used in food.",
+      "example_en": "She used sage in the stuffing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tarragon",
+      "pos": "noun",
+      "translation_pl": "estragon",
+      "definition_en": "Tarragon is a green herb with a strong flavor.",
+      "example_en": "Tarragon is common in French cooking.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bay leaf",
+      "pos": "noun",
+      "translation_pl": "liść laurowy",
+      "definition_en": "A bay leaf is a dried leaf put in soups and stews.",
+      "example_en": "She added a bay leaf to the pot.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cumin",
+      "pos": "noun",
+      "translation_pl": "kumin",
+      "definition_en": "Cumin is a spice made from small brown seeds.",
+      "example_en": "Cumin gives a warm taste to curry.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cardamom",
+      "pos": "noun",
+      "translation_pl": "kardamon",
+      "definition_en": "Cardamom is a spice with a strong, sweet taste.",
+      "example_en": "Cardamom is often used in desserts.",
+      "level": "B1"
+    }
+  ]
+}

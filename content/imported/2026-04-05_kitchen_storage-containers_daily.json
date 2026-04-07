@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "storage-containers",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:48:10.851Z"
+  },
+  "items": [
+    {
+      "lemma": "food container",
+      "pos": "noun",
+      "translation_pl": "pojemnik na żywność",
+      "definition_en": "A food container is an item used to store food.",
+      "example_en": "She put the leftover soup in a food container.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lunch box",
+      "pos": "noun",
+      "translation_pl": "pudełko na lunch",
+      "definition_en": "A lunch box is a small container for carrying meals.",
+      "example_en": "He takes his sandwich to school in a lunch box.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bread box",
+      "pos": "noun",
+      "translation_pl": "chlebak",
+      "definition_en": "A bread box is a box for keeping bread fresh.",
+      "example_en": "The rolls stay soft in the bread box.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cookie jar",
+      "pos": "noun",
+      "translation_pl": "słoik na ciastka",
+      "definition_en": "A cookie jar is a jar used to store cookies.",
+      "example_en": "There are chocolate chips in the cookie jar.",
+      "level": "A1"
+    },
+    {
+      "lemma": "storage bin",
+      "pos": "noun",
+      "translation_pl": "pojemnik do przechowywania",
+      "definition_en": "A storage bin is a large box for storing things.",
+      "example_en": "They keep onions in a storage bin under the sink.",
+      "level": "B1"
+    },
+    {
+      "lemma": "spice jar",
+      "pos": "noun",
+      "translation_pl": "słoiczek na przyprawy",
+      "definition_en": "A spice jar is a small container for spices.",
+      "example_en": "She filled the spice jar with cinnamon.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plastic tub",
+      "pos": "noun",
+      "translation_pl": "plastikowy pojemnik",
+      "definition_en": "A plastic tub is a round plastic container.",
+      "example_en": "Yogurt comes in a plastic tub.",
+      "level": "A2"
+    },
+    {
+      "lemma": "glass jar",
+      "pos": "noun",
+      "translation_pl": "szklany słoik",
+      "definition_en": "A glass jar is a clear container usually with a lid.",
+      "example_en": "She stored honey in a glass jar.",
+      "level": "A1"
+    },
+    {
+      "lemma": "canister",
+      "pos": "noun",
+      "translation_pl": "pojemnik",
+      "definition_en": "A canister is a container for holding dry food.",
+      "example_en": "Coffee beans are kept in a canister.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tupperware",
+      "pos": "noun",
+      "translation_pl": "pojemnik plastikowy",
+      "definition_en": "Tupperware is a brand name for a plastic food container.",
+      "example_en": "She fills her tupperware with salad for lunch.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pantry box",
+      "pos": "noun",
+      "translation_pl": "pojemnik do spiżarni",
+      "definition_en": "A pantry box is a container for storing pantry items.",
+      "example_en": "He organizes rice and beans in a pantry box.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ice cube tray",
+      "pos": "noun",
+      "translation_pl": "foremka na lód",
+      "definition_en": "An ice cube tray is a container for making ice cubes.",
+      "example_en": "She filled the ice cube tray with water.",
+      "level": "A1"
+    },
+    {
+      "lemma": "milk jug",
+      "pos": "noun",
+      "translation_pl": "dzbanek na mleko",
+      "definition_en": "A milk jug is a container used to store milk.",
+      "example_en": "He poured milk from the milk jug.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bottle",
+      "pos": "noun",
+      "translation_pl": "butelka",
+      "definition_en": "A bottle is a container with a narrow neck for liquids.",
+      "example_en": "She opened a bottle of water.",
+      "level": "A1"
+    },
+    {
+      "lemma": "vacuum jar",
+      "pos": "noun",
+      "translation_pl": "słoik próżniowy",
+      "definition_en": "A vacuum jar is a jar sealed to keep air out.",
+      "example_en": "They store jam in a vacuum jar.",
+      "level": "B1"
+    },
+    {
+      "lemma": "lunch bag",
+      "pos": "noun",
+      "translation_pl": "torebka na lunch",
+      "definition_en": "A lunch bag is a bag for carrying food to eat later.",
+      "example_en": "He takes his sandwich in a lunch bag.",
+      "level": "A1"
+    },
+    {
+      "lemma": "egg carton",
+      "pos": "noun",
+      "translation_pl": "wytłaczanka na jajka",
+      "definition_en": "An egg carton is a container for holding eggs.",
+      "example_en": "The eggs are stored in an egg carton.",
+      "level": "A1"
+    },
+    {
+      "lemma": "storage basket",
+      "pos": "noun",
+      "translation_pl": "kosz do przechowywania",
+      "definition_en": "A storage basket is a basket for keeping kitchen items.",
+      "example_en": "She keeps snacks in a storage basket.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tin",
+      "pos": "noun",
+      "translation_pl": "puszka",
+      "definition_en": "A tin is a metal container for food or treats.",
+      "example_en": "She saves cookies in a tin.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pitcher",
+      "pos": "noun",
+      "translation_pl": "dzbanek",
+      "definition_en": "A pitcher is a large container for pouring drinks.",
+      "example_en": "The pitcher held cold lemonade.",
+      "level": "A1"
+    }
+  ]
+}

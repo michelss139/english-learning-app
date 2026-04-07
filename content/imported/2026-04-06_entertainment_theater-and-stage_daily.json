@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "theater-and-stage",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:42:17.082Z"
+  },
+  "items": [
+    {
+      "lemma": "act",
+      "pos": "noun",
+      "translation_pl": "akt",
+      "definition_en": "An act is a part of a play or show.",
+      "example_en": "The play has three acts.",
+      "level": "A2"
+    },
+    {
+      "lemma": "audience",
+      "pos": "noun",
+      "translation_pl": "publiczność",
+      "definition_en": "An audience is a group of people watching a show.",
+      "example_en": "The audience cheered loudly after the performance.",
+      "level": "A2"
+    },
+    {
+      "lemma": "actor",
+      "pos": "noun",
+      "translation_pl": "aktor",
+      "definition_en": "An actor is a person who performs in plays or movies.",
+      "example_en": "The actor played the main character.",
+      "level": "A1"
+    },
+    {
+      "lemma": "actress",
+      "pos": "noun",
+      "translation_pl": "aktorka",
+      "definition_en": "An actress is a woman who acts in plays or movies.",
+      "example_en": "The actress accepted her prize on stage.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ballet",
+      "pos": "noun",
+      "translation_pl": "balet",
+      "definition_en": "Ballet is a style of dance performed on stage.",
+      "example_en": "We watched a ballet at the theater last night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "curtain",
+      "pos": "noun",
+      "translation_pl": "kurtyna",
+      "definition_en": "A curtain is a large piece of cloth that opens or closes the stage.",
+      "example_en": "The curtain closed after the final scene.",
+      "level": "A2"
+    },
+    {
+      "lemma": "drama",
+      "pos": "noun",
+      "translation_pl": "dramat",
+      "definition_en": "A drama is a serious play for the theater.",
+      "example_en": "They performed a drama about family life.",
+      "level": "A2"
+    },
+    {
+      "lemma": "playwright",
+      "pos": "noun",
+      "translation_pl": "dramaturg",
+      "definition_en": "A playwright is a person who writes plays.",
+      "example_en": "The famous playwright visited the theater.",
+      "level": "B1"
+    },
+    {
+      "lemma": "prop",
+      "pos": "noun",
+      "translation_pl": "rekwizyt",
+      "definition_en": "A prop is an object used by actors during a play.",
+      "example_en": "The chair was used as a prop in the scene.",
+      "level": "A2"
+    },
+    {
+      "lemma": "script",
+      "pos": "noun",
+      "translation_pl": "scenariusz",
+      "definition_en": "A script is the written text of a play or movie.",
+      "example_en": "She read her lines from the script.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stage",
+      "pos": "noun",
+      "translation_pl": "scena",
+      "definition_en": "A stage is the area where actors perform.",
+      "example_en": "The stage was decorated with flowers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "theater",
+      "pos": "noun",
+      "translation_pl": "teatr",
+      "definition_en": "A theater is a place where plays and shows happen.",
+      "example_en": "We went to the theater to see a play.",
+      "level": "A1"
+    },
+    {
+      "lemma": "rehearsal",
+      "pos": "noun",
+      "translation_pl": "próba",
+      "definition_en": "A rehearsal is a practice before the real show.",
+      "example_en": "The cast had a rehearsal every day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cast",
+      "pos": "noun",
+      "translation_pl": "obsada",
+      "definition_en": "A cast is all the actors in a play or movie.",
+      "example_en": "The cast took a bow at the end.",
+      "level": "B1"
+    },
+    {
+      "lemma": "audition",
+      "pos": "noun",
+      "translation_pl": "przesłuchanie",
+      "definition_en": "An audition is a test where someone tries to get a part in a show.",
+      "example_en": "He went to an audition for a new play.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ticket",
+      "pos": "noun",
+      "translation_pl": "bilet",
+      "definition_en": "A ticket is a small paper or card letting you enter a show.",
+      "example_en": "I bought my ticket at the door.",
+      "level": "A1"
+    },
+    {
+      "lemma": "play",
+      "pos": "noun",
+      "translation_pl": "sztuka teatralna",
+      "definition_en": "A play is a story performed on stage by actors.",
+      "example_en": "They saw a play about history.",
+      "level": "A1"
+    },
+    {
+      "lemma": "puppet",
+      "pos": "noun",
+      "translation_pl": "marionetka",
+      "definition_en": "A puppet is a small figure moved by a person in a show.",
+      "example_en": "Children laughed at the puppet show.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mask",
+      "pos": "noun",
+      "translation_pl": "maska",
+      "definition_en": "A mask is something worn on the face by actors.",
+      "example_en": "The actors wore masks during the performance.",
+      "level": "A2"
+    },
+    {
+      "lemma": "box office",
+      "pos": "noun",
+      "translation_pl": "kasa biletowa",
+      "definition_en": "A box office is where you buy tickets at the theater.",
+      "example_en": "She worked at the box office selling tickets.",
+      "level": "B1"
+    }
+  ]
+}

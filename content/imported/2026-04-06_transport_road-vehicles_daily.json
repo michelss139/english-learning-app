@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "transport",
+    "subcategory": "road-vehicles",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:35:16.083Z"
+  },
+  "items": [
+    {
+      "lemma": "car",
+      "pos": "noun",
+      "translation_pl": "samochód",
+      "definition_en": "A car is a road vehicle used for carrying people.",
+      "example_en": "She drives her car to work every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "truck",
+      "pos": "noun",
+      "translation_pl": "ciężarówka",
+      "definition_en": "A truck is a large vehicle for carrying heavy things.",
+      "example_en": "The truck delivered boxes to the shop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "motorcycle",
+      "pos": "noun",
+      "translation_pl": "motocykl",
+      "definition_en": "A motorcycle is a two-wheeled motor vehicle.",
+      "example_en": "He likes to ride his motorcycle on weekends.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bicycle",
+      "pos": "noun",
+      "translation_pl": "rower",
+      "definition_en": "A bicycle is a vehicle with two wheels you ride by pedaling.",
+      "example_en": "Children often ride a bicycle to school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "taxi",
+      "pos": "noun",
+      "translation_pl": "taksówka",
+      "definition_en": "A taxi is a car you pay to travel in.",
+      "example_en": "She took a taxi to the airport.",
+      "level": "A1"
+    },
+    {
+      "lemma": "minivan",
+      "pos": "noun",
+      "translation_pl": "minivan",
+      "definition_en": "A minivan is a small van for carrying people or goods.",
+      "example_en": "The family used a minivan for their trip.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scooter",
+      "pos": "noun",
+      "translation_pl": "skuter",
+      "definition_en": "A scooter is a small motorcycle with a step-through frame.",
+      "example_en": "He goes to work on his scooter every morning.",
+      "level": "A1"
+    },
+    {
+      "lemma": "coach",
+      "pos": "noun",
+      "translation_pl": "autokar",
+      "definition_en": "A coach is a large bus for travelling long distances.",
+      "example_en": "We took a coach to visit another city.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pickup truck",
+      "pos": "noun",
+      "translation_pl": "pickup",
+      "definition_en": "A pickup truck is a small truck with an open back.",
+      "example_en": "They loaded the boxes onto the pickup truck.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fire engine",
+      "pos": "noun",
+      "translation_pl": "wóz strażacki",
+      "definition_en": "A fire engine is a special truck used by firefighters.",
+      "example_en": "The fire engine arrived quickly at the scene.",
+      "level": "A2"
+    },
+    {
+      "lemma": "police car",
+      "pos": "noun",
+      "translation_pl": "radiowóz",
+      "definition_en": "A police car is used by police officers for work.",
+      "example_en": "A police car stopped by the store.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ambulance",
+      "pos": "noun",
+      "translation_pl": "karetka",
+      "definition_en": "An ambulance is a special vehicle that carries sick or hurt people.",
+      "example_en": "The ambulance came very fast.",
+      "level": "A1"
+    },
+    {
+      "lemma": "van",
+      "pos": "noun",
+      "translation_pl": "van",
+      "definition_en": "A van is a road vehicle used for carrying goods or people.",
+      "example_en": "The van was full of packages.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tractor",
+      "pos": "noun",
+      "translation_pl": "ciągnik",
+      "definition_en": "A tractor is a strong vehicle used on farms.",
+      "example_en": "The farmer drove the tractor across the field.",
+      "level": "A2"
+    },
+    {
+      "lemma": "delivery van",
+      "pos": "noun",
+      "translation_pl": "samochód dostawczy",
+      "definition_en": "A delivery van is used for bringing goods to people.",
+      "example_en": "A delivery van brought our new fridge today.",
+      "level": "A2"
+    },
+    {
+      "lemma": "motorhome",
+      "pos": "noun",
+      "translation_pl": "kamper",
+      "definition_en": "A motorhome is a large vehicle where people can live or travel.",
+      "example_en": "They drove their motorhome across the country.",
+      "level": "B1"
+    },
+    {
+      "lemma": "roadster",
+      "pos": "noun",
+      "translation_pl": "roadster",
+      "definition_en": "A roadster is a small, open car that is fun to drive.",
+      "example_en": "He bought a new roadster for summer trips.",
+      "level": "B1"
+    },
+    {
+      "lemma": "school bus",
+      "pos": "noun",
+      "translation_pl": "autobus szkolny",
+      "definition_en": "A school bus takes children to and from school.",
+      "example_en": "The school bus arrives at 8 am every day.",
+      "level": "A1"
+    },
+    {
+      "lemma": "limousine",
+      "pos": "noun",
+      "translation_pl": "limuzyna",
+      "definition_en": "A limousine is a long, fancy car for special events.",
+      "example_en": "They hired a limousine for the wedding.",
+      "level": "A2"
+    },
+    {
+      "lemma": "jeep",
+      "pos": "noun",
+      "translation_pl": "terenówka",
+      "definition_en": "A jeep is a small strong car that can drive on rough roads.",
+      "example_en": "They drove a jeep through the forest.",
+      "level": "A2"
+    }
+  ]
+}

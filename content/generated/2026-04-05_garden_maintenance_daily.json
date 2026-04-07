@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "garden",
+    "subcategory": "maintenance",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T18:39:28.017Z"
+  },
+  "items": [
+    {
+      "lemma": "water can",
+      "pos": "noun",
+      "translation_pl": "konewka",
+      "definition_en": "A water can is a container for pouring water on plants.",
+      "example_en": "She filled the water can to water the flowers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "hose",
+      "pos": "noun",
+      "translation_pl": "wąż ogrodowy",
+      "definition_en": "A hose is a long tube for carrying water.",
+      "example_en": "He used the hose to water the grass.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lawnmower",
+      "pos": "noun",
+      "translation_pl": "kosiarka",
+      "definition_en": "A lawnmower is a machine for cutting grass.",
+      "example_en": "My dad pushes the lawnmower every weekend.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rake",
+      "pos": "noun",
+      "translation_pl": "grabie",
+      "definition_en": "A rake is a tool for gathering leaves or grass.",
+      "example_en": "We used the rake to collect dry leaves.",
+      "level": "A1"
+    },
+    {
+      "lemma": "shovel",
+      "pos": "noun",
+      "translation_pl": "łopata",
+      "definition_en": "A shovel is a tool for digging soil.",
+      "example_en": "He picked up the shovel to plant a tree.",
+      "level": "A1"
+    },
+    {
+      "lemma": "glove",
+      "pos": "noun",
+      "translation_pl": "rękawica",
+      "definition_en": "A glove is something you wear to protect your hand.",
+      "example_en": "Wear a glove when you pull weeds.",
+      "level": "A1"
+    },
+    {
+      "lemma": "weed",
+      "pos": "noun",
+      "translation_pl": "chwast",
+      "definition_en": "A weed is an unwanted plant in the garden.",
+      "example_en": "There is a weed growing between the flowers.",
+      "level": "A1"
+    },
+    {
+      "lemma": "wheelbarrow",
+      "pos": "noun",
+      "translation_pl": "taczka",
+      "definition_en": "A wheelbarrow is a small cart for carrying things.",
+      "example_en": "He carried soil in the wheelbarrow.",
+      "level": "A2"
+    },
+    {
+      "lemma": "trowel",
+      "pos": "noun",
+      "translation_pl": "łopatka ogrodowa",
+      "definition_en": "A trowel is a small hand tool for digging and planting.",
+      "example_en": "She used a trowel to plant flowers.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spade",
+      "pos": "noun",
+      "translation_pl": "szpadel",
+      "definition_en": "A spade is a tool with a flat blade for digging.",
+      "example_en": "He bought a new spade for his garden work.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pruner",
+      "pos": "noun",
+      "translation_pl": "sekator",
+      "definition_en": "A pruner is a tool used to cut small branches.",
+      "example_en": "She used the pruner to trim the bushes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "compost",
+      "pos": "noun",
+      "translation_pl": "kompost",
+      "definition_en": "Compost is decayed plants used to help other plants grow.",
+      "example_en": "They put all vegetable waste into the compost.",
+      "level": "B1"
+    },
+    {
+      "lemma": "fertilizer",
+      "pos": "noun",
+      "translation_pl": "nawóz",
+      "definition_en": "Fertilizer is something added to soil to help plants grow.",
+      "example_en": "We put fertilizer on the garden every spring.",
+      "level": "A2"
+    },
+    {
+      "lemma": "seed",
+      "pos": "noun",
+      "translation_pl": "nasiono",
+      "definition_en": "A seed is what you plant to grow a new plant.",
+      "example_en": "He planted a seed in the garden bed.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mulch",
+      "pos": "noun",
+      "translation_pl": "ściółka",
+      "definition_en": "Mulch is material spread on the soil to keep it wet and healthy.",
+      "example_en": "They used mulch around the trees to keep the soil moist.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hedge trimmer",
+      "pos": "noun",
+      "translation_pl": "nożyce do żywopłotu",
+      "definition_en": "A hedge trimmer is a tool used to cut and shape bushes.",
+      "example_en": "He used the hedge trimmer to make the hedge look nice.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garden bed",
+      "pos": "noun",
+      "translation_pl": "grządka",
+      "definition_en": "A garden bed is a section of soil for planting flowers or vegetables.",
+      "example_en": "The tomatoes are growing well in the garden bed.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sprinkler",
+      "pos": "noun",
+      "translation_pl": "zraszacz",
+      "definition_en": "A sprinkler is a device that sprays water on the garden.",
+      "example_en": "The sprinkler watered the entire lawn this morning.",
+      "level": "A2"
+    },
+    {
+      "lemma": "soil",
+      "pos": "noun",
+      "translation_pl": "gleba",
+      "definition_en": "Soil is the top layer of ground where plants grow.",
+      "example_en": "The soil in this garden is very rich.",
+      "level": "A1"
+    },
+    {
+      "lemma": "garden fork",
+      "pos": "noun",
+      "translation_pl": "widelec ogrodowy",
+      "definition_en": "A garden fork is a tool with long prongs used for digging and turning soil.",
+      "example_en": "She used the garden fork to loosen the earth.",
+      "level": "B1"
+    }
+  ]
+}

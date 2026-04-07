@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "internet-infrastructure",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:23:05.793Z"
+  },
+  "items": [
+    {
+      "lemma": "website",
+      "pos": "noun",
+      "translation_pl": "strona internetowa",
+      "definition_en": "A website is a place you visit on the internet.",
+      "example_en": "She found information on a website.",
+      "level": "A1"
+    },
+    {
+      "lemma": "server",
+      "pos": "noun",
+      "translation_pl": "serwer",
+      "definition_en": "A server is a computer that gives data to other computers.",
+      "example_en": "The website is down because the server is not working.",
+      "level": "A2"
+    },
+    {
+      "lemma": "router",
+      "pos": "noun",
+      "translation_pl": "router",
+      "definition_en": "A router connects your devices to the internet.",
+      "example_en": "He restarted the router to fix the internet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "browser",
+      "pos": "noun",
+      "translation_pl": "przeglądarka",
+      "definition_en": "A browser is a program used to look at internet pages.",
+      "example_en": "She opened her browser to check her email.",
+      "level": "A2"
+    },
+    {
+      "lemma": "network",
+      "pos": "noun",
+      "translation_pl": "sieć",
+      "definition_en": "A network is a group of computers connected together.",
+      "example_en": "My home has a Wi-Fi network.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wifi",
+      "pos": "noun",
+      "translation_pl": "wifi",
+      "definition_en": "Wifi is a way to connect devices to the internet without wires.",
+      "example_en": "He used wifi at the café.",
+      "level": "A1"
+    },
+    {
+      "lemma": "modem",
+      "pos": "noun",
+      "translation_pl": "modem",
+      "definition_en": "A modem lets you connect to the internet.",
+      "example_en": "They bought a new modem for faster internet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "cable",
+      "pos": "noun",
+      "translation_pl": "kabel",
+      "definition_en": "A cable is a wire that connects equipment.",
+      "example_en": "He plugged in the cable to set up the connection.",
+      "level": "A2"
+    },
+    {
+      "lemma": "antenna",
+      "pos": "noun",
+      "translation_pl": "antena",
+      "definition_en": "An antenna is a device that helps send and receive signals.",
+      "example_en": "The antenna helps the signal reach further.",
+      "level": "A2"
+    },
+    {
+      "lemma": "switch",
+      "pos": "noun",
+      "translation_pl": "przełącznik",
+      "definition_en": "A switch connects computers together in a network.",
+      "example_en": "The switch links computers in this office.",
+      "level": "B1"
+    },
+    {
+      "lemma": "signal",
+      "pos": "noun",
+      "translation_pl": "sygnał",
+      "definition_en": "A signal is the electronic message sent between devices.",
+      "example_en": "The wifi signal was very weak.",
+      "level": "A2"
+    },
+    {
+      "lemma": "firewall",
+      "pos": "noun",
+      "translation_pl": "zaporą sieciowa",
+      "definition_en": "A firewall protects computers from unwanted access.",
+      "example_en": "The firewall stopped the dangerous program.",
+      "level": "B1"
+    },
+    {
+      "lemma": "router password",
+      "pos": "noun",
+      "translation_pl": "hasło do routera",
+      "definition_en": "A router password keeps your wifi safe from others.",
+      "example_en": "He changed the router password.",
+      "level": "B1"
+    },
+    {
+      "lemma": "provider",
+      "pos": "noun",
+      "translation_pl": "dostawca",
+      "definition_en": "A provider gives you access to the internet.",
+      "example_en": "The provider fixed the internet problem.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bandwidth",
+      "pos": "noun",
+      "translation_pl": "przepustowość",
+      "definition_en": "Bandwidth is the amount of data you can send or get.",
+      "example_en": "They upgraded to higher bandwidth for streaming.",
+      "level": "B1"
+    },
+    {
+      "lemma": "domain",
+      "pos": "noun",
+      "translation_pl": "domena",
+      "definition_en": "A domain is the name of a website.",
+      "example_en": "They bought a short domain for their company.",
+      "level": "B1"
+    },
+    {
+      "lemma": "link",
+      "pos": "noun",
+      "translation_pl": "link",
+      "definition_en": "A link sends you to a new page on the internet.",
+      "example_en": "She clicked on the link to read more.",
+      "level": "A2"
+    },
+    {
+      "lemma": "homepage",
+      "pos": "noun",
+      "translation_pl": "strona główna",
+      "definition_en": "A homepage is the main page of a website.",
+      "example_en": "He changed the homepage on his browser.",
+      "level": "A1"
+    },
+    {
+      "lemma": "login",
+      "pos": "noun",
+      "translation_pl": "logowanie",
+      "definition_en": "A login is the way you enter a website or service.",
+      "example_en": "She forgot her login for the website.",
+      "level": "A2"
+    },
+    {
+      "lemma": "connection",
+      "pos": "noun",
+      "translation_pl": "połączenie",
+      "definition_en": "A connection is when your device can talk to the internet.",
+      "example_en": "The connection was slow last night.",
+      "level": "A2"
+    }
+  ]
+}

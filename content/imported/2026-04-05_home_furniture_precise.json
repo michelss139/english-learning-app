@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "furniture",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:51:11.374Z"
+  },
+  "items": [
+    {
+      "lemma": "cupboard door",
+      "pos": "noun",
+      "translation_pl": "drzwiczki od szafki",
+      "definition_en": "A cupboard door is the movable part that covers the opening of a cupboard.",
+      "example_en": "She replaced the old cupboard door in the kitchen.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shoe cabinet",
+      "pos": "noun",
+      "translation_pl": "szafka na buty",
+      "definition_en": "A shoe cabinet is a piece of furniture for storing shoes.",
+      "example_en": "The hallway has a small shoe cabinet for guests.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wine rack",
+      "pos": "noun",
+      "translation_pl": "stojak na wino",
+      "definition_en": "A wine rack is a furniture piece for holding bottles of wine.",
+      "example_en": "We keep our wine bottles on the wine rack in the dining room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bed frame",
+      "pos": "noun",
+      "translation_pl": "rama łóżka",
+      "definition_en": "A bed frame is the structure that supports a mattress.",
+      "example_en": "They bought a new bed frame for their bedroom.",
+      "level": "B1"
+    },
+    {
+      "lemma": "vanity unit",
+      "pos": "noun",
+      "translation_pl": "szafka łazienkowa z umywalką",
+      "definition_en": "A vanity unit is a bathroom cabinet combined with a sink.",
+      "example_en": "Our bathroom has a white vanity unit under the mirror.",
+      "level": "B2"
+    },
+    {
+      "lemma": "storage ottoman",
+      "pos": "noun",
+      "translation_pl": "pufa z pojemnikiem",
+      "definition_en": "A storage ottoman is a padded seat with space inside for storing items.",
+      "example_en": "She keeps blankets in the storage ottoman in the living room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "breakfast bar",
+      "pos": "noun",
+      "translation_pl": "barek śniadaniowy",
+      "definition_en": "A breakfast bar is a counter used for eating informal meals in a kitchen.",
+      "example_en": "We sit at the breakfast bar every morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "murphy bed",
+      "pos": "noun",
+      "translation_pl": "łóżko w szafie",
+      "definition_en": "A murphy bed is a bed that folds away into a wall or cabinet.",
+      "example_en": "He installed a murphy bed to save space in the studio.",
+      "level": "B2"
+    },
+    {
+      "lemma": "media console",
+      "pos": "noun",
+      "translation_pl": "szafka rtv",
+      "definition_en": "A media console is a low cabinet for holding a tv and electronics.",
+      "example_en": "The living room media console holds our TV and games.",
+      "level": "B2"
+    },
+    {
+      "lemma": "crib rail",
+      "pos": "noun",
+      "translation_pl": "barierka łóżeczka",
+      "definition_en": "A crib rail is the protective side of a baby's bed.",
+      "example_en": "He put covers on the crib rail for safety.",
+      "level": "B1"
+    },
+    {
+      "lemma": "loft bed",
+      "pos": "noun",
+      "translation_pl": "łóżko na antresoli",
+      "definition_en": "A loft bed is a raised bed with open space underneath.",
+      "example_en": "My son sleeps in a loft bed to save floor space.",
+      "level": "B1"
+    },
+    {
+      "lemma": "extendable table",
+      "pos": "noun",
+      "translation_pl": "stół rozkładany",
+      "definition_en": "An extendable table is a table that can become larger when needed.",
+      "example_en": "We use the extendable table for big family dinners.",
+      "level": "B1"
+    },
+    {
+      "lemma": "glass cabinet",
+      "pos": "noun",
+      "translation_pl": "witryna szklana",
+      "definition_en": "A glass cabinet is a furniture piece with glass doors for displaying items.",
+      "example_en": "She keeps her dishes in a glass cabinet in the dining room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "twin bed",
+      "pos": "noun",
+      "translation_pl": "pojedyncze łóżko",
+      "definition_en": "A twin bed is a narrow bed for one person.",
+      "example_en": "The guest room has a twin bed by the window.",
+      "level": "B1"
+    },
+    {
+      "lemma": "hall tree",
+      "pos": "noun",
+      "translation_pl": "wieszak z półką do przedpokoju",
+      "definition_en": "A hall tree is a furniture piece for hanging coats, hats, and storing shoes.",
+      "example_en": "The hall tree by the door keeps our entryway tidy.",
+      "level": "B2"
+    },
+    {
+      "lemma": "window seat",
+      "pos": "noun",
+      "translation_pl": "siedzisko przy oknie",
+      "definition_en": "A window seat is a bench built under a window for sitting.",
+      "example_en": "She likes to read on the window seat in the afternoon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "drop-leaf table",
+      "pos": "noun",
+      "translation_pl": "stół z opuszczanymi bokami",
+      "definition_en": "A drop-leaf table is a table with foldable sides for saving space.",
+      "example_en": "The kitchen has a drop-leaf table for extra guests.",
+      "level": "B2"
+    },
+    {
+      "lemma": "hutches",
+      "pos": "noun",
+      "translation_pl": "nadstawki do mebli",
+      "definition_en": "Hutches are shelves or cabinets placed on top of lower furniture.",
+      "example_en": "The dining room hutch displays her china collection.",
+      "level": "B2"
+    },
+    {
+      "lemma": "glass coffee table",
+      "pos": "noun",
+      "translation_pl": "szklany stolik kawowy",
+      "definition_en": "A glass coffee table is a living room table with a glass top.",
+      "example_en": "She puts fresh flowers on the glass coffee table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "crib mattress",
+      "pos": "noun",
+      "translation_pl": "materac do łóżeczka",
+      "definition_en": "A crib mattress is a small bed mattress made for a crib.",
+      "example_en": "He bought an organic crib mattress for their baby.",
+      "level": "B1"
+    }
+  ]
+}

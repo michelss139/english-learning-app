@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "office",
+    "subcategory": "office-technology",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:04:24.896Z"
+  },
+  "items": [
+    {
+      "lemma": "printer",
+      "pos": "noun",
+      "translation_pl": "drukarka",
+      "definition_en": "A printer is a machine that makes copies of documents on paper.",
+      "example_en": "We used the office printer to print the report.",
+      "level": "A2"
+    },
+    {
+      "lemma": "computer",
+      "pos": "noun",
+      "translation_pl": "komputer",
+      "definition_en": "A computer is an electronic device used to store and work with information.",
+      "example_en": "She works on her computer every day at the office.",
+      "level": "A1"
+    },
+    {
+      "lemma": "laptop",
+      "pos": "noun",
+      "translation_pl": "laptop",
+      "definition_en": "A laptop is a small computer you can carry with you.",
+      "example_en": "He brought his laptop to the meeting.",
+      "level": "A1"
+    },
+    {
+      "lemma": "mouse",
+      "pos": "noun",
+      "translation_pl": "myszka komputerowa",
+      "definition_en": "A mouse is a small device used to move the pointer on a computer screen.",
+      "example_en": "She clicked with the mouse to open the file.",
+      "level": "A1"
+    },
+    {
+      "lemma": "keyboard",
+      "pos": "noun",
+      "translation_pl": "klawiatura",
+      "definition_en": "A keyboard is a set of keys used to enter information into a computer.",
+      "example_en": "He typed his password on the keyboard.",
+      "level": "A1"
+    },
+    {
+      "lemma": "monitor",
+      "pos": "noun",
+      "translation_pl": "monitor",
+      "definition_en": "A monitor is a screen that shows what you are doing on a computer.",
+      "example_en": "The office monitor is very big.",
+      "level": "A2"
+    },
+    {
+      "lemma": "projector",
+      "pos": "noun",
+      "translation_pl": "projektor",
+      "definition_en": "A projector is a machine that shows pictures or videos on a wall or screen.",
+      "example_en": "We used the projector for the presentation.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tablet",
+      "pos": "noun",
+      "translation_pl": "tablet",
+      "definition_en": "A tablet is a small computer with a touch screen.",
+      "example_en": "He likes to write notes on his tablet.",
+      "level": "A2"
+    },
+    {
+      "lemma": "photocopier",
+      "pos": "noun",
+      "translation_pl": "kserokopiarka",
+      "definition_en": "A photocopier is a machine that makes copies of documents.",
+      "example_en": "The photocopier is next to the printer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "scanner",
+      "pos": "noun",
+      "translation_pl": "skaner",
+      "definition_en": "A scanner is a machine that puts pictures or documents into a computer.",
+      "example_en": "She scanned the letter using the scanner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "phone",
+      "pos": "noun",
+      "translation_pl": "telefon",
+      "definition_en": "A phone is a device that people use to talk to each other.",
+      "example_en": "He answered the phone quickly.",
+      "level": "A1"
+    },
+    {
+      "lemma": "headset",
+      "pos": "noun",
+      "translation_pl": "słuchawki z mikrofonem",
+      "definition_en": "A headset is a set of headphones with a microphone.",
+      "example_en": "She wore a headset during the online meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "desktop computer",
+      "pos": "noun",
+      "translation_pl": "komputer stacjonarny",
+      "definition_en": "A desktop computer is a computer that stays on a desk.",
+      "example_en": "The office has a desktop computer in every room.",
+      "level": "A2"
+    },
+    {
+      "lemma": "speakers",
+      "pos": "noun",
+      "translation_pl": "głośniki",
+      "definition_en": "Speakers are devices that make sound louder so people can hear it.",
+      "example_en": "The speakers are used for video calls.",
+      "level": "A2"
+    },
+    {
+      "lemma": "router",
+      "pos": "noun",
+      "translation_pl": "router",
+      "definition_en": "A router is a device that connects computers to the internet.",
+      "example_en": "The router is in the main office room.",
+      "level": "B1"
+    },
+    {
+      "lemma": "flash drive",
+      "pos": "noun",
+      "translation_pl": "pendrive",
+      "definition_en": "A flash drive is a small device for storing digital files.",
+      "example_en": "She saved her work on a flash drive.",
+      "level": "B1"
+    },
+    {
+      "lemma": "server",
+      "pos": "noun",
+      "translation_pl": "serwer",
+      "definition_en": "A server is a computer that shares information with other computers.",
+      "example_en": "The company has a new server for its data.",
+      "level": "B1"
+    },
+    {
+      "lemma": "webcam",
+      "pos": "noun",
+      "translation_pl": "kamera internetowa",
+      "definition_en": "A webcam is a camera that connects to a computer for video calls.",
+      "example_en": "He turned on the webcam to join the meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "charger",
+      "pos": "noun",
+      "translation_pl": "ładowarka",
+      "definition_en": "A charger is a device that gives power to electronics.",
+      "example_en": "Her laptop charger was on the desk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "smartboard",
+      "pos": "noun",
+      "translation_pl": "tablica interaktywna",
+      "definition_en": "A smartboard is an electronic board used to write and show information.",
+      "example_en": "The team made notes on the smartboard.",
+      "level": "B1"
+    }
+  ]
+}

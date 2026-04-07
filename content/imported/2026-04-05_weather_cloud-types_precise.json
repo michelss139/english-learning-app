@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "cloud-types",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:49:20.101Z"
+  },
+  "items": [
+    {
+      "lemma": "anvil cloud",
+      "pos": "noun",
+      "translation_pl": "chmura kowadło",
+      "definition_en": "An anvil cloud is a flat-topped, spreading cloud at the top of a thunderstorm.",
+      "example_en": "The anvil cloud signaled a strong thunderstorm approaching.",
+      "level": "B2"
+    },
+    {
+      "lemma": "lenticular cloud",
+      "pos": "noun",
+      "translation_pl": "chmura soczewkowata",
+      "definition_en": "A lenticular cloud is a lens-shaped cloud often formed over mountains.",
+      "example_en": "Pilots keep an eye out for lenticular clouds near mountain ranges.",
+      "level": "C1"
+    },
+    {
+      "lemma": "pileus cloud",
+      "pos": "noun",
+      "translation_pl": "chmura kapturkowa",
+      "definition_en": "A pileus cloud is a small, cap-shaped cloud that forms above a larger cloud.",
+      "example_en": "A pileus cloud rested on top of the growing cumulus.",
+      "level": "C1"
+    },
+    {
+      "lemma": "banner cloud",
+      "pos": "noun",
+      "translation_pl": "chmura wstęgowa",
+      "definition_en": "A banner cloud trails from the downwind side of a mountain peak.",
+      "example_en": "A banner cloud formed as strong winds hit the isolated summit.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cloud deck",
+      "pos": "noun",
+      "translation_pl": "pokład chmur",
+      "definition_en": "A cloud deck is a continuous large area of clouds with a fairly uniform base height.",
+      "example_en": "The city was hidden under a thick cloud deck all day.",
+      "level": "B2"
+    },
+    {
+      "lemma": "cloud formation",
+      "pos": "noun",
+      "translation_pl": "formacja chmur",
+      "definition_en": "A cloud formation is a distinctive shape or collection of clouds.",
+      "example_en": "That strange cloud formation caught everyone's attention.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cloud ceiling",
+      "pos": "noun",
+      "translation_pl": "pułap chmur",
+      "definition_en": "The cloud ceiling refers to the lowest layer of clouds cover visible from the ground.",
+      "example_en": "The pilots checked the cloud ceiling before takeoff.",
+      "level": "B2"
+    },
+    {
+      "lemma": "roll cloud",
+      "pos": "noun",
+      "translation_pl": "chmura wałowa",
+      "definition_en": "A roll cloud is a long, low, tube-shaped cloud that forms along the leading edge of thunderstorms.",
+      "example_en": "The dramatic roll cloud stretched across the horizon.",
+      "level": "C1"
+    },
+    {
+      "lemma": "mammatus cloud",
+      "pos": "noun",
+      "translation_pl": "chmura mammatus",
+      "definition_en": "A mammatus cloud has puffy, pouch-like shapes hanging from the underside of another cloud.",
+      "example_en": "Mammatus clouds appeared after the storm passed.",
+      "level": "C1"
+    },
+    {
+      "lemma": "noctilucent cloud",
+      "pos": "noun",
+      "translation_pl": "chmura świecąca w nocy",
+      "definition_en": "A noctilucent cloud is a high cloud that glows at twilight.",
+      "example_en": "We spotted a stunning noctilucent cloud over the horizon.",
+      "level": "C1"
+    },
+    {
+      "lemma": "pancake cloud",
+      "pos": "noun",
+      "translation_pl": "chmura naleśnikowa",
+      "definition_en": "A pancake cloud is a flat, round, stacked cloud layer.",
+      "example_en": "The sky was filled with pancake clouds this morning.",
+      "level": "B2"
+    },
+    {
+      "lemma": "fractus cloud",
+      "pos": "noun",
+      "translation_pl": "chmura postrzępiona",
+      "definition_en": "A fractus cloud is a small, ragged fragment of cloud that forms under larger clouds.",
+      "example_en": "Jagged fractus clouds hung beneath the thunderstorm.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cloud plume",
+      "pos": "noun",
+      "translation_pl": "pióropusz chmur",
+      "definition_en": "A cloud plume is a narrow, trailing band of cloud from a source like a chimney or volcano.",
+      "example_en": "A cloud plume rose from the factory after sunrise.",
+      "level": "B2"
+    },
+    {
+      "lemma": "scud cloud",
+      "pos": "noun",
+      "translation_pl": "chmura szarpana",
+      "definition_en": "A scud cloud is a low, fast-moving, ragged cloud usually seen under storm clouds.",
+      "example_en": "Scud clouds raced across the sky before the rain began.",
+      "level": "B2"
+    },
+    {
+      "lemma": "wave cloud",
+      "pos": "noun",
+      "translation_pl": "chmura falowa",
+      "definition_en": "A wave cloud forms in the air waves created by wind over mountains or hills.",
+      "example_en": "Gliders look for wave clouds to find usable lift currents.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cloud wisp",
+      "pos": "noun",
+      "translation_pl": "smuga chmur",
+      "definition_en": "A cloud wisp is a thin, delicate streak or fragment of cloud.",
+      "example_en": "A few cloud wisps floated at high altitude.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cloud belt",
+      "pos": "noun",
+      "translation_pl": "pasmo chmur",
+      "definition_en": "A cloud belt is a wide band of clouds stretching across the sky.",
+      "example_en": "A thick cloud belt moved in from the west.",
+      "level": "B1"
+    },
+    {
+      "lemma": "virga",
+      "pos": "noun",
+      "translation_pl": "virga zanikający opad",
+      "definition_en": "Virga is rain or snow that falls from a cloud but evaporates before reaching the ground.",
+      "example_en": "We could see the streaks of virga below the clouds.",
+      "level": "B2"
+    },
+    {
+      "lemma": "undershot cloud",
+      "pos": "noun",
+      "translation_pl": "chmura podstropowa",
+      "definition_en": "An undershot cloud forms as a low layer beneath a larger cloud mass.",
+      "example_en": "Thunderstorms sometimes have an undershot cloud below the main cell.",
+      "level": "C1"
+    },
+    {
+      "lemma": "cloud arc",
+      "pos": "noun",
+      "translation_pl": "łuk chmur",
+      "definition_en": "A cloud arc is a curved or bow-shaped cloud formation.",
+      "example_en": "A faint cloud arc stretched above the treetops.",
+      "level": "B2"
+    }
+  ]
+}

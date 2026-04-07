@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "footwear",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:40:43.803Z"
+  },
+  "items": [
+    {
+      "lemma": "shoe",
+      "pos": "noun",
+      "translation_pl": "but",
+      "definition_en": "A shoe is something you wear on your foot.",
+      "example_en": "He put on his shoes before leaving.",
+      "level": "A1"
+    },
+    {
+      "lemma": "boot",
+      "pos": "noun",
+      "translation_pl": "kozak",
+      "definition_en": "A boot is a strong shoe that covers your ankle.",
+      "example_en": "She wore boots in the rain.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sandal",
+      "pos": "noun",
+      "translation_pl": "sandał",
+      "definition_en": "A sandal is an open shoe for warm weather.",
+      "example_en": "He likes to wear sandals in summer.",
+      "level": "A1"
+    },
+    {
+      "lemma": "trainer",
+      "pos": "noun",
+      "translation_pl": "trampki",
+      "definition_en": "A trainer is a comfortable sports shoe.",
+      "example_en": "She bought new trainers for running.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sneaker",
+      "pos": "noun",
+      "translation_pl": "adidasy",
+      "definition_en": "A sneaker is a soft shoe for sports or casual use.",
+      "example_en": "He wears sneakers to school every day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "flip-flop",
+      "pos": "noun",
+      "translation_pl": "japonki",
+      "definition_en": "A flip-flop is a simple open shoe for the beach.",
+      "example_en": "She walked on the sand in flip-flops.",
+      "level": "A2"
+    },
+    {
+      "lemma": "loafer",
+      "pos": "noun",
+      "translation_pl": "mokasyn",
+      "definition_en": "A loafer is a comfortable slip-on shoe.",
+      "example_en": "He wears loafers to work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "slipper",
+      "pos": "noun",
+      "translation_pl": "kapcie",
+      "definition_en": "A slipper is a soft shoe worn indoors.",
+      "example_en": "He put on his slippers after coming home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "high heel",
+      "pos": "noun",
+      "translation_pl": "but na obcasie",
+      "definition_en": "A high heel is a shoe with a tall heel.",
+      "example_en": "She wore high heels to the party.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wellies",
+      "pos": "noun",
+      "translation_pl": "kalosze",
+      "definition_en": "Wellies are long rubber boots for wet weather.",
+      "example_en": "Children wear wellies when it rains.",
+      "level": "B1"
+    },
+    {
+      "lemma": "moccasin",
+      "pos": "noun",
+      "translation_pl": "mokasyn",
+      "definition_en": "A moccasin is a soft shoe made of leather.",
+      "example_en": "He chose moccasins for comfort at home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "clog",
+      "pos": "noun",
+      "translation_pl": "chodak",
+      "definition_en": "A clog is a shoe with a thick wooden sole.",
+      "example_en": "Farmers often use clogs to work outside.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pump",
+      "pos": "noun",
+      "translation_pl": "czółenko",
+      "definition_en": "A pump is a plain shoe for women.",
+      "example_en": "She wore black pumps for the meeting.",
+      "level": "B1"
+    },
+    {
+      "lemma": "plimsoll",
+      "pos": "noun",
+      "translation_pl": "trampek",
+      "definition_en": "A plimsoll is a simple flat shoe for sports.",
+      "example_en": "Children wear plimsolls in the gym at school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "espadrille",
+      "pos": "noun",
+      "translation_pl": "espadryl",
+      "definition_en": "An espadrille is a light summer shoe with a rope sole.",
+      "example_en": "Many people wear espadrilles on sunny days.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ballet flat",
+      "pos": "noun",
+      "translation_pl": "balerina",
+      "definition_en": "A ballet flat is a simple flat shoe for women.",
+      "example_en": "She chose ballet flats for comfort.",
+      "level": "B1"
+    },
+    {
+      "lemma": "Oxford shoe",
+      "pos": "noun",
+      "translation_pl": "but typu oxford",
+      "definition_en": "An Oxford shoe is a smart lace-up shoe.",
+      "example_en": "He bought new Oxford shoes for work.",
+      "level": "B1"
+    },
+    {
+      "lemma": "court shoe",
+      "pos": "noun",
+      "translation_pl": "czółenko",
+      "definition_en": "A court shoe is a smart women's shoe.",
+      "example_en": "Court shoes are popular for office wear.",
+      "level": "B1"
+    },
+    {
+      "lemma": "Wellington boot",
+      "pos": "noun",
+      "translation_pl": "kalosz",
+      "definition_en": "A Wellington boot is a tall rubber boot.",
+      "example_en": "Wellington boots keep your feet dry in mud.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ankle boot",
+      "pos": "noun",
+      "translation_pl": "botek",
+      "definition_en": "An ankle boot is a short boot that covers the ankle.",
+      "example_en": "She wore ankle boots with jeans.",
+      "level": "B1"
+    }
+  ]
+}

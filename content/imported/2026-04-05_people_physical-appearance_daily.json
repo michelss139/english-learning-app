@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "physical-appearance",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:35:12.400Z"
+  },
+  "items": [
+    {
+      "lemma": "baby",
+      "pos": "noun",
+      "translation_pl": "dziecko",
+      "definition_en": "A very young child who cannot walk or talk yet.",
+      "example_en": "The baby smiled at her mother.",
+      "level": "A1"
+    },
+    {
+      "lemma": "boy",
+      "pos": "noun",
+      "translation_pl": "chłopiec",
+      "definition_en": "A male child or young person.",
+      "example_en": "The boy played outside after school.",
+      "level": "A1"
+    },
+    {
+      "lemma": "girl",
+      "pos": "noun",
+      "translation_pl": "dziewczynka",
+      "definition_en": "A female child or young person.",
+      "example_en": "The girl wore a red dress.",
+      "level": "A1"
+    },
+    {
+      "lemma": "man",
+      "pos": "noun",
+      "translation_pl": "mężczyzna",
+      "definition_en": "An adult male human.",
+      "example_en": "The man is waiting for a bus.",
+      "level": "A1"
+    },
+    {
+      "lemma": "woman",
+      "pos": "noun",
+      "translation_pl": "kobieta",
+      "definition_en": "An adult female human.",
+      "example_en": "The woman is reading a book.",
+      "level": "A1"
+    },
+    {
+      "lemma": "child",
+      "pos": "noun",
+      "translation_pl": "dziecko",
+      "definition_en": "A young human who is not yet an adult.",
+      "example_en": "Every child likes to play games.",
+      "level": "A1"
+    },
+    {
+      "lemma": "adult",
+      "pos": "noun",
+      "translation_pl": "dorosły",
+      "definition_en": "A person who is fully grown.",
+      "example_en": "An adult must buy tickets for the children.",
+      "level": "A2"
+    },
+    {
+      "lemma": "teenager",
+      "pos": "noun",
+      "translation_pl": "nastolatek",
+      "definition_en": "A person who is between thirteen and nineteen years old.",
+      "example_en": "The teenager likes to listen to music.",
+      "level": "A2"
+    },
+    {
+      "lemma": "elderly person",
+      "pos": "noun",
+      "translation_pl": "osoba starsza",
+      "definition_en": "An old man or woman.",
+      "example_en": "An elderly person may need help crossing the street.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stranger",
+      "pos": "noun",
+      "translation_pl": "obcy",
+      "definition_en": "A person you do not know.",
+      "example_en": "Never talk to a stranger.",
+      "level": "A2"
+    },
+    {
+      "lemma": "twin",
+      "pos": "noun",
+      "translation_pl": "bliźniak",
+      "definition_en": "One of two children born at the same time.",
+      "example_en": "My friend has a twin brother.",
+      "level": "A2"
+    },
+    {
+      "lemma": "friend",
+      "pos": "noun",
+      "translation_pl": "przyjaciel",
+      "definition_en": "A person you like and trust.",
+      "example_en": "His friend came to visit him.",
+      "level": "A1"
+    },
+    {
+      "lemma": "neighbor",
+      "pos": "noun",
+      "translation_pl": "sąsiad",
+      "definition_en": "A person who lives near you.",
+      "example_en": "The neighbor always says hello.",
+      "level": "A1"
+    },
+    {
+      "lemma": "model",
+      "pos": "noun",
+      "translation_pl": "model",
+      "definition_en": "A person who shows clothes to others.",
+      "example_en": "The model walked on the stage.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bodybuilder",
+      "pos": "noun",
+      "translation_pl": "kulturysta",
+      "definition_en": "A person who builds big muscles through exercise.",
+      "example_en": "The bodybuilder trains every day.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bald man",
+      "pos": "noun",
+      "translation_pl": "łysy mężczyzna",
+      "definition_en": "A man who has no hair on his head.",
+      "example_en": "A bald man opened the door.",
+      "level": "A2"
+    },
+    {
+      "lemma": "blonde woman",
+      "pos": "noun",
+      "translation_pl": "blondynka",
+      "definition_en": "A woman with light-colored hair.",
+      "example_en": "The blonde woman smiled brightly.",
+      "level": "A2"
+    },
+    {
+      "lemma": "child with freckles",
+      "pos": "noun",
+      "translation_pl": "dziecko z piegami",
+      "definition_en": "A young person who has small brown spots on the skin.",
+      "example_en": "A child with freckles sat in the front row.",
+      "level": "B1"
+    },
+    {
+      "lemma": "tall person",
+      "pos": "noun",
+      "translation_pl": "wysoka osoba",
+      "definition_en": "A person who is higher than most others.",
+      "example_en": "The tall person stood at the back.",
+      "level": "A2"
+    },
+    {
+      "lemma": "short person",
+      "pos": "noun",
+      "translation_pl": "niska osoba",
+      "definition_en": "A person who is not very tall.",
+      "example_en": "The short person needed help to reach the shelf.",
+      "level": "A2"
+    }
+  ]
+}

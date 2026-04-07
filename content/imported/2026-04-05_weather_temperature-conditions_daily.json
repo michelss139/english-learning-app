@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "weather",
+    "subcategory": "temperature-conditions",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:51:08.246Z"
+  },
+  "items": [
+    {
+      "lemma": "heat",
+      "pos": "noun",
+      "translation_pl": "upał",
+      "definition_en": "Heat means a high temperature.",
+      "example_en": "The heat in July can be very strong.",
+      "level": "A1"
+    },
+    {
+      "lemma": "cold",
+      "pos": "noun",
+      "translation_pl": "zimno",
+      "definition_en": "Cold means a low temperature.",
+      "example_en": "I feel the cold when winter comes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "warmth",
+      "pos": "noun",
+      "translation_pl": "ciepło",
+      "definition_en": "Warmth means a comfortable feeling of heat.",
+      "example_en": "I love the warmth of the sun.",
+      "level": "A2"
+    },
+    {
+      "lemma": "chill",
+      "pos": "noun",
+      "translation_pl": "chłód",
+      "definition_en": "A chill means a slight coldness in the air.",
+      "example_en": "There is a chill in the morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "temperature",
+      "pos": "noun",
+      "translation_pl": "temperatura",
+      "definition_en": "Temperature is how hot or cold something is.",
+      "example_en": "The temperature dropped last night.",
+      "level": "A2"
+    },
+    {
+      "lemma": "heatwave",
+      "pos": "noun",
+      "translation_pl": "fala upałów",
+      "definition_en": "A heatwave is a long period of very hot weather.",
+      "example_en": "A heatwave lasted all week.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cold snap",
+      "pos": "noun",
+      "translation_pl": "nagłe ochłodzenie",
+      "definition_en": "A cold snap is a short period of very cold weather.",
+      "example_en": "There was a cold snap in January.",
+      "level": "B1"
+    },
+    {
+      "lemma": "coolness",
+      "pos": "noun",
+      "translation_pl": "chłód",
+      "definition_en": "Coolness means a pleasant lack of heat.",
+      "example_en": "The coolness of the evening felt nice.",
+      "level": "B1"
+    },
+    {
+      "lemma": "humidity",
+      "pos": "noun",
+      "translation_pl": "wilgotność",
+      "definition_en": "Humidity means how much water is in the air.",
+      "example_en": "The humidity makes it feel warmer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "dryness",
+      "pos": "noun",
+      "translation_pl": "suchość",
+      "definition_en": "Dryness means the lack of water or moisture.",
+      "example_en": "I noticed the dryness in the air.",
+      "level": "B1"
+    },
+    {
+      "lemma": "heat index",
+      "pos": "noun",
+      "translation_pl": "wskaźnik ciepła",
+      "definition_en": "Heat index shows how hot it feels with humidity.",
+      "example_en": "The heat index was very high yesterday.",
+      "level": "B1"
+    },
+    {
+      "lemma": "temperature drop",
+      "pos": "noun",
+      "translation_pl": "spadek temperatury",
+      "definition_en": "A temperature drop is when it gets much colder.",
+      "example_en": "There was a temperature drop at night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "scorching",
+      "pos": "noun",
+      "translation_pl": "skwar",
+      "definition_en": "Scorching means very strong heat.",
+      "example_en": "The scorching was hard to stand.",
+      "level": "B1"
+    },
+    {
+      "lemma": "warm front",
+      "pos": "noun",
+      "translation_pl": "ciepły front",
+      "definition_en": "A warm front is warm air moving in.",
+      "example_en": "A warm front is coming tomorrow.",
+      "level": "B1"
+    },
+    {
+      "lemma": "cold front",
+      "pos": "noun",
+      "translation_pl": "zimny front",
+      "definition_en": "A cold front is cold air moving in.",
+      "example_en": "A cold front will reach the city tonight.",
+      "level": "B1"
+    },
+    {
+      "lemma": "freeze",
+      "pos": "noun",
+      "translation_pl": "przymrozek",
+      "definition_en": "A freeze is when the temperature goes below zero.",
+      "example_en": "There is a freeze every winter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "minimum",
+      "pos": "noun",
+      "translation_pl": "minimum",
+      "definition_en": "Minimum is the lowest temperature recorded.",
+      "example_en": "The minimum was two degrees last night.",
+      "level": "B1"
+    },
+    {
+      "lemma": "maximum",
+      "pos": "noun",
+      "translation_pl": "maksimum",
+      "definition_en": "Maximum is the highest temperature recorded.",
+      "example_en": "The maximum reached thirty degrees today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "overheating",
+      "pos": "noun",
+      "translation_pl": "przegrzanie",
+      "definition_en": "Overheating means something gets too hot.",
+      "example_en": "Overheating can be dangerous in summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "subzero",
+      "pos": "noun",
+      "translation_pl": "poniżej zera",
+      "definition_en": "Subzero means below zero degrees.",
+      "example_en": "It stayed subzero for days last winter.",
+      "level": "B1"
+    }
+  ]
+}

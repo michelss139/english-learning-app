@@ -24,7 +24,7 @@ export default function VocabHubPage() {
         {[
           {
             title: "Moja pula",
-            description: "Twoje słówka i treningi.",
+            description: "Słownictwo w puli i treningi.",
             href: "/app/vocab/pool",
           },
           {

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "time",
+    "subcategory": "days-and-dates",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:56:24.563Z"
+  },
+  "items": [
+    {
+      "lemma": "Monday",
+      "pos": "noun",
+      "translation_pl": "poniedziałek",
+      "definition_en": "Monday is the first day of the week for many people.",
+      "example_en": "I start my new job on Monday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Tuesday",
+      "pos": "noun",
+      "translation_pl": "wtorek",
+      "definition_en": "Tuesday is the day after Monday.",
+      "example_en": "We have English class on Tuesday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Wednesday",
+      "pos": "noun",
+      "translation_pl": "środa",
+      "definition_en": "Wednesday is the third day of the week.",
+      "example_en": "The meeting is on Wednesday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Thursday",
+      "pos": "noun",
+      "translation_pl": "czwartek",
+      "definition_en": "Thursday comes after Wednesday.",
+      "example_en": "We go shopping every Thursday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Friday",
+      "pos": "noun",
+      "translation_pl": "piątek",
+      "definition_en": "Friday is the day before the weekend.",
+      "example_en": "I relax at home on Friday night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Saturday",
+      "pos": "noun",
+      "translation_pl": "sobota",
+      "definition_en": "Saturday is usually a day off from work or school.",
+      "example_en": "We play football every Saturday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "Sunday",
+      "pos": "noun",
+      "translation_pl": "niedziela",
+      "definition_en": "Sunday is the last day of the week for many people.",
+      "example_en": "My family has lunch together on Sunday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "today",
+      "pos": "noun",
+      "translation_pl": "dzisiaj",
+      "definition_en": "Today is the present day.",
+      "example_en": "What are your plans for today?",
+      "level": "A1"
+    },
+    {
+      "lemma": "tomorrow",
+      "pos": "noun",
+      "translation_pl": "jutro",
+      "definition_en": "Tomorrow is the day after today.",
+      "example_en": "I will call you tomorrow.",
+      "level": "A1"
+    },
+    {
+      "lemma": "yesterday",
+      "pos": "noun",
+      "translation_pl": "wczoraj",
+      "definition_en": "Yesterday is the day before today.",
+      "example_en": "It rained a lot yesterday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "morning routine",
+      "pos": "noun",
+      "translation_pl": "poranna rutyna",
+      "definition_en": "A morning routine is the usual things you do after you wake up.",
+      "example_en": "I drink coffee as part of my morning routine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "calendar date",
+      "pos": "noun",
+      "translation_pl": "data kalendarzowa",
+      "definition_en": "A calendar date is a specific day in the calendar.",
+      "example_en": "Please write today’s calendar date on the form.",
+      "level": "B1"
+    },
+    {
+      "lemma": "anniversary",
+      "pos": "noun",
+      "translation_pl": "rocznica",
+      "definition_en": "An anniversary is the date when something important happened before.",
+      "example_en": "Their wedding anniversary is in June.",
+      "level": "B1"
+    },
+    {
+      "lemma": "birthday",
+      "pos": "noun",
+      "translation_pl": "urodziny",
+      "definition_en": "A birthday is the date on which you were born.",
+      "example_en": "My birthday is in August.",
+      "level": "A1"
+    },
+    {
+      "lemma": "date",
+      "pos": "noun",
+      "translation_pl": "data",
+      "definition_en": "A date is a particular day of the month or year.",
+      "example_en": "What is the date today?",
+      "level": "A1"
+    },
+    {
+      "lemma": "season",
+      "pos": "noun",
+      "translation_pl": "pora roku",
+      "definition_en": "A season is one of the four times of the year: spring, summer, autumn or winter.",
+      "example_en": "Spring is my favorite season.",
+      "level": "A1"
+    },
+    {
+      "lemma": "schedule",
+      "pos": "noun",
+      "translation_pl": "harmonogram",
+      "definition_en": "A schedule is a plan of events and times.",
+      "example_en": "I have a busy schedule today.",
+      "level": "B1"
+    },
+    {
+      "lemma": "calendar",
+      "pos": "noun",
+      "translation_pl": "kalendarz",
+      "definition_en": "A calendar is a chart that shows the days of the year.",
+      "example_en": "I wrote our meeting in my calendar.",
+      "level": "A2"
+    },
+    {
+      "lemma": "holiday season",
+      "pos": "noun",
+      "translation_pl": "sezon świąteczny",
+      "definition_en": "The holiday season is the time of year when people celebrate holidays.",
+      "example_en": "We travel a lot during the holiday season.",
+      "level": "B1"
+    },
+    {
+      "lemma": "birthdate",
+      "pos": "noun",
+      "translation_pl": "data urodzenia",
+      "definition_en": "A birthdate is the exact date when a person was born.",
+      "example_en": "You need to write your birthdate on this form.",
+      "level": "B1"
+    }
+  ]
+}

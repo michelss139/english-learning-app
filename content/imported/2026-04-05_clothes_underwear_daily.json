@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "clothes",
+    "subcategory": "underwear",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:43:43.162Z"
+  },
+  "items": [
+    {
+      "lemma": "bra",
+      "pos": "noun",
+      "translation_pl": "biustonosz",
+      "definition_en": "A bra is a piece of clothing worn by women to cover and support the breasts.",
+      "example_en": "She bought a new bra at the store.",
+      "level": "A1"
+    },
+    {
+      "lemma": "boxer shorts",
+      "pos": "noun",
+      "translation_pl": "bokserki",
+      "definition_en": "Boxer shorts are loose underwear worn by men.",
+      "example_en": "He wears boxer shorts every day.",
+      "level": "A2"
+    },
+    {
+      "lemma": "panties",
+      "pos": "noun",
+      "translation_pl": "majtki damskie",
+      "definition_en": "Panties are underwear worn by women and girls.",
+      "example_en": "She packed clean panties in her bag.",
+      "level": "A2"
+    },
+    {
+      "lemma": "briefs",
+      "pos": "noun",
+      "translation_pl": "slipy",
+      "definition_en": "Briefs are short, tight underwear for men or women.",
+      "example_en": "He likes to wear briefs instead of boxers.",
+      "level": "A2"
+    },
+    {
+      "lemma": "thong",
+      "pos": "noun",
+      "translation_pl": "stringi",
+      "definition_en": "A thong is a piece of underwear with a narrow strip at the back.",
+      "example_en": "She prefers a thong under tight clothes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "undershirt",
+      "pos": "noun",
+      "translation_pl": "podkoszulek",
+      "definition_en": "An undershirt is a light shirt worn under other clothes.",
+      "example_en": "He put on an undershirt before his shirt.",
+      "level": "A2"
+    },
+    {
+      "lemma": "thermal underwear",
+      "pos": "noun",
+      "translation_pl": "bielizna termiczna",
+      "definition_en": "Thermal underwear is special clothing that keeps you warm.",
+      "example_en": "In winter, she wears thermal underwear.",
+      "level": "B1"
+    },
+    {
+      "lemma": "long johns",
+      "pos": "noun",
+      "translation_pl": "kalesony",
+      "definition_en": "Long johns are long underwear worn to keep warm.",
+      "example_en": "He wore long johns while skiing.",
+      "level": "B1"
+    },
+    {
+      "lemma": "slip",
+      "pos": "noun",
+      "translation_pl": "halka",
+      "definition_en": "A slip is a thin dress worn under a skirt or dress.",
+      "example_en": "She wore a slip under her dress.",
+      "level": "A2"
+    },
+    {
+      "lemma": "camisole",
+      "pos": "noun",
+      "translation_pl": "koszulka na ramiączkach",
+      "definition_en": "A camisole is a thin top for women, worn under clothes.",
+      "example_en": "She bought a new camisole for summer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "underskirt",
+      "pos": "noun",
+      "translation_pl": "podsukienka",
+      "definition_en": "An underskirt is a skirt worn under another skirt.",
+      "example_en": "She wore an underskirt with her dress.",
+      "level": "B1"
+    },
+    {
+      "lemma": "vest",
+      "pos": "noun",
+      "translation_pl": "kamizelka podkoszulka",
+      "definition_en": "A vest is a piece of underwear for the top part of the body.",
+      "example_en": "He always wears a vest under his shirt.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sports bra",
+      "pos": "noun",
+      "translation_pl": "biustonosz sportowy",
+      "definition_en": "A sports bra is a bra for support during exercise.",
+      "example_en": "She puts on a sports bra before jogging.",
+      "level": "B1"
+    },
+    {
+      "lemma": "underpants",
+      "pos": "noun",
+      "translation_pl": "majtki",
+      "definition_en": "Underpants are underwear for the lower body.",
+      "example_en": "He changed into clean underpants.",
+      "level": "A1"
+    },
+    {
+      "lemma": "crop top",
+      "pos": "noun",
+      "translation_pl": "krótka koszulka",
+      "definition_en": "A crop top is a short shirt that shows the stomach.",
+      "example_en": "She wore a crop top to the party.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bodysuit",
+      "pos": "noun",
+      "translation_pl": "body",
+      "definition_en": "A bodysuit is a tight one-piece garment for the body.",
+      "example_en": "She wore a bodysuit under her jeans.",
+      "level": "B1"
+    },
+    {
+      "lemma": "corset",
+      "pos": "noun",
+      "translation_pl": "gorset",
+      "definition_en": "A corset is a tight piece of clothing worn to shape the waist.",
+      "example_en": "She wore a corset for the event.",
+      "level": "B1"
+    },
+    {
+      "lemma": "nightdress",
+      "pos": "noun",
+      "translation_pl": "koszula nocna",
+      "definition_en": "A nightdress is a light dress worn in bed.",
+      "example_en": "She put on her nightdress before sleeping.",
+      "level": "A2"
+    },
+    {
+      "lemma": "boxers",
+      "pos": "noun",
+      "translation_pl": "bokserki",
+      "definition_en": "Boxers are comfortable, loose men's underwear.",
+      "example_en": "He prefers boxers to briefs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "underwear",
+      "pos": "noun",
+      "translation_pl": "bielizna",
+      "definition_en": "Underwear is clothing worn under your main clothes.",
+      "example_en": "She bought new underwear last week.",
+      "level": "A1"
+    }
+  ]
+}

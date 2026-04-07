@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "kitchen",
+    "subcategory": "cooking-utensils",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:45:52.513Z"
+  },
+  "items": [
+    {
+      "lemma": "spoon",
+      "pos": "noun",
+      "translation_pl": "łyżka",
+      "definition_en": "A spoon is a tool used for eating or serving food.",
+      "example_en": "I always stir my tea with a spoon.",
+      "level": "A1"
+    },
+    {
+      "lemma": "fork",
+      "pos": "noun",
+      "translation_pl": "widelec",
+      "definition_en": "A fork is a utensil used for picking up food.",
+      "example_en": "He ate his salad with a fork.",
+      "level": "A1"
+    },
+    {
+      "lemma": "knife",
+      "pos": "noun",
+      "translation_pl": "nóż",
+      "definition_en": "A knife is a tool used to cut food.",
+      "example_en": "She used a knife to slice bread.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ladle",
+      "pos": "noun",
+      "translation_pl": "chochla",
+      "definition_en": "A ladle is a large, deep spoon for serving liquids.",
+      "example_en": "He used a ladle to serve the soup.",
+      "level": "A2"
+    },
+    {
+      "lemma": "whisk",
+      "pos": "noun",
+      "translation_pl": "trzepaczka",
+      "definition_en": "A whisk is a tool for mixing eggs or cream.",
+      "example_en": "She beat the eggs with a whisk.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tongs",
+      "pos": "noun",
+      "translation_pl": "szczypce kuchenne",
+      "definition_en": "Tongs are a tool for picking up hot food.",
+      "example_en": "He grabbed the sausage with tongs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "spatula",
+      "pos": "noun",
+      "translation_pl": "łopatka kuchenna",
+      "definition_en": "A spatula is a flat tool for turning or mixing food.",
+      "example_en": "Flip the pancakes with a spatula.",
+      "level": "A2"
+    },
+    {
+      "lemma": "peeler",
+      "pos": "noun",
+      "translation_pl": "obieraczka",
+      "definition_en": "A peeler is a device to remove skin from fruits or vegetables.",
+      "example_en": "He used a peeler to peel the apples.",
+      "level": "A2"
+    },
+    {
+      "lemma": "colander",
+      "pos": "noun",
+      "translation_pl": "durszlak",
+      "definition_en": "A colander is a bowl with holes to drain water from food.",
+      "example_en": "She drained the pasta in a colander.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grater",
+      "pos": "noun",
+      "translation_pl": "tarka",
+      "definition_en": "A grater is a tool used to shred cheese or vegetables.",
+      "example_en": "He used a grater for the cheese.",
+      "level": "B1"
+    },
+    {
+      "lemma": "masher",
+      "pos": "noun",
+      "translation_pl": "tłuczek do ziemniaków",
+      "definition_en": "A masher is a tool to crush cooked potatoes or vegetables.",
+      "example_en": "She made mashed potatoes with a masher.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rolling pin",
+      "pos": "noun",
+      "translation_pl": "wałek do ciasta",
+      "definition_en": "A rolling pin is a cylinder used to flatten dough.",
+      "example_en": "He rolled the dough with a rolling pin.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bottle opener",
+      "pos": "noun",
+      "translation_pl": "otwieracz do butelek",
+      "definition_en": "A bottle opener is a tool for opening bottles.",
+      "example_en": "She opened the drink with a bottle opener.",
+      "level": "A2"
+    },
+    {
+      "lemma": "can opener",
+      "pos": "noun",
+      "translation_pl": "otwieracz do puszek",
+      "definition_en": "A can opener is a tool for opening cans.",
+      "example_en": "He used a can opener to open the beans.",
+      "level": "A2"
+    },
+    {
+      "lemma": "strainer",
+      "pos": "noun",
+      "translation_pl": "sitko",
+      "definition_en": "A strainer is a small tool for separating liquids from solids.",
+      "example_en": "She poured the tea through a strainer.",
+      "level": "B1"
+    },
+    {
+      "lemma": "measuring cup",
+      "pos": "noun",
+      "translation_pl": "miarka kuchenna",
+      "definition_en": "A measuring cup is used to measure liquids or powders.",
+      "example_en": "Add one measuring cup of milk.",
+      "level": "B1"
+    },
+    {
+      "lemma": "slotted spoon",
+      "pos": "noun",
+      "translation_pl": "łyżka cedzakowa",
+      "definition_en": "A slotted spoon lets liquid drain from food when serving.",
+      "example_en": "Take the vegetables out with a slotted spoon.",
+      "level": "B1"
+    },
+    {
+      "lemma": "serving fork",
+      "pos": "noun",
+      "translation_pl": "widelec do serwowania",
+      "definition_en": "A serving fork is a large fork used to serve food.",
+      "example_en": "He picked up the chicken with the serving fork.",
+      "level": "B1"
+    },
+    {
+      "lemma": "garlic press",
+      "pos": "noun",
+      "translation_pl": "praska do czosnku",
+      "definition_en": "A garlic press is a tool for crushing garlic.",
+      "example_en": "She used a garlic press for the recipe.",
+      "level": "B1"
+    },
+    {
+      "lemma": "pastry brush",
+      "pos": "noun",
+      "translation_pl": "pędzelek kuchenny",
+      "definition_en": "A pastry brush is used to spread butter or egg on food.",
+      "example_en": "He brushed the bread with a pastry brush.",
+      "level": "B1"
+    }
+  ]
+}

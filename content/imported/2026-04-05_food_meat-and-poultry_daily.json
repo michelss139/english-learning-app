@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "food",
+    "subcategory": "meat-and-poultry",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:29:14.747Z"
+  },
+  "items": [
+    {
+      "lemma": "beef",
+      "pos": "noun",
+      "translation_pl": "wołowina",
+      "definition_en": "Beef is the meat that comes from cows.",
+      "example_en": "We had beef for dinner last night.",
+      "level": "A1"
+    },
+    {
+      "lemma": "chicken",
+      "pos": "noun",
+      "translation_pl": "kurczak",
+      "definition_en": "Chicken is a type of meat from a bird.",
+      "example_en": "I like to eat chicken sandwiches.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pork",
+      "pos": "noun",
+      "translation_pl": "wieprzowina",
+      "definition_en": "Pork is the meat from pigs.",
+      "example_en": "She cooked pork with vegetables.",
+      "level": "A1"
+    },
+    {
+      "lemma": "lamb",
+      "pos": "noun",
+      "translation_pl": "jagnięcina",
+      "definition_en": "Lamb is the meat of a young sheep.",
+      "example_en": "Lamb is often served with mint sauce.",
+      "level": "A2"
+    },
+    {
+      "lemma": "turkey",
+      "pos": "noun",
+      "translation_pl": "indyk",
+      "definition_en": "Turkey is a large bird used for its meat.",
+      "example_en": "We eat turkey at Christmas.",
+      "level": "A2"
+    },
+    {
+      "lemma": "duck",
+      "pos": "noun",
+      "translation_pl": "kaczka",
+      "definition_en": "Duck is the meat from a duck bird.",
+      "example_en": "She roasted a duck for dinner.",
+      "level": "A2"
+    },
+    {
+      "lemma": "sausage",
+      "pos": "noun",
+      "translation_pl": "kiełbasa",
+      "definition_en": "A sausage is meat chopped and put in a skin.",
+      "example_en": "He likes eggs and sausage for breakfast.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bacon",
+      "pos": "noun",
+      "translation_pl": "boczek",
+      "definition_en": "Bacon is a thin slice of salted pork.",
+      "example_en": "She ate bacon with her eggs.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ham",
+      "pos": "noun",
+      "translation_pl": "szynka",
+      "definition_en": "Ham is cooked meat from the back leg of a pig.",
+      "example_en": "He made a ham sandwich for lunch.",
+      "level": "A1"
+    },
+    {
+      "lemma": "meatball",
+      "pos": "noun",
+      "translation_pl": "klopsik",
+      "definition_en": "A meatball is a small ball of ground meat.",
+      "example_en": "She made spaghetti with meatballs.",
+      "level": "A2"
+    },
+    {
+      "lemma": "rib",
+      "pos": "noun",
+      "translation_pl": "żeberko",
+      "definition_en": "A rib is a long piece of meat with a bone.",
+      "example_en": "We grilled ribs last weekend.",
+      "level": "A2"
+    },
+    {
+      "lemma": "steak",
+      "pos": "noun",
+      "translation_pl": "stek",
+      "definition_en": "A steak is a thick piece of meat, usually beef.",
+      "example_en": "He ordered a big steak at the restaurant.",
+      "level": "A2"
+    },
+    {
+      "lemma": "roast",
+      "pos": "noun",
+      "translation_pl": "pieczeń",
+      "definition_en": "A roast is meat cooked in an oven.",
+      "example_en": "We had a beef roast for Sunday lunch.",
+      "level": "A2"
+    },
+    {
+      "lemma": "drumstick",
+      "pos": "noun",
+      "translation_pl": "podudzie kurczaka",
+      "definition_en": "A drumstick is the lower part of a bird's leg.",
+      "example_en": "He ate a chicken drumstick at the picnic.",
+      "level": "B1"
+    },
+    {
+      "lemma": "wing",
+      "pos": "noun",
+      "translation_pl": "skrzydełko",
+      "definition_en": "A wing is a part of a bird that is often eaten.",
+      "example_en": "Chicken wings are spicy and tasty.",
+      "level": "A2"
+    },
+    {
+      "lemma": "mince",
+      "pos": "noun",
+      "translation_pl": "mięso mielone",
+      "definition_en": "Mince is meat that has been cut into small pieces.",
+      "example_en": "She used beef mince to make the pie.",
+      "level": "B1"
+    },
+    {
+      "lemma": "patty",
+      "pos": "noun",
+      "translation_pl": "kotlet",
+      "definition_en": "A patty is a flat, round piece of ground meat.",
+      "example_en": "He made burgers with chicken patties.",
+      "level": "B1"
+    },
+    {
+      "lemma": "salami",
+      "pos": "noun",
+      "translation_pl": "salami",
+      "definition_en": "Salami is a type of dried sausage.",
+      "example_en": "She added salami to her pizza.",
+      "level": "B1"
+    },
+    {
+      "lemma": "veal",
+      "pos": "noun",
+      "translation_pl": "cielęcina",
+      "definition_en": "Veal is the meat of a young cow or calf.",
+      "example_en": "He ordered veal at the restaurant.",
+      "level": "B1"
+    },
+    {
+      "lemma": "goose",
+      "pos": "noun",
+      "translation_pl": "gęś",
+      "definition_en": "Goose is the meat from a large water bird.",
+      "example_en": "They served roast goose for the holiday.",
+      "level": "B1"
+    }
+  ]
+}

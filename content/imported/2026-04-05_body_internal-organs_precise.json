@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "body",
+    "subcategory": "internal-organs",
+    "mode": "precise",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:38:12.111Z"
+  },
+  "items": [
+    {
+      "lemma": "small intestine",
+      "pos": "noun",
+      "translation_pl": "jelito cienkie",
+      "definition_en": "The small intestine is the long, narrow part of the intestine where most digestion occurs.",
+      "example_en": "Food is mostly broken down in the small intestine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "large intestine",
+      "pos": "noun",
+      "translation_pl": "jelito grube",
+      "definition_en": "The large intestine is the wider part of the intestine that absorbs water and forms waste.",
+      "example_en": "Water is absorbed in the large intestine.",
+      "level": "B1"
+    },
+    {
+      "lemma": "duodenum",
+      "pos": "noun",
+      "translation_pl": "dwunastnica",
+      "definition_en": "The duodenum is the first part of the small intestine just after the stomach.",
+      "example_en": "The duodenum receives food and acid from the stomach.",
+      "level": "B2"
+    },
+    {
+      "lemma": "rectum",
+      "pos": "noun",
+      "translation_pl": "odbytnica",
+      "definition_en": "The rectum is the last part of the large intestine before the anus.",
+      "example_en": "Solid waste collects in the rectum before it leaves the body.",
+      "level": "B2"
+    },
+    {
+      "lemma": "pituitary gland",
+      "pos": "noun",
+      "translation_pl": "przysadka mózgowa",
+      "definition_en": "The pituitary gland is a small gland in the brain that controls growth and hormones.",
+      "example_en": "The pituitary gland releases important hormones for the body.",
+      "level": "B2"
+    },
+    {
+      "lemma": "adrenal gland",
+      "pos": "noun",
+      "translation_pl": "nadnercze",
+      "definition_en": "An adrenal gland is an organ above each kidney that makes adrenaline and other hormones.",
+      "example_en": "The adrenal gland helps your body react to stress.",
+      "level": "B2"
+    },
+    {
+      "lemma": "thyroid gland",
+      "pos": "noun",
+      "translation_pl": "tarczyca",
+      "definition_en": "The thyroid gland is located in the neck and controls metabolism by producing hormones.",
+      "example_en": "Your energy depends a lot on a healthy thyroid gland.",
+      "level": "B2"
+    },
+    {
+      "lemma": "spleen",
+      "pos": "noun",
+      "translation_pl": "śledziona",
+      "definition_en": "The spleen is an organ that helps filter blood and supports the immune system.",
+      "example_en": "The spleen can be damaged in some accidents.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bronchus",
+      "pos": "noun",
+      "translation_pl": "oskrzele",
+      "definition_en": "A bronchus is one of the main air passages to the lungs.",
+      "example_en": "When you breathe in, air travels down each bronchus to the lungs.",
+      "level": "B2"
+    },
+    {
+      "lemma": "urethra",
+      "pos": "noun",
+      "translation_pl": "cewka moczowa",
+      "definition_en": "The urethra is the tube that carries urine from the bladder out of the body.",
+      "example_en": "A urinary tract infection can affect the urethra.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ureter",
+      "pos": "noun",
+      "translation_pl": "moczowód",
+      "definition_en": "A ureter is a tube that carries urine from a kidney to the bladder.",
+      "example_en": "A kidney stone can block a ureter.",
+      "level": "B2"
+    },
+    {
+      "lemma": "coronary artery",
+      "pos": "noun",
+      "translation_pl": "tętnica wieńcowa",
+      "definition_en": "A coronary artery is a blood vessel that supplies blood to the heart muscle.",
+      "example_en": "A heart attack can block a coronary artery.",
+      "level": "B2"
+    },
+    {
+      "lemma": "plasma",
+      "pos": "noun",
+      "translation_pl": "osocze",
+      "definition_en": "Plasma is the pale yellow fluid part of blood that carries cells and nutrients.",
+      "example_en": "Doctors can separate plasma from blood donations.",
+      "level": "B1"
+    },
+    {
+      "lemma": "atrium",
+      "pos": "noun",
+      "translation_pl": "przedsionek serca",
+      "definition_en": "The atrium is one of the upper chambers of the heart where blood enters.",
+      "example_en": "Oxygen-poor blood enters the heart through the right atrium.",
+      "level": "B2"
+    },
+    {
+      "lemma": "ventricle",
+      "pos": "noun",
+      "translation_pl": "komora serca",
+      "definition_en": "A ventricle is one of the lower chambers of the heart that pumps blood out.",
+      "example_en": "The left ventricle pumps blood to the whole body.",
+      "level": "B2"
+    },
+    {
+      "lemma": "bile duct",
+      "pos": "noun",
+      "translation_pl": "przewód żółciowy",
+      "definition_en": "A bile duct is the tube that carries bile from the liver and gallbladder to the intestine.",
+      "example_en": "A blocked bile duct can cause stomach pain.",
+      "level": "B2"
+    },
+    {
+      "lemma": "alveolus",
+      "pos": "noun",
+      "translation_pl": "pęcherzyk płucny",
+      "definition_en": "An alveolus is a tiny air sac in the lungs where oxygen enters the blood.",
+      "example_en": "Each alveolus helps you take in oxygen while breathing.",
+      "level": "C1"
+    },
+    {
+      "lemma": "medulla oblongata",
+      "pos": "noun",
+      "translation_pl": "rdzeń przedłużony",
+      "definition_en": "The medulla oblongata is part of the brain that controls breathing and heartbeat.",
+      "example_en": "The medulla oblongata keeps the heart and lungs working automatically.",
+      "level": "C1"
+    },
+    {
+      "lemma": "hypothalamus",
+      "pos": "noun",
+      "translation_pl": "podwzgórze",
+      "definition_en": "The hypothalamus is a small brain region controlling hunger, thirst, and temperature.",
+      "example_en": "Your hypothalamus helps keep your body temperature stable.",
+      "level": "C1"
+    },
+    {
+      "lemma": "pelvis",
+      "pos": "noun",
+      "translation_pl": "miednica",
+      "definition_en": "The pelvis is the group of bones at the base of the spine that supports the body.",
+      "example_en": "The pelvis protects important organs inside your body.",
+      "level": "B2"
+    }
+  ]
+}

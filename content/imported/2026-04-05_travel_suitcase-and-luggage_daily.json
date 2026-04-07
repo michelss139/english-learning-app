@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "travel",
+    "subcategory": "suitcase-and-luggage",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:56:23.609Z"
+  },
+  "items": [
+    {
+      "lemma": "suitcase",
+      "pos": "noun",
+      "translation_pl": "walizka",
+      "definition_en": "A suitcase is a large bag with a handle used for carrying clothes and things when you travel.",
+      "example_en": "She packed her clothes in a suitcase for the trip.",
+      "level": "A1"
+    },
+    {
+      "lemma": "backpack",
+      "pos": "noun",
+      "translation_pl": "plecak",
+      "definition_en": "A backpack is a bag you carry on your back to hold your things.",
+      "example_en": "He took a backpack for his hiking trip.",
+      "level": "A1"
+    },
+    {
+      "lemma": "carry-on",
+      "pos": "noun",
+      "translation_pl": "bagaż podręczny",
+      "definition_en": "A carry-on is a small bag you can take with you on a plane.",
+      "example_en": "She put her laptop in her carry-on.",
+      "level": "A2"
+    },
+    {
+      "lemma": "duffel bag",
+      "pos": "noun",
+      "translation_pl": "torba podróżna",
+      "definition_en": "A duffel bag is a soft, large bag used for travel or sports.",
+      "example_en": "He packed his clothes in a duffel bag.",
+      "level": "A2"
+    },
+    {
+      "lemma": "luggage",
+      "pos": "noun",
+      "translation_pl": "bagaż",
+      "definition_en": "Luggage is the bags and suitcases you take with you when you travel.",
+      "example_en": "Her luggage was too heavy to carry alone.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toiletry bag",
+      "pos": "noun",
+      "translation_pl": "kosmetyczka",
+      "definition_en": "A toiletry bag is a small bag for keeping soap and other personal items.",
+      "example_en": "He packed his toothbrush in his toiletry bag.",
+      "level": "B1"
+    },
+    {
+      "lemma": "passport",
+      "pos": "noun",
+      "translation_pl": "paszport",
+      "definition_en": "A passport is a small official book that shows your identity and country.",
+      "example_en": "She showed her passport at the airport.",
+      "level": "A1"
+    },
+    {
+      "lemma": "suit cover",
+      "pos": "noun",
+      "translation_pl": "pokrowiec na garnitur",
+      "definition_en": "A suit cover is a thin bag to protect clothes during travel.",
+      "example_en": "He used a suit cover for his jacket.",
+      "level": "B1"
+    },
+    {
+      "lemma": "travel pillow",
+      "pos": "noun",
+      "translation_pl": "poduszka podróżna",
+      "definition_en": "A travel pillow is a small pillow used to support your head while travelling.",
+      "example_en": "She brought a travel pillow for the flight.",
+      "level": "A2"
+    },
+    {
+      "lemma": "packing cube",
+      "pos": "noun",
+      "translation_pl": "kostka do pakowania",
+      "definition_en": "A packing cube is a small bag to organize clothes in your suitcase.",
+      "example_en": "Packing cubes keep my clothes neat.",
+      "level": "B1"
+    },
+    {
+      "lemma": "zipper bag",
+      "pos": "noun",
+      "translation_pl": "worek z zamkiem",
+      "definition_en": "A zipper bag is a plastic bag that closes with a zip for keeping small things.",
+      "example_en": "I put my liquids in a zipper bag.",
+      "level": "A2"
+    },
+    {
+      "lemma": "lock",
+      "pos": "noun",
+      "translation_pl": "kłódka",
+      "definition_en": "A lock is a device you use to keep your luggage safe.",
+      "example_en": "He put a lock on his suitcase.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tag",
+      "pos": "noun",
+      "translation_pl": "etykieta",
+      "definition_en": "A tag is a label with your name on your luggage.",
+      "example_en": "Her bag had a name tag.",
+      "level": "A2"
+    },
+    {
+      "lemma": "strap",
+      "pos": "noun",
+      "translation_pl": "pasek",
+      "definition_en": "A strap is a long piece for carrying or closing a bag.",
+      "example_en": "He tightened the strap on his backpack.",
+      "level": "A2"
+    },
+    {
+      "lemma": "wheel",
+      "pos": "noun",
+      "translation_pl": "kółko",
+      "definition_en": "A wheel is a round object that helps a suitcase move easily.",
+      "example_en": "Her suitcase has broken wheels.",
+      "level": "A1"
+    },
+    {
+      "lemma": "zipper",
+      "pos": "noun",
+      "translation_pl": "zamek błyskawiczny",
+      "definition_en": "A zipper is a device for closing bags or clothes.",
+      "example_en": "The zipper on my bag is broken.",
+      "level": "A1"
+    },
+    {
+      "lemma": "compartment",
+      "pos": "noun",
+      "translation_pl": "przegroda",
+      "definition_en": "A compartment is a small space for keeping things separated in a bag.",
+      "example_en": "My suitcase has a special compartment for shoes.",
+      "level": "B1"
+    },
+    {
+      "lemma": "handle",
+      "pos": "noun",
+      "translation_pl": "uchwyt",
+      "definition_en": "A handle is a part of a bag you hold to carry it.",
+      "example_en": "She pulled her suitcase by the handle.",
+      "level": "A1"
+    },
+    {
+      "lemma": "pocket",
+      "pos": "noun",
+      "translation_pl": "kieszeń",
+      "definition_en": "A pocket is a small bag sewn inside or outside of your luggage.",
+      "example_en": "I keep my passport in an outside pocket.",
+      "level": "A1"
+    },
+    {
+      "lemma": "sticker",
+      "pos": "noun",
+      "translation_pl": "naklejka",
+      "definition_en": "A sticker is a piece of paper you stick on your luggage for decoration or information.",
+      "example_en": "He put a sticker on his suitcase.",
+      "level": "A1"
+    }
+  ]
+}

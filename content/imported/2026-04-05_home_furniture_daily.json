@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "home",
+    "subcategory": "furniture",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T19:50:39.657Z"
+  },
+  "items": [
+    {
+      "lemma": "chair",
+      "pos": "noun",
+      "translation_pl": "krzesło",
+      "definition_en": "A chair is something you sit on.",
+      "example_en": "She put her bag on the chair.",
+      "level": "A1"
+    },
+    {
+      "lemma": "table",
+      "pos": "noun",
+      "translation_pl": "stół",
+      "definition_en": "A table is a piece of furniture with a flat top and legs.",
+      "example_en": "We eat dinner at the table.",
+      "level": "A1"
+    },
+    {
+      "lemma": "bookcase",
+      "pos": "noun",
+      "translation_pl": "regał na książki",
+      "definition_en": "A bookcase is a piece of furniture used to hold books.",
+      "example_en": "The bookcase is full of novels.",
+      "level": "A2"
+    },
+    {
+      "lemma": "drawer",
+      "pos": "noun",
+      "translation_pl": "szuflada",
+      "definition_en": "A drawer is a box that slides in and out of furniture.",
+      "example_en": "I keep my socks in the top drawer.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bench",
+      "pos": "noun",
+      "translation_pl": "ławka",
+      "definition_en": "A bench is a long seat for several people.",
+      "example_en": "He sat on the bench by the window.",
+      "level": "A2"
+    },
+    {
+      "lemma": "nightstand",
+      "pos": "noun",
+      "translation_pl": "szafka nocna",
+      "definition_en": "A nightstand is a small table next to a bed.",
+      "example_en": "There is a lamp on my nightstand.",
+      "level": "A2"
+    },
+    {
+      "lemma": "dressing table",
+      "pos": "noun",
+      "translation_pl": "toaletka",
+      "definition_en": "A dressing table is a table where you get ready and keep cosmetics.",
+      "example_en": "Her hairbrush is on the dressing table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "book shelf",
+      "pos": "noun",
+      "translation_pl": "półka na książki",
+      "definition_en": "A book shelf is a flat part of furniture for holding books.",
+      "example_en": "He arranged the books on the book shelf.",
+      "level": "A2"
+    },
+    {
+      "lemma": "footstool",
+      "pos": "noun",
+      "translation_pl": "podnóżek",
+      "definition_en": "A footstool is a small seat for resting your feet on.",
+      "example_en": "She put her feet on the footstool.",
+      "level": "B1"
+    },
+    {
+      "lemma": "sofabed",
+      "pos": "noun",
+      "translation_pl": "sofa z funkcją spania",
+      "definition_en": "A sofabed is a sofa that can be turned into a bed.",
+      "example_en": "We have a sofabed for guests.",
+      "level": "B1"
+    },
+    {
+      "lemma": "stool",
+      "pos": "noun",
+      "translation_pl": "stołek",
+      "definition_en": "A stool is a seat with no back or arms.",
+      "example_en": "He sat on a stool at the counter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "table lamp",
+      "pos": "noun",
+      "translation_pl": "lampka stołowa",
+      "definition_en": "A table lamp is a small lamp that sits on a table.",
+      "example_en": "She turned on the table lamp to read.",
+      "level": "A2"
+    },
+    {
+      "lemma": "bench seat",
+      "pos": "noun",
+      "translation_pl": "ławka siedzeniowa",
+      "definition_en": "A bench seat is a wide seat where several people sit together.",
+      "example_en": "There is a bench seat at the dining table.",
+      "level": "B1"
+    },
+    {
+      "lemma": "recliner",
+      "pos": "noun",
+      "translation_pl": "fotel rozkładany",
+      "definition_en": "A recliner is a chair that leans back for comfort.",
+      "example_en": "My dad likes to relax in his recliner.",
+      "level": "B1"
+    },
+    {
+      "lemma": "rocking chair",
+      "pos": "noun",
+      "translation_pl": "fotel bujany",
+      "definition_en": "A rocking chair is a chair that moves back and forth gently.",
+      "example_en": "The grandmother sat in the rocking chair.",
+      "level": "B1"
+    },
+    {
+      "lemma": "side table",
+      "pos": "noun",
+      "translation_pl": "stolik boczny",
+      "definition_en": "A side table is a small table placed beside a chair or sofa.",
+      "example_en": "I put my drink on the side table.",
+      "level": "A2"
+    },
+    {
+      "lemma": "headboard",
+      "pos": "noun",
+      "translation_pl": "zagłówek",
+      "definition_en": "A headboard is the part of a bed that sits behind your head.",
+      "example_en": "She leaned against the headboard to read.",
+      "level": "B1"
+    },
+    {
+      "lemma": "high chair",
+      "pos": "noun",
+      "translation_pl": "krzesełko do karmienia",
+      "definition_en": "A high chair is a tall chair for a baby to sit in at a table.",
+      "example_en": "The baby sat happily in the high chair.",
+      "level": "A2"
+    },
+    {
+      "lemma": "ottoman",
+      "pos": "noun",
+      "translation_pl": "pufa",
+      "definition_en": "An ottoman is a soft seat or footrest with no back or arms.",
+      "example_en": "He rested his feet on the ottoman.",
+      "level": "B1"
+    },
+    {
+      "lemma": "bunk bed",
+      "pos": "noun",
+      "translation_pl": "łóżko piętrowe",
+      "definition_en": "A bunk bed is two beds, one on top of the other.",
+      "example_en": "The kids sleep in a bunk bed.",
+      "level": "A2"
+    }
+  ]
+}

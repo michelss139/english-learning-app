@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "entertainment",
+    "subcategory": "music-and-concerts",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:41:10.875Z"
+  },
+  "items": [
+    {
+      "lemma": "concert",
+      "pos": "noun",
+      "translation_pl": "koncert",
+      "definition_en": "A concert is a live music performance.",
+      "example_en": "We are going to a concert on Friday.",
+      "level": "A1"
+    },
+    {
+      "lemma": "band",
+      "pos": "noun",
+      "translation_pl": "zespół muzyczny",
+      "definition_en": "A band is a group of people who play music together.",
+      "example_en": "My favorite band is playing tonight.",
+      "level": "A1"
+    },
+    {
+      "lemma": "singer",
+      "pos": "noun",
+      "translation_pl": "piosenkarz",
+      "definition_en": "A singer is a person who sings songs.",
+      "example_en": "The singer has a beautiful voice.",
+      "level": "A1"
+    },
+    {
+      "lemma": "audience",
+      "pos": "noun",
+      "translation_pl": "publiczność",
+      "definition_en": "The audience is the group of people watching an event.",
+      "example_en": "The audience cheered at the end.",
+      "level": "A2"
+    },
+    {
+      "lemma": "stage",
+      "pos": "noun",
+      "translation_pl": "scena",
+      "definition_en": "A stage is the place where performers stand during a show.",
+      "example_en": "The singer walked onto the stage.",
+      "level": "A1"
+    },
+    {
+      "lemma": "ticket",
+      "pos": "noun",
+      "translation_pl": "bilet",
+      "definition_en": "A ticket is a piece of paper or card for entry to an event.",
+      "example_en": "I bought a ticket for the concert.",
+      "level": "A1"
+    },
+    {
+      "lemma": "microphone",
+      "pos": "noun",
+      "translation_pl": "mikrofon",
+      "definition_en": "A microphone is a device used to make voices louder.",
+      "example_en": "She used a microphone to sing loudly.",
+      "level": "A2"
+    },
+    {
+      "lemma": "guitar",
+      "pos": "noun",
+      "translation_pl": "gitara",
+      "definition_en": "A guitar is a musical instrument with strings.",
+      "example_en": "He played the guitar on stage.",
+      "level": "A1"
+    },
+    {
+      "lemma": "drums",
+      "pos": "noun",
+      "translation_pl": "perkusja",
+      "definition_en": "Drums are musical instruments that make a loud sound when hit.",
+      "example_en": "The drummer played the drums fast.",
+      "level": "A2"
+    },
+    {
+      "lemma": "piano",
+      "pos": "noun",
+      "translation_pl": "fortepian",
+      "definition_en": "A piano is a large musical instrument with keys.",
+      "example_en": "He learned to play the piano at home.",
+      "level": "A1"
+    },
+    {
+      "lemma": "musician",
+      "pos": "noun",
+      "translation_pl": "muzyk",
+      "definition_en": "A musician is a person who plays music.",
+      "example_en": "The musician wrote a new song.",
+      "level": "A2"
+    },
+    {
+      "lemma": "song",
+      "pos": "noun",
+      "translation_pl": "piosenka",
+      "definition_en": "A song is a piece of music with words.",
+      "example_en": "I like this song very much.",
+      "level": "A1"
+    },
+    {
+      "lemma": "festival",
+      "pos": "noun",
+      "translation_pl": "festiwal",
+      "definition_en": "A festival is a special event with music and fun.",
+      "example_en": "They go to a music festival every year.",
+      "level": "A2"
+    },
+    {
+      "lemma": "crowd",
+      "pos": "noun",
+      "translation_pl": "tłum",
+      "definition_en": "A crowd is a large group of people together.",
+      "example_en": "A big crowd waited outside the venue.",
+      "level": "A2"
+    },
+    {
+      "lemma": "album",
+      "pos": "noun",
+      "translation_pl": "album muzyczny",
+      "definition_en": "An album is a collection of songs.",
+      "example_en": "She released a new album last week.",
+      "level": "A2"
+    },
+    {
+      "lemma": "fan",
+      "pos": "noun",
+      "translation_pl": "fan",
+      "definition_en": "A fan is a person who likes someone or something a lot.",
+      "example_en": "He is a big fan of rock music.",
+      "level": "A1"
+    },
+    {
+      "lemma": "dancer",
+      "pos": "noun",
+      "translation_pl": "tancerz",
+      "definition_en": "A dancer is someone who dances in shows or performances.",
+      "example_en": "The dancer moved across the stage.",
+      "level": "A2"
+    },
+    {
+      "lemma": "venue",
+      "pos": "noun",
+      "translation_pl": "miejsce wydarzenia",
+      "definition_en": "A venue is a place where an event happens.",
+      "example_en": "The concert venue was full of people.",
+      "level": "B1"
+    },
+    {
+      "lemma": "ticket stub",
+      "pos": "noun",
+      "translation_pl": "odcinek biletu",
+      "definition_en": "A ticket stub is the part of a ticket kept after entry.",
+      "example_en": "He saved the ticket stub from the concert.",
+      "level": "B1"
+    },
+    {
+      "lemma": "setlist",
+      "pos": "noun",
+      "translation_pl": "lista utworów",
+      "definition_en": "A setlist is a list of songs played in a show.",
+      "example_en": "We looked at the setlist before the show started.",
+      "level": "B1"
+    }
+  ]
+}

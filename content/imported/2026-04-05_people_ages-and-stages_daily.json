@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "people",
+    "subcategory": "ages-and-stages",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-05T20:36:21.852Z"
+  },
+  "items": [
+    {
+      "lemma": "baby",
+      "pos": "noun",
+      "translation_pl": "niemowlę",
+      "definition_en": "A baby is a very young child.",
+      "example_en": "The baby is sleeping in her crib.",
+      "level": "A1"
+    },
+    {
+      "lemma": "child",
+      "pos": "noun",
+      "translation_pl": "dziecko",
+      "definition_en": "A child is a young person who is not yet an adult.",
+      "example_en": "The child is playing in the garden.",
+      "level": "A1"
+    },
+    {
+      "lemma": "teenager",
+      "pos": "noun",
+      "translation_pl": "nastolatek",
+      "definition_en": "A teenager is a person who is between 13 and 19 years old.",
+      "example_en": "The teenager enjoys listening to music.",
+      "level": "A2"
+    },
+    {
+      "lemma": "adult",
+      "pos": "noun",
+      "translation_pl": "dorosły",
+      "definition_en": "An adult is a person who is fully grown.",
+      "example_en": "Every adult needs an identification card.",
+      "level": "A1"
+    },
+    {
+      "lemma": "toddler",
+      "pos": "noun",
+      "translation_pl": "maluch",
+      "definition_en": "A toddler is a young child who is just beginning to walk.",
+      "example_en": "Her toddler loves to run around the house.",
+      "level": "A2"
+    },
+    {
+      "lemma": "preschooler",
+      "pos": "noun",
+      "translation_pl": "przedszkolak",
+      "definition_en": "A preschooler is a child who is not yet old enough for school.",
+      "example_en": "The preschooler painted a picture at home.",
+      "level": "B1"
+    },
+    {
+      "lemma": "grandparent",
+      "pos": "noun",
+      "translation_pl": "dziadek lub babcia",
+      "definition_en": "A grandparent is the parent of your parent.",
+      "example_en": "My grandparent tells wonderful stories.",
+      "level": "A2"
+    },
+    {
+      "lemma": "elder",
+      "pos": "noun",
+      "translation_pl": "starszy",
+      "definition_en": "An elder is an older person in a family or group.",
+      "example_en": "The community respects its elder.",
+      "level": "B1"
+    },
+    {
+      "lemma": "infant",
+      "pos": "noun",
+      "translation_pl": "niemowlę",
+      "definition_en": "An infant is a baby who is very young.",
+      "example_en": "The infant smiled at his mother.",
+      "level": "A2"
+    },
+    {
+      "lemma": "pensioner",
+      "pos": "noun",
+      "translation_pl": "emeryt",
+      "definition_en": "A pensioner is someone who has retired from work.",
+      "example_en": "The pensioner goes for a walk every morning.",
+      "level": "B1"
+    },
+    {
+      "lemma": "newborn",
+      "pos": "noun",
+      "translation_pl": "noworodek",
+      "definition_en": "A newborn is a baby that has just been born.",
+      "example_en": "The newborn slept peacefully.",
+      "level": "B1"
+    },
+    {
+      "lemma": "adolescent",
+      "pos": "noun",
+      "translation_pl": "nastolatek",
+      "definition_en": "An adolescent is a young person who is developing into an adult.",
+      "example_en": "The adolescent is learning more about himself.",
+      "level": "B1"
+    },
+    {
+      "lemma": "middle-aged person",
+      "pos": "noun",
+      "translation_pl": "osoba w średnim wieku",
+      "definition_en": "A middle-aged person is someone between young and old age.",
+      "example_en": "The middle-aged person enjoys jogging in the park.",
+      "level": "B1"
+    },
+    {
+      "lemma": "young adult",
+      "pos": "noun",
+      "translation_pl": "młody dorosły",
+      "definition_en": "A young adult is a person in their late teens or early twenties.",
+      "example_en": "He is a young adult starting his first job.",
+      "level": "B1"
+    },
+    {
+      "lemma": "twin",
+      "pos": "noun",
+      "translation_pl": "bliźniak",
+      "definition_en": "A twin is one of two siblings born at the same time.",
+      "example_en": "Each twin has their own personality.",
+      "level": "A2"
+    },
+    {
+      "lemma": "orphan",
+      "pos": "noun",
+      "translation_pl": "sierota",
+      "definition_en": "An orphan is a child whose parents have died.",
+      "example_en": "The orphan found a new family.",
+      "level": "B1"
+    },
+    {
+      "lemma": "senior citizen",
+      "pos": "noun",
+      "translation_pl": "senior",
+      "definition_en": "A senior citizen is an older adult, usually over sixty.",
+      "example_en": "A senior citizen can get discounts at the cinema.",
+      "level": "B1"
+    },
+    {
+      "lemma": "minor",
+      "pos": "noun",
+      "translation_pl": "nieletni",
+      "definition_en": "A minor is a person who is not legally an adult.",
+      "example_en": "A minor must go to school.",
+      "level": "B1"
+    },
+    {
+      "lemma": "widow",
+      "pos": "noun",
+      "translation_pl": "wdowa",
+      "definition_en": "A widow is a woman whose husband has died.",
+      "example_en": "The widow lives with her daughter.",
+      "level": "B1"
+    },
+    {
+      "lemma": "widower",
+      "pos": "noun",
+      "translation_pl": "wdowiec",
+      "definition_en": "A widower is a man whose wife has died.",
+      "example_en": "The widower visits the park each day.",
+      "level": "B1"
+    }
+  ]
+}

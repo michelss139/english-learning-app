@@ -6,6 +6,9 @@ import { supabase } from "@/lib/supabase/client";
 import { emitTrainingCompleted } from "@/lib/events/trainingEvents";
 import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
 import { TypewriterText } from "@/lib/coach/TypewriterText";
+import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
+import type { XpSkipReasonCode } from "@/lib/xp/award";
+import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
 
 export type Verb = {
   id: string;
@@ -52,6 +55,7 @@ type AwardResult = {
   xp_in_current_level: number;
   xp_to_next_level: number;
   newly_awarded_badges: AwardBadge[];
+  xp_skip_reason: XpSkipReasonCode | null;
 };
 
 type SessionSummary = {
@@ -102,6 +106,8 @@ export default function IrregularVerbsTrainClient(props: {
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const trainingEntryContext: TrainingEntryContext | undefined =
+    searchParams.get("context") === TRAINING_CONTEXT_SUGGESTION ? TRAINING_CONTEXT_SUGGESTION : undefined;
   const assignmentId = props.assignmentId;
   const mode = props.mode;
   const startMode = props.startMode;
@@ -132,7 +138,6 @@ export default function IrregularVerbsTrainClient(props: {
   const [sessionId, setSessionId] = useState("");
   const [sessionComplete, setSessionComplete] = useState(false);
   const [award, setAward] = useState<AwardResult | null>(null);
-  const [xpAlreadyAwarded, setXpAlreadyAwarded] = useState(false);
   const [awarding, setAwarding] = useState(false);
   const [awardError, setAwardError] = useState("");
   const [awardedSessionId, setAwardedSessionId] = useState("");
@@ -216,7 +221,10 @@ export default function IrregularVerbsTrainClient(props: {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          ...payload,
+          ...(trainingEntryContext ? { context: trainingEntryContext } : {}),
+        }),
       });
 
       if (!res.ok) {
@@ -249,7 +257,6 @@ export default function IrregularVerbsTrainClient(props: {
       setAward(null);
       setAwardError("");
       setAwardedSessionId("");
-      setXpAlreadyAwarded(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Nie udało się rozpocząć sesji.");
       setCurrentVerb(null);
@@ -264,6 +271,7 @@ export default function IrregularVerbsTrainClient(props: {
     wantsLessonVerbsSession,
     lessonVerbsList,
     wantsTargetedSession,
+    trainingEntryContext,
   ]);
 
   useEffect(() => {
@@ -452,9 +460,16 @@ export default function IrregularVerbsTrainClient(props: {
         }
 
         if (data.isolated_lesson_verbs) {
-          setAward(null);
+          setAward({
+            xp_awarded: data.xp_awarded ?? 0,
+            xp_total: data.xp_total ?? 0,
+            level: data.level ?? 0,
+            xp_in_current_level: data.xp_in_current_level ?? 0,
+            xp_to_next_level: data.xp_to_next_level ?? 0,
+            newly_awarded_badges: data.newly_awarded_badges ?? [],
+            xp_skip_reason: data.xp_skip_reason ?? "isolated_lesson_no_xp",
+          });
           setSummary(data.summary ?? null);
-          setXpAlreadyAwarded(false);
         } else {
           setAward({
             xp_awarded: data.xp_awarded ?? 0,
@@ -463,11 +478,11 @@ export default function IrregularVerbsTrainClient(props: {
             xp_in_current_level: data.xp_in_current_level ?? 0,
             xp_to_next_level: data.xp_to_next_level ?? 0,
             newly_awarded_badges: data.newly_awarded_badges ?? [],
+            xp_skip_reason: data.xp_skip_reason ?? null,
           });
           setSummary(
             effectiveMode === "both" && sessionItems.length === 0 ? (data.summary ?? null) : null,
           );
-          setXpAlreadyAwarded((data.xp_awarded ?? 0) === 0);
         }
         setAwardedSessionId(sessionId);
         if (!wantsLessonVerbsSession) {
@@ -639,6 +654,9 @@ export default function IrregularVerbsTrainClient(props: {
             {wantsLessonVerbsSession ? (
               <div className="flex flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:items-center">
                 <p className="w-full sm:w-auto">Powtórzyłeś materiał z lekcji.</p>
+                {award && award.xp_awarded === 0 ? (
+                  <p className="w-full text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
+                ) : null}
                 <button
                   type="button"
                   className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
@@ -655,13 +673,16 @@ export default function IrregularVerbsTrainClient(props: {
               </div>
             ) : award ? (
               <div className="space-y-1 text-sm text-slate-700">
-                {xpAlreadyAwarded ? (
-                  <div className="text-amber-700">
-                    Już dostałeś XP za to ćwiczenie dziś. Wróć jutro, lub spróbuj innych ćwiczeń, aby dostać więcej XP!
-                  </div>
+                {award.xp_awarded === 0 ? (
+                  <div className="text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</div>
                 ) : (
-                  <div>
-                    Zdobyte XP: <span className="font-medium text-slate-900">+{award.xp_awarded}</span>
+                  <div className="space-y-1">
+                    <div>
+                      <span className="font-medium text-slate-900">+{award.xp_awarded} XP</span>
+                    </div>
+                    {award.xp_awarded < 10 ? (
+                      <p className="text-xs text-slate-500">Krótka sesja — mniejsza nagroda XP</p>
+                    ) : null}
                   </div>
                 )}
                 <div>

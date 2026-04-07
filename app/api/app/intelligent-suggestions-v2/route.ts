@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { appendSuggestionContext } from "@/lib/suggestions/suggestionContext";
 
 type IrregularVerb = {
   id: string;
@@ -23,7 +24,7 @@ type ApiResponse = {
     | {
         verbs: IrregularVerb[];
         total_problematic: number;
-        href: "/app/irregular-verbs/train?focus=auto";
+        href: string;
       }
     | null;
   packs: PackSuggestion[];
@@ -147,7 +148,7 @@ export async function GET(): Promise<NextResponse<ApiResponse | { error: string 
       .map((row: any) => ({
         slug: row.cluster_slug as string,
         accuracy: toAccuracy(row.accuracy as number | null),
-        href: `/app/vocab/cluster/${row.cluster_slug}?autostart=1`,
+        href: appendSuggestionContext(`/app/vocab/cluster/${row.cluster_slug}?autostart=1`),
       }));
 
     const response: ApiResponse = {
@@ -156,7 +157,7 @@ export async function GET(): Promise<NextResponse<ApiResponse | { error: string 
           ? {
               verbs: irregularVerbs,
               total_problematic: irregularVerbs.length,
-              href: "/app/irregular-verbs/train?focus=auto",
+              href: appendSuggestionContext("/app/irregular-verbs/train?focus=auto"),
             }
           : null,
       packs,

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "category": "technology",
+    "subcategory": "software-applications",
+    "mode": "daily",
+    "pos": "noun",
+    "model": "gpt-4.1",
+    "generatedAt": "2026-04-06T07:24:14.284Z"
+  },
+  "items": [
+    {
+      "lemma": "app",
+      "pos": "noun",
+      "translation_pl": "aplikacja",
+      "definition_en": "An app is a program you use on your computer or phone.",
+      "example_en": "I downloaded a new app for music.",
+      "level": "A1"
+    },
+    {
+      "lemma": "software",
+      "pos": "noun",
+      "translation_pl": "oprogramowanie",
+      "definition_en": "Software is the programs and applications on your computer.",
+      "example_en": "He installed new software on his laptop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "file",
+      "pos": "noun",
+      "translation_pl": "plik",
+      "definition_en": "A file is something you save or open on your computer.",
+      "example_en": "She opened the file to read the document.",
+      "level": "A1"
+    },
+    {
+      "lemma": "folder",
+      "pos": "noun",
+      "translation_pl": "folder",
+      "definition_en": "A folder is a place to keep files on a computer.",
+      "example_en": "All my photos are in this folder.",
+      "level": "A1"
+    },
+    {
+      "lemma": "program",
+      "pos": "noun",
+      "translation_pl": "program",
+      "definition_en": "A program is a set of instructions for a computer.",
+      "example_en": "I use a program to edit pictures.",
+      "level": "A1"
+    },
+    {
+      "lemma": "icon",
+      "pos": "noun",
+      "translation_pl": "ikona",
+      "definition_en": "An icon is a small picture you click to open something.",
+      "example_en": "Click the icon to start the application.",
+      "level": "A1"
+    },
+    {
+      "lemma": "window",
+      "pos": "noun",
+      "translation_pl": "okno",
+      "definition_en": "A window is the area you see a program on the screen.",
+      "example_en": "I have two windows open on my desktop.",
+      "level": "A1"
+    },
+    {
+      "lemma": "menu",
+      "pos": "noun",
+      "translation_pl": "menu",
+      "definition_en": "A menu is a list of choices in a program.",
+      "example_en": "Select the option from the menu.",
+      "level": "A1"
+    },
+    {
+      "lemma": "button",
+      "pos": "noun",
+      "translation_pl": "przycisk",
+      "definition_en": "A button is something you press to do something in an app.",
+      "example_en": "Press the button to print the page.",
+      "level": "A1"
+    },
+    {
+      "lemma": "tab",
+      "pos": "noun",
+      "translation_pl": "karta",
+      "definition_en": "A tab is a part of a window where you can see more pages.",
+      "example_en": "I opened a new tab to search for information.",
+      "level": "A2"
+    },
+    {
+      "lemma": "update",
+      "pos": "noun",
+      "translation_pl": "aktualizacja",
+      "definition_en": "An update is a new version of a program or app.",
+      "example_en": "I need to install the update to use the app.",
+      "level": "A2"
+    },
+    {
+      "lemma": "user account",
+      "pos": "noun",
+      "translation_pl": "konto użytkownika",
+      "definition_en": "A user account is what you use to log in to programs.",
+      "example_en": "She created a user account for the website.",
+      "level": "A2"
+    },
+    {
+      "lemma": "backup",
+      "pos": "noun",
+      "translation_pl": "kopia zapasowa",
+      "definition_en": "A backup is a copy of your files in case you lose them.",
+      "example_en": "I made a backup of my important data.",
+      "level": "A2"
+    },
+    {
+      "lemma": "app store",
+      "pos": "noun",
+      "translation_pl": "sklep z aplikacjami",
+      "definition_en": "An app store is a place online to get new apps.",
+      "example_en": "He found the game in the app store.",
+      "level": "A2"
+    },
+    {
+      "lemma": "template",
+      "pos": "noun",
+      "translation_pl": "szablon",
+      "definition_en": "A template is a ready-made layout for documents or projects.",
+      "example_en": "I used a template to write my letter.",
+      "level": "A2"
+    },
+    {
+      "lemma": "plugin",
+      "pos": "noun",
+      "translation_pl": "wtyczka",
+      "definition_en": "A plugin is a small program that adds new features.",
+      "example_en": "To use that music player, you need a plugin.",
+      "level": "B1"
+    },
+    {
+      "lemma": "shortcut",
+      "pos": "noun",
+      "translation_pl": "skrót",
+      "definition_en": "A shortcut is a quick way to open a file or start a program.",
+      "example_en": "I put a shortcut to the app on my desktop.",
+      "level": "A2"
+    },
+    {
+      "lemma": "tool",
+      "pos": "noun",
+      "translation_pl": "narzędzie",
+      "definition_en": "A tool is something in software that helps you do a job.",
+      "example_en": "The eraser tool helps remove mistakes.",
+      "level": "A1"
+    },
+    {
+      "lemma": "notification",
+      "pos": "noun",
+      "translation_pl": "powiadomienie",
+      "definition_en": "A notification is a message that tells you something new.",
+      "example_en": "I got a notification about a new message.",
+      "level": "A2"
+    },
+    {
+      "lemma": "settings",
+      "pos": "noun",
+      "translation_pl": "ustawienia",
+      "definition_en": "Settings are options you can change in a program.",
+      "example_en": "Open the settings to adjust the volume.",
+      "level": "A2"
+    }
+  ]
+}
