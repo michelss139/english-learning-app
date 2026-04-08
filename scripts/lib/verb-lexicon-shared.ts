@@ -1,5 +1,5 @@
 /**
- * Shared OpenAI + Supabase helpers for verb lexicon generation scripts.
+ * Shared OpenAI + Supabase helpers for lexicon generation scripts (verbs, adjectives, etc.).
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -199,6 +199,44 @@ export function parseEnrichJson(text: string): EnrichPayload {
   };
 }
 
+/** CEFR including C2 (nouns / adjectives pipelines). */
+export const CEFR_LEVELS_WIDE = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
+
+export type AdjectiveEnrichPayload = {
+  translation_pl: string;
+  definition_en: string;
+  examples: string[];
+  level: string;
+};
+
+export function parseCefrLevelWide(raw: unknown): string {
+  if (typeof raw !== "string") throw new Error("Invalid enrich JSON: level");
+  const u = raw.trim().toUpperCase();
+  if ((CEFR_LEVELS_WIDE as readonly string[]).includes(u)) return u;
+  throw new Error(`Invalid enrich JSON: level must be one of ${CEFR_LEVELS_WIDE.join(", ")}`);
+}
+
+/** Adjective (or noun-style) enrich JSON: no patterns, level A1–C2. */
+export function parseAdjectiveEnrichJson(text: string): AdjectiveEnrichPayload {
+  const raw = JSON.parse(stripJsonFence(text)) as Record<string, unknown>;
+  const translation_pl = typeof raw.translation_pl === "string" ? raw.translation_pl.trim() : "";
+  const definition_en = typeof raw.definition_en === "string" ? raw.definition_en.trim() : "";
+  const ex = raw.examples;
+  const examples = Array.isArray(ex)
+    ? ex.filter((x): x is string => typeof x === "string" && x.trim().length > 0).map((x) => x.trim())
+    : [];
+  if (!translation_pl) throw new Error("Invalid enrich JSON: translation_pl");
+  if (!definition_en) throw new Error("Invalid enrich JSON: definition_en");
+  if (examples.length < 2) throw new Error("Invalid enrich JSON: need 2 examples");
+  const level = parseCefrLevelWide(raw.level);
+  return {
+    translation_pl,
+    definition_en,
+    examples: examples.slice(0, 2),
+    level,
+  };
+}
+
 export async function callOpenAI(prompt: string): Promise<string> {
   const apiKey = requiredEnv("OPENAI_API_KEY");
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -298,11 +336,15 @@ export async function loadExistingVerbLemmaNorms(
 }
 
 export async function verbEntryExists(supabase: SupabaseClient, lemmaNorm: string): Promise<boolean> {
+  return lexiconEntryExists(supabase, lemmaNorm, "verb");
+}
+
+export async function lexiconEntryExists(supabase: SupabaseClient, lemmaNorm: string, pos: string): Promise<boolean> {
   const { data } = await supabase
     .from("lexicon_entries")
     .select("id")
     .eq("lemma_norm", lemmaNorm)
-    .eq("pos", "verb")
+    .eq("pos", pos)
     .maybeSingle();
   return Boolean(data?.id);
 }
@@ -365,6 +407,65 @@ export async function insertVerbBundle(
         pattern: pat,
       });
       if (pErr && pErr.code !== "23505") throw pErr;
+    }
+  } catch (e) {
+    if (entryId) {
+      await supabase.from("lexicon_entries").delete().eq("id", entryId);
+    }
+    throw e;
+  }
+}
+
+export async function insertAdjectiveBundle(
+  supabase: SupabaseClient,
+  lemmaDisplay: string,
+  lemmaNorm: string,
+  payload: AdjectiveEnrichPayload,
+  domain: string,
+): Promise<void> {
+  let entryId: string | null = null;
+  try {
+    const { data: entryRow, error: eIns } = await supabase
+      .from("lexicon_entries")
+      .insert({
+        lemma: lemmaDisplay,
+        lemma_norm: lemmaNorm,
+        pos: "adjective",
+      })
+      .select("id")
+      .single();
+
+    if (eIns) throw eIns;
+    entryId = entryRow.id as string;
+
+    const { data: senseRow, error: sIns } = await supabase
+      .from("lexicon_senses")
+      .insert({
+        entry_id: entryId,
+        definition_en: payload.definition_en,
+        sense_order: 0,
+        domain,
+        cefr_level: payload.level,
+      })
+      .select("id")
+      .single();
+
+    if (sIns) throw sIns;
+    const senseId = senseRow.id as string;
+
+    const { error: trErr } = await supabase.from("lexicon_translations").insert({
+      sense_id: senseId,
+      translation_pl: payload.translation_pl,
+    });
+    if (trErr) throw trErr;
+
+    for (const ex of payload.examples) {
+      const { error: exErr } = await supabase.from("lexicon_examples").insert({
+        sense_id: senseId,
+        example_en: ex,
+        source: "ai",
+      });
+      if (exErr) throw exErr;
     }
   } catch (e) {
     if (entryId) {

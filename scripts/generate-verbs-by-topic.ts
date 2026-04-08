@@ -77,7 +77,7 @@ async function main(): Promise<void> {
   if (limit) console.log(`limit: ${limit}`);
   console.log("");
 
-  console.log("Loading existing verb lemmas (lexicon only)…");
+  console.log("Loading existing verb lemmas (lexicon + irregular)…");
   const existing = await loadExistingVerbLemmaNorms(supabase, true);
   console.log(`  ${existing.size} known base forms\n`);
 

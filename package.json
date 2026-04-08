@@ -14,8 +14,13 @@
     "import:nouns": "tsx scripts/content-pipeline/import-nouns.ts",
     "build:pack": "tsx scripts/content-pipeline/build-pack.ts",
     "enrich:verbs": "tsx scripts/enrich-verbs.ts",
+    "enrich:nouns": "tsx scripts/enrich-nouns.ts",
     "generate:verbs-missing": "tsx scripts/generate-verbs-missing.ts",
-    "generate:verbs-topic": "tsx scripts/generate-verbs-by-topic.ts"
+    "generate:verbs-topic": "tsx scripts/generate-verbs-by-topic.ts",
+    "generate:adjectives-missing": "tsx scripts/generate-adjectives-missing.ts",
+    "validate:verbs": "tsx scripts/validate-verbs.ts",
+    "validate:verbs-pos": "tsx scripts/validate-verbs-pos.ts",
+    "clean:verbs": "tsx scripts/clean-verbs.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",

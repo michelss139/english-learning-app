@@ -32,13 +32,11 @@ export async function GET(req: Request) {
 
     const supabase = createSupabaseAdmin();
 
-    // Get all verbs
+    // Get all verbs (always select entry_id so the query string is a single literal — fixes Supabase ParserError typing)
     let query = supabase
       .from("irregular_verbs")
       .select(
-        includeLexicon
-          ? "id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id"
-          : "id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants",
+        "id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id",
       )
       .order("base_norm");
 
@@ -69,11 +67,11 @@ export async function GET(req: Request) {
       }
     }
 
-    const verbList = verbs || [];
+    const verbList = verbs ?? [];
     const patternByVerbId = includeLexicon
       ? await loadLexiconPatternsForIrregularVerbs(
           supabase,
-          verbList.map((v) => ({ id: v.id, entry_id: (v as { entry_id?: string | null }).entry_id ?? null })),
+          verbList.map((v) => ({ id: v.id, entry_id: v.entry_id ?? null })),
         )
       : null;
 
