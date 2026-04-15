@@ -25,6 +25,23 @@ type OverviewPayload = {
 
 type TrainingMode = "quick" | "errors" | "new";
 type StartModeForApi = "quick" | "errors" | "new" | "mastered";
+type RecommendedStart =
+  | {
+      kind: "review" | "learning" | "new";
+      title: string;
+      description: string;
+      count: number;
+      mode: StartModeForApi;
+      senseIds: string[];
+    }
+  | {
+      kind: "empty" | "idle";
+      title: string;
+      description: string;
+      count: 0;
+      mode: null;
+      senseIds: [];
+    };
 
 /** 1 → „rzecz”, inaczej „rzeczy”. */
 function rzeczPowtorkiForm(count: number): "rzecz" | "rzeczy" {
@@ -81,6 +98,63 @@ function canUseMode(overview: OverviewPayload, mode: TrainingMode): boolean {
   if (mode === "errors") return overview.segments.review.some((i) => i.sense_id);
   if (mode === "new") return overview.segments.new.some((i) => i.sense_id);
   return overview.cta_sense_ids.length > 0;
+}
+
+function buildRecommendedStart(overview: OverviewPayload | null, totalWords: number): RecommendedStart | null {
+  if (!overview) return null;
+
+  if (overview.counts.review > 0) {
+    return {
+      kind: "review",
+      title: `Masz ${overview.counts.review} słów do powtórki`,
+      description: "Najpierw wróć do słów, które ostatnio sprawiły trudność.",
+      count: overview.counts.review,
+      mode: "errors",
+      senseIds: takeSenseIds(overview.segments.review),
+    };
+  }
+
+  if (overview.counts.learning > 0) {
+    return {
+      kind: "learning",
+      title: `Kontynuuj naukę (${overview.counts.learning} słów)`,
+      description: "To najlepszy moment, żeby utrwalić słowa będące już w trakcie nauki.",
+      count: overview.counts.learning,
+      mode: "quick",
+      senseIds: takeSenseIds(overview.segments.learning),
+    };
+  }
+
+  if (overview.counts.new > 0) {
+    return {
+      kind: "new",
+      title: `Zacznij naukę nowych słów (${overview.counts.new})`,
+      description: "Nie masz zaległych powtórek, więc możesz spokojnie wejść w nowe pozycje.",
+      count: overview.counts.new,
+      mode: "new",
+      senseIds: takeSenseIds(overview.segments.new),
+    };
+  }
+
+  if (totalWords === 0) {
+    return {
+      kind: "empty",
+      title: "Brak słów do nauki",
+      description: "Dodaj pierwsze słowa do puli, a system od razu przygotuje Ci sesję.",
+      count: 0,
+      mode: null,
+      senseIds: [],
+    };
+  }
+
+  return {
+    kind: "idle",
+    title: "Na teraz nic nie wymaga pilnej nauki",
+    description: "Twoja pula jest opanowana. Możesz dodać nowe słowa albo zrobić lekką powtórkę poniżej.",
+    count: 0,
+    mode: null,
+    senseIds: [],
+  };
 }
 
 /** Non-clickable cue — start happens only from mode cards. */
@@ -186,7 +260,11 @@ export default function PoolTrainTab(props: { onNavigateAddWords: () => void; on
   /** Preview follows hovered mode card (desktop UX); clears when not hovering a card. */
   const [previewModeOverride, setPreviewModeOverride] = useState<TrainingMode | null>(null);
 
-  const [session, setSession] = useState<{ sessionId: string; cards: PoolTrainingCard[] } | null>(null);
+  const [session, setSession] = useState<{
+    sessionId: string;
+    cards: PoolTrainingCard[];
+    overviewSnapshot: OverviewPayload | null;
+  } | null>(null);
 
   const previewMode = previewModeOverride ?? trainingMode;
 
@@ -273,7 +351,7 @@ export default function PoolTrainTab(props: { onNavigateAddWords: () => void; on
         setTrainError(payload?.error ?? `HTTP ${res.status}`);
         return;
       }
-      setSession({ sessionId: payload.session_id, cards: payload.cards });
+      setSession({ sessionId: payload.session_id, cards: payload.cards, overviewSnapshot: overview });
     } catch (e: unknown) {
       setTrainError(e instanceof Error ? e.message : "Nie udało się rozpocząć treningu.");
     } finally {
@@ -298,17 +376,22 @@ export default function PoolTrainTab(props: { onNavigateAddWords: () => void; on
     () => (overview && !onlyMastered ? previewItemsForMode(overview, previewMode, 3) : []),
     [overview, onlyMastered, previewMode]
   );
+  const recommendedStart = useMemo(() => buildRecommendedStart(overview, totalWords), [overview, totalWords]);
+  const emptyPoolHero = recommendedStart?.kind === "empty";
 
   if (session) {
     return (
       <PoolTrainingRunner
         sessionId={session.sessionId}
         cards={session.cards}
+        initialOverview={session.overviewSnapshot}
         onClose={() => {
           setSession(null);
           void loadOverview();
         }}
         onFinish={() => void loadOverview()}
+        onStartNextSession={(senseIds, mode) => void startWithSenseIds(senseIds, mode)}
+        isStartingNextSession={startLoading}
       />
     );
   }
@@ -336,77 +419,78 @@ export default function PoolTrainTab(props: { onNavigateAddWords: () => void; on
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-950">{trainError}</div>
       ) : null}
 
-      {!loading && overview && totalWords === 0 ? (
-        <div className="py-6 text-center">
-          <p className="text-sm font-semibold text-neutral-900">Dodaj pierwsze słowo</p>
-          <p className="mt-1 text-xs text-neutral-600 sm:text-sm">Zakładka „Dodaj”.</p>
-          <button
-            type="button"
-            className="mt-4 rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 shadow-sm transition hover:border-neutral-400 hover:bg-neutral-50"
-            onClick={onNavigateAddWords}
+      {!loading && recommendedStart ? (
+        <section
+          className={
+            emptyPoolHero
+              ? "rounded-3xl border border-slate-200/80 bg-slate-50 px-5 py-5 shadow-sm sm:px-6 sm:py-6"
+              : "rounded-3xl border border-sky-200/80 bg-gradient-to-br from-sky-50 via-white to-white px-5 py-5 shadow-[0_10px_30px_rgba(14,116,144,0.08)] sm:px-6 sm:py-6"
+          }
+        >
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-2">
+              <p
+                className={
+                  emptyPoolHero
+                    ? "text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500"
+                    : "text-[11px] font-semibold uppercase tracking-[0.14em] text-sky-700/80"
+                }
+              >
+                Rekomendowany start sesji
+              </p>
+              <h2 className="text-xl font-bold tracking-tight text-neutral-900 sm:text-2xl">{recommendedStart.title}</h2>
+              <p className="max-w-2xl text-sm leading-relaxed text-neutral-600 sm:text-[15px]">
+                {recommendedStart.description}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (recommendedStart.mode && recommendedStart.senseIds.length > 0) {
+                  void startWithSenseIds(recommendedStart.senseIds, recommendedStart.mode);
+                  return;
+                }
+                onNavigateAddWords();
+              }}
+              disabled={startLoading && recommendedStart.mode !== null}
+              className={
+                emptyPoolHero
+                  ? "inline-flex items-center justify-center rounded-2xl border border-slate-400/90 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60"
+                  : "inline-flex items-center justify-center rounded-2xl border-2 border-sky-700 bg-sky-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-800 disabled:cursor-not-allowed disabled:opacity-60"
+              }
+            >
+              {recommendedStart.mode ? (startLoading ? "Uruchamiam..." : "Rozpocznij sesję") : "Dodaj słówko"}
+            </button>
+          </div>
+          <div
+            className={
+              emptyPoolHero
+                ? "mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-200/80 pt-4 text-sm text-slate-600"
+                : "mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-sky-100/90 pt-4 text-sm text-neutral-700"
+            }
           >
-            Dodaj słówko
-          </button>
-        </div>
+            <span className="inline-flex items-center gap-1 whitespace-nowrap" title="Powtórki">
+              <span aria-hidden>🔴</span>
+              <strong className="tabular-nums font-semibold text-neutral-900">{overview?.counts.review ?? 0}</strong>
+            </span>
+            <span className="inline-flex items-center gap-1 whitespace-nowrap" title="W trakcie">
+              <span aria-hidden>🟡</span>
+              <strong className="tabular-nums font-semibold text-neutral-900">{overview?.counts.learning ?? 0}</strong>
+            </span>
+            <span className="inline-flex items-center gap-1 whitespace-nowrap" title="Nowe">
+              <span aria-hidden>⚪</span>
+              <strong className="tabular-nums font-semibold text-neutral-900">{overview?.counts.new ?? 0}</strong>
+            </span>
+            <span className="inline-flex items-center gap-1 whitespace-nowrap" title="Opanowane">
+              <span aria-hidden>🟢</span>
+              <strong className="tabular-nums font-semibold text-neutral-900">{overview?.counts.mastered ?? 0}</strong>
+            </span>
+          </div>
+        </section>
       ) : null}
 
       {!loading && overview && totalWords > 0 ? (
         <>
-          <div className="rounded-2xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50/95 to-white px-5 py-5 shadow-[0_1px_3px_rgba(0,0,0,0.05)] sm:px-6 sm:py-5">
-            <div className="flex flex-col gap-3 sm:gap-4">
-              <div className="min-w-0 space-y-2 sm:space-y-2.5">
-                <p className="text-[11px] font-medium tracking-tight text-neutral-500">Masz dziś:</p>
-                <div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2">
-                  {onlyMastered ? (
-                    <>
-                      <p className="min-w-0 text-base font-bold leading-snug text-neutral-900 sm:text-[17px]">Wszystko opanowane</p>
-                      <HeroSessionCue />
-                    </>
-                  ) : overview.counts.review > 0 ? (
-                    <>
-                      <p className="min-w-0 text-base font-bold leading-snug text-neutral-900 sm:text-[17px]">
-                        <span className="tabular-nums">{overview.counts.review}</span> {rzeczPowtorkiForm(overview.counts.review)} do
-                        powtórki
-                      </p>
-                      <HeroSessionCue />
-                    </>
-                  ) : (
-                    <>
-                      <p className="min-w-0 text-base font-bold leading-snug text-neutral-900 sm:text-[17px]">
-                        Na dziś nie masz powtórek z błędów.
-                      </p>
-                      <HeroSessionCue />
-                    </>
-                  )}
-                </div>
-                {!onlyMastered && overview.counts.review > 0 ? (
-                  <p className="text-xs leading-relaxed text-neutral-500">Najważniejsze słowa z Twoich błędów</p>
-                ) : !onlyMastered && overview.counts.review === 0 ? (
-                  <p className="text-xs leading-relaxed text-neutral-500">Wybierz tryb poniżej — start jest jednym kliknięciem.</p>
-                ) : onlyMastered ? (
-                  <p className="text-xs leading-relaxed text-neutral-500">Możesz zrobić krótką powtórkę utrwalającą poniżej.</p>
-                ) : null}
-                {feedbackLine ? (
-                  <p className="text-[13px] font-medium leading-snug text-neutral-700 sm:text-sm">{feedbackLine}</p>
-                ) : null}
-              </div>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-neutral-200/80 pt-3 text-sm text-neutral-700">
-                <span className="inline-flex items-center gap-1 whitespace-nowrap" title="Powtórki">
-                  <span aria-hidden>🔴</span>
-                  <strong className="tabular-nums font-semibold text-neutral-900">{overview.counts.review}</strong>
-                </span>
-                <span className="inline-flex items-center gap-1 whitespace-nowrap" title="W trakcie">
-                  <span aria-hidden>🟡</span>
-                  <strong className="tabular-nums font-semibold text-neutral-900">{overview.counts.learning}</strong>
-                </span>
-                <span className="inline-flex items-center gap-1 whitespace-nowrap" title="Nowe">
-                  <span aria-hidden>⚪</span>
-                  <strong className="tabular-nums font-semibold text-neutral-900">{overview.counts.new}</strong>
-                </span>
-              </div>
-            </div>
-          </div>
-
           {onlyMastered ? (
             <section className="space-y-3">
               <h2 className="text-sm font-semibold tracking-tight text-neutral-800 sm:text-base">Jak chcesz trenować?</h2>
@@ -422,7 +506,13 @@ export default function PoolTrainTab(props: { onNavigateAddWords: () => void; on
           ) : (
             <>
               <section className="space-y-3">
-                <h2 className="text-sm font-semibold tracking-tight text-neutral-800 sm:text-base">Jak chcesz trenować?</h2>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="text-sm font-semibold tracking-tight text-neutral-800 sm:text-base">Inne tryby treningu</h2>
+                  <HeroSessionCue />
+                </div>
+                {feedbackLine ? (
+                  <p className="text-sm leading-relaxed text-neutral-600">{feedbackLine}</p>
+                ) : null}
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.22fr)_minmax(0,1fr)] md:grid-rows-2">
                   <div className="md:row-span-2">
                     <ModeOptionCard

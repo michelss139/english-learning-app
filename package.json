@@ -18,6 +18,7 @@
     "generate:verbs-missing": "tsx scripts/generate-verbs-missing.ts",
     "generate:verbs-topic": "tsx scripts/generate-verbs-by-topic.ts",
     "generate:adjectives-missing": "tsx scripts/generate-adjectives-missing.ts",
+    "generate:adjectives-topic": "tsx scripts/generate-adjectives-by-topic.ts",
     "validate:verbs": "tsx scripts/validate-verbs.ts",
     "validate:verbs-pos": "tsx scripts/validate-verbs-pos.ts",
     "clean:verbs": "tsx scripts/clean-verbs.ts"

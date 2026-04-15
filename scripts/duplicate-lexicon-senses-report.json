@@ -1,0 +1,38 @@
+[
+  {
+    "entry_id": "cc637981-cf18-40b1-84ae-255f15688254",
+    "lemma": "ball",
+    "translation_pl": "kula",
+    "senses": [
+      {
+        "sense_id": "1637751a-8533-4860-8b83-7f5d1d6e1469",
+        "definition_en": "A solid or hollow spherical object."
+      },
+      {
+        "sense_id": "3c02f5f4-c16c-4362-a371-685e243feb99",
+        "definition_en": "A spherical or rounded mass."
+      }
+    ],
+    "likely_duplicate": false
+  },
+  {
+    "entry_id": "836cffb7-cdda-40d4-8c8a-8ac854f42273",
+    "lemma": "street",
+    "translation_pl": "ulica",
+    "senses": [
+      {
+        "sense_id": "16bdd979-977d-4284-8afd-40d7387e00f2",
+        "definition_en": "A place where people gather for specific activities, often used in a metaphorical sense."
+      },
+      {
+        "sense_id": "8c5150ce-599d-4de2-bbf2-a56e6ebd3041",
+        "definition_en": "A particular area or location within a city or town."
+      },
+      {
+        "sense_id": "9de97908-022e-421c-a271-b12b75ce4184",
+        "definition_en": "A public road in a city or town, typically with buildings on one or both sides."
+      }
+    ],
+    "likely_duplicate": false
+  }
+]

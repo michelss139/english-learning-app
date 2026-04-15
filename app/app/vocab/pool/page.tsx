@@ -4,10 +4,10 @@ import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
-import type { VocabPackSearchRow } from "@/lib/vocab/packSearchTypes";
+import type { LexiconSearchRow } from "@/lib/vocab/packSearchTypes";
 import PoolTab from "../PoolTab";
 import PoolTrainTab from "./PoolTrainTab";
-import SenseSelectionModal from "../SenseSelectionModal";
+import SenseSelectionModal, { type LexiconEntry } from "../SenseSelectionModal";
 
 type PackSelectedSense = {
   sense_id: string;
@@ -16,7 +16,6 @@ type PackSelectedSense = {
   translation: string | null;
   definition: string;
   example: string | null;
-  pack_title: string;
 };
 
 /** Set to false to hide pack autocomplete and rely on Szukaj / Dodaj (AI) only. */
@@ -26,23 +25,55 @@ function normPackQ(s: string): string {
   return s.trim().toLowerCase();
 }
 
+function isLookupEligibleQuery(s: string): boolean {
+  const q = normPackQ(s);
+  if (q.length < 3) return false;
+  return /[a-zA-Ząćęłńóśźż]/.test(q);
+}
+
 function HighlightLemmaMatch({ lemma, query }: { lemma: string; query: string }) {
   const q = normPackQ(query);
   if (!q) {
-    return <span className="font-semibold tracking-tight text-slate-900">{lemma}</span>;
+    return <span className="font-bold tracking-tight text-slate-900">{lemma}</span>;
   }
   const lower = lemma.toLowerCase();
   const idx = lower.indexOf(q);
   if (idx < 0) {
-    return <span className="font-semibold tracking-tight text-slate-900">{lemma}</span>;
+    return <span className="font-bold tracking-tight text-slate-900">{lemma}</span>;
   }
   return (
-    <span className="font-semibold tracking-tight text-slate-900">
+    <span className="font-bold tracking-tight text-slate-900">
       {lemma.slice(0, idx)}
       <strong className="font-bold text-sky-800">{lemma.slice(idx, idx + q.length)}</strong>
       {lemma.slice(idx + q.length)}
     </span>
   );
+}
+
+/** Sense-first dropdown: EN gloss snippet when PL translation missing. */
+const DROPDOWN_DEF_PRIMARY_MAX = 72;
+const DROPDOWN_DEF_SECONDARY_MAX = 76;
+
+function truncateDefinitionBlurb(s: string, maxLen: number): string {
+  const t = s.trim();
+  if (!t) return "";
+  if (t.length <= maxLen) return t;
+  const cut = t.slice(0, maxLen - 1).trimEnd();
+  const lastSpace = cut.lastIndexOf(" ");
+  const wordSafe = lastSpace > maxLen * 0.45 ? cut.slice(0, lastSpace) : cut;
+  return `${wordSafe}…`;
+}
+
+/** Skip 2nd line when EN definition mostly repeats the PL gloss (avoid duplicate reading). */
+function isDefinitionRedundantWithTranslation(definitionEn: string, translationPl: string | null): boolean {
+  const trans = translationPl?.trim().toLowerCase();
+  if (!trans) return false;
+  const def = definitionEn.trim().toLowerCase();
+  if (!def) return false;
+  if (def.startsWith(trans)) return true;
+  const shortDef = def.length <= trans.length + 40;
+  if (shortDef && def.includes(trans)) return true;
+  return false;
 }
 
 type VocabItem = {
@@ -65,6 +96,42 @@ function segmentedTab(active: boolean) {
   return `rounded-full px-3 py-1 text-xs font-semibold transition-all duration-150 sm:px-3.5 sm:py-1.5 sm:text-sm ${
     active ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"
   }`;
+}
+
+/** Sense-first detail block: aligns with lexicon search dropdown (lemma + pos, then PL / definition, example last). */
+function LexiconPoolSenseDetailBody({ sense }: { sense: PackSelectedSense }) {
+  const hasPl = Boolean(sense.translation?.trim());
+  const def = sense.definition?.trim() ?? "";
+  const ex = sense.example?.trim() ?? "";
+
+  return (
+    <div className="min-w-0 flex-1 space-y-4">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
+        <h3 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{sense.lemma}</h3>
+        <span className="shrink-0 rounded-md border border-slate-200/90 bg-white/80 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+          {sense.pos}
+        </span>
+      </div>
+
+      {hasPl ? (
+        <p className="text-2xl font-semibold leading-snug text-sky-900 sm:text-[1.65rem]">{sense.translation}</p>
+      ) : def ? (
+        <p className="text-2xl font-semibold leading-snug text-slate-700 sm:text-[1.65rem]">{sense.definition}</p>
+      ) : (
+        <p className="text-lg font-normal text-slate-400">—</p>
+      )}
+
+      {hasPl && def ? (
+        <p className="text-base font-normal leading-relaxed text-slate-600">{sense.definition}</p>
+      ) : null}
+
+      {ex ? (
+        <p className="max-w-prose border-l-2 border-slate-200/90 pl-3 text-sm font-normal italic leading-relaxed text-slate-500">
+          &ldquo;{ex}&rdquo;
+        </p>
+      ) : null}
+    </div>
+  );
 }
 
 export default function VocabPoolPage() {
@@ -104,7 +171,7 @@ function VocabPoolInner() {
   const [newWord, setNewWord] = useState("");
   const [showSenseModal, setShowSenseModal] = useState(false);
   const [addingWord, setAddingWord] = useState(false);
-  const [packSearchResults, setPackSearchResults] = useState<VocabPackSearchRow[]>([]);
+  const [packSearchResults, setPackSearchResults] = useState<LexiconSearchRow[]>([]);
   const [packSearchLoading, setPackSearchLoading] = useState(false);
   const [lastCompletedPackQuery, setLastCompletedPackQuery] = useState<string | null>(null);
   const [modalCustomOnly, setModalCustomOnly] = useState(false);
@@ -117,12 +184,18 @@ function VocabPoolInner() {
   const packBlurTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const packListRef = useRef<HTMLUListElement | null>(null);
   const packSearchInputRef = useRef<HTMLInputElement | null>(null);
+  const lookupAbortRef = useRef<AbortController | null>(null);
+  const [isLookupLoading, setIsLookupLoading] = useState(false);
+  const [lookupError, setLookupError] = useState<string | null>(null);
+  const [lastLookupLemma, setLastLookupLemma] = useState<string | null>(null);
+  const [prefilledEntry, setPrefilledEntry] = useState<LexiconEntry | null>(null);
 
   const personalCount = personal.length;
 
-  const selectPackRow = useCallback((row: VocabPackSearchRow) => {
+  const selectPackRow = useCallback((row: LexiconSearchRow) => {
     setError("");
     setPackInlineSuccess("");
+    setLookupError(null);
     setIsAdded(false);
     setSelectedSense({
       sense_id: row.sense_id,
@@ -130,8 +203,7 @@ function VocabPoolInner() {
       pos: row.pos,
       translation: row.translation_pl,
       definition: row.definition_en,
-      example: null,
-      pack_title: row.pack_title,
+      example: row.example_en,
     });
     setPackDropdownOpen(false);
     setPackActiveIndex(-1);
@@ -140,6 +212,7 @@ function VocabPoolInner() {
   const clearPackSelection = useCallback(() => {
     setSelectedSense(null);
     setIsAdded(false);
+    setLookupError(null);
     if (USE_PACK_SEARCH && normPackQ(newWord).length >= 2 && packSearchResults.length > 0) {
       setPackDropdownOpen(true);
     }
@@ -152,6 +225,9 @@ function VocabPoolInner() {
     setPackInlineSuccess("");
     setPackSearchResults([]);
     setLastCompletedPackQuery(null);
+    setLookupError(null);
+    setLastLookupLemma(null);
+    setPrefilledEntry(null);
     setPackDropdownOpen(false);
     setPackActiveIndex(-1);
     requestAnimationFrame(() => packSearchInputRef.current?.focus());
@@ -266,7 +342,7 @@ function VocabPoolInner() {
           return;
         }
 
-        const data = (await res.json()) as { results?: VocabPackSearchRow[] };
+        const data = (await res.json()) as { results?: LexiconSearchRow[] };
         setPackSearchResults(data.results ?? []);
         setLastCompletedPackQuery(q);
       } catch (e: unknown) {
@@ -293,6 +369,7 @@ function VocabPoolInner() {
   useEffect(() => {
     return () => {
       if (packBlurTimerRef.current) clearTimeout(packBlurTimerRef.current);
+      lookupAbortRef.current?.abort();
     };
   }, []);
 
@@ -303,40 +380,162 @@ function VocabPoolInner() {
   }, [packActiveIndex, packSearchResults]);
 
   useEffect(() => {
-    const sid = selectedSense?.sense_id;
-    if (!sid) return;
-    let cancelled = false;
-    (async () => {
-      const { data, error } = await supabase
-        .from("lexicon_examples")
-        .select("example_en")
-        .eq("sense_id", sid)
-        .limit(1)
-        .maybeSingle();
-      if (cancelled || error || !data?.example_en?.trim()) return;
-      setSelectedSense((prev) => (prev?.sense_id === sid ? { ...prev, example: data.example_en } : prev));
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedSense?.sense_id]);
-
-  useEffect(() => {
     if (!packInlineSuccess) return;
     const t = setTimeout(() => setPackInlineSuccess(""), 3500);
     return () => clearTimeout(t);
   }, [packInlineSuccess]);
+
+  const runLookupFallback = useCallback(async (q: string) => {
+    lookupAbortRef.current?.abort();
+    const ac = new AbortController();
+    lookupAbortRef.current = ac;
+
+    setLookupError(null);
+    setIsLookupLoading(true);
+    setLastLookupLemma(q);
+
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session?.data?.session?.access_token;
+      if (!token) {
+        setLookupError("Nie rozpoznajemy tego słowa");
+        setPrefilledEntry(null);
+        return;
+      }
+
+      const res = await fetch("/api/vocab/lookup-word", {
+        method: "POST",
+        signal: ac.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ lemma: q }),
+      });
+
+      const data = (await res.json().catch(() => null)) as
+        | { ok?: boolean; entry?: LexiconEntry; reason?: string; error?: string }
+        | null;
+
+      if (ac.signal.aborted) return;
+
+      if (!res.ok || !data?.ok || !data.entry?.senses?.length) {
+        setLookupError("Nie rozpoznajemy tego słowa");
+        setPrefilledEntry(null);
+        return;
+      }
+
+      if (data.entry.senses.length === 1) {
+        const sense = data.entry.senses[0];
+        if (!sense?.id) {
+          setLookupError("Nie rozpoznajemy tego słowa");
+          setPrefilledEntry(null);
+          return;
+        }
+        setPrefilledEntry(null);
+        setSelectedSense({
+          sense_id: sense.id,
+          lemma: data.entry.lemma,
+          pos: sense.pos || data.entry.pos,
+          translation: sense.translation_pl,
+          definition: sense.definition_en,
+          example: sense.example_en,
+        });
+        setPackDropdownOpen(false);
+        setPackActiveIndex(-1);
+        return;
+      }
+
+      setLookupError(null);
+      setPrefilledEntry(data.entry);
+      setSelectedSense(null);
+      setModalCustomOnly(false);
+      setShowSenseModal(true);
+    } catch (e: unknown) {
+      if (e instanceof DOMException && e.name === "AbortError") return;
+      setLookupError("Nie rozpoznajemy tego słowa");
+      setPrefilledEntry(null);
+    } finally {
+      if (!ac.signal.aborted) {
+        setIsLookupLoading(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!USE_PACK_SEARCH) return;
+
+    const q = normPackQ(newWord);
+    if (!isLookupEligibleQuery(q)) {
+      lookupAbortRef.current?.abort();
+      setIsLookupLoading(false);
+      setLookupError(null);
+      setPrefilledEntry(null);
+      if (q.length === 0) {
+        setLastLookupLemma(null);
+      }
+      return;
+    }
+
+    if (selectedSense || prefilledEntry) return;
+    if (packSearchLoading) return;
+    if (packSearchResults.length > 0) {
+      setSelectedSense(null);
+      return;
+    }
+    if (lastCompletedPackQuery !== q) return;
+    if (isLookupLoading) return;
+    if (lastLookupLemma === q) return;
+
+    void runLookupFallback(q);
+  }, [
+    isLookupLoading,
+    lastCompletedPackQuery,
+    lastLookupLemma,
+    newWord,
+    packSearchLoading,
+    packSearchResults.length,
+    prefilledEntry,
+    runLookupFallback,
+    selectedSense,
+  ]);
 
   const handleLookupWord = () => {
     if (!newWord.trim()) {
       setError("Wpisz słówko po angielsku.");
       return;
     }
+    const q = normPackQ(newWord);
     setError("");
+    if (prefilledEntry) {
+      setLookupError(null);
+      setSelectedSense(null);
+      setModalCustomOnly(false);
+      setShowSenseModal(true);
+      return;
+    }
+    if (lookupError) {
+      return;
+    }
+    if (packSearchResults.length > 0 && !selectedSense) {
+      selectPackRow(packSearchResults[0]);
+      return;
+    }
+    if (isLookupLoading) {
+      return;
+    }
+    if (isLookupEligibleQuery(q)) {
+      setSelectedSense(null);
+      setIsAdded(false);
+      setLookupError(null);
+      setPrefilledEntry(null);
+      if (lastLookupLemma !== q) {
+        void runLookupFallback(q);
+      }
+      return;
+    }
     setSelectedSense(null);
     setIsAdded(false);
-    setModalCustomOnly(false);
-    setShowSenseModal(true);
   };
 
   const handleInlinePackAdd = async () => {
@@ -406,12 +605,14 @@ function VocabPoolInner() {
         const highlightParam = forms.join(",");
         setNewWord("");
         setShowSenseModal(false);
+        setPrefilledEntry(null);
         router.push(`/app/vocab/pool?tab=words&highlight=${encodeURIComponent(highlightParam)}`);
         return;
       }
     }
     setNewWord("");
     setShowSenseModal(false);
+    setPrefilledEntry(null);
     setModalCustomOnly(false);
     await refreshPersonal();
     if (tab === "words") {
@@ -524,22 +725,25 @@ function VocabPoolInner() {
 
       {tab === "add" ? (
         <section className="space-y-6">
-          <div>
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Dodaj słówko</h2>
-            <p className="text-sm text-slate-600">
-              {USE_PACK_SEARCH
-                ? "Wpisz fragment po angielsku lub po polsku — podpowiemy słówka z Twoich pakietów. Możesz też użyć Szukaj / Dodaj (AI)."
-                : "Wpisz słówko po angielsku. System znajdzie wszystkie znaczenia i pozwoli wybrać właściwe."}
-            </p>
-          </div>
+          <div className="rounded-3xl border border-sky-200/80 bg-gradient-to-br from-sky-50 via-white to-white px-5 py-5 shadow-[0_10px_30px_rgba(14,116,144,0.08)] sm:px-6 sm:py-6">
+            <div className="space-y-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-sky-700/80">Dodaj do puli</p>
+                <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-900">Dodaj słówko</h2>
+                <p className="mt-1 text-sm text-slate-600">
+                  {USE_PACK_SEARCH
+                    ? "Wpisz fragment po angielsku lub po polsku — podpowiemy słówka z leksykonu, a gdy ich nie mamy, sprawdzimy automatycznie."
+                    : "Wpisz słówko po angielsku. System znajdzie wszystkie znaczenia i pozwoli wybrać właściwe."}
+                </p>
+              </div>
 
-          {packInlineSuccess ? (
-            <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900">
-              {packInlineSuccess}
-            </div>
-          ) : null}
+              {packInlineSuccess ? (
+                <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900">
+                  {packInlineSuccess}
+                </div>
+              ) : null}
 
-          <div className="space-y-2 rounded-2xl border border-slate-200/80 bg-slate-50/40 p-4">
+              <div className="space-y-2 rounded-2xl border border-sky-100/90 bg-white/85 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
             <div className="flex gap-3">
               <div className="relative flex-1">
                 <input
@@ -548,6 +752,10 @@ function VocabPoolInner() {
                   placeholder="Wpisz słówko po angielsku (np. ball)"
                   value={newWord}
                   onChange={(e) => {
+                    lookupAbortRef.current?.abort();
+                    setIsLookupLoading(false);
+                    setLookupError(null);
+                    setPrefilledEntry(null);
                     if (isAdded) setIsAdded(false);
                     if (selectedSense) setSelectedSense(null);
                     setNewWord(e.target.value);
@@ -605,35 +813,65 @@ function VocabPoolInner() {
                 {showPackDropdown ? (
                   <ul
                     ref={packListRef}
-                    className="absolute left-0 right-0 top-full z-20 mt-1 max-h-52 overflow-y-auto rounded-xl border border-slate-200/90 bg-slate-50/95 py-1 shadow-lg shadow-slate-900/8 backdrop-blur-md"
+                    className="absolute left-0 right-0 top-full z-20 mt-1 max-h-[min(20rem,55vh)] overflow-y-auto rounded-xl border border-slate-200/90 bg-slate-50/95 py-1 shadow-lg shadow-slate-900/8 backdrop-blur-md"
                   >
-                    {packSearchResults.map((row, i) => (
-                      <li key={row.sense_id} className="px-1">
-                        <button
-                          type="button"
-                          data-pack-idx={i}
-                          className={`w-full rounded-lg px-2.5 py-1.5 text-left text-sm transition-colors duration-150 ${
-                            packActiveIndex === i
-                              ? "bg-sky-100/95 text-slate-900"
-                              : "text-slate-800 hover:bg-sky-50/90"
-                          }`}
-                          onMouseEnter={() => setPackActiveIndex(i)}
-                          onMouseDown={(ev) => ev.preventDefault()}
-                          onClick={() => selectPackRow(row)}
-                        >
-                          <HighlightLemmaMatch lemma={row.lemma} query={newWord} />
-                          <span className="text-slate-600 font-normal">
-                            {" "}
-                            ({row.translation_pl ?? "—"}){" "}
-                            <span className="text-slate-500">[{row.pack_title}]</span>
-                          </span>
-                        </button>
-                      </li>
-                    ))}
+                    {packSearchResults.map((row, i) => {
+                      const hasPl = Boolean(row.translation_pl?.trim());
+                      const primaryRight = hasPl
+                        ? row.translation_pl!.trim()
+                        : truncateDefinitionBlurb(row.definition_en, DROPDOWN_DEF_PRIMARY_MAX) || "—";
+                      const showSecondary =
+                        hasPl &&
+                        Boolean(row.definition_en?.trim()) &&
+                        !isDefinitionRedundantWithTranslation(row.definition_en, row.translation_pl);
+                      const secondaryLine = showSecondary
+                        ? truncateDefinitionBlurb(row.definition_en, DROPDOWN_DEF_SECONDARY_MAX)
+                        : null;
+
+                      return (
+                        <li key={row.sense_id} className="px-1">
+                          <button
+                            type="button"
+                            data-pack-idx={i}
+                            className={`flex w-full flex-col items-stretch gap-1 rounded-lg px-2.5 py-2 text-left transition-colors duration-150 ${
+                              packActiveIndex === i
+                                ? "bg-sky-100/95 text-slate-900"
+                                : "text-slate-800 hover:bg-sky-50/90"
+                            }`}
+                            onMouseEnter={() => setPackActiveIndex(i)}
+                            onMouseDown={(ev) => ev.preventDefault()}
+                            onClick={() => selectPackRow(row)}
+                          >
+                            <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1 text-sm leading-snug">
+                              <span className="inline min-w-0 shrink-0 text-slate-900">
+                                <HighlightLemmaMatch lemma={row.lemma} query={newWord} />
+                              </span>
+                              <span
+                                className="shrink-0 select-none px-0.5 font-normal text-slate-300"
+                                aria-hidden
+                              >
+                                —
+                              </span>
+                              <span className="min-w-0 flex-1 basis-[8rem] font-normal text-slate-700">
+                                {primaryRight}
+                              </span>
+                              <span className="shrink-0 rounded-md border border-slate-200/90 bg-white/80 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                                {row.pos}
+                              </span>
+                            </div>
+                            {secondaryLine ? (
+                              <p className="line-clamp-2 pl-0.5 text-xs font-normal leading-relaxed text-slate-500/90">
+                                {secondaryLine}
+                              </p>
+                            ) : null}
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 ) : null}
                 {USE_PACK_SEARCH && packSearchLoading ? (
-                  <p className="mt-1 text-xs text-slate-500">Szukam w pakietach…</p>
+                  <p className="mt-1 text-xs text-slate-500">Szukam w leksykonie…</p>
                 ) : null}
               </div>
               <button
@@ -647,78 +885,76 @@ function VocabPoolInner() {
 
             {selectedSense ? (
               <div
-                className={`rounded-2xl border p-4 space-y-3 transition-colors ${
+                className={`rounded-xl border px-3 py-2.5 transition-colors ${
                   isAdded
-                    ? "border-emerald-200/80 bg-emerald-50/50"
+                    ? "border-emerald-200/80 bg-emerald-50/60"
                     : "border-slate-200/80 bg-white"
                 }`}
               >
-                <div className="flex gap-3">
-                  {isAdded ? (
-                    <span
-                      className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-base font-bold text-white shadow-md shadow-emerald-900/15"
-                      aria-hidden
-                    >
-                      ✓
-                    </span>
-                  ) : null}
-                  <div className="min-w-0 flex-1 space-y-3">
-                    <div className="flex flex-wrap items-baseline gap-2">
-                      <span className="text-xl font-bold tracking-tight text-slate-900">{selectedSense.lemma}</span>
-                      <span className="rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-emerald-900">
-                        {selectedSense.pos}
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                    {isAdded ? (
+                      <span
+                        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-[11px] font-bold text-white"
+                        aria-hidden
+                      >
+                        ✓
                       </span>
-                    </div>
-                    <p className="text-xs font-medium text-slate-500">{selectedSense.pack_title}</p>
-                    <p className="text-2xl font-semibold leading-snug text-sky-900">
-                      {selectedSense.translation ?? "—"}
-                    </p>
-                    <p className="text-sm leading-relaxed text-slate-600">{selectedSense.definition}</p>
-                    {selectedSense.example ? (
-                      <p className="text-sm italic text-slate-500">&ldquo;{selectedSense.example}&rdquo;</p>
                     ) : null}
+                    <span className="font-semibold text-slate-900">{selectedSense.lemma}</span>
+                    <span className="text-slate-300" aria-hidden>
+                      —
+                    </span>
+                    <span className="font-medium text-sky-900">{selectedSense.translation?.trim() || "—"}</span>
+                    <span className="rounded-md border border-slate-200/90 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                      {selectedSense.pos}
+                    </span>
                   </div>
-                </div>
 
-                {isAdded ? (
-                  <div className="space-y-3 border-t border-emerald-200/70 pt-3">
-                    <p className="text-sm font-semibold text-emerald-900">✓ Dodano do Twojej puli</p>
-                    <div className="flex flex-wrap gap-2">
+                  {selectedSense.definition?.trim() ? (
+                    <p className="line-clamp-2 text-sm leading-relaxed text-slate-600">
+                      {selectedSense.definition.trim()}
+                    </p>
+                  ) : null}
+
+                  {isAdded ? (
+                    <div className="flex flex-wrap items-center gap-2 border-t border-emerald-200/70 pt-2">
+                      <p className="text-sm font-medium text-emerald-900">✓ Dodano do Twojej puli</p>
                       <button
                         type="button"
-                        className="rounded-xl border-2 border-emerald-600 bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+                        className="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-emerald-700"
                         onClick={() => router.push("/app/vocab/pool?tab=train")}
                       >
                         Przećwicz teraz
                       </button>
                       <button
                         type="button"
-                        className="rounded-xl border-2 border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-800 transition hover:bg-slate-50"
                         onClick={handlePackAddAnother}
                       >
                         Dodaj kolejne
                       </button>
                     </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-wrap items-center gap-3 border-t border-slate-100 pt-3">
-                    <button
-                      type="button"
-                      className="rounded-xl border-2 border-emerald-600 bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-60"
-                      onClick={handleInlinePackAdd}
-                      disabled={inlinePackAddLoading}
-                    >
-                      {inlinePackAddLoading ? "Dodaję…" : "➕ Dodaj do mojej puli"}
-                    </button>
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-sky-800 underline-offset-2 hover:underline"
-                      onClick={clearPackSelection}
-                    >
-                      Zmień wybór
-                    </button>
-                  </div>
-                )}
+                  ) : (
+                    <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-2">
+                      <button
+                        type="button"
+                        className="rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:opacity-60"
+                        onClick={handleInlinePackAdd}
+                        disabled={inlinePackAddLoading}
+                      >
+                        {inlinePackAddLoading ? "Dodaję…" : "➕ Dodaj do mojej puli"}
+                      </button>
+                      <button
+                        type="button"
+                        className="text-sm font-medium text-sky-800 underline-offset-2 hover:underline"
+                        onClick={clearPackSelection}
+                      >
+                        Zmień wybór
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : null}
 
@@ -727,46 +963,44 @@ function VocabPoolInner() {
             normPackQ(newWord).length >= 2 &&
             !packSearchLoading &&
             packSearchResults.length === 0 &&
-            lastCompletedPackQuery === normPackQ(newWord) ? (
-              <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-50 px-4 py-3 space-y-3">
-                <p className="text-sm font-medium text-slate-900">Nie mamy jeszcze tego słowa</p>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    className="rounded-xl border-2 border-slate-900 bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
-                    onClick={() => {
-                      if (!newWord.trim()) {
-                        setError("Wpisz słówko.");
-                        return;
-                      }
-                      setError("");
-                      setSelectedSense(null);
-                      setIsAdded(false);
-                      setModalCustomOnly(true);
-                      setShowSenseModal(true);
-                    }}
-                  >
-                    Dodaj własne słowo
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded-xl border-2 border-sky-400/40 bg-sky-400/15 px-3 py-2 text-sm font-medium text-slate-900 hover:bg-sky-400/25"
-                    onClick={handleLookupWord}
-                  >
-                    Spróbuj przez AI
-                  </button>
+            lastCompletedPackQuery === normPackQ(newWord) &&
+            isLookupLoading ? (
+              <div className="rounded-2xl border-2 border-sky-400/35 bg-sky-50 px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <span
+                    className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-sky-300 border-t-sky-700"
+                    aria-hidden
+                  />
+                  <p className="text-sm font-medium text-slate-900">Nie mamy tego słowa — sprawdzamy...</p>
                 </div>
               </div>
             ) : null}
+
+            {USE_PACK_SEARCH &&
+            !selectedSense &&
+            normPackQ(newWord).length >= 2 &&
+            !packSearchLoading &&
+            !isLookupLoading &&
+            packSearchResults.length === 0 &&
+            lastCompletedPackQuery === normPackQ(newWord) &&
+            lookupError ? (
+              <div className="rounded-2xl border-2 border-amber-400/40 bg-amber-50 px-4 py-3">
+                <p className="text-sm font-medium text-slate-900">Nie rozpoznajemy tego słowa</p>
+              </div>
+            ) : null}
+              </div>
+            </div>
           </div>
 
           <SenseSelectionModal
             lemma={newWord}
             isOpen={showSenseModal}
+            prefilledEntry={prefilledEntry}
             onClose={() => {
               setShowSenseModal(false);
               setModalCustomOnly(false);
               setError("");
+              setPrefilledEntry(null);
             }}
             onSelect={handleSenseSelected}
             onSelectCustom={handleCustomWord}
@@ -781,7 +1015,7 @@ function VocabPoolInner() {
               {personal.map((w) => (
                 <li
                   key={w.id}
-                  className="flex items-center justify-between gap-3 rounded-2xl px-4 py-3 transition hover:bg-black/[0.02]"
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm transition hover:border-slate-300/90 hover:shadow"
                   title={w.translation_pl ?? ""}
                 >
                   <div className="min-w-0 flex-1">
