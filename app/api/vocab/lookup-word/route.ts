@@ -772,6 +772,10 @@ STRICT RULES:
     return null;
   }
 
+  if (parsedRaw.status !== "ok") {
+    throw new Error("Invalid AI response: unknown status");
+  }
+
   if (!parsedRaw.lemma || !Array.isArray(parsedRaw.senses) || parsedRaw.senses.length === 0) {
     throw new Error("Invalid AI response: missing lemma or senses");
   }

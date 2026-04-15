@@ -23,8 +23,8 @@ export default function VocabSensePracticeClient() {
 
   const senseIds = parseSenseIds(senseIdsKey);
 
-  const startTraining = useCallback(async () => {
-    const uniq = parseSenseIds(senseIdsKey).slice(0, 8);
+  const startTraining = useCallback(async (overrideSenseIds?: string[], overrideMode?: "quick" | "errors" | "new" | "mastered") => {
+    const uniq = (overrideSenseIds ?? parseSenseIds(senseIdsKey)).slice(0, 8);
     if (uniq.length === 0) {
       setError("Brak wybranych słów (parametr senseIds).");
       return;
@@ -41,7 +41,7 @@ export default function VocabSensePracticeClient() {
       const res = await fetch("/api/vocab/training/start", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ sense_ids: uniq, mode: "quick" }),
+        body: JSON.stringify({ sense_ids: uniq, mode: overrideMode ?? "quick" }),
       });
       const payload = (await res.json().catch(() => null)) as
         | { session_id?: string; cards?: PoolTrainingCard[]; error?: string; code?: string }
@@ -77,8 +77,11 @@ export default function VocabSensePracticeClient() {
         <PoolTrainingRunner
           sessionId={session.sessionId}
           cards={session.cards}
+          initialOverview={null}
           onClose={() => router.push("/app/vocab/pool")}
           onFinish={() => {}}
+          onStartNextSession={(nextSenseIds, mode) => void startTraining(nextSenseIds, mode)}
+          isStartingNextSession={loading}
         />
       </main>
     );
