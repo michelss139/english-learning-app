@@ -30,7 +30,7 @@ export default async function VocabPacksPage() {
     title: p.title,
     description: p.description ?? null,
     order_index: p.order_index ?? 0,
-    vocab_mode: (p.vocab_mode ?? "mixed") as PackDto["vocab_mode"],
+    vocab_mode: (p.vocab_mode ?? "daily") as PackDto["vocab_mode"],
     category: p.category ?? "general",
     item_count: counts.get(p.id) ?? 0,
   }));

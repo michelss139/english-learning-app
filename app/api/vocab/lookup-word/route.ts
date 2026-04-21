@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { detectVerbForm, type VerbFormMatch } from "@/lib/vocab/verbFormDetector";
+import { lookupOrCreateLexiconEntry } from "@/lib/lexicon/lookupOrCreateLexiconEntry";
 
 /** Response verb_form: base + forms; matched_* null when lookup is base lemma (e.g. "go"). */
 export type LookupVerbForm = {
@@ -627,6 +628,15 @@ IMPORTANT:
 - prefer fewer senses over doubtful ones
 - if unsure about a meaning -> DO NOT include it
 - if you cannot confidently produce at least one high-quality sense -> return "invalid"
+- do not merge meanings that belong to different English words
+- each sense must represent a real, common meaning of the SAME English word
+- if meanings belong to different English lemmas -> EXCLUDE them
+- if you are not confident about a second or third sense -> DO NOT include it
+- do not use the same Polish translation to force unrelated English concepts into one entry
+
+CRITICAL EXAMPLE:
+- "cork" (material / bottle stopper) is NOT related to "traffic jam"
+- do NOT include "traffic jam" under "cork"
 
 STEP 4 - Confidence check
 If you are unsure about:
@@ -663,6 +673,8 @@ RULES FOR SENSES:
 - each sense must represent a clearly different meaning
 - do NOT include senses with the same translation_pl
 - do NOT include paraphrases of the same meaning
+- all senses must belong to the same English lemma
+- exclude any sense that actually belongs to a different English word
 
 POS:
 - must be correct per sense
@@ -1223,10 +1235,8 @@ export async function POST(req: Request) {
       // Re-enrich if: missing translations OR (only one POS AND might have multiple)
       // This ensures we get all POS for words that can have multiple
       if (missingTranslations || (hasOnlyOnePos && mightHaveMultiplePos)) {
-        // Re-enrich to add missing translations
-        const aiDataArray = await openaiEnrichLexicon(lemma);
-        if (aiDataArray && aiDataArray.length > 0) {
-          await saveToLexicon(supabase, aiDataArray);
+        const enrichResult = await lookupOrCreateLexiconEntry(supabase, lemma, { forceEnrich: true });
+        if (enrichResult.status !== "invalid_or_uncertain") {
 
           // Fetch all refreshed entries and senses
           const { data: refreshedEntries } = await supabase
@@ -1408,16 +1418,15 @@ export async function POST(req: Request) {
     }
 
     // Not in cache - AI enrichment (SYNCHRONOUS, USER WAITS)
-    const aiDataArray = await openaiEnrichLexicon(lemma);
-    if (!aiDataArray || aiDataArray.length === 0) {
+    const createResult = await lookupOrCreateLexiconEntry(supabase, lemma);
+    if (createResult.status === "invalid_or_uncertain") {
       return NextResponse.json({
         ok: false,
         reason: "invalid_or_uncertain",
       });
     }
 
-    // Save to Lexicon (all POS entries)
-    const saveResults = await saveToLexicon(supabase, aiDataArray);
+    const saveResults = createResult.saveResults;
 
     if (saveResults.length === 0) {
       return NextResponse.json({ error: "Failed to save any entries" }, { status: 500 });

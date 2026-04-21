@@ -58,10 +58,10 @@ Audyt z **2025-01** dotyczył:
 
 ### COMMIT 2: Uporządkowanie routingu (historyczne)
 **Pliki:**
-- `app/app/vocab/PoolTab.tsx` — komponent zakładki "Moja pula"
-- `app/app/vocab/pool/page.tsx` — strona z zakładkami "Moja pula" i "Dodaj słówko"
+- `app/app/vocab/PoolTab.tsx` — lista słów w puli (zakładka „Słowa”)
+- `app/app/vocab/pool/page.tsx` — pool: zakładki Trenuj / Słowa / Dodaj
 
-**Uwaga:** Obecnie `/app/vocab` to hub z kafelkami (Moja pula, Fiszki, Typowe błędy). Strona `/app/vocab/pool` jest osobną stroną z PoolTab — nie ma redirectu do `?tab=pool`.
+**Uwaga:** `/app/vocab` to hub z kafelkami (Moja pula, Fiszki, Typowe błędy). `/app/vocab/pool` to osobna strona z `PoolTrainTab`, `PoolTab` i formularzem dodawania — nie ma redirectu do `?tab=pool`.
 
 ### COMMIT 3: Usunięcie nieużywanego kodu
 **Pliki:**
@@ -130,7 +130,7 @@ Audyt z **2025-01** dotyczył:
   - "Moja pula" → `/app/vocab/pool`
   - "Fiszki" → `/app/vocab/packs`
   - "Typowe błędy" → `/app/vocab/clusters`
-- `/app/vocab/pool` — strona z zakładkami "Moja pula" (PoolTab) i "Dodaj słówko"
+- `/app/vocab/pool` — strona z zakładkami **Trenuj** (`PoolTrainTab`), **Słowa** (`PoolTab`), **Dodaj** (dodawanie z leksykonu / AI; `?tab=train|words|add`)
 - `/app/vocab/packs` — paczki tematyczne
 - `/app/vocab/clusters` — clustery (make/do, say/tell, itp.)
 - `/app/vocab/lesson/[id]` — szczegóły lekcji
@@ -222,8 +222,9 @@ Audyt z **2025-01** dotyczył:
 
 **Frontend:**
 - `app/app/vocab/page.tsx` — hub słówek (3 kafelki: Moja pula, Fiszki, Typowe błędy)
-- `app/app/vocab/PoolTab.tsx` — komponent zakładki "Moja pula" (user_vocab_items)
-- `app/app/vocab/pool/page.tsx` — strona z zakładkami "Moja pula" i "Dodaj słówko"
+- `app/app/vocab/PoolTab.tsx` — zakładka „Słowa” (user_vocab_items)
+- `app/app/vocab/pool/page.tsx` — Trenuj / Słowa / Dodaj (`PoolTrainTab`, `PoolTab`, dodawanie)
+- `app/app/vocab/pool/PoolTrainTab.tsx` — trening z puli (zakładka „Trenuj”)
 - `app/app/vocab/lesson/[id]/page.tsx` — szczegóły lekcji
 - `app/app/vocab/clusters/page.tsx` — lista clusterów
 - `app/app/status/page.tsx` — dashboard progresu
@@ -239,7 +240,7 @@ Audyt z **2025-01** dotyczył:
 
 Po każdym deployu sprawdź:
 - [ ] `/app/vocab` — 3 kafelki (Moja pula, Fiszki, Typowe błędy)
-- [ ] `/app/vocab/pool` — zakładki "Moja pula" i "Dodaj słówko"
+- [ ] `/app/vocab/pool` — zakładki Trenuj, Słowa, Dodaj
 - [ ] Dodanie słówka (lookup / custom) → pojawia się w puli
 - [ ] Funkcje puli: enrich, test, repeat suggestions
 - [ ] API routes wymagają JWT (401 bez tokenu)
@@ -266,12 +267,12 @@ Po każdym deployu sprawdź:
 ---
 
 **Data oryginalnego audytu:** 2025-01  
-**Ostatnia aktualizacja:** 2026-03-28  
+**Ostatnia aktualizacja:** 2026-04-15  
 **Status:** ✅ Produkcja stabilna; dokument zaktualizowany pod obecną architekturę
 
-**Zmiana 2026-03-19:** Sugestie treningowe ujednolicone w **`GET /api/suggestions`** (profil + widget „Co trenować”). **2026-03-28:** Pełny audyt knowledge engine + sugestii w jednym pliku: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`** (zastępuje `CO_TRENOWAC_AUDIT.md` i `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`). Endpoint `intelligent-suggestions-v2` nie jest wywoływany z UI.
+**Zmiana 2026-03-19:** Sugestie treningowe ujednolicone w **`GET /api/suggestions`** (profil + widget „Co trenować”). **2026-03-28:** Pełny audyt knowledge engine + sugestii w jednym pliku: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`** (zastępuje `CO_TRENOWAC_AUDIT.md` i `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md`). Endpoint `intelligent-suggestions-v2` nie jest wywoływany z UI. **2026-04-15:** Dopasowanie opisu `/app/vocab/pool` (trzy zakładki); skrót nazwy: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS.md`** → ten sam audyt.
 
 **Inne raporty audytowe:**
 - `CLUSTERS_MODULE_AUDIT_REPORT.md` — moduł clusterów (typowe błędy)
 - `GRAMMAR_MODULE_AUDIT_REPORT.md` — moduł gramatyki
-- `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md` — knowledge engine, „Co trenować”, `/api/suggestions`, legacy MV
+- `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md` — knowledge engine, „Co trenować”, `/api/suggestions`, legacy MV (alias: `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS.md`)

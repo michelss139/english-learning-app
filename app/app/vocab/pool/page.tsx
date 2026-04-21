@@ -18,6 +18,11 @@ type PackSelectedSense = {
   example: string | null;
 };
 
+type ResolvedLemmaInfo = {
+  originalQuery: string;
+  resolvedLemma: string;
+};
+
 /** Set to false to hide pack autocomplete and rely on Szukaj / Dodaj (AI) only. */
 const USE_PACK_SEARCH = true;
 
@@ -184,11 +189,15 @@ function VocabPoolInner() {
   const packBlurTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const packListRef = useRef<HTMLUListElement | null>(null);
   const packSearchInputRef = useRef<HTMLInputElement | null>(null);
+  const resolveAbortRef = useRef<AbortController | null>(null);
   const lookupAbortRef = useRef<AbortController | null>(null);
+  const [isResolveLoading, setIsResolveLoading] = useState(false);
+  const [lastResolvedQuery, setLastResolvedQuery] = useState<string | null>(null);
   const [isLookupLoading, setIsLookupLoading] = useState(false);
   const [lookupError, setLookupError] = useState<string | null>(null);
   const [lastLookupLemma, setLastLookupLemma] = useState<string | null>(null);
   const [prefilledEntry, setPrefilledEntry] = useState<LexiconEntry | null>(null);
+  const [resolvedLemmaInfo, setResolvedLemmaInfo] = useState<ResolvedLemmaInfo | null>(null);
 
   const personalCount = personal.length;
 
@@ -197,6 +206,9 @@ function VocabPoolInner() {
     setPackInlineSuccess("");
     setLookupError(null);
     setIsAdded(false);
+    setResolvedLemmaInfo((current) =>
+      current && normPackQ(row.lemma) !== normPackQ(current.resolvedLemma) ? null : current
+    );
     setSelectedSense({
       sense_id: row.sense_id,
       lemma: row.lemma,
@@ -213,6 +225,7 @@ function VocabPoolInner() {
     setSelectedSense(null);
     setIsAdded(false);
     setLookupError(null);
+    setResolvedLemmaInfo(null);
     if (USE_PACK_SEARCH && normPackQ(newWord).length >= 2 && packSearchResults.length > 0) {
       setPackDropdownOpen(true);
     }
@@ -225,9 +238,12 @@ function VocabPoolInner() {
     setPackInlineSuccess("");
     setPackSearchResults([]);
     setLastCompletedPackQuery(null);
+    setIsResolveLoading(false);
     setLookupError(null);
+    setLastResolvedQuery(null);
     setLastLookupLemma(null);
     setPrefilledEntry(null);
+    setResolvedLemmaInfo(null);
     setPackDropdownOpen(false);
     setPackActiveIndex(-1);
     requestAnimationFrame(() => packSearchInputRef.current?.focus());
@@ -343,8 +359,12 @@ function VocabPoolInner() {
         }
 
         const data = (await res.json()) as { results?: LexiconSearchRow[] };
-        setPackSearchResults(data.results ?? []);
+        const results = data.results ?? [];
+        setPackSearchResults(results);
         setLastCompletedPackQuery(q);
+        if (results.length > 0) {
+          setResolvedLemmaInfo(null);
+        }
       } catch (e: unknown) {
         if (e instanceof DOMException && e.name === "AbortError") return;
         setPackSearchResults([]);
@@ -369,6 +389,7 @@ function VocabPoolInner() {
   useEffect(() => {
     return () => {
       if (packBlurTimerRef.current) clearTimeout(packBlurTimerRef.current);
+      resolveAbortRef.current?.abort();
       lookupAbortRef.current?.abort();
     };
   }, []);
@@ -385,6 +406,26 @@ function VocabPoolInner() {
     return () => clearTimeout(t);
   }, [packInlineSuccess]);
 
+  const fetchPackSearchResults = useCallback(async (q: string, signal: AbortSignal): Promise<LexiconSearchRow[]> => {
+    const session = await supabase.auth.getSession();
+    const token = session?.data?.session?.access_token;
+    if (!token) {
+      return [];
+    }
+
+    const res = await fetch(`/api/vocab/search?q=${encodeURIComponent(q)}`, {
+      signal,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      return [];
+    }
+
+    const data = (await res.json()) as { results?: LexiconSearchRow[] };
+    return data.results ?? [];
+  }, []);
+
   const runLookupFallback = useCallback(async (q: string) => {
     lookupAbortRef.current?.abort();
     const ac = new AbortController();
@@ -393,6 +434,7 @@ function VocabPoolInner() {
     setLookupError(null);
     setIsLookupLoading(true);
     setLastLookupLemma(q);
+    setResolvedLemmaInfo(null);
 
     try {
       const session = await supabase.auth.getSession();
@@ -462,16 +504,91 @@ function VocabPoolInner() {
     }
   }, []);
 
+  const runResolveBeforeLookup = useCallback(
+    async (q: string) => {
+      resolveAbortRef.current?.abort();
+      const ac = new AbortController();
+      resolveAbortRef.current = ac;
+
+      setIsResolveLoading(true);
+      setLastResolvedQuery(q);
+      setLookupError(null);
+
+      try {
+        const session = await supabase.auth.getSession();
+        const token = session?.data?.session?.access_token;
+        if (!token) {
+          await runLookupFallback(q);
+          return;
+        }
+
+        const resolveRes = await fetch("/api/vocab/resolve-query", {
+          method: "POST",
+          signal: ac.signal,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ query: q }),
+        });
+
+        const resolveData = (await resolveRes.json().catch(() => null)) as
+          | {
+              ok?: boolean;
+              candidates?: Array<{ lemma: string; confidence: number }>;
+              reason?: string;
+              error?: string;
+            }
+          | null;
+
+        if (ac.signal.aborted) return;
+
+        const resolvedLemma = resolveRes.ok && resolveData?.ok ? resolveData.candidates?.[0]?.lemma?.trim() : "";
+        if (resolvedLemma) {
+          const resolvedResults = await fetchPackSearchResults(resolvedLemma, ac.signal);
+          if (ac.signal.aborted) return;
+
+          if (resolvedResults.length > 0) {
+            setPackSearchResults(resolvedResults);
+            setLastCompletedPackQuery(q);
+            setLookupError(null);
+          setResolvedLemmaInfo({
+            originalQuery: q,
+            resolvedLemma,
+          });
+            setPackDropdownOpen(true);
+            setPackActiveIndex(-1);
+            return;
+          }
+        }
+
+        await runLookupFallback(q);
+      } catch (e: unknown) {
+        if (e instanceof DOMException && e.name === "AbortError") return;
+        await runLookupFallback(q);
+      } finally {
+        if (!ac.signal.aborted) {
+          setIsResolveLoading(false);
+        }
+      }
+    },
+    [fetchPackSearchResults, runLookupFallback]
+  );
+
   useEffect(() => {
     if (!USE_PACK_SEARCH) return;
 
     const q = normPackQ(newWord);
     if (!isLookupEligibleQuery(q)) {
+      resolveAbortRef.current?.abort();
       lookupAbortRef.current?.abort();
+      setIsResolveLoading(false);
       setIsLookupLoading(false);
       setLookupError(null);
       setPrefilledEntry(null);
+      setResolvedLemmaInfo(null);
       if (q.length === 0) {
+        setLastResolvedQuery(null);
         setLastLookupLemma(null);
       }
       return;
@@ -484,25 +601,33 @@ function VocabPoolInner() {
       return;
     }
     if (lastCompletedPackQuery !== q) return;
+    if (isResolveLoading) return;
     if (isLookupLoading) return;
+    if (lastResolvedQuery !== q) {
+      void runResolveBeforeLookup(q);
+      return;
+    }
     if (lastLookupLemma === q) return;
 
     void runLookupFallback(q);
   }, [
+    isResolveLoading,
     isLookupLoading,
     lastCompletedPackQuery,
+    lastResolvedQuery,
     lastLookupLemma,
     newWord,
     packSearchLoading,
     packSearchResults.length,
     prefilledEntry,
+    runResolveBeforeLookup,
     runLookupFallback,
     selectedSense,
   ]);
 
   const handleLookupWord = () => {
     if (!newWord.trim()) {
-      setError("Wpisz słówko po angielsku.");
+      setError("Wpisz słówko po polsku lub angielsku.");
       return;
     }
     const q = normPackQ(newWord);
@@ -511,17 +636,14 @@ function VocabPoolInner() {
       setLookupError(null);
       setSelectedSense(null);
       setModalCustomOnly(false);
+      setResolvedLemmaInfo(null);
       setShowSenseModal(true);
       return;
     }
     if (lookupError) {
       return;
     }
-    if (packSearchResults.length > 0 && !selectedSense) {
-      selectPackRow(packSearchResults[0]);
-      return;
-    }
-    if (isLookupLoading) {
+    if (isResolveLoading || isLookupLoading) {
       return;
     }
     if (isLookupEligibleQuery(q)) {
@@ -529,6 +651,10 @@ function VocabPoolInner() {
       setIsAdded(false);
       setLookupError(null);
       setPrefilledEntry(null);
+      if (lastResolvedQuery !== q) {
+        void runResolveBeforeLookup(q);
+        return;
+      }
       if (lastLookupLemma !== q) {
         void runLookupFallback(q);
       }
@@ -749,13 +875,18 @@ function VocabPoolInner() {
                 <input
                   ref={packSearchInputRef}
                   className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
-                  placeholder="Wpisz słówko po angielsku (np. ball)"
+                  placeholder="Wpisz słówko po polsku lub angielsku (np. ball / pilka)"
                   value={newWord}
                   onChange={(e) => {
+                    resolveAbortRef.current?.abort();
                     lookupAbortRef.current?.abort();
+                    setIsResolveLoading(false);
                     setIsLookupLoading(false);
                     setLookupError(null);
+                    setLastResolvedQuery(null);
+                    setLastLookupLemma(null);
                     setPrefilledEntry(null);
+                    setResolvedLemmaInfo(null);
                     if (isAdded) setIsAdded(false);
                     if (selectedSense) setSelectedSense(null);
                     setNewWord(e.target.value);
@@ -797,13 +928,7 @@ function VocabPoolInner() {
                       return;
                     }
                     if (e.key === "Enter") {
-                      if (canPackNavigate && packDropdownOpen) {
-                        e.preventDefault();
-                        const idx = packActiveIndex >= 0 ? packActiveIndex : 0;
-                        const row = packSearchResults[idx];
-                        if (row) selectPackRow(row);
-                        return;
-                      }
+                      e.preventDefault();
                       handleLookupWord();
                       return;
                     }
@@ -892,6 +1017,15 @@ function VocabPoolInner() {
                 }`}
               >
                 <div className="space-y-2">
+                  {resolvedLemmaInfo ? (
+                    <div className="rounded-lg border border-slate-200/70 bg-slate-50/80 px-3 py-2">
+                      <p className="text-xs font-medium text-slate-700">
+                        Najlepsze dopasowanie: {resolvedLemmaInfo.resolvedLemma}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-slate-500">dla: {resolvedLemmaInfo.originalQuery}</p>
+                    </div>
+                  ) : null}
+
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                     {isAdded ? (
                       <span
@@ -964,7 +1098,7 @@ function VocabPoolInner() {
             !packSearchLoading &&
             packSearchResults.length === 0 &&
             lastCompletedPackQuery === normPackQ(newWord) &&
-            isLookupLoading ? (
+            (isResolveLoading || isLookupLoading) ? (
               <div className="rounded-2xl border-2 border-sky-400/35 bg-sky-50 px-4 py-3">
                 <div className="flex items-center gap-3">
                   <span
@@ -980,6 +1114,7 @@ function VocabPoolInner() {
             !selectedSense &&
             normPackQ(newWord).length >= 2 &&
             !packSearchLoading &&
+            !isResolveLoading &&
             !isLookupLoading &&
             packSearchResults.length === 0 &&
             lastCompletedPackQuery === normPackQ(newWord) &&

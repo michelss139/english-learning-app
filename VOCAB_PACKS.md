@@ -1,5 +1,9 @@
 # Vocab Packs (SQL guide)
 
+**Audyt techniczny (UI, API, RLS, legacy):** zobacz [`VOCAB_PACKS_TECHNICAL_AUDIT.md`](./VOCAB_PACKS_TECHNICAL_AUDIT.md).
+
+---
+
 Packs are sense-based (`lexicon_senses`) and live in:
 - `vocab_packs`
 - `vocab_pack_items`
@@ -13,7 +17,7 @@ Packs are sense-based (`lexicon_senses`) and live in:
 | description | text | nullable |
 | is_published | boolean | default false |
 | order_index | int | default 0 |
-| vocab_mode | text | **`daily` \| `precise` only** (legacy `mixed` usunięte w migracji — istniejące wpisy ustawiono na `daily`) |
+| vocab_mode | text | **`daily` \| `precise` only** — `mixed` usunięte: migracja `supabase/migrations/20260226_move_mixed_to_daily_remove_mixed_tab.sql` (stare `mixed` → `daily`, constraint tylko `daily` / `precise`) |
 | category | text | default 'general' |
 
 ## Sposoby tworzenia packów

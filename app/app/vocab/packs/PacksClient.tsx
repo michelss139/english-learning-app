@@ -11,7 +11,8 @@ export type PackDto = {
   description: string | null;
   order_index: number;
   item_count: number;
-  vocab_mode: "daily" | "mixed" | "precise";
+  /** DB constraint: daily | precise; "mixed" removed (migrated to daily). */
+  vocab_mode: "daily" | "precise";
   category: string;
 };
 
@@ -177,9 +178,7 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
   const labelMatches = (label: string) => !normalizedQuery || label.toLowerCase().includes(normalizedQuery);
 
   const filteredPacks = useMemo(() => {
-    return initialPacks.filter(
-      (pack) => pack.vocab_mode === vocabMode || (vocabMode === "daily" && pack.vocab_mode === "mixed"),
-    );
+    return initialPacks.filter((pack) => pack.vocab_mode === vocabMode);
   }, [initialPacks, vocabMode]);
 
   const shopPack = filteredPacks.find((pack) => pack.slug === "shop");

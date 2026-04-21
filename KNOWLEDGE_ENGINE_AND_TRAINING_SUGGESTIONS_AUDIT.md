@@ -1,6 +1,6 @@
 # Audyt: Knowledge engine + „Co trenować” (stan aktualny)
 
-**Data:** 2026-03-28  
+**Data:** 2026-04-15 (ostatnia weryfikacja względem kodu)  
 **Cel:** Jeden spójny opis **całego** działającego na stronie systemu: (1) **zbierania i agregacji wiedzy** użytkownika o jednostkach treningowych, (2) **sugestii „co ćwiczyć dalej”** na podstawie tej wiedzy i powiązanych sygnałów.  
 **Zastępuje:** `CO_TRENOWAC_AUDIT.md` oraz `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md` (treść legacy: §7; historia dokumentacji: §9).
 
@@ -90,10 +90,13 @@ Każdy `Suggestion`: `unitType`, `unitId`, `accuracy`, `priority`, opcjonalnie `
 
 ### 4.4 Linki (`buildHref`)
 
-- `sense` → `/app/vocab` (zbiorcze „powtórz słówka”).
-- `cluster` → `/app/vocab/cluster/${unitId}?autostart=1`
+**Plik:** `app/api/suggestions/route.ts` — `buildHref`.
+
+- `sense` → `/app/vocab/practice?senseIds=<uuid>&autostart=1` (trening jednego znaczenia).
+- `cluster` → `/app/vocab/cluster/${unitId}?autostart=1` (pojedynczy cluster; lista hubów: `/app/vocab/clusters`).
 - `grammar` → `/app/grammar/${unitId}/practice`
 - `irregular` (+ `form`) → `/app/irregular-verbs/train?mode=targeted&targets=...`
+- `shortcut` → m.in. `shop` → pack shop z autostartem; `clusters` → `/app/vocab/clusters`
 
 ---
 
@@ -180,6 +183,7 @@ Każdy `Suggestion`: `unitType`, `unitId`, `accuracy`, `priority`, opcjonalnie `
 
 - **2026-03-06 / 2026-03-19:** Rozdzielone opisy: `CO_TRENOWAC_AUDIT.md` (aktualny `/api/suggestions`) oraz `INTELLIGENT_SUGGESTIONS_V2_AUDIT.md` (legacy endpoint + MV).  
 - **2026-03-28:** Scalenie w **ten dokument**: pełna ścieżka **knowledge engine → sugestie → UI**, z legacy w §7.
+- **2026-04-15:** §4.4 — poprawka linku `sense` (w kodzie: `/app/vocab/practice?...`, nie `/app/vocab`); dopisane `shortcut` w `buildHref`.
 
 ---
 

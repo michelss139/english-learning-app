@@ -1,7 +1,7 @@
 # Audyt techniczny projektu English Platform (LANGBracket)
 
 **Data:** 2026-03-06  
-**Ostatnia aktualizacja treści:** 2026-03-19 (sugestie treningowe, API, gramatyka)  
+**Ostatnia aktualizacja treści:** 2026-04-15 (pula: zakładki + API; spójność z `GET /api/suggestions`)  
 **Cel:** Pełny audyt dla osoby wchodzącej w projekt od strony technicznej. Mapowanie elementów, identyfikacja nieużywanych części oraz nakładających się systemów.
 
 ---
@@ -83,14 +83,16 @@ app/
 | Element | Opis | Źródło danych |
 |---------|------|---------------|
 | **Hub** `/app/vocab` | 3 kafelki: Moja pula, Fiszki, Typowe błędy | Statyczna nawigacja |
-| **Moja pula** `/app/vocab/pool` | Zakładki: Moja pula, Dodaj słówko | `user_vocab_items` (Supabase) |
-| **PoolTab** | Lista słówek, repeat suggestions, test | `user_vocab_items`, `/api/vocab/repeat-suggestions`, `/api/vocab/generate-example` |
+| **Moja pula** `/app/vocab/pool` | Zakładki: **Trenuj**, **Słowa**, **Dodaj** (query `tab=train` / `words` / `add`) | Trenuj: `GET /api/vocab/pool/overview`, `POST /api/vocab/training/start` / `training/answer`; Słowa/Dodaj: `user_vocab_items` + `GET /api/vocab/search`, `POST /api/vocab/lookup-word`, `resolve-query`, `add-word` |
+| **PoolTrainTab** | Rekomendacja sesji, tryby treningu, runner | `pool/overview`, `training/start`, `training/answer` |
+| **PoolTab** | Lista słówek, bulk actions, repeat suggestions, test | `user_vocab_items`, `POST /api/vocab/pool/bulk`, `/api/vocab/repeat-suggestions`, `/api/vocab/generate-example` |
 | **Fiszki** `/app/vocab/packs` | Lista packów | `vocab_packs`, `vocab_pack_items` (Supabase) |
 | **Pack trening** `/app/vocab/pack/[slug]` | Trening fiszek | Supabase + `/api/vocab/packs/[slug]/answer`, complete, add-words, recommendations |
 | **Typowe błędy** `/app/vocab/clusters` | Lista clusterów | `/api/vocab/clusters` |
 | **Cluster trening** `/app/vocab/cluster/[slug]` | Trening clusterów | `loadClusterPageData` (lib) + POST `/api/vocab/clusters/[slug]/questions`, complete |
 | **Lekcja** `/app/vocab/lesson/[id]` | Słówka przypięte do lekcji | `student_lessons`, `lesson_vocab_items`, `user_vocab_items` |
 | **Test** `/app/vocab/test` | Test słówek (pool/lesson/ids) | `loadTestItems` (lib) |
+| **Practice (sensy)** `/app/vocab/practice` | Trening z linku sugestii (`senseIds=`) | `POST /api/vocab/training/start` (`VocabSensePracticeClient`) |
 
 **Tabele:** `user_vocab_items`, `lexicon_*`, `vocab_packs`, `vocab_pack_items`, `vocab_clusters`, `vocab_cluster_*`, `vocab_answer_events`, `student_lessons`, `lesson_vocab_items`.
 
@@ -165,11 +167,15 @@ app/
 | `POST /api/vocab/clusters/[slug]/complete` | ClusterClient |
 | `POST /api/vocab/packs/[slug]/answer`, complete, add-words | PackTrainingClient |
 | `GET /api/vocab/packs/[slug]/recommendations` | PackTrainingClient |
-| `POST /api/vocab/add-word` | SenseSelectionModal |
-| `POST /api/vocab/lookup-word` | SenseSelectionModal |
+| `POST /api/vocab/add-word` | SenseSelectionModal, pool page |
+| `POST /api/vocab/lookup-word` | SenseSelectionModal, pool page |
 | `DELETE /api/vocab/delete-word` | PoolTab, pool page, lesson page |
 | `GET /api/vocab/repeat-suggestions` | PoolTab |
 | `POST /api/vocab/generate-example` | PoolTab |
+| `GET /api/vocab/search`, `POST /api/vocab/resolve-query` | pool page (zakładka Dodaj — leksykon / PL→EN) |
+| `GET /api/vocab/pool/overview` | PoolTrainTab, PoolTrainingRunner |
+| `POST /api/vocab/pool/bulk` | PoolTab |
+| `POST /api/vocab/training/start`, `POST /api/vocab/training/answer` | PoolTrainTab, PoolTrainingRunner, VocabSensePracticeClient |
 | `POST /api/vocab/load-test-items` | test page |
 | `GET /api/vocab/progress-extended` | status page |
 | `GET /api/lessons`, calendar | lessons list, LessonCalendar |
@@ -190,7 +196,7 @@ app/
 | `POST /api/stripe/checkout` | Brak paywalla – nie wywoływany |
 | `PATCH /api/lessons/assignments/[assignmentId]` | Tylko complete jest używane |
 | `GET /api/vocab/clusters/[slug]/questions` | Strona ładuje przez `loadClusterPageData` (lib), nie przez GET API |
-| `GET /api/vocab/pool` | PoolTab używa Supabase bezpośrednio |
+| `GET /api/vocab/pool` | Legacy lista globalnych słów — **nie** wywoływane z UI (PoolTab/PoolTrainTab używają Supabase + `pool/overview` / `pool/bulk`) |
 | `GET /api/vocab/packs` | Packs page używa Supabase |
 | `GET /api/vocab/packs/[slug]/items` | Pack ładuje items przez Supabase |
 | `GET /api/vocab/suggestions` | Brak użycia |
@@ -215,9 +221,9 @@ app/
 | **Główny (lexicon-based)** | `user_vocab_items` (sense_id lub custom_lemma) | PoolTab, pool page, lesson page, add-word, test loader |
 | **Legacy** | `global_vocab_items`, `user_vocab` | `/api/vocab/pool`, `/api/vocab/add-to-pool` – **nieużywane z UI** |
 
-PoolTab i pool page korzystają z `user_vocab_items` przez Supabase. API `pool` i `add-to-pool` operują na legacy – nie są wywoływane.
+PoolTab, zakładka Dodaj na `pool/page` i lekcje korzystają z `user_vocab_items` przez Supabase (`add-word`, `delete-word`, itd.). **`GET /api/vocab/pool`** (legacy) i **`add-to-pool`** operują na `global_vocab_items` / `user_vocab` — nie są wywoływane z UI; zamiast tego trening puli używa **`pool/overview`** i **`training/*`**.
 
-### 5.2 Sugestie treningowe (stan 2026-03)
+### 5.2 Sugestie treningowe (stan 2026-04)
 
 | Element | Komponent | API | Uwagi |
 |---------|-----------|-----|--------|
@@ -225,7 +231,7 @@ PoolTab i pool page korzystają z `user_vocab_items` przez Supabase. API `pool` 
 | **„Twój plan na teraz”** | `ProfilePage` | Ten sam `GET /api/suggestions` | `top` + `list`; irregular zgrupowane w jedną sesję (URL `mode=targeted`) |
 | **Komponent** | `components/SuggestionsPanel.tsx` | `GET /api/suggestions` (`list`) | Na **2026-03-19** brak importu w stronach – gotowy do podpięcia (np. dashboard) |
 
-**Legacy:** `GET /api/app/recommendations` – **usunięty**; `GET /api/app/intelligent-suggestions-v2` – nadal w repo, **nie** używany przez UI. Szczegóły: **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`** (§7).
+**Legacy:** `GET /api/app/recommendations` – **usunięty**; `GET /api/app/intelligent-suggestions-v2` – nadal w repo, **nie** używany przez UI. Linki z `GET /api/suggestions` (np. `sense` → `/app/vocab/practice?...`) — **`KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md`** (§4.4, §7).
 
 ### 5.3 Endpointy sugestii (aktualne)
 
@@ -300,6 +306,9 @@ Tabela `lessons` jest polimorficzna (tutoring vs course lesson).
 |------|--------|
 | `AUDIT_SUMMARY.md` | Podsumowanie audytu 2025-01, zmiany, stan |
 | `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS_AUDIT.md` | Knowledge engine (`user_learning_unit_knowledge`), „Co trenować”, `GET /api/suggestions`, legacy intelligent-suggestions-v2 / MV |
+| `KNOWLEDGE_ENGINE_AND_TRAINING_SUGGESTIONS.md` | Krótki alias → ten sam audyt co powyżej |
+| `VOCAB_PACKS.md` | Packi: schema `vocab_packs` / `vocab_pack_items`, pipeline, importy SQL |
+| `VOCAB_PACKS_TECHNICAL_AUDIT.md` | Audyt techniczny packów (UI, API, RLS, `mixed`→`daily`, MV) |
 | `COACH_SYSTEM_AUDIT.md` | GlobalCoach, GlobalTrainingSuggestion, Coach gramatyki |
 | `CLUSTERS_MODULE_AUDIT_REPORT.md` | Moduł clusterów |
 | `GRAMMAR_MODULE_AUDIT_REPORT.md` | Moduł gramatyki |

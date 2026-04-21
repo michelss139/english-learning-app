@@ -26,7 +26,13 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url);
     const modeParam = (url.searchParams.get("vocab_mode") ?? "").toLowerCase();
-    const modeFilter = modeParam === "daily" || modeParam === "mixed" || modeParam === "precise" ? modeParam : null;
+    // DB allows only daily | precise; legacy "mixed" was migrated to daily — treat as daily.
+    const modeFilter =
+      modeParam === "daily" || modeParam === "mixed"
+        ? "daily"
+        : modeParam === "precise"
+          ? "precise"
+          : null;
 
     let packsQuery = supabase
       .from("vocab_packs")
@@ -54,7 +60,7 @@ export async function GET(req: Request) {
       title: p.title,
       description: p.description ?? null,
       order_index: p.order_index ?? 0,
-      vocab_mode: p.vocab_mode ?? "mixed",
+      vocab_mode: p.vocab_mode ?? "daily",
       category: p.category ?? "general",
       item_count: counts.get(p.id) ?? 0,
     }));
