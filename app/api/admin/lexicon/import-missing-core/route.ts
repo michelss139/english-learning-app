@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { getUserIdFromApiRequest } from "@/lib/auth/adminApiAuth";
-import { normLemma, saveToLexicon } from "@/lib/lexicon/lookupOrCreateLexiconEntry";
-import { enrichLexiconBatch } from "@/lib/lexicon/enrichLexiconBatch";
+import { normLemma } from "@/lib/lexicon/lookupOrCreateLexiconEntry";
+import { importLexiconBatch } from "@/lib/lexicon/importLexiconBatch";
 
 const IN_CHUNK = 150;
 const MAX_IMPORT_BATCH = 30;
-const OPENAI_BATCH_SIZE = 10;
 
 function uniqueNormalizedOrder(words: unknown): string[] | null {
   if (!Array.isArray(words)) return null;
@@ -92,41 +91,9 @@ export async function POST(req: Request) {
 
     const importBatch = missing.slice(0, MAX_IMPORT_BATCH);
     const warning = missing.length > MAX_IMPORT_BATCH ? "partial_batch_processed" : undefined;
-
-    for (let i = 0; i < importBatch.length; i += OPENAI_BATCH_SIZE) {
-      const batch = importBatch.slice(i, i + OPENAI_BATCH_SIZE);
-      let batchResults;
-      try {
-        batchResults = await enrichLexiconBatch(batch, { mode: "core" });
-      } catch (e: unknown) {
-        const error = e instanceof Error ? e.message : "Unknown error";
-        for (const word of batch) {
-          failed.push({ word, error });
-        }
-        continue;
-      }
-
-      for (const result of batchResults) {
-        if ("error" in result) {
-          failed.push({ word: result.lemma, error: result.error ?? "invalid_or_uncertain" });
-          continue;
-        }
-
-        try {
-          const saveResults = await saveToLexicon(supabase, result.data);
-          if (saveResults.length === 0) {
-            failed.push({ word: result.lemma, error: "save_failed" });
-            continue;
-          }
-          created.push(result.lemma);
-        } catch (e: unknown) {
-          failed.push({
-            word: result.lemma,
-            error: e instanceof Error ? e.message : "Unknown error",
-          });
-        }
-      }
-    }
+    const importResult = await importLexiconBatch(supabase, importBatch, { mode: "core" });
+    created.push(...importResult.created);
+    failed.push(...importResult.failed);
 
     return NextResponse.json({
       created,

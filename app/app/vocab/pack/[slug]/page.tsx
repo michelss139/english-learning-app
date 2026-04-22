@@ -78,7 +78,7 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
 
   const { data: packRow, error: packErr } = await supabase
     .from("vocab_packs")
-    .select("id, slug, title, description, is_published")
+    .select("id, slug, title, display_title, description, is_published")
     .eq("slug", slug)
     .maybeSingle();
 
@@ -143,10 +143,12 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
     };
   });
 
+  const displayTitle = ((packRow as { display_title?: string | null }).display_title ?? "").trim() || packRow.title;
+
   const pack: PackMetaDto = {
     id: packRow.id,
     slug: packRow.slug,
-    title: packRow.title,
+    title: displayTitle,
     description: packRow.description ?? null,
   };
 

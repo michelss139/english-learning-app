@@ -3,40 +3,34 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import type { PackCompletionBadge } from "@/lib/vocab/packCompletionBadge";
+import {
+  OTHER_SECTION_KEY,
+  comparePacksForCatalog,
+  compareSectionLabels,
+  packSectionLabelPl,
+} from "@/lib/vocab/packCatalogOrder";
 
 export type PackDto = {
   id: string;
   slug: string;
+  /** Raw DB title (fallback). */
   title: string;
-  description: string | null;
+  /** User-facing title: display_title if set, else title. */
+  presentation_title: string;
   order_index: number;
   item_count: number;
-  /** DB constraint: daily | precise; "mixed" removed (migrated to daily). */
   vocab_mode: "daily" | "precise";
   category: string;
+  display_section: string | null;
+  display_subsection: string | null;
+  featured_rank: number | null;
+  is_archived: boolean;
+  completion_badge: PackCompletionBadge;
 };
 
 type VocabMode = "daily" | "precise";
 const STORAGE_KEY = "vocabMode";
-
-const CATEGORY_SECTION_LABEL: Record<string, string> = {
-  general: "",
-  home: "Dom i mieszkanie",
-  garden: "Ogród",
-  kitchen: "Kuchnia",
-  travel: "Podróże",
-  office: "Biuro i praca",
-  shopping: "Zakupy",
-  health: "Zdrowie",
-  emotions: "Emocje i relacje",
-};
-
-function sectionLabelForCategory(category: string): string {
-  const key = category.trim().toLowerCase();
-  if (CATEGORY_SECTION_LABEL[key]) return CATEGORY_SECTION_LABEL[key];
-  if (!key || key === "general") return "Inne fiszki";
-  return key.charAt(0).toUpperCase() + key.slice(1);
-}
 
 const isValidMode = (value: string | null): value is VocabMode =>
   value === "daily" || value === "precise";
@@ -64,6 +58,40 @@ function ChevronRight({ className }: { className?: string }) {
   );
 }
 
+function PackCompletionGlyph({ badge }: { badge: PackCompletionBadge }) {
+  const label =
+    badge === "none"
+      ? "Ta fiszka nie została jeszcze rozpoczęta"
+      : badge === "partial"
+        ? "W toku lub bez pełnej poprawności"
+        : "Cała fiszka ukończona poprawnie";
+  const colorClass =
+    badge === "none" ? "text-slate-300" : badge === "partial" ? "text-amber-500" : "text-emerald-600";
+  return (
+    <span
+      className={`shrink-0 ${colorClass}`}
+      title={label}
+      aria-label={label}
+    >
+      <svg
+        className="h-[19px] w-[19px]"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle cx="8" cy="8" r="5.75" stroke="currentColor" strokeWidth="1.5" />
+        <path
+          d="M5.4 8.1l1.7 1.7 3.5-3.7"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
 function ChevronDown({ open, className }: { open: boolean; className?: string }) {
   return (
     <svg
@@ -78,7 +106,70 @@ function ChevronDown({ open, className }: { open: boolean; className?: string })
   );
 }
 
-function PackSection({ label, packs, mode }: { label: string; packs: PackDto[]; mode: VocabMode }) {
+function groupPacksBySection(packs: PackDto[], mode: VocabMode) {
+  const map = new Map<string, PackDto[]>();
+  for (const p of packs) {
+    const raw = (p.display_section ?? "").trim();
+    const key = raw || OTHER_SECTION_KEY;
+    const list = map.get(key) ?? [];
+    list.push(p);
+    map.set(key, list);
+  }
+  for (const list of map.values()) {
+    list.sort((a, b) =>
+      comparePacksForCatalog(
+        {
+          featured_rank: a.featured_rank,
+          order_index: a.order_index,
+          presentation_title: a.presentation_title,
+        },
+        {
+          featured_rank: b.featured_rank,
+          order_index: b.order_index,
+          presentation_title: b.presentation_title,
+        },
+      ),
+    );
+  }
+  const keys = [...map.keys()].sort((a, b) => compareSectionLabels(a, b, mode));
+  return keys.map((key) => ({
+    key,
+    label: packSectionLabelPl(key, mode),
+    packs: map.get(key)!,
+  }));
+}
+
+function applySectionSearch(
+  groups: { key: string; label: string; packs: PackDto[] }[],
+  q: string,
+): { key: string; label: string; packs: PackDto[] }[] {
+  const ql = q.trim().toLowerCase();
+  if (!ql) return groups;
+  return groups
+    .map((g) => ({
+      ...g,
+      packs: g.packs.filter(
+        (p) =>
+          g.label.toLowerCase().includes(ql) ||
+          p.presentation_title.toLowerCase().includes(ql) ||
+          p.title.toLowerCase().includes(ql) ||
+          (p.display_section ?? "").toLowerCase().includes(ql),
+      ),
+    }))
+    .filter((g) => g.packs.length > 0);
+}
+
+function PackSection({
+  label,
+  packs,
+  mode,
+  sectionSurfaceClassName,
+}: {
+  label: string;
+  packs: PackDto[];
+  mode: VocabMode;
+  sectionSurfaceClassName?: string;
+}) {
   const [open, setOpen] = useState(false);
 
   if (packs.length === 0) return null;
@@ -87,19 +178,21 @@ function PackSection({ label, packs, mode }: { label: string; packs: PackDto[]; 
   const showToggle = packs.length > 3;
   const visible = open ? packs : preview;
 
+  const surface = sectionSurfaceClassName ?? cardBase;
+
   return (
-    <section className={cardBase}>
+    <section className={surface}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="mb-4 flex w-full items-center gap-2 text-left"
+        className="mb-4 flex w-full items-center gap-2.5 text-left"
       >
-        <ChevronDown open={open} className="text-slate-400" />
-        <h2 className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-          {label}
-          <span className="ml-1.5 font-medium normal-case tracking-normal text-slate-300">
-            {packs.length}
+        <ChevronDown open={open} className="mt-1 h-5 w-5 shrink-0 text-neutral-700" />
+        <h2 className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <span className="text-xl font-black leading-tight tracking-tight text-neutral-900 sm:text-2xl">
+            {label}
           </span>
+          <span className="text-sm font-semibold tabular-nums text-slate-500 sm:text-base">{packs.length}</span>
         </h2>
       </button>
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -110,16 +203,16 @@ function PackSection({ label, packs, mode }: { label: string; packs: PackDto[]; 
               className="group/row flex h-full flex-col justify-between rounded-xl border border-slate-100 px-4 py-3.5 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50"
             >
               <div className="flex items-start justify-between gap-2">
-                <span className="text-sm font-medium text-slate-800">{pack.title}</span>
-                <ChevronRight className="mt-0.5 shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
+                <span className="min-w-0 flex-1 text-sm font-medium text-slate-800">{pack.presentation_title}</span>
+                <div className="mt-0.5 flex shrink-0 items-center gap-1.5">
+                  <PackCompletionGlyph badge={pack.completion_badge} />
+                  <ChevronRight className="shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
+                </div>
               </div>
-              <div className="mt-2 flex items-center justify-between gap-2">
+              <div className="mt-2">
                 <span className="text-xs font-medium tabular-nums text-slate-600">
                   {pack.item_count} {polishFiszkiForm(pack.item_count)}
                 </span>
-                {pack.description ? (
-                  <span className="truncate text-[10px] text-slate-400">{pack.description}</span>
-                ) : null}
               </div>
             </Link>
           </li>
@@ -147,7 +240,13 @@ function PackSection({ label, packs, mode }: { label: string; packs: PackDto[]; 
   );
 }
 
-export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] }) {
+export default function PacksClient({
+  initialPacks,
+  isAdmin,
+}: {
+  initialPacks: PackDto[];
+  isAdmin: boolean;
+}) {
   const searchParams = useSearchParams();
   const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
   const [categoryQuery, setCategoryQuery] = useState("");
@@ -175,63 +274,35 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
   }, [modeFromUrl]);
 
   const normalizedQuery = categoryQuery.trim().toLowerCase();
-  const labelMatches = (label: string) => !normalizedQuery || label.toLowerCase().includes(normalizedQuery);
 
   const filteredPacks = useMemo(() => {
     return initialPacks.filter((pack) => pack.vocab_mode === vocabMode);
   }, [initialPacks, vocabMode]);
 
-  const shopPack = filteredPacks.find((pack) => pack.slug === "shop");
-  const transportPacks = filteredPacks.filter((pack) => pack.slug.startsWith("transport-"));
-  const contractsPacks = filteredPacks.filter((pack) => pack.slug.startsWith("contracts-"));
-  const bodyPacks = filteredPacks.filter((pack) => pack.category === "body");
-  const categoryBuckets = useMemo(() => {
-    const bucketPacks = filteredPacks.filter(
-      (pack) =>
-        pack.category !== "body" &&
-        pack.slug !== "shop" &&
-        !pack.slug.startsWith("transport-") &&
-        !pack.slug.startsWith("contracts-"),
+  const activePacks = useMemo(() => filteredPacks.filter((p) => !p.is_archived), [filteredPacks]);
+  const archivedForMode = useMemo(
+    () => (isAdmin ? filteredPacks.filter((p) => p.is_archived) : []),
+    [filteredPacks, isAdmin],
+  );
+
+  const sectionGroups = useMemo(() => {
+    const grouped = groupPacksBySection(activePacks, vocabMode);
+    return applySectionSearch(grouped, normalizedQuery);
+  }, [activePacks, vocabMode, normalizedQuery]);
+
+  const visibleArchived = useMemo(() => {
+    if (!isAdmin || archivedForMode.length === 0) return [];
+    const ql = normalizedQuery;
+    if (!ql) return archivedForMode;
+    return archivedForMode.filter(
+      (p) =>
+        p.presentation_title.toLowerCase().includes(ql) ||
+        p.title.toLowerCase().includes(ql) ||
+        (p.display_section ?? "").toLowerCase().includes(ql),
     );
-    const byCat = new Map<string, PackDto[]>();
-    for (const pack of bucketPacks) {
-      const cat = (pack.category ?? "general").trim().toLowerCase() || "general";
-      const list = byCat.get(cat) ?? [];
-      list.push(pack);
-      byCat.set(cat, list);
-    }
-    return [...byCat.entries()].sort(([a], [b]) => {
-      if (a === "general") return 1;
-      if (b === "general") return -1;
-      return sectionLabelForCategory(a).localeCompare(sectionLabelForCategory(b), "pl");
-    });
-  }, [filteredPacks]);
+  }, [archivedForMode, isAdmin, normalizedQuery]);
 
-  const filterSectionPacks = (label: string, sectionPacks: PackDto[]) => {
-    if (!normalizedQuery) return sectionPacks;
-    if (labelMatches(label)) return sectionPacks;
-    return sectionPacks.filter((pack) => pack.title.toLowerCase().includes(normalizedQuery));
-  };
-
-  const visibleShopPack = shopPack && labelMatches("W sklepie") ? shopPack : null;
-  const visibleBodyPacks = filterSectionPacks("Ciało", bodyPacks);
-  const visibleTransportPacks = filterSectionPacks("Transport", transportPacks);
-  const visibleContractsPacks = filterSectionPacks("Umowy", contractsPacks);
-
-  const visibleCategoryBuckets = categoryBuckets
-    .map(([catKey, packs]) => {
-      const label = sectionLabelForCategory(catKey);
-      const visible = filterSectionPacks(label, packs);
-      return { catKey, label, packs: visible };
-    })
-    .filter((b) => b.packs.length > 0);
-
-  const hasVisibleSections =
-    !!visibleShopPack ||
-    visibleBodyPacks.length > 0 ||
-    visibleTransportPacks.length > 0 ||
-    visibleContractsPacks.length > 0 ||
-    visibleCategoryBuckets.length > 0;
+  const hasVisibleSections = sectionGroups.length > 0 || visibleArchived.length > 0;
 
   return (
     <div>
@@ -250,7 +321,7 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
         <div className="flex gap-2">
           {(["daily", "precise"] as VocabMode[]).map((m) => {
             const active = vocabMode === m;
-            const label = m === "daily" ? "Codzienne" : "Precyzyjne";
+            const label = m === "daily" ? "Daily" : "Precise";
             return (
               <button
                 key={m}
@@ -276,7 +347,7 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
             type="text"
             value={categoryQuery}
             onChange={(event) => setCategoryQuery(event.target.value)}
-            placeholder="Szukaj kategorii…"
+            placeholder="Szukaj sekcji lub fiszki…"
             className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2 text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
           />
           {categoryQuery ? (
@@ -294,23 +365,25 @@ export default function PacksClient({ initialPacks }: { initialPacks: PackDto[] 
 
       {filteredPacks.length === 0 ? (
         <div className={cardBase}>
-          <p className="text-sm text-slate-400">Brak dostępnych fiszek.</p>
+          <p className="text-sm text-slate-400">Brak dostępnych fiszek w tym trybie.</p>
         </div>
       ) : normalizedQuery && !hasVisibleSections ? (
         <div className={cardBase}>
-          <p className="text-sm text-slate-400">Brak kategorii pasujących do wyszukiwania.</p>
+          <p className="text-sm text-slate-400">Brak wyników pasujących do wyszukiwania.</p>
         </div>
       ) : (
         <div className="space-y-5">
-          {visibleShopPack ? (
-            <PackSection label="W sklepie" packs={[visibleShopPack]} mode={vocabMode} />
-          ) : null}
-          <PackSection label="Ciało" packs={visibleBodyPacks} mode={vocabMode} />
-          <PackSection label="Transport" packs={visibleTransportPacks} mode={vocabMode} />
-          <PackSection label="Umowy" packs={visibleContractsPacks} mode={vocabMode} />
-          {visibleCategoryBuckets.map(({ catKey, label, packs }) => (
-            <PackSection key={catKey} label={label} packs={packs} mode={vocabMode} />
+          {sectionGroups.map(({ key, label, packs }) => (
+            <PackSection key={key} label={label} packs={packs} mode={vocabMode} />
           ))}
+          {isAdmin && visibleArchived.length > 0 ? (
+            <PackSection
+              label="Zarchiwizowane"
+              packs={visibleArchived}
+              mode={vocabMode}
+              sectionSurfaceClassName={`${cardBase} border-dashed border-slate-200/90 bg-slate-50/70`}
+            />
+          ) : null}
         </div>
       )}
     </div>

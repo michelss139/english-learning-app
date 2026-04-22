@@ -132,7 +132,7 @@ async function main(): Promise<void> {
   console.log(`Publish mode: ${publish ? "ON" : "OFF"}`);
   const domain = `${category}:${subcategory}`;
   const slug = `${category}-${subcategory}-${mode}`;
-  const title = `${capitalize(category)} — ${capitalize(subcategory)} (${capitalize(mode)})`;
+  const title = `${capitalize(category)} — ${capitalize(subcategory)}`;
 
   const supabaseUrl = requiredEnv("SUPABASE_URL");
   const serviceRoleKey = requiredEnv("SUPABASE_SERVICE_ROLE_KEY");
@@ -175,8 +175,14 @@ async function main(): Promise<void> {
   if (existingPack) {
     packId = existingPack.id;
     console.log("Pack found");
+    const { error: updateMetaErr } = await supabase
+      .from("vocab_packs")
+      .update({ title, ...(publish ? { is_published: true } : {}) })
+      .eq("id", packId);
+    if (updateMetaErr) {
+      throw new Error(`Failed to update pack: ${updateMetaErr.message}`);
+    }
     if (publish) {
-      await supabase.from("vocab_packs").update({ is_published: true }).eq("id", packId);
       console.log("Pack published");
     }
   } else {
