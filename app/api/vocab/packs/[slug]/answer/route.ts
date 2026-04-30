@@ -51,6 +51,18 @@ function isCorrectAnswer(expected: string | null, given: string, removeDiacritic
   return expectedNormalized.length > 0 && expectedNormalized === givenNormalized;
 }
 
+const ACCEPTED_POLISH_ALIASES_BY_LEMMA: Record<string, string[]> = {
+  earphones: ["słuchawki"],
+  headphones: ["słuchawki"],
+  mouse: ["myszka"],
+};
+
+function isCorrectPolishAlias(lemma: string | null, given: string): boolean {
+  if (!lemma) return false;
+  const aliases = ACCEPTED_POLISH_ALIASES_BY_LEMMA[normalizeSpacing(lemma)];
+  return aliases?.some((alias) => isCorrectAnswer(alias, given, true)) ?? false;
+}
+
 export async function POST(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
@@ -128,6 +140,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
     const expectedValue = body.direction === "en-pl" ? translation_pl : lemma;
     let isCorrect = isCorrectAnswer(expectedValue, body.given, body.direction === "en-pl");
+
+    if (!isCorrect && body.direction === "en-pl") {
+      isCorrect = isCorrectPolishAlias(lemma, body.given);
+    }
 
     if (!isCorrect && body.direction === "pl-en" && translation_pl) {
       isCorrect = isCorrectAnswer(translation_pl, body.given, true);

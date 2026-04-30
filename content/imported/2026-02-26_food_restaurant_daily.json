@@ -175,6 +175,22 @@
       "definition_en": "A spoon is a tool you use to eat soup or other soft foods.",
       "example_en": "She ate her soup with a spoon.",
       "level": "A1"
+    },
+    {
+      "lemma": "soup",
+      "pos": "noun",
+      "translation_pl": "zupa",
+      "definition_en": "Soup is a hot or cold liquid food, often with vegetables, meat, or fish.",
+      "example_en": "I ordered a bowl of soup as a starter.",
+      "level": "A1"
+    },
+    {
+      "lemma": "beverage",
+      "pos": "noun",
+      "translation_pl": "napój",
+      "definition_en": "A beverage is a drink; in a restaurant, waiters may ask for your food and beverage order.",
+      "example_en": "Which beverage would you like with your meal?",
+      "level": "A2"
     }
   ]
 }

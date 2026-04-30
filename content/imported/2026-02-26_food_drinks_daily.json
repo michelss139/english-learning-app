@@ -73,14 +73,6 @@
       "level": "A2"
     },
     {
-      "lemma": "smoothie",
-      "pos": "noun",
-      "translation_pl": "koktajl owocowy",
-      "definition_en": "A smoothie is a thick drink made from blended fruit.",
-      "example_en": "She prepares a smoothie for breakfast.",
-      "level": "A2"
-    },
-    {
       "lemma": "wine",
       "pos": "noun",
       "translation_pl": "wino",
@@ -153,12 +145,12 @@
       "level": "B1"
     },
     {
-      "lemma": "mineral water",
+      "lemma": "beverage",
       "pos": "noun",
-      "translation_pl": "woda mineralna",
-      "definition_en": "Mineral water is water that contains natural minerals.",
-      "example_en": "The waiter served us mineral water with our meal.",
-      "level": "B1"
+      "translation_pl": "napój",
+      "definition_en": "A beverage is a drink.",
+      "example_en": "Which beverage would you like with your meal?",
+      "level": "A2"
     }
   ]
 }

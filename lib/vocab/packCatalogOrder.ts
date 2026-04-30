@@ -1,6 +1,21 @@
-/** Canonical section order for the user-facing Packs catalog (English keys, stored in DB `display_section`). */
+/** Canonical section order for the user-facing Packs catalog. */
 
 export const DAILY_SECTION_ORDER = [
+  "Dom",
+  "Jedzenie i zakupy",
+  "Ubrania",
+  "Ludzie i komunikacja",
+  "Emocje",
+  "Rozrywka",
+  "Podróże i transport",
+  "Praca i nauka",
+  "Ciało i zdrowie",
+  "Technologia",
+  "Czas i pogoda",
+  "Ogród",
+  "Pieniądze",
+  "Sport",
+  // Legacy English keys kept so older DB metadata still sorts predictably before migration.
   "Home & Life",
   "Food & Shopping",
   "People & Communication",
@@ -12,6 +27,22 @@ export const DAILY_SECTION_ORDER = [
 ] as const;
 
 export const PRECISE_SECTION_ORDER = [
+  "Ciało i zdrowie",
+  "Biznes i umowy",
+  "Dom",
+  "Jedzenie i zakupy",
+  "Ubrania",
+  "Ludzie i komunikacja",
+  "Emocje",
+  "Rozrywka",
+  "Podróże i transport",
+  "Praca i nauka",
+  "Technologia",
+  "Czas i pogoda",
+  "Ogród",
+  "Pieniądze",
+  "Sport",
+  // Legacy English keys kept so older DB metadata still sorts predictably before migration.
   "Body & Health",
   "Business & Contracts",
   "Technology",
@@ -22,14 +53,14 @@ export const PRECISE_SECTION_ORDER = [
 
 export const OTHER_SECTION_KEY = "__other__";
 
-/** Polish headings for `display_section` (daily / precise) and the synthetic Other bucket. */
+/** Polish headings for legacy `display_section` keys and the synthetic Other bucket. */
 const DAILY_SECTION_LABELS_PL: Record<string, string> = {
   "Home & Life": "Dom",
   "Food & Shopping": "Jedzenie i zakupy",
   "People & Communication": "Ludzie i komunikacja",
   "Travel & Transport": "Podróże i transport",
   "Work & Study": "Praca i nauka",
-  "Health & Body": "Zdrowie i ciało",
+  "Health & Body": "Ciało i zdrowie",
   Technology: "Technologia",
   "Time & Weather": "Czas i pogoda",
 };

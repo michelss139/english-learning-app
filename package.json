@@ -13,6 +13,8 @@
     "generate:nouns": "tsx scripts/content-pipeline/generate-nouns.ts",
     "import:nouns": "tsx scripts/content-pipeline/import-nouns.ts",
     "build:pack": "tsx scripts/content-pipeline/build-pack.ts",
+    "sync:food-shopping-cleanup": "tsx scripts/content-pipeline/sync-food-shopping-cleanup.ts",
+    "sync:restaurant-pack": "tsx scripts/content-pipeline/sync-restaurant-pack.ts",
     "enrich:verbs": "tsx scripts/enrich-verbs.ts",
     "enrich:nouns": "tsx scripts/enrich-nouns.ts",
     "generate:verbs-missing": "tsx scripts/generate-verbs-missing.ts",

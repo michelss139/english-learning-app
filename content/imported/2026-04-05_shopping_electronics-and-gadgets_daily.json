@@ -113,14 +113,6 @@
       "level": "A1"
     },
     {
-      "lemma": "smartwatch",
-      "pos": "noun",
-      "translation_pl": "smartwatch",
-      "definition_en": "A watch with computer functions and a screen.",
-      "example_en": "Her smartwatch can track her steps and calls.",
-      "level": "A2"
-    },
-    {
       "lemma": "game console",
       "pos": "noun",
       "translation_pl": "konsola do gier",
@@ -153,20 +145,12 @@
       "level": "B1"
     },
     {
-      "lemma": "router",
+      "lemma": "screen",
       "pos": "noun",
-      "translation_pl": "router",
-      "definition_en": "A device that gives wireless internet to your home.",
-      "example_en": "The router helps everyone connect to Wi-Fi.",
-      "level": "B1"
-    },
-    {
-      "lemma": "USB stick",
-      "pos": "noun",
-      "translation_pl": "pendrive",
-      "definition_en": "A small device for saving and moving files.",
-      "example_en": "She saves her homework on a USB stick.",
-      "level": "A2"
+      "translation_pl": "ekran",
+      "definition_en": "A screen is the part of a device that shows images or text.",
+      "example_en": "The phone has a large screen.",
+      "level": "A1"
     }
   ]
 }
