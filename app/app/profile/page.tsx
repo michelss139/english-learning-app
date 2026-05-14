@@ -18,7 +18,7 @@ type ProfileRow = {
   email: string | null;
   username: string | null;
   avatar_url: string | null;
-  role: "admin" | "student";
+  role: "admin" | "student" | "teacher";
 };
 
 type XpInfo = {
@@ -147,7 +147,13 @@ export default function ProfilePage() {
           }
         }
         setTeacherStudentLabels(rosterLabels);
-        setRoleLine(prof.role === "admin" ? "Rola: administrator" : "Rola: uczeń");
+        setRoleLine(
+          prof.role === "admin"
+            ? "Rola: administrator"
+            : prof.role === "teacher"
+              ? "Rola: nauczyciel"
+              : "Rola: uczeń"
+        );
 
         const recJson = (await recRes.json().catch(() => null)) as Partial<SuggestionsResponse> | null;
         if (recRes.ok && recJson && typeof recJson === "object") {

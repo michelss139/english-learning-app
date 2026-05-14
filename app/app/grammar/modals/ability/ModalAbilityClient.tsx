@@ -26,7 +26,7 @@ function DefinitionContent() {
           różnych sytuacjach oraz w różnych czasach.
         </p>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Can</p>
           <p className="text-slate-800">I can swim.</p>
           <p className="text-sm text-slate-600">Potrafię pływać. To zdanie mówi o ogólnej umiejętności w teraźniejszości.</p>
@@ -35,7 +35,7 @@ function DefinitionContent() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Could</p>
           <p className="text-slate-800">I could play tennis very well when I was a teenager.</p>
           <p className="text-sm text-slate-600">Potrafiłem grać bardzo dobrze w tenisa, kiedy byłem nastolatkiem.</p>
@@ -45,7 +45,7 @@ function DefinitionContent() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Be able to — teraźniejszość</p>
           <p className="text-slate-800">I have to be able to perform every day, because I am a professional singer.</p>
           <p className="text-sm text-slate-700">
@@ -55,7 +55,7 @@ function DefinitionContent() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Be able to — przeszłość</p>
           <p className="text-slate-800">I was able to win a game yesterday against a very good player.</p>
           <p className="text-sm text-slate-700">
@@ -72,7 +72,7 @@ function DefinitionContent() {
           <p className="text-sm text-slate-600">Nie udało mi się otworzyć drzwi.</p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 overflow-x-auto">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 overflow-x-auto">
           <table className="w-full text-sm text-slate-800">
             <thead>
               <tr className="border-b border-slate-200">
@@ -106,19 +106,19 @@ function ConstructionContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Konstrukcja</h2>
       <div className="space-y-4 text-slate-700">
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Can</p>
           <p className="text-sm font-mono text-slate-800">Subject + can + infinitive</p>
           <p className="text-slate-800">She can speak three languages.</p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Could</p>
           <p className="text-sm font-mono text-slate-800">Subject + could + infinitive</p>
           <p className="text-slate-800">I could swim when I was five.</p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Be able to</p>
           <p className="text-sm font-mono text-slate-800">Subject + be able to + infinitive</p>
           <p className="text-slate-800">She will be able to help us tomorrow.</p>
@@ -137,7 +137,7 @@ function GeneralVsSpecificContent() {
         <strong>was able to</strong> w przeszłości.
       </p>
 
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
         <p className="font-medium text-slate-900">Could — ogólna umiejętność</p>
         <p className="text-sm text-slate-700">
           Could opisuje zdolność, którą ktoś posiadał w przeszłości.
@@ -147,7 +147,7 @@ function GeneralVsSpecificContent() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
         <p className="font-medium text-slate-900">Was able to — konkretny sukces</p>
         <p className="text-sm text-slate-700">
           Was able to opisuje sytuację, w której coś udało się zrobić w konkretnej sytuacji.
@@ -164,7 +164,7 @@ function ExamplesContent() {
   return (
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Przykłady</h2>
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-800 space-y-2">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-slate-800 space-y-2">
         <p>I can play the piano.</p>
         <p>She can speak Spanish and Italian.</p>
         <p>When I was a child, I could climb trees easily.</p>
@@ -181,17 +181,17 @@ function MistakesContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Błędy</h2>
       <div className="space-y-4 text-sm text-slate-800">
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ I can to swim.</p>
           <p>✔ I can swim.</p>
           <p className="text-slate-600">Po can używamy bezokolicznika bez &quot;to&quot;.</p>
         </div>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ Yesterday I could finish the report.</p>
           <p>✔ Yesterday I was able to finish the report.</p>
           <p className="text-slate-600">Dla konkretnego sukcesu w przeszłości używamy was/were able to.</p>
         </div>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ She can able to help you.</p>
           <p>✔ She can help you.</p>
           <p>✔ She is able to help you.</p>
@@ -207,7 +207,7 @@ function CompareContent() {
     <section className="space-y-6">
       <h2 className="text-lg font-semibold text-slate-900">Porównaj</h2>
 
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-3">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
         <h3 className="font-medium text-slate-900">Can vs Could</h3>
         <p className="text-sm text-slate-700">
           Can – obecna umiejętność. Could – ogólna umiejętność w przeszłości.
@@ -218,7 +218,7 @@ function CompareContent() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-3">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
         <h3 className="font-medium text-slate-900">Can vs Be able to</h3>
         <p className="text-sm text-slate-700">
           Can – standardowa forma w teraźniejszości. Be able to – gdy potrzebujemy formy gramatycznej
@@ -230,7 +230,7 @@ function CompareContent() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-3">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
         <h3 className="font-medium text-slate-900">Could vs Was able to</h3>
         <p className="text-sm text-slate-700">
           Could – ogólna zdolność w przeszłości. Was able to – konkretny sukces w pojedynczej sytuacji.
@@ -292,7 +292,7 @@ export function ModalAbilityClient() {
           <div className="mt-3 flex flex-col gap-2">
             <Link
               href="/app/grammar/modals/ability/practice"
-              className="inline-flex w-fit rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
+              className="inline-flex w-fit items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
             >
               Ćwicz Ability
             </Link>
@@ -306,14 +306,14 @@ export function ModalAbilityClient() {
         </div>
         <Link
           href="/app/grammar/modals"
-          className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
         >
           ← Wróć do Modal Verbs
         </Link>
       </header>
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-900 bg-white p-6 md:p-8 lg:min-h-[620px]">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
           <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
             {renderedSection === "definition" && <DefinitionContent />}
             {renderedSection === "construction" && <ConstructionContent />}
@@ -324,19 +324,19 @@ export function ModalAbilityClient() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl border border-slate-900 bg-white p-4">
-          <div className="mb-3 text-xs uppercase tracking-[0.14em] text-slate-500">Sekcje</div>
-          <div className="mb-3 h-px w-full bg-slate-200" />
-          <div className="flex flex-col gap-2.5">
+        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Sekcje</div>
+                    <div className="flex flex-col gap-1.5">
             {sectionButtons.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => changeSection(item.id)}
-                className={`w-full rounded-2xl border border-black/15 px-4 py-2.5 text-left text-sm text-slate-700 transition-all duration-200 hover:bg-black/5 ${
+                data-active={activeSection === item.id ? "true" : "false"}
+              className={`grammar-aside-item w-full px-3.5 py-2 text-left text-sm ${
                   activeSection === item.id
-                    ? "border-l-4 border-l-black bg-black/5 font-semibold text-slate-900 scale-[1.01]"
-                    : "font-medium"
+                    ? "font-semibold text-slate-900"
+                    : "font-medium text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {item.label}

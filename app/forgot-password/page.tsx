@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import RegisterClient from "./RegisterClient";
+import ForgotPasswordClient from "./ForgotPasswordClient";
 
-export default async function RegisterPage() {
+export default async function ForgotPasswordPage() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -11,5 +11,5 @@ export default async function RegisterPage() {
     redirect("/app");
   }
 
-  return <RegisterClient />;
+  return <ForgotPasswordClient />;
 }

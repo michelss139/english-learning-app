@@ -4,8 +4,8 @@ import Link from "next/link";
 import { GrammarTenseSlug } from "./types";
 
 /**
- * Tooltip Glossary Component
- * Shows tooltip with definition for grammar terms
+ * Tooltip Glossary Component — shows a small inline tooltip with a Polish
+ * definition for a grammar term. Light-theme friendly.
  */
 export function GlossaryTooltip({ term, children }: { term: string; children: React.ReactNode }) {
   const definitions: Record<string, string> = {
@@ -22,67 +22,73 @@ export function GlossaryTooltip({ term, children }: { term: string; children: Re
   };
 
   const definition = definitions[term.toLowerCase()];
-
   if (!definition) return <>{children}</>;
 
   return (
     <span className="group relative inline-block">
-      <span className="underline decoration-dotted decoration-sky-400/50 cursor-help">{children}</span>
-      <span className="pointer-events-none absolute left-1/2 bottom-full mb-2 w-64 -translate-x-1/2 rounded-xl border border-white/15 bg-black/90 px-3 py-2 text-xs text-white/90 opacity-0 backdrop-blur-md transition group-hover:opacity-100 z-50">
-        <strong className="text-sky-300">{term}:</strong> {definition}
+      <span className="cursor-help underline decoration-dotted decoration-slate-400 underline-offset-2">
+        {children}
+      </span>
+      <span className="pointer-events-none absolute left-1/2 bottom-full z-50 mb-2 w-64 -translate-x-1/2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 opacity-0 shadow-[0_10px_24px_rgba(15,23,42,0.12)] transition-opacity duration-150 group-hover:opacity-100">
+        <strong className="text-slate-900">{term}:</strong> {definition}
       </span>
     </span>
   );
 }
 
-/**
- * Verb Highlighting Component
- * Highlights verb forms in examples
- * Usage: Wrap example sentences to highlight verb forms
- */
+/** Highlights an inline verb form. */
 export function HighlightVerb({ children }: { children: React.ReactNode }) {
-  // For now, simple wrapper - can be enhanced to auto-detect and highlight verbs
-  return <span className="text-emerald-300 font-semibold">{children}</span>;
+  return <span className="font-semibold text-slate-900">{children}</span>;
 }
 
-/**
- * Example Sentence Component
- * Renders example with highlighted verb forms
- */
-export function ExampleSentence({ sentence, highlightVerbs }: { sentence: string; highlightVerbs?: string[] }) {
+/** Example sentence — single line with optional verb highlighting. */
+export function ExampleSentence({
+  sentence,
+  highlightVerbs,
+}: {
+  sentence: string;
+  highlightVerbs?: string[];
+}) {
   if (!highlightVerbs || highlightVerbs.length === 0) {
-    return <div className="text-white/90">{sentence}</div>;
+    return <div className="text-sm text-slate-700">{sentence}</div>;
   }
 
-  // Simple highlighting - find verbs and highlight
   let result = sentence;
   highlightVerbs.forEach((verb) => {
     const regex = new RegExp(`\\b(${verb})\\b`, "gi");
-    result = result.replace(regex, '<span class="font-semibold text-emerald-300">$1</span>');
+    result = result.replace(regex, '<span class="font-semibold text-slate-900">$1</span>');
   });
 
-  return <div className="text-white/90" dangerouslySetInnerHTML={{ __html: result }} />;
+  return <div className="text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: result }} />;
 }
 
-/**
- * Zobacz też Component
- * Related links to other tenses
- */
-export function RelatedTenses({ relatedLinks }: { relatedLinks?: Array<{ slug: GrammarTenseSlug | "stative-verbs"; title: string; description?: string }> }) {
+/** Related links: chips pointing to related grammar topics. */
+export function RelatedTenses({
+  relatedLinks,
+}: {
+  relatedLinks?: Array<{
+    slug: GrammarTenseSlug | "stative-verbs";
+    title: string;
+    description?: string;
+  }>;
+}) {
   if (!relatedLinks || relatedLinks.length === 0) return null;
 
   return (
     <div className="space-y-3">
-      <h3 className="text-lg font-semibold text-white">Zobacz też</h3>
       <div className="flex flex-wrap gap-2">
         {relatedLinks.map((link) => (
           <Link
             key={link.slug}
             href={`/app/grammar/${link.slug}`}
-            className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm text-white/80 hover:bg-white/10 hover:text-white transition"
+            className="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm transition hover:-translate-y-px hover:border-slate-400 hover:text-slate-900"
           >
-            {link.title}
-            {link.description && <span className="ml-1 text-white/60 text-xs">({link.description})</span>}
+            <span className="font-medium">{link.title}</span>
+            {link.description && (
+              <span className="text-xs text-slate-500 group-hover:text-slate-700">
+                {link.description}
+              </span>
+            )}
           </Link>
         ))}
       </div>
@@ -90,34 +96,40 @@ export function RelatedTenses({ relatedLinks }: { relatedLinks?: Array<{ slug: G
   );
 }
 
-/**
- * Stative vs Action Comparison Component
- */
-export function StativeVsAction({ comparisons }: { comparisons: Array<{ stative: string; action: string; explanation?: string }> }) {
+/** Side-by-side comparison: stative meaning vs action meaning of the same verb. */
+export function StativeVsAction({
+  comparisons,
+}: {
+  comparisons: Array<{ stative: string; action: string; explanation?: string }>;
+}) {
   if (!comparisons || comparisons.length === 0) return null;
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-white">Porównanie: Stative vs Action</h3>
-      <div className="space-y-3">
-        {comparisons.map((comp, index) => (
-          <div key={index} className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <div className="text-xs font-medium text-emerald-300 mb-1">Stative (stan)</div>
-                <div className="text-white/90 font-mono text-sm">{comp.stative}</div>
+    <div className="space-y-3">
+      {comparisons.map((comp, index) => (
+        <div
+          key={index}
+          className="rounded-xl border border-slate-200 bg-slate-50/70 p-4"
+        >
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="rounded-lg border border-slate-200 bg-white p-3">
+              <div className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+                Stative (stan)
               </div>
-              <div>
-                <div className="text-xs font-medium text-sky-300 mb-1">Action (akcja)</div>
-                <div className="text-white/90 font-mono text-sm">{comp.action}</div>
-              </div>
+              <div className="font-mono text-sm text-slate-800">{comp.stative}</div>
             </div>
-            {comp.explanation && (
-              <div className="mt-2 text-xs text-white/70 italic">{comp.explanation}</div>
-            )}
+            <div className="rounded-lg border border-slate-200 bg-white p-3">
+              <div className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-sky-700">
+                Action (akcja)
+              </div>
+              <div className="font-mono text-sm text-slate-800">{comp.action}</div>
+            </div>
           </div>
-        ))}
-      </div>
+          {comp.explanation && (
+            <div className="mt-2.5 text-xs italic text-slate-500">{comp.explanation}</div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

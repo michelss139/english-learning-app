@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import SentenceBuilder from "@/components/grammar/SentenceBuilder";
 import { useCurrentWord } from "@/lib/coach/CurrentWordContext";
@@ -13,6 +13,13 @@ type GlobalCoachProps = {
   sentenceBuilderVerbs: SentenceBuilderVerb[];
 };
 
+function isVocabClusterTheoryPath(pathname: string | null): boolean {
+  if (!pathname?.startsWith("/app/vocab/cluster/")) return false;
+  if (pathname.includes("/practice")) return false;
+  const rest = pathname.slice("/app/vocab/cluster/".length);
+  return rest.length > 0 && !rest.includes("/");
+}
+
 function getCoachContent(
   pathname: string | null,
   currentLemma: string | null,
@@ -24,6 +31,9 @@ function getCoachContent(
   }
   const wordTip = getWordTip(currentLemma ?? undefined);
   if (wordTip) return "ciekawostka!";
+  if (isVocabClusterTheoryPath(pathname)) {
+    return "Najpierw przejrzyj teorię i przykłady, a potem przejdź do praktyki.";
+  }
   if (!pathname) return "Witaj na LANGBracket";
   if (pathname === "/app/grammar" || pathname === "/app/grammar/") {
     return "Gramatyka. Ja też tego nie lubię, ale... czasem trzeba";
@@ -173,6 +183,12 @@ export default function GlobalCoach({ sentenceBuilderVerbs }: GlobalCoachProps) 
   );
   const tips = Array.isArray(content) ? content : [content];
   const coachKey = `${pathname ?? "root"}:${currentLemma ?? "none"}`;
+
+  useEffect(() => {
+    if (isVocabClusterTheoryPath(pathname)) {
+      setCoachExpanded(true);
+    }
+  }, [pathname]);
 
   return (
     <>

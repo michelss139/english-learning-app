@@ -29,7 +29,7 @@ function DefinitionContent() {
           <strong>obecna sytuacja mogła wpłynąć na przeszłość</strong>.
         </p>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="text-sm font-medium text-slate-900">Przykład</p>
           <p className="text-slate-800">
             <strong>If I had studied medicine, I would be a doctor now.</strong>
@@ -54,7 +54,7 @@ function ConstructionContent() {
           Najczęściej spotykamy dwa warianty.
         </p>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-3">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
           <p className="font-medium text-slate-900">Typ 1 — przeszłość → teraźniejszość</p>
           <p className="text-sm">
             Warunek odnosi się do <strong>przeszłości</strong>, a rezultat opisuje{" "}
@@ -66,7 +66,7 @@ function ConstructionContent() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-3">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
           <p className="font-medium text-slate-900">Typ 2 — teraźniejszość → przeszłość</p>
           <p className="text-sm">
             Warunek odnosi się do <strong>teraźniejszości</strong>, a rezultat opisuje{" "}
@@ -78,7 +78,7 @@ function ConstructionContent() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 overflow-x-auto">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 overflow-x-auto">
           <table className="w-full text-sm text-slate-800">
             <thead>
               <tr className="border-b border-slate-200">
@@ -110,7 +110,7 @@ function ExamplesContent() {
   return (
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Przykłady</h2>
-      <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-800 space-y-2">
+      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-slate-800 space-y-2">
         <p>If I had taken that job, I would live in London now.</p>
         <p>If she had studied harder, she would have a better job today.</p>
         <p>If we had bought that house, we would live near the sea now.</p>
@@ -135,17 +135,17 @@ function MistakesContent() {
         Najczęstsze błędy wynikają z używania jednego typu conditionala zamiast konstrukcji mieszanej.
       </p>
       <div className="space-y-4 text-sm text-slate-800">
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ If I had studied medicine, I would have been a doctor now.</p>
           <p>✔ If I had studied medicine, I would be a doctor now.</p>
           <p className="text-slate-600">Third Conditional zamiast Mixed – rezultat dotyczy teraźniejszości.</p>
         </div>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ If I studied medicine, I would be a doctor now.</p>
           <p>✔ If I had studied medicine, I would be a doctor now.</p>
           <p className="text-slate-600">Second Conditional zamiast Mixed – warunek dotyczy przeszłości.</p>
         </div>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ If I were more careful, I would not made that mistake.</p>
           <p>✔ If I were more careful, I would not have made that mistake.</p>
           <p className="text-slate-600">Błąd w konstrukcji rezultatu – trzeba mieć would have + past participle.</p>
@@ -164,19 +164,19 @@ function CompareContent() {
         <strong>Third Conditional</strong>. Second Conditional opisuje sytuacje{" "}
         <strong>hipotetyczne w teraźniejszości lub przyszłości</strong>.
       </p>
-      <div className="mb-3 rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-800">
+      <div className="mb-3 rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-800">
         <p>If I had more time, I would travel more.</p>
       </div>
       <p className="mb-3 text-slate-700">
         Third Conditional opisuje sytuacje <strong>hipotetyczne w przeszłości</strong>.
       </p>
-      <div className="mb-3 rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-800">
+      <div className="mb-3 rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-800">
         <p>If I had studied harder, I would have passed the exam.</p>
       </div>
       <p className="mb-4 text-slate-700">
         Mixed Conditional łączy oba te typy, pokazując zależność między różnymi momentami w czasie.
       </p>
-      <div className="mb-4 rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-800">
+      <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-800">
         <p>If I had studied medicine, I would be a doctor now.</p>
       </div>
       <Link
@@ -238,7 +238,7 @@ export function MixedConditionalClient() {
           <div className="mt-3 flex flex-col gap-2">
             <Link
               href="/app/grammar/conditionals/mixed/practice"
-              className="inline-flex w-fit rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
+              className="inline-flex w-fit items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
             >
               Ćwicz Mixed Conditional
             </Link>
@@ -252,14 +252,14 @@ export function MixedConditionalClient() {
         </div>
         <Link
           href="/app/grammar/conditionals"
-          className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
         >
           ← Wróć do Conditionals
         </Link>
       </header>
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-900 bg-white p-6 md:p-8 lg:min-h-[620px]">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
           <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
             {renderedSection === "definition" && <DefinitionContent />}
             {renderedSection === "construction" && <ConstructionContent />}
@@ -269,19 +269,19 @@ export function MixedConditionalClient() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl border border-slate-900 bg-white p-4">
-          <div className="mb-3 text-xs uppercase tracking-[0.14em] text-slate-500">Sekcje</div>
-          <div className="mb-3 h-px w-full bg-slate-200" />
-          <div className="flex flex-col gap-2.5">
+        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Sekcje</div>
+                    <div className="flex flex-col gap-1.5">
             {sectionButtons.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => changeSection(item.id)}
-                className={`w-full rounded-2xl border border-black/15 px-4 py-2.5 text-left text-sm text-slate-700 transition-all duration-200 hover:bg-black/5 ${
+                data-active={activeSection === item.id ? "true" : "false"}
+              className={`grammar-aside-item w-full px-3.5 py-2 text-left text-sm ${
                   activeSection === item.id
-                    ? "border-l-4 border-l-black bg-black/5 font-semibold text-slate-900 scale-[1.01]"
-                    : "font-medium"
+                    ? "font-semibold text-slate-900"
+                    : "font-medium text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {item.label}

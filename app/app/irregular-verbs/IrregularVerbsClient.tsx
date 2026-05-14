@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { PatternWithType } from "@/lib/lexicon/patternType";
 
 export type TrainMode = "both" | "past_simple" | "past_participle";
 
@@ -14,20 +14,133 @@ export type IrregularVerbDto = {
   past_participle: string;
   past_participle_variants: string[];
   pinned: boolean;
-  /** Lexicon usage patterns (enriched); classified in UI only, not stored in DB. */
-  patterns?: PatternWithType[];
+  /** Polish translation (resolved from lexicon or fallback). May be null. */
+  translation_pl?: string | null;
 };
+
+const TRAIN_MODES: { id: TrainMode; label: string; short: string }[] = [
+  { id: "both", label: "Past Simple + Past Participle", short: "PS + PP" },
+  { id: "past_simple", label: "Tylko Past Simple", short: "PS" },
+  { id: "past_participle", label: "Tylko Past Participle", short: "PP" },
+];
+
+function PinIcon({ pinned, className }: { pinned: boolean; className?: string }) {
+  if (pinned) {
+    return (
+      <svg
+        className={className}
+        width="14"
+        height="14"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M13.4 6.6 9.4 2.6a.8.8 0 0 0-1.2 0L7.5 3.3a.8.8 0 0 0 0 1.1L5.1 6.8 3.3 7a.8.8 0 0 0-.5 1.4l4.7 4.7c.5.5 1.3.2 1.4-.5l.2-1.7 2.5-2.5a.8.8 0 0 0 1.1 0l.7-.7a.8.8 0 0 0 0-1.1Z"
+        />
+      </svg>
+    );
+  }
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M8 3v10M3 8h10"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function VerbTile({
+  verb,
+  pinned,
+  isToggling,
+  onTogglePin,
+}: {
+  verb: IrregularVerbDto;
+  pinned: boolean;
+  isToggling: boolean;
+  onTogglePin: (id: string) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onTogglePin(verb.id)}
+      disabled={isToggling}
+      data-pinned={pinned ? "true" : "false"}
+      aria-pressed={pinned}
+      aria-label={`${verb.base} (${verb.past_simple}, ${verb.past_participle})${pinned ? " — przypięty" : ""}`}
+      className="verb-tile group flex aspect-[5/4] w-full flex-col p-4 text-left disabled:opacity-60"
+    >
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute right-2.5 top-2.5 z-[2] inline-flex h-6 w-6 items-center justify-center rounded-full border text-[11px] transition-colors ${
+          pinned
+            ? "border-emerald-500/60 bg-emerald-500 text-white"
+            : "border-slate-300 bg-white/80 text-slate-400 group-hover:border-slate-500 group-hover:text-slate-700"
+        }`}
+      >
+        <PinIcon pinned={pinned} />
+      </span>
+
+      <div className="verb-rest">
+        <span className="text-lg font-semibold tracking-tight text-slate-900 sm:text-xl">
+          {verb.base}
+        </span>
+      </div>
+
+      <div className="verb-detail">
+        <div className="verb-reveal verb-reveal-1 flex items-baseline gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+            Past
+          </span>
+          <span className="text-sm font-medium text-slate-700">{verb.past_simple}</span>
+          {verb.past_simple_variants.length > 0 && (
+            <span className="text-[11px] text-slate-400">
+              / {verb.past_simple_variants.join(", ")}
+            </span>
+          )}
+        </div>
+        <div className="verb-reveal verb-reveal-2 flex items-baseline gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+            PP
+          </span>
+          <span className="text-sm font-medium text-slate-700">{verb.past_participle}</span>
+          {verb.past_participle_variants.length > 0 && (
+            <span className="text-[11px] text-slate-400">
+              / {verb.past_participle_variants.join(", ")}
+            </span>
+          )}
+        </div>
+        {verb.translation_pl ? (
+          <div className="verb-reveal verb-reveal-3 max-w-full truncate px-2 text-xs italic leading-snug text-slate-500">
+            {verb.translation_pl}
+          </div>
+        ) : null}
+      </div>
+    </button>
+  );
+}
 
 export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDto[] }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
+  const [trainMode, setTrainMode] = useState<TrainMode>("both");
 
   const [localPinned, setLocalPinned] = useState<Set<string>>(
     () => new Set(verbs.filter((v) => v.pinned).map((v) => v.id)),
   );
-  const [trainMode, setTrainMode] = useState<TrainMode>("both");
 
   const pinnedCount = localPinned.size;
   const canStart = pinnedCount >= 5;
@@ -39,7 +152,8 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
       return (
         v.base.toLowerCase().includes(q) ||
         v.past_simple.toLowerCase().includes(q) ||
-        v.past_participle.toLowerCase().includes(q)
+        v.past_participle.toLowerCase().includes(q) ||
+        (v.translation_pl ?? "").toLowerCase().includes(q)
       );
     });
   }, [verbs, search]);
@@ -77,7 +191,6 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
         throw new Error(errData?.error ?? `HTTP ${res.status}`);
       }
     } catch (e: unknown) {
-      // rollback (only this action)
       setLocalPinned(before);
       setError(e instanceof Error ? e.message : "Nieznany błąd");
     } finally {
@@ -127,108 +240,113 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
     });
   }
 
+  const progressPercent = verbs.length > 0 ? Math.round((pinnedCount / verbs.length) * 100) : 0;
+
   return (
-    <main className="space-y-6">
-      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasowniki nieregularne</h1>
-            <p className="text-base text-slate-600">
-              Przypięte: <span className="font-medium text-slate-900">{pinnedCount}</span> / {verbs.length}
-            </p>
-            {!canStart ? (
-              <p className="text-sm text-slate-700/60">Aby rozpocząć test, przypnij minimum 5 czasowników.</p>
+    <main className="space-y-5">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="space-y-1.5">
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+            Czasowniki nieregularne
+          </h1>
+          <p className="text-sm text-slate-600">
+            Najedź na kafelek, aby zobaczyć past simple, past participle i tłumaczenie. Kliknij, aby
+            przypiąć do treningu.
+          </p>
+          <div className="flex items-center gap-3 pt-1">
+            <span className="text-xs font-medium text-slate-500">
+              Przypięte:{" "}
+              <span className="font-semibold text-slate-900">{pinnedCount}</span>
+              <span className="text-slate-400"> / {verbs.length}</span>
+            </span>
+            <div className="h-1.5 w-32 overflow-hidden rounded-full bg-slate-200/70">
+              <div
+                className="h-full bg-slate-800 transition-[width] duration-300 ease-out"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            {!canStart && pinnedCount > 0 ? (
+              <span className="text-[11px] font-medium text-slate-400">min. 5 do startu</span>
             ) : null}
           </div>
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap">
-            <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-slate-700">Tryb treningu</span>
-              <div className="flex flex-wrap gap-2">
-                <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm cursor-pointer hover:bg-slate-50">
-                  <input
-                    type="radio"
-                    name="trainMode"
-                    value="both"
-                    checked={trainMode === "both"}
-                    onChange={() => setTrainMode("both")}
-                    className="accent-slate-900"
-                  />
-                  Past Simple + Past Participle
-                </label>
-                <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm cursor-pointer hover:bg-slate-50">
-                  <input
-                    type="radio"
-                    name="trainMode"
-                    value="past_simple"
-                    checked={trainMode === "past_simple"}
-                    onChange={() => setTrainMode("past_simple")}
-                    className="accent-slate-900"
-                  />
-                  Tylko Past Simple
-                </label>
-                <label className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm cursor-pointer hover:bg-slate-50">
-                  <input
-                    type="radio"
-                    name="trainMode"
-                    value="past_participle"
-                    checked={trainMode === "past_participle"}
-                    onChange={() => setTrainMode("past_participle")}
-                    className="accent-slate-900"
-                  />
-                  Tylko Past Participle
-                </label>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <a
-                className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
-                href="/app"
-              >
-                ← Panel ucznia
-              </a>
-              <button
-                className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
-                onClick={() => {
-                  if (canStart) router.push(`/app/irregular-verbs/train?mode=${trainMode}`);
-                }}
-                disabled={!canStart}
-              >
-                Start testu ({pinnedCount})
-              </button>
-            </div>
-          </div>
         </div>
+
+        <Link
+          href="/app/grammar"
+          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+        >
+          ← Gramatyka
+        </Link>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4 text-rose-100">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {error}
         </div>
       ) : null}
 
-      <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex-1">
+      <section className="sticky top-[5.5rem] z-20 -mx-1 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] backdrop-blur sm:px-4">
+        <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:gap-3">
+          <div className="relative flex-1">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="m11 11 3 3"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
             <input
               type="text"
-              placeholder="Szukaj czasownika (np. 'go', 'went', 'gone')..."
+              placeholder="Szukaj: 'go', 'went', 'iść'…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border-2 border-white/10 bg-black/10 px-4 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/80 py-2 pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
             />
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div
+            role="radiogroup"
+            aria-label="Tryb treningu"
+            className="flex flex-wrap items-center gap-1 rounded-xl border border-slate-200 bg-slate-50/80 p-1"
+          >
+            {TRAIN_MODES.map((m) => {
+              const active = trainMode === m.id;
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => setTrainMode(m.id)}
+                  title={m.label}
+                  className={`rounded-lg px-2.5 py-1.5 text-xs font-medium transition ${
+                    active
+                      ? "bg-white text-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.08)]"
+                      : "text-slate-500 hover:text-slate-800"
+                  }`}
+                >
+                  {m.short}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-1.5">
             <button
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
+              type="button"
+              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 disabled:opacity-50"
               onClick={() => selectRandom(5)}
               disabled={pinnedCount >= verbs.length || verbs.length === 0}
             >
               Losowe 5
             </button>
             <button
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
+              type="button"
+              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 disabled:opacity-50"
               onClick={() => selectRandom(10)}
               disabled={pinnedCount >= verbs.length || verbs.length === 0}
             >
@@ -236,112 +354,59 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
             </button>
             {pinnedCount < verbs.length ? (
               <button
-                className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-emerald-400/20 transition disabled:opacity-60"
+                type="button"
+                className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 disabled:opacity-50"
                 onClick={pinAll}
-                disabled={pinnedCount >= verbs.length || verbs.length === 0}
+                disabled={verbs.length === 0}
               >
-                Przypnij wszystkie
+                Wszystkie
               </button>
             ) : null}
             {pinnedCount > 0 ? (
               <button
-                className="rounded-xl border-2 border-rose-400/30 bg-rose-400/10 px-4 py-2 font-medium text-black hover:bg-rose-400/20 transition disabled:opacity-60"
+                type="button"
+                className="rounded-lg border border-rose-200 bg-white px-3 py-1.5 text-xs font-medium text-rose-700 transition hover:border-rose-300 hover:bg-rose-50"
                 onClick={unpinAll}
-                disabled={pinnedCount === 0}
               >
-                Odepnij wszystkie
+                Wyczyść
               </button>
             ) : null}
+            <button
+              type="button"
+              className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
+                canStart
+                  ? "bg-slate-900 text-white shadow-[0_1px_3px_rgba(15,23,42,0.2)] hover:bg-slate-800"
+                  : "cursor-not-allowed bg-slate-200 text-slate-400"
+              }`}
+              onClick={() => {
+                if (canStart) router.push(`/app/irregular-verbs/train?mode=${trainMode}`);
+              }}
+              disabled={!canStart}
+              title={canStart ? "Rozpocznij test" : "Przypnij minimum 5 czasowników"}
+            >
+              Start ({pinnedCount}) →
+            </button>
           </div>
         </div>
-
-        {filtered.length === 0 ? (
-          <div className="text-center py-8 text-slate-900/60">
-            {search ? "Nie znaleziono czasowników" : "Brak czasowników"}
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {filtered.map((verb) => {
-              const pinned = isPinned(verb.id);
-              const isToggling = togglingIds.has(verb.id);
-
-              return (
-                <div
-                  key={verb.id}
-                  className={`rounded-2xl border-2 p-4 transition ${
-                    pinned ? "border-emerald-400 bg-emerald-50" : "border-slate-200 bg-slate-50"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <div className="text-lg font-semibold text-slate-900">{verb.base}</div>
-                        {pinned ? (
-                          <span className="rounded-full border border-emerald-400 bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
-                            Przypięte
-                          </span>
-                        ) : null}
-                      </div>
-                      <div className="text-sm text-slate-900/75">
-                        <span className="font-medium">Past simple:</span> {verb.past_simple}
-                        {verb.past_simple_variants.length > 0 && (
-                          <span className="text-slate-900/60"> ({verb.past_simple_variants.join(", ")})</span>
-                        )}
-                      </div>
-                      <div className="text-sm text-slate-900/75">
-                        <span className="font-medium">Past participle:</span> {verb.past_participle}
-                        {verb.past_participle_variants.length > 0 && (
-                          <span className="text-slate-900/60"> ({verb.past_participle_variants.join(", ")})</span>
-                        )}
-                      </div>
-                      {verb.patterns && verb.patterns.length > 0 ? (
-                        <div className="mt-2 space-y-1">
-                          <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                            Wzorce użycia
-                          </div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {verb.patterns.map((p, idx) => (
-                              <span
-                                key={`${p.pattern}:${idx}`}
-                                className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-slate-200/80 bg-white px-2 py-1 text-xs text-slate-700"
-                              >
-                                <span className="min-w-0 break-words">{p.pattern}</span>
-                                {p.type === "structure" ? (
-                                  <span className="shrink-0 rounded bg-violet-100 px-1 py-0.5 text-[10px] font-medium text-violet-800">
-                                    Struktura
-                                  </span>
-                                ) : null}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <label
-                      className={`flex items-center gap-2 rounded-xl border-2 px-3 py-2 font-medium transition select-none ${
-                        pinned
-                          ? "border-emerald-400 bg-emerald-50 text-slate-700 hover:bg-emerald-100"
-                          : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-                      } ${isToggling ? "opacity-60" : ""}`}
-                    >
-                      <input
-                        type="checkbox"
-                        className="h-4 w-4 accent-emerald-400"
-                        checked={pinned}
-                        onChange={() => void togglePin(verb.id)}
-                        disabled={isToggling}
-                      />
-                      <span className="text-sm">{pinned ? "Przypięty" : "Przypnij"}</span>
-                    </label>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </section>
+
+      {filtered.length === 0 ? (
+        <div className="rounded-2xl border border-slate-200 bg-white py-10 text-center text-sm text-slate-500">
+          {search ? "Nie znaleziono czasowników." : "Brak czasowników."}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {filtered.map((verb) => (
+            <VerbTile
+              key={verb.id}
+              verb={verb}
+              pinned={isPinned(verb.id)}
+              isToggling={togglingIds.has(verb.id)}
+              onTogglePin={togglePin}
+            />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
-

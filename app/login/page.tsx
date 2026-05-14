@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import LoginClient from "./LoginClient";
@@ -11,5 +12,15 @@ export default async function LoginPage() {
     redirect("/app");
   }
 
-  return <LoginClient />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#f5f7fb]">
+          <div className="mx-auto max-w-lg px-6 pt-16 text-sm text-slate-500">Ładowanie…</div>
+        </div>
+      }
+    >
+      <LoginClient />
+    </Suspense>
+  );
 }

@@ -17,35 +17,35 @@ const byFunction: ModalIndexItem[] = [
   {
     id: "ability",
     title: "Ability",
-    description: "Can, could i be able to – umiejętności i możliwości.",
+    description: "Can, could i be able to — umiejętności i możliwości.",
     href: "/app/grammar/modals/ability",
     available: true,
   },
   {
     id: "obligation",
     title: "Obligation",
-    description: "Must, have to, should – obowiązek, konieczność i zalecenia.",
+    description: "Must, have to, should — obowiązek, konieczność i zalecenia.",
     href: "/app/grammar/modals/obligation",
     available: true,
   },
   {
     id: "possibility",
     title: "Possibility",
-    description: "May, might, could – możliwość.",
+    description: "May, might, could — możliwość.",
     href: "/app/grammar/modals/possibility",
     available: true,
   },
   {
     id: "advice",
     title: "Advice",
-    description: "Should, ought to, had better – rady i sugestie.",
+    description: "Should, ought to, had better — rady i sugestie.",
     href: "/app/grammar/modal-verbs/advice",
     available: true,
   },
   {
     id: "probability",
     title: "Probability",
-    description: "Must, might, may, could, can't – przypuszczenia i prawdopodobieństwo.",
+    description: "Must, might, may, could, can't — przypuszczenia i prawdopodobieństwo.",
     href: "/app/grammar/modal-verbs/probability",
     available: true,
   },
@@ -83,18 +83,22 @@ const byWord: ModalIndexItem[] = [
     href: "/app/grammar/modal-verbs/must",
     available: true,
     definitionContent: (
-      <div className="space-y-4 text-slate-700">
-        <p>Must to modal verb, który ma dwa główne znaczenia:</p>
-        <ul className="list-disc pl-6 space-y-1">
+      <div className="space-y-3 text-slate-700">
+        <p>
+          <em>Must</em> to modal verb, który ma dwa główne znaczenia:
+        </p>
+        <ul className="ml-5 list-disc space-y-1 text-sm">
           <li>obligation (obowiązek)</li>
           <li>logical deduction (silne przypuszczenie)</li>
         </ul>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">You must wear a helmet.</p>
-          <p className="text-slate-800">She must be tired.</p>
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-3.5">
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+            Examples
+          </p>
+          <p className="text-sm text-slate-800">You must wear a helmet.</p>
+          <p className="text-sm text-slate-800">She must be tired.</p>
         </div>
-        <p>Znaczenie zależy od kontekstu zdania.</p>
+        <p className="text-sm">Znaczenie zależy od kontekstu zdania.</p>
       </div>
     ),
   },
@@ -123,7 +127,6 @@ const FADE_DURATION = 180;
 export function ModalVerbsIndexClient() {
   const [mode, setMode] = useState<ViewMode>("word");
   const items = useMemo(() => (mode === "function" ? byFunction : byWord), [mode]);
-  const defaultId = mode === "word" ? "must" : (items[0]?.id ?? "");
   const [activeId, setActiveId] = useState("must");
   const [renderedId, setRenderedId] = useState("must");
   const [isVisible, setIsVisible] = useState(true);
@@ -136,7 +139,7 @@ export function ModalVerbsIndexClient() {
   }, []);
 
   useEffect(() => {
-    const nextId = mode === "word" ? "must" : (items[0]?.id ?? "");
+    const nextId = mode === "word" ? "must" : items[0]?.id ?? "";
     setActiveId(nextId);
     setRenderedId(nextId);
     setIsVisible(true);
@@ -158,68 +161,79 @@ export function ModalVerbsIndexClient() {
   const renderedItem = items.find((item) => item.id === renderedId) ?? items[0];
 
   return (
-    <main className="space-y-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-3">
+    <main className="space-y-5">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="space-y-2">
           <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Modal Verbs</h1>
-          <p className="max-w-2xl text-sm text-slate-700">
-            Modal verbs to krótkie czasowniki pomocnicze, które zmieniają znaczenie zdania.
+          <p className="max-w-2xl text-sm text-slate-600">
+            Czasowniki modalne to krótkie czasowniki pomocnicze, które zmieniają znaczenie zdania.
             Używamy ich do mówienia o możliwościach, obowiązkach, radach oraz przypuszczeniach.
           </p>
-          <p className="max-w-2xl text-sm text-slate-700">
-            Możesz uczyć się ich na dwa sposoby: według funkcji albo według konkretnego słowa.
-          </p>
-          <div className="flex flex-wrap gap-2 pt-1">
-            <button
-              type="button"
-              onClick={() => setMode("function")}
-              className={`rounded-xl bg-white px-4 py-2 text-sm transition hover:bg-slate-50 ${
-                mode === "function"
-                  ? "border-2 border-slate-900 font-semibold text-slate-900"
-                  : "border border-slate-300 font-medium text-slate-700"
-              }`}
-            >
-              Funkcje
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("word")}
-              className={`rounded-xl bg-white px-4 py-2 text-sm transition hover:bg-slate-50 ${
-                mode === "word"
-                  ? "border-2 border-slate-900 font-semibold text-slate-900"
-                  : "border border-slate-300 font-medium text-slate-700"
-              }`}
-            >
-              Słowa
-            </button>
+          <div
+            role="radiogroup"
+            aria-label="Tryb przeglądania"
+            className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50/80 p-1"
+          >
+            {(
+              [
+                { id: "word", label: "Słowa" },
+                { id: "function", label: "Funkcje" },
+              ] as { id: ViewMode; label: string }[]
+            ).map((opt) => {
+              const active = mode === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => setMode(opt.id)}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                    active
+                      ? "bg-white text-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.08)]"
+                      : "text-slate-500 hover:text-slate-800"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
           </div>
         </div>
         <Link
           href="/app/grammar"
-          className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
         >
-          ← Wróć do gramatyki
+          ← Gramatyka
         </Link>
       </header>
 
-      <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-900 bg-white p-4">
-          <div className={`transition-opacity duration-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+      <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_1fr] lg:gap-5">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
+          <div
+            className={`transition-opacity duration-200 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
             {renderedItem ? (
               <div className="flex flex-col gap-4">
-                <h2 className="text-center text-5xl font-semibold text-slate-900">{renderedItem.title}</h2>
-                <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 text-slate-700">
-                  {renderedItem.definitionContent ?? <p>{renderedItem.description}</p>}
+                <h2 className="text-center text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+                  {renderedItem.title}
+                </h2>
+                <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700">
+                  {renderedItem.definitionContent ?? (
+                    <p className="text-sm">{renderedItem.description}</p>
+                  )}
                 </div>
                 {renderedItem.available && renderedItem.href ? (
                   <Link
                     href={renderedItem.href}
-                    className="inline-flex w-fit rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+                    className="inline-flex w-fit items-center rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
                   >
-                    Otwórz pełną teorię
+                    Otwórz pełną teorię →
                   </Link>
                 ) : renderedItem.href ? (
-                  <div className="inline-flex w-fit rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-500">
+                  <div className="inline-flex w-fit items-center rounded-xl border border-dashed border-slate-300 bg-slate-50/70 px-3.5 py-2 text-sm font-medium text-slate-500">
                     Strona w przygotowaniu
                   </div>
                 ) : null}
@@ -228,26 +242,29 @@ export function ModalVerbsIndexClient() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl border border-slate-900 bg-white p-4">
-          <div className="mb-3 text-xs uppercase tracking-[0.14em] text-slate-500">
+        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
             {mode === "function" ? "Tematy" : "Słówka"}
           </div>
-          <div className="mb-3 h-px w-full bg-slate-200" />
-          <div className="flex flex-col gap-2.5">
-            {items.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => changeItem(item.id)}
-                className={`w-full rounded-2xl border border-black/15 px-4 py-2.5 text-left text-sm text-slate-700 transition-all duration-200 hover:bg-black/5 ${
-                  activeId === item.id
-                    ? "scale-[1.01] border-l-4 border-l-black bg-black/5 font-semibold text-slate-900"
-                    : "font-medium"
-                }`}
-              >
-                {item.title}
-              </button>
-            ))}
+          <div className="flex flex-col gap-1.5">
+            {items.map((item) => {
+              const isActive = activeId === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => changeItem(item.id)}
+                  data-active={isActive ? "true" : "false"}
+                  className={`grammar-aside-item px-3.5 py-2 text-left text-sm ${
+                    isActive
+                      ? "font-semibold text-slate-900"
+                      : "font-medium text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {item.title}
+                </button>
+              );
+            })}
           </div>
         </aside>
       </section>

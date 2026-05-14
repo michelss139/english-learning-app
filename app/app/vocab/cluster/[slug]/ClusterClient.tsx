@@ -15,6 +15,10 @@ import {
 import { appendSuggestionContext, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 import type { XpSkipReasonCode } from "@/lib/xp/award";
 import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
+import {
+  applyMakeDoTheoryLeadCapitalize,
+  getVocabClusterTheoryHighlightRegex,
+} from "@/lib/vocab/clusterTheoryHighlight";
 
 type Question = ClusterTask & {
   answer?: string; // filled after scoring
@@ -410,7 +414,7 @@ export default function ClusterClient({
 
   const isChoiceTask = current?.task_type === "choice";
 
-  function masteryLabel(value: ClusterMastery["mastery_state"]): string {
+  function masteryLabel(value: ClusterMastery["mastery_state"]): string | null {
     switch (value) {
       case "mastered":
         return "Mamy to!";
@@ -418,8 +422,9 @@ export default function ClusterClient({
         return "Ten zestaw dobrze ci idzie!";
       case "building":
         return "Potrzebujesz jeszcze trochę praktyki.";
+      case "new":
       default:
-        return "Sprawdź to!";
+        return null;
     }
   }
 
@@ -434,147 +439,139 @@ export default function ClusterClient({
     }
   }
 
-  function renderHighlightedTheory(text: string) {
+  function renderClusterTheoryMarkdown(text: string) {
+    const focusRe = getVocabClusterTheoryHighlightRegex(slug);
+
     return text.split("\n").map((line, idx) => {
-      const key = `${idx}-${line}`;
-      const parts = line.split(/\b(make|do)\b/gi);
+      const processed = applyMakeDoTheoryLeadCapitalize(line, slug);
+      const key = `${idx}-${processed}`;
 
-      const content = parts.map((part, partIdx) => {
-        if (/^(make|do)$/i.test(part)) {
-          return (
-            <strong key={`${key}-${partIdx}`} className="font-semibold text-slate-950">
-              {part}
-            </strong>
-          );
-        }
-        return <Fragment key={`${key}-${partIdx}`}>{part}</Fragment>;
-      });
+      const lineBody =
+        !focusRe ? (
+          processed
+        ) : (
+          processed.split(focusRe).map((part, partIdx) => {
+            if (partIdx % 2 === 1) {
+              return (
+                <strong key={`${key}-p-${partIdx}`} className="font-semibold text-slate-950">
+                  „{part}”
+                </strong>
+              );
+            }
+            return <Fragment key={`${key}-p-${partIdx}`}>{part}</Fragment>;
+          })
+        );
 
-      if (!line.trim()) {
+      if (!processed.trim()) {
         return <div key={key} className="h-4" />;
       }
 
-      if (line.startsWith("- ")) {
+      if (processed.startsWith("- ")) {
         return (
-          <div key={key} className="flex gap-2">
+          <div key={key} className="flex gap-2 text-sm leading-relaxed text-slate-700">
             <span className="text-slate-400">•</span>
-            <span>{content}</span>
+            <span>{lineBody}</span>
           </div>
         );
       }
 
-      return <p key={key}>{content}</p>;
+      return (
+        <p key={key} className="text-sm leading-relaxed text-slate-700">
+          {lineBody}
+        </p>
+      );
     });
   }
 
+  const mainActionTileClass =
+    "tile-core inline-flex items-center justify-center rounded-[11px] px-6 py-3 text-base font-semibold text-slate-900";
+  const backToVocabTileClass =
+    "tile-core inline-flex items-center rounded-[11px] px-2 py-1 text-xs font-medium text-slate-700";
+
+  const showTheorySection =
+    !isPracticeView &&
+    (Boolean(initialCluster.theory_md) || Boolean(initialCluster.theory_summary));
+  const masteryStatusText = masteryLabel(mastery.mastery_state);
+
   return (
     <main className="space-y-6">
-      <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
-              {isPracticeView ? "Ćwicz" : "Typowe błędy"}: {initialCluster.title || slug.replace(/-/g, " / ")}
-            </h1>
-            <p className="text-base text-slate-600">
-              {isPracticeView
-                ? "Przejdź przez zadania i sprawdź, czy rozróżniasz poprawne użycie w kontekście."
-                : initialCluster.theory_summary || "Ćwicz wybór właściwego słowa w kontekście."}
-            </p>
-            {startLoading ? <p className="text-sm text-slate-500">Ładowanie sesji…</p> : null}
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <a
-              className="tile-frame"
-              href={
-                isPracticeView
-                  ? withSuggestionCtx(`/app/vocab/cluster/${slug}`)
-                  : withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)
-              }
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                {isPracticeView ? "Teoria" : "Ćwicz"}
-              </span>
-            </a>
-            <a
-              className="tile-frame"
-              href="/app/vocab"
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Trening słówek
-              </span>
-            </a>
-            <a
-              className="tile-frame"
-              href="/app"
-            >
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Wróć do strony głównej
-              </span>
-            </a>
-          </div>
-        </div>
-      </header>
-
       {!isPracticeView ? (
-        <section className="rounded-3xl border border-sky-200 bg-sky-50 p-5 shadow-sm">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-lg font-semibold tracking-tight text-slate-900">Ćwiczenia na osobnej stronie</h2>
-              <p className="text-sm text-slate-600">Najpierw przejrzyj teorię i przykłady, a potem przejdź do praktyki.</p>
+        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-stretch lg:justify-between">
+            <div className="min-w-0 flex-1 space-y-4">
+              <div className="space-y-1">
+                <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+                  Typowe błędy: {initialCluster.title || slug.replace(/-/g, " / ")}
+                </h1>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  {masteryStatusText ? (
+                    <span className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-900">
+                      {masteryStatusText}
+                    </span>
+                  ) : null}
+                  <span className="text-sm text-slate-600">
+                    {mastery.stable_days}/{mastery.practiced_days} stabilnych dni
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-slate-600">
+                  Łączna skuteczność:{" "}
+                  <span className="font-medium text-slate-900">
+                    {mastery.rolling_accuracy != null ? Math.round(mastery.rolling_accuracy * 100) : 0}%
+                  </span>
+                </div>
+              </div>
             </div>
-            <a
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-              href={withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)}
-            >
-              Otwórz ćwiczenia
-            </a>
+            <div className="flex shrink-0 flex-col justify-start gap-2 sm:flex-row sm:items-start lg:flex-col lg:items-end">
+              <a className="tile-frame tile-frame-practice-cta" href={withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)}>
+                <span className={mainActionTileClass}>Ćwicz</span>
+              </a>
+              <a className="tile-frame" href="/app/vocab">
+                <span className={backToVocabTileClass}>← Trening słówek</span>
+              </a>
+            </div>
           </div>
-        </section>
-      ) : null}
+        </header>
+      ) : (
+        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-1">
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+                Ćwicz: {initialCluster.title || slug.replace(/-/g, " / ")}
+              </h1>
+              <p className="text-base text-slate-600">
+                Przejdź przez zadania i sprawdź, czy rozróżniasz poprawne użycie w kontekście.
+              </p>
+              {startLoading ? <p className="text-sm text-slate-500">Ładowanie sesji…</p> : null}
+            </div>
 
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="text-sm text-slate-500">Cel</div>
-          <div className="mt-2 text-sm font-medium text-slate-900">
-            {initialCluster.learning_goal || "Rozróżniaj podobne słowa i używaj ich we właściwym kontekście."}
+            <div className="flex flex-wrap items-start gap-2">
+              <a className="tile-frame" href={withSuggestionCtx(`/app/vocab/cluster/${slug}`)}>
+                <span className={mainActionTileClass}>Teoria</span>
+              </a>
+              <a className="tile-frame" href="/app/vocab">
+                <span className={backToVocabTileClass}>← Trening słówek</span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="text-sm text-slate-500">Mastery</div>
-          <div className="mt-2 flex items-center gap-2">
-            <span className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-sm font-medium text-slate-900">
-              {masteryLabel(mastery.mastery_state)}
-            </span>
-            <span className="text-sm text-slate-600">
-              {mastery.stable_days}/{mastery.practiced_days} stabilnych dni
-            </span>
-          </div>
-          <div className="mt-2 text-sm text-slate-600">
-            Łączna skuteczność:{" "}
-            <span className="font-medium text-slate-900">
-              {mastery.rolling_accuracy != null ? Math.round(mastery.rolling_accuracy * 100) : 0}%
-            </span>
-          </div>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="text-sm text-slate-500">Zawartość</div>
-          <div className="mt-2 text-sm text-slate-700">
-            {questions.length} zadań · {patterns.length} wzorców
-          </div>
-          <div className="mt-2 text-sm text-slate-600">
-            Ostatnia aktywność: {mastery.latest_activity_date ?? "brak"}
-          </div>
-        </div>
-      </section>
+        </header>
+      )}
 
-      {!isPracticeView && initialCluster.theory_md ? (
+      {showTheorySection ? (
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-slate-900">Teoria</h2>
             <p className="text-sm text-slate-600">Krótka ściąga przed ćwiczeniem.</p>
           </div>
-          <div className="space-y-2 text-sm leading-6 text-slate-700">{renderHighlightedTheory(initialCluster.theory_md)}</div>
+          {initialCluster.theory_summary ? (
+            <div className="space-y-2 text-sm leading-relaxed text-slate-700">
+              {renderClusterTheoryMarkdown(initialCluster.theory_summary)}
+            </div>
+          ) : null}
+          {initialCluster.theory_md ? (
+            <div className="space-y-2">{renderClusterTheoryMarkdown(initialCluster.theory_md)}</div>
+          ) : null}
         </section>
       ) : null}
 
@@ -620,9 +617,9 @@ export default function ClusterClient({
               </button>
               <a
                 className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                href="/app"
+                href="/app/vocab"
               >
-                Wróć do strony głównej
+                ← Trening słówek
               </a>
             </div>
           </div>
@@ -900,12 +897,9 @@ export default function ClusterClient({
             >
               Jeszcze raz tylko błędne (Wkrótce)
             </button>
-            <a
-              className="tile-frame"
-              href="/app"
-            >
+            <a className="tile-frame" href="/app/vocab">
               <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 text-sm font-medium text-slate-700">
-                Wróć do strony głównej
+                ← Trening słówek
               </span>
             </a>
           </div>

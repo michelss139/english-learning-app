@@ -21,9 +21,7 @@ values (
   false,
   'Oba czasowniki często tłumaczymy jako robić, ale make używamy, gdy coś tworzymy, przygotowujemy albo wywołujemy efekt, a do przy czynnościach, obowiązkach i aktywnościach.',
   'Rozróżniaj make i do w najczęstszych połączeniach oraz wybieraj poprawny czasownik w krótkich, prostych zdaniach.',
-  E'make i do bardzo często tłumaczymy po polsku jako robić albo zrobić, ale w angielskim używamy ich w innych typach połączeń. make najczęściej oznacza tworzenie, przygotowanie albo wywołanie jakiegoś efektu, np. make breakfast, make a plan, make a mistake. do odnosi się głównie do czynności, obowiązków, pracy i aktywności, np. do homework, do the dishes, do exercise.
-
-Najprościej zapamiętać to tak: jeśli coś powstaje albo pojawia się efekt, zwykle używamy make. Jeśli mówimy o wykonywaniu czynności, obowiązku albo zadania, zwykle używamy do.
+  E'Najprościej zapamiętać to tak: jeśli coś powstaje albo pojawia się efekt, zwykle używamy make. Jeśli mówimy o wykonywaniu czynności, obowiązku albo zadania, zwykle używamy do.
 
 Polskie tłumaczenie:
 - make -> robić, zrobić, tworzyć, przygotować
@@ -76,10 +74,10 @@ select
 from public.vocab_clusters c
 join (
   values
-    ('make-do', 'create vs result', 'make breakfast / make a plan / make a mistake', 'zrobić śniadanie / zrobić plan / popełnić błąd', 'Użyj make, gdy coś tworzysz, przygotowujesz albo powodujesz jakiś efekt.', 'Nie mówimy do breakfast ani do a mistake.', 10),
-    ('make-do', 'tasks and duties', 'do homework / do the dishes / do the shopping', 'odrabiać pracę domową / zmywać naczynia / robić zakupy', 'Użyj do przy obowiązkach, rutynowych czynnościach i zadaniach.', 'Nie mówimy make homework ani make the dishes.', 20),
-    ('make-do', 'common make collocations', 'make a decision / make progress / make money / make friends', 'podjąć decyzję / robić postępy / zarabiać pieniądze / zaprzyjaźniać się', 'To bardzo częste stałe połączenia z make.', 'W tych wyrażeniach nie używamy do.', 30),
-    ('make-do', 'common do collocations', 'do your best / do business / do research / do a favour', 'zrobić wszystko, co się da / prowadzić biznes / prowadzić badania / wyświadczyć przysługę', 'To częste stałe połączenia z do.', 'W tych wyrażeniach nie używamy make.', 40)
+    ('make-do', 'Tworzenie i wywoływanie efektu', 'make breakfast / make a plan / make a mistake', 'zrobić śniadanie / zrobić plan / popełnić błąd', 'Użyj make, gdy coś tworzysz, przygotowujesz albo powodujesz jakiś efekt.', 'Nie mówimy do breakfast ani do a mistake.', 10),
+    ('make-do', 'Czynności i obowiązki', 'do homework / do the dishes / do the shopping', 'odrabiać pracę domową / zmywać naczynia / robić zakupy', 'Użyj do przy obowiązkach, rutynowych czynnościach i zadaniach.', 'Nie mówimy make homework ani make the dishes.', 20),
+    ('make-do', 'Częste kolokacje z make', 'make a decision / make progress / make money / make friends', 'podjąć decyzję / robić postępy / zarabiać pieniądze / zaprzyjaźniać się', 'To bardzo częste stałe połączenia z make.', 'W tych wyrażeniach nie używamy do.', 30),
+    ('make-do', 'Częste kolokacje z do', 'do your best / do business / do research / do a favour', 'zrobić wszystko, co się da / prowadzić biznes / prowadzić badania / wyświadczyć przysługę', 'To częste stałe połączenia z do.', 'W tych wyrażeniach nie używamy make.', 40)
 ) as x(slug, title, pattern_en, pattern_pl, usage_note, contrast_note, sort_order)
   on x.slug = c.slug
 where c.slug = 'make-do';

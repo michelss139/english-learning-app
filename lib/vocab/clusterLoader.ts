@@ -38,6 +38,7 @@ export type ClusterCatalogItem = {
   mastery: ClusterMastery;
 };
 
+
 type ClusterBaseRow = {
   id: string;
   slug: string;

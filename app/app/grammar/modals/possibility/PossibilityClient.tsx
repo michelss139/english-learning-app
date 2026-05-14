@@ -26,7 +26,7 @@ function DefinitionContent() {
           <li>might</li>
           <li>could</li>
         </ul>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="text-slate-800">Example:</p>
           <p className="text-slate-800">It may rain later.</p>
           <p className="text-sm text-slate-600">Może później padać.</p>
@@ -48,12 +48,12 @@ function MayAndMightContent() {
         <p>
           Możemy używać ich, gdy coś jest możliwe, ale nie jesteśmy pewni, czy się wydarzy.
         </p>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="text-slate-800">Examples:</p>
           <p className="text-slate-800">It may rain later.</p>
           <p className="text-slate-800">It might rain later.</p>
         </div>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="text-slate-800">She may come to the meeting.</p>
           <p className="text-slate-800">She might come to the meeting.</p>
         </div>
@@ -81,7 +81,7 @@ function MayAndMightContent() {
           <p className="text-sm text-slate-600">To zdanie nie brzmi jak udzielenie pozwolenia.</p>
         </div>
 
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Practical tip</p>
           <p className="text-sm text-slate-700">
             Jeśli nie jesteś pewien, którego słowa użyć w znaczeniu possibility:
@@ -102,7 +102,7 @@ function CouldContent() {
         <p>
           <strong>Could</strong> może również oznaczać możliwość.
         </p>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="text-slate-800">Example:</p>
           <p className="text-slate-800">It could rain later.</p>
           <p className="text-sm text-slate-600">Może później padać.</p>
@@ -136,7 +136,7 @@ might not
 could not
         </pre>
         <p>Example:</p>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="text-slate-800">It might not rain today.</p>
           <p className="text-sm text-slate-600">Może dzisiaj nie padać.</p>
         </div>
@@ -150,11 +150,11 @@ function MistakesContent() {
     <section className="space-y-4">
       <h2 className="text-lg font-semibold text-slate-900">Mistakes</h2>
       <div className="space-y-4 text-sm text-slate-800">
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ It maybe rain later.</p>
           <p>✔ It may rain later.</p>
         </div>
-        <div className="rounded-xl border border-slate-300 bg-slate-50 p-4 space-y-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p>❌ He might can come later.</p>
           <p>✔ He might come later.</p>
           <p className="text-slate-600">
@@ -173,19 +173,19 @@ function CompareContent() {
       <div className="space-y-4">
         <Link
           href="/app/grammar/compare?tense1=modal-may&tense2=modal-might"
-          className="block rounded-xl border border-slate-300 bg-slate-50 p-4 hover:bg-slate-100 transition"
+          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
         >
           <h3 className="font-medium text-slate-900">May vs Might</h3>
         </Link>
         <Link
           href="/app/grammar/compare?tense1=modal-ability&tense2=modal-possibility"
-          className="block rounded-xl border border-slate-300 bg-slate-50 p-4 hover:bg-slate-100 transition"
+          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
         >
           <h3 className="font-medium text-slate-900">Could (ability) vs Could (possibility)</h3>
         </Link>
         <Link
           href="/app/grammar/compare?tense1=modal-possibility&tense2=modal-obligation"
-          className="block rounded-xl border border-slate-300 bg-slate-50 p-4 hover:bg-slate-100 transition"
+          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
         >
           <h3 className="font-medium text-slate-900">Possibility vs Probability (must)</h3>
         </Link>
@@ -242,14 +242,14 @@ export function PossibilityClient() {
         </div>
         <Link
           href="/app/grammar/modals"
-          className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
+          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
         >
           ← Wróć do Modal Verbs
         </Link>
       </header>
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-900 bg-white p-6 md:p-8 lg:min-h-[620px]">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
           <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
             {renderedSection === "definition" && <DefinitionContent />}
             {renderedSection === "mayAndMight" && <MayAndMightContent />}
@@ -260,19 +260,19 @@ export function PossibilityClient() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl border border-slate-900 bg-white p-4">
-          <div className="mb-3 text-xs uppercase tracking-[0.14em] text-slate-500">Sekcje</div>
-          <div className="mb-3 h-px w-full bg-slate-200" />
-          <div className="flex flex-col gap-2.5">
+        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Sekcje</div>
+                    <div className="flex flex-col gap-1.5">
             {sectionButtons.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => changeSection(item.id)}
-                className={`w-full rounded-2xl border border-black/15 px-4 py-2.5 text-left text-sm text-slate-700 transition-all duration-200 hover:bg-black/5 ${
+                data-active={activeSection === item.id ? "true" : "false"}
+              className={`grammar-aside-item w-full px-3.5 py-2 text-left text-sm ${
                   activeSection === item.id
-                    ? "border-l-4 border-l-black bg-black/5 font-semibold text-slate-900 scale-[1.01]"
-                    : "font-medium"
+                    ? "font-semibold text-slate-900"
+                    : "font-medium text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {item.label}
