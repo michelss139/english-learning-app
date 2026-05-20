@@ -166,6 +166,10 @@ export default function LessonDetailPage() {
   const lessonDateDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lessonDateSaveInflightRef = useRef(0);
 
+  // Display names resolved server-side (admin client bypasses profiles RLS)
+  const [studentDisplay, setStudentDisplay] = useState<string>("Uczeń");
+  const [creatorDisplay, setCreatorDisplay] = useState<string>("Nauczyciel");
+
   const [teacherNoteStatus, setTeacherNoteStatus] = useState<LessonNoteSaveStatus>("idle");
   const [studentNoteStatus, setStudentNoteStatus] = useState<LessonNoteSaveStatus>("idle");
   const [topicStatus, setTopicStatus] = useState<LessonNoteSaveStatus>("idle");
@@ -205,6 +209,8 @@ export default function LessonDetailPage() {
   const loadLesson = async () => {
     const lessonData = (await fetchJsonWithAuth(`/api/lessons/${lessonId}`)) as {
       lesson: Lesson;
+      student_display?: string;
+      creator_display?: string;
     };
 
     initialTeacherNoteSaveSkippedRef.current = false;
@@ -217,6 +223,8 @@ export default function LessonDetailPage() {
     setTeacherNote(lessonData.lesson.teacher_note ?? "");
     setStudentNote(lessonData.lesson.student_note ?? "");
     lessonSyncVersionRef.current = lessonData.lesson.updated_at ?? null;
+    if (lessonData.student_display) setStudentDisplay(lessonData.student_display);
+    if (lessonData.creator_display) setCreatorDisplay(lessonData.creator_display);
   };
 
   const loadAssignments = useCallback(async () => {
@@ -1039,64 +1047,25 @@ export default function LessonDetailPage() {
     return () => clearInterval(intervalId);
   }, [lessonId, loading, profile?.id, lesson?.id, lesson?.student_id, lesson?.created_by]);
 
-  const [counterpartyLine, setCounterpartyLine] = useState<
+  // Counterparty derived from server-resolved display names (no client-side RLS-blocked lookup)
+  const counterpartyLine = useMemo<
     null | { label: "Uczeń" | "Nauczyciel"; name: string } | { solo: true }
-  >(null);
-
-  useEffect(() => {
-    if (!lesson || !profile) {
-      setCounterpartyLine(null);
-      return;
-    }
+  >(() => {
+    if (!lesson || !profile) return null;
 
     const soloSelf =
       lesson.lesson_type === "self" ||
       (lesson.lesson_type == null && lesson.student_id === lesson.created_by);
-    if (soloSelf && lesson.student_id === profile.id) {
-      setCounterpartyLine({ solo: true });
-      return;
-    }
-
-    let otherId: string | null = null;
-    let label: "Uczeń" | "Nauczyciel" | null = null;
+    if (soloSelf && lesson.student_id === profile.id) return { solo: true };
 
     if (profile.id === lesson.created_by && lesson.student_id !== profile.id) {
-      otherId = lesson.student_id;
-      label = "Uczeń";
-    } else if (profile.id === lesson.student_id && lesson.created_by !== profile.id) {
-      otherId = lesson.created_by;
-      label = "Nauczyciel";
+      return { label: "Uczeń", name: studentDisplay };
     }
-
-    if (!otherId || !label) {
-      setCounterpartyLine(null);
-      return;
+    if (profile.id === lesson.student_id && lesson.created_by !== profile.id) {
+      return { label: "Nauczyciel", name: creatorDisplay };
     }
-
-    let cancelled = false;
-    void supabase
-      .from("profiles")
-      .select("username, email")
-      .eq("id", otherId)
-      .maybeSingle()
-      .then(({ data, error }) => {
-        if (cancelled || error) {
-          if (!cancelled) {
-            const fallback = "Nie udało się wczytać profilu";
-            setCounterpartyLine({ label, name: fallback });
-          }
-          return;
-        }
-        const u = (data?.username ?? "").trim();
-        const e = (data?.email ?? "").trim();
-        const name = u || (e ? (e.includes("@") ? e.split("@")[0]! : e) : "Użytkownik");
-        if (!cancelled) setCounterpartyLine({ label, name });
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [lesson, profile]);
+    return null;
+  }, [lesson, profile, studentDisplay, creatorDisplay]);
 
   const lessonIrregularVerbsDisplay = useMemo(() => {
     const raw = lesson?.irregular_verbs;
@@ -1371,7 +1340,9 @@ export default function LessonDetailPage() {
           >
             <div className="mb-1.5 flex shrink-0 flex-wrap items-center justify-between gap-2">
               <div>
-                <h2 className="text-sm font-bold tracking-tight text-slate-900">Nauczyciel</h2>
+                <h2 className="text-sm font-bold tracking-tight text-slate-900">
+                  {canEditTeacherNote ? "Twoja notatka" : "Notatka nauczyciela"}
+                </h2>
               </div>
               {canEditTeacherNote && teacherNoteStatusLabel ? (
                 <span className="text-[11px] font-medium text-slate-400" aria-live="polite">
@@ -1391,12 +1362,13 @@ export default function LessonDetailPage() {
             ) : (
               <div
                 id="lesson-teacher-note"
-                className="min-h-0 max-h-full flex-1 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5 text-sm leading-relaxed text-slate-800"
+                aria-label="Notatka nauczyciela (tylko do odczytu)"
+                className="min-h-0 max-h-full flex-1 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2.5 text-sm leading-relaxed text-slate-700"
               >
                 {teacherNote.trim() ? (
                   teacherNote
                 ) : (
-                  <span className="text-slate-400">{NOTE_FIELD_PLACEHOLDER}</span>
+                  <span className="italic text-slate-400">Brak notatki</span>
                 )}
               </div>
             )}
@@ -1408,7 +1380,9 @@ export default function LessonDetailPage() {
         >
           <div className="mb-1.5 flex shrink-0 flex-wrap items-center justify-between gap-2">
             <div>
-              <h2 className="text-sm font-bold tracking-tight text-slate-900">Twoja notatka</h2>
+              <h2 className="text-sm font-bold tracking-tight text-slate-900">
+                {canEditStudentNote ? "Twoja notatka" : "Notatka ucznia"}
+              </h2>
             </div>
             {canEditStudentNote && studentNoteStatusLabel ? (
               <span className="text-[11px] font-medium text-slate-400" aria-live="polite">
@@ -1428,12 +1402,13 @@ export default function LessonDetailPage() {
           ) : (
             <div
               id="lesson-student-note"
-              className="min-h-0 max-h-full flex-1 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2.5 text-sm leading-relaxed text-slate-800"
+              aria-label="Notatka ucznia (tylko do odczytu)"
+              className="min-h-0 max-h-full flex-1 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2.5 text-sm leading-relaxed text-slate-700"
             >
               {studentNote.trim() ? (
                 studentNote
               ) : (
-                <span className="text-slate-400">{NOTE_FIELD_PLACEHOLDER}</span>
+                <span className="italic text-slate-400">Brak notatki</span>
               )}
             </div>
           )}

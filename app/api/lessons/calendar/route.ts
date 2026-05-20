@@ -7,6 +7,7 @@ type CalendarLessonRow = {
   topic: string;
   student_id: string;
   lesson_type: string | null;
+  vocab_pairs: string | null;
 };
 
 type StudentLessonRow = {
@@ -62,7 +63,7 @@ export async function GET(req: Request) {
 
     const { data: lessons, error } = await supabase
       .from("lessons")
-      .select("id, lesson_date, topic, student_id, lesson_type")
+      .select("id, lesson_date, topic, student_id, lesson_type, vocab_pairs")
       .or(visibilityOr)
       .not("student_id", "is", null)
       .gte("lesson_date", rangeStart)
@@ -189,6 +190,7 @@ export async function GET(req: Request) {
       assignment_count: assignmentCountByLessonId.get(lesson.id) ?? 0,
       vocab_count: vocabCountByDate.get(lesson.lesson_date) ?? 0,
       topic_type: resolveTopicType(lesson.id),
+      has_vocab_pairs: Boolean((lesson.vocab_pairs ?? "").trim()),
     }));
 
     return NextResponse.json(payload);

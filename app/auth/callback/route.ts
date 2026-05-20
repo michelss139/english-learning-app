@@ -35,8 +35,30 @@ export async function GET(request: Request) {
       }
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data: sessionData, error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      // Upewnij się że profil istnieje — trigger DB jest primary safety net,
+      // ale jeśli username/avatar są w metadanych, uzupełniamy je tutaj.
+      if (sessionData?.user) {
+        const meta = (sessionData.user.user_metadata ?? {}) as {
+          username?: string | null;
+          avatar_url?: string | null;
+          app_role?: string | null;
+        };
+        const role = meta.app_role === "teacher" ? "teacher" : "student";
+        // Upsert — trigger już mógł stworzyć profil, uzupełniamy username/avatar
+        await supabase.from("profiles").upsert(
+          {
+            id: sessionData.user.id,
+            email: sessionData.user.email ?? null,
+            role,
+            username: meta.username ?? null,
+            avatar_url: meta.avatar_url ?? null,
+            subscription_status: "inactive",
+          },
+          { onConflict: "id", ignoreDuplicates: false }
+        );
+      }
       return NextResponse.redirect(`${url.origin}${next}`);
     }
   }

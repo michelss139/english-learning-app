@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { getOrCreateProfile, type Profile } from "@/lib/auth/profile";
 import LessonDay from "@/components/lessons/LessonDay";
 import CalendarDayPanel from "@/components/lessons/CalendarDayPanel";
 
@@ -67,56 +66,10 @@ export default function LessonCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
-  const [rosterCount, setRosterCount] = useState(0);
-
   const [panelOpen, setPanelOpen] = useState(false);
   const [panelDateIso, setPanelDateIso] = useState<string>("");
 
   const monthKey = useMemo(() => toMonthKey(monthDate), [monthDate]);
-
-  const useStudentCalendarShortcuts = Boolean(
-    profile && profile.role !== "admin" && rosterCount === 0,
-  );
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const prof = await getOrCreateProfile();
-        if (cancelled) return;
-        setProfile(prof ?? null);
-        if (!prof) {
-          setRosterCount(0);
-          return;
-        }
-        const session = await supabase.auth.getSession();
-        const token = session.data.session?.access_token;
-        if (!token) {
-          setRosterCount(0);
-          return;
-        }
-        const res = await fetch("/api/teacher/students", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok || cancelled) {
-          if (!cancelled) setRosterCount(0);
-          return;
-        }
-        const data = (await res.json()) as { students?: unknown[] };
-        const n = Array.isArray(data.students) ? data.students.length : 0;
-        if (!cancelled) setRosterCount(n);
-      } catch {
-        if (!cancelled) {
-          setProfile(null);
-          setRosterCount(0);
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     const run = async () => {
@@ -204,15 +157,10 @@ export default function LessonCalendar() {
 
   const onDayClick = useCallback(
     (dateIso: string) => {
-      const forDay = lessonsByDate.get(dateIso) ?? [];
-      if (useStudentCalendarShortcuts && forDay.length === 1) {
-        router.push(`/app/lessons/${forDay[0]!.id}`);
-        return;
-      }
       setPanelDateIso(dateIso);
       setPanelOpen(true);
     },
-    [lessonsByDate, router, useStudentCalendarShortcuts],
+    [],
   );
 
   return (

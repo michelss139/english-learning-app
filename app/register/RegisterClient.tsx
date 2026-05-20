@@ -8,13 +8,8 @@ import { getOrCreateProfile } from "@/lib/auth/profile";
 import { DEFAULT_AVATARS } from "@/lib/avatars";
 import { AuthShell } from "@/components/auth/AuthShell";
 
-const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "";
-
-type AccountKind = "student" | "teacher";
-
 export default function RegisterClient() {
   const router = useRouter();
-  const [accountKind, setAccountKind] = useState<AccountKind>("student");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -78,7 +73,6 @@ export default function RegisterClient() {
       }
 
       const origin = typeof window !== "undefined" ? window.location.origin : "";
-      const registrationRole = accountKind === "teacher" ? "teacher" : "student";
 
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
@@ -88,7 +82,7 @@ export default function RegisterClient() {
           data: {
             username: trimmedUsername,
             avatar_url: selectedAvatar || null,
-            app_role: registrationRole,
+            app_role: "student",
           },
         },
       });
@@ -105,7 +99,7 @@ export default function RegisterClient() {
         await getOrCreateProfile({
           username: trimmedUsername,
           avatar_url: finalAvatarUrl,
-          role: registrationRole === "teacher" ? "teacher" : "student",
+          role: "student",
         });
         router.push("/app");
         router.refresh();
@@ -136,51 +130,6 @@ export default function RegisterClient() {
       }
     >
       <form onSubmit={onSubmit} className="space-y-7">
-        <div className="space-y-3">
-          <div className="text-sm font-semibold text-slate-900">Konto jako</div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <button
-              type="button"
-              onClick={() => setAccountKind("student")}
-              className={`rounded-xl border-2 px-4 py-4 text-left transition ${
-                accountKind === "student"
-                  ? "border-sky-400 bg-sky-50/80 shadow-sm"
-                  : "border-slate-200 bg-white hover:border-slate-300"
-              }`}
-            >
-              <div className="text-sm font-semibold text-slate-900">Uczeń</div>
-              <p className="mt-1 text-xs leading-relaxed text-slate-600">
-                Pełny dostęp do materiałów, treningów i panelu ucznia.
-              </p>
-            </button>
-            <button
-              type="button"
-              onClick={() => setAccountKind("teacher")}
-              className={`rounded-xl border-2 px-4 py-4 text-left transition ${
-                accountKind === "teacher"
-                  ? "border-indigo-400 bg-indigo-50/80 shadow-sm"
-                  : "border-slate-200 bg-white hover:border-slate-300"
-              }`}
-            >
-              <div className="text-sm font-semibold text-slate-900">Nauczyciel</div>
-              <p className="mt-1 text-xs leading-relaxed text-slate-600">
-                Rola nauczyciela — lista uczniów, lekcje i plan po przypięciu relacji.
-              </p>
-            </button>
-          </div>
-          {accountKind === "teacher" && SUPPORT_EMAIL ? (
-            <p className="text-xs leading-relaxed text-slate-500">
-              Konta zespołowe i szkolne:{" "}
-              <a
-                href={`mailto:${SUPPORT_EMAIL}`}
-                className="font-medium text-slate-700 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
-              >
-                {SUPPORT_EMAIL}
-              </a>
-            </p>
-          ) : null}
-        </div>
-
         <div className="space-y-2">
           <label htmlFor="reg-user" className="text-sm font-medium text-slate-800">
             Nazwa użytkownika

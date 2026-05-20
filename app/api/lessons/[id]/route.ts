@@ -237,6 +237,27 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const access = await ensureLessonAccess(supabase, id, userId, role);
     if ("error" in access) return access.error;
 
+    // Resolve counterparty display names server-side (bypasses profiles RLS)
+    const lessonMeta = access.lesson as { student_id: string; created_by: string };
+    const profileIdsToFetch = [...new Set([lessonMeta.student_id, lessonMeta.created_by].filter(Boolean))];
+    let studentDisplay = "Uczeń";
+    let creatorDisplay = "Nauczyciel";
+    if (profileIdsToFetch.length > 0) {
+      const { data: profRows } = await supabase
+        .from("profiles")
+        .select("id, username, email")
+        .in("id", profileIdsToFetch);
+      const resolveDisplay = (id: string, fallback: string): string => {
+        const p = (profRows ?? []).find((r: any) => r.id === id);
+        if (!p) return fallback;
+        const u = ((p as any).username ?? "").trim();
+        const e = ((p as any).email ?? "").trim();
+        return u || (e ? (e.includes("@") ? e.split("@")[0]! : e) : fallback);
+      };
+      studentDisplay = resolveDisplay(lessonMeta.student_id, "Uczeń");
+      creatorDisplay = resolveDisplay(lessonMeta.created_by, "Nauczyciel");
+    }
+
     const { data: notes, error: notesErr } = await supabase
       .from("lesson_notes")
       .select("id, lesson_id, author_id, author_role, content, created_at")
@@ -264,6 +285,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       lesson: access.lesson,
       notes: notes ?? [],
       assignments: assignments ?? [],
+      student_display: studentDisplay,
+      creator_display: creatorDisplay,
     });
   } catch (e: any) {
     console.error("[lessons/:id] GET error:", e);

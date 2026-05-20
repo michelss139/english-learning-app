@@ -47,6 +47,31 @@ type SuggestionsResponse = {
   list: Suggestion[];
 };
 
+type CalendarLesson = {
+  id: string;
+  lesson_date: string;
+  topic: string;
+  has_vocab_pairs: boolean;
+};
+
+const MONTHS_PL = [
+  "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca",
+  "lipca", "sierpnia", "września", "października", "listopada", "grudnia",
+];
+
+function formatPolishDate(isoDate: string): string {
+  const [year = "", monthStr = "1", dayStr = "1"] = isoDate.split("-");
+  const day = Number(dayStr);
+  const monthIdx = Number(monthStr) - 1;
+  return `${day} ${MONTHS_PL[monthIdx] ?? ""} ${year}`;
+}
+
+function toMonthKeyLocal(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  return `${y}-${m}`;
+}
+
 function formatIrregularItemLabel(s: Suggestion): string {
   const label = s.label ?? s.unitId;
   const formLabel =
@@ -75,6 +100,8 @@ export default function ProfilePage() {
   const [suggestionsLoading, setSuggestionsLoading] = useState(true);
   const [activeSessionHref, setActiveSessionHref] = useState<string | null>(null);
   const [lockedTrainingOptions, setLockedTrainingOptions] = useState<TrainingDisplayCard[] | null>(null);
+  const [lessonsData, setLessonsData] = useState<CalendarLesson[]>([]);
+  const [lessonsLoading, setLessonsLoading] = useState(true);
 
   useEffect(() => {
     const run = async () => {
@@ -107,11 +134,19 @@ export default function ProfilePage() {
           }
         }
 
-        const [xpRes, streakRes, rosterRes, recRes] = await Promise.all([
-          fetch("/api/profile/xp", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("/api/profile/streak", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("/api/teacher/students", { headers: { Authorization: `Bearer ${token}` } }),
-          fetch("/api/suggestions", { headers: { Authorization: `Bearer ${token}` } }),
+        const now = new Date();
+        const currentMonth = toMonthKeyLocal(now);
+        const prevMonth = toMonthKeyLocal(new Date(now.getFullYear(), now.getMonth() - 1, 1));
+        const authHeader = { Authorization: `Bearer ${token}` };
+        const isStudent = prof.role === "student";
+
+        const [xpRes, streakRes, rosterRes, recRes, currLessonsRes, prevLessonsRes] = await Promise.all([
+          fetch("/api/profile/xp", { headers: authHeader }),
+          fetch("/api/profile/streak", { headers: authHeader }),
+          fetch("/api/teacher/students", { headers: authHeader }),
+          fetch("/api/suggestions", { headers: authHeader }),
+          isStudent ? fetch(`/api/lessons/calendar?month=${currentMonth}`, { headers: authHeader }) : Promise.resolve(null),
+          isStudent ? fetch(`/api/lessons/calendar?month=${prevMonth}`, { headers: authHeader }) : Promise.resolve(null),
         ]);
 
         const xpJson = await xpRes.json().catch(() => null);
@@ -163,6 +198,16 @@ export default function ProfilePage() {
           setSuggestionsTop([]);
           setSuggestionsList([]);
         }
+
+        if (isStudent) {
+          const currJson = currLessonsRes?.ok ? await currLessonsRes.json().catch(() => []) : [];
+          const prevJson = prevLessonsRes?.ok ? await prevLessonsRes.json().catch(() => []) : [];
+          const all = [
+            ...(Array.isArray(currJson) ? currJson : []),
+            ...(Array.isArray(prevJson) ? prevJson : []),
+          ] as CalendarLesson[];
+          setLessonsData(all);
+        }
       } catch (e: any) {
         setError(e?.message ?? "Nie udało się wczytać profilu.");
         setSuggestionsTop([]);
@@ -170,6 +215,7 @@ export default function ProfilePage() {
         setTeacherStudentLabels([]);
       } finally {
         setSuggestionsLoading(false);
+        setLessonsLoading(false);
       }
     };
 
@@ -237,6 +283,14 @@ export default function ProfilePage() {
   }, [suggestionsLoading, suggestionsTop, suggestionsList]);
 
   const displayedTrainingOptions = lockedTrainingOptions ?? trainingPanelOptions;
+
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const { lastLesson, nextLesson } = useMemo(() => {
+    const sorted = [...lessonsData].sort((a, b) => a.lesson_date.localeCompare(b.lesson_date));
+    const last = [...sorted].filter((l) => l.lesson_date <= todayIso).at(-1) ?? null;
+    const next = sorted.find((l) => l.lesson_date > todayIso) ?? null;
+    return { lastLesson: last, nextLesson: next };
+  }, [lessonsData, todayIso]);
 
   const handleTrainingStart = (item: TrainingDisplayCard) => {
     setActiveSessionHref(item.href);
@@ -352,6 +406,67 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+      ) : null}
+
+      {profile?.role === "student" ? (
+        <section className="tile-frame">
+          <div className="tile-core mx-auto w-full max-w-5xl space-y-6 p-8">
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Moje lekcje</h2>
+
+            {lessonsLoading ? (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="h-20 animate-pulse rounded-xl border border-slate-200 bg-slate-50/80" />
+                <div className="h-20 animate-pulse rounded-xl border border-slate-200 bg-slate-50/80" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <div className="mb-2 text-xs font-medium text-slate-500">Ostatnia lekcja</div>
+                  {lastLesson ? (
+                    <div className="flex flex-col gap-2">
+                      <a
+                        href={`/app/lessons/${lastLesson.id}`}
+                        className="block rounded-xl border border-slate-200 bg-white p-4 transition hover:border-slate-300 hover:shadow-sm"
+                      >
+                        <div className="text-xs text-slate-500">{formatPolishDate(lastLesson.lesson_date)}</div>
+                        <div className="mt-1 text-sm font-semibold text-slate-900">
+                          {lastLesson.topic || "Brak tematu"}
+                        </div>
+                      </a>
+                      {lastLesson.has_vocab_pairs ? (
+                        <a
+                          href={`/app/lessons/${lastLesson.id}#practice`}
+                          className="text-xs font-medium text-indigo-600 hover:text-indigo-700"
+                        >
+                          📚 Masz słówka do powtórzenia
+                        </a>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-400">Brak poprzednich lekcji</p>
+                  )}
+                </div>
+
+                <div>
+                  <div className="mb-2 text-xs font-medium text-slate-500">Następna lekcja</div>
+                  {nextLesson ? (
+                    <a
+                      href={`/app/lessons/${nextLesson.id}`}
+                      className="block rounded-xl border border-slate-200 bg-white p-4 transition hover:border-slate-300 hover:shadow-sm"
+                    >
+                      <div className="text-xs text-slate-500">{formatPolishDate(nextLesson.lesson_date)}</div>
+                      <div className="mt-1 text-sm font-semibold text-slate-900">
+                        {nextLesson.topic || "Brak tematu"}
+                      </div>
+                    </a>
+                  ) : (
+                    <p className="text-sm text-slate-400">Brak zaplanowanej lekcji</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
       ) : null}
 
       <section className="tile-frame">
