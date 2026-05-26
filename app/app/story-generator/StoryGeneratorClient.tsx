@@ -146,14 +146,25 @@ export default function StoryGeneratorClient() {
   const handleCheck = async () => {
     if (!storyData) return;
 
+    // Compute overall score and per-tense breakdown simultaneously
     let correct = 0;
+    const tenseMap: Record<string, { correct: number; total: number }> = {};
+
     for (const gap of storyData.gaps) {
       const given = normalizeAnswer(userAnswers[gap.id] ?? "");
       const expected = normalizeAnswer(gap.correctAnswer);
-      if (given === expected && expected.length > 0) correct += 1;
+      const isCorrect = given === expected && expected.length > 0;
+
+      if (isCorrect) correct += 1;
+
+      if (!tenseMap[gap.tense]) tenseMap[gap.tense] = { correct: 0, total: 0 };
+      tenseMap[gap.tense].total += 1;
+      if (isCorrect) tenseMap[gap.tense].correct += 1;
     }
 
     const total = storyData.gaps.length;
+    const tenseScores = Object.entries(tenseMap).map(([tense, s]) => ({ tense, ...s }));
+
     setScore({ correct, total });
     setIsChecked(true);
 
@@ -170,7 +181,7 @@ export default function StoryGeneratorClient() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ session_id: sessionId, correct, total }),
+        body: JSON.stringify({ session_id: sessionId, correct, total, tense_scores: tenseScores }),
       });
 
       const json = (await res.json().catch(() => null)) as {

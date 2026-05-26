@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { awardXpAndBadges } from "@/lib/xp/award";
+import { updateLearningUnitKnowledge } from "@/lib/knowledge/updateLearningUnitKnowledge";
+import { isRegisteredGrammarExerciseSlug } from "@/lib/grammar/practice";
+
+type TenseScore = {
+  tense: string;
+  correct: number;
+  total: number;
+};
 
 type Body = {
   session_id: string;
   correct: number;
   total: number;
+  tense_scores?: TenseScore[];
 };
 
 export async function POST(req: Request) {
@@ -34,22 +43,53 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid session" }, { status: 401 });
     }
 
+    const userId = userData.user.id;
+
+    // ── 1. Award XP ────────────────────────────────────────────────────────────
     const award = await awardXpAndBadges({
       supabase,
-      userId: userData.user.id,
+      userId,
       source: "grammar",
       sourceSlug: "story-generator",
       sessionId: body.session_id,
       dedupeKey: "grammar:story-generator",
-      perfect: true, // fixed +20 XP for this exercise
-      meta: {
-        correct,
-        total,
-      },
+      perfect: true,
+      meta: { correct, total },
     });
 
+    // ── 2. Update per-tense knowledge (non-blocking — never fails the response) ─
+    const tenseScores = Array.isArray(body.tense_scores) ? body.tense_scores : [];
+
+    await Promise.allSettled(
+      tenseScores
+        .filter(
+          (ts) =>
+            typeof ts.tense === "string" &&
+            Number.isFinite(ts.total) &&
+            ts.total > 0 &&
+            Number.isFinite(ts.correct) &&
+            isRegisteredGrammarExerciseSlug(ts.tense)
+        )
+        .map((ts) =>
+          updateLearningUnitKnowledge({
+            supabase,
+            studentId: userId,
+            unitType: "grammar",
+            unitId: ts.tense,
+            payload: {
+              mode: "session",
+              total: Math.floor(ts.total),
+              correct: Math.min(Math.floor(ts.correct), Math.floor(ts.total)),
+            },
+          })
+        )
+    );
+
     return NextResponse.json({ ok: true, ...award });
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? "Unknown error" }, { status: 500 });
+  } catch (e: unknown) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Unknown error" },
+      { status: 500 }
+    );
   }
 }
