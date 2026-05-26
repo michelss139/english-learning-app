@@ -18,65 +18,65 @@ export const TENSE_GROUPS = {
   // A2
   present_contrast: {
     label: "Stan vs. akcja",
-    description: 'Present Simple czy Continuous? Kiedy powiedziec "I work", a kiedy "I\'m working".',
+    description: "Present Simple czy Continuous? Kiedy powiedziec \"I work\", a kiedy \"I'm working\".",
     level: "A2" as const,
     tenses: ["present-simple", "present-continuous"] as const,
   },
   past_narrative: {
-    label: "Narracja z tlem",
-    description: "Klasyczny duet: to, co sie dzialo (continuous), i to, co nagle nastapilo (simple).",
+    label: "Narracja z tłem",
+    description: "Klasyczny duet: to, co się działo (continuous), i to, co nagle nastąpiło (simple).",
     level: "A2-B1" as const,
     tenses: ["past-simple", "past-continuous"] as const,
   },
   // A2-B1
   basic_trio: {
     label: "Podstawowy miks",
-    description: "Terazniejszosc, czynnosc w toku i prosta przeszlosc -- fundament kazdej narracji.",
+    description: "Teraźniejszość, czynność w toku i prosta przeszłość — fundament każdej narracji.",
     level: "A2-B1" as const,
     tenses: ["present-simple", "present-continuous", "past-simple"] as const,
   },
   future_basics: {
-    label: "Plany i przyszlosc",
-    description: "Fakty, rutyny i to, co sie dopiero wydarzy.",
+    label: "Plany i przyszłość",
+    description: "Fakty, rutyny i to, co się dopiero wydarzy.",
     level: "B1" as const,
     tenses: ["present-simple", "past-simple", "future-simple"] as const,
   },
   // B1
   experience_vs_event: {
-    label: "Doswiadczenia i zdarzenia",
-    description: 'Najwiekszy pulapka B1: "I went" kontra "I have been". Kiedy uzyc ktorego?',
+    label: "Doświadczenia i zdarzenia",
+    description: "Największa pułapka B1: \"I went\" kontra \"I have been\". Kiedy użyć którego?",
     level: "B1" as const,
     tenses: ["past-simple", "present-perfect"] as const,
   },
   present_and_history: {
-    label: "Terazniejszosc i doswiadczenia",
-    description: "Trzy perspektywy: co robisz teraz, co zwykle i co juz przezyles.",
+    label: "Teraźniejszość i doświadczenia",
+    description: "Trzy perspektywy: co robisz teraz, co zwykle i co już przeżyłeś.",
     level: "B1" as const,
     tenses: ["present-simple", "past-simple", "present-perfect"] as const,
   },
   full_past: {
-    label: "Pelna narracja przeszla",
-    description: "Tlo (continuous), zdarzenie (simple) i to, co bylo jeszcze wczesniej (perfect).",
+    label: "Pełna narracja przeszła",
+    description: "Tło (continuous), zdarzenie (simple) i to, co było jeszcze wcześniej (perfect).",
     level: "B1" as const,
     tenses: ["past-simple", "past-continuous", "past-perfect"] as const,
   },
   // B1-B2
   perfect_contrast: {
     label: "Wynik vs. czas trwania",
-    description: '"Have finished" vs. "have been working" -- efekt koncowy czy ciagly proces?',
+    description: "\"Have finished\" vs. \"have been working\" — efekt końcowy czy ciągły proces?",
     level: "B1-B2" as const,
     tenses: ["present-perfect", "present-perfect-continuous"] as const,
   },
   past_and_results: {
-    label: "Przeszlosc i jej skutki",
-    description: "Os czasu: co bylo wczesniej, co sie stalo i co z tego wynika dzis.",
+    label: "Przeszłość i jej skutki",
+    description: "Oś czasu: co było wcześniej, co się stało i co z tego wynika dziś.",
     level: "B1-B2" as const,
     tenses: ["past-simple", "past-perfect", "present-perfect"] as const,
   },
   // B2
   advanced_narrative: {
-    label: "Zlozoana narracja",
-    description: "Wielowarstwowa os czasu: przeszlosc, jej tlo i skutki ciagnace sie do dzis.",
+    label: "Złożona narracja",
+    description: "Wielowarstwowa oś czasu: przeszłość, jej tło i skutki ciągnące się do dziś.",
     level: "B2" as const,
     tenses: ["past-continuous", "past-perfect", "present-perfect-continuous"] as const,
   },
