@@ -1,8 +1,8 @@
-import { InputPracticeClient } from "../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../_components/GapFillPracticePage";
 
 export default async function FuturePerfectPracticePage() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="future-perfect-simple"
       title="Future Perfect"
       mapHref="/app/grammar/future-perfect-simple"

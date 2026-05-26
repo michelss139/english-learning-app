@@ -1,8 +1,8 @@
-import { InputPracticeClient } from "../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../_components/GapFillPracticePage";
 
 export default async function SecondConditionalPracticePage() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="second-conditional"
       title="Second Conditional"
       mapHref="/app/grammar/conditionals/second"

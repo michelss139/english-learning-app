@@ -1,8 +1,8 @@
-import { InputPracticeClient } from "../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../_components/GapFillPracticePage";
 
 export default async function FuturePerfectContinuousPracticePage() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="future-perfect-continuous"
       title="Future Perfect Continuous"
       mapHref="/app/grammar/future-perfect-continuous"

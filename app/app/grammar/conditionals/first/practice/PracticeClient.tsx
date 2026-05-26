@@ -1,10 +1,8 @@
-"use client";
-
-import { InputPracticeClient } from "../../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../../_components/GapFillPracticePage";
 
 export function PracticeClient() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="first-conditional"
       title="First Conditional"
       mapHref="/app/grammar/conditionals/first"

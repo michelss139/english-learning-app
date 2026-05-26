@@ -1,10 +1,8 @@
-"use client";
-
-import { InputPracticeClient } from "../../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../../_components/GapFillPracticePage";
 
 export function PracticeClient() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="conditional-connectors"
       title="Conditional Connectors"
       mapHref="/app/grammar/conditionals/connectors"

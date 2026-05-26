@@ -1,8 +1,8 @@
-import { InputPracticeClient } from "../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../_components/GapFillPracticePage";
 
 export default async function PastContinuousPracticePage() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="past-continuous"
       title="Past Continuous"
       mapHref="/app/grammar/past-continuous"

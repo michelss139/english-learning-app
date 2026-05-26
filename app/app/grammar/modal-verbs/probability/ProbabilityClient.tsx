@@ -1,293 +1,289 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { TileWithSidebar, type SidebarItem } from "../../_components/TileWithSidebar";
 
-type SectionKey =
-  | "definition"
-  | "must"
-  | "mightMayCould"
-  | "cant"
-  | "negativeForms"
-  | "mistakes"
-  | "compare";
+type SectionId = "definition" | "must" | "mightMayCould" | "cant" | "scale" | "mistakes" | "compare";
 
-function DefinitionContent() {
+const SECTIONS: SidebarItem<SectionId>[] = [
+  { id: "definition",    title: "Definicja" },
+  { id: "must",          title: "Must" },
+  { id: "mightMayCould", title: "Might / May / Could" },
+  { id: "cant",          title: "Can't" },
+  { id: "scale",         title: "Skala pewności" },
+  { id: "mistakes",      title: "Błędy i pułapki" },
+  { id: "compare",       title: "Porównaj" },
+];
+
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-2xl font-semibold tracking-tight text-slate-900">{children}</h2>;
+}
+
+function Card({ children, tone = "soft" }: { children: React.ReactNode; tone?: "soft" | "warn" }) {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Definition</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          Modal verbs związane z probability służą do oceniania, jak bardzo coś jest prawdopodobne.
-        </p>
-        <p>
-          Używamy ich, gdy nie mamy pewności, ale próbujemy logicznie ocenić sytuację.
-        </p>
-        <p>Najczęściej używane modal verbs w tym znaczeniu to:</p>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>must</li>
-          <li>might</li>
-          <li>may</li>
-          <li>could</li>
-          <li>can&apos;t</li>
-        </ul>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Example:</p>
-          <p className="text-slate-800">She must be tired.</p>
-          <p className="text-sm text-slate-600">Ona musi być zmęczona.</p>
-          <p className="text-sm text-slate-700">Znaczenie: jestem prawie pewien.</p>
-        </div>
-      </div>
-    </section>
+    <div
+      className={
+        tone === "warn"
+          ? "rounded-xl border border-amber-200 bg-amber-50/80 p-4"
+          : "rounded-xl border border-slate-200 bg-slate-50/70 p-4"
+      }
+    >
+      {children}
+    </div>
   );
 }
 
-function MustContent() {
+function DefinitionSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Must</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          W znaczeniu probability <strong>must</strong> oznacza bardzo silne przypuszczenie.
+    <div className="space-y-4">
+      <SectionHeader>Definicja</SectionHeader>
+      <p className="text-sm text-slate-700">
+        Modal verbs związane z <strong>probability</strong> służą do oceniania, jak bardzo coś jest
+        prawdopodobne. Używamy ich, gdy próbujemy logicznie ocenić sytuację na podstawie dostępnych
+        informacji.
+      </p>
+      <div className="flex flex-wrap gap-1.5">
+        {["must", "may", "might", "could", "can't"].map((w) => (
+          <span
+            key={w}
+            className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm"
+          >
+            {w}
+          </span>
+        ))}
+      </div>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykład
         </p>
-        <p>
-          Używamy go, gdy coś wydaje się niemal pewne na podstawie dostępnych informacji.
+        <p className="text-sm italic text-slate-700">She must be tired.</p>
+        <p className="mt-1 text-xs text-slate-500">Jestem prawie pewien, że jest zmęczona.</p>
+      </Card>
+    </div>
+  );
+}
+
+function MustSection() {
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Must — silna dedukcja</SectionHeader>
+      <p className="text-sm text-slate-700">
+        W znaczeniu probability <strong>must</strong> oznacza, że jesteśmy niemal pewni czegoś na
+        podstawie dowodów lub logiki. To zdecydowane przypuszczenie.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Wzór
         </p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">She must be tired.</p>
-          <p className="text-slate-800">He must be at home.</p>
-          <p className="text-slate-800">They must be joking.</p>
-        </div>
-        <p>To znaczenie nie oznacza obowiązku.</p>
-        <p>Tutaj must oznacza: <strong>jestem prawie pewien.</strong></p>
-      </div>
-    </section>
-  );
-}
-
-function MightMayCouldContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Might / May / Could</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>Te trzy modal verbs mogą wyrażać możliwość.</p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">She might be at home.</p>
-          <p className="text-slate-800">He may be working.</p>
-          <p className="text-slate-800">They could be late.</p>
-        </div>
-        <p>W praktyce wszystkie trzy zdania oznaczają:</p>
-        <p><strong>To jest możliwe, ale nie jesteśmy pewni.</strong></p>
-        <p>
-          Różnice między nimi są zwykle bardzo niewielkie i w codziennym języku często używa się ich
-          zamiennie.
+        <p className="font-mono text-sm text-slate-800">Subject + must + base verb / be</p>
+        <p className="font-mono text-sm text-slate-800 mt-1">
+          Subject + must have + past participle (przeszłość)
         </p>
-      </div>
-    </section>
-  );
-}
-
-function CantContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Can&apos;t</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          W znaczeniu probability <strong>can&apos;t</strong> oznacza, że coś jest praktycznie
-          niemożliwe.
+      </Card>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
         </p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">That can&apos;t be true.</p>
-          <p className="text-slate-800">He can&apos;t be serious.</p>
-          <p className="text-slate-800">She can&apos;t be at work today.</p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">She must be tired — she worked all day.</p>
+          <p className="text-sm italic text-slate-700">He must be at home.</p>
+          <p className="text-sm italic text-slate-700">They must be joking.</p>
+          <p className="text-sm italic text-slate-700">He must have forgotten about the meeting.</p>
         </div>
-        <p>Znaczenie: <strong>To jest niemożliwe.</strong></p>
-      </div>
-    </section>
+      </Card>
+      <p className="text-sm text-slate-600">
+        To znaczenie mówi: <strong>jestem prawie pewien.</strong> Nie oznacza obowiązku.
+      </p>
+    </div>
   );
 }
 
-function NegativeFormsContent() {
+function MightMayCouldSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Negative forms</h2>
-      <div className="space-y-4 text-slate-700">
-        <pre className="text-sm font-mono text-slate-800 bg-slate-50 p-4 rounded-xl border border-slate-300">
-          might not
-may not
-could not
-        </pre>
-        <p>Examples:</p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">She might not be at home.</p>
-          <p className="text-slate-800">He may not know about the meeting.</p>
-          <p className="text-slate-800">They could not be ready yet.</p>
+    <div className="space-y-4">
+      <SectionHeader>Might / May / Could — możliwość</SectionHeader>
+      <p className="text-sm text-slate-700">
+        Te trzy modal verbs wyrażają możliwość — coś może być prawdą, ale nie wiemy na pewno.
+        W codziennym języku są często wymienne.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">She might be at home.</p>
+          <p className="text-sm italic text-slate-700">He may be working.</p>
+          <p className="text-sm italic text-slate-700">They could be late.</p>
         </div>
-      </div>
-    </section>
+      </Card>
+      <p className="text-sm text-slate-700">
+        Wszystkie trzy zdania wyrażają to samo: <strong>to jest możliwe, ale nie wiem na pewno.</strong>
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przeszłość
+        </p>
+        <p className="text-sm text-slate-700 mb-1">
+          Gdy mówimy o tym, co mogło się wydarzyć w przeszłości:
+        </p>
+        <p className="text-sm italic text-slate-700">She might have forgotten.</p>
+        <p className="text-sm italic text-slate-700">He may have left already.</p>
+      </Card>
+    </div>
   );
 }
 
-function MistakesContent() {
+function CantSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Mistakes</h2>
-      <div className="space-y-4 text-sm text-slate-800">
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ She must to be tired.</p>
-          <p>✔ She must be tired.</p>
+    <div className="space-y-4">
+      <SectionHeader>{"Can't — niemożliwość"}</SectionHeader>
+      <p className="text-sm text-slate-700">
+        W znaczeniu probability <strong>{"can't"}</strong> oznacza, że coś jest praktycznie
+        niemożliwe lub logicznie wykluczone.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">{"That can't be true!"}</p>
+          <p className="text-sm italic text-slate-700">{"He can't be serious."}</p>
+          <p className="text-sm italic text-slate-700">{"She can't be at work — it's Sunday."}</p>
+          <p className="text-sm italic text-slate-700">{"He can't have done it — he was with me."}</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ He can&apos;t to have done it.</p>
-          <p>✔ He can&apos;t have done it.</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ They might can come later.</p>
-          <p>✔ They might come later.</p>
-          <p className="text-slate-600">
-            Modal verbs nie łączą się bezpośrednio z innymi modal verbs.
-          </p>
-        </div>
-      </div>
-    </section>
+      </Card>
+      <p className="text-sm text-slate-600">
+        Znaczenie: <strong>to jest niemożliwe lub prawie niemożliwe.</strong>
+      </p>
+    </div>
   );
 }
 
-function CompareContent() {
+function ScaleSection() {
+  const scale = [
+    { word: "must", certainty: "~90%", label: "Jestem prawie pewien", tone: "text-emerald-700" },
+    { word: "may / might / could", certainty: "~50%", label: "To możliwe, ale nie wiem", tone: "text-slate-700" },
+    { word: "can't", certainty: "~5%", label: "To niemożliwe", tone: "text-rose-700" },
+  ];
+
   return (
-    <section className="space-y-6">
-      <h2 className="text-lg font-semibold text-slate-900">Compare</h2>
-      <div className="space-y-4">
-        <Link
-          href="/app/grammar/compare?tense1=modal-must&tense2=modal-might"
-          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
-        >
-          <h3 className="font-medium text-slate-900">Must vs Might</h3>
-        </Link>
-        <Link
-          href="/app/grammar/compare?tense1=modal-must&tense2=modal-cant"
-          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
-        >
-          <h3 className="font-medium text-slate-900">Must vs Can&apos;t</h3>
-        </Link>
-        <Link
-          href="/app/grammar/compare?tense1=modal-possibility&tense2=modal-probability"
-          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
-        >
-          <h3 className="font-medium text-slate-900">Possibility vs Probability</h3>
-        </Link>
+    <div className="space-y-4">
+      <SectionHeader>Skala pewności</SectionHeader>
+      <p className="text-sm text-slate-700">
+        Modal verbs wyrażające probability tworzą skalę od pewności do niemożliwości:
+      </p>
+      <div className="space-y-2">
+        {scale.map((s, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
+          >
+            <span className="min-w-[120px] font-mono text-sm font-medium text-slate-800">
+              {s.word}
+            </span>
+            <span className="min-w-[40px] text-xs font-bold text-slate-400">{s.certainty}</span>
+            <span className={`text-sm ${s.tone}`}>{s.label}</span>
+          </div>
+        ))}
       </div>
-    </section>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady w kontekście
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">She must be tired. <span className="not-italic text-xs text-slate-400">(prawie pewny)</span></p>
+          <p className="text-sm italic text-slate-700">She might be tired. <span className="not-italic text-xs text-slate-400">(możliwe)</span></p>
+          <p className="text-sm italic text-slate-700">{"She can't be tired. "}<span className="not-italic text-xs text-slate-400">(niemożliwe)</span></p>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function MistakesSection() {
+  const mistakes = [
+    { bad: "She must to be tired.", good: "She must be tired.", note: "Po must nie używamy 'to'." },
+    { bad: "They might can come later.", good: "They might come later.", note: "Modal verbs nie łączą się ze sobą." },
+    { bad: "He can't to have done it.", good: "He can't have done it.", note: "Po can't nie używamy 'to'." },
+    { bad: "She musts be joking.", good: "She must be joking.", note: "Must nie zmienia formy — bez -s." },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Błędy i pułapki</SectionHeader>
+      <div className="space-y-3">
+        {mistakes.map((m, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+          >
+            <p className="text-sm text-rose-700">❌ {m.bad}</p>
+            <p className="text-sm text-emerald-700">✅ {m.good}</p>
+            <p className="mt-1.5 text-xs text-slate-500">{m.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CompareSection() {
+  const comparisons = [
+    {
+      title: "Must vs Might (dedukcja)",
+      body: "Must — jestem niemal pewien. Might — to możliwe, ale niepewne.",
+    },
+    {
+      title: "Must vs Can't",
+      body: "Must — jestem pewien, że TAK. Can't — jestem pewien, że NIE. To dwa bieguny skali pewności.",
+    },
+    {
+      title: "Possibility vs Probability",
+      body: "Possibility (may/might/could w kontekście zdarzeń) — coś może się wydarzyć. Probability — dedukcja o stanie faktycznym.",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Porównaj</SectionHeader>
+      <div className="space-y-3">
+        {comparisons.map((c, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+          >
+            <p className="font-semibold text-slate-800">{c.title}</p>
+            <p className="mt-1 text-sm text-slate-600">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export function ProbabilityClient() {
-  const [activeSection, setActiveSection] = useState<SectionKey>("definition");
-  const [renderedSection, setRenderedSection] = useState<SectionKey>("definition");
-  const [isVisible, setIsVisible] = useState(true);
-  const transitionRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (transitionRef.current) {
-        window.clearTimeout(transitionRef.current);
-      }
-    };
-  }, []);
-
-  const changeSection = (nextSection: SectionKey) => {
-    if (nextSection === activeSection) return;
-    if (transitionRef.current) {
-      window.clearTimeout(transitionRef.current);
+  const renderContent = (item: SidebarItem<SectionId>) => {
+    switch (item.id) {
+      case "definition":    return <DefinitionSection />;
+      case "must":          return <MustSection />;
+      case "mightMayCould": return <MightMayCouldSection />;
+      case "cant":          return <CantSection />;
+      case "scale":         return <ScaleSection />;
+      case "mistakes":      return <MistakesSection />;
+      case "compare":       return <CompareSection />;
+      default:              return null;
     }
-
-    setActiveSection(nextSection);
-    setIsVisible(false);
-    transitionRef.current = window.setTimeout(() => {
-      setRenderedSection(nextSection);
-      requestAnimationFrame(() => setIsVisible(true));
-    }, 180);
   };
 
-  const sectionButtons: { id: SectionKey; label: string }[] = [
-    { id: "definition", label: "Definition" },
-    { id: "must", label: "Must" },
-    { id: "mightMayCould", label: "Might / May / Could" },
-    { id: "cant", label: "Can't" },
-    { id: "negativeForms", label: "Negative forms" },
-    { id: "mistakes", label: "Mistakes" },
-    { id: "compare", label: "Compare" },
-  ];
-
   return (
-    <main className="space-y-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Probability</h1>
-          <p className="max-w-2xl text-sm text-slate-700">
-            Modal verbs związane z probability służą do wyrażania przypuszczeń i oceniania, jak bardzo
-            coś jest prawdopodobne.
-          </p>
-          <div className="mt-3 flex flex-col gap-2">
-            <Link
-              href="/app/grammar/sentence-builder?type=modal&modal=might"
-              className="inline-flex w-fit rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
-            >
-              Try building sentences →
-            </Link>
-            <Link
-              href="/app/courses/modal-probability"
-              className="text-sm text-slate-600 underline hover:text-slate-800"
-            >
-              Zobacz pełny kurs
-            </Link>
-          </div>
-        </div>
-        <Link
-          href="/app/grammar/modal-verbs"
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          ← Wróć do Modal Verbs
-        </Link>
-      </header>
-
-      <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
-          <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-            {renderedSection === "definition" && <DefinitionContent />}
-            {renderedSection === "must" && <MustContent />}
-            {renderedSection === "mightMayCould" && <MightMayCouldContent />}
-            {renderedSection === "cant" && <CantContent />}
-            {renderedSection === "negativeForms" && <NegativeFormsContent />}
-            {renderedSection === "mistakes" && <MistakesContent />}
-            {renderedSection === "compare" && <CompareContent />}
-          </div>
-        </div>
-
-        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Sekcje</div>
-                    <div className="flex flex-col gap-1.5">
-            {sectionButtons.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => changeSection(item.id)}
-                data-active={activeSection === item.id ? "true" : "false"}
-              className={`grammar-aside-item w-full px-3.5 py-2 text-left text-sm ${
-                  activeSection === item.id
-                    ? "font-semibold text-slate-900"
-                    : "font-medium text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </aside>
-      </section>
-    </main>
+    <TileWithSidebar<SectionId>
+      title="Probability"
+      description="Modal verbs do wyrażania przypuszczeń i oceniania prawdopodobieństwa: must, might, may, could, can't."
+      backHref="/app/grammar/modal-verbs"
+      backLabel="← Modal Verbs"
+      items={SECTIONS}
+      defaultItemId="definition"
+      asideLabel="Sekcje"
+      renderContent={renderContent}
+    />
   );
 }

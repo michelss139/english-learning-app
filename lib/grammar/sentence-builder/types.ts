@@ -11,6 +11,10 @@ export const SENTENCE_BUILDER_TENSES = [
   "future-simple",
   "present-continuous",
   "present-perfect",
+  "past-continuous",
+  "past-perfect",
+  "future-continuous",
+  "future-perfect",
 ] as const;
 
 export const SENTENCE_BUILDER_MODAL_PATTERNS = ["base", "perfect", "continuous"] as const;

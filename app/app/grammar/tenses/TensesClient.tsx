@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { GrammarTense, GrammarTenseSlug } from "@/lib/grammar/types";
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
 const CATEGORIES = ["PRESENT", "PAST", "FUTURE"] as const;
 const CATEGORY_LABELS: Record<(typeof CATEGORIES)[number], string> = {
   PRESENT: "Present",
@@ -23,65 +25,226 @@ type TensesClientProps = {
   tenses: GrammarTense[];
 };
 
-function stripExamples(text: string): string {
-  const idx = text.search(/\n\s*(Przykłady|Examples)\s*:/i);
-  if (idx >= 0) return text.slice(0, idx).trim();
-  return text.trim();
+// ─── Parsers ──────────────────────────────────────────────────────────────────
+
+function splitItems(text: string): string[] {
+  return text
+    .split(/\n\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
-function formatStructure(text: string, slug?: string): string {
-  let out = stripExamples(text).replace(/base form/gi, "bezokolicznik");
-  if (slug === "present-simple") {
-    out = out.replace(/do not \(don't\)/gi, "don't").replace(/does not \(doesn't\)/gi, "doesn't");
+/**
+ * Parse a structure field (affirmative / negative / question) into:
+ *   formula  — the first "rule line" (e.g. "will have been + verb-ing")
+ *   example  — the first concrete example sentence
+ *
+ * Handles two authoring formats:
+ *   1. "Przykłady:" separator  → formula = text before it, example = first item after it
+ *   2. Inline (no separator)   → formula = first line, example = first capitalised non-"/" line
+ *
+ * Falls back to `fallbackExample` when neither format yields a clean sentence.
+ */
+function parseFormulaAndExample(
+  text: string,
+  fallbackExample?: string,
+): { formula: string; example: string } {
+  if (!text?.trim()) return { formula: "", example: "" };
+
+  const trimmed = text.trim();
+  const splitIdx = trimmed.search(/\n\s*Przykłady\s*:\s*\n/i);
+
+  if (splitIdx >= 0) {
+    const formulaPart = trimmed.slice(0, splitIdx).trim();
+    const formula = splitItems(formulaPart)[0] ?? "";
+    const rest = trimmed.slice(splitIdx).replace(/^\s*Przykłady\s*:\s*/i, "").trim();
+    const example =
+      rest
+        .split(/\n+/)
+        .map((s) => s.trim())
+        .filter(Boolean)[0] ?? "";
+    return { formula, example };
   }
-  return out;
+
+  // No "Przykłady:" separator — heuristic extraction
+  const lines = trimmed.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+  const formula = lines[0] ?? "";
+
+  // First line that starts with a capital and has no "/" (skips pattern variants like "I/he/she/it…")
+  let example = "";
+  for (const line of lines.slice(1)) {
+    if (line.includes("/")) continue;
+    if (line.match(/^[A-Z]/)) {
+      example = line;
+      break;
+    }
+  }
+
+  if (!example && fallbackExample) {
+    example = fallbackExample;
+  }
+
+  return { formula, example };
 }
 
-function getHighlightPattern(slug: string): RegExp | null {
-  if (slug === "present-simple") return /\b(Do|Does|don't|doesn't)\b/g;
-  if (slug === "present-perfect" || slug === "present-perfect-continuous")
-    return /\b(Have|Has|have|has|haven't|hasn't)\b/g;
-  return null;
+// ─── Auxiliary-verb highlighting ──────────────────────────────────────────────
+
+/**
+ * Returns a regex with ONE capturing group so that `text.split(pattern)`
+ * gives alternating [plain, match, plain, …] — odd indices are the highlights.
+ *
+ * Multi-word phrases (e.g. "won't have been") come BEFORE their sub-phrases
+ * so the longer match wins in alternation.
+ */
+function getAuxiliaryPattern(slug: string): RegExp | null {
+  switch (slug) {
+    case "present-simple":
+      return /\b(don't|doesn't|do|does)\b/gi;
+    case "present-continuous":
+      return /\b(am not|isn't|aren't|am|is|are)\b/gi;
+    case "past-simple":
+      return /\b(didn't|did)\b/gi;
+    case "past-continuous":
+      return /\b(wasn't|weren't|was|were)\b/gi;
+    case "past-perfect":
+      return /\b(hadn't|had)\b/gi;
+    case "past-perfect-continuous":
+      return /\b(hadn't been|had been|hadn't|had)\b/gi;
+    case "present-perfect":
+      return /\b(haven't|hasn't|have|has)\b/gi;
+    case "present-perfect-continuous":
+      return /\b(haven't been|hasn't been|have been|has been)\b/gi;
+    case "future-simple":
+      return /\b(won't|will)\b/gi;
+    case "future-continuous":
+      return /\b(won't be|will be)\b/gi;
+    case "future-perfect-simple":
+      return /\b(won't have|will have)\b/gi;
+    case "future-perfect-continuous":
+      return /\b(won't have been|will have been)\b/gi;
+    case "zero-conditional":
+      return /\b(if|when)\b/gi;
+    case "first-conditional":
+      return /\b(won't|will|if)\b/gi;
+    case "second-conditional":
+      return /\b(wouldn't|would|if)\b/gi;
+    case "third-conditional":
+      return /\b(wouldn't have|would have|if)\b/gi;
+    default:
+      return null;
+  }
 }
 
-function StructureCell({ text, slug }: { text: string; slug: string }) {
-  const formatted = formatStructure(text, slug);
-  const pattern = getHighlightPattern(slug);
+// ─── Highlighted text atoms ───────────────────────────────────────────────────
+
+/** Formula line — medium weight; highlights are bold */
+function HighlightedFormula({ text, slug }: { text: string; slug: string }) {
+  const pattern = getAuxiliaryPattern(slug);
+  if (!text) return null;
   if (!pattern) {
     return (
-      <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-slate-700">
-        {formatted}
-      </pre>
+      <span className="text-sm font-medium text-slate-800 leading-snug">{text}</span>
     );
   }
-  const parts = formatted.split(pattern);
-  const matches = formatted.match(pattern) ?? [];
-  const elements: React.ReactNode[] = [];
-  let mi = 0;
-  parts.forEach((part, i) => {
-    elements.push(part);
-    if (i < parts.length - 1 && matches[mi]) {
-      elements.push(
-        <span key={`h-${i}`} className="font-semibold text-slate-900">
-          {matches[mi]}
-        </span>,
-      );
-      mi++;
-    }
-  });
+  const parts = text.split(pattern);
   return (
-    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-slate-700">
-      {elements}
-    </pre>
+    <span className="text-sm font-medium text-slate-800 leading-snug">
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <strong key={i} className="font-bold text-slate-900">
+            {part}
+          </strong>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </span>
   );
 }
 
+/** Example sentence — italic; highlights are un-italicised semibold */
+function HighlightedExample({ text, slug }: { text: string; slug: string }) {
+  const pattern = getAuxiliaryPattern(slug);
+  if (!text) return null;
+  if (!pattern) {
+    return (
+      <span className="text-sm italic text-slate-400">{text}</span>
+    );
+  }
+  const parts = text.split(pattern);
+  return (
+    <span className="text-sm italic text-slate-400">
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <span key={i} className="not-italic font-semibold text-slate-600">
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </span>
+  );
+}
+
+// ─── Table row ────────────────────────────────────────────────────────────────
+
+function StructureRow({
+  type,
+  data,
+  slug,
+  isLast,
+}: {
+  type: string;
+  data: { formula: string; example: string };
+  slug: string;
+  isLast?: boolean;
+}) {
+  if (!data.formula) return null;
+  return (
+    <tr className={isLast ? "" : "border-b border-slate-200/60"}>
+      <td className="px-4 py-3.5 text-[12px] font-bold uppercase tracking-[0.1em] text-slate-400 align-top whitespace-nowrap w-[26%]">
+        {type}
+      </td>
+      <td className="px-4 py-3.5 align-top">
+        <div className="space-y-1">
+          <HighlightedFormula text={data.formula} slug={slug} />
+          <HighlightedExample text={data.example} slug={slug} />
+        </div>
+      </td>
+    </tr>
+  );
+}
+
+// ─── Tense content panel ──────────────────────────────────────────────────────
+
 function TenseContent({ tense }: { tense: GrammarTense }) {
   const s = tense.content.structure;
+
+  // Derive per-type fallback sentences from the examples field
+  const exList = splitItems(tense.content.examples);
+  const fallbackAff = exList.find((e) => !/\b(n't|not)\b/.test(e) && !e.endsWith("?"));
+  const fallbackNeg = exList.find((e) => /\b(n't|not)\b/.test(e));
+  const fallbackQ = exList.find((e) => e.trimEnd().endsWith("?"));
+
+  const affData = parseFormulaAndExample(s.affirmative, fallbackAff);
+  const negData = s.negative?.trim()
+    ? parseFormulaAndExample(s.negative, fallbackNeg)
+    : null;
+  const qData = s.question?.trim()
+    ? parseFormulaAndExample(s.question, fallbackQ)
+    : null;
+
+  const hasNeg = negData && negData.formula;
+  const hasQ = qData && qData.formula;
+
   return (
     <div className="flex flex-col gap-4">
+      {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-semibold tracking-tight text-slate-900">{tense.title}</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
+          {tense.title}
+        </h2>
         <Link
           href={`/app/grammar/${tense.slug}`}
           prefetch={false}
@@ -91,41 +254,42 @@ function TenseContent({ tense }: { tense: GrammarTense }) {
         </Link>
       </div>
 
+      {/* Structure table */}
       {s && (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50/70">
-          <table className="w-full min-w-[320px] border-collapse text-left text-sm">
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <table className="w-full min-w-[320px] border-collapse text-left">
             <thead>
-              <tr className="border-b border-slate-200">
-                <th className="w-[28%] px-3 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+              <tr className="border-b border-slate-200 bg-slate-50/80">
+                <th className="w-[26%] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
                   Typ
                 </th>
-                <th className="px-3 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                  Struktura
+                <th className="px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                  Wzór &amp; Przykład
                 </th>
               </tr>
             </thead>
-            <tbody className="text-slate-800">
-              <tr className="border-b border-slate-200/70">
-                <td className="px-3 py-2.5 text-sm font-medium text-slate-700">Affirmative</td>
-                <td className="px-3 py-2.5">
-                  <StructureCell text={s.affirmative} slug={tense.slug} />
-                </td>
-              </tr>
-              {s.negative && (
-                <tr className="border-b border-slate-200/70">
-                  <td className="px-3 py-2.5 text-sm font-medium text-slate-700">Negative</td>
-                  <td className="px-3 py-2.5">
-                    <StructureCell text={s.negative} slug={tense.slug} />
-                  </td>
-                </tr>
+            <tbody>
+              <StructureRow
+                type="Affirmative"
+                data={affData}
+                slug={tense.slug}
+                isLast={!hasNeg && !hasQ}
+              />
+              {hasNeg && (
+                <StructureRow
+                  type="Negative"
+                  data={negData!}
+                  slug={tense.slug}
+                  isLast={!hasQ}
+                />
               )}
-              {s.question && (
-                <tr>
-                  <td className="px-3 py-2.5 text-sm font-medium text-slate-700">Question</td>
-                  <td className="px-3 py-2.5">
-                    <StructureCell text={s.question} slug={tense.slug} />
-                  </td>
-                </tr>
+              {hasQ && (
+                <StructureRow
+                  type="Question"
+                  data={qData!}
+                  slug={tense.slug}
+                  isLast
+                />
               )}
             </tbody>
           </table>
@@ -134,6 +298,8 @@ function TenseContent({ tense }: { tense: GrammarTense }) {
     </div>
   );
 }
+
+// ─── Main export ──────────────────────────────────────────────────────────────
 
 export function TensesClient({ tenses }: TensesClientProps) {
   const grouped = useMemo(
@@ -191,8 +357,8 @@ export function TensesClient({ tenses }: TensesClientProps) {
         <div className="space-y-1.5">
           <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasy</h1>
           <p className="max-w-2xl text-sm text-slate-600">
-            Wybierz czas z listy — zobacz schemat zdania twierdzącego, przeczenia i pytania, a następnie
-            otwórz pełną teorię.
+            Wybierz czas z listy — zobacz schemat zdania twierdzącego, przeczenia i pytania, a
+            następnie otwórz pełną teorię.
           </p>
         </div>
         <Link
@@ -204,6 +370,7 @@ export function TensesClient({ tenses }: TensesClientProps) {
       </header>
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_1fr] lg:gap-5">
+        {/* Main content panel */}
         <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
           <div
             className={`transition-opacity duration-200 ${
@@ -214,6 +381,7 @@ export function TensesClient({ tenses }: TensesClientProps) {
           </div>
         </div>
 
+        {/* Category sidebar */}
         <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
           <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
             Kategorie

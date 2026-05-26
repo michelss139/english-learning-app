@@ -1,299 +1,291 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { TileWithSidebar, type SidebarItem } from "../../_components/TileWithSidebar";
 
-type SectionKey =
-  | "definition"
-  | "should"
-  | "oughtTo"
-  | "hadBetter"
-  | "negativeForms"
-  | "mistakes"
-  | "compare";
+type SectionId = "definition" | "should" | "oughtTo" | "hadBetter" | "negatives" | "mistakes" | "compare";
 
-function DefinitionContent() {
+const SECTIONS: SidebarItem<SectionId>[] = [
+  { id: "definition", title: "Definicja" },
+  { id: "should",     title: "Should" },
+  { id: "oughtTo",    title: "Ought to" },
+  { id: "hadBetter",  title: "Had better" },
+  { id: "negatives",  title: "Formy przeczące" },
+  { id: "mistakes",   title: "Błędy i pułapki" },
+  { id: "compare",    title: "Porównaj" },
+];
+
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-2xl font-semibold tracking-tight text-slate-900">{children}</h2>;
+}
+
+function Card({ children, tone = "soft" }: { children: React.ReactNode; tone?: "soft" | "warn" }) {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Definition</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          Modal verbs związane z advice służą do dawania rad, sugestii i zaleceń.
-        </p>
-        <p>Najczęściej używamy:</p>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>should</li>
-          <li>ought to</li>
-          <li>had better</li>
-        </ul>
-        <p>
-          Każda z tych konstrukcji może służyć do powiedzenia komuś, co warto zrobić, ale nie
-          brzmią one identycznie.
-        </p>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>
-            <strong>should</strong> — najczęstsza i najbardziej neutralna forma rady
-          </li>
-          <li>
-            <strong>ought to</strong> — bardzo podobne do should, ale trochę bardziej formalne lub
-            książkowe
-          </li>
-          <li>
-            <strong>had better</strong> — rada z wyraźnym ostrzeżeniem o konsekwencjach
-          </li>
-        </ul>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Example:</p>
-          <p className="text-slate-800">You should talk to your manager.</p>
-          <p className="text-sm text-slate-600">Powinieneś porozmawiać ze swoim przełożonym.</p>
-        </div>
-      </div>
-    </section>
+    <div
+      className={
+        tone === "warn"
+          ? "rounded-xl border border-amber-200 bg-amber-50/80 p-4"
+          : "rounded-xl border border-slate-200 bg-slate-50/70 p-4"
+      }
+    >
+      {children}
+    </div>
   );
 }
 
-function ShouldContent() {
+function DefinitionSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Should</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          Should to najczęstszy sposób udzielania rady w języku angielskim.
-        </p>
-        <p>
-          Używamy go, gdy chcemy powiedzieć, że coś jest dobrym pomysłem, rozsądne albo zalecane.
-        </p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">You should talk to your manager.</p>
-          <p className="text-slate-800">You should get some rest.</p>
-          <p className="text-slate-800">He should apologise.</p>
-        </div>
-        <p>Should brzmi neutralnie i naturalnie w codziennej komunikacji.</p>
+    <div className="space-y-4">
+      <SectionHeader>Definicja</SectionHeader>
+      <p className="text-sm text-slate-700">
+        Modal verbs związane z <strong>advice</strong> służą do dawania rad, sugestii i zaleceń.
+        Każda z trzech głównych konstrukcji brzmi nieco inaczej.
+      </p>
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-slate-100 bg-slate-50">
+              <th className="px-4 py-2 text-left text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                Konstrukcja
+              </th>
+              <th className="px-4 py-2 text-left text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                Charakter
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              ["should", "neutralna rada, najczęstsza"],
+              ["ought to", "podobne do should, trochę bardziej formalne"],
+              ["had better", "rada z ostrzeżeniem o konsekwencjach"],
+            ].map(([word, desc], i) => (
+              <tr key={i} className={i < 2 ? "border-b border-slate-100" : ""}>
+                <td className="px-4 py-2.5 font-medium text-slate-800">{word}</td>
+                <td className="px-4 py-2.5 text-slate-600">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-    </section>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykład
+        </p>
+        <p className="text-sm italic text-slate-700">You should talk to your manager.</p>
+        <p className="mt-1 text-xs text-slate-500">Powinieneś porozmawiać ze swoim przełożonym.</p>
+      </Card>
+    </div>
   );
 }
 
-function OughtToContent() {
+function ShouldSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Ought to</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          Ought to ma bardzo podobne znaczenie do should.
+    <div className="space-y-4">
+      <SectionHeader>Should</SectionHeader>
+      <p className="text-sm text-slate-700">
+        <strong>Should</strong> to najczęstszy i najbardziej naturalny sposób dawania rady po
+        angielsku. Brzmi neutralnie — nie za mocno, nie za słabo.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Wzór
         </p>
-        <p>W praktyce oba słowa często można stosować zamiennie.</p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">You ought to apologise.</p>
-          <p className="text-slate-800">She ought to see a doctor.</p>
+        <p className="font-mono text-sm text-slate-800">Subject + should + base verb</p>
+      </Card>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">You should get some rest.</p>
+          <p className="text-sm italic text-slate-700">He should apologise.</p>
+          <p className="text-sm italic text-slate-700">You should see a doctor.</p>
+          <p className="text-sm italic text-slate-700">Should I call her?</p>
         </div>
-        <p>
-          Ought to brzmi zwykle trochę bardziej formalnie, bardziej książkowo albo bardziej
-          „moralnie”.
-        </p>
-        <p>W codziennym języku should jest używane częściej.</p>
-      </div>
-    </section>
+      </Card>
+    </div>
   );
 }
 
-function HadBetterContent() {
+function OughtToSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Had better</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          Had better również służy do dawania rady, ale zwykle zawiera ostrzeżenie: jeśli tego nie
-          zrobisz, mogą pojawić się negatywne konsekwencje.
+    <div className="space-y-4">
+      <SectionHeader>Ought to</SectionHeader>
+      <p className="text-sm text-slate-700">
+        <strong>Ought to</strong> ma bardzo podobne znaczenie do should. W praktyce oba słowa często
+        można stosować zamiennie. Ought to brzmi trochę bardziej formalnie lub moralnie.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Wzór
         </p>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="text-slate-800">Examples:</p>
-          <p className="text-slate-800">You had better leave now.</p>
-          <p className="text-slate-800">You had better not be late.</p>
-          <p className="text-slate-800">We had better take a taxi.</p>
-        </div>
-        <p>Ta konstrukcja nie oznacza przeszłości, mimo że zawiera słowo had.</p>
-        <p>Had better brzmi mocniej niż should.</p>
-      </div>
-    </section>
-  );
-}
-
-function NegativeFormsContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Negative forms</h2>
-      <div className="space-y-4 text-slate-700">
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">should not / shouldn&apos;t</p>
-          <p className="text-slate-800">You shouldn&apos;t ignore this problem.</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">ought not to</p>
-          <p className="text-slate-800">You ought not to speak to her like that.</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">had better not</p>
-          <p className="text-slate-800">You had better not be late.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function MistakesContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Mistakes</h2>
-      <div className="space-y-4 text-sm text-slate-800">
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ He should to go.</p>
-          <p>✔ He should go.</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ You had better to leave now.</p>
-          <p>✔ You had better leave now.</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ She ought go now.</p>
-          <p>✔ She ought to go now.</p>
-        </div>
-        <p className="text-slate-600">
-          Po modal verbs nie używamy &quot;to&quot;, z wyjątkiem konstrukcji ought to.
+        <p className="font-mono text-sm text-slate-800">Subject + ought to + base verb</p>
+      </Card>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
         </p>
-      </div>
-    </section>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">You ought to apologise.</p>
+          <p className="text-sm italic text-slate-700">She ought to see a doctor.</p>
+          <p className="text-sm italic text-slate-700">We ought to leave now.</p>
+        </div>
+      </Card>
+      <p className="text-sm text-slate-600">
+        W codziennym języku <strong>should</strong> jest używane znacznie częściej niż ought to.
+      </p>
+    </div>
   );
 }
 
-function CompareContent() {
+function HadBetterSection() {
   return (
-    <section className="space-y-6">
-      <h2 className="text-lg font-semibold text-slate-900">Compare</h2>
-      <div className="space-y-4">
-        <Link
-          href="/app/grammar/compare?tense1=modal-should&tense2=modal-ought-to"
-          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
-        >
-          <h3 className="font-medium text-slate-900">Should vs Ought to</h3>
-        </Link>
-        <Link
-          href="/app/grammar/compare?tense1=modal-should&tense2=modal-had-better"
-          className="block rounded-xl border border-slate-200 bg-slate-50/80 p-4 hover:bg-slate-100 transition"
-        >
-          <h3 className="font-medium text-slate-900">Should vs Had better</h3>
-        </Link>
+    <div className="space-y-4">
+      <SectionHeader>Had better</SectionHeader>
+      <p className="text-sm text-slate-700">
+        <strong>Had better</strong> to rada z wyraźnym ostrzeżeniem — jeśli tego nie zrobisz,
+        mogą pojawić się negatywne konsekwencje. Brzmi mocniej niż should.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Wzór
+        </p>
+        <p className="font-mono text-sm text-slate-800">Subject + had better + base verb</p>
+        <p className="mt-1 text-xs text-slate-500">
+          Skrót: You&apos;d better leave now.
+        </p>
+      </Card>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">You had better leave now.</p>
+          <p className="text-sm italic text-slate-700">We had better take a taxi or we&apos;ll be late.</p>
+          <p className="text-sm italic text-slate-700">You had better not be late.</p>
+        </div>
+      </Card>
+      <Card tone="warn">
+        <p className="text-sm font-medium text-amber-900">Uwaga</p>
+        <p className="mt-1 text-sm text-amber-800">
+          Had better <strong>nie</strong> oznacza przeszłości, mimo że zawiera słowo{" "}
+          <em>had</em>. To konstrukcja odnosząca się do teraźniejszości lub przyszłości.
+        </p>
+      </Card>
+    </div>
+  );
+}
+
+function NegativesSection() {
+  const forms = [
+    { form: "shouldn't (should not)", example: "You shouldn't ignore this problem." },
+    { form: "ought not to", example: "You ought not to speak to her like that." },
+    { form: "had better not", example: "You had better not be late." },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Formy przeczące</SectionHeader>
+      <div className="space-y-3">
+        {forms.map((f, i) => (
+          <div key={i} className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className="border-b border-slate-100 bg-slate-50 px-4 py-2">
+              <span className="font-mono text-sm font-medium text-slate-800">{f.form}</span>
+            </div>
+            <div className="px-4 py-2.5">
+              <p className="text-sm italic text-slate-700">{f.example}</p>
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
+  );
+}
+
+function MistakesSection() {
+  const mistakes = [
+    { bad: "He should to go.", good: "He should go.", note: "Po should nie używamy 'to'." },
+    { bad: "You had better to leave now.", good: "You had better leave now.", note: "Had better nie łączy się z 'to'." },
+    { bad: "She ought go now.", good: "She ought to go now.", note: "Ought zawsze wymaga 'to'." },
+    { bad: "She shoulds rest.", good: "She should rest.", note: "Should nie zmienia formy — bez -s." },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Błędy i pułapki</SectionHeader>
+      <div className="space-y-3">
+        {mistakes.map((m, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+          >
+            <p className="text-sm text-rose-700">❌ {m.bad}</p>
+            <p className="text-sm text-emerald-700">✅ {m.good}</p>
+            <p className="mt-1.5 text-xs text-slate-500">{m.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CompareSection() {
+  const comparisons = [
+    {
+      title: "Should vs Ought to",
+      body: "Oba wyrażają radę i są często wymienne. Should jest częstsze i bardziej naturalne w codziennym języku.",
+    },
+    {
+      title: "Should vs Had better",
+      body: "Should — neutralna rada. Had better — mocniejsza rada z sugestią konsekwencji.",
+    },
+    {
+      title: "Should vs Must",
+      body: "Should — rada lub sugestia. Must — silny obowiązek. Must brzmi zdecydowanie mocniej.",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Porównaj</SectionHeader>
+      <div className="space-y-3">
+        {comparisons.map((c, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+          >
+            <p className="font-semibold text-slate-800">{c.title}</p>
+            <p className="mt-1 text-sm text-slate-600">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export function AdviceClient() {
-  const [activeSection, setActiveSection] = useState<SectionKey>("definition");
-  const [renderedSection, setRenderedSection] = useState<SectionKey>("definition");
-  const [isVisible, setIsVisible] = useState(true);
-  const transitionRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (transitionRef.current) {
-        window.clearTimeout(transitionRef.current);
-      }
-    };
-  }, []);
-
-  const changeSection = (nextSection: SectionKey) => {
-    if (nextSection === activeSection) return;
-    if (transitionRef.current) {
-      window.clearTimeout(transitionRef.current);
+  const renderContent = (item: SidebarItem<SectionId>) => {
+    switch (item.id) {
+      case "definition": return <DefinitionSection />;
+      case "should":     return <ShouldSection />;
+      case "oughtTo":    return <OughtToSection />;
+      case "hadBetter":  return <HadBetterSection />;
+      case "negatives":  return <NegativesSection />;
+      case "mistakes":   return <MistakesSection />;
+      case "compare":    return <CompareSection />;
+      default:           return null;
     }
-
-    setActiveSection(nextSection);
-    setIsVisible(false);
-    transitionRef.current = window.setTimeout(() => {
-      setRenderedSection(nextSection);
-      requestAnimationFrame(() => setIsVisible(true));
-    }, 180);
   };
 
-  const sectionButtons: { id: SectionKey; label: string }[] = [
-    { id: "definition", label: "Definition" },
-    { id: "should", label: "Should" },
-    { id: "oughtTo", label: "Ought to" },
-    { id: "hadBetter", label: "Had better" },
-    { id: "negativeForms", label: "Negative forms" },
-    { id: "mistakes", label: "Mistakes" },
-    { id: "compare", label: "Compare" },
-  ];
-
   return (
-    <main className="space-y-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Advice</h1>
-          <p className="max-w-2xl text-sm text-slate-700">
-            Modal verbs związane z advice służą do dawania rad, sugestii i zaleceń. Najczęściej
-            używamy do tego should, ought to oraz had better.
-          </p>
-          <div className="mt-3 flex flex-col gap-2">
-            <Link
-              href="/app/grammar/sentence-builder?type=modal&modal=should"
-              className="inline-flex w-fit rounded-xl border-2 border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
-            >
-              Try building sentences →
-            </Link>
-            <Link
-              href="/app/courses/modal-advice"
-              className="text-sm text-slate-600 underline hover:text-slate-800"
-            >
-              Zobacz pełny kurs
-            </Link>
-          </div>
-        </div>
-        <Link
-          href="/app/grammar/modal-verbs"
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          ← Wróć do Modal Verbs
-        </Link>
-      </header>
-
-      <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
-          <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-            {renderedSection === "definition" && <DefinitionContent />}
-            {renderedSection === "should" && <ShouldContent />}
-            {renderedSection === "oughtTo" && <OughtToContent />}
-            {renderedSection === "hadBetter" && <HadBetterContent />}
-            {renderedSection === "negativeForms" && <NegativeFormsContent />}
-            {renderedSection === "mistakes" && <MistakesContent />}
-            {renderedSection === "compare" && <CompareContent />}
-          </div>
-        </div>
-
-        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Sekcje</div>
-                    <div className="flex flex-col gap-1.5">
-            {sectionButtons.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => changeSection(item.id)}
-                data-active={activeSection === item.id ? "true" : "false"}
-              className={`grammar-aside-item w-full px-3.5 py-2 text-left text-sm ${
-                  activeSection === item.id
-                    ? "font-semibold text-slate-900"
-                    : "font-medium text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </aside>
-      </section>
-    </main>
+    <TileWithSidebar<SectionId>
+      title="Advice"
+      description="Modal verbs używane do dawania rad i sugestii: should, ought to, had better."
+      backHref="/app/grammar/modal-verbs"
+      backLabel="← Modal Verbs"
+      items={SECTIONS}
+      defaultItemId="definition"
+      asideLabel="Sekcje"
+      renderContent={renderContent}
+    />
   );
 }

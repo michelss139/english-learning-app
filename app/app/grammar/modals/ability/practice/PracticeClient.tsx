@@ -1,10 +1,8 @@
-"use client";
-
-import { InputPracticeClient } from "../../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../../_components/GapFillPracticePage";
 
 export function PracticeClient() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="modal-ability"
       title="Ability"
       mapHref="/app/grammar/modals/ability"

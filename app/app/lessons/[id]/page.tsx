@@ -1552,7 +1552,8 @@ export default function LessonDetailPage() {
                       ? irregularVerbsStatus === "saving"
                       : vocabPairsStatus === "saving"
                   }
-                  className="rounded-xl border border-slate-300 bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                  className="rounded-xl border border-slate-300 bg-slate-900 px-4 py-2 text-sm font-semibold shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                  style={{ color: "#fff" }}
                 >
                   {addContentModal === "irregular"
                     ? irregularVerbsStatus === "saving"

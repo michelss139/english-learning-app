@@ -32,6 +32,15 @@ export type PackDto = {
 type VocabMode = "daily" | "precise";
 const STORAGE_KEY = "vocabMode";
 
+type PosFilter = "all" | "nouns" | "verbs" | "phrasal_verbs";
+
+const POS_FILTER_LABELS: Record<PosFilter, string> = {
+  all: "Wszystkie",
+  nouns: "Rzeczowniki",
+  verbs: "Czasowniki",
+  phrasal_verbs: "Phrasal Verbs",
+};
+
 const isValidMode = (value: string | null): value is VocabMode =>
   value === "daily" || value === "precise";
 
@@ -249,6 +258,7 @@ export default function PacksClient({
 }) {
   const searchParams = useSearchParams();
   const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
+  const [posFilter, setPosFilter] = useState<PosFilter>("all");
   const [categoryQuery, setCategoryQuery] = useState("");
 
   const modeFromUrl = useMemo<VocabMode | null>(() => {
@@ -276,8 +286,16 @@ export default function PacksClient({
   const normalizedQuery = categoryQuery.trim().toLowerCase();
 
   const filteredPacks = useMemo(() => {
-    return initialPacks.filter((pack) => pack.vocab_mode === vocabMode);
-  }, [initialPacks, vocabMode]);
+    return initialPacks.filter((pack) => {
+      if (pack.vocab_mode !== vocabMode) return false;
+      if (posFilter === "all") return true;
+      if (posFilter === "verbs") return pack.category === "verbs";
+      if (posFilter === "phrasal_verbs") return pack.category === "phrasal_verbs";
+      // "nouns" = everything that is not a verb or phrasal verb pack
+      if (posFilter === "nouns") return pack.category !== "verbs" && pack.category !== "phrasal_verbs";
+      return true;
+    });
+  }, [initialPacks, vocabMode, posFilter]);
 
   const activePacks = useMemo(() => filteredPacks.filter((p) => !p.is_archived), [filteredPacks]);
   const archivedForMode = useMemo(
@@ -317,49 +335,73 @@ export default function PacksClient({
         <p className="mt-0.5 text-xs font-medium text-slate-400">Szybkie powtórki na podstawie fiszek</p>
       </header>
 
-      <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-5 flex flex-col gap-3">
+        {/* Row 1: mode + search */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex gap-2">
+            {(["daily", "precise"] as VocabMode[]).map((m) => {
+              const active = vocabMode === m;
+              const label = m === "daily" ? "Daily" : "Precise";
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  className={`rounded-xl px-5 py-3 text-base font-semibold transition-all duration-150 ${
+                    active
+                      ? "border border-slate-300 bg-white text-slate-900 shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+                      : "border border-slate-200/60 bg-transparent text-slate-400 hover:border-slate-300 hover:text-slate-600"
+                  }`}
+                  onClick={() => {
+                    setVocabMode(m);
+                    localStorage.setItem(STORAGE_KEY, m);
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="relative w-full sm:max-w-xs">
+            <input
+              type="text"
+              value={categoryQuery}
+              onChange={(event) => setCategoryQuery(event.target.value)}
+              placeholder="Szukaj sekcji lub fiszki…"
+              className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2 text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
+            />
+            {categoryQuery ? (
+              <button
+                type="button"
+                onClick={() => setCategoryQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 transition-colors hover:text-slate-600"
+                aria-label="Wyczyść wyszukiwanie"
+              >
+                ✕
+              </button>
+            ) : null}
+          </div>
+        </div>
+
+        {/* Row 2: POS filter */}
         <div className="flex gap-2">
-          {(["daily", "precise"] as VocabMode[]).map((m) => {
-            const active = vocabMode === m;
-            const label = m === "daily" ? "Daily" : "Precise";
+          {(["all", "nouns", "verbs", "phrasal_verbs"] as PosFilter[]).map((f) => {
+            const active = posFilter === f;
             return (
               <button
-                key={m}
+                key={f}
                 type="button"
-                className={`rounded-xl px-5 py-3 text-base font-semibold transition-all duration-150 ${
+                className={`rounded-lg px-3.5 py-1.5 text-sm font-medium transition-all duration-150 ${
                   active
                     ? "border border-slate-300 bg-white text-slate-900 shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                    : "border border-slate-200/60 bg-transparent text-slate-400 hover:border-slate-300 hover:text-slate-600"
+                    : "border border-slate-200 bg-transparent text-slate-400 hover:border-slate-300 hover:text-slate-600"
                 }`}
-                onClick={() => {
-                  setVocabMode(m);
-                  localStorage.setItem(STORAGE_KEY, m);
-                }}
+                onClick={() => setPosFilter(f)}
               >
-                {label}
+                {POS_FILTER_LABELS[f]}
               </button>
             );
           })}
-        </div>
-
-        <div className="relative w-full sm:max-w-xs">
-          <input
-            type="text"
-            value={categoryQuery}
-            onChange={(event) => setCategoryQuery(event.target.value)}
-            placeholder="Szukaj sekcji lub fiszki…"
-            className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2 text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
-          />
-          {categoryQuery ? (
-            <button
-              type="button"
-              onClick={() => setCategoryQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 transition-colors hover:text-slate-600"
-              aria-label="Wyczyść wyszukiwanie"
-            >
-              ✕
-            </button>
-          ) : null}
         </div>
       </div>
 

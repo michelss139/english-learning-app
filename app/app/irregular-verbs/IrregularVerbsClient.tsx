@@ -375,9 +375,10 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
               type="button"
               className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                 canStart
-                  ? "bg-slate-900 text-white shadow-[0_1px_3px_rgba(15,23,42,0.2)] hover:bg-slate-800"
+                  ? "bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.2)] hover:bg-slate-800"
                   : "cursor-not-allowed bg-slate-200 text-slate-400"
               }`}
+              style={canStart ? { color: "#fff" } : undefined}
               onClick={() => {
                 if (canStart) router.push(`/app/irregular-verbs/train?mode=${trainMode}`);
               }}

@@ -1,8 +1,8 @@
-import { InputPracticeClient } from "../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../_components/GapFillPracticePage";
 
 export default async function PresentPerfectContinuousPracticePage() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="present-perfect-continuous"
       title="Present Perfect Continuous"
       mapHref="/app/grammar/present-perfect-continuous"

@@ -1,6 +1,8 @@
-import { PastPerfectClient } from "./PastPerfectClient";
+import { getGrammarTenseBySlug } from "@/lib/grammar/content";
+import { TenseDetailClient } from "../_components/TenseDetailClient";
 
 export default async function PastPerfectPage() {
-  return <PastPerfectClient />;
+  const tense = getGrammarTenseBySlug("past-perfect");
+  if (!tense) return null;
+  return <TenseDetailClient tense={tense} />;
 }
-

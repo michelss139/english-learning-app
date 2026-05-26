@@ -1,350 +1,308 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { TileWithSidebar, type SidebarItem } from "../../_components/TileWithSidebar";
 
-type SectionKey =
-  | "definition"
-  | "construction"
-  | "generalVsSpecific"
-  | "examples"
-  | "mistakes"
-  | "compare";
+type SectionId = "definition" | "can" | "could" | "beAbleTo" | "mistakes" | "compare";
 
-function DefinitionContent() {
+const SECTIONS: SidebarItem<SectionId>[] = [
+  { id: "definition", title: "Definicja" },
+  { id: "can",        title: "Can" },
+  { id: "could",      title: "Could" },
+  { id: "beAbleTo",   title: "Be able to" },
+  { id: "mistakes",   title: "Błędy i pułapki" },
+  { id: "compare",    title: "Porównaj" },
+];
+
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-2xl font-semibold tracking-tight text-slate-900">{children}</h2>;
+}
+
+function Card({ children, tone = "soft" }: { children: React.ReactNode; tone?: "soft" | "warn" }) {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Definicja</h2>
-      <div className="space-y-4 text-slate-700">
-        <p>
-          Modal verbs związane z ability służą do mówienia o <strong>umiejętnościach</strong> oraz{" "}
-          <strong>możliwościach wykonania danej czynności</strong>.
-        </p>
-        <p>
-          Najczęściej używamy w tym celu trzech konstrukcji: <strong>can</strong>, <strong>could</strong>,{" "}
-          <strong>be able to</strong>. Każda z nich pozwala mówić o zdolnościach, ale używamy ich w
-          różnych sytuacjach oraz w różnych czasach.
-        </p>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Can</p>
-          <p className="text-slate-800">I can swim.</p>
-          <p className="text-sm text-slate-600">Potrafię pływać. To zdanie mówi o ogólnej umiejętności w teraźniejszości.</p>
-          <p className="text-sm text-slate-700">
-            Używamy <strong>can</strong>, gdy chcemy powiedzieć, że ktoś posiada daną zdolność teraz.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Could</p>
-          <p className="text-slate-800">I could play tennis very well when I was a teenager.</p>
-          <p className="text-sm text-slate-600">Potrafiłem grać bardzo dobrze w tenisa, kiedy byłem nastolatkiem.</p>
-          <p className="text-sm text-slate-700">
-            To zdanie mówi o ogólnej umiejętności w przeszłości. Nie sugeruje związku z teraźniejszością
-            – opisuje tylko zdolność w określonym okresie w przeszłości.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Be able to — teraźniejszość</p>
-          <p className="text-slate-800">I have to be able to perform every day, because I am a professional singer.</p>
-          <p className="text-sm text-slate-700">
-            Konstrukcja <strong>be able to</strong> pozwala wyrazić zdolność w sytuacji, w której
-            gramatyczna konstrukcja zdania nie pozwala użyć modalnego <strong>can</strong>. Dlatego
-            często pojawia się po innych czasownikach, takich jak: have to, want to, need to, will.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Be able to — przeszłość</p>
-          <p className="text-slate-800">I was able to win a game yesterday against a very good player.</p>
-          <p className="text-sm text-slate-700">
-            W tym przypadku <strong>be able to</strong> opisuje pojedynczy sukces w przeszłości.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-2">
-          <p className="text-sm font-medium text-slate-900">Ważna uwaga</p>
-          <p className="text-sm text-slate-700">
-            Gdy mówimy o nieudanej próbie w przeszłości, często używamy <strong>couldn&apos;t</strong>.
-          </p>
-          <p className="text-slate-800">I couldn&apos;t open the door.</p>
-          <p className="text-sm text-slate-600">Nie udało mi się otworzyć drzwi.</p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 overflow-x-auto">
-          <table className="w-full text-sm text-slate-800">
-            <thead>
-              <tr className="border-b border-slate-200">
-                <th className="text-left py-2 pr-4 font-medium">konstrukcja</th>
-                <th className="text-left py-2 font-medium">kiedy używamy</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-slate-100">
-                <td className="py-2 pr-4">can</td>
-                <td className="py-2">obecna umiejętność</td>
-              </tr>
-              <tr className="border-b border-slate-100">
-                <td className="py-2 pr-4">could</td>
-                <td className="py-2">ogólna umiejętność w przeszłości</td>
-              </tr>
-              <tr>
-                <td className="py-2 pr-4">be able to</td>
-                <td className="py-2">gdy konstrukcja gramatyczna tego wymaga lub gdy mówimy o konkretnym sukcesie</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+    <div
+      className={
+        tone === "warn"
+          ? "rounded-xl border border-amber-200 bg-amber-50/80 p-4"
+          : "rounded-xl border border-slate-200 bg-slate-50/70 p-4"
+      }
+    >
+      {children}
+    </div>
   );
 }
 
-function ConstructionContent() {
+function DefinitionSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Konstrukcja</h2>
-      <div className="space-y-4 text-slate-700">
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Can</p>
-          <p className="text-sm font-mono text-slate-800">Subject + can + infinitive</p>
-          <p className="text-slate-800">She can speak three languages.</p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Could</p>
-          <p className="text-sm font-mono text-slate-800">Subject + could + infinitive</p>
-          <p className="text-slate-800">I could swim when I was five.</p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p className="font-medium text-slate-900">Be able to</p>
-          <p className="text-sm font-mono text-slate-800">Subject + be able to + infinitive</p>
-          <p className="text-slate-800">She will be able to help us tomorrow.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function GeneralVsSpecificContent() {
-  return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">General ability vs specific success</h2>
-      <p className="text-slate-700">
-        Jedna z najważniejszych różnic w języku angielskim dotyczy użycia <strong>could</strong> oraz{" "}
-        <strong>was able to</strong> w przeszłości.
+    <div className="space-y-4">
+      <SectionHeader>Definicja</SectionHeader>
+      <p className="text-sm text-slate-700">
+        Modal verbs związane z <strong>ability</strong> służą do mówienia o umiejętnościach oraz
+        możliwościach wykonania danej czynności. Używamy trzech głównych konstrukcji, każda do
+        innego celu.
       </p>
-
-      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-        <p className="font-medium text-slate-900">Could — ogólna umiejętność</p>
-        <p className="text-sm text-slate-700">
-          Could opisuje zdolność, którą ktoś posiadał w przeszłości.
-        </p>
-        <div className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-800">
-          <p>When I was younger, I could run very fast.</p>
-        </div>
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-slate-100 bg-slate-50">
+              <th className="px-4 py-2 text-left text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                Konstrukcja
+              </th>
+              <th className="px-4 py-2 text-left text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                Kiedy używamy
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              ["can", "obecna umiejętność"],
+              ["could", "ogólna umiejętność w przeszłości"],
+              ["be able to", "inne czasy lub konkretny sukces w przeszłości"],
+            ].map(([word, desc], i) => (
+              <tr key={i} className={i < 2 ? "border-b border-slate-100" : ""}>
+                <td className="px-4 py-2.5 font-medium text-slate-800">{word}</td>
+                <td className="px-4 py-2.5 text-slate-600">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-        <p className="font-medium text-slate-900">Was able to — konkretny sukces</p>
-        <p className="text-sm text-slate-700">
-          Was able to opisuje sytuację, w której coś udało się zrobić w konkretnej sytuacji.
-        </p>
-        <div className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-800">
-          <p>The door was locked, but we were able to open it.</p>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
 
-function ExamplesContent() {
+function CanSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Przykłady</h2>
-      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-slate-800 space-y-2">
-        <p>I can play the piano.</p>
-        <p>She can speak Spanish and Italian.</p>
-        <p>When I was a child, I could climb trees easily.</p>
-        <p>He was able to finish the race despite the injury.</p>
-        <p>We will be able to start the project next week.</p>
-        <p>She couldn&apos;t understand the instructions.</p>
-      </div>
-    </section>
+    <div className="space-y-4">
+      <SectionHeader>Can</SectionHeader>
+      <p className="text-sm text-slate-700">
+        <strong>Can</strong> to najczęstszy sposób wyrażania umiejętności w teraźniejszości. Nie
+        zmienia formy dla żadnej osoby i nie łączy się z &quot;to&quot;.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Wzór
+        </p>
+        <p className="font-mono text-sm text-slate-800">Subject + can + base verb</p>
+      </Card>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">I can swim.</p>
+          <p className="text-sm italic text-slate-700">She can speak three languages.</p>
+          <p className="text-sm italic text-slate-700">He can play the piano.</p>
+          <p className="text-sm italic text-slate-700">Can you drive?</p>
+        </div>
+      </Card>
+    </div>
   );
 }
 
-function MistakesContent() {
+function CouldSection() {
   return (
-    <section className="space-y-4">
-      <h2 className="text-lg font-semibold text-slate-900">Błędy</h2>
-      <div className="space-y-4 text-sm text-slate-800">
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ I can to swim.</p>
-          <p>✔ I can swim.</p>
-          <p className="text-slate-600">Po can używamy bezokolicznika bez &quot;to&quot;.</p>
+    <div className="space-y-4">
+      <SectionHeader>Could</SectionHeader>
+      <p className="text-sm text-slate-700">
+        <strong>Could</strong> opisuje ogólną umiejętność, którą ktoś posiadał w przeszłości. To
+        zdolność przez jakiś czas — nie jednorazowy sukces.
+      </p>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Wzór
+        </p>
+        <p className="font-mono text-sm text-slate-800">Subject + could + base verb</p>
+      </Card>
+      <Card>
+        <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+          Przykłady
+        </p>
+        <div className="space-y-0.5">
+          <p className="text-sm italic text-slate-700">I could swim when I was five.</p>
+          <p className="text-sm italic text-slate-700">
+            I could play tennis very well as a teenager.
+          </p>
+          <p className="text-sm italic text-slate-700">She could run very fast when she was young.</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ Yesterday I could finish the report.</p>
-          <p>✔ Yesterday I was able to finish the report.</p>
-          <p className="text-slate-600">Dla konkretnego sukcesu w przeszłości używamy was/were able to.</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ She can able to help you.</p>
-          <p>✔ She can help you.</p>
-          <p>✔ She is able to help you.</p>
-          <p className="text-slate-600">Nie łączymy can z able to. Używamy jednej z tych konstrukcji.</p>
-        </div>
-      </div>
-    </section>
+      </Card>
+      <Card tone="warn">
+        <p className="text-sm font-medium text-amber-900">Ważna różnica</p>
+        <p className="mt-1 text-sm text-amber-800">
+          Gdy mówimy o konkretnym jednorazowym sukcesie w przeszłości (nie ogólnej zdolności),
+          używamy <strong>was/were able to</strong>, nie could.
+        </p>
+        <p className="mt-2 text-sm italic text-amber-900">
+          ✅ Yesterday I was able to finish the report.
+        </p>
+        <p className="text-sm italic text-rose-700">
+          ❌ Yesterday I could finish the report.
+        </p>
+      </Card>
+    </div>
   );
 }
 
-function CompareContent() {
+function BeAbleToSection() {
   return (
-    <section className="space-y-6">
-      <h2 className="text-lg font-semibold text-slate-900">Porównaj</h2>
-
-      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
-        <h3 className="font-medium text-slate-900">Can vs Could</h3>
-        <p className="text-sm text-slate-700">
-          Can – obecna umiejętność. Could – ogólna umiejętność w przeszłości.
-        </p>
-        <div className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-800 space-y-1">
-          <p>I can swim now.</p>
-          <p>I could swim when I was five.</p>
-        </div>
+    <div className="space-y-4">
+      <SectionHeader>Be able to</SectionHeader>
+      <p className="text-sm text-slate-700">
+        <strong>Be able to</strong> pojawia się, gdy <strong>can</strong> gramatycznie nie pasuje —
+        np. po <em>will</em>, po innych czasownikach (want to, need to), lub gdy mówimy o
+        konkretnym sukcesie w przeszłości.
+      </p>
+      <div className="space-y-3">
+        <Card>
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+            Przyszłość z will
+          </p>
+          <p className="text-sm italic text-slate-700">I will be able to help you tomorrow.</p>
+          <p className="text-sm italic text-slate-700">She will be able to drive after lessons.</p>
+        </Card>
+        <Card>
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+            Po innych czasownikach
+          </p>
+          <p className="text-sm italic text-slate-700">I want to be able to play the guitar.</p>
+          <p className="text-sm italic text-slate-700">You need to be able to swim for this job.</p>
+        </Card>
+        <Card>
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+            Konkretny sukces w przeszłości
+          </p>
+          <p className="text-sm italic text-slate-700">
+            She was able to finish the race despite the injury.
+          </p>
+          <p className="text-sm italic text-slate-700">
+            They were able to open the door with a spare key.
+          </p>
+        </Card>
       </div>
+    </div>
+  );
+}
 
-      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
-        <h3 className="font-medium text-slate-900">Can vs Be able to</h3>
-        <p className="text-sm text-slate-700">
-          Can – standardowa forma w teraźniejszości. Be able to – gdy potrzebujemy formy gramatycznej
-          (np. po have to, will) lub gdy mówimy o przyszłości.
-        </p>
-        <div className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-800 space-y-1">
-          <p>I can help you.</p>
-          <p>I will be able to help you tomorrow.</p>
-        </div>
-      </div>
+function MistakesSection() {
+  const mistakes = [
+    {
+      bad: "I can to swim.",
+      good: "I can swim.",
+      note: "Po can nie używamy 'to'.",
+    },
+    {
+      bad: "Yesterday I could finish the report.",
+      good: "Yesterday I was able to finish the report.",
+      note: "Konkretny sukces w przeszłości to was able to, nie could.",
+    },
+    {
+      bad: "She can able to help you.",
+      good: "She can help you. / She is able to help you.",
+      note: "Nie łączymy can z able to — używamy jednej z tych form.",
+    },
+    {
+      bad: "I will can help you.",
+      good: "I will be able to help you.",
+      note: "Will nie łączy się bezpośrednio z can.",
+    },
+  ];
 
-      <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
-        <h3 className="font-medium text-slate-900">Could vs Was able to</h3>
-        <p className="text-sm text-slate-700">
-          Could – ogólna zdolność w przeszłości. Was able to – konkretny sukces w pojedynczej sytuacji.
-        </p>
-        <div className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-800 space-y-1">
-          <p>When I was young, I could run fast.</p>
-          <p>Yesterday I was able to finish the report.</p>
-        </div>
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Błędy i pułapki</SectionHeader>
+      <div className="space-y-3">
+        {mistakes.map((m, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+          >
+            <p className="text-sm text-rose-700">❌ {m.bad}</p>
+            <p className="text-sm text-emerald-700">✅ {m.good}</p>
+            <p className="mt-1.5 text-xs text-slate-500">{m.note}</p>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
+  );
+}
+
+function CompareSection() {
+  const comparisons = [
+    {
+      title: "Can vs Could",
+      body: "Can — obecna umiejętność. Could — ogólna zdolność z przeszłości.",
+      examples: ["I can swim now.", "I could swim when I was five."],
+    },
+    {
+      title: "Can vs Be able to",
+      body: "Can — standardowa forma w teraźniejszości. Be able to — inne czasy lub po other verbs.",
+      examples: ["I can help you.", "I will be able to help you tomorrow."],
+    },
+    {
+      title: "Could vs Was able to",
+      body: "Could — ogólna zdolność. Was/were able to — konkretny jednorazowy sukces.",
+      examples: ["When I was young, I could run fast.", "Yesterday I was able to finish the report."],
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader>Porównaj</SectionHeader>
+      <div className="space-y-3">
+        {comparisons.map((c, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+          >
+            <p className="font-semibold text-slate-800">{c.title}</p>
+            <p className="mt-1 text-sm text-slate-600">{c.body}</p>
+            <div className="mt-2 space-y-0.5">
+              {c.examples.map((ex, j) => (
+                <p key={j} className="text-sm italic text-slate-700">
+                  {ex}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export function ModalAbilityClient() {
-  const [activeSection, setActiveSection] = useState<SectionKey>("definition");
-  const [renderedSection, setRenderedSection] = useState<SectionKey>("definition");
-  const [isVisible, setIsVisible] = useState(true);
-  const transitionRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (transitionRef.current) {
-        window.clearTimeout(transitionRef.current);
-      }
-    };
-  }, []);
-
-  const changeSection = (nextSection: SectionKey) => {
-    if (nextSection === activeSection) return;
-    if (transitionRef.current) {
-      window.clearTimeout(transitionRef.current);
+  const renderContent = (item: SidebarItem<SectionId>) => {
+    switch (item.id) {
+      case "definition": return <DefinitionSection />;
+      case "can":        return <CanSection />;
+      case "could":      return <CouldSection />;
+      case "beAbleTo":   return <BeAbleToSection />;
+      case "mistakes":   return <MistakesSection />;
+      case "compare":    return <CompareSection />;
+      default:           return null;
     }
-
-    setActiveSection(nextSection);
-    setIsVisible(false);
-    transitionRef.current = window.setTimeout(() => {
-      setRenderedSection(nextSection);
-      requestAnimationFrame(() => setIsVisible(true));
-    }, 180);
   };
 
-  const sectionButtons: { id: SectionKey; label: string }[] = [
-    { id: "definition", label: "Definicja" },
-    { id: "construction", label: "Konstrukcja" },
-    { id: "generalVsSpecific", label: "General ability vs specific success" },
-    { id: "examples", label: "Przykłady" },
-    { id: "mistakes", label: "Błędy" },
-    { id: "compare", label: "Porównaj" },
-  ];
+  const headerAccessory = (
+    <Link
+      href="/app/grammar/modals/ability/practice"
+      className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+    >
+      Ćwicz Ability
+    </Link>
+  );
 
   return (
-    <main className="space-y-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Ability</h1>
-          <p className="max-w-2xl text-sm text-slate-700">
-            Modal verbs używane do mówienia o umiejętnościach i możliwościach wykonania danej czynności.
-          </p>
-          <div className="mt-3 flex flex-col gap-2">
-            <Link
-              href="/app/grammar/modals/ability/practice"
-              className="inline-flex w-fit items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-            >
-              Ćwicz Ability
-            </Link>
-            <Link
-              href="/app/courses/modal-ability"
-              className="text-sm text-slate-600 underline hover:text-slate-800"
-            >
-              Zobacz pełny kurs
-            </Link>
-          </div>
-        </div>
-        <Link
-          href="/app/grammar/modals"
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          ← Wróć do Modal Verbs
-        </Link>
-      </header>
-
-      <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
-          <div className={`transition-opacity duration-250 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-            {renderedSection === "definition" && <DefinitionContent />}
-            {renderedSection === "construction" && <ConstructionContent />}
-            {renderedSection === "generalVsSpecific" && <GeneralVsSpecificContent />}
-            {renderedSection === "examples" && <ExamplesContent />}
-            {renderedSection === "mistakes" && <MistakesContent />}
-            {renderedSection === "compare" && <CompareContent />}
-          </div>
-        </div>
-
-        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Sekcje</div>
-                    <div className="flex flex-col gap-1.5">
-            {sectionButtons.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => changeSection(item.id)}
-                data-active={activeSection === item.id ? "true" : "false"}
-              className={`grammar-aside-item w-full px-3.5 py-2 text-left text-sm ${
-                  activeSection === item.id
-                    ? "font-semibold text-slate-900"
-                    : "font-medium text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </aside>
-      </section>
-    </main>
+    <TileWithSidebar<SectionId>
+      title="Ability"
+      description="Modal verbs używane do mówienia o umiejętnościach i możliwościach: can, could, be able to."
+      backHref="/app/grammar/modal-verbs"
+      backLabel="← Modal Verbs"
+      items={SECTIONS}
+      defaultItemId="definition"
+      asideLabel="Sekcje"
+      headerAccessory={headerAccessory}
+      renderContent={renderContent}
+    />
   );
 }

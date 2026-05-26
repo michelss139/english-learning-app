@@ -1,5 +1,8 @@
-import { PresentPerfectContinuousClient } from "./PresentPerfectContinuousClient";
+import { getGrammarTenseBySlug } from "@/lib/grammar/content";
+import { TenseDetailClient } from "../_components/TenseDetailClient";
 
 export default async function PresentPerfectContinuousPage() {
-  return <PresentPerfectContinuousClient />;
+  const tense = getGrammarTenseBySlug("present-perfect-continuous");
+  if (!tense) return null;
+  return <TenseDetailClient tense={tense} />;
 }

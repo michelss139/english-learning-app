@@ -316,7 +316,10 @@ body {
   animation: sb-zoom-in 0.15s ease-out forwards;
 }
 
-/* Enforce readable dark text in /app light theme, even in legacy screens */
+/* Enforce readable dark text in /app light theme, even in legacy screens.
+   ⚠️  This rule overrides text-white everywhere inside .app-light — including on dark surfaces.
+   If you need white text on a dark background (e.g. bg-slate-900), do NOT use class "text-white".
+   Instead, use an inline style:  style={{ color: "#fff" }}  — it bypasses this rule. */
 .app-light .text-white,
 .app-light .text-white\/95,
 .app-light .text-white\/90,

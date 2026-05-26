@@ -327,6 +327,14 @@ function getTenseTime(tense: SentenceBuilderTense, step: number): string {
       return "now";
     case "present-perfect":
       return "today";
+    case "past-continuous":
+      return pickItem(["yesterday", "last night"] as const, step, 1);
+    case "past-perfect":
+      return pickItem(["yesterday", "last night"] as const, step, 1);
+    case "future-continuous":
+      return pickItem(["tomorrow", "later"] as const, step, 1);
+    case "future-perfect":
+      return "tomorrow";
     default:
       return "today";
   }
@@ -402,6 +410,14 @@ function translateTenseSentence(options: BuildSentenceOptions): string {
       return joinSentenceParts([subject, "teraz", verb.presentContinuous[subj], place]);
     case "present-perfect":
       return joinSentenceParts([subject, "już", verb.perfect[subj], place, time]);
+    case "past-continuous":
+      return joinSentenceParts([subject, "właśnie", verb.past[subj], place, time]);
+    case "past-perfect":
+      return joinSentenceParts([subject, "już wcześniej", verb.perfect[subj], place, time]);
+    case "future-continuous":
+      return joinSentenceParts([subject, "właśnie będzie", verb.base, place, time]);
+    case "future-perfect":
+      return joinSentenceParts([subject, "do tego czasu już", verb.future[subj], place]);
     case "present-simple":
     default:
       return joinSentenceParts([subject, verb.presentSimple[subj], place, time]);

@@ -46,6 +46,10 @@ function getHaveForm(subject: SentenceBuilderSubject): string {
   return isThirdPersonSingular(subject) ? "has" : "have";
 }
 
+function getWasWereForm(subject: SentenceBuilderSubject): string {
+  return subject === "I" || isThirdPersonSingular(subject) ? "was" : "were";
+}
+
 function pushOptional(parts: SentencePart[], value: string | undefined, label: "place" | "time") {
   const normalized = value?.trim();
   if (normalized) {
@@ -221,6 +225,134 @@ function buildPresentPerfect(
   ];
 }
 
+function buildPastContinuous(
+  form: SentenceBuilderForm,
+  subject: SentenceBuilderSubject,
+  verb: string
+): SentencePart[] {
+  const wasWere = getWasWereForm(subject);
+  const ingForm = getIngForm(verb);
+
+  if (form === "affirmative") {
+    return [
+      { token: subject,  label: "subject" },
+      { token: wasWere,  label: "auxiliary" },
+      { token: ingForm,  label: "verb" },
+    ];
+  }
+
+  if (form === "negative") {
+    const neg = wasWere === "was" ? "wasn't" : "weren't";
+    return [
+      { token: subject, label: "subject" },
+      { token: neg,     label: "auxiliary" },
+      { token: ingForm, label: "verb" },
+    ];
+  }
+
+  return [
+    { token: wasWere, label: "auxiliary" },
+    { token: subject, label: "subject" },
+    { token: ingForm, label: "verb" },
+  ];
+}
+
+function buildPastPerfect(
+  form: SentenceBuilderForm,
+  subject: SentenceBuilderSubject,
+  verb: string
+): SentencePart[] {
+  const pastParticiple = getPastParticiple(verb);
+
+  if (form === "affirmative") {
+    return [
+      { token: subject,         label: "subject" },
+      { token: "had",           label: "perfect" },
+      { token: pastParticiple,  label: "verb" },
+    ];
+  }
+
+  if (form === "negative") {
+    return [
+      { token: subject,        label: "subject" },
+      { token: "hadn't",       label: "perfect" },
+      { token: pastParticiple, label: "verb" },
+    ];
+  }
+
+  return [
+    { token: "had",           label: "perfect" },
+    { token: subject,         label: "subject" },
+    { token: pastParticiple,  label: "verb" },
+  ];
+}
+
+function buildFutureContinuous(
+  form: SentenceBuilderForm,
+  subject: SentenceBuilderSubject,
+  verb: string
+): SentencePart[] {
+  const ingForm = getIngForm(verb);
+
+  if (form === "affirmative") {
+    return [
+      { token: subject,   label: "subject" },
+      { token: "will",    label: "auxiliary" },
+      { token: "be",      label: "continuous" },
+      { token: ingForm,   label: "verb" },
+    ];
+  }
+
+  if (form === "negative") {
+    return [
+      { token: subject,   label: "subject" },
+      { token: "won't",   label: "auxiliary" },
+      { token: "be",      label: "continuous" },
+      { token: ingForm,   label: "verb" },
+    ];
+  }
+
+  return [
+    { token: "will",    label: "auxiliary" },
+    { token: subject,   label: "subject" },
+    { token: "be",      label: "continuous" },
+    { token: ingForm,   label: "verb" },
+  ];
+}
+
+function buildFuturePerfect(
+  form: SentenceBuilderForm,
+  subject: SentenceBuilderSubject,
+  verb: string
+): SentencePart[] {
+  const pastParticiple = getPastParticiple(verb);
+
+  if (form === "affirmative") {
+    return [
+      { token: subject,        label: "subject" },
+      { token: "will",         label: "auxiliary" },
+      { token: "have",         label: "perfect" },
+      { token: pastParticiple, label: "verb" },
+    ];
+  }
+
+  if (form === "negative") {
+    return [
+      { token: subject,        label: "subject" },
+      { token: "won't",        label: "auxiliary" },
+      { token: "have",         label: "perfect" },
+      { token: pastParticiple, label: "verb" },
+    ];
+  }
+
+  return [
+    { token: "will",         label: "auxiliary" },
+    { token: subject,        label: "subject" },
+    { token: "have",         label: "perfect" },
+    { token: pastParticiple, label: "verb" },
+  ];
+}
+
 function buildTenseParts(
   tense: SentenceBuilderTense,
   form: SentenceBuilderForm,
@@ -238,6 +370,14 @@ function buildTenseParts(
       return buildPresentContinuous(form, subject, verb);
     case "present-perfect":
       return buildPresentPerfect(form, subject, verb);
+    case "past-continuous":
+      return buildPastContinuous(form, subject, verb);
+    case "past-perfect":
+      return buildPastPerfect(form, subject, verb);
+    case "future-continuous":
+      return buildFutureContinuous(form, subject, verb);
+    case "future-perfect":
+      return buildFuturePerfect(form, subject, verb);
     default:
       return buildPresentSimple(form, subject, verb);
   }

@@ -121,10 +121,21 @@ function normalizeSpacing(text: string): string {
   return text.trim().replace(/\s+/g, " ").toLowerCase();
 }
 
+function stripParens(text: string): string {
+  // Remove parenthetical clarifications, e.g. "zwolnić (z pracy)" → "zwolnić"
+  return text.replace(/\s*\([^)]*\)/g, "").trim();
+}
+
 function isCorrectAnswer(expected: string, given: string, removeDiacritics: boolean): boolean {
-  const exp = normalizeSpacing(removeDiacritics ? stripDiacritics(expected) : expected);
-  const giv = normalizeSpacing(removeDiacritics ? stripDiacritics(given) : given);
-  return exp.length > 0 && exp === giv;
+  const normalize = (s: string) =>
+    normalizeSpacing(removeDiacritics ? stripDiacritics(s) : s);
+  const giv = normalize(given);
+  // 1. Full match
+  if (normalize(expected) === giv && giv.length > 0) return true;
+  // 2. Match without parenthetical explanation, e.g. "zwolnić (z pracy)" → accept "zwolnić"
+  const withoutParens = normalize(stripParens(expected));
+  if (withoutParens.length > 0 && withoutParens === giv) return true;
+  return false;
 }
 
 function OptionButton({

@@ -1,10 +1,8 @@
-"use client";
-
-import { InputPracticeClient } from "../../_components/InputPracticeClient";
+import { GapFillPracticePage } from "../../_components/GapFillPracticePage";
 
 export function PracticeClient() {
   return (
-    <InputPracticeClient
+    <GapFillPracticePage
       exerciseSlug="past-simple"
       title="Past Simple"
       mapHref="/app/grammar/past-simple"

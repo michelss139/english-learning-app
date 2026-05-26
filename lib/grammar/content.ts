@@ -447,8 +447,12 @@ B: While I was talking, my phone rang.
 I had finished.
 She had left.
 They had gone.`,
-          `had not (hadn't) + past participle`,
-          `Had + subject + past participle?`
+          `had not (hadn't) + past participle
+
+She hadn't finished when I arrived.`,
+          `Had + subject + past participle?
+
+Had she finished before you called?`
         ),
         auxiliary: `Słówko pomocnicze (auxiliary): had`,
         confusionWarnings: `Past Perfect pokazuje wcześniejszy moment względem innego wydarzenia, a nie po prostu "dawno".`,
@@ -493,8 +497,12 @@ B: She had prepared everything before the meeting started.`,
 I had been working.
 She had been studying.
 They had been waiting.`,
-          `had not (hadn't) been + verb-ing`,
-          `Had + subject + been + verb-ing?`
+          `had not (hadn't) been + verb-ing
+
+She hadn't been sleeping well.`,
+          `Had + subject + been + verb-ing?
+
+Had you been waiting long?`
         ),
         auxiliary: `Słówko pomocnicze (auxiliary): had been`,
         confusionWarnings: `Perfect = efekt, Perfect Continuous = trwanie procesu przed innym wydarzeniem.`,
@@ -670,7 +678,7 @@ Has he been practicing?`
 
 rezultat → PP, proces → PPC
 
-nie z stative`,
+Nie używamy z czasownikami statycznymi (know, believe, want, like) — w ich przypadku stosujemy Present Perfect Simple`,
         commonMistakes: `I have been study. → I have been studying.
 
 She has been knowing him. → She knows him.
@@ -752,12 +760,7 @@ She won't come`,
 
 Will you help me?
 
-Will she call?
-
-Słówko pomocnicze (auxiliary): will
-
-"will" jest stałe dla wszystkich osób (nie ma odmiany jak do/does).
-Główny czasownik zawsze zostaje w base form.`
+Will she call?`
         ),
         auxiliary: `Słówko pomocnicze (auxiliary): will
 
@@ -1065,29 +1068,87 @@ A: That sounds intense.`,
       title: "Zero Conditional",
       description: "Zawsze prawdziwe sytuacje",
       content: {
-        usage: `Zero Conditional opisuje sytuacje, które są zawsze prawdziwe.
-Mówimy o zasadach działania świata, faktach lub typowych reakcjach.`,
-        characteristicWords: "",
+        usage: `Zero Conditional opisuje sytuacje zawsze prawdziwe — niezależnie od czasu i okoliczności.
+
+Prawa natury i naukowe fakty: woda wrze, gdy się ją podgrzeje do 100°C.
+
+Ogólne zasady i typowe reakcje: "jeśli to zrobisz, zawsze tak się dzieje".
+
+Instrukcje i przepisy: "If you mix red and blue, you get purple."
+
+Pytanie kontrolne: Czy to jest "zawsze prawdziwe", a nie jednorazowe zdarzenie w przyszłości?
+Jeśli tak → Zero Conditional.`,
+        characteristicWords: `if, when (tu wymienne — oba działają)
+
+always, generally, usually, never (w klauzuli rezultatu)
+
+Wskazówka: "if" i "when" mają tu to samo znaczenie.
+"If you heat ice, it melts" = "When you heat ice, it melts".`,
         structure: createStructure(
-          `If + present simple, present simple`,
-          "",
-          ""
+          `If + present simple, present simple
+
+If + podmiot + czasownik, podmiot + czasownik
+
+Przykłady:
+
+If you heat water to 100°C, it boils.
+
+If she is tired, she goes to bed early.`,
+          `Negacja w dowolnej klauzuli — normalny Present Simple.
+
+If you don't water plants, they die.
+
+If he doesn't study, he doesn't pass.`,
+          `Pytania w Zero Conditional są rzadkie — to tryb faktów.
+
+Does water boil if you heat it?
+
+What happens if you press this button?`
         ),
-        auxiliary: "",
-        confusionWarnings: `Nie mówimy o przyszłości.
-Opisujemy ogólne zasady lub fakty.`,
-        commonMistakes: "",
-        examples: `If you heat water to 100°C, it boils.`,
-        dialog: "",
-        intention: `Zero Conditional opisuje sytuacje, które są zawsze prawdziwe.
-Jeżeli warunek zostanie spełniony, rezultat następuje zawsze.`,
-        relatedLinks: [],
+        auxiliary: `Brak osobnego słówka pomocniczego — obie klauzule używają Present Simple.
+
+W negacji: don't / doesn't (jak w zwykłym Present Simple).
+
+"if" lub "when" może stać na początku lub w środku zdania:
+
+If you heat water, it boils. = Water boils if you heat it.`,
+        confusionWarnings: `"if" i "when" są wymienne w Zero Conditional — w First Conditional już nie zawsze
+
+Zero Conditional nie wyraża przyszłości — opisuje zasady, nie plany
+
+"If you heat water, it will boil." → ❌ to First Conditional, nie Zero`,
+        commonMistakes: `If you heat water, it will boil. → If you heat water, it boils.
+
+When I will be tired, I sleep. → When I am tired, I sleep.
+
+If you press the button, it rang. → If you press the button, it rings.`,
+        examples: `If you press this button, the alarm goes off.
+
+If it rains, the ground gets wet.
+
+Plants die if they don't get water.`,
+        dialog: `A: What happens if you put ice in hot water?
+B: It melts, of course.
+A: And if you freeze water?
+B: It turns into ice. Basic physics.
+A: Right. What if you mix blue and yellow?
+B: You get green. These things always happen — that's Zero Conditional.`,
+        chips: [
+          { text: "if", description: "jeśli" },
+          { text: "when", description: "gdy (wymienne z if)" },
+          { text: "always", description: "zawsze" },
+          { text: "generally", description: "zazwyczaj" },
+          { text: "every time", description: "za każdym razem" },
+        ],
+        relatedLinks: [
+          { slug: "first-conditional", title: "First Conditional", description: "Realna przyszłość" },
+        ],
         comparisons: [
           {
             tense1: "zero-conditional",
             tense2: "first-conditional",
             title: "Zero Conditional vs First Conditional",
-            description: "Fakty vs możliwa przyszłość",
+            description: "Zasada vs możliwa przyszłość",
           },
         ],
       },
@@ -1100,23 +1161,91 @@ Jeżeli warunek zostanie spełniony, rezultat następuje zawsze.`,
       title: "First Conditional",
       description: "Realnie możliwa przyszłość",
       content: {
-        usage: `First Conditional opisuje sytuacje, które są realnie możliwe w przyszłości.
-Jeżeli warunek zostanie spełniony, rezultat może się wydarzyć.`,
-        characteristicWords: "",
+        usage: `First Conditional opisuje sytuacje realnie możliwe w przyszłości. Warunek jest prawdopodobny — mógłby się spełnić.
+
+Plany uzależnione od warunków: pogody, decyzji, okoliczności.
+
+Ostrzeżenia i konsekwencje: "If you don't hurry, you'll be late."
+
+Obietnice warunkowe: "If you help me, I'll help you."
+
+Pytanie kontrolne: Czy warunek jest realny i możliwy w tej sytuacji?
+Jeśli tak → First Conditional.`,
+        characteristicWords: `if, unless (= if not)
+
+will, might, could (w klauzuli rezultatu)
+
+tomorrow, next week, soon (czas przyszły)`,
         structure: createStructure(
-          `If + present simple, will + infinitive`,
-          "",
-          ""
+          `If + present simple, will + base form
+
+Przykłady:
+
+If it rains tomorrow, we will stay at home.
+
+If she studies hard, she will pass the exam.`,
+          `Negacja możliwa w dowolnej klauzuli.
+
+If you don't hurry, you'll be late.
+
+If it rains, we won't go out.`,
+          `Will + podmiot + base form, if + present simple?
+
+Will you come if I invite you?
+
+What will you do if it rains?`
         ),
-        auxiliary: "",
-        confusionWarnings: `Rezultat najczęściej zawiera will.
-Zdanie odnosi się do realnej przyszłości.`,
-        commonMistakes: "",
-        examples: `If it rains tomorrow, we will stay at home.`,
-        dialog: "",
-        intention: `Opisuje sytuacje, które mogą się wydarzyć w przyszłości.
-Warunek jest realny i możliwy do spełnienia.`,
+        auxiliary: `Słówko pomocnicze: will (w klauzuli rezultatu)
+
+Klauzula warunkowa: Present Simple (mimo że mówimy o przyszłości!).
+Klauzula rezultatu: will + base form.
+
+Najczęstsza pułapka:
+
+❌ If it will rain, we will stay.
+✅ If it rains, we will stay.
+
+Po "if" nie używamy "will".`,
+        confusionWarnings: `Po "if" w First Conditional nie ma "will" — to najczęstszy błąd
+
+unless = if ... not: "Unless you hurry, you'll be late." = "If you don't hurry, you'll be late."
+
+might / could zamiast will → zmniejsza pewność rezultatu ("she might come")`,
+        commonMistakes: `If it will rain, we will stay. → If it rains, we will stay.
+
+If she will pass, she will celebrate. → If she passes, she will celebrate.
+
+Unless you don't hurry, you'll be late. → Unless you hurry, you'll be late. (unless = if not)`,
+        examples: `If you study every day, you will improve quickly.
+
+If it doesn't rain, we'll go for a walk.
+
+She will help you if you ask her.`,
+        dialog: `A: Are you coming to the party?
+B: If I finish work early, I will come.
+A: What if you don't finish on time?
+B: Then I won't make it.
+A: Will you let me know?
+B: Of course. If I know by 7, I'll send you a message.`,
+        chips: [
+          { text: "if", description: "jeśli" },
+          { text: "unless", description: "jeśli nie" },
+          { text: "will", description: "forma wynikowa" },
+          { text: "might", description: "może (mniej pewnie)" },
+          { text: "tomorrow", description: "jutro" },
+          { text: "soon", description: "wkrótce" },
+        ],
+        relatedLinks: [
+          { slug: "zero-conditional", title: "Zero Conditional", description: "Zawsze prawdziwe zasady" },
+          { slug: "second-conditional", title: "Second Conditional", description: "Nierealna hipoteza" },
+        ],
         comparisons: [
+          {
+            tense1: "zero-conditional",
+            tense2: "first-conditional",
+            title: "Zero Conditional vs First Conditional",
+            description: "Zasada vs możliwa przyszłość",
+          },
           {
             tense1: "first-conditional",
             tense2: "second-conditional",
@@ -1134,22 +1263,81 @@ Warunek jest realny i możliwy do spełnienia.`,
       title: "Second Conditional",
       description: "Hipotetyczne sytuacje",
       content: {
-        usage: `Second Conditional opisuje sytuacje hipotetyczne lub mało prawdopodobne.
-Mówimy o tym, co by się wydarzyło teraz lub w przyszłości, gdyby spełniony został określony warunek.`,
-        characteristicWords: "",
+        usage: `Second Conditional opisuje sytuacje hipotetyczne lub mało prawdopodobne — w teraźniejszości lub przyszłości. Warunek jest nierealny.
+
+Marzenia i scenariusze "co by było, gdyby...".
+
+Rady przez identyfikację: "If I were you, I would..."
+
+Wyobraźnia o życiu w innych warunkach.
+
+Pytanie kontrolne: Czy warunek jest nierealny, mało prawdopodobny lub czysto hipotetyczny?
+Jeśli tak → Second Conditional.`,
+        characteristicWords: `if (+ past simple)
+
+would, could, might (w klauzuli rezultatu)
+
+I were (forma warunkowa — nie "was")`,
         structure: createStructure(
-          `If + past simple, would + infinitive`,
-          "",
-          ""
+          `If + past simple, would + base form
+
+Przykłady:
+
+If I had more time, I would travel more.
+
+If she lived closer, I would see her every day.`,
+          `Negacja w dowolnej klauzuli.
+
+If I didn't work here, I would live abroad.
+
+If he were taller, he wouldn't have that problem.`,
+          `Would + podmiot + base form, if + past simple?
+
+Would you move abroad if you got the chance?
+
+What would you do if you won the lottery?`
         ),
-        auxiliary: "",
-        confusionWarnings: `would + infinitive
-Rezultat mówi o tym, co by się wydarzyło teraz lub w przyszłości.`,
-        commonMistakes: "",
-        examples: `If I had more time, I would travel more.`,
-        dialog: "",
-        intention: `Opisuje sytuacje hipotetyczne w teraźniejszości lub przyszłości.
-Rezultat mówi o tym, co by się wydarzyło, gdyby warunek był prawdziwy.`,
+        auxiliary: `Słówko pomocnicze: would (w klauzuli rezultatu)
+
+Klauzula warunkowa: past simple (mimo że mówimy o teraz/przyszłości — to tryb łączący).
+Klauzula rezultatu: would + base form.
+
+Specjalny przypadek "were":
+If I were rich, I would retire.
+(potocznie "was" jest akceptowane, ale "were" jest poprawniejsze)`,
+        confusionWarnings: `"If I were you" — "were", nie "was" — to forma łącząca (subjunctive)
+
+Różnica od First Conditional: First = realna możliwość, Second = hipoteza
+
+❌ "If I would have money, I would travel." → ✅ "If I had money, I would travel."
+"would" nie wchodzi za "if"`,
+        commonMistakes: `If I would have money, I would travel. → If I had money, I would travel.
+
+If she was me, she would do it. → If she were me, she would do it.
+
+What would you do if you will win? → What would you do if you won?`,
+        examples: `If I lived in Paris, I would visit the Louvre every week.
+
+If she spoke French, she could get that job.
+
+I would travel the world if I had enough money.`,
+        dialog: `A: If you could live anywhere, where would you live?
+B: I would move to Italy if I could.
+A: Why Italy?
+B: If I lived there, I would learn the language and cook every day.
+A: Would you work?
+B: If I had to, yes. But if I were rich, I wouldn't bother.`,
+        chips: [
+          { text: "if", description: "jeśli" },
+          { text: "would", description: "forma wynikowa" },
+          { text: "could", description: "mógłby" },
+          { text: "might", description: "może (mniej pewnie)" },
+          { text: "were", description: "forma łącząca (subjunctive)" },
+        ],
+        relatedLinks: [
+          { slug: "first-conditional", title: "First Conditional", description: "Realna przyszłość" },
+          { slug: "third-conditional", title: "Third Conditional", description: "Nierealna przeszłość" },
+        ],
         comparisons: [
           {
             tense1: "first-conditional",
@@ -1174,22 +1362,83 @@ Rezultat mówi o tym, co by się wydarzyło, gdyby warunek był prawdziwy.`,
       title: "Third Conditional",
       description: "Przeszłość hipotetyczna",
       content: {
-        usage: `Third Conditional opisuje sytuacje, które mogły wydarzyć się w przeszłości, ale się nie wydarzyły.
-Mówimy o tym, co stałoby się w przeszłości, gdyby spełniony został określony warunek.`,
-        characteristicWords: "",
+        usage: `Third Conditional opisuje sytuacje, które mogły wydarzyć się w przeszłości, ale się nie wydarzyły. Cofamy się do przeszłości i wyobrażamy "co by było, gdyby...".
+
+Żal za przeszłymi decyzjami: "If I had studied harder, I would have passed."
+
+Rozmyślanie "co by się stało, gdyby..." — analiza alternatywnych przeszłości.
+
+Krytyka lub analiza przeszłych wydarzeń.
+
+Pytanie kontrolne: Czy mówisz o czymś w przeszłości, co się nie wydarzyło i nie może być zmienione?
+Jeśli tak → Third Conditional.`,
+        characteristicWords: `if (+ past perfect)
+
+would have, could have, might have (w klauzuli rezultatu)
+
+had + past participle (klauzula warunkowa)`,
         structure: createStructure(
-          `If + past perfect, would have + past participle`,
-          "",
-          ""
+          `If + past perfect, would have + past participle
+
+Przykłady:
+
+If I had studied harder, I would have passed the exam.
+
+If she had told me, I would have helped.`,
+          `Negacja w dowolnej klauzuli.
+
+If I hadn't missed the train, I would have arrived on time.
+
+If he hadn't eaten so much, he wouldn't have felt ill.`,
+          `Would + podmiot + have + past participle, if + past perfect?
+
+Would you have accepted the offer if they had asked you?
+
+What would you have done if you had known?`
         ),
-        auxiliary: "",
-        confusionWarnings: `would have + past participle
-Rezultat mówi o tym, co wydarzyłoby się w przeszłości.`,
-        commonMistakes: "",
-        examples: `If I had studied harder, I would have passed the exam.`,
-        dialog: "",
-        intention: `Opisuje sytuacje hipotetyczne w przeszłości.
-Rezultat mówi o tym, co wydarzyłoby się w przeszłości, gdyby warunek został spełniony.`,
+        auxiliary: `Słówko pomocnicze: would have (w klauzuli rezultatu)
+
+Klauzula warunkowa: had + past participle.
+Klauzula rezultatu: would have + past participle.
+
+Najczęstsza pułapka:
+
+❌ If I would have studied, I would have passed.
+✅ If I had studied, I would have passed.
+
+"would" NIE pojawia się w klauzuli z "if".`,
+        confusionWarnings: `"If I would have studied" → ❌ Błąd! "would" nie wchodzi za "if"
+
+could have / might have zamiast would have → zmniejsza pewność ("she might have won")
+
+Różnica od Second Conditional: Second = hipoteza teraz/przyszłość, Third = niemożliwa przeszłość`,
+        commonMistakes: `If I would have known, I would have told you. → If I had known, I would have told you.
+
+If she didn't miss, she would have won. → If she hadn't missed, she would have won.
+
+I would have came if you had asked. → I would have come if you had asked.`,
+        examples: `If I had left earlier, I wouldn't have missed the flight.
+
+She would have got the job if she had prepared better.
+
+If they had listened, the situation would have been different.`,
+        dialog: `A: I can't believe we lost.
+B: If we had scored in the first half, we would have won.
+A: True. And if the referee hadn't made that call...
+B: It would have been a different game.
+A: Would you have done anything differently?
+B: If I had known, I would have switched players earlier.`,
+        chips: [
+          { text: "if", description: "jeśli" },
+          { text: "had", description: "past perfect (klauzula warunkowa)" },
+          { text: "would have", description: "forma wynikowa" },
+          { text: "could have", description: "mógłby był" },
+          { text: "might have", description: "być może" },
+        ],
+        relatedLinks: [
+          { slug: "second-conditional", title: "Second Conditional", description: "Hipoteza teraz" },
+          { slug: "mixed-conditional", title: "Mixed Conditional", description: "Mieszane warunki" },
+        ],
         comparisons: [
           {
             tense1: "second-conditional",
