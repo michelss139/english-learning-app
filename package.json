@@ -26,6 +26,7 @@
     "clean:verbs": "tsx scripts/clean-verbs.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.98.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.89.0",
     "next": "16.1.1",
