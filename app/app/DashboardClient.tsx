@@ -646,6 +646,16 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
                 <span className="flex-1">Sentence Builder</span>
                 <ChevronRight className="text-slate-200 transition-all duration-150 group-hover/sb:translate-x-0.5 group-hover/sb:text-slate-400" />
               </Link>
+
+              {/* Story Generator */}
+              <Link
+                href="/app/story-generator"
+                className="group/sg flex items-center gap-2.5 rounded-xl border border-transparent bg-white/50 px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:border-slate-200/80 hover:bg-violet-50/60 hover:text-slate-900 hover:shadow-[0_1px_6px_rgba(15,23,42,0.07)]"
+              >
+                <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
+                <span className="flex-1">Story Generator</span>
+                <ChevronRight className="text-slate-200 transition-all duration-150 group-hover/sg:translate-x-0.5 group-hover/sg:text-slate-400" />
+              </Link>
             </div>
 
           </div>
