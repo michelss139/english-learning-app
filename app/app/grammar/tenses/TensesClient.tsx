@@ -369,6 +369,24 @@ export function TensesClient({ tenses }: TensesClientProps) {
         </Link>
       </header>
 
+      {/* Story Generator callout */}
+      <Link
+        href="/app/story-generator"
+        className="group flex items-center justify-between gap-4 rounded-2xl border border-violet-200/80 bg-violet-50/60 px-5 py-3.5 transition-all hover:border-violet-300 hover:bg-violet-50 hover:shadow-sm"
+      >
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-violet-900">
+            AI Story Generator
+          </p>
+          <p className="mt-0.5 text-xs text-violet-600">
+            Ćwicz rozróżnianie czasów w kontekście — uzupełniaj luki w historii generowanej przez AI.
+          </p>
+        </div>
+        <span className="shrink-0 rounded-xl border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 shadow-sm transition group-hover:border-violet-400 group-hover:text-violet-900">
+          Wypróbuj →
+        </span>
+      </Link>
+
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_1fr] lg:gap-5">
         {/* Main content panel */}
         <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
