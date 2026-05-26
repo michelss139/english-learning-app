@@ -260,7 +260,8 @@ export default function StoryGeneratorClient() {
             type="button"
             onClick={handleGenerate}
             disabled={isLoading || !selectedGroup}
-            className="rounded-xl border border-slate-900 bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            style={{ color: "#fff" }}
+            className="rounded-xl border border-slate-900 bg-slate-900 px-5 py-2 text-sm font-semibold transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? "Generuję…" : "Generuj historię"}
           </button>
@@ -370,7 +371,8 @@ export default function StoryGeneratorClient() {
               <button
                 type="button"
                 onClick={handleCheck}
-                className="rounded-xl border border-slate-900 bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                style={{ color: "#fff" }}
+                className="rounded-xl border border-slate-900 bg-slate-900 px-4 py-2 text-sm font-semibold transition hover:bg-slate-800"
               >
                 Sprawdź odpowiedzi
               </button>
