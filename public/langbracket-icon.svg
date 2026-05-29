@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>LANGBracket icon</title>
+  <rect width="512" height="512" rx="96" fill="#178CF2"/>
+  <!-- Symbol skalowany do 512x512, padding ~80px każda strona -->
+  <!-- Bracket height: 352px (80..432), ramię: 68px -->
+  <g>
+    <!-- Bracket lewy -->
+    <path d="M80 80 L80 432"  stroke="white" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <path d="M80 80 L148 80"  stroke="white" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <path d="M80 432 L148 432" stroke="white" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <!-- L + kropka, centrum x=256, bracket center y=256
+         font ~240px, cap ~170px
+         baseline: 256+85=341 → top=171, kropka cy=371 r=24
+         środek=(171+395)/2=283 — za nisko, korekta baseline=320
+         top=150, kropka cy=350, środek=(150+374)/2=262 ≈256 ok -->
+    <text x="256" y="320" text-anchor="middle" font-size="240" font-weight="500" fill="white" font-family="Inter, -apple-system, sans-serif">L</text>
+    <circle cx="256" cy="375" r="24" fill="white" opacity="0.55"/>
+    <!-- Bracket prawy -->
+    <path d="M432 80 L432 432"  stroke="white" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <path d="M364 80 L432 80"   stroke="white" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <path d="M364 432 L432 432" stroke="white" stroke-width="28" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

@@ -71,7 +71,7 @@ function selectedCountLabel(n: number): string {
   return `${n} zaznaczonych`;
 }
 
-/** Biernik po „usunąć / oznaczyć”: 1 pozycję, 2 pozycje, 5 pozycji */
+/** Biernik po „usunąć / oznaczyć": 1 pozycję, 2 pozycje, 5 pozycji */
 function accusativePositionsPhrase(n: number): string {
   if (n === 1) return "1 pozycję";
   const mod10 = n % 10;
@@ -89,13 +89,13 @@ const STATUS_FILTER_OPTIONS: { key: StatusFilterKey; label: string }[] = [
   { key: "mastered", label: "Opanowane" },
 ];
 
-const WORDS_CARD_GRID = "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3";
+const WORDS_CARD_GRID = "grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3";
 
 const pillSelectClass =
-  "rounded-full border border-neutral-200/90 bg-white py-1.5 pl-3 pr-8 text-xs font-medium text-neutral-700 shadow-[0_1px_2px_rgba(0,0,0,0.04)] outline-none transition hover:border-neutral-300 focus:border-neutral-300 focus:ring-2 focus:ring-neutral-900/8";
+  "rounded-full border border-slate-200/80 bg-white py-1.5 pl-3 pr-8 text-xs font-medium text-slate-700 shadow-sm outline-none transition hover:border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-slate-900/8";
 
 const pillInputClass =
-  "min-w-[10rem] flex-1 rounded-full border border-neutral-200/90 bg-white px-3 py-1.5 text-xs font-medium text-neutral-800 shadow-[0_1px_2px_rgba(0,0,0,0.04)] outline-none placeholder:text-neutral-400 focus:border-neutral-300 focus:ring-2 focus:ring-neutral-900/8 sm:max-w-[220px]";
+  "min-w-[10rem] flex-1 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 shadow-sm outline-none placeholder:text-slate-400 focus:border-slate-300 focus:ring-2 focus:ring-slate-900/8 sm:max-w-[220px]";
 
 function senseDetail(
   senseId: string | null,
@@ -139,7 +139,7 @@ function PoolWordsCard(props: {
   const lemma = getDisplayLemma(r);
 
   const remove = async () => {
-    if (!confirm(`Usunąć „${lemma}” z puli?`)) return;
+    if (!confirm(`Usunąć „${lemma}" z puli?`)) return;
     try {
       const session = await supabase.auth.getSession();
       const token = session.data.session?.access_token;
@@ -166,8 +166,10 @@ function PoolWordsCard(props: {
 
   return (
     <div
-      className={`group relative w-full max-w-[300px] justify-self-center rounded-xl border border-neutral-200 bg-white px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-[2px] hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] sm:px-4 sm:py-3 ${
-        highlight ? "border-amber-200 bg-amber-50/90 ring-1 ring-amber-200/50" : ""
+      className={`group relative w-full rounded-xl border bg-white px-3 py-3 shadow-sm transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(15,23,42,0.08)] sm:px-4 sm:py-3.5 ${
+        highlight
+          ? "border-amber-200 bg-amber-50/80 ring-1 ring-amber-200/50"
+          : "border-slate-200/70"
       }`}
     >
       <button
@@ -191,8 +193,8 @@ function PoolWordsCard(props: {
         />
         <div className="min-w-0 flex-1 text-left">
           <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 leading-[1.25]">
-            <span className="text-sm font-semibold text-neutral-900">{lemma}</span>
-            {r.pos ? <span className="text-xs font-normal text-neutral-400">{r.pos}</span> : null}
+            <span className="text-sm font-semibold text-slate-900">{lemma}</span>
+            {r.pos ? <span className="text-xs font-normal text-slate-400">{r.pos}</span> : null}
             {verbForm && shouldShowVerbFormBadge(r.pos, verbForm) && (
               <span className="rounded-md bg-violet-100 px-1.5 py-0.5 text-[10px] font-semibold text-violet-800 sm:text-[11px]">
                 Forma: {getVerbFormLabel(verbForm.formType)}
@@ -211,24 +213,24 @@ function PoolWordsCard(props: {
             {ex ? (
               <>
                 <div className="absolute inset-0 z-[1] transition-opacity duration-[140ms] ease-out group-hover:pointer-events-none group-hover:opacity-0">
-                  <p className="line-clamp-2 text-sm font-medium leading-[1.35] text-neutral-800">
+                  <p className="line-clamp-2 text-sm font-medium leading-[1.35] text-slate-700">
                     {getDisplayTranslation(r, verbForm)}
                   </p>
                   {shouldShowVerbFormBadge(r.pos, verbForm) && r.translation_pl ? (
-                    <span className="mt-0.5 block text-xs font-medium text-neutral-500">Baza: {r.translation_pl}</span>
+                    <span className="mt-0.5 block text-xs font-medium text-slate-500">Baza: {r.translation_pl}</span>
                   ) : null}
                 </div>
-                <p className="pointer-events-none absolute inset-0 z-[2] line-clamp-3 text-sm italic leading-[1.35] text-neutral-500 opacity-0 transition-opacity duration-[140ms] ease-out group-hover:opacity-100">
+                <p className="pointer-events-none absolute inset-0 z-[2] line-clamp-3 text-sm italic leading-[1.35] text-slate-500 opacity-0 transition-opacity duration-[140ms] ease-out group-hover:opacity-100">
                   {`\u201E${ex}\u201D`}
                 </p>
               </>
             ) : (
               <>
-                <p className="line-clamp-2 text-sm font-medium leading-[1.35] text-neutral-800">
+                <p className="line-clamp-2 text-sm font-medium leading-[1.35] text-slate-700">
                   {getDisplayTranslation(r, verbForm)}
                 </p>
                 {shouldShowVerbFormBadge(r.pos, verbForm) && r.translation_pl ? (
-                  <span className="mt-0.5 block text-xs font-medium text-neutral-500">Baza: {r.translation_pl}</span>
+                  <span className="mt-0.5 block text-xs font-medium text-slate-500">Baza: {r.translation_pl}</span>
                 ) : null}
               </>
             )}
@@ -576,8 +578,8 @@ export default function PoolTab() {
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold tracking-tight text-neutral-900">Wszystkie słowa</h2>
-          <p className="mt-0.5 text-sm text-neutral-500">
+          <h2 className="text-lg font-semibold tracking-tight text-slate-900">Wszystkie słowa</h2>
+          <p className="mt-0.5 text-sm text-slate-500">
             Najedź kartę, by zobaczyć przykład zdaniowy; domyślnie widać tłumaczenie.
           </p>
         </div>
@@ -587,14 +589,14 @@ export default function PoolTab() {
               <button
                 type="button"
                 onClick={selectAll}
-                className="rounded-full px-3 py-1.5 text-xs font-medium text-neutral-600 transition hover:bg-neutral-100"
+                className="rounded-full px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-100"
               >
                 Zaznacz widoczne
               </button>
               <button
                 type="button"
                 onClick={clearAll}
-                className="rounded-full px-3 py-1.5 text-xs font-medium text-neutral-600 transition hover:bg-neutral-100"
+                className="rounded-full px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-100"
               >
                 Wyczyść
               </button>
@@ -604,7 +606,7 @@ export default function PoolTab() {
             type="button"
             onClick={startTest}
             disabled={selectedCount === 0}
-            className="rounded-xl border-2 border-neutral-900 bg-white px-4 py-2 text-xs font-semibold text-neutral-900 shadow-sm transition hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Test ({selectedCount})
           </button>
@@ -656,8 +658,8 @@ export default function PoolTab() {
       </div>
 
       {selectedCount > 0 ? (
-        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-neutral-200/90 bg-neutral-50/90 px-3 py-2.5 text-sm shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-          <span className="min-w-0 font-medium text-neutral-800">{selectedCountLabel(selectedCount)}</span>
+        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200/70 bg-slate-50/80 px-3 py-2.5 text-sm shadow-sm">
+          <span className="min-w-0 font-medium text-slate-800">{selectedCountLabel(selectedCount)}</span>
           <div className="ml-auto flex flex-wrap items-center gap-2 sm:ml-0">
             <button
               type="button"
@@ -730,14 +732,14 @@ export default function PoolTab() {
 
       {!loading && poolRows.length === 0 ? (
         <div className="py-12 text-center">
-          <p className="text-sm font-medium text-neutral-800">Nie masz jeszcze słówek w puli.</p>
-          <p className="mt-1 text-sm text-neutral-600">Dodaj je w zakładce „Dodaj”.</p>
+          <p className="text-sm font-medium text-slate-800">Nie masz jeszcze słówek w puli.</p>
+          <p className="mt-1 text-sm text-slate-500">Dodaj je w zakładce „Dodaj".</p>
         </div>
       ) : null}
       {!loading && poolRows.length > 0 && visibleRows.length === 0 ? (
         <div className="py-10 text-center">
-          <p className="text-sm font-medium text-neutral-800">Brak słów dla wybranych filtrów.</p>
-          <p className="mt-1 text-sm text-neutral-600">Zmień status, sortowanie lub wyszukiwanie.</p>
+          <p className="text-sm font-medium text-slate-800">Brak słów dla wybranych filtrów.</p>
+          <p className="mt-1 text-sm text-slate-500">Zmień status, sortowanie lub wyszukiwanie.</p>
         </div>
       ) : null}
     </div>

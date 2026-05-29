@@ -1,13 +1,16 @@
 /** Canonical section order for the user-facing Packs catalog. */
 
+// ── DAILY ──────────────────────────────────────────────────────────────────────
+// Sections marked with (shared) appear for both verbs AND adjectives in Daily mode.
 export const DAILY_SECTION_ORDER = [
+  // ── Legacy noun packs (original sections) ──
   "Dom",
   "Jedzenie i zakupy",
   "Ubrania",
   "Ludzie i komunikacja",
   "Emocje",
   "Rozrywka",
-  "Podróże i transport",
+  "Podróże i transport",          // also: verb-daily-travel
   "Praca i nauka",
   "Ciało i zdrowie",
   "Technologia",
@@ -15,7 +18,28 @@ export const DAILY_SECTION_ORDER = [
   "Ogród",
   "Pieniądze",
   "Sport",
-  // Legacy English keys kept so older DB metadata still sorts predictably before migration.
+  // ── Thematic daily (adj + verb — shared sections) ──
+  "Emocje i nastrój",             // adj-daily-emotions + verb-daily-emotions
+  "Charakter i osobowość",        // adj-daily-personality + verb-daily-relationships
+  "Dom i życie codzienne",        // verb-daily-home
+  "Wygląd i opis",                // adj-daily-appearance
+  "Jedzenie i smaki",             // adj-daily-food + verb-daily-food
+  "Pogoda",                       // adj-daily-weather
+  "Przyroda i otoczenie",         // adj-daily-nature
+  "Zdrowie i ciało",              // adj-daily-health + verb-daily-health
+  "Komunikacja i inne",           // adj-daily-communication + verb-daily-communication
+  "Podstawowe opisowe",           // adj-daily-core
+  "Podstawowe czynności",         // verb-daily-core
+  // ── Legacy level-based sections (kept for backward compat) ──
+  "Czasowniki A1",
+  "Czasowniki A2",
+  "Czasowniki B1",
+  "Czasowniki B2",
+  "Przymiotniki A1",
+  "Przymiotniki A2",
+  "Przymiotniki B1",
+  "Przymiotniki B2",
+  // ── Legacy English keys ──
   "Home & Life",
   "Food & Shopping",
   "People & Communication",
@@ -26,7 +50,9 @@ export const DAILY_SECTION_ORDER = [
   "Time & Weather",
 ] as const;
 
+// ── PRECISE ────────────────────────────────────────────────────────────────────
 export const PRECISE_SECTION_ORDER = [
+  // ── Legacy noun packs (original sections) ──
   "Ciało i zdrowie",
   "Biznes i umowy",
   "Dom",
@@ -42,7 +68,15 @@ export const PRECISE_SECTION_ORDER = [
   "Ogród",
   "Pieniądze",
   "Sport",
-  // Legacy English keys kept so older DB metadata still sorts predictably before migration.
+  // ── Thematic precise (adj + verb — shared sections) ──
+  "Praca i finanse",              // adj-precise-work + verb-precise-work
+  "Podróże i miejsca",            // adj-precise-travel
+  "Technologia i edukacja",       // adj-precise-tech + verb-precise-tech
+  "Trudności i problemy",         // adj-precise-problems + verb-precise-problems
+  "Zaawansowane opisowe",         // adj-precise-advanced
+  "Zaawansowane czynności",       // verb-precise-advanced
+  "Nieregularne",                 // verb-precise-irregular
+  // ── Legacy English keys ──
   "Body & Health",
   "Business & Contracts",
   "Technology",

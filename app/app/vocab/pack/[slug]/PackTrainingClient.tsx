@@ -11,6 +11,9 @@ import { getWordTip } from "@/lib/coach/wordTips";
 import type { TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 import type { XpSkipReasonCode } from "@/lib/xp/award";
 import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
+
+// ── Types ────────────────────────────────────────────────────────────────────
 
 export type PackMetaDto = {
   id: string;
@@ -27,6 +30,13 @@ export type PackItemDto = {
   example_en: string | null;
   definition_en: string | null;
   order_index: number;
+  cefr_level?: string | null;
+};
+
+/** Each occurrence of a card within one session has a unique sessionKey. */
+type SessionItem = PackItemDto & {
+  sessionKey: string;
+  isRetry?: boolean;
 };
 
 type AnswerState = {
@@ -75,9 +85,19 @@ type SessionSummary = {
 
 type Direction = "en-pl" | "pl-en" | "mix";
 type CountChoice = "5" | "10" | "all";
+type TaskMode = "translation" | "multiple-choice" | "mix";
 type VocabMode = "daily" | "precise";
 
 const OPTIMISTIC_XP = 10;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function newSessionKey(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
 
 function polishFiszkiLabel(n: number): string {
   if (n === 1) return "fiszka";
@@ -87,11 +107,17 @@ function polishFiszkiLabel(n: number): string {
   return "fiszek";
 }
 
-const cardBase =
-  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
-
-const isValidVocabMode = (value: string | null): value is VocabMode =>
-  value === "daily" || value === "precise";
+function cefrColor(level?: string | null): string {
+  switch (level) {
+    case "A1": return "bg-emerald-100 text-emerald-700";
+    case "A2": return "bg-teal-100 text-teal-700";
+    case "B1": return "bg-sky-100 text-sky-700";
+    case "B2": return "bg-indigo-100 text-indigo-700";
+    case "C1": return "bg-violet-100 text-violet-700";
+    case "C2": return "bg-purple-100 text-purple-700";
+    default:   return "bg-slate-100 text-slate-500";
+  }
+}
 
 function shuffleArray<T>(list: T[]): T[] {
   const copy = [...list];
@@ -114,7 +140,7 @@ function createSessionId(): string {
 }
 
 function stripDiacritics(text: string): string {
-  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return text.normalize("NFD").replace(/[̀-ͯ]/g, "");
 }
 
 function normalizeSpacing(text: string): string {
@@ -122,7 +148,6 @@ function normalizeSpacing(text: string): string {
 }
 
 function stripParens(text: string): string {
-  // Remove parenthetical clarifications, e.g. "zwolnić (z pracy)" → "zwolnić"
   return text.replace(/\s*\([^)]*\)/g, "").trim();
 }
 
@@ -130,13 +155,40 @@ function isCorrectAnswer(expected: string, given: string, removeDiacritics: bool
   const normalize = (s: string) =>
     normalizeSpacing(removeDiacritics ? stripDiacritics(s) : s);
   const giv = normalize(given);
-  // 1. Full match
   if (normalize(expected) === giv && giv.length > 0) return true;
-  // 2. Match without parenthetical explanation, e.g. "zwolnić (z pracy)" → accept "zwolnić"
   const withoutParens = normalize(stripParens(expected));
   if (withoutParens.length > 0 && withoutParens === giv) return true;
   return false;
 }
+
+function toSessionItems(items: PackItemDto[]): SessionItem[] {
+  return items.map((item) => ({ ...item, sessionKey: newSessionKey() }));
+}
+
+function generateMcChoices(
+  current: SessionItem,
+  allItems: PackItemDto[],
+  direction: "en-pl" | "pl-en",
+): string[] {
+  const getVal = (item: PackItemDto) =>
+    direction === "en-pl" ? item.translation_pl : item.lemma;
+
+  const correct = getVal(current);
+  if (!correct) return [];
+
+  const distractors = shuffleArray(
+    allItems.filter((i) => i.sense_id !== current.sense_id && getVal(i)),
+  )
+    .slice(0, 3)
+    .map((i) => getVal(i) as string);
+
+  return shuffleArray([correct, ...distractors]);
+}
+
+const isValidVocabMode = (value: string | null): value is VocabMode =>
+  value === "daily" || value === "precise";
+
+// ── Sub-components ───────────────────────────────────────────────────────────
 
 function OptionButton({
   active,
@@ -162,6 +214,80 @@ function OptionButton({
   );
 }
 
+function FlipCard({
+  item,
+  status,
+  isFlipped,
+  onFlip,
+}: {
+  item: PackItemDto;
+  status: "correct" | "wrong" | null;
+  isFlipped: boolean;
+  onFlip: () => void;
+}) {
+  const borderColor =
+    status === "correct"
+      ? "border-emerald-300"
+      : status === "wrong"
+        ? "border-rose-300"
+        : "border-slate-200/70";
+
+  return (
+    <div
+      onClick={onFlip}
+      className="relative cursor-pointer select-none"
+      style={{ perspective: "600px", height: "120px" }}
+    >
+      <div
+        className="relative w-full h-full"
+        style={{
+          transformStyle: "preserve-3d",
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          transition: "transform 0.4s ease",
+        }}
+      >
+        {/* Front */}
+        <div
+          className={`absolute inset-0 rounded-xl border ${borderColor} bg-white p-3 flex flex-col`}
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <div className="flex justify-end min-h-[18px]">
+            {item.cefr_level ? (
+              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${cefrColor(item.cefr_level)}`}>
+                {item.cefr_level}
+              </span>
+            ) : null}
+          </div>
+          <div className="flex-1 flex items-center justify-center px-1">
+            <span className="text-base font-semibold text-slate-900 text-center leading-snug">
+              {item.lemma ?? "—"}
+            </span>
+          </div>
+          <p className="text-sm text-slate-500 text-center truncate">{item.translation_pl ?? "—"}</p>
+        </div>
+        {/* Back */}
+        <div
+          className={`absolute inset-0 rounded-xl border ${borderColor} bg-slate-50 p-3 flex items-center justify-center`}
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        >
+          {item.example_en ? (
+            <p className="text-xs italic text-slate-600 text-center line-clamp-4 leading-snug">
+              &ldquo;{item.example_en}&rdquo;
+            </p>
+          ) : (
+            <p className="text-xs text-slate-400 text-center">Brak przykładu</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Component ───────────────────────────────────────────────────────────
+
+const cardBase =
+  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
+
 export default function PackTrainingClient(props: {
   slug: string;
   pack: PackMetaDto;
@@ -173,28 +299,45 @@ export default function PackTrainingClient(props: {
   modeFromUrl: VocabMode | null;
   trainingEntryContext?: TrainingEntryContext;
 }) {
-  const router = useRouter();
-
   const slug = props.slug;
   const pack = props.pack;
   const allItems = props.initialItems;
 
+  // ── Config state ──────────────────────────────────────────────────────────
+  const [direction, setDirection] = useState<Direction>(props.initialDirection);
+  const [countChoice, setCountChoice] = useState<CountChoice>(props.initialCountChoice);
+  const [taskMode, setTaskMode] = useState<TaskMode>("translation");
+  const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
+
+  // ── UI state ──────────────────────────────────────────────────────────────
   const [error, setError] = useState("");
   const [saveToast, setSaveToast] = useState("");
   const [startLoading, setStartLoading] = useState(false);
+  const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set()); // keyed by item.id
 
-  const [direction, setDirection] = useState<Direction>(props.initialDirection);
-  const [countChoice, setCountChoice] = useState<CountChoice>(props.initialCountChoice);
+  // ── Session lifecycle ─────────────────────────────────────────────────────
   const [started, setStarted] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
 
-  const [sessionItems, setSessionItems] = useState<PackItemDto[]>([]);
+  // ── Session items & progress ──────────────────────────────────────────────
+  const [sessionItems, setSessionItems] = useState<SessionItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [input, setInput] = useState("");
+  /** Answers keyed by sessionKey (unique per card occurrence). */
   const [answers, setAnswers] = useState<Record<string, AnswerState>>({});
-  const [completed, setCompleted] = useState(false);
+  /** Per-card direction when direction === "mix", keyed by sessionKey. */
   const [sessionDirections, setSessionDirections] = useState<Record<string, "en-pl" | "pl-en">>({});
+  /** Per-card effective task mode when taskMode === "mix", keyed by sessionKey. */
+  const [sessionTaskModes, setSessionTaskModes] = useState<Record<string, "translation" | "multiple-choice">>({});
+  /** Pre-generated MC choices per card, keyed by sessionKey. */
+  const [sessionMcChoices, setSessionMcChoices] = useState<Record<string, string[]>>({});
+  /** sense_ids that have already been re-queued once (to prevent infinite loops). */
+  const [retriedOnce, setRetriedOnce] = useState<Set<string>>(new Set());
+  /** Card grid status after session completion, keyed by sense_id. */
+  const [cardStatuses, setCardStatuses] = useState<Record<string, "correct" | "wrong">>({});
 
+  // ── Completion data ───────────────────────────────────────────────────────
   const [recommendations, setRecommendations] = useState<RecommendationItem[]>([]);
   const [loadingRecs, setLoadingRecs] = useState(false);
   const [addStatus, setAddStatus] = useState("");
@@ -204,20 +347,329 @@ export default function PackTrainingClient(props: {
   const [awardedSessionId, setAwardedSessionId] = useState("");
   const [summary, setSummary] = useState<SessionSummary | null>(null);
   const [assignmentToast, setAssignmentToast] = useState("");
+  const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number>(0);
+
   const assignmentCompleteRef = useRef(false);
   const autoStartRef = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const [vocabMode, setVocabMode] = useState<VocabMode>("daily");
-  const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number>(0);
-  const [showWordList, setShowWordList] = useState(false);
-
   const { setCurrentLemma } = useCurrentWord();
+
+  // ── Derived values ────────────────────────────────────────────────────────
   const current = sessionItems[currentIndex];
-  const currentDirection =
-    direction === "mix" ? sessionDirections[current?.sense_id ?? ""] ?? "en-pl" : direction;
-  const currentAnswer = current ? answers[current.sense_id] : null;
+  const total = sessionItems.length;
+
+  const currentDirection: "en-pl" | "pl-en" =
+    direction === "mix"
+      ? (sessionDirections[current?.sessionKey ?? ""] ?? "en-pl")
+      : (direction as "en-pl" | "pl-en");
+
+  const currentEffectiveTaskMode: "translation" | "multiple-choice" =
+    taskMode === "mix"
+      ? (sessionTaskModes[current?.sessionKey ?? ""] ?? "translation")
+      : (taskMode as "translation" | "multiple-choice");
+
+  const currentAnswer = current ? answers[current.sessionKey] : undefined;
   const checked = !!currentAnswer;
+  const currentMcChoices = current ? (sessionMcChoices[current.sessionKey] ?? []) : [];
+
+  const progress = useMemo(() => Object.keys(answers).length, [answers]);
+  const correctCount = useMemo(
+    () => sessionItems.filter((item) => answers[item.sessionKey]?.isCorrect === true).length,
+    [answers, sessionItems],
+  );
+  const percentCorrect = useMemo(() => {
+    if (progress === 0) return 0;
+    return Math.round((correctCount / progress) * 100);
+  }, [correctCount, progress]);
+
+  const summaryTotal = summary?.total ?? total;
+  const summaryCorrect = summary?.correct ?? correctCount;
+  const summaryWrong = summary?.wrong ?? Math.max(summaryTotal - summaryCorrect, 0);
+  const summaryAccuracy = summary?.accuracy ?? (summaryTotal ? summaryCorrect / summaryTotal : 0);
+
+  /** 3-category breakdown for the completed screen. */
+  const sessionSummaryData = useMemo(() => {
+    if (!completed) return null;
+    const originalItems = sessionItems.filter((i) => !i.isRetry);
+    const retryItems = sessionItems.filter((i) => i.isRetry);
+
+    const knowWell: SessionItem[] = [];
+    const almost: SessionItem[] = [];
+    const needReview: SessionItem[] = [];
+
+    originalItems.forEach((item) => {
+      const firstAnswer = answers[item.sessionKey];
+      if (!firstAnswer) return; // unanswered
+      if (firstAnswer.isCorrect) {
+        knowWell.push(item);
+      } else {
+        const retryItem = retryItems.find((r) => r.sense_id === item.sense_id);
+        if (retryItem && answers[retryItem.sessionKey]?.isCorrect) {
+          almost.push(item);
+        } else {
+          needReview.push(item);
+        }
+      }
+    });
+
+    return { knowWell, almost, needReview };
+  }, [completed, sessionItems, answers]);
+
+  /** Items for "Ćwicz tylko błędne" button. */
+  const wrongItemsForRetry = useMemo(() => {
+    if (!sessionSummaryData) return [];
+    return sessionSummaryData.needReview
+      .map((si) => allItems.find((i) => i.sense_id === si.sense_id))
+      .filter(Boolean) as PackItemDto[];
+  }, [sessionSummaryData, allItems]);
+
+  // ── Session builder ───────────────────────────────────────────────────────
+
+  function buildSessionFromItems(
+    selection: PackItemDto[],
+    tMode: TaskMode,
+    dir: Direction,
+  ): {
+    items: SessionItem[];
+    directions: Record<string, "en-pl" | "pl-en">;
+    taskModes: Record<string, "translation" | "multiple-choice">;
+    mcChoices: Record<string, string[]>;
+  } {
+    const items = toSessionItems(selection);
+    const directions: Record<string, "en-pl" | "pl-en"> = {};
+    const taskModes: Record<string, "translation" | "multiple-choice"> = {};
+    const mcChoices: Record<string, string[]> = {};
+
+    items.forEach((item) => {
+      const itemDir: "en-pl" | "pl-en" =
+        dir === "mix"
+          ? Math.random() < 0.5 ? "en-pl" : "pl-en"
+          : (dir as "en-pl" | "pl-en");
+      if (dir === "mix") directions[item.sessionKey] = itemDir;
+
+      const itemTaskMode: "translation" | "multiple-choice" =
+        tMode === "mix"
+          ? Math.random() < 0.5 ? "translation" : "multiple-choice"
+          : (tMode as "translation" | "multiple-choice");
+      if (tMode === "mix") taskModes[item.sessionKey] = itemTaskMode;
+
+      if (itemTaskMode === "multiple-choice") {
+        mcChoices[item.sessionKey] = generateMcChoices(item, selection, itemDir);
+      }
+    });
+
+    return { items, directions, taskModes, mcChoices };
+  }
+
+  function resetSessionState(
+    items: SessionItem[],
+    directions: Record<string, "en-pl" | "pl-en">,
+    taskModes: Record<string, "translation" | "multiple-choice">,
+    mcChoices: Record<string, string[]>,
+    sid: string,
+  ) {
+    setSessionItems(items);
+    setSessionId(sid);
+    setAnswers({});
+    setInput("");
+    setSessionDirections(directions);
+    setSessionTaskModes(taskModes);
+    setSessionMcChoices(mcChoices);
+    setCurrentIndex(0);
+    setCompleted(false);
+    setRetriedOnce(new Set());
+    setRecommendations([]);
+    setAddStatus("");
+    setAward(null);
+    setAwardError("");
+    setAwardedSessionId("");
+    setSummary(null);
+    setOptimisticXpAwarded(0);
+    assignmentCompleteRef.current = false;
+  }
+
+  // ── Session starters ──────────────────────────────────────────────────────
+
+  const startSessionWithApi = async () => {
+    setStartLoading(true);
+    setError("");
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) {
+        setError("Zaloguj się, aby rozpocząć sesję.");
+        return;
+      }
+      const res = await fetch("/api/training/pack/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          slug,
+          countMode: countChoice,
+          ...(props.trainingEntryContext ? { context: props.trainingEntryContext } : {}),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Nie udało się rozpocząć sesji.");
+      if (!data.sessionId || !Array.isArray(data.items)) throw new Error("Nieprawidłowa odpowiedź serwera.");
+
+      const { items, directions, taskModes, mcChoices } = buildSessionFromItems(
+        data.items as PackItemDto[],
+        taskMode,
+        direction,
+      );
+      resetSessionState(items, directions, taskModes, mcChoices, data.sessionId);
+      setStarted(true);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Nie udało się rozpocząć sesji.");
+    } finally {
+      setStartLoading(false);
+    }
+  };
+
+  const startSession = (itemsOverride?: PackItemDto[]) => {
+    if (allItems.length === 0 && !itemsOverride) {
+      setError("Brak fiszek w tym packu.");
+      return;
+    }
+    const source = itemsOverride ?? allItems;
+    let selection = shuffleArray(source);
+    if (!itemsOverride && countChoice !== "all") {
+      const size = countChoice === "5" ? 5 : 10;
+      selection = selection.slice(0, Math.min(size, selection.length));
+    }
+    const { items, directions, taskModes, mcChoices } = buildSessionFromItems(
+      selection,
+      taskMode,
+      direction,
+    );
+    resetSessionState(items, directions, taskModes, mcChoices, createSessionId());
+    setStarted(true);
+  };
+
+  // ── Answer handlers ───────────────────────────────────────────────────────
+
+  const logAnswerToApi = async (
+    given: string,
+    expectedValue: string | null,
+    isCorrect: boolean,
+  ) => {
+    if (!current) return;
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) return;
+      const res = await fetch(`/api/vocab/packs/${slug}/answer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          sense_id: current.sense_id,
+          given,
+          direction: currentDirection,
+          session_id: sessionId,
+        }),
+      });
+      if (!res.ok) setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
+    } catch {
+      setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
+    }
+  };
+
+  const insertRetryItem = (item: SessionItem) => {
+    if (retriedOnce.has(item.sense_id)) return;
+
+    const retryDir: "en-pl" | "pl-en" =
+      direction === "mix"
+        ? Math.random() < 0.5 ? "en-pl" : "pl-en"
+        : (direction as "en-pl" | "pl-en");
+
+    const retryTMode: "translation" | "multiple-choice" =
+      taskMode === "mix"
+        ? Math.random() < 0.5 ? "translation" : "multiple-choice"
+        : (taskMode as "translation" | "multiple-choice");
+
+    const retryItem: SessionItem = { ...item, sessionKey: newSessionKey(), isRetry: true };
+    const insertAt = Math.min(currentIndex + 2, sessionItems.length);
+
+    setSessionItems((prev) => {
+      const next = [...prev];
+      next.splice(insertAt, 0, retryItem);
+      return next;
+    });
+    if (direction === "mix") {
+      setSessionDirections((prev) => ({ ...prev, [retryItem.sessionKey]: retryDir }));
+    }
+    if (taskMode === "mix") {
+      setSessionTaskModes((prev) => ({ ...prev, [retryItem.sessionKey]: retryTMode }));
+    }
+    if (retryTMode === "multiple-choice") {
+      const choices = generateMcChoices(retryItem, allItems, retryDir);
+      setSessionMcChoices((prev) => ({ ...prev, [retryItem.sessionKey]: choices }));
+    }
+    setRetriedOnce((prev) => new Set([...prev, item.sense_id]));
+  };
+
+  const checkAnswer = () => {
+    if (!current || checked) return;
+    if (!input.trim()) {
+      setError("Wpisz tłumaczenie.");
+      return;
+    }
+    setError("");
+    const expectedValue =
+      currentDirection === "en-pl" ? current.translation_pl ?? null : current.lemma ?? null;
+    let isCorrect = false;
+    if (expectedValue) {
+      isCorrect = isCorrectAnswer(expectedValue, input, currentDirection === "en-pl");
+    }
+    if (!isCorrect && currentDirection === "pl-en" && current.translation_pl) {
+      isCorrect = isCorrectAnswer(current.translation_pl, input, true);
+    }
+    setAnswers((prev) => ({
+      ...prev,
+      [current.sessionKey]: { given: input, expected: expectedValue, isCorrect },
+    }));
+    if (!isCorrect) insertRetryItem(current);
+    void logAnswerToApi(input, expectedValue, isCorrect);
+  };
+
+  const handleMcAnswer = (chosen: string) => {
+    if (!current || checked) return;
+    const expectedValue =
+      currentDirection === "en-pl" ? current.translation_pl ?? null : current.lemma ?? null;
+    const isCorrect = expectedValue !== null && chosen === expectedValue;
+    setAnswers((prev) => ({
+      ...prev,
+      [current.sessionKey]: { given: chosen, expected: expectedValue, isCorrect },
+    }));
+    if (!isCorrect) insertRetryItem(current);
+    void logAnswerToApi(chosen, expectedValue, isCorrect);
+  };
+
+  const goNext = () => {
+    if (currentIndex >= sessionItems.length - 1) {
+      // Snapshot card statuses
+      const newStatuses: Record<string, "correct" | "wrong"> = {};
+      sessionItems.forEach((item) => {
+        if (item.isRetry) return;
+        const a = answers[item.sessionKey];
+        if (a) newStatuses[item.sense_id] = a.isCorrect ? "correct" : "wrong";
+      });
+      setCardStatuses(newStatuses);
+      setOptimisticXpAwarded(OPTIMISTIC_XP);
+      setCompleted(true);
+      return;
+    }
+    setCurrentIndex((i) => i + 1);
+  };
+
+  const goPrev = () => {
+    if (currentIndex <= 0) return;
+    setCurrentIndex((i) => i - 1);
+  };
+
+  // ── Effects ───────────────────────────────────────────────────────────────
 
   useEffect(() => {
     if (props.modeFromUrl) {
@@ -233,66 +685,6 @@ export default function PackTrainingClient(props: {
     setVocabMode("daily");
   }, [props.modeFromUrl]);
 
-  const startSessionWithApi = async () => {
-    setStartLoading(true);
-    setError("");
-    try {
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      if (!token) {
-        setError("Zaloguj się, aby rozpocząć sesję.");
-        return;
-      }
-      const res = await fetch("/api/training/pack/start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          slug,
-          countMode: countChoice,
-          ...(props.trainingEntryContext ? { context: props.trainingEntryContext } : {}),
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.error || "Nie udało się rozpocząć sesji.");
-      }
-      if (!data.sessionId || !Array.isArray(data.items)) {
-        throw new Error("Nieprawidłowa odpowiedź serwera.");
-      }
-      const selection = data.items as PackItemDto[];
-      setSessionItems(selection);
-      setSessionId(data.sessionId);
-      setAnswers({});
-      setInput("");
-      setSessionDirections(
-        direction === "mix"
-          ? selection.reduce<Record<string, "en-pl" | "pl-en">>((acc, item) => {
-              acc[item.sense_id] = Math.random() < 0.5 ? "en-pl" : "pl-en";
-              return acc;
-            }, {})
-          : {},
-      );
-      setCurrentIndex(0);
-      setCompleted(false);
-      setRecommendations([]);
-      setAddStatus("");
-      setAward(null);
-      setAwardError("");
-      setAwardedSessionId("");
-      setSummary(null);
-      setOptimisticXpAwarded(0);
-      assignmentCompleteRef.current = false;
-      setStarted(true);
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Nie udało się rozpocząć sesji.");
-    } finally {
-      setStartLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (!props.autoStart) return;
     if (started) return;
@@ -301,12 +693,18 @@ export default function PackTrainingClient(props: {
     void startSessionWithApi();
   }, [props.autoStart, started]);
 
+  // Reset input when card changes (fresh start for each card, including retries)
   useEffect(() => {
     if (!current) return;
-    const existing = answers[current.sense_id];
+    if (currentEffectiveTaskMode !== "translation") {
+      setInput("");
+      return;
+    }
+    const existing = answers[current.sessionKey];
     setInput(existing?.given ?? "");
-  }, [current?.sense_id, answers]);
+  }, [current?.sessionKey]); // intentionally omit answers/currentEffectiveTaskMode
 
+  // Coach context
   useEffect(() => {
     if (started && !completed && current?.lemma) {
       setCurrentLemma(current.lemma);
@@ -316,6 +714,7 @@ export default function PackTrainingClient(props: {
     return () => setCurrentLemma(null);
   }, [started, completed, current?.lemma, setCurrentLemma]);
 
+  // Auto-focus input in translation mode
   useEffect(() => {
     if (!started || completed) return;
     inputRef.current?.focus();
@@ -333,139 +732,46 @@ export default function PackTrainingClient(props: {
     return () => clearTimeout(timer);
   }, [assignmentToast]);
 
-  const total = sessionItems.length;
-  const progress = useMemo(() => Object.keys(answers).length, [answers]);
-  const correctCount = useMemo(
-    () => sessionItems.filter((item) => answers[item.sense_id]?.isCorrect).length,
-    [answers, sessionItems],
-  );
-  const percentCorrect = useMemo(() => {
-    if (progress === 0) return 0;
-    return Math.round((correctCount / progress) * 100);
-  }, [correctCount, progress]);
-  const summaryTotal = summary?.total ?? total;
-  const summaryCorrect = summary?.correct ?? correctCount;
-  const summaryWrong = summary?.wrong ?? Math.max(summaryTotal - summaryCorrect, 0);
-  const summaryAccuracy = summary?.accuracy ?? (summaryTotal ? summaryCorrect / summaryTotal : 0);
-
-  const startSession = (itemsOverride?: PackItemDto[]) => {
-    if (allItems.length === 0 && !itemsOverride) {
-      setError("Brak fiszek w tym packu.");
-      return;
-    }
-    const source = itemsOverride ?? allItems;
-    let selection = shuffleArray(source);
-    if (!itemsOverride && countChoice !== "all") {
-      const size = countChoice === "5" ? 5 : 10;
-      selection = selection.slice(0, Math.min(size, selection.length));
-    }
-    setSessionItems(selection);
-    setSessionId(createSessionId());
-    setAnswers({});
-    setInput("");
-    setSessionDirections(
-      direction === "mix"
-        ? selection.reduce<Record<string, "en-pl" | "pl-en">>((acc, item) => {
-            acc[item.sense_id] = Math.random() < 0.5 ? "en-pl" : "pl-en";
-            return acc;
-          }, {})
-        : {},
-    );
-    setCurrentIndex(0);
-    setCompleted(false);
-    setRecommendations([]);
-    setAddStatus("");
-    setAward(null);
-    setAwardError("");
-    setAwardedSessionId("");
-    setSummary(null);
-    setOptimisticXpAwarded(0);
-    assignmentCompleteRef.current = false;
-    setStarted(true);
-  };
-
-  const checkAnswer = () => {
-    if (!current || checked) return;
-    if (!input.trim()) {
-      setError("Wpisz tłumaczenie.");
-      return;
-    }
-    setError("");
-    const expectedValue =
-      currentDirection === "en-pl" ? current.translation_pl ?? null : current.lemma ?? null;
-    const expectedForDisplay = expectedValue;
-    let isCorrect = false;
-    if (expectedValue) {
-      isCorrect = isCorrectAnswer(expectedValue, input, currentDirection === "en-pl");
-    }
-    if (!isCorrect && currentDirection === "pl-en" && current.translation_pl) {
-      isCorrect = isCorrectAnswer(current.translation_pl, input, true);
-    }
-    setAnswers((prev) => ({
-      ...prev,
-      [current.sense_id]: { given: input, expected: expectedForDisplay, isCorrect },
-    }));
-
-    void (async () => {
-      try {
-        const session = await supabase.auth.getSession();
-        const token = session.data.session?.access_token;
-        if (!token) return;
-        const res = await fetch(`/api/vocab/packs/${slug}/answer`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ sense_id: current.sense_id, given: input, direction: currentDirection, session_id: sessionId }),
-        });
-        if (!res.ok) setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
-      } catch {
-        setSaveToast("Nie udało się zapisać odpowiedzi (w tle).");
-      }
-    })();
-  };
-
-  const goNext = () => {
-    if (currentIndex >= total - 1) {
-      setOptimisticXpAwarded(OPTIMISTIC_XP);
-      setCompleted(true);
-      return;
-    }
-    setCurrentIndex((i) => i + 1);
-  };
-
-  const goPrev = () => {
-    if (currentIndex <= 0) return;
-    setCurrentIndex((i) => i - 1);
-  };
-
+  // Load recommendations after completion
   useEffect(() => {
-    const loadRecommendations = async () => {
-      if (!completed || !sessionId) return;
+    if (!completed || !sessionId) return;
+    const load = async () => {
       try {
         setLoadingRecs(true);
-        setError("");
         const session = await supabase.auth.getSession();
         const token = session.data.session?.access_token;
         if (!token) return;
-        const res = await fetch(`/api/vocab/packs/${slug}/recommendations?sessionId=${sessionId}`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-          throw new Error(errorData.error || "Nie udało się wczytać rekomendacji.");
-        }
+        const res = await fetch(
+          `/api/vocab/packs/${slug}/recommendations?sessionId=${sessionId}`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        if (!res.ok) return;
         const data = await res.json();
-        if (!data.ok || !Array.isArray(data.items)) throw new Error("Nieprawidłowa odpowiedź serwera.");
-        setRecommendations(data.items);
-      } catch (e: unknown) {
-        setError(e instanceof Error ? e.message : "Nie udało się wczytać rekomendacji.");
+        if (data.ok && Array.isArray(data.items)) setRecommendations(data.items);
       } finally {
         setLoadingRecs(false);
       }
     };
-    void loadRecommendations();
+    void load();
   }, [completed, slug, sessionId]);
 
+  // Enter → goNext when answer is already checked
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key !== "Enter") return;
+      if (!checked) return;
+      if (completed) return;
+      // Don't interfere if focus is inside an input or button
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "BUTTON" || tag === "TEXTAREA") return;
+      e.preventDefault();
+      goNext();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [checked, completed, goNext]);
+
+  // Award XP after completion
   useEffect(() => {
     if (!completed || !sessionId) return;
     if (awardedSessionId === sessionId) return;
@@ -484,8 +790,8 @@ export default function PackTrainingClient(props: {
           body: JSON.stringify({ session_id: sessionId, direction, count_mode: countChoice }),
         });
         if (!res.ok) {
-          const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-          throw new Error(errorData.error || "Nie udało się przyznać XP.");
+          const d = await res.json().catch(() => ({}));
+          throw new Error(d.error || "Nie udało się przyznać XP.");
         }
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || "Nie udało się przyznać XP.");
@@ -503,14 +809,18 @@ export default function PackTrainingClient(props: {
 
         if (props.assignmentId && !assignmentCompleteRef.current) {
           try {
-            const completeRes = await fetch(`/api/lessons/assignments/${props.assignmentId}/complete`, {
+            const cr = await fetch(`/api/lessons/assignments/${props.assignmentId}/complete`, {
               method: "POST",
               headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-              body: JSON.stringify({ session_id: sessionId, exercise_type: "pack", context_slug: slug }),
+              body: JSON.stringify({
+                session_id: sessionId,
+                exercise_type: "pack",
+                context_slug: slug,
+              }),
             });
-            if (completeRes.ok) {
-              const completeData = await completeRes.json();
-              if (completeData.ok) {
+            if (cr.ok) {
+              const cd = await cr.json();
+              if (cd.ok) {
                 assignmentCompleteRef.current = true;
                 setAssignmentToast("Zadanie z lekcji oznaczone jako wykonane");
               }
@@ -526,11 +836,6 @@ export default function PackTrainingClient(props: {
     })();
   }, [props.assignmentId, awardedSessionId, completed, countChoice, direction, sessionId, slug]);
 
-  const wrongItems = useMemo(
-    () => sessionItems.filter((item) => answers[item.sense_id]?.isCorrect === false),
-    [answers, sessionItems],
-  );
-
   const addRecommendations = async () => {
     if (recommendations.length === 0) return;
     try {
@@ -545,10 +850,7 @@ export default function PackTrainingClient(props: {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ sense_ids: recommendations.map((r) => r.sense_id) }),
       });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-        throw new Error(errorData.error || "Nie udało się dodać słówek.");
-      }
+      if (!res.ok) throw new Error("Nie udało się dodać słówek.");
       const data = await res.json();
       if (!data.ok) throw new Error("Nie udało się dodać słówek.");
       setAddStatus(`Dodano do puli: ${data.added ?? 0}`);
@@ -559,8 +861,10 @@ export default function PackTrainingClient(props: {
     }
   };
 
+  // ── Shared UI blocks ──────────────────────────────────────────────────────
+
   const errorBlock = error ? (
-    <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
+    <div className="mb-4 rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
       <p className="text-sm text-rose-700">
         <span className="font-semibold">Błąd: </span>
         {error}
@@ -569,18 +873,23 @@ export default function PackTrainingClient(props: {
   ) : null;
 
   const toastBlock = saveToast ? (
-    <div className="rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-500">
+    <div className="mb-4 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-500">
       {saveToast}
     </div>
   ) : null;
 
-  /* ─── PRE-START ─── */
+  // ══════════════════════════════════════════════════════════════════════════
+  // PRE-START SCREEN
+  // ══════════════════════════════════════════════════════════════════════════
+
   if (!started) {
     if (startLoading) {
       return (
         <div>
           <header className="mb-5">
-            <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+            <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
+              ← Fiszki
+            </Link>
             <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
           </header>
           <div className={`${cardBase} animate-pulse`}>
@@ -594,7 +903,9 @@ export default function PackTrainingClient(props: {
     return (
       <div>
         <header className="mb-5">
-          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
+            ← Fiszki
+          </Link>
           <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
           <p className="mt-0.5 text-xs font-medium text-slate-400">{pack.description ?? "Ćwicz szybkie tłumaczenia"}</p>
           {allItems.length > 0 ? (
@@ -607,77 +918,87 @@ export default function PackTrainingClient(props: {
         {errorBlock}
         {toastBlock}
 
-        <div className="space-y-5">
-          <section className={cardBase}>
-            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Kierunek</h2>
-            <div className="flex flex-wrap gap-2">
-              <OptionButton active={direction === "en-pl"} onClick={() => setDirection("en-pl")}>ENG → PL</OptionButton>
-              <OptionButton active={direction === "pl-en"} onClick={() => setDirection("pl-en")}>PL → ENG</OptionButton>
-              <OptionButton active={direction === "mix"} onClick={() => setDirection("mix")}>MIX</OptionButton>
-            </div>
-          </section>
-
-          <section className={cardBase}>
-            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Liczba fiszek</h2>
-            <div className="flex flex-wrap gap-2">
-              {(["5", "10", "all"] as CountChoice[]).map((c) => (
-                <OptionButton key={c} active={countChoice === c} onClick={() => setCountChoice(c)}>
-                  {c === "all" ? "Wszystkie" : c}
-                </OptionButton>
-              ))}
-            </div>
-          </section>
-
-          <section className={cardBase}>
-            <div className="flex items-center justify-between">
+        <div className="space-y-4">
+          {/* ── Row 1: Direction + Count + CTA ── */}
+          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+            <OptionButton active={direction === "en-pl"} onClick={() => setDirection("en-pl")}>ENG → PL</OptionButton>
+            <OptionButton active={direction === "pl-en"} onClick={() => setDirection("pl-en")}>PL → ENG</OptionButton>
+            <OptionButton active={direction === "mix"} onClick={() => setDirection("mix")}>MIX</OptionButton>
+            <div className="mx-1 h-6 w-px bg-slate-200" />
+            {(["5", "10", "all"] as CountChoice[]).map((c) => (
+              <OptionButton key={c} active={countChoice === c} onClick={() => setCountChoice(c)}>
+                {c === "all" ? "Wszystkie" : c}
+              </OptionButton>
+            ))}
+            <div className="ml-auto">
               <button
                 type="button"
-                onClick={() => setShowWordList(!showWordList)}
-                className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400"
+                onClick={() => void startSessionWithApi()}
+                disabled={startLoading}
+                className="btn-primary shadow-sm"
               >
-                <svg
-                  className={`transition-transform duration-200 ${showWordList ? "" : "-rotate-90"}`}
-                  width="12" height="12" viewBox="0 0 16 16" fill="none"
-                >
-                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Słówka w zestawie
-                <span className="font-medium normal-case tracking-normal text-slate-300">{allItems.length}</span>
+                {startLoading ? "Ładowanie…" : "Zacznij →"}
               </button>
             </div>
-            {showWordList ? (
-              <ul className="mt-4 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-                {allItems.map((item) => (
-                  <li key={item.id} className="flex items-baseline justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                    <span className="font-medium text-slate-800">{item.lemma ?? "—"}</span>
-                    <span className="text-xs text-slate-400">{item.translation_pl ?? "—"}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </section>
+          </div>
 
-          <button
-            type="button"
-            onClick={() => void startSessionWithApi()}
-            disabled={startLoading}
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-semibold text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {startLoading ? "Ładowanie…" : "Zacznij sesję"}
-          </button>
+          {/* ── Row 2: Task mode ── */}
+          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+            <span className="mr-1 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+              Tryb:
+            </span>
+            <OptionButton active={taskMode === "translation"} onClick={() => setTaskMode("translation")}>
+              Tłumaczenie
+            </OptionButton>
+            <OptionButton active={taskMode === "multiple-choice"} onClick={() => setTaskMode("multiple-choice")}>
+              Wielokrotny wybór
+            </OptionButton>
+            <OptionButton active={taskMode === "mix"} onClick={() => setTaskMode("mix")}>Mix</OptionButton>
+          </div>
+
+          {/* ── Card grid ── */}
+          {allItems.length > 0 ? (
+            <div
+              className="grid gap-3"
+              style={{ gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))" }}
+            >
+              {allItems.map((item) => (
+                <FlipCard
+                  key={item.id}
+                  item={item}
+                  status={cardStatuses[item.sense_id] ?? null}
+                  isFlipped={flippedCards.has(item.id)}
+                  onFlip={() =>
+                    setFlippedCards((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(item.id)) next.delete(item.id);
+                      else next.add(item.id);
+                      return next;
+                    })
+                  }
+                />
+              ))}
+            </div>
+          ) : null}
+
         </div>
       </div>
     );
   }
 
-  /* ─── COMPLETED ─── */
+  // ══════════════════════════════════════════════════════════════════════════
+  // COMPLETED SCREEN
+  // ══════════════════════════════════════════════════════════════════════════
+
   if (completed) {
     const optimisticXpLine = optimisticXpAwarded || OPTIMISTIC_XP;
 
     return (
       <div>
         <header className="mb-5">
-          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
+            ← Fiszki
+          </Link>
           <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h1>
           <p className="mt-0.5 text-xs font-medium text-slate-400">{pack.title ?? slug}</p>
         </header>
@@ -685,42 +1006,45 @@ export default function PackTrainingClient(props: {
         {errorBlock}
         {toastBlock}
         {assignmentToast ? (
-          <div className="mb-5 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-600">{assignmentToast}</div>
+          <div className="mb-5 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-600">
+            {assignmentToast}
+          </div>
         ) : null}
 
         <div className="space-y-5">
+          {/* ── 3-category summary ── */}
           <section className={cardBase}>
-            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Podsumowanie</h2>
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <div className="text-2xl font-bold text-slate-900">{summaryCorrect}</div>
-                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-400">Poprawne</div>
+            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+              Wyniki
+            </h2>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3">
+                <span className="text-sm font-medium text-emerald-700">✅ Znam dobrze</span>
+                <span className="text-sm font-bold tabular-nums text-emerald-800">
+                  {sessionSummaryData?.knowWell.length ?? summaryCorrect} słówek
+                </span>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-slate-900">{summaryWrong}</div>
-                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-400">Błędne</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</div>
-                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-400">Skuteczność</div>
+              {(sessionSummaryData?.almost.length ?? 0) > 0 ? (
+                <div className="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3">
+                  <span className="text-sm font-medium text-amber-700">⚠️ Prawie</span>
+                  <span className="text-sm font-bold tabular-nums text-amber-800">
+                    {sessionSummaryData?.almost.length} słówek
+                  </span>
+                </div>
+              ) : null}
+              <div className="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+                <span className="text-sm font-medium text-rose-700">❌ Do powtórki</span>
+                <span className="text-sm font-bold tabular-nums text-rose-800">
+                  {sessionSummaryData?.needReview.length ?? summaryWrong} słówek
+                </span>
               </div>
             </div>
+            <p className="mt-3 text-right text-xs text-slate-400">
+              {summaryTotal ? Math.round(summaryAccuracy * 100) : 0}% skuteczności
+            </p>
           </section>
 
-          {summary?.wrong_items?.length ? (
-            <section className={cardBase}>
-              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Błędy</h2>
-              <ul className="space-y-1.5">
-                {summary.wrong_items.slice(0, 10).map((item, idx) => (
-                  <li key={`${item.prompt ?? "?"}-${idx}`} className="flex items-baseline justify-between rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                    <span className="text-slate-600">{item.prompt ?? "—"}</span>
-                    <span className="text-xs font-medium text-slate-800">{item.expected ?? "—"}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
+          {/* ── XP ── */}
           <section className={cardBase}>
             <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">XP</h2>
             {award ? (
@@ -756,6 +1080,7 @@ export default function PackTrainingClient(props: {
             </section>
           ) : null}
 
+          {/* ── Recommendations ── */}
           {loadingRecs ? <p className="text-xs text-slate-400">Pobieram rekomendacje…</p> : null}
           {!loadingRecs && recommendations.length > 0 ? (
             <section className={cardBase}>
@@ -780,22 +1105,34 @@ export default function PackTrainingClient(props: {
             </section>
           ) : null}
 
+          {/* ── Action buttons ── */}
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
+              onClick={() => {
+                // Go back to config screen (card statuses will persist)
+                setCompleted(false);
+                setStarted(false);
+              }}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Konfiguruj
+            </button>
+            <button
+              type="button"
               onClick={() => void startSessionWithApi()}
-              disabled={sessionItems.length === 0 || startLoading}
+              disabled={startLoading}
               className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
             >
               Jeszcze raz
             </button>
             <button
               type="button"
-              onClick={() => startSession(wrongItems)}
-              disabled={wrongItems.length === 0 || startLoading}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+              onClick={() => startSession(wrongItemsForRetry)}
+              disabled={wrongItemsForRetry.length === 0 || startLoading}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Tylko błędne
+              Ćwicz tylko błędne
             </button>
             <Link
               href="/app/vocab/packs"
@@ -803,23 +1140,22 @@ export default function PackTrainingClient(props: {
             >
               Wróć do fiszek
             </Link>
-            <Link
-              href="/app"
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-            >
-              Panel
-            </Link>
           </div>
         </div>
       </div>
     );
   }
 
-  /* ─── ACTIVE SESSION ─── */
+  // ══════════════════════════════════════════════════════════════════════════
+  // ACTIVE SESSION
+  // ══════════════════════════════════════════════════════════════════════════
+
   return (
-    <div>
+    <div className="max-w-xl mx-auto">
       <header className="mb-5">
-        <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">← Fiszki</Link>
+        <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
+          ← Fiszki
+        </Link>
         <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
       </header>
 
@@ -827,71 +1163,171 @@ export default function PackTrainingClient(props: {
       {toastBlock}
 
       {current ? (
-        <div className="space-y-5">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>
-              <span className="font-semibold text-slate-600">{currentIndex + 1}</span> / {total}
+        <div className="space-y-4">
+          {/* ── Progress header ── */}
+          <div className="flex items-end justify-between">
+            {/* Card counter */}
+            <span className="text-sm text-slate-500">
+              <span className="text-lg font-bold text-slate-800">{currentIndex + 1}</span>
+              <span className="text-slate-400"> / {total}</span>
+              {current.isRetry ? <span className="ml-2 text-xs font-medium text-amber-500">↩ powtórka</span> : null}
             </span>
-            <span>
-              <span className="font-semibold text-slate-600">{percentCorrect}%</span> poprawnych
-            </span>
+            {/* % correct — big, color-coded */}
+            <div className="text-right">
+              <div
+                className={`text-2xl font-black leading-none tabular-nums ${
+                  progress === 0
+                    ? "text-slate-300"
+                    : percentCorrect >= 70
+                      ? "text-emerald-500"
+                      : percentCorrect >= 40
+                        ? "text-amber-500"
+                        : "text-orange-500"
+                }`}
+              >
+                {progress === 0 ? "—" : `${percentCorrect}%`}
+              </div>
+              <div className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+                poprawnych
+              </div>
+            </div>
           </div>
 
-          <div className="h-1 overflow-hidden rounded-full bg-slate-100">
-            <div
-              className="h-full rounded-full bg-slate-800 transition-all duration-300"
-              style={{ width: `${total ? ((currentIndex + 1) / total) * 100 : 0}%` }}
-            />
-          </div>
+          {/* ── Segmented dot progress ── */}
+          {total <= 25 ? (
+            <div className="flex flex-wrap gap-1">
+              {sessionItems.map((item, i) => {
+                const ans = answers[item.sessionKey];
+                const isCurrent = i === currentIndex && !ans;
+                return (
+                  <span
+                    key={item.sessionKey}
+                    className={`h-2 rounded-full transition-all duration-500 ${
+                      ans?.isCorrect
+                        ? "w-6 bg-emerald-400"
+                        : ans && !ans.isCorrect
+                          ? "w-6 bg-orange-400"
+                          : isCurrent
+                            ? "w-6 bg-sky-400"
+                            : "w-2 bg-slate-200"
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            /* Stacked color bar for large decks */
+            <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+              <div className="flex h-full">
+                <div
+                  className="bg-emerald-400 transition-all duration-500"
+                  style={{ width: `${total ? (correctCount / total) * 100 : 0}%` }}
+                />
+                <div
+                  className="bg-orange-400 transition-all duration-500"
+                  style={{ width: `${total ? ((progress - correctCount) / total) * 100 : 0}%` }}
+                />
+              </div>
+            </div>
+          )}
 
+          {/* ── Main card ── */}
           <section className={cardBase}>
+            {/* Prompt */}
             <div className="mb-6 text-center">
               <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                 {currentDirection === "en-pl" ? "Przetłumacz na polski" : "Przetłumacz na angielski"}
               </div>
+              {current.cefr_level ? (
+                <span className={`mt-2 inline-block rounded-md px-2 py-0.5 text-xs font-bold tracking-wide ${cefrColor(current.cefr_level)}`}>
+                  {current.cefr_level}
+                </span>
+              ) : null}
               <div className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
                 {currentDirection === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
               </div>
             </div>
 
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => {
-                if (checked) return;
-                setInput(e.target.value);
-              }}
-              placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie…" : "Wpisz słowo po angielsku…"}
-              className={`w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5 ${
-                checked ? "opacity-70" : ""
-              }`}
-              readOnly={checked}
-              aria-readonly={checked}
-              onKeyDown={(e) => {
-                if (e.key !== "Enter") return;
-                e.preventDefault();
-                if (!checked) checkAnswer();
-                else goNext();
-              }}
-            />
+            {/* ── Translation mode: text input ── */}
+            {currentEffectiveTaskMode === "translation" && !checked ? (
+              <input
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie…" : "Wpisz słowo po angielsku…"}
+                className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
+                onKeyDown={(e) => {
+                  if (e.key !== "Enter") return;
+                  e.preventDefault();
+                  checkAnswer();
+                }}
+              />
+            ) : null}
 
+            {/* ── Multiple Choice: 2×2 grid ── */}
+            {currentEffectiveTaskMode === "multiple-choice" && !checked ? (
+              <div className="grid grid-cols-2 gap-2">
+                {currentMcChoices.map((choice, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => handleMcAnswer(choice)}
+                    className="rounded-xl border border-slate-200 bg-white px-3 py-3.5 text-sm text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 active:bg-slate-100"
+                  >
+                    {choice}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            {/* ── Feedback after answer ── */}
             {checked ? (
               <div className="mt-5 space-y-3">
-                <div className={`rounded-xl px-4 py-3 text-center text-sm font-semibold ${
-                  currentAnswer?.isCorrect
-                    ? "bg-slate-50 text-slate-800"
-                    : "bg-rose-50/80 text-rose-700"
-                }`}>
-                  {currentAnswer?.isCorrect ? "Poprawnie!" : `Poprawna odpowiedź: ${currentAnswer?.expected ?? "—"}`}
-                </div>
-                {current.definition_en ? (
-                  <p className="text-center text-xs text-slate-400">{current.definition_en}</p>
-                ) : null}
-                {current.example_en ? (
-                  <p className="text-center text-xs italic text-slate-400">&ldquo;{current.example_en}&rdquo;</p>
-                ) : null}
+                {currentAnswer?.isCorrect ? (
+                  <div className="rounded-xl bg-emerald-50 px-4 py-3 space-y-1.5 max-w-sm mx-auto">
+                    <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
+                      <CorrectIcon size={18} /> Poprawnie!
+                    </p>
+                    {current.definition_en ? (
+                      <p className="text-xs text-slate-500 pl-6">{current.definition_en}</p>
+                    ) : null}
+                    {current.example_en ? (
+                      <p className="text-xs italic text-slate-400 pl-6">&ldquo;{current.example_en}&rdquo;</p>
+                    ) : null}
+                  </div>
+                ) : (
+                  <div className="rounded-xl bg-orange-50/80 px-4 py-3.5 space-y-3 max-w-sm mx-auto">
+                    {/* Wrong answer row */}
+                    <div className="flex items-start gap-3">
+                      <WrongIcon size={28} />
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Twoja odpowiedź</p>
+                        <p className="mt-0.5 text-base font-semibold text-red-600">{currentAnswer?.given || "—"}</p>
+                      </div>
+                    </div>
+                    {/* Correct answer row */}
+                    <div className="flex items-start gap-3">
+                      <CorrectIcon size={28} />
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Poprawnie</p>
+                        <p className="mt-0.5 text-base font-bold text-slate-900">{currentAnswer?.expected ?? "—"}</p>
+                      </div>
+                    </div>
+                    {current.definition_en ? (
+                      <p className="pt-0.5 border-t border-orange-100 text-xs text-slate-500">{current.definition_en}</p>
+                    ) : null}
+                    {current.example_en ? (
+                      <p className="text-xs italic text-slate-400">&ldquo;{current.example_en}&rdquo;</p>
+                    ) : null}
+                  </div>
+                )}
+
+                {/* Word tip */}
                 {(() => {
-                  const tip = getWordTip(current.lemma, !currentAnswer?.isCorrect ? currentAnswer?.given : undefined);
+                  const tip = getWordTip(
+                    current.lemma,
+                    !currentAnswer?.isCorrect ? currentAnswer?.given : undefined,
+                  );
                   if (!tip) return null;
                   const text = Array.isArray(tip) ? tip.join("\n") : tip;
                   return (
@@ -906,6 +1342,7 @@ export default function PackTrainingClient(props: {
               </div>
             ) : null}
 
+            {/* ── Navigation ── */}
             <div className="mt-5 flex items-center justify-between gap-2">
               <button
                 type="button"
@@ -915,7 +1352,8 @@ export default function PackTrainingClient(props: {
               >
                 ←
               </button>
-              {!checked ? (
+
+              {currentEffectiveTaskMode === "translation" && !checked ? (
                 <button
                   type="button"
                   onClick={checkAnswer}
@@ -923,15 +1361,16 @@ export default function PackTrainingClient(props: {
                 >
                   Sprawdź
                 </button>
-              ) : (
+              ) : checked ? (
                 <button
                   type="button"
                   onClick={goNext}
                   className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
                 >
-                  {currentIndex === total - 1 ? "Zakończ" : "Dalej"}
+                  {currentIndex === sessionItems.length - 1 ? "Zakończ" : "Dalej"}
                 </button>
-              )}
+              ) : null /* MC mode: no center button while waiting for choice */}
+
               <button
                 type="button"
                 onClick={goNext}

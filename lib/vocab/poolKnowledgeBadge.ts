@@ -6,13 +6,13 @@ export function poolKnowledgeBadge(state: PoolBadgeState | null | undefined): { 
   const s = state ?? "new";
   switch (s) {
     case "unstable":
-      return { label: "Błąd ostatnio", className: "bg-red-100 text-red-700" };
+      return { label: "Do powtórki", className: "bg-rose-100 text-rose-700" };
     case "improving":
-      return { label: "W trakcie", className: "bg-yellow-100 text-yellow-700" };
+      return { label: "W trakcie", className: "bg-amber-100 text-amber-700" };
     case "mastered":
-      return { label: "Opanowane", className: "bg-green-100 text-green-700" };
+      return { label: "Opanowane", className: "bg-emerald-100 text-emerald-700" };
     case "new":
     default:
-      return { label: "Nowe", className: "bg-neutral-100 text-neutral-600" };
+      return { label: "Nowe", className: "bg-slate-100 text-slate-500" };
   }
 }

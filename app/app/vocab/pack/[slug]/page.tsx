@@ -104,6 +104,7 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
       lexicon_senses(
         id,
         definition_en,
+        cefr_level,
         lexicon_entries(lemma),
         lexicon_translations(translation_pl),
         lexicon_examples(example_en)
@@ -140,6 +141,7 @@ export default async function VocabPackPage({ params, searchParams }: PageProps)
       example_en: pickExampleEn(exampleEmbed),
       definition_en: sense?.definition_en ?? null,
       order_index: item.order_index ?? 0,
+      cefr_level: sense?.cefr_level ?? null,
     };
   });
 

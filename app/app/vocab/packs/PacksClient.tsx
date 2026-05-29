@@ -10,6 +10,7 @@ import {
   compareSectionLabels,
   packSectionLabelPl,
 } from "@/lib/vocab/packCatalogOrder";
+import CategoryIcon from "@/app/_components/CategoryIcon";
 
 export type PackDto = {
   id: string;
@@ -32,12 +33,13 @@ export type PackDto = {
 type VocabMode = "daily" | "precise";
 const STORAGE_KEY = "vocabMode";
 
-type PosFilter = "all" | "nouns" | "verbs" | "phrasal_verbs";
+type PosFilter = "all" | "nouns" | "verbs" | "phrasal_verbs" | "adjectives";
 
 const POS_FILTER_LABELS: Record<PosFilter, string> = {
   all: "Wszystkie",
   nouns: "Rzeczowniki",
   verbs: "Czasowniki",
+  adjectives: "Przymiotniki",
   phrasal_verbs: "Phrasal Verbs",
 };
 
@@ -170,11 +172,13 @@ function applySectionSearch(
 
 function PackSection({
   label,
+  sectionKey,
   packs,
   mode,
   sectionSurfaceClassName,
 }: {
   label: string;
+  sectionKey: string;
   packs: PackDto[];
   mode: VocabMode;
   sectionSurfaceClassName?: string;
@@ -197,6 +201,7 @@ function PackSection({
         className="mb-4 flex w-full items-center gap-2.5 text-left"
       >
         <ChevronDown open={open} className="mt-1 h-5 w-5 shrink-0 text-neutral-700" />
+        <CategoryIcon section={sectionKey} size={32} />
         <h2 className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2 gap-y-0.5">
           <span className="text-xl font-black leading-tight tracking-tight text-neutral-900 sm:text-2xl">
             {label}
@@ -291,8 +296,9 @@ export default function PacksClient({
       if (posFilter === "all") return true;
       if (posFilter === "verbs") return pack.category === "verbs";
       if (posFilter === "phrasal_verbs") return pack.category === "phrasal_verbs";
-      // "nouns" = everything that is not a verb or phrasal verb pack
-      if (posFilter === "nouns") return pack.category !== "verbs" && pack.category !== "phrasal_verbs";
+      if (posFilter === "adjectives") return pack.category === "adjectives";
+      // "nouns" = everything that is not a verb, phrasal verb, or adjective pack
+      if (posFilter === "nouns") return pack.category !== "verbs" && pack.category !== "phrasal_verbs" && pack.category !== "adjectives";
       return true;
     });
   }, [initialPacks, vocabMode, posFilter]);
@@ -385,7 +391,7 @@ export default function PacksClient({
 
         {/* Row 2: POS filter */}
         <div className="flex gap-2">
-          {(["all", "nouns", "verbs", "phrasal_verbs"] as PosFilter[]).map((f) => {
+          {(["all", "nouns", "verbs", "adjectives", "phrasal_verbs"] as PosFilter[]).map((f) => {
             const active = posFilter === f;
             return (
               <button
@@ -416,10 +422,11 @@ export default function PacksClient({
       ) : (
         <div className="space-y-5">
           {sectionGroups.map(({ key, label, packs }) => (
-            <PackSection key={key} label={label} packs={packs} mode={vocabMode} />
+            <PackSection key={key} sectionKey={key} label={label} packs={packs} mode={vocabMode} />
           ))}
           {isAdmin && visibleArchived.length > 0 ? (
             <PackSection
+              sectionKey="__other__"
               label="Zarchiwizowane"
               packs={visibleArchived}
               mode={vocabMode}

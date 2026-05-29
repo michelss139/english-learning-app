@@ -19,6 +19,11 @@
   }
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -316,10 +321,36 @@ body {
   animation: sb-zoom-in 0.15s ease-out forwards;
 }
 
+/* ── Primary CTA button ────────────────────────────────────────────────────
+   Dark-surface button with white text. Use class="btn-primary" instead of
+   combining bg-slate-900 + text-white — the .app-light override below turns
+   text-white into dark text, making it invisible on dark backgrounds.
+   btn-primary bypasses that rule via color !important on its own terms.      */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f172a;
+  color: #ffffff !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  transition: background-color 150ms ease, opacity 150ms ease;
+  white-space: nowrap;
+}
+.btn-primary:hover  { background-color: #1e293b; }
+.btn-primary:active { background-color: #334155; }
+.btn-primary:disabled,
+.btn-primary[disabled] { opacity: 0.45; cursor: not-allowed; }
+
 /* Enforce readable dark text in /app light theme, even in legacy screens.
    ⚠️  This rule overrides text-white everywhere inside .app-light — including on dark surfaces.
    If you need white text on a dark background (e.g. bg-slate-900), do NOT use class "text-white".
-   Instead, use an inline style:  style={{ color: "#fff" }}  — it bypasses this rule. */
+   Instead, use class="btn-primary" (defined above) — it bypasses this rule. */
 .app-light .text-white,
 .app-light .text-white\/95,
 .app-light .text-white\/90,

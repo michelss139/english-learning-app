@@ -456,10 +456,16 @@ export default function PoolTrainTab(props: { onNavigateAddWords: () => void; on
               className={
                 emptyPoolHero
                   ? "inline-flex items-center justify-center rounded-2xl border border-slate-400/90 bg-white px-5 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60"
-                  : "inline-flex items-center justify-center rounded-2xl border-2 border-sky-700 bg-sky-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  : "relative inline-flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-sky-400 to-blue-700 px-5 py-3 text-sm font-semibold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:ring-white/40 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
               }
+              style={emptyPoolHero ? undefined : { color: "#fff" }}
             >
-              {recommendedStart.mode ? (startLoading ? "Uruchamiam..." : "Rozpocznij sesję") : "Dodaj słówko"}
+              {!emptyPoolHero && (
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+              )}
+              <span className="relative">
+                {recommendedStart.mode ? (startLoading ? "Uruchamiam..." : "Rozpocznij sesję") : "Dodaj słówko"}
+              </span>
             </button>
           </div>
           <div

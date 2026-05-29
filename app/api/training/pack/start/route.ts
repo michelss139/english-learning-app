@@ -19,6 +19,7 @@ type PackItemDto = {
   example_en: string | null;
   definition_en: string | null;
   order_index: number;
+  cefr_level: string | null;
 };
 
 type StartResponse = {
@@ -160,6 +161,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         lexicon_senses(
           id,
           definition_en,
+          cefr_level,
           lexicon_entries(lemma),
           lexicon_translations(translation_pl),
           lexicon_examples(example_en)
@@ -195,6 +197,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         example_en: pickExampleEn(exampleEmbed),
         definition_en: (sense as Record<string, unknown> | undefined)?.definition_en as string ?? null,
         order_index: item.order_index ?? 0,
+        cefr_level: ((sense as Record<string, unknown> | undefined)?.cefr_level as string | null) ?? null,
       };
     });
 

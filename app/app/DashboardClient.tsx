@@ -25,6 +25,7 @@ type DashboardLesson = {
   lesson_type: "teacher" | "self";
 };
 
+
 type SuggestionsResponse = {
   top: TrainingSuggestion[];
   list: TrainingSuggestion[];
@@ -48,19 +49,6 @@ const MONTHS_FULL_PL = [
 ];
 const WEEKDAY_MINI = ["PN", "WT", "ŚR", "CZ", "PT", "SB", "ND"];
 
-const GRAMMAR_LINKS = [
-  { label: "Czasy", href: "/app/grammar/tenses" },
-  { label: "Conditionals", href: "/app/grammar/conditionals" },
-  { label: "Modal verbs", href: "/app/grammar/modals" },
-  { label: "Czasowniki nieregularne", href: "/app/irregular-verbs" },
-];
-
-const VOCAB_LINKS = [
-  { label: "Typowe błędy", href: "/app/vocab/clusters" },
-  { label: "Fiszki", href: "/app/vocab/packs" },
-  { label: "Pula słówek", href: "/app/vocab/pool" },
-  { label: "Artykuły", href: "/app/vocab/articles" },
-];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -103,6 +91,51 @@ function ChevronLeft({ className }: { className?: string }) {
     <svg className={className} width="14" height="14" viewBox="0 0 16 16" fill="none">
       <path d="M10 3l-5 5 5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function ArrowRight({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="28" height="28" viewBox="0 0 24 24" fill="none">
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// ─── Slim navigation tile ─────────────────────────────────────────────────────
+
+function SlimNavTile({
+  label,
+  href,
+  bgClass,
+  shadowClass,
+}: {
+  label: string;
+  href: string;
+  bgClass: string;
+  shadowClass?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`group relative flex items-center justify-between overflow-hidden rounded-2xl ${bgClass} px-5 py-3.5 ring-1 ring-inset ring-white/20 transition-all duration-200 hover:scale-[1.015] hover:ring-white/40 hover:shadow-lg ${shadowClass ?? ""}`}
+    >
+      {/* Biały połysk od góry — efekt źródła światła */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+      {/* Delikatny blask w lewym górnym rogu */}
+      <div className="pointer-events-none absolute -top-4 -left-4 h-16 w-16 rounded-full bg-white/10 blur-xl" />
+
+      <span className="relative text-lg font-black tracking-tight drop-shadow-sm" style={{ color: "#fff" }}>
+        {label}
+      </span>
+      <svg
+        className="relative shrink-0 transition-all duration-200 group-hover:translate-x-0.5"
+        style={{ color: "rgba(255,255,255,0.65)" }}
+        width="18" height="18" viewBox="0 0 24 24" fill="none"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </Link>
   );
 }
 
@@ -306,13 +339,13 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
       </div>
 
       {/* Footer */}
-      <div className="mt-3 flex shrink-0 items-center justify-between border-t border-slate-100 pt-2.5">
+      <div className="mt-3 shrink-0 border-t border-slate-100 pt-2.5">
         {nextLesson ? (
           <Link
             href={`/app/lessons/${nextLesson.id}`}
             className="flex min-w-0 items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-800"
           >
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400" />
             <span className="truncate">
               Następna:{" "}
               <span className="font-semibold">{formatDayMonth(nextLesson.lesson_date)}</span>
@@ -320,14 +353,8 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
             </span>
           </Link>
         ) : (
-          <span className="text-xs text-slate-400">Brak zaplanowanej lekcji</span>
+          <span className="text-xs text-slate-400">Brak zaplanowanych lekcji</span>
         )}
-        <Link
-          href="/app/lessons"
-          className="ml-3 shrink-0 text-xs font-semibold text-slate-400 transition-colors hover:text-slate-700"
-        >
-          Wszystkie →
-        </Link>
       </div>
 
       {/* Day panel (same as /app/lessons) */}
@@ -342,54 +369,6 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
           onAddLesson(dateIso);
         }}
       />
-    </div>
-  );
-}
-
-// ─── Nav section (Grammar / Vocab) ────────────────────────────────────────────
-
-function NavSection({
-  label,
-  href,
-  links,
-  dot,
-  hoverAccent = "hover:bg-white",
-}: {
-  label: string;
-  href: string;
-  links: { label: string; href: string }[];
-  /** Tailwind bg class for the colored dot, e.g. "bg-blue-400" */
-  dot: string;
-  /** Tailwind hover-bg for each link row */
-  hoverAccent?: string;
-}) {
-  return (
-    <div>
-      {/* Section header — clickable, navigates to hub */}
-      <Link
-        href={href}
-        className="group mb-2 flex items-center gap-2 rounded-xl px-2 py-1.5 transition-all duration-150 hover:bg-white/70"
-      >
-        <span className={`h-2 w-2 shrink-0 rounded-full ${dot}`} />
-        <span className="flex-1 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-500 transition-colors group-hover:text-slate-700">
-          {label}
-        </span>
-        <ChevronRight className="text-slate-300 transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-slate-500" />
-      </Link>
-
-      {/* Link tiles */}
-      <div className="space-y-0.5">
-        {links.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`group/item flex items-center justify-between rounded-xl border border-transparent bg-white/50 px-3 py-1.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:border-slate-200/80 ${hoverAccent} hover:text-slate-900 hover:shadow-[0_1px_6px_rgba(15,23,42,0.07)]`}
-          >
-            {item.label}
-            <ChevronRight className="text-slate-200 transition-all duration-150 group-hover/item:translate-x-0.5 group-hover/item:text-slate-400" />
-          </Link>
-        ))}
-      </div>
     </div>
   );
 }
@@ -412,6 +391,11 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
   const avatarSrc = resolveAvatarUrl(profile?.avatar_url, profile?.id ?? profile?.email ?? "");
   const streakCount = streak?.last_activity_date ? streak?.current_streak ?? 0 : 0;
 
+  const topTrainingCard = useMemo(
+    () => buildDashboardTrainingCards(suggestionsTop, suggestionsList)[0] ?? null,
+    [suggestionsTop, suggestionsList],
+  );
+
   const weekDays = ["PN", "WT", "ŚR", "CZ", "PT", "SB", "ND"];
   const weekActivity = useMemo(() => {
     const now = new Date();
@@ -422,11 +406,6 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
       done: idx >= dayIndex - completedDays + 1 && idx <= dayIndex && streakCount > 0,
     }));
   }, [streakCount]);
-
-  const topTrainingCard = useMemo(
-    () => buildDashboardTrainingCards(suggestionsTop, suggestionsList)[0] ?? null,
-    [suggestionsTop, suggestionsList],
-  );
 
   const loadDashboardData = useCallback(async () => {
     try {
@@ -495,7 +474,7 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
       className={`transition-all duration-500 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
     >
       {/* ── Header ── */}
-      <header className="mb-6 flex items-center justify-between">
+      <header className="mb-6 flex items-center">
         <div className="flex items-center gap-3.5">
           <button
             onClick={() => router.push("/app/profile")}
@@ -506,45 +485,11 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
             <img src={avatarSrc} alt="" className="h-full w-full object-cover" />
           </button>
           <div>
-            <h1 className="text-lg font-semibold tracking-tight text-slate-900">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Witaj, {displayName}!
             </h1>
-            <div className="mt-0.5 flex items-center gap-3">
-              <span
-                className="text-xs font-medium text-slate-500"
-                title="Seria aktualizuje się po zakończeniu przynajmniej jednego ćwiczenia danego dnia."
-              >
-                {streakCount} {streakCount === 1 ? "dzień" : "dni"} serii
-              </span>
-              <div className="flex items-center gap-1">
-                {weekActivity.map((day) => (
-                  <div
-                    key={day.label}
-                    className={`h-2 w-2 rounded-full transition-colors ${day.done ? "bg-slate-800" : "bg-slate-200"}`}
-                    title={day.label}
-                  />
-                ))}
-              </div>
-            </div>
           </div>
         </div>
-        <nav className="flex items-center gap-3">
-          <Link
-            href="/app/profile"
-            className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-          >
-            Profil
-          </Link>
-          <Link
-            href="/app/settings"
-            className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-          >
-            Ustawienia
-          </Link>
-          <a href="/logout" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
-            Wyloguj
-          </a>
-        </nav>
       </header>
 
       {error && (
@@ -565,48 +510,87 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
 
       {/* ── Content ── */}
       {dashboardLoading ? (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-[1fr_400px] lg:gap-6">
-          <div className="h-80 animate-pulse rounded-2xl border border-slate-200/70 bg-white/85" />
-          <div className="space-y-4">
-            <div className="h-28 animate-pulse rounded-2xl border border-slate-100/90 bg-white/55" />
-            <div className="h-48 animate-pulse rounded-2xl border border-slate-100/90 bg-white/55" />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-[3fr_2fr] lg:gap-5">
+          <div className="h-[460px] animate-pulse rounded-2xl bg-orange-100/60" />
+          <div className="flex flex-col gap-3">
+            <div className="h-12 animate-pulse rounded-2xl bg-emerald-100/60" />
+            <div className="h-12 animate-pulse rounded-2xl bg-blue-100/60" />
+            <div className="h-12 animate-pulse rounded-2xl bg-indigo-100/60" />
+            <div className="h-32 animate-pulse rounded-2xl bg-slate-100/60" />
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-[1fr_400px] lg:gap-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-[3fr_2fr] lg:gap-5">
 
-          {/* ── Left: calendar ── */}
-          <div className="flex min-h-[490px] flex-col rounded-2xl border border-slate-800/22 bg-slate-50/90 p-5 backdrop-blur-sm">
-            <h2 className="mb-3 shrink-0 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-              Lekcje
-            </h2>
-            <div className="flex min-h-0 flex-1 flex-col">
+          {/* ── Left: Kalendarz — orange tile ── */}
+          <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 shadow-lg shadow-orange-300/40">
+            {/* Orange header */}
+            <div className="flex items-center justify-between px-5 py-4">
+              <h2 className="text-2xl font-black tracking-tight" style={{ color: "#fff" }}>Kalendarz</h2>
+              <Link
+                href="/app/lessons"
+                className="flex items-center gap-1 text-sm font-semibold transition-colors"
+                style={{ color: "rgba(255,255,255,0.75)" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
+              >
+                Wszystkie <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            {/* White inner calendar */}
+            <div className="mx-2 mb-2 rounded-xl bg-white p-4">
               <MiniCalendar lessons={lessons} />
             </div>
           </div>
 
           {/* ── Right column ── */}
-          <div className="flex flex-col gap-4">
+          <div className="flex h-full flex-col gap-3">
+
+            {/* 3 slim nav tiles */}
+            <SlimNavTile
+              label="Gramatyka"
+              href="/app/grammar"
+              bgClass="bg-gradient-to-br from-emerald-400 to-teal-700"
+              shadowClass="shadow-md shadow-emerald-300/40"
+            />
+            <SlimNavTile
+              label="Słownictwo"
+              href="/app/vocab"
+              bgClass="bg-gradient-to-br from-sky-400 to-blue-700"
+              shadowClass="shadow-md shadow-blue-300/40"
+            />
+            <SlimNavTile
+              label="Dodatki Premium"
+              href="/app/premium"
+              bgClass="bg-gradient-to-br from-indigo-400 to-violet-700"
+              shadowClass="shadow-md shadow-indigo-300/40"
+            />
 
             {/* Potrenuj dziś */}
-            <div className="rounded-2xl border border-slate-800/22 bg-white/80 p-5 backdrop-blur-sm">
+            <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
               <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
                 Potrenuj dziś
               </h2>
               {topTrainingCard ? (
                 <Link
                   href={topTrainingCard.href}
-                  className="group flex items-start justify-between gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 transition-all duration-200 hover:border-slate-800/25 hover:shadow-[0_2px_10px_rgba(15,23,42,0.06)]"
+                  className="group flex flex-col gap-3 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all duration-200 hover:border-slate-200 hover:shadow-md"
                 >
                   <div className="min-w-0">
                     <div className="text-sm font-semibold text-slate-900">{topTrainingCard.title}</div>
-                    <div className="mt-0.5 text-xs leading-snug text-slate-500">
+                    <div className="mt-1 text-xs leading-snug text-slate-500">
                       {topTrainingCard.description}
                     </div>
                   </div>
-                  <span className="shrink-0 pt-0.5 text-xs font-semibold text-slate-400 transition-colors group-hover:text-slate-700">
-                    Zacznij →
-                  </span>
+                  <div className="flex justify-end">
+                    <span
+                      className="relative inline-flex items-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-1.5 text-xs font-bold tracking-wide transition-all duration-200 group-hover:shadow-md group-hover:brightness-110"
+                      style={{ color: "#fff" }}
+                    >
+                      <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                      <span className="relative">Zacznij →</span>
+                    </span>
+                  </div>
                 </Link>
               ) : (
                 <div className="rounded-xl border border-dashed border-slate-200 px-4 py-3 text-sm text-slate-400">
@@ -615,47 +599,45 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
               )}
             </div>
 
-            {/* Nawigacja: Gramatyka + Słownictwo + Sentence Builder */}
-            <div className="flex-1 rounded-2xl border border-slate-800/22 bg-white/80 p-5 backdrop-blur-sm">
-              <NavSection
-                label="Gramatyka"
-                href="/app/grammar"
-                links={GRAMMAR_LINKS}
-                dot="bg-blue-400"
-                hoverAccent="hover:bg-blue-50/60"
-              />
-
-              <div className="my-4 border-t border-slate-100" />
-
-              <NavSection
-                label="Słownictwo"
-                href="/app/vocab"
-                links={VOCAB_LINKS}
-                dot="bg-emerald-400"
-                hoverAccent="hover:bg-emerald-50/60"
-              />
-
-              <div className="my-4 border-t border-slate-100" />
-
-              {/* Sentence Builder — osobna tile z fioletowym akcentem */}
-              <Link
-                href="/app/grammar/sentence-builder"
-                className="group/sb flex items-center gap-2.5 rounded-xl border border-transparent bg-white/50 px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:border-slate-200/80 hover:bg-violet-50/60 hover:text-slate-900 hover:shadow-[0_1px_6px_rgba(15,23,42,0.07)]"
-              >
-                <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
-                <span className="flex-1">Sentence Builder</span>
-                <ChevronRight className="text-slate-200 transition-all duration-150 group-hover/sb:translate-x-0.5 group-hover/sb:text-slate-400" />
-              </Link>
-
-              {/* Story Generator */}
-              <Link
-                href="/app/story-generator"
-                className="group/sg flex items-center gap-2.5 rounded-xl border border-transparent bg-white/50 px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-150 hover:border-slate-200/80 hover:bg-violet-50/60 hover:text-slate-900 hover:shadow-[0_1px_6px_rgba(15,23,42,0.07)]"
-              >
-                <span className="h-2 w-2 shrink-0 rounded-full bg-violet-400" />
-                <span className="flex-1">Story Generator</span>
-                <ChevronRight className="text-slate-200 transition-all duration-150 group-hover/sg:translate-x-0.5 group-hover/sg:text-slate-400" />
-              </Link>
+            {/* Seria nauki */}
+            <div className="flex flex-1 flex-col justify-between rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-4 shadow-sm">
+              {/* Góra: tytuł + liczba */}
+              <div>
+                <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+                  Seria nauki
+                </h2>
+                <div className="flex items-baseline justify-between">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-3xl font-black text-slate-900">{streakCount}</span>
+                    <span className="text-sm font-medium text-slate-500">
+                      {streakCount === 1 ? "dzień" : "dni"}
+                    </span>
+                  </div>
+                  {(streak?.best_streak ?? 0) > 0 && (
+                    <div className="text-right">
+                      <div className="text-[10px] font-medium text-slate-400">rekord</div>
+                      <div className="text-sm font-bold text-slate-700">{streak?.best_streak} dni</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* Dół: paski tygodnia */}
+              <div className="flex gap-1.5">
+                {weekActivity.map((day) => (
+                  <div key={day.label} className="flex flex-1 flex-col items-center gap-1.5">
+                    <div
+                      className={`h-1.5 w-full rounded-full transition-colors duration-300 ${
+                        day.done
+                          ? "bg-gradient-to-r from-amber-400 to-orange-500"
+                          : "bg-slate-100"
+                      }`}
+                    />
+                    <span className="text-[9px] font-bold uppercase tracking-wide text-slate-300">
+                      {day.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
           </div>

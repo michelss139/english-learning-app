@@ -7,6 +7,7 @@ import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import type { LexiconSearchRow } from "@/lib/vocab/packSearchTypes";
 import PoolTab from "../PoolTab";
 import PoolTrainTab from "./PoolTrainTab";
+import PoolQuizRunner from "./PoolQuizRunner";
 import SenseSelectionModal, { type LexiconEntry } from "../SenseSelectionModal";
 
 type PackSelectedSense = {
@@ -88,10 +89,17 @@ type VocabItem = {
   is_personal: boolean;
 };
 
-type Tab = "train" | "words" | "add";
+type Tab = "train" | "quiz" | "words" | "add";
+
+type PoolCounts = {
+  review: number;
+  learning: number;
+  new: number;
+  mastered: number;
+};
 
 function parsePoolTab(v: string | null): Tab {
-  if (v === "train" || v === "words" || v === "add") return v;
+  if (v === "train" || v === "quiz" || v === "words" || v === "add") return v;
   if (v === "pool") return "words";
   if (v === "personal") return "add";
   return "train";
@@ -198,6 +206,7 @@ function VocabPoolInner() {
   const [lastLookupLemma, setLastLookupLemma] = useState<string | null>(null);
   const [prefilledEntry, setPrefilledEntry] = useState<LexiconEntry | null>(null);
   const [resolvedLemmaInfo, setResolvedLemmaInfo] = useState<ResolvedLemmaInfo | null>(null);
+  const [poolCounts, setPoolCounts] = useState<PoolCounts | null>(null);
 
   const personalCount = personal.length;
 
@@ -315,6 +324,24 @@ function VocabPoolInner() {
 
         setProfile(p);
         await refreshPersonal();
+
+        // Fetch pool knowledge counts for banner + stats
+        try {
+          const sessionData = await supabase.auth.getSession();
+          const token = sessionData.data.session?.access_token;
+          if (token) {
+            const res = await fetch("/api/vocab/pool/overview", {
+              headers: { Authorization: `Bearer ${token}` },
+              cache: "no-store",
+            });
+            if (res.ok) {
+              const data = (await res.json()) as { counts?: PoolCounts };
+              if (data.counts) setPoolCounts(data.counts);
+            }
+          }
+        } catch {
+          // Stats are non-critical — ignore errors
+        }
       } catch (e: any) {
         setError(e?.message ?? "Nieznany błąd");
       } finally {
@@ -801,37 +828,84 @@ function VocabPoolInner() {
 
   return (
     <main className="mx-auto max-w-6xl space-y-3 px-2 pb-6 sm:space-y-4 sm:px-4 lg:px-6">
-      <header className="flex flex-wrap items-center gap-2 gap-y-1.5 sm:gap-3">
-        <h1 className="shrink-0 text-base font-semibold tracking-tight text-slate-900 sm:text-lg">Moja pula</h1>
-        <nav
-          className="inline-flex shrink-0 rounded-full bg-slate-100/90 p-0.5 ring-1 ring-slate-200/60"
-          aria-label="Zakładki puli"
-        >
-          <button type="button" className={segmentedTab(tab === "train")} onClick={() => navigateTab("train")}>
-            Trenuj
-          </button>
-          <button type="button" className={segmentedTab(tab === "words")} onClick={() => navigateTab("words")}>
-            Słowa
-          </button>
-          <button type="button" className={segmentedTab(tab === "add")} onClick={() => navigateTab("add")}>
-            Dodaj ({personalCount})
-          </button>
-        </nav>
-        <div className="ml-auto flex shrink-0 gap-1 text-xs sm:text-sm">
-          <a
-            className="rounded-full px-2 py-1 font-medium text-slate-600 transition hover:bg-black/[0.04] hover:text-slate-900"
-            href="/app/vocab"
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-3">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Moja pula</h1>
+            {/* Stats pills */}
+            {poolCounts && (poolCounts.review + poolCounts.learning + poolCounts.new + poolCounts.mastered) > 0 ? (
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                {poolCounts.review > 0 && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                    {poolCounts.review} do powtórki
+                  </span>
+                )}
+                {poolCounts.learning > 0 && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                    {poolCounts.learning} w trakcie
+                  </span>
+                )}
+                {poolCounts.new > 0 && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">
+                    <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                    {poolCounts.new} nowych
+                  </span>
+                )}
+                {poolCounts.mastered > 0 && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    {poolCounts.mastered} opanowanych
+                  </span>
+                )}
+              </div>
+            ) : (
+              <p className="mt-0.5 text-sm text-slate-500">Słówka dopasowane do Twojego słownictwa</p>
+            )}
+          </div>
+          <nav
+            className="inline-flex shrink-0 rounded-full bg-slate-100/90 p-0.5 ring-1 ring-slate-200/60"
+            aria-label="Zakładki puli"
           >
-            Słownictwo
-          </a>
-          <a
-            className="rounded-full px-2 py-1 font-medium text-slate-600 transition hover:bg-black/[0.04] hover:text-slate-900"
-            href="/app"
-          >
-            Panel
-          </a>
+            <button type="button" className={segmentedTab(tab === "train")} onClick={() => navigateTab("train")}>
+              Trenuj
+            </button>
+            <button type="button" className={segmentedTab(tab === "quiz")} onClick={() => navigateTab("quiz")}>
+              Quiz
+            </button>
+            <button type="button" className={segmentedTab(tab === "words")} onClick={() => navigateTab("words")}>
+              Słowa
+            </button>
+            <button type="button" className={segmentedTab(tab === "add")} onClick={() => navigateTab("add")}>
+              + Dodaj
+            </button>
+          </nav>
         </div>
+        <a
+          href="/app/vocab"
+          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 sm:self-auto"
+        >
+          ← Słownictwo
+        </a>
       </header>
+
+      {/* Banner — powtórka na dziś */}
+      {poolCounts && poolCounts.review > 0 && tab !== "train" && tab !== "quiz" ? (
+        <div className="relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl bg-gradient-to-r from-rose-500 to-rose-600 px-5 py-3.5 shadow-md shadow-rose-200/50">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/15 to-transparent" />
+          <p className="relative text-sm font-semibold" style={{ color: "#fff" }}>
+            Masz {poolCounts.review} {poolCounts.review === 1 ? "słówko" : "słówek"} do powtórki!
+          </p>
+          <button
+            onClick={() => navigateTab("train")}
+            className="relative shrink-0 rounded-xl bg-white/20 px-4 py-1.5 text-sm font-bold ring-1 ring-inset ring-white/30 transition hover:bg-white/30"
+            style={{ color: "#fff" }}
+          >
+            Powtórz →
+          </button>
+        </div>
+      ) : null}
 
       {error ? (
         <div className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-red-800">
@@ -845,6 +919,10 @@ function VocabPoolInner() {
           onNavigateAddWords={() => navigateTab("add")}
           onNavigateWords={() => navigateTab("words")}
         />
+      ) : null}
+
+      {tab === "quiz" ? (
+        <PoolQuizRunner onExit={() => navigateTab("train")} />
       ) : null}
 
       {tab === "words" ? <PoolTab /> : null}
@@ -1217,8 +1295,178 @@ function VocabPoolInner() {
               ))}
             </ul>
           )}
+          {/* ── Dodaj z fiszek ── */}
+          <PackBrowser onAdded={refreshPersonal} />
         </section>
       ) : null}
     </main>
+  );
+}
+
+// ─── Dodaj z fiszek ──────────────────────────────────────────────────────────
+
+type PackRow = {
+  id: string;
+  label: string;
+  display_section: string | null;
+  vocab_mode: string | null;
+  word_count: number;
+};
+
+function PackBrowser({ onAdded }: { onAdded: () => Promise<void> }) {
+  const [packs, setPacks] = useState<PackRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState<string | null>(null);
+  const [results, setResults] = useState<Record<string, { added: number; skipped: number }>>({});
+  const [openSection, setOpenSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("vocab_packs")
+          .select("id, label, display_section, vocab_mode")
+          .neq("category", "phrasal_verbs")
+          .order("display_section", { ascending: true })
+          .order("label", { ascending: true });
+
+        if (error) throw error;
+
+        // Get word counts
+        const packIds = (data ?? []).map((p: any) => p.id);
+        if (packIds.length === 0) { setLoading(false); return; }
+
+        const { data: counts } = await supabase
+          .from("vocab_pack_items")
+          .select("pack_id")
+          .in("pack_id", packIds);
+
+        const countMap: Record<string, number> = {};
+        for (const c of counts ?? []) {
+          countMap[(c as any).pack_id] = (countMap[(c as any).pack_id] ?? 0) + 1;
+        }
+
+        setPacks(
+          (data ?? []).map((p: any) => ({
+            id: p.id,
+            label: p.label,
+            display_section: p.display_section ?? "Inne",
+            vocab_mode: p.vocab_mode,
+            word_count: countMap[p.id] ?? 0,
+          }))
+        );
+      } catch {
+        // Non-critical — just hide the section
+      } finally {
+        setLoading(false);
+      }
+    };
+    void load();
+  }, []);
+
+  const handleAdd = async (packId: string) => {
+    setAdding(packId);
+    try {
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+      if (!token) return;
+
+      const res = await fetch("/api/vocab/pool/add-from-pack", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ pack_id: packId }),
+      });
+      const data = (await res.json()) as { added?: number; skipped?: number };
+      setResults((prev) => ({
+        ...prev,
+        [packId]: { added: data.added ?? 0, skipped: data.skipped ?? 0 },
+      }));
+      await onAdded();
+    } catch {
+      // Silent — don't block UI
+    } finally {
+      setAdding(null);
+    }
+  };
+
+  // Group by section
+  const sections = Array.from(
+    packs.reduce((map, p) => {
+      const sec = p.display_section ?? "Inne";
+      if (!map.has(sec)) map.set(sec, []);
+      map.get(sec)!.push(p);
+      return map;
+    }, new Map<string, PackRow[]>())
+  );
+
+  if (loading) return null;
+  if (packs.length === 0) return null;
+
+  return (
+    <div className="rounded-3xl border border-blue-100/80 bg-gradient-to-br from-blue-50/60 via-white to-white px-5 py-5 shadow-sm sm:px-6 sm:py-6">
+      <div className="mb-4">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-600/80">Gotowe zestawy</p>
+        <h2 className="mt-1 text-lg font-semibold tracking-tight text-slate-900">Dodaj z fiszek</h2>
+        <p className="mt-0.5 text-sm text-slate-500">
+          Kliknij sekcję, wybierz paczkę i dodaj wszystkie słówka do swojej puli jednym kliknięciem.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        {sections.map(([section, sectionPacks]) => (
+          <div key={section} className="overflow-hidden rounded-2xl border border-slate-200/70">
+            <button
+              type="button"
+              onClick={() => setOpenSection(openSection === section ? null : section)}
+              className="flex w-full items-center justify-between gap-3 bg-slate-50/80 px-4 py-3 text-left transition hover:bg-slate-100/60"
+            >
+              <span className="text-sm font-semibold text-slate-800">{section}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-400">{sectionPacks.length} paczek</span>
+                <svg
+                  className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${openSection === section ? "rotate-180" : ""}`}
+                  viewBox="0 0 16 16" fill="none"
+                >
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </button>
+
+            {openSection === section && (
+              <div className="divide-y divide-slate-100 bg-white">
+                {sectionPacks.map((pack) => {
+                  const result = results[pack.id];
+                  const isAdding = adding === pack.id;
+
+                  return (
+                    <div key={pack.id} className="flex items-center justify-between gap-3 px-4 py-2.5">
+                      <div className="min-w-0">
+                        <span className="text-sm font-medium text-slate-800">{pack.label}</span>
+                        <span className="ml-2 text-xs text-slate-400">{pack.word_count} słów</span>
+                        {result && (
+                          <span className="ml-2 text-xs font-medium text-emerald-600">
+                            +{result.added} dodano{result.skipped > 0 ? `, ${result.skipped} już masz` : ""}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        disabled={isAdding}
+                        onClick={() => void handleAdd(pack.id)}
+                        className="relative shrink-0 inline-flex items-center overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-3.5 py-1.5 text-xs font-bold transition hover:brightness-110 disabled:opacity-60"
+                        style={{ color: "#fff" }}
+                      >
+                        <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                        <span className="relative">{isAdding ? "Dodaję…" : "Dodaj →"}</span>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

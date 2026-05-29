@@ -7,6 +7,7 @@ import { grammarAnswersMatch, GRAMMAR_NORMALIZE_OPTIONS } from "@/lib/grammar/no
 import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
 import type { GapQuestion } from "@/lib/grammar/gapQuestions";
+import { CorrectIcon, WrongIcon } from "./PracticeIcons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -434,10 +435,13 @@ export function GapFillPracticeClient({
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1 border-t border-slate-100">
               <div>
                 {isCorrect ? (
-                  <p className="text-sm font-medium text-green-700">✓ Poprawnie!</p>
+                  <p className="flex items-center gap-1.5 text-sm font-semibold text-green-700">
+                    <CorrectIcon size={18} /> Poprawnie!
+                  </p>
                 ) : (
-                  <p className="text-sm text-red-600">
-                    ✕ Poprawna odpowiedź:{" "}
+                  <p className="flex items-center gap-1.5 text-sm text-orange-700">
+                    <WrongIcon size={18} />
+                    Poprawna odpowiedź:{" "}
                     <strong className="font-semibold">{canonicalAnswer}</strong>
                   </p>
                 )}
@@ -468,14 +472,8 @@ export function GapFillPracticeClient({
           <div className="rounded-2xl border border-slate-100 bg-slate-50/70 divide-y divide-slate-100 overflow-hidden">
             {roundResults.map((r, i) => (
               <div key={i} className="flex items-start gap-3 px-4 py-3">
-                <span
-                  className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[11px] font-medium ${
-                    r.correct
-                      ? "border-green-500/40 text-green-600"
-                      : "border-red-400/40 text-red-500"
-                  }`}
-                >
-                  {r.correct ? "✓" : "✕"}
+                <span className="mt-0.5 shrink-0">
+                  {r.correct ? <CorrectIcon size={20} /> : <WrongIcon size={20} />}
                 </span>
                 <div className="min-w-0">
                   <p className="text-sm text-slate-700 leading-snug">{r.question.prompt}</p>
