@@ -9,6 +9,7 @@ import { TypewriterText } from "@/lib/coach/TypewriterText";
 import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 import type { XpSkipReasonCode } from "@/lib/xp/award";
 import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 export type Verb = {
   id: string;
@@ -74,20 +75,8 @@ type SessionSummary = {
 export type TrainMode = "both" | "past_simple" | "past_participle";
 type StartMode = "manual" | "targeted";
 
-function InlineResultGlyph({ ok }: { ok: boolean }) {
-  return (
-    <span
-      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[11px] font-medium leading-none ${
-        ok
-          ? "border-green-500/40 text-green-600/80"
-          : "border-red-500/40 text-red-500/75"
-      }`}
-      aria-hidden
-    >
-      {ok ? "✓" : "✕"}
-    </span>
-  );
-}
+const cardBase =
+  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
 
 const VERB_TIPS: Record<string, string> = {
   sow: 'Ten czasownik ma formę past simple regularną, ale w past participle może być nieregularny, jako "sown". Jednak "sowed" jako past participle też jest akceptowany. Mamy tu do czynienia z "mixed verb".',
@@ -556,302 +545,390 @@ export default function IrregularVerbsTrainClient(props: {
   }, [currentVerb?.base, sessionComplete, setCurrentIrregularVerbBase]);
 
   const showManualNext = Boolean(result && !getEffectiveCorrect(result));
+  const percentCorrect = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
 
-  return (
-    <main className="space-y-6">
-      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Test czasowników nieregularnych</h1>
-            <p className="text-base text-slate-600">
-              Poprawne: <span className="font-medium text-slate-900">{stats.correct}</span> / {stats.total}
+  // ── Shared blocks ──────────────────────────────────────────────────────────
+
+  const backLink = (
+    <a href="/app/irregular-verbs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
+      ← Irregular verbs
+    </a>
+  );
+
+  const errorBlock = error ? (
+    <div className="mb-4 rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
+      <p className="text-sm text-rose-700"><span className="font-semibold">Błąd: </span>{error}</p>
+      <button
+        className="mt-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50"
+        onClick={startNewSession}
+      >
+        Spróbuj ponownie
+      </button>
+    </div>
+  ) : null;
+
+  const toastBlock = assignmentToast ? (
+    <div className="mb-4 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-600">
+      {assignmentToast}
+    </div>
+  ) : null;
+
+  // ── Loading ────────────────────────────────────────────────────────────────
+
+  if (startLoading) {
+    return (
+      <div className="mx-auto max-w-xl">
+        <header className="mb-5">{backLink}</header>
+        <div className={`${cardBase} animate-pulse`}>
+          <div className="h-4 w-32 rounded bg-slate-100" />
+          <div className="mt-6 h-8 w-48 mx-auto rounded bg-slate-100" />
+          <div className="mt-4 h-12 rounded-xl bg-slate-100" />
+          <div className="mt-3 h-12 rounded-xl bg-slate-100" />
+        </div>
+      </div>
+    );
+  }
+
+  // ── Session complete ────────────────────────────────────────────────────────
+
+  if (sessionComplete) {
+    return (
+      <div className="mx-auto max-w-xl">
+        <header className="mb-5">
+          {backLink}
+          <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h1>
+          <p className="mt-0.5 text-xs font-medium text-slate-400">{modeLabel}</p>
+        </header>
+
+        {errorBlock}
+        {toastBlock}
+
+        <div className="space-y-4">
+          {/* Results */}
+          <section className={cardBase}>
+            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Wyniki</h2>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3">
+                <span className="flex items-center gap-2 text-sm font-medium text-emerald-700">
+                  <CorrectIcon size={18} /> Poprawne
+                </span>
+                <span className="text-sm font-bold tabular-nums text-emerald-800">{summaryCorrect}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+                <span className="flex items-center gap-2 text-sm font-medium text-rose-700">
+                  <WrongIcon size={18} /> Błędne
+                </span>
+                <span className="text-sm font-bold tabular-nums text-rose-800">{summaryWrong}</span>
+              </div>
+            </div>
+            <p className="mt-3 text-right text-xs text-slate-400">
+              {summaryTotal ? Math.round(summaryAccuracy * 100) : 0}% skuteczności
             </p>
-            <p className="text-sm text-slate-500">Tryb: {modeLabel}</p>
-            {sessionItems.length > 0 ? (
-              <p className="text-sm text-slate-500">
-                Postęp: {sessionItemIndex + (currentVerb ? 1 : 0)} / {sessionItems.length}
-              </p>
-            ) : null}
-          </div>
 
-          <div className="flex flex-wrap gap-2">
-            <a className="tile-frame" href="/app/irregular-verbs">
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Wszystkie irregular verbs
-              </span>
-            </a>
-            <a className="tile-frame" href="/app">
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Wróć do strony głównej
-              </span>
-            </a>
-          </div>
-        </div>
-      </header>
-
-      {error ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm">
-          <div className="flex flex-col gap-3">
-            <div className="text-sm">{error}</div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900/90 hover:bg-white/10 transition"
-                onClick={startNewSession}
-              >
-                Spróbuj ponownie
-              </button>
-              <a
-                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900/90 hover:bg-white/10 transition"
-                href="/app"
-              >
-                Wróć do strony głównej
-              </a>
-            </div>
-          </div>
-        </div>
-      ) : null}
-      {assignmentToast ? (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
-          {assignmentToast}
-        </div>
-      ) : null}
-
-      {sessionComplete ? (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h2>
-            <span className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-900">
-              {summaryCorrect} / {summaryTotal}
-            </span>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-            <div className="text-sm text-slate-600">Podsumowanie sesji</div>
-            <div className="text-sm text-slate-700">
-              Poprawne: <span className="font-medium text-slate-900">{summaryCorrect}</span> / {summaryTotal}
-            </div>
-            <div className="text-sm text-slate-700">
-              Skuteczność:{" "}
-              <span className="font-medium text-slate-900">{summaryTotal ? Math.round(summaryAccuracy * 100) : 0}%</span>{" "}
-              · Błędne: <span className="font-medium text-slate-900">{summaryWrong}</span>
-            </div>
             {summary?.wrong_items?.length ? (
-              <div className="text-sm text-slate-600">
-                Najczęstsze błędy:
-                <ul className="mt-2 space-y-1 text-slate-700">
-                  {summary.wrong_items.slice(0, 10).map((item, idx) => (
-                    <li key={`${item.prompt ?? "?"}-${idx}`}>
-                      {item.prompt ?? "—"} → {item.expected ?? "—"}
-                    </li>
-                  ))}
-                </ul>
+              <div className="mt-4 border-t border-slate-100 pt-3 space-y-1.5">
+                <p className="text-xs font-semibold text-slate-500">Do zapamiętania:</p>
+                {summary.wrong_items.slice(0, 8).map((item, idx) => (
+                  <div key={`${item.prompt ?? "?"}-${idx}`} className="flex items-center gap-2 text-xs">
+                    <span className="text-rose-400">✕</span>
+                    <span className="font-semibold text-slate-700">{item.prompt ?? "—"}</span>
+                    <span className="text-slate-300">→</span>
+                    <span className="text-slate-900">{item.expected ?? "—"}</span>
+                  </div>
+                ))}
               </div>
             ) : null}
-          </div>
+          </section>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-            {wantsLessonVerbsSession ? null : <div className="text-sm text-slate-600">Postęp XP</div>}
+          {/* XP */}
+          <section className={cardBase}>
+            <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">XP</h2>
             {wantsLessonVerbsSession ? (
-              <div className="flex flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:items-center">
-                <p className="w-full sm:w-auto">Powtórzyłeś materiał z lekcji.</p>
-                {award && award.xp_awarded === 0 ? (
-                  <p className="w-full text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
+              <div className="space-y-2 text-sm text-slate-600">
+                <p>Powtórzyłeś materiał z lekcji.</p>
+                {award?.xp_awarded === 0 ? (
+                  <p className="text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
                 ) : null}
-                <button
-                  type="button"
-                  className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-50"
-                  onClick={() => void startNewSession()}
-                >
-                  Jeszcze raz
-                </button>
-                <a
-                  className="text-sm font-medium text-slate-600 underline decoration-slate-300 underline-offset-2 hover:text-slate-900"
-                  href="/app"
-                >
-                  Wróć do strony głównej
-                </a>
               </div>
             ) : award ? (
               <div className="space-y-1 text-sm text-slate-700">
                 {award.xp_awarded === 0 ? (
-                  <div className="text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</div>
+                  <p className="text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
                 ) : (
-                  <div className="space-y-1">
-                    <div>
-                      <span className="font-medium text-slate-900">+{award.xp_awarded} XP</span>
-                    </div>
+                  <p>
+                    <span className="text-lg font-black text-slate-900">+{award.xp_awarded} XP</span>
                     {award.xp_awarded < 10 ? (
-                      <p className="text-xs text-slate-500">Krótka sesja — mniejsza nagroda XP</p>
+                      <span className="ml-2 text-xs text-slate-400">Krótka sesja</span>
                     ) : null}
-                  </div>
+                  </p>
                 )}
-                <div>
-                  Poziom: <span className="font-medium text-slate-900">{award.level}</span> · XP w poziomie:{" "}
-                  <span className="font-medium text-slate-900">
-                    {award.xp_in_current_level}/{award.xp_to_next_level}
-                  </span>
-                </div>
+                <p className="text-xs text-slate-500">
+                  Poziom {award.level} · {award.xp_in_current_level}/{award.xp_to_next_level} XP do następnego
+                </p>
               </div>
             ) : awarding ? (
-              <div className="text-sm text-slate-500">Przyznaję XP…</div>
+              <p className="text-sm text-slate-500">Przyznaję XP…</p>
             ) : awardError ? (
-              <div className="text-sm text-rose-200">{awardError}</div>
+              <p className="text-sm text-rose-600">{awardError}</p>
             ) : (
-              <div className="text-sm text-slate-500">Brak danych o XP.</div>
+              <p className="text-sm text-slate-400">Brak danych o XP.</p>
             )}
-          </div>
+          </section>
 
+          {/* Badges */}
           {award?.newly_awarded_badges?.length ? (
-            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4 space-y-2">
-              <div className="text-sm font-semibold text-amber-700">Nowe odznaki</div>
+            <section className="rounded-2xl border-2 border-amber-300/40 bg-amber-50/60 p-5 space-y-2">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.08em] text-amber-700">Nowe odznaki</h2>
               {award.newly_awarded_badges.map((badge) => (
-                <div key={badge.slug} className="text-sm text-amber-700">
-                  {badge.title}
-                  {badge.description ? ` — ${badge.description}` : ""}
-                </div>
+                <p key={badge.slug} className="text-sm font-medium text-amber-800">
+                  {badge.title}{badge.description ? ` — ${badge.description}` : ""}
+                </p>
               ))}
-            </div>
+            </section>
           ) : null}
 
+          {/* Action buttons */}
           <div className="flex flex-wrap gap-2">
-            {wantsLessonVerbsSession ? null : (
+            {wantsLessonVerbsSession ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => void startNewSession()}
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                >
+                  Jeszcze raz
+                </button>
+                {lessonReturnHref ? (
+                  <a
+                    href={lessonReturnHref}
+                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    Wróć do lekcji
+                  </a>
+                ) : null}
+              </>
+            ) : (
               <button
-                className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
+                type="button"
                 onClick={startNewSession}
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
               >
-                Jeszcze raz to samo
+                Jeszcze raz
               </button>
             )}
-            {wantsLessonVerbsSession && lessonReturnHref ? (
-              <a
-                className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
-                href={lessonReturnHref}
-              >
-                Wróć do lekcji
-              </a>
-            ) : null}
             <a
-              className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
-              href="/app"
+              href="/app/irregular-verbs"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
             >
-              Wróć do strony głównej
+              Lista czasowników
+            </a>
+            <a
+              href="/app"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Panel
             </a>
           </div>
-        </section>
-      ) : null}
+        </div>
+      </div>
+    );
+  }
 
-      {!sessionComplete && currentVerb ? (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-6">
-          <div className="text-center space-y-2">
-            <div className="text-4xl font-bold text-slate-900">{currentVerb.base}</div>
-            <div className="text-sm text-slate-500">
+  // ── No verb (error state) ─────────────────────────────────────────────────
+
+  if (!currentVerb) {
+    return (
+      <div className="mx-auto max-w-xl">
+        <header className="mb-5">{backLink}</header>
+        {errorBlock}
+        <div className={cardBase}>
+          <p className="text-sm text-slate-400">Brak czasowników do treningu. Wróć do listy i przypnij kilka.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Active session ─────────────────────────────────────────────────────────
+
+  const effectivelyCorrect = result ? getEffectiveCorrect(result) : null;
+
+  return (
+    <div className="mx-auto max-w-xl">
+      <header className="mb-5">
+        {backLink}
+        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
+          Czasowniki nieregularne
+        </h1>
+      </header>
+
+      {errorBlock}
+      {toastBlock}
+
+      <div className="space-y-4">
+        {/* Progress header */}
+        <div className="flex items-end justify-between">
+          <span className="text-sm text-slate-500">
+            {sessionItems.length > 0 ? (
+              <>
+                <span className="text-lg font-bold text-slate-800">{sessionItemIndex + 1}</span>
+                <span className="text-slate-400"> / {sessionItems.length}</span>
+              </>
+            ) : (
+              <>
+                Poprawne:{" "}
+                <span className="font-semibold text-slate-800">{stats.correct}</span>
+                <span className="text-slate-400"> / {stats.total}</span>
+              </>
+            )}
+          </span>
+          {stats.total > 0 ? (
+            <div className="text-right">
+              <div className={`text-2xl font-black leading-none tabular-nums ${
+                percentCorrect >= 70 ? "text-emerald-500" : percentCorrect >= 40 ? "text-amber-500" : "text-orange-500"
+              }`}>
+                {percentCorrect}%
+              </div>
+              <div className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">poprawnych</div>
+            </div>
+          ) : null}
+        </div>
+
+        {/* Session dot progress */}
+        {sessionItems.length > 0 && sessionItems.length <= 25 ? (
+          <div className="flex flex-wrap gap-1">
+            {sessionItems.map((_item, i) => (
+              <span
+                key={i}
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  i < sessionItemIndex
+                    ? "w-6 bg-slate-300"
+                    : i === sessionItemIndex
+                      ? "w-6 bg-sky-400"
+                      : "w-2 bg-slate-200"
+                }`}
+              />
+            ))}
+          </div>
+        ) : null}
+
+        {/* Main card */}
+        <section className={cardBase}>
+          {/* Verb prompt */}
+          <div className="mb-6 text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               {effectiveMode === "both"
-                ? "Podaj formy czasownika"
+                ? "Podaj obie formy"
                 : effectiveMode === "past_simple"
-                  ? "Podaj formę Past Simple"
-                  : "Podaj formę Past Participle"}
+                  ? "Podaj Past Simple"
+                  : "Podaj Past Participle"}
+            </div>
+            <div className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+              {currentVerb.base}
             </div>
           </div>
 
+          {/* Input fields */}
           <div className="space-y-4">
             {showPastSimple ? (
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Past Simple</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="text"
-                    value={pastSimple}
-                    onChange={(e) => {
-                      if (submitting || result) return;
-                      setPastSimple(e.target.value);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key !== "Enter") return;
-                      e.preventDefault();
-                      if (submitting) return;
-                      if (!result) handleSubmit();
-                      else if (showManualNext) handleNext();
-                    }}
-                    readOnly={!!result || submitting}
-                    aria-readonly={!!result || submitting}
-                    className={`min-w-0 flex-1 rounded-xl border bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/25 ${
-                      result
-                        ? (result.past_simple_correct ?? false)
-                          ? "border-green-400"
-                          : "border-red-400"
-                        : "border-slate-300"
-                    }`}
-                    ref={pastSimpleInputRef}
-                    autoFocus
-                  />
-                  {result ? <InlineResultGlyph ok={result.past_simple_correct ?? false} /> : null}
-                </div>
+                <label className="block text-xs font-bold uppercase tracking-[0.08em] text-slate-400 mb-2">
+                  Past Simple
+                </label>
+                <input
+                  type="text"
+                  value={pastSimple}
+                  onChange={(e) => { if (submitting || result) return; setPastSimple(e.target.value); }}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    if (submitting) return;
+                    if (!result) void handleSubmit();
+                    else if (showManualNext) handleNext();
+                  }}
+                  readOnly={!!result || submitting}
+                  aria-readonly={!!result || submitting}
+                  placeholder="past simple…"
+                  ref={pastSimpleInputRef}
+                  autoFocus
+                  className={`w-full rounded-xl border px-4 py-3 text-center text-base text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400/25 ${
+                    result
+                      ? (result.past_simple_correct ?? false)
+                        ? "border-emerald-400 bg-emerald-50/50"
+                        : "border-rose-400 bg-rose-50/30"
+                      : "border-slate-200 bg-white/80"
+                  }`}
+                />
                 {result && !(result.past_simple_correct ?? false) ? (
-                  <p className="mt-1.5 text-xs text-slate-500">
-                    <span className="text-slate-400">→</span> {currentVerb.past_simple}
-                  </p>
+                  <div className="mt-2 flex items-center gap-2 rounded-xl bg-orange-50/80 px-3 py-2">
+                    <WrongIcon size={16} />
+                    <span className="text-xs text-slate-500">Poprawnie:</span>
+                    <span className="text-sm font-bold text-slate-900">{currentVerb.past_simple}</span>
+                  </div>
                 ) : null}
               </div>
             ) : null}
 
             {showPastParticiple ? (
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Past Participle</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="text"
-                    value={pastParticiple}
-                    onChange={(e) => {
-                      if (submitting || result) return;
-                      setPastParticiple(e.target.value);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key !== "Enter") return;
-                      e.preventDefault();
-                      if (submitting) return;
-                      if (!result) handleSubmit();
-                      else if (showManualNext) handleNext();
-                    }}
-                    readOnly={!!result || submitting}
-                    aria-readonly={!!result || submitting}
-                    className={`min-w-0 flex-1 rounded-xl border bg-white px-4 py-3 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400/25 ${
-                      result
-                        ? (result.past_participle_correct ?? false)
-                          ? "border-green-400"
-                          : "border-red-400"
-                        : "border-slate-300"
-                    }`}
-                    ref={pastParticipleInputRef}
-                  />
-                  {result ? <InlineResultGlyph ok={result.past_participle_correct ?? false} /> : null}
-                </div>
+                <label className="block text-xs font-bold uppercase tracking-[0.08em] text-slate-400 mb-2">
+                  Past Participle
+                </label>
+                <input
+                  type="text"
+                  value={pastParticiple}
+                  onChange={(e) => { if (submitting || result) return; setPastParticiple(e.target.value); }}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    if (submitting) return;
+                    if (!result) void handleSubmit();
+                    else if (showManualNext) handleNext();
+                  }}
+                  readOnly={!!result || submitting}
+                  aria-readonly={!!result || submitting}
+                  placeholder="past participle…"
+                  ref={pastParticipleInputRef}
+                  className={`w-full rounded-xl border px-4 py-3 text-center text-base text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400/25 ${
+                    result
+                      ? (result.past_participle_correct ?? false)
+                        ? "border-emerald-400 bg-emerald-50/50"
+                        : "border-rose-400 bg-rose-50/30"
+                      : "border-slate-200 bg-white/80"
+                  }`}
+                />
                 {result && !(result.past_participle_correct ?? false) ? (
-                  <p className="mt-1.5 text-xs text-slate-500">
-                    <span className="text-slate-400">→</span> {currentVerb.past_participle}
-                  </p>
+                  <div className="mt-2 flex items-center gap-2 rounded-xl bg-orange-50/80 px-3 py-2">
+                    <WrongIcon size={16} />
+                    <span className="text-xs text-slate-500">Poprawnie:</span>
+                    <span className="text-sm font-bold text-slate-900">{currentVerb.past_participle}</span>
+                  </div>
                 ) : null}
               </div>
             ) : null}
           </div>
 
+          {/* Feedback */}
           {result ? (
-            <div className="space-y-3">
-              {!getEffectiveCorrect(result) &&
-              effectiveMode === "both" &&
-              (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false) ? (
-                <p className="text-center text-[11px] leading-snug text-slate-500">
-                  Prawie — jedna forma jest poprawna
-                </p>
+            <div className="mt-5 space-y-3">
+              {effectivelyCorrect ? (
+                <div className="rounded-xl bg-emerald-50 px-4 py-3">
+                  <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
+                    <CorrectIcon size={18} /> Poprawnie!
+                  </p>
+                </div>
+              ) : effectiveMode === "both" &&
+                (result.past_simple_correct ?? false) !== (result.past_participle_correct ?? false) ? (
+                <p className="text-center text-xs text-slate-500">Prawie — jedna forma jest poprawna</p>
               ) : null}
 
-              {currentVerb && (() => {
-                const base = currentVerb.base.toLowerCase().trim();
-                const tip = VERB_TIPS[base] ?? null;
+              {/* Verb tip */}
+              {(() => {
+                const tip = VERB_TIPS[currentVerb.base.toLowerCase().trim()] ?? null;
                 if (!tip) return null;
                 return (
-                  <div className="rounded-xl border border-slate-200/90 bg-white p-3">
-                    <p className="text-xs font-medium text-slate-500">WAŻNE!</p>
-                    <div className="mt-1 whitespace-pre-line font-mono text-xs text-slate-600">
+                  <div className="rounded-xl border border-slate-200/50 bg-slate-50/80 p-3">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Ważne!</p>
+                    <div className="mt-1 whitespace-pre-line text-xs text-slate-600">
                       <TypewriterText text={tip} speed={30} />
                     </div>
                   </div>
@@ -859,42 +936,31 @@ export default function IrregularVerbsTrainClient(props: {
               })()}
 
               {showManualNext ? (
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-900 hover:bg-slate-50 transition"
-                    onClick={handleNext}
-                  >
-                    Następny czasownik
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                >
+                  Następny →
+                </button>
               ) : null}
             </div>
           ) : (
-            <div className="flex gap-2">
+            <div className="mt-5">
               <button
                 type="button"
-                className="flex-1 rounded-xl border border-slate-900 bg-white px-4 py-3 font-medium text-slate-700 hover:bg-slate-50 transition disabled:opacity-60"
-                onClick={handleSubmit}
+                onClick={() => void handleSubmit()}
                 disabled={submitting || !canSubmit}
+                className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 py-3 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg disabled:opacity-60"
+                style={{ color: "#fff" }}
               >
-                {submitting ? "Sprawdzam…" : "Sprawdź"}
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="relative">{submitting ? "Sprawdzam…" : "Sprawdź"}</span>
               </button>
             </div>
           )}
         </section>
-      ) : null}
-
-      {startLoading ? (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 text-center text-slate-500">
-          Ładowanie sesji…
-        </section>
-      ) : null}
-      {!startLoading && !sessionComplete && !currentVerb ? (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 text-center text-slate-500">
-          Brak czasowników do treningu. Wróć do listy i przypnij kilka czasowników.
-        </section>
-      ) : null}
-    </main>
+      </div>
+    </div>
   );
 }

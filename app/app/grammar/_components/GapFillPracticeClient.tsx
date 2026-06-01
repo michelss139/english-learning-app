@@ -7,7 +7,7 @@ import { grammarAnswersMatch, GRAMMAR_NORMALIZE_OPTIONS } from "@/lib/grammar/no
 import { TRAINING_CONTEXT_SUGGESTION, type TrainingEntryContext } from "@/lib/suggestions/suggestionContext";
 import { xpZeroSessionMessage } from "@/lib/xp/xpSkipReasonUi";
 import type { GapQuestion } from "@/lib/grammar/gapQuestions";
-import { CorrectIcon, WrongIcon } from "./PracticeIcons";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -35,6 +35,9 @@ type AwardResult = {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const ROUND_SIZE = 3;
+
+const cardBase =
+  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -295,66 +298,35 @@ export function GapFillPracticeClient({
 
   const currentQuestion = roundQuestions[roundIndex] ?? null;
   const roundCorrect = roundResults.filter((r) => r.correct).length;
+  const pct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
 
   return (
-    <main className="space-y-5">
+    <main className="mx-auto max-w-xl space-y-5">
       {/* Header */}
-      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-0.5">
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Ćwiczenie: {title}
-            </h1>
-            {phase === "question" && (
-              <p className="text-sm text-slate-500">
-                Pytanie{" "}
-                <span className="font-medium text-slate-700">{roundIndex + 1}</span> z{" "}
-                <span className="font-medium text-slate-700">{ROUND_SIZE}</span>
-                {totalAnswered > 0 && (
-                  <>
-                    {" "}·{" "}
-                    <span className="font-medium text-slate-700">{totalCorrect}</span>/
-                    {totalAnswered} poprawnych łącznie
-                  </>
-                )}
-              </p>
-            )}
-            {phase === "round-end" && totalAnswered > 0 && (
-              <p className="text-sm text-slate-500">
-                Łącznie:{" "}
-                <span className="font-medium text-slate-700">{totalCorrect}</span>/
-                {totalAnswered} poprawnych
-              </p>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href={mapHref} className="tile-frame">
-              <span className="tile-core inline-flex items-center rounded-[11px] px-3 py-2 text-sm font-medium text-slate-700">
-                ← {mapLabel}
-              </span>
-            </Link>
-            <Link href="/app/grammar" className="tile-frame">
-              <span className="tile-core inline-flex items-center rounded-[11px] px-3 py-2 text-sm font-medium text-slate-700">
-                Gramatyka
-              </span>
-            </Link>
-          </div>
-        </div>
+      <header className="mb-5">
+        <a href={mapHref} className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
+          ← {mapLabel}
+        </a>
+        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
+          Ćwiczenie: {title}
+        </h1>
       </header>
 
       {/* ── Starting / error ── */}
       {phase === "starting" && !startError && (
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-sm p-8 text-center text-sm text-slate-400">
-          Ładowanie ćwiczenia…
+        <div className={`${cardBase} animate-pulse`}>
+          <div className="h-4 w-1/2 rounded bg-slate-100" />
+          <div className="mt-3 h-8 w-3/4 rounded bg-slate-100" />
+          <div className="mt-4 h-10 rounded bg-slate-100" />
         </div>
       )}
       {startError && (
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-4">
-          <p className="text-sm text-red-600">{startError}</p>
+        <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3 text-sm text-rose-700">
+          {startError}
           <button
             type="button"
             onClick={handleRestart}
-            className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
+            className="mt-3 block rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
           >
             Spróbuj ponownie
           </button>
@@ -363,18 +335,40 @@ export function GapFillPracticeClient({
 
       {/* ── Question card ── */}
       {phase === "question" && currentQuestion && (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-6">
-          {/* Progress dots */}
-          <div className="flex items-center gap-2">
+        <section className={`${cardBase} space-y-4`}>
+          {/* Progress */}
+          <div className="flex items-end justify-between">
+            <span className="text-sm text-slate-500">
+              <span className="text-lg font-bold text-slate-800">{roundIndex + 1}</span>
+              <span className="text-slate-400"> / {ROUND_SIZE}</span>
+            </span>
+            {totalAnswered > 0 && (
+              <div className="text-right">
+                <div
+                  className={`text-2xl font-black leading-none tabular-nums ${
+                    pct >= 70 ? "text-emerald-500" : pct >= 40 ? "text-amber-500" : "text-orange-500"
+                  }`}
+                >
+                  {pct}%
+                </div>
+                <div className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+                  poprawnych
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Dot progress bar */}
+          <div className="flex flex-wrap gap-1">
             {roundQuestions.map((_, i) => {
               const done = i < roundIndex || (i === roundIndex && isAnswered);
               const active = i === roundIndex;
               return (
                 <span
                   key={i}
-                  className={`h-2 rounded-full transition-all ${
+                  className={`h-2 rounded-full transition-all duration-500 ${
                     done
-                      ? "w-6 bg-slate-700"
+                      ? "w-6 bg-emerald-400"
                       : active
                         ? "w-6 bg-sky-400"
                         : "w-2 bg-slate-200"
@@ -384,106 +378,129 @@ export function GapFillPracticeClient({
             })}
           </div>
 
-          {/* Prompt */}
-          <div className="space-y-1">
-            <p className="text-lg font-medium text-slate-900 leading-snug">
-              {currentQuestion.prompt}
-            </p>
-            {currentQuestion.base_hint && (
-              <p className="text-sm text-slate-500">({currentQuestion.base_hint})</p>
-            )}
-          </div>
-
-          {/* Text input */}
-          <div className="space-y-2">
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              disabled={isAnswered}
-              placeholder="Wpisz odpowiedź…"
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="none"
-              spellCheck={false}
-              className={`w-full rounded-xl border px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 outline-none transition-all
-                focus:ring-2 focus:ring-sky-400/30
-                ${
-                  isAnswered
-                    ? isCorrect
-                      ? "border-green-400 bg-green-50"
-                      : "border-red-400 bg-red-50"
-                    : "border-slate-200 bg-white hover:border-slate-300 focus:border-sky-400"
-                }`}
-            />
-            {!isAnswered && (
-              <button
-                type="button"
-                onClick={() => void handleSubmit()}
-                disabled={!inputValue.trim() || isSubmitting}
-                className="rounded-xl border border-slate-900 bg-white px-5 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                Sprawdź
-              </button>
-            )}
-          </div>
-
-          {/* Feedback + Dalej */}
-          {isAnswered && (
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1 border-t border-slate-100">
-              <div>
-                {isCorrect ? (
-                  <p className="flex items-center gap-1.5 text-sm font-semibold text-green-700">
-                    <CorrectIcon size={18} /> Poprawnie!
-                  </p>
-                ) : (
-                  <p className="flex items-center gap-1.5 text-sm text-orange-700">
-                    <WrongIcon size={18} />
-                    Poprawna odpowiedź:{" "}
-                    <strong className="font-semibold">{canonicalAnswer}</strong>
-                  </p>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="self-start rounded-xl border border-slate-900 bg-white px-5 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
-              >
-                {roundIndex + 1 < ROUND_SIZE ? "Dalej →" : "Podsumowanie →"}
-              </button>
+          {/* Eyebrow + Prompt */}
+          <div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              Uzupełnij lukę
             </div>
+            <div className="mt-3 text-xl font-bold tracking-tight text-slate-900 leading-snug">
+              {currentQuestion.prompt}
+            </div>
+            {currentQuestion.base_hint && (
+              <p className="mt-1 text-sm text-slate-500">({currentQuestion.base_hint})</p>
+            )}
+          </div>
+
+          {/* Input */}
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={isAnswered}
+            placeholder="Wpisz odpowiedź…"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="none"
+            spellCheck={false}
+            className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
+          />
+
+          {/* Feedback */}
+          {isAnswered && isCorrect && (
+            <div className="rounded-xl bg-emerald-50 px-4 py-3 space-y-1.5">
+              <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
+                <CorrectIcon size={18} /> Poprawnie!
+              </p>
+            </div>
+          )}
+          {isAnswered && !isCorrect && (
+            <div className="rounded-xl bg-orange-50/80 px-4 py-3.5 space-y-3">
+              <div className="flex items-start gap-3">
+                <WrongIcon size={28} />
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-orange-500">
+                    Twoja odpowiedź
+                  </p>
+                  <p className="mt-0.5 text-base font-semibold text-red-600">{inputValue}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CorrectIcon size={28} />
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    Poprawnie
+                  </p>
+                  <p className="mt-0.5 text-base font-bold text-slate-900">{canonicalAnswer}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Buttons */}
+          {!isAnswered ? (
+            <button
+              type="button"
+              onClick={() => void handleSubmit()}
+              disabled={!inputValue.trim() || isSubmitting}
+              className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 py-3 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg disabled:opacity-60"
+              style={{ color: "#fff" }}
+            >
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="relative">Sprawdź</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleNext}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              {roundIndex + 1 < ROUND_SIZE ? "Dalej →" : "Podsumowanie →"}
+            </button>
           )}
         </section>
       )}
 
       {/* ── Round end ── */}
       {phase === "round-end" && (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-5">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">Runda zakończona</h2>
-            <span className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-900">
-              {roundCorrect}/{ROUND_SIZE}
-            </span>
+        <section className={`${cardBase} space-y-4`}>
+          <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+            Wyniki rundy
+          </h2>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3">
+              <span className="flex items-center gap-2 text-sm font-medium text-emerald-700">
+                <CorrectIcon size={18} /> Poprawne
+              </span>
+              <span className="text-sm font-bold tabular-nums text-emerald-800">{roundCorrect}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+              <span className="flex items-center gap-2 text-sm font-medium text-rose-700">
+                <WrongIcon size={18} /> Błędne
+              </span>
+              <span className="text-sm font-bold tabular-nums text-rose-800">
+                {ROUND_SIZE - roundCorrect}
+              </span>
+            </div>
           </div>
 
           {/* Mini results */}
-          <div className="rounded-2xl border border-slate-100 bg-slate-50/70 divide-y divide-slate-100 overflow-hidden">
+          <div className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-100 bg-slate-50/70">
             {roundResults.map((r, i) => (
               <div key={i} className="flex items-start gap-3 px-4 py-3">
                 <span className="mt-0.5 shrink-0">
-                  {r.correct ? <CorrectIcon size={20} /> : <WrongIcon size={20} />}
+                  {r.correct ? <CorrectIcon size={18} /> : <WrongIcon size={18} />}
                 </span>
                 <div className="min-w-0">
                   <p className="text-sm text-slate-700 leading-snug">{r.question.prompt}</p>
                   {!r.correct && (
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Twoja odpowiedź:{" "}
-                      <span className="text-red-600 font-medium">{r.userAnswer}</span>
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      Twoja:{" "}
+                      <span className="font-medium text-red-600">{r.userAnswer}</span>
                       {" · "}
                       Poprawna:{" "}
-                      <span className="text-green-700 font-medium">{r.canonicalAnswer}</span>
+                      <span className="font-medium text-emerald-700">{r.canonicalAnswer}</span>
                     </p>
                   )}
                 </div>
@@ -491,93 +508,81 @@ export function GapFillPracticeClient({
             ))}
           </div>
 
-          {/* Continue / Finish */}
-          <div className="space-y-3">
-            <p className="text-sm text-slate-600">Kontynuujesz czy kończymy?</p>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="rounded-xl border border-slate-900 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
-              >
-                Kontynuuj ćwiczenie →
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleFinish()}
-                className="rounded-xl border border-slate-300 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-white hover:border-slate-400 hover:text-slate-900 transition"
-              >
-                Zakończ
-              </button>
-            </div>
+          <p className="text-right text-xs text-slate-400">
+            {totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0}% skuteczności łącznie
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={handleContinue}
+              className="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-5 py-2.5 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105"
+              style={{ color: "#fff" }}
+            >
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="relative">Kontynuuj ćwiczenie →</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleFinish()}
+              className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Zakończ
+            </button>
           </div>
         </section>
       )}
 
       {/* ── Completing spinner ── */}
       {phase === "completing" && (
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-sm p-8 text-center text-sm text-slate-400">
-          Zapisuję wyniki…
+        <div className={`${cardBase} animate-pulse`}>
+          <div className="h-4 w-1/3 rounded bg-slate-100" />
+          <div className="mt-3 h-6 w-1/2 rounded bg-slate-100" />
         </div>
       )}
 
       {/* ── Done screen ── */}
       {phase === "done" && (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 space-y-5">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">Sesja zakończona</h2>
-            <span className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-semibold text-slate-900">
-              {totalCorrect}/{totalAnswered}
-            </span>
-          </div>
-
-          {/* Stats */}
-          <div className="rounded-2xl border border-slate-100 bg-slate-50/70 px-5 py-4 space-y-2 text-sm text-slate-700">
-            <div>
-              Odpowiedzi:{" "}
-              <span className="font-medium text-slate-900">{totalAnswered}</span>
+        <section className={`${cardBase} space-y-4`}>
+          <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+            Wyniki sesji
+          </h2>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3">
+              <span className="flex items-center gap-2 text-sm font-medium text-emerald-700">
+                <CorrectIcon size={18} /> Poprawne
+              </span>
+              <span className="text-sm font-bold tabular-nums text-emerald-800">{totalCorrect}</span>
             </div>
-            <div>
-              Poprawne:{" "}
-              <span className="font-medium text-slate-900">{totalCorrect}</span>
-              {" · "}
-              Błędne:{" "}
-              <span className="font-medium text-slate-900">
+            <div className="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+              <span className="flex items-center gap-2 text-sm font-medium text-rose-700">
+                <WrongIcon size={18} /> Błędne
+              </span>
+              <span className="text-sm font-bold tabular-nums text-rose-800">
                 {totalAnswered - totalCorrect}
               </span>
             </div>
-            {totalAnswered > 0 && (
-              <div>
-                Skuteczność:{" "}
-                <span className="font-medium text-slate-900">
-                  {Math.round((totalCorrect / totalAnswered) * 100)}%
-                </span>
-              </div>
-            )}
           </div>
+          <p className="text-right text-xs text-slate-400">
+            {totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0}% skuteczności
+          </p>
 
           {/* XP */}
-          <div className="rounded-2xl border border-slate-100 bg-slate-50/70 px-5 py-4 space-y-1.5 text-sm text-slate-700">
+          <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-4 py-3 space-y-1.5 text-sm text-slate-700">
             {award === null && completeError ? (
-              <p className="text-red-600">{completeError}</p>
+              <p className="text-rose-600">{completeError}</p>
             ) : award ? (
               <>
                 {award.xp_awarded > 0 ? (
-                  <div>
-                    <span className="font-semibold text-slate-900 text-base">
-                      +{award.xp_awarded} XP
-                    </span>
-                  </div>
+                  <div className="text-base font-semibold text-slate-900">+{award.xp_awarded} XP</div>
                 ) : (
-                  <p className="text-amber-700 text-sm">
-                    {xpZeroSessionMessage(award.xp_skip_reason)}
-                  </p>
+                  <p className="text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
                 )}
                 <div>
                   Poziom:{" "}
                   <span className="font-medium text-slate-900">{award.level}</span>
                   {" · "}
-                  XP w poziomie:{" "}
+                  XP:{" "}
                   <span className="font-medium text-slate-900">
                     {award.xp_in_current_level}/{award.xp_to_next_level}
                   </span>
@@ -604,13 +609,15 @@ export function GapFillPracticeClient({
             <button
               type="button"
               onClick={handleRestart}
-              className="rounded-xl border border-slate-900 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
+              className="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-5 py-2.5 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105"
+              style={{ color: "#fff" }}
             >
-              Jeszcze raz
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="relative">Jeszcze raz</span>
             </button>
             <Link
               href={mapHref}
-              className="rounded-xl border border-slate-300 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-white hover:border-slate-400 hover:text-slate-900 transition"
+              className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
             >
               ← Wróć do teorii
             </Link>

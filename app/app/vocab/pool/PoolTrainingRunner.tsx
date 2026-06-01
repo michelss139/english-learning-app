@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { getWordTip } from "@/lib/coach/wordTips";
 import { TypewriterText } from "@/lib/coach/TypewriterText";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 export type PoolTrainingCard = {
   sense_id: string;
@@ -64,7 +65,7 @@ function normalizeSpacing(text: string): string {
 }
 
 function stripDiacritics(text: string): string {
-  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return text.normalize("NFD").replace(/[̀-ͯ]/g, "");
 }
 
 function isCorrectAnswer(expected: string, given: string, removeDiacriticsFlag: boolean): boolean {
@@ -270,6 +271,8 @@ export default function PoolTrainingRunner(props: {
   }
 
   if (completed) {
+    const pct = total > 0 ? Math.round((summaryCorrect / total) * 100) : 0;
+
     return (
       <div className="space-y-5 transition-opacity duration-300">
         <div className="space-y-1">
@@ -278,35 +281,41 @@ export default function PoolTrainingRunner(props: {
         </div>
 
         <section className={`${cardBase} space-y-4`}>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-              <div className="text-xs font-semibold uppercase tracking-wide text-emerald-800">Wynik</div>
-              <div className="mt-1 text-lg font-bold text-emerald-950">✔ {summaryCorrect} poprawnych</div>
+          <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Wyniki</h2>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3">
+              <span className="flex items-center gap-2 text-sm font-medium text-emerald-700">
+                <CorrectIcon size={18} /> Poprawne
+              </span>
+              <span className="text-sm font-bold tabular-nums text-emerald-800">{summaryCorrect}</span>
             </div>
-            <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
-              <div className="text-xs font-semibold uppercase tracking-wide text-rose-800">Błędy</div>
-              <div className="mt-1 text-lg font-bold text-rose-950">✖ {summaryWrong} błędów</div>
+            <div className="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+              <span className="flex items-center gap-2 text-sm font-medium text-rose-700">
+                <WrongIcon size={18} /> Błędne
+              </span>
+              <span className="text-sm font-bold tabular-nums text-rose-800">{summaryWrong}</span>
             </div>
           </div>
+          <p className="text-right text-xs text-slate-400">{pct}% skuteczności</p>
 
           {(learnedCount > 0 || returnedToReviewCount > 0) && (
             <div className="rounded-xl border border-slate-200/80 bg-slate-50/80 px-4 py-3">
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Efekt</div>
-              <div className="mt-2 space-y-1 text-sm text-slate-700">
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">Efekt</div>
+              <div className="space-y-1 text-sm text-slate-700">
                 {learnedCount > 0 ? <p>Nauczyłeś się {learnedCount} {wordCountLabel(learnedCount)}</p> : null}
                 {returnedToReviewCount > 0 ? <p>{returnedToReviewCount} {wordCountLabel(returnedToReviewCount)} wróciło do powtórki</p> : null}
               </div>
             </div>
           )}
 
-          <div className="rounded-2xl border border-sky-200/80 bg-sky-50/70 px-4 py-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-sky-700">Co dalej</div>
+          <div className="rounded-xl border border-sky-200/80 bg-sky-50/70 px-4 py-4">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-sky-700 mb-2">Co dalej</div>
             {completionLoading ? (
-              <p className="mt-2 text-sm text-slate-600">Aktualizuję stan Twojej puli...</p>
+              <p className="text-sm text-slate-600">Aktualizuję stan Twojej puli...</p>
             ) : completionError ? (
-              <p className="mt-2 text-sm text-amber-900">{completionError}</p>
+              <p className="text-sm text-amber-900">{completionError}</p>
             ) : recommendedNextAction ? (
-              <div className="mt-2 space-y-3">
+              <div className="space-y-3">
                 <div>
                   <p className="text-base font-semibold text-slate-900">{recommendedNextAction.title}</p>
                   <p className="mt-1 text-sm text-slate-600">{recommendedNextAction.description}</p>
@@ -316,14 +325,16 @@ export default function PoolTrainingRunner(props: {
                     type="button"
                     onClick={() => onStartNextSession(recommendedNextAction.senseIds, recommendedNextAction.mode)}
                     disabled={isStartingNextSession}
-                    className="rounded-xl border-2 border-sky-700 bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-4 py-2.5 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 disabled:opacity-60"
+                    style={{ color: "#fff" }}
                   >
-                    {isStartingNextSession ? "Uruchamiam..." : recommendedNextAction.ctaLabel}
+                    <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                    <span className="relative">{isStartingNextSession ? "Uruchamiam..." : recommendedNextAction.ctaLabel}</span>
                   </button>
                 ) : null}
               </div>
             ) : (
-              <p className="mt-2 text-sm text-slate-600">Nie udało się przygotować kolejnej rekomendacji.</p>
+              <p className="text-sm text-slate-600">Nie udało się przygotować kolejnej rekomendacji.</p>
             )}
           </div>
 
@@ -385,37 +396,79 @@ export default function PoolTrainingRunner(props: {
     };
   }, [completed, onFinish]);
 
+  const pct = progressAnswered > 0 ? Math.round((summaryCorrect / progressAnswered) * 100) : 0;
+
   return (
     <div className="space-y-5 transition-opacity duration-300">
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      {/* Header row */}
+      <div className="flex flex-wrap items-end justify-between gap-2">
         <button
           type="button"
           onClick={() => {
             if (progressAnswered > 0 && !confirm("Zakończyć trening? Postęp zostanie utracony.")) return;
             onClose();
           }}
-          className="text-sm font-medium text-slate-600 hover:text-slate-900"
+          className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
         >
           ← Anuluj
         </button>
-        <span className="text-xs text-slate-500">
-          Karta {currentIndex + 1} / {total}
+        <span className="text-sm text-slate-500">
+          <span className="text-lg font-bold text-slate-800">{currentIndex + 1}</span>
+          <span className="text-slate-400"> / {total}</span>
         </span>
+        {progressAnswered > 0 && (
+          <div className="text-right">
+            <div
+              className={`text-2xl font-black leading-none tabular-nums ${
+                pct >= 70 ? "text-emerald-500" : pct >= 40 ? "text-amber-500" : "text-orange-500"
+              }`}
+            >
+              {pct}%
+            </div>
+            <div className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+              poprawnych
+            </div>
+          </div>
+        )}
       </div>
 
-      {toast ? <p className="text-sm text-amber-800">{toast}</p> : null}
+      {/* Dot progress bar */}
+      <div className="flex flex-wrap gap-1">
+        {cards.map((_, i) => (
+          <span
+            key={i}
+            className={`h-2 rounded-full transition-all duration-500 ${
+              i < currentIndex
+                ? "w-6 bg-emerald-400"
+                : i === currentIndex
+                  ? "w-6 bg-sky-400"
+                  : "w-2 bg-slate-200"
+            }`}
+          />
+        ))}
+      </div>
+
+      {toast ? (
+        <p className="text-sm text-amber-800">{toast}</p>
+      ) : null}
 
       {current ? (
-        <section className={cardBase}>
-          <div className="mb-6 text-center">
-            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Przetłumacz na polski</div>
+        <section className={`${cardBase} space-y-4`}>
+          {/* Eyebrow + Prompt */}
+          <div className="text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              Przetłumacz na polski
+            </div>
             <div className="mt-3 text-2xl font-bold tracking-tight text-slate-900">{current.lemma ?? "—"}</div>
-            {current.definition_en ? <p className="mt-2 text-xs text-slate-500">{current.definition_en}</p> : null}
+            {current.definition_en ? (
+              <p className="mt-2 text-xs text-slate-500">{current.definition_en}</p>
+            ) : null}
             {current.example_en ? (
               <p className="mt-1 text-xs italic text-slate-400">&ldquo;{current.example_en}&rdquo;</p>
             ) : null}
           </div>
 
+          {/* Input */}
           <input
             ref={inputRef}
             value={input}
@@ -424,9 +477,7 @@ export default function PoolTrainingRunner(props: {
               setInput(e.target.value);
             }}
             placeholder="Wpisz tłumaczenie…"
-            className={`w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5 ${
-              checked ? "opacity-70" : ""
-            }`}
+            className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
             readOnly={checked}
             aria-readonly={checked}
             onKeyDown={(e) => {
@@ -437,32 +488,55 @@ export default function PoolTrainingRunner(props: {
             }}
           />
 
-          {checked ? (
-            <div className="mt-5 space-y-3">
-              <div
-                className={`rounded-xl px-4 py-3 text-center text-sm font-semibold ${
-                  currentAnswer?.isCorrect ? "bg-slate-50 text-slate-800" : "bg-rose-50/80 text-rose-700"
-                }`}
-              >
-                {currentAnswer?.isCorrect ? "Poprawnie!" : `Poprawna odpowiedź: ${currentAnswer?.expected ?? "—"}`}
-              </div>
-              {(() => {
-                const tip = getWordTip(current.lemma, !currentAnswer?.isCorrect ? currentAnswer?.given : undefined);
-                if (!tip) return null;
-                const text = Array.isArray(tip) ? tip.join("\n") : tip;
-                return (
-                  <div className="rounded-xl border border-slate-200/50 bg-slate-50/80 p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Wskazówka</p>
-                    <div className="mt-1 whitespace-pre-line text-sm text-slate-700">
-                      <TypewriterText text={text} speed={30} />
-                    </div>
-                  </div>
-                );
-              })()}
+          {/* Feedback */}
+          {checked && currentAnswer?.isCorrect && (
+            <div className="rounded-xl bg-emerald-50 px-4 py-3 space-y-1.5">
+              <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
+                <CorrectIcon size={18} /> Poprawnie!
+              </p>
             </div>
+          )}
+          {checked && !currentAnswer?.isCorrect && (
+            <div className="rounded-xl bg-orange-50/80 px-4 py-3.5 space-y-3">
+              <div className="flex items-start gap-3">
+                <WrongIcon size={28} />
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-orange-500">
+                    Twoja odpowiedź
+                  </p>
+                  <p className="mt-0.5 text-base font-semibold text-red-600">{currentAnswer?.given}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CorrectIcon size={28} />
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    Poprawnie
+                  </p>
+                  <p className="mt-0.5 text-base font-bold text-slate-900">{currentAnswer?.expected ?? "—"}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {checked ? (
+            (() => {
+              const tip = getWordTip(current.lemma, !currentAnswer?.isCorrect ? currentAnswer?.given : undefined);
+              if (!tip) return null;
+              const text = Array.isArray(tip) ? tip.join("\n") : tip;
+              return (
+                <div className="rounded-xl border border-slate-200/50 bg-slate-50/80 p-3">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Wskazówka</p>
+                  <div className="mt-1 whitespace-pre-line text-sm text-slate-700">
+                    <TypewriterText text={text} speed={30} />
+                  </div>
+                </div>
+              );
+            })()
           ) : null}
 
-          <div className="mt-5 flex items-center justify-between gap-2">
+          {/* Nav buttons */}
+          <div className="flex items-center justify-between gap-2">
             <button
               type="button"
               onClick={goPrev}
@@ -475,9 +549,11 @@ export default function PoolTrainingRunner(props: {
               <button
                 type="button"
                 onClick={checkAnswer}
-                className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                className="relative flex-1 inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 py-3 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105"
+                style={{ color: "#fff" }}
               >
-                Sprawdź
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="relative">Sprawdź</span>
               </button>
             ) : (
               <button
@@ -485,7 +561,7 @@ export default function PoolTrainingRunner(props: {
                 onClick={goNext}
                 className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
               >
-                {currentIndex === total - 1 ? "Zakończ" : "Dalej"}
+                {currentIndex === total - 1 ? "Zakończ" : "Dalej →"}
               </button>
             )}
             <button

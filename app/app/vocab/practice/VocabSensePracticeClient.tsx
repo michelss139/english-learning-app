@@ -6,6 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import PoolTrainingRunner, { type PoolTrainingCard } from "../pool/PoolTrainingRunner";
 
+const cardBase =
+  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
+
 function parseSenseIds(raw: string | null): string[] {
   if (!raw) return [];
   return [...new Set(raw.split(",").map((s) => s.trim()).filter(Boolean))];
@@ -70,8 +73,8 @@ export default function VocabSensePracticeClient() {
 
   if (session) {
     return (
-      <main className="mx-auto max-w-2xl space-y-4 px-4 py-6">
-        <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-medium text-sky-950">
+      <main className="mx-auto max-w-xl space-y-4 px-4 py-6">
+        <div className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-medium text-sky-950">
           Trenujesz słowa wymagające powtórki
         </div>
         <PoolTrainingRunner
@@ -88,39 +91,45 @@ export default function VocabSensePracticeClient() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl space-y-6 px-4 py-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight text-slate-900">Trening słówek</h1>
-          <p className="mt-1 text-sm text-slate-600">Krótka sesja z wybranymi znaczeniami z puli.</p>
-        </div>
+    <main className="mx-auto max-w-xl space-y-5 px-4 py-6">
+      {/* Header */}
+      <header className="mb-5">
         <Link
           href="/app/vocab/pool"
-          className="text-sm font-medium text-slate-600 underline-offset-2 hover:text-slate-900 hover:underline"
+          className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
         >
           ← Moja pula
         </Link>
+        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Trening słówek</h1>
       </header>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">{error}</div>
+        <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3 text-sm text-rose-700">
+          {error}
+        </div>
       ) : null}
 
       {!autostart && senseIds.length > 0 && !loading ? (
-        <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-950">
+        <div className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-950">
           Trenujesz słowa wymagające powtórki
         </div>
       ) : null}
 
       {loading ? (
-        <p className="text-sm text-slate-500">Przygotowuję sesję…</p>
+        <div className={`${cardBase} animate-pulse`}>
+          <div className="h-4 w-1/2 rounded bg-slate-100" />
+          <div className="mt-3 h-8 w-3/4 rounded bg-slate-100" />
+          <div className="mt-4 h-10 rounded bg-slate-100" />
+        </div>
       ) : !autostart && senseIds.length > 0 ? (
         <button
           type="button"
           onClick={() => void startTraining()}
-          className="rounded-xl border border-slate-900 bg-white px-4 py-3 text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50"
+          className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 py-3 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg"
+          style={{ color: "#fff" }}
         >
-          Rozpocznij trening
+          <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+          <span className="relative">Rozpocznij trening →</span>
         </button>
       ) : null}
     </main>
