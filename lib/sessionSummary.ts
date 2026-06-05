@@ -21,56 +21,73 @@ type CompletionRow = {
   completed_at: string;
 };
 
+export type PrecomputedSummaryData = {
+  total?: number;
+  wrong?: number;
+  finishedAt?: string | null;
+};
+
 export async function getSessionSummary(
   studentId: string,
   sessionId: string,
-  exerciseType: ExerciseType
+  exerciseType: ExerciseType,
+  precomputed?: PrecomputedSummaryData
 ): Promise<SessionSummary> {
   const supabase = createSupabaseAdmin();
 
-  const { data: completion } = await supabase
-    .from("exercise_session_completions")
-    .select("completed_at")
-    .eq("student_id", studentId)
-    .eq("exercise_type", exerciseType)
-    .eq("session_id", sessionId)
-    .maybeSingle();
-
-  const finishedAt = (completion as CompletionRow | null)?.completed_at ?? null;
+  const finishedAt: string | null = precomputed?.finishedAt !== undefined
+    ? (precomputed.finishedAt ?? null)
+    : await supabase
+        .from("exercise_session_completions")
+        .select("completed_at")
+        .eq("student_id", studentId)
+        .eq("exercise_type", exerciseType)
+        .eq("session_id", sessionId)
+        .maybeSingle()
+        .then(({ data }) => (data as CompletionRow | null)?.completed_at ?? null);
 
   if (exerciseType === "irregular") {
-    const { count: totalCount } = await supabase
-      .from("irregular_verb_runs")
-      .select("id", { count: "exact", head: true })
-      .eq("student_id", studentId)
-      .eq("session_id", sessionId);
+    const needCounts = precomputed?.total === undefined || precomputed?.wrong === undefined;
 
-    const { count: wrongCount } = await supabase
-      .from("irregular_verb_runs")
-      .select("id", { count: "exact", head: true })
-      .eq("student_id", studentId)
-      .eq("session_id", sessionId)
-      .eq("correct", false);
+    const [totalCount, wrongCount, firstRow, wrongItems] = await Promise.all([
+      needCounts && precomputed?.total === undefined
+        ? supabase
+            .from("irregular_verb_runs")
+            .select("id", { count: "exact", head: true })
+            .eq("student_id", studentId)
+            .eq("session_id", sessionId)
+            .then(({ count }) => count)
+        : Promise.resolve(precomputed!.total!),
+      needCounts && precomputed?.wrong === undefined
+        ? supabase
+            .from("irregular_verb_runs")
+            .select("id", { count: "exact", head: true })
+            .eq("student_id", studentId)
+            .eq("session_id", sessionId)
+            .eq("correct", false)
+            .then(({ count }) => count)
+        : Promise.resolve(precomputed!.wrong!),
+      supabase
+        .from("irregular_verb_runs")
+        .select("created_at")
+        .eq("student_id", studentId)
+        .eq("session_id", sessionId)
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle()
+        .then(({ data }) => data),
+      supabase
+        .from("irregular_verb_runs")
+        .select("entered_past_simple, entered_past_participle")
+        .eq("student_id", studentId)
+        .eq("session_id", sessionId)
+        .eq("correct", false)
+        .limit(10)
+        .then(({ data }) => data),
+    ]);
 
-    const { data: firstRow } = await supabase
-      .from("irregular_verb_runs")
-      .select("created_at")
-      .eq("student_id", studentId)
-      .eq("session_id", sessionId)
-      .order("created_at", { ascending: true })
-      .limit(1)
-      .maybeSingle();
-
-    const { data: wrongItems } = await supabase
-      .from("irregular_verb_runs")
-      .select("entered_past_simple, entered_past_participle")
-      .eq("student_id", studentId)
-      .eq("session_id", sessionId)
-      .eq("correct", false)
-      .limit(10);
-
-    const total = totalCount ?? 0;
-    const wrong = wrongCount ?? 0;
+    const total = (typeof totalCount === "number" ? totalCount : 0);
+    const wrong = (typeof wrongCount === "number" ? wrongCount : 0);
     const correct = Math.max(total - wrong, 0);
 
     return {

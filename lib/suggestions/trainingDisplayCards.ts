@@ -50,7 +50,8 @@ function humanizeDisplayFallback(displayName: string): string {
 
 function senseReviewSubtitle(distinctCount: number): string {
   const n = distinctCount;
-  if (n === 1) return "1 słowo wymaga powtórki";
+  if (n === 1) return "Masz słówko do powtórki — nie trać serii!";
+  if (n <= 3) return `${n} słówka czekają — szybka powtórka!`;
   const n100 = n % 100;
   const n10 = n % 10;
   if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) {

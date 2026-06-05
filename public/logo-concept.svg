@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 64" width="320" height="128">
+
+  <!-- ── LEFT BRACKET ── -->
+  <path d="M 17 11 H 8 V 53 H 17"
+    stroke="#0f172a" stroke-width="6" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ── RIGHT BRACKET ── -->
+  <path d="M 47 11 H 56 V 53 H 47"
+    stroke="#0f172a" stroke-width="6" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ── PEN STROKE / WRITING FLOURISH ──
+       A single flowing S-curve inside the brackets,
+       like ink left by a pen moving across the page.
+       Starts bottom-left, sweeps up-right, back down — like a signature.
+  -->
+  <path d="M 14 47 C 20 12, 34 12, 32 32 C 30 52, 44 52, 52 20"
+    stroke="#6366f1" stroke-width="3.5" fill="none"
+    stroke-linecap="round"/>
+
+  <!-- Pen-tip dot at the end of the stroke -->
+  <circle cx="52" cy="20" r="4" fill="#6366f1"/>
+
+  <!-- ── WORDMARK: L (dark) + B (indigo) ── -->
+  <text x="72" y="50"
+    font-family="Inter, ui-sans-serif, system-ui, -apple-system, sans-serif"
+    font-weight="900" font-size="48" fill="#0f172a">L</text>
+
+  <text x="103" y="50"
+    font-family="Inter, ui-sans-serif, system-ui, -apple-system, sans-serif"
+    font-weight="900" font-size="48" fill="#6366f1">B</text>
+
+</svg>

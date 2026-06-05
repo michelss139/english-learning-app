@@ -436,6 +436,22 @@ async function main(): Promise<void> {
 
     for (const item of missingItems) {
       const label = `${item.cefr_level}  ${item.pos.padEnd(14)} ${item.lemma}`;
+
+      // Pre-check: skip DB call to Anthropic if entry already exists
+      const lemma_norm = item.lemma.toLowerCase().trim();
+      const { data: existing } = await supabase
+        .from("lexicon_entries")
+        .select("id")
+        .eq("lemma_norm", lemma_norm)
+        .eq("pos", item.pos)
+        .maybeSingle();
+
+      if (existing?.id) {
+        console.log(`  ${label} … [skip] already in DB`);
+        skipped++;
+        continue;
+      }
+
       process.stdout.write(`  ${label} … `);
 
       try {

@@ -128,13 +128,13 @@ export default function CalendarDayPanel({
                       }`}
                     >
                       <p className="text-sm font-semibold text-slate-900">{l.student_display}</p>
-                      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">
-                        {selfSession ? "Twoja sesja" : "Lekcja"}
+                      <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                        {selfSession ? "Twoja lekcja" : "Lekcja"}
                       </p>
                       {topic ? (
-                        <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{topic}</p>
+                        <p className="mt-1 line-clamp-2 text-sm font-medium text-slate-700">{topic}</p>
                       ) : (
-                        <p className="mt-0.5 text-xs italic text-slate-400">Bez tematu</p>
+                        <p className="mt-1 text-xs italic text-slate-400">Bez tematu</p>
                       )}
                     </Link>
                   </li>

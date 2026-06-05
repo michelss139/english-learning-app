@@ -11,6 +11,7 @@ import {
   type TrainingSuggestion,
 } from "@/lib/suggestions/trainingDisplayCards";
 import CalendarDayPanel from "@/components/lessons/CalendarDayPanel";
+import NewLessonModal from "@/components/lessons/NewLessonModal";
 
 type StreakInfo = {
   current_streak: number;
@@ -109,16 +110,18 @@ function SlimNavTile({
   href,
   bgClass,
   shadowClass,
+  className,
 }: {
   label: string;
   href: string;
   bgClass: string;
   shadowClass?: string;
+  className?: string;
 }) {
   return (
     <Link
       href={href}
-      className={`group relative flex items-center justify-between overflow-hidden rounded-2xl ${bgClass} px-5 py-3.5 ring-1 ring-inset ring-white/20 transition-all duration-200 hover:scale-[1.015] hover:ring-white/40 hover:shadow-lg ${shadowClass ?? ""}`}
+      className={`group relative flex items-center justify-between overflow-hidden rounded-2xl ${bgClass} px-5 py-[1.125rem] ring-1 ring-inset ring-white/20 transition-all duration-200 hover:scale-[1.015] hover:ring-white/40 hover:shadow-lg ${shadowClass ?? ""} ${className ?? ""}`}
     >
       {/* Biały połysk od góry — efekt źródła światła */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
@@ -148,8 +151,10 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
-  const [panelOpen, setPanelOpen]     = useState(false);
-  const [panelDateIso, setPanelDateIso] = useState("");
+  const [panelOpen, setPanelOpen]         = useState(false);
+  const [panelDateIso, setPanelDateIso]   = useState("");
+  const [newLessonOpen, setNewLessonOpen] = useState(false);
+  const [newLessonDate, setNewLessonDate] = useState("");
 
   const today = todayISO();
 
@@ -167,7 +172,7 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
   const cells = useMemo(() => {
     const start = startOfGrid(monthDate);
     const result: { iso: string; date: Date; isCurrentMonth: boolean }[] = [];
-    for (let i = 0; i < 42; i++) {
+    for (let i = 0; i < 35; i++) {
       const d = new Date(start);
       d.setDate(start.getDate() + i);
       result.push({
@@ -213,7 +218,8 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
   }
 
   function onAddLesson(dateIso: string) {
-    router.push(`/app/lessons/new?date=${encodeURIComponent(dateIso)}`);
+    setNewLessonDate(dateIso);
+    setNewLessonOpen(true);
   }
 
   return (
@@ -249,7 +255,7 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
       </div>
 
       {/* Day cells — tall, with topic preview */}
-      <div className="grid flex-1 grid-cols-7 gap-1 [grid-template-rows:repeat(6,1fr)]">
+      <div className="grid flex-1 grid-cols-7 gap-1 [grid-template-rows:repeat(5,1fr)]">
         {cells.map((cell) => {
           const dayLessons = lessonsByDate.get(cell.iso) ?? [];
           const hasLesson  = dayLessons.length > 0;
@@ -310,11 +316,11 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
                 <div className="mt-1 flex min-h-0 min-w-0 flex-1 flex-col gap-0.5">
                   {count === 1 ? (
                     <>
-                      <span className="shrink-0 text-xs font-bold uppercase tracking-wider text-slate-400">
-                        {dayLessons[0]?.lesson_type === "self" ? "sesja" : "lekcja"}
+                      <span className="shrink-0 text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                        temat
                       </span>
                       {topic ? (
-                        <p className="line-clamp-3 break-words text-xs font-medium leading-tight text-slate-600">
+                        <p className="line-clamp-3 break-words text-[11px] font-semibold leading-tight text-slate-700">
                           {topic}
                         </p>
                       ) : null}
@@ -357,7 +363,7 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
         )}
       </div>
 
-      {/* Day panel (same as /app/lessons) */}
+      {/* Day panel */}
       <CalendarDayPanel
         open={panelOpen}
         dateIso={panelDateIso}
@@ -368,6 +374,13 @@ function MiniCalendar({ lessons }: { lessons: DashboardLesson[] }) {
           setPanelOpen(false);
           onAddLesson(dateIso);
         }}
+      />
+
+      {/* New lesson modal */}
+      <NewLessonModal
+        open={newLessonOpen}
+        dateIso={newLessonDate}
+        onClose={() => setNewLessonOpen(false)}
       />
     </div>
   );
@@ -471,21 +484,21 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
 
   return (
     <main
-      className={`transition-all duration-500 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
+      className={`flex flex-col h-[calc(100dvh-9.75rem)] sm:h-[calc(100dvh-9.5rem)] transition-all duration-500 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
     >
       {/* ── Header ── */}
-      <header className="mb-6 flex items-center">
+      <header className="mb-5 flex shrink-0 items-center">
         <div className="flex items-center gap-3.5">
           <button
             onClick={() => router.push("/app/profile")}
-            className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-slate-200 transition-shadow duration-200 hover:shadow-md"
+            className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-slate-200 transition-shadow duration-200 hover:shadow-md"
             type="button"
             aria-label="Przejdź do profilu"
           >
             <img src={avatarSrc} alt="" className="h-full w-full object-cover" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
               Witaj, {displayName}!
             </h1>
           </div>
@@ -510,22 +523,22 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
 
       {/* ── Content ── */}
       {dashboardLoading ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-[3fr_2fr] lg:gap-5">
-          <div className="h-[460px] animate-pulse rounded-2xl bg-orange-100/60" />
+        <div className="grid flex-1 min-h-0 grid-cols-1 gap-4 md:grid-cols-[3fr_2fr] lg:gap-5">
+          <div className="animate-pulse rounded-2xl bg-orange-100/60" />
           <div className="flex flex-col gap-3">
             <div className="h-12 animate-pulse rounded-2xl bg-emerald-100/60" />
             <div className="h-12 animate-pulse rounded-2xl bg-blue-100/60" />
             <div className="h-12 animate-pulse rounded-2xl bg-indigo-100/60" />
-            <div className="h-32 animate-pulse rounded-2xl bg-slate-100/60" />
+            <div className="flex-1 animate-pulse rounded-2xl bg-slate-100/60" />
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-[3fr_2fr] lg:gap-5">
+        <div className="grid flex-1 min-h-0 grid-cols-1 gap-4 md:grid-cols-[3fr_2fr] lg:gap-5">
 
           {/* ── Left: Kalendarz — orange tile ── */}
-          <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 shadow-lg shadow-orange-300/40">
+          <div className="flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_4px_24px_rgba(251,146,60,0.28)]">
             {/* Orange header */}
-            <div className="flex items-center justify-between px-5 py-4">
+            <div className="flex shrink-0 items-center justify-between px-5 py-4">
               <h2 className="text-2xl font-black tracking-tight" style={{ color: "#fff" }}>Kalendarz</h2>
               <Link
                 href="/app/lessons"
@@ -534,63 +547,73 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
                 onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
                 onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
               >
-                Wszystkie <ArrowRight className="h-4 w-4" />
+                Lekcje <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            {/* White inner calendar */}
-            <div className="mx-2 mb-2 rounded-xl bg-white p-4">
+            {/* White inner calendar — 2px orange frame */}
+            <div className="mx-[3px] mb-[3px] flex min-h-0 flex-1 flex-col rounded-xl bg-white p-4 overflow-hidden">
               <MiniCalendar lessons={lessons} />
             </div>
           </div>
 
           {/* ── Right column ── */}
-          <div className="flex h-full flex-col gap-3">
+          <div className="flex h-full flex-col gap-4">
 
-            {/* 3 slim nav tiles */}
+            {/* 3 slim nav tiles — flex-1 each so they share the space above the cards */}
             <SlimNavTile
               label="Gramatyka"
               href="/app/grammar"
               bgClass="bg-gradient-to-br from-emerald-400 to-teal-700"
               shadowClass="shadow-md shadow-emerald-300/40"
+              className="flex-1"
             />
             <SlimNavTile
               label="Słownictwo"
               href="/app/vocab"
               bgClass="bg-gradient-to-br from-sky-400 to-blue-700"
               shadowClass="shadow-md shadow-blue-300/40"
+              className="flex-1"
             />
             <SlimNavTile
               label="Dodatki Premium"
               href="/app/premium"
               bgClass="bg-gradient-to-br from-indigo-400 to-violet-700"
               shadowClass="shadow-md shadow-indigo-300/40"
+              className="flex-1"
             />
 
-            {/* Potrenuj dziś */}
-            <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
-              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-                Potrenuj dziś
+            {/* Potrenuj */}
+            <div className="shrink-0 rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
+              <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">
+                Potrenuj
               </h2>
               {topTrainingCard ? (
                 <Link
                   href={topTrainingCard.href}
-                  className="group flex flex-col gap-3 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all duration-200 hover:border-slate-200 hover:shadow-md"
+                  className="group flex items-end gap-2 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all duration-200 hover:border-slate-200 hover:shadow-md"
                 >
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold text-slate-900">{topTrainingCard.title}</div>
-                    <div className="mt-1 text-xs leading-snug text-slate-500">
+                  {/* Tekst + przycisk — lewa strona */}
+                  <div className="min-w-0 flex-1">
+                    <div className="text-base font-semibold text-slate-900">{topTrainingCard.title}</div>
+                    <div className="mt-1 text-sm leading-snug text-slate-500">
                       {topTrainingCard.description}
                     </div>
-                  </div>
-                  <div className="flex justify-end">
                     <span
-                      className="relative inline-flex items-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-1.5 text-xs font-bold tracking-wide transition-all duration-200 group-hover:shadow-md group-hover:brightness-110"
+                      className="relative mt-3 inline-flex items-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-sm font-bold tracking-wide transition-all duration-200 group-hover:shadow-md group-hover:brightness-110"
                       style={{ color: "#fff" }}
                     >
                       <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
                       <span className="relative">Zacznij →</span>
                     </span>
                   </div>
+                  {/* Maskotka — prawa strona, wyrównana do dołu */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/mascot-reader.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-[100px] w-auto flex-shrink-0 self-end object-contain"
+                  />
                 </Link>
               ) : (
                 <div className="rounded-xl border border-dashed border-slate-200 px-4 py-3 text-sm text-slate-400">
@@ -599,40 +622,37 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
               )}
             </div>
 
-            {/* Seria nauki */}
-            <div className="flex flex-1 flex-col justify-between rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-4 shadow-sm">
-              {/* Góra: tytuł + liczba */}
-              <div>
-                <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-                  Seria nauki
-                </h2>
-                <div className="flex items-baseline justify-between">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-3xl font-black text-slate-900">{streakCount}</span>
-                    <span className="text-sm font-medium text-slate-500">
-                      {streakCount === 1 ? "dzień" : "dni"}
-                    </span>
-                  </div>
-                  {(streak?.best_streak ?? 0) > 0 && (
-                    <div className="text-right">
-                      <div className="text-[10px] font-medium text-slate-400">rekord</div>
-                      <div className="text-sm font-bold text-slate-700">{streak?.best_streak} dni</div>
-                    </div>
-                  )}
+            {/* Seria nauki — flat card, natural height */}
+            <div className="shrink-0 rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
+              <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">
+                Seria nauki
+              </h2>
+              <div className="mb-4 flex items-baseline justify-between">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-black text-slate-900">{streakCount}</span>
+                  <span className="text-base font-medium text-slate-500">
+                    {streakCount === 1 ? "dzień" : "dni"}
+                  </span>
                 </div>
+                {(streak?.best_streak ?? 0) > 0 && (
+                  <div className="text-right">
+                    <div className="text-xs font-medium text-slate-400">rekord</div>
+                    <div className="text-base font-bold text-slate-700">{streak?.best_streak} dni</div>
+                  </div>
+                )}
               </div>
-              {/* Dół: paski tygodnia */}
-              <div className="flex gap-1.5">
+              {/* Paski tygodnia */}
+              <div className="flex gap-2">
                 {weekActivity.map((day) => (
                   <div key={day.label} className="flex flex-1 flex-col items-center gap-1.5">
                     <div
-                      className={`h-1.5 w-full rounded-full transition-colors duration-300 ${
+                      className={`h-2 w-full rounded-full transition-colors duration-300 ${
                         day.done
                           ? "bg-gradient-to-r from-amber-400 to-orange-500"
                           : "bg-slate-100"
                       }`}
                     />
-                    <span className="text-[9px] font-bold uppercase tracking-wide text-slate-300">
+                    <span className="text-[11px] font-bold uppercase tracking-wide text-slate-300">
                       {day.label}
                     </span>
                   </div>

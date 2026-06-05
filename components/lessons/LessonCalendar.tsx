@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import LessonDay from "@/components/lessons/LessonDay";
 import CalendarDayPanel from "@/components/lessons/CalendarDayPanel";
+import NewLessonModal from "@/components/lessons/NewLessonModal";
 
 type CalendarLesson = {
   id: string;
@@ -57,7 +57,6 @@ function groupLessonsByDate(lessons: CalendarLesson[]): Map<string, CalendarLess
 }
 
 export default function LessonCalendar() {
-  const router = useRouter();
   const [monthDate, setMonthDate] = useState(() => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
@@ -66,8 +65,10 @@ export default function LessonCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [panelOpen, setPanelOpen] = useState(false);
-  const [panelDateIso, setPanelDateIso] = useState<string>("");
+  const [panelOpen, setPanelOpen]         = useState(false);
+  const [panelDateIso, setPanelDateIso]   = useState<string>("");
+  const [newLessonOpen, setNewLessonOpen] = useState(false);
+  const [newLessonDate, setNewLessonDate] = useState("");
 
   const monthKey = useMemo(() => toMonthKey(monthDate), [monthDate]);
 
@@ -148,12 +149,10 @@ export default function LessonCalendar() {
   /** Students may add multiple personal lessons per day; teachers always see add. */
   const panelShowAdd = true;
 
-  const onAddLesson = useCallback(
-    (dateIso: string) => {
-      router.push(`/app/lessons/new?date=${encodeURIComponent(dateIso)}`);
-    },
-    [router],
-  );
+  const onAddLesson = useCallback((dateIso: string) => {
+    setNewLessonDate(dateIso);
+    setNewLessonOpen(true);
+  }, []);
 
   const onDayClick = useCallback(
     (dateIso: string) => {
@@ -237,7 +236,16 @@ export default function LessonCalendar() {
         }))}
         showAddButton={panelShowAdd}
         onClose={() => setPanelOpen(false)}
-        onAddLesson={onAddLesson}
+        onAddLesson={(dateIso) => {
+          setPanelOpen(false);
+          onAddLesson(dateIso);
+        }}
+      />
+
+      <NewLessonModal
+        open={newLessonOpen}
+        dateIso={newLessonDate}
+        onClose={() => setNewLessonOpen(false)}
       />
     </section>
   );

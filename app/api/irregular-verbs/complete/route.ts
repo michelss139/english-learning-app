@@ -13,8 +13,12 @@ type CompleteBody = {
 async function sessionHasToLearn(
   supabase: any,
   userId: string,
-  sessionId: string
+  sessionId: string,
+  sessionWrongCount: number
 ): Promise<boolean> {
+  // If the session itself had wrong answers, user has things to learn.
+  if (sessionWrongCount > 0) return true;
+
   const { data: sessionRuns, error: sessionErr } = await supabase
     .from("irregular_verb_runs")
     .select("irregular_verb_id")
@@ -85,23 +89,26 @@ export async function POST(req: Request) {
 
     const fromSuggestion = isSuggestionTrainingMetadata(trainSession.metadata);
 
-    const { count: totalCount, error: totalErr } = await supabase
-      .from("irregular_verb_runs")
-      .select("id", { count: "exact", head: true })
-      .eq("student_id", userId)
-      .eq("session_id", body.session_id);
+    const [
+      { count: totalCount, error: totalErr },
+      { count: wrongCount, error: wrongErr },
+    ] = await Promise.all([
+      supabase
+        .from("irregular_verb_runs")
+        .select("id", { count: "exact", head: true })
+        .eq("student_id", userId)
+        .eq("session_id", body.session_id),
+      supabase
+        .from("irregular_verb_runs")
+        .select("id", { count: "exact", head: true })
+        .eq("student_id", userId)
+        .eq("session_id", body.session_id)
+        .eq("correct", false),
+    ]);
 
     if (totalErr) {
       return NextResponse.json({ error: totalErr.message }, { status: 500 });
     }
-
-    const { count: wrongCount, error: wrongErr } = await supabase
-      .from("irregular_verb_runs")
-      .select("id", { count: "exact", head: true })
-      .eq("student_id", userId)
-      .eq("session_id", body.session_id)
-      .eq("correct", false);
-
     if (wrongErr) {
       return NextResponse.json({ error: wrongErr.message }, { status: 500 });
     }
@@ -112,15 +119,13 @@ export async function POST(req: Request) {
 
     const wrongTotal = wrongCount ?? 0;
     const correctCount = Math.max(totalCount - wrongTotal, 0);
+    const completedAt = new Date().toISOString();
 
     if (lessonVerbsIsolated) {
       try {
         await supabase
           .from("training_sessions")
-          .update({
-            completed_at: new Date().toISOString(),
-            status: "completed",
-          })
+          .update({ completed_at: completedAt, status: "completed" })
           .eq("id", body.session_id)
           .eq("student_id", userId)
           .eq("exercise_type", "irregular")
@@ -129,7 +134,11 @@ export async function POST(req: Request) {
         console.error("[irregular-verbs/complete] training_sessions update failed:", trainingSessionErr);
       }
 
-      const summary = await getSessionSummary(userId, body.session_id, "irregular");
+      const summary = await getSessionSummary(userId, body.session_id, "irregular", {
+        total: totalCount,
+        wrong: wrongTotal,
+        finishedAt: completedAt,
+      });
 
       return NextResponse.json({
         ok: true,
@@ -152,7 +161,7 @@ export async function POST(req: Request) {
     const xpAmount = answersCount >= 5 ? 10 : answersCount;
     const perfect = isPerfectSession({ totalCount, wrongCount: wrongTotal, minAnswers: 1 });
     const eligibleForAward = true;
-    const hasToLearn = await sessionHasToLearn(supabase, userId, body.session_id);
+    const hasToLearn = await sessionHasToLearn(supabase, userId, body.session_id, wrongTotal);
 
     const award = await awardXpAndBadges({
       supabase,
@@ -174,43 +183,47 @@ export async function POST(req: Request) {
       },
     });
 
-    try {
-      await updateStreak(supabase, userId);
-    } catch (streakErr) {
-      console.error("[irregular-verbs/complete] streak update failed:", streakErr);
+    const [, completionResult] = await Promise.allSettled([
+      updateStreak(supabase, userId).catch((streakErr) => {
+        console.error("[irregular-verbs/complete] streak update failed:", streakErr);
+      }),
+      supabase.from("exercise_session_completions").upsert(
+        {
+          student_id: userId,
+          session_id: body.session_id,
+          exercise_type: "irregular",
+          context_id: null,
+          context_slug: null,
+        },
+        { onConflict: "student_id,exercise_type,session_id" }
+      ),
+      (async () => {
+        try {
+          await supabase
+            .from("training_sessions")
+            .update({ completed_at: completedAt, status: "completed" })
+            .eq("id", body.session_id)
+            .eq("student_id", userId)
+            .eq("exercise_type", "irregular")
+            .is("completed_at", null);
+        } catch (trainingSessionErr) {
+          console.error("[irregular-verbs/complete] training_sessions update failed:", trainingSessionErr);
+        }
+      })(),
+    ]);
+
+    if (completionResult.status === "fulfilled") {
+      const { error: completionErr } = completionResult.value as { error: any };
+      if (completionErr) {
+        return NextResponse.json({ error: completionErr.message }, { status: 500 });
+      }
     }
 
-    const { error: completionErr } = await supabase.from("exercise_session_completions").upsert(
-      {
-        student_id: userId,
-        session_id: body.session_id,
-        exercise_type: "irregular",
-        context_id: null,
-        context_slug: null,
-      },
-      { onConflict: "student_id,exercise_type,session_id" }
-    );
-
-    if (completionErr) {
-      return NextResponse.json({ error: completionErr.message }, { status: 500 });
-    }
-
-    try {
-      await supabase
-        .from("training_sessions")
-        .update({
-          completed_at: new Date().toISOString(),
-          status: "completed",
-        })
-        .eq("id", body.session_id)
-        .eq("student_id", userId)
-        .eq("exercise_type", "irregular")
-        .is("completed_at", null);
-    } catch (trainingSessionErr) {
-      console.error("[irregular-verbs/complete] training_sessions update failed:", trainingSessionErr);
-    }
-
-    const summary = await getSessionSummary(userId, body.session_id, "irregular");
+    const summary = await getSessionSummary(userId, body.session_id, "irregular", {
+      total: totalCount,
+      wrong: wrongTotal,
+      finishedAt: completedAt,
+    });
 
     return NextResponse.json({
       ok: true,

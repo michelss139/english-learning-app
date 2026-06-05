@@ -43,12 +43,10 @@ export function Logo({
 
       {/* Symbol [ L· ] */}
       <g>
-        {/* Bracket lewy — x offset = half stroke so cap isn't clipped */}
-        {(() => { const bx = s.bracketW * 0.25 + 1; return (<>
-        <path d={`M${bx} 2 L${bx} ${h - 2}`}          stroke={bracketColor} strokeWidth={s.bracketW * 0.5} strokeLinecap="round" fill="none"/>
-        <path d={`M${bx} 2 L${h * 0.2 + bx - 2} 2`}   stroke={bracketColor} strokeWidth={s.bracketW * 0.5} strokeLinecap="round" fill="none"/>
-        <path d={`M${bx} ${h - 2} L${h * 0.2 + bx - 2} ${h - 2}`} stroke={bracketColor} strokeWidth={s.bracketW * 0.5} strokeLinecap="round" fill="none"/>
-        </>); })()}
+        {/* Bracket lewy */}
+        <path d={`M2 2 L2 ${h - 2}`}       stroke={bracketColor} strokeWidth={s.bracketW * 0.5} strokeLinecap="round" fill="none"/>
+        <path d={`M2 2 L${h * 0.2} 2`}     stroke={bracketColor} strokeWidth={s.bracketW * 0.5} strokeLinecap="round" fill="none"/>
+        <path d={`M2 ${h - 2} L${h * 0.2} ${h - 2}`} stroke={bracketColor} strokeWidth={s.bracketW * 0.5} strokeLinecap="round" fill="none"/>
 
         {/* L + kropka */}
         <text
