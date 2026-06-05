@@ -1357,9 +1357,11 @@ export default function PackTrainingClient(props: {
                 <button
                   type="button"
                   onClick={checkAnswer}
-                  className="flex-1 rounded-xl border border-slate-200 bg-white px-5 py-3 text-base font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                  className="relative flex-1 inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-5 py-3 text-base font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg"
+                  style={{ color: "#fff" }}
                 >
-                  Sprawdź
+                  <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                  <span className="relative">Sprawdź</span>
                 </button>
               ) : checked ? (
                 <button

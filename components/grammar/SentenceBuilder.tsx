@@ -129,9 +129,11 @@ function ChallengePanel({
         <button
           type="button"
           onClick={checkChallengeAnswer}
-          className="rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+          className="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-4 py-2 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg"
+          style={{ color: "#fff" }}
         >
-          Sprawdź
+          <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+          <span className="relative">Sprawdź</span>
         </button>
         <button
           type="button"

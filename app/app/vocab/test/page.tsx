@@ -537,11 +537,17 @@ function VocabTestInner() {
               )}
 
               <button
-                className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition disabled:opacity-60"
+                className={`relative inline-flex items-center justify-center overflow-hidden rounded-xl px-4 py-2 font-bold shadow-md ring-1 ring-inset ring-white/20 transition disabled:opacity-60 ${
+                  checked
+                    ? "border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 shadow-none ring-0"
+                    : "bg-gradient-to-r from-sky-400 to-blue-700 shadow-blue-200/50 hover:brightness-105 hover:shadow-lg"
+                }`}
+                style={checked ? {} : { color: "#fff" }}
                 type="submit"
                 disabled={!current}
               >
-                {checked ? (currentIndex === total - 1 ? "Zakończ" : "Dalej") : "Sprawdź"}
+                {!checked && <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />}
+                <span className="relative">{checked ? (currentIndex === total - 1 ? "Zakończ" : "Dalej") : "Sprawdź"}</span>
               </button>
             </form>
           </div>
