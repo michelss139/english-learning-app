@@ -110,7 +110,7 @@ function VerbTile({
 
       {/* CEFR — prawy górny róg */}
       {verb.cefr_level && (
-        <span className={`absolute right-2.5 top-2.5 rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
+        <span className={`absolute right-2.5 top-2.5 rounded px-2 py-1 text-[13px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
           {verb.cefr_level}
         </span>
       )}
