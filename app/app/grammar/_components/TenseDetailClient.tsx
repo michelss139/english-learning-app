@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { GrammarTense } from "@/lib/grammar/types";
 import { TileWithSidebar, type SidebarItem } from "./TileWithSidebar";
+import TenseExamplesWidget from "@/components/grammar/TenseExamplesWidget";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -292,7 +293,7 @@ function MistakesSection({
   );
 }
 
-function ExamplesSection({ examples, dialog }: { examples: string; dialog: string }) {
+function ExamplesSection({ examples, dialog, tenseSlug }: { examples: string; dialog: string; tenseSlug?: string }) {
   const exList = parseItems(examples);
   return (
     <div className="space-y-5">
@@ -310,6 +311,8 @@ function ExamplesSection({ examples, dialog }: { examples: string; dialog: strin
           </Card>
         </div>
       )}
+
+      {tenseSlug && <TenseExamplesWidget tense={tenseSlug} limit={6} title="Przykłady z bazy zdań" />}
 
       {dialog?.trim() && (
         <div className="space-y-2">
@@ -436,7 +439,7 @@ export function TenseDetailClient({ tense }: { tense: GrammarTense }) {
           />
         );
       case "examples":
-        return <ExamplesSection examples={c.examples} dialog={c.dialog} />;
+        return <ExamplesSection examples={c.examples} dialog={c.dialog} tenseSlug={tense.slug} />;
       case "compare":
         return (
           <CompareSection comparisons={c.comparisons} relatedLinks={c.relatedLinks} />

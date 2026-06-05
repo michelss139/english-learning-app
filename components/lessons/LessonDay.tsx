@@ -67,8 +67,8 @@ export default function LessonDay({
 
   const topicTrimmed = previewTopic?.trim() ?? "";
   const topicMotion = selfSingle
-    ? "min-w-0 max-w-full break-words text-left text-xs font-semibold leading-[1.38] text-slate-800 line-clamp-2 transition-[color] duration-150 ease-out group-hover:text-slate-900"
-    : "min-w-0 max-w-full break-words text-left text-xs font-semibold leading-[1.38] text-slate-800 line-clamp-2 transition-[transform,color] duration-150 ease-out group-hover:translate-x-0.5 group-hover:text-slate-900";
+    ? "min-w-0 max-w-full break-words text-left text-sm font-semibold leading-[1.38] text-slate-800 line-clamp-2 transition-[color] duration-150 ease-out group-hover:text-slate-900"
+    : "min-w-0 max-w-full break-words text-left text-sm font-semibold leading-[1.38] text-slate-800 line-clamp-2 transition-[transform,color] duration-150 ease-out group-hover:translate-x-0.5 group-hover:text-slate-900";
 
   const countLabel = lessonCount > 0 ? formatLessonCountLabel(lessonCount) : "";
   const singleTypeLabel = lessonCount === 1 ? (previewKind === "self" ? "Twoja sesja" : "Lekcja") : null;

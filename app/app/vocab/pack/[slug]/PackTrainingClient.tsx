@@ -1151,7 +1151,7 @@ export default function PackTrainingClient(props: {
   // ══════════════════════════════════════════════════════════════════════════
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       <header className="mb-5">
         <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
           ← Fiszki
@@ -1167,15 +1167,15 @@ export default function PackTrainingClient(props: {
           {/* ── Progress header ── */}
           <div className="flex items-end justify-between">
             {/* Card counter */}
-            <span className="text-sm text-slate-500">
-              <span className="text-lg font-bold text-slate-800">{currentIndex + 1}</span>
+            <span className="text-base text-slate-500">
+              <span className="text-xl font-bold text-slate-800">{currentIndex + 1}</span>
               <span className="text-slate-400"> / {total}</span>
               {current.isRetry ? <span className="ml-2 text-xs font-medium text-amber-500">↩ powtórka</span> : null}
             </span>
             {/* % correct — big, color-coded */}
             <div className="text-right">
               <div
-                className={`text-2xl font-black leading-none tabular-nums ${
+                className={`text-3xl font-black leading-none tabular-nums ${
                   progress === 0
                     ? "text-slate-300"
                     : percentCorrect >= 70
@@ -1187,7 +1187,7 @@ export default function PackTrainingClient(props: {
               >
                 {progress === 0 ? "—" : `${percentCorrect}%`}
               </div>
-              <div className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+              <div className="text-xs font-semibold uppercase tracking-widest text-slate-400">
                 poprawnych
               </div>
             </div>
@@ -1235,15 +1235,15 @@ export default function PackTrainingClient(props: {
           <section className={cardBase}>
             {/* Prompt */}
             <div className="mb-6 text-center">
-              <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 {currentDirection === "en-pl" ? "Przetłumacz na polski" : "Przetłumacz na angielski"}
               </div>
               {current.cefr_level ? (
-                <span className={`mt-2 inline-block rounded-md px-2 py-0.5 text-xs font-bold tracking-wide ${cefrColor(current.cefr_level)}`}>
+                <span className={`mt-2 inline-block rounded-md px-2.5 py-1 text-sm font-bold tracking-wide ${cefrColor(current.cefr_level)}`}>
                   {current.cefr_level}
                 </span>
               ) : null}
-              <div className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
+              <div className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
                 {currentDirection === "en-pl" ? current.lemma ?? "—" : current.translation_pl ?? "—"}
               </div>
             </div>
@@ -1255,7 +1255,7 @@ export default function PackTrainingClient(props: {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={currentDirection === "en-pl" ? "Wpisz tłumaczenie…" : "Wpisz słowo po angielsku…"}
-                className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
+                className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-4 text-center text-base text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
                 onKeyDown={(e) => {
                   if (e.key !== "Enter") return;
                   e.preventDefault();
@@ -1272,7 +1272,7 @@ export default function PackTrainingClient(props: {
                     key={i}
                     type="button"
                     onClick={() => handleMcAnswer(choice)}
-                    className="rounded-xl border border-slate-200 bg-white px-3 py-3.5 text-sm text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 active:bg-slate-100"
+                    className="rounded-xl border border-slate-200 bg-white px-3 py-4 text-base text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 active:bg-slate-100"
                   >
                     {choice}
                   </button>
@@ -1285,14 +1285,14 @@ export default function PackTrainingClient(props: {
               <div className="mt-5 space-y-3">
                 {currentAnswer?.isCorrect ? (
                   <div className="rounded-xl bg-emerald-50 px-4 py-3 space-y-1.5 max-w-sm mx-auto">
-                    <p className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
-                      <CorrectIcon size={18} /> Poprawnie!
+                    <p className="flex items-center gap-1.5 text-base font-semibold text-emerald-700">
+                      <CorrectIcon size={20} /> Poprawnie!
                     </p>
                     {current.definition_en ? (
-                      <p className="text-xs text-slate-500 pl-6">{current.definition_en}</p>
+                      <p className="text-sm text-slate-500 pl-7">{current.definition_en}</p>
                     ) : null}
                     {current.example_en ? (
-                      <p className="text-xs italic text-slate-400 pl-6">&ldquo;{current.example_en}&rdquo;</p>
+                      <p className="text-sm italic text-slate-400 pl-7">&ldquo;{current.example_en}&rdquo;</p>
                     ) : null}
                   </div>
                 ) : (
@@ -1301,23 +1301,23 @@ export default function PackTrainingClient(props: {
                     <div className="flex items-start gap-3">
                       <WrongIcon size={28} />
                       <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-orange-500">Twoja odpowiedź</p>
-                        <p className="mt-0.5 text-base font-semibold text-red-600">{currentAnswer?.given || "—"}</p>
+                        <p className="text-xs font-bold uppercase tracking-widest text-orange-500">Twoja odpowiedź</p>
+                        <p className="mt-0.5 text-lg font-semibold text-red-600">{currentAnswer?.given || "—"}</p>
                       </div>
                     </div>
                     {/* Correct answer row */}
                     <div className="flex items-start gap-3">
-                      <CorrectIcon size={28} />
+                      <CorrectIcon size={32} />
                       <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Poprawnie</p>
-                        <p className="mt-0.5 text-base font-bold text-slate-900">{currentAnswer?.expected ?? "—"}</p>
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Poprawnie</p>
+                        <p className="mt-0.5 text-lg font-bold text-slate-900">{currentAnswer?.expected ?? "—"}</p>
                       </div>
                     </div>
                     {current.definition_en ? (
-                      <p className="pt-0.5 border-t border-orange-100 text-xs text-slate-500">{current.definition_en}</p>
+                      <p className="pt-0.5 border-t border-orange-100 text-sm text-slate-500">{current.definition_en}</p>
                     ) : null}
                     {current.example_en ? (
-                      <p className="text-xs italic text-slate-400">&ldquo;{current.example_en}&rdquo;</p>
+                      <p className="text-sm italic text-slate-400">&ldquo;{current.example_en}&rdquo;</p>
                     ) : null}
                   </div>
                 )}
@@ -1348,7 +1348,7 @@ export default function PackTrainingClient(props: {
                 type="button"
                 onClick={goPrev}
                 disabled={currentIndex === 0}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-40"
+                className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-base font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-40"
               >
                 ←
               </button>
@@ -1357,7 +1357,7 @@ export default function PackTrainingClient(props: {
                 <button
                   type="button"
                   onClick={checkAnswer}
-                  className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                  className="flex-1 rounded-xl border border-slate-200 bg-white px-5 py-3 text-base font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
                 >
                   Sprawdź
                 </button>
@@ -1365,7 +1365,7 @@ export default function PackTrainingClient(props: {
                 <button
                   type="button"
                   onClick={goNext}
-                  className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                  className="flex-1 rounded-xl border border-slate-200 bg-white px-5 py-3 text-base font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
                 >
                   {currentIndex === sessionItems.length - 1 ? "Zakończ" : "Dalej"}
                 </button>
@@ -1375,7 +1375,7 @@ export default function PackTrainingClient(props: {
                 type="button"
                 onClick={goNext}
                 disabled={!checked}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-40"
+                className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-base font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-40"
               >
                 →
               </button>

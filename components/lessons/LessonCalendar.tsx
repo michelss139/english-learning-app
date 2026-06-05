@@ -164,7 +164,7 @@ export default function LessonCalendar() {
 
   return (
     <section
-      className="flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-200/80 bg-white p-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+      className="m-[3px] flex min-h-0 flex-1 flex-col rounded-xl bg-white p-3"
       aria-busy={loading}
     >
       <div className="mb-2 flex shrink-0 items-center justify-between gap-2">

@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   generateChallenge,
   validateChallengeAnswer,
 } from "@/lib/grammar/sentence-builder/challengeEngine";
+import {
+  fetchChallengeExamples,
+  pickRandomExample,
+  type DbSentenceExample,
+} from "@/lib/grammar/sentence-builder/dbExamples";
 import {
   pickValidVerbPlace,
   pickValidVerbPlaceWithDifferentVerb,
@@ -479,6 +484,35 @@ export default function SentenceBuilder({
     };
   }, [inferredTime, modal, place, subject, tense, type, verb]);
 
+  // ── DB-backed challenge ───────────────────────────────────────────────────
+  const [dbExamples, setDbExamples] = useState<DbSentenceExample[]>([]);
+  const [dbChallenge, setDbChallenge] = useState<DbSentenceExample | null>(null);
+  const [dbLoading, setDbLoading] = useState(false);
+
+  const loadDbExamples = useCallback(async () => {
+    setDbLoading(true);
+    const examples = await fetchChallengeExamples({
+      tense: type === "tense" ? tense : null,
+      modal: type === "modal" ? modal : null,
+    });
+    setDbExamples(examples);
+    setDbChallenge(pickRandomExample(examples));
+    setDbLoading(false);
+  }, [type, tense, modal]);
+
+  // Load when entering challenge mode or when tense/modal changes
+  useEffect(() => {
+    if (mode === "challenge") {
+      void loadDbExamples();
+    }
+  }, [mode, loadDbExamples]);
+
+  const handleNewDbChallenge = useCallback(() => {
+    setDbChallenge((prev) => pickRandomExample(dbExamples, prev?.id ?? undefined));
+    setChallengeStep((c) => c + 1);
+  }, [dbExamples]);
+
+  // Fallback to generated challenge if DB is empty
   const challenge = useMemo(
     () =>
       generateChallenge({
@@ -488,6 +522,10 @@ export default function SentenceBuilder({
       }),
     [challengePreset, challengeStep, verbs]
   );
+
+  const activeChallenge = dbChallenge
+    ? { prompt: dbChallenge.sentence_pl, expectedSentence: dbChallenge.sentence_en }
+    : { prompt: challenge.prompt, expectedSentence: challenge.expectedSentence };
 
   return (
     <section className="space-y-5">
@@ -712,13 +750,19 @@ export default function SentenceBuilder({
       )}
 
       {mode === "challenge" && (
-        <ChallengePanel
-          key={`${challengeStep}:${challenge.expectedSentence}`}
-          challengeKey={`${challengeStep}:${challenge.expectedSentence}`}
-          prompt={challenge.prompt}
-          expectedSentence={challenge.expectedSentence}
-          onGenerateNewChallenge={() => setChallengeStep((current) => current + 1)}
-        />
+        dbLoading ? (
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-400">
+            Ładowanie challengu…
+          </div>
+        ) : (
+          <ChallengePanel
+            key={`${challengeStep}:${activeChallenge.expectedSentence}`}
+            challengeKey={`${challengeStep}:${activeChallenge.expectedSentence}`}
+            prompt={activeChallenge.prompt}
+            expectedSentence={activeChallenge.expectedSentence}
+            onGenerateNewChallenge={dbExamples.length > 0 ? handleNewDbChallenge : () => setChallengeStep((c) => c + 1)}
+          />
+        )
       )}
 
       {mode === "analyze" && (
