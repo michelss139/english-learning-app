@@ -18,6 +18,8 @@ export type Verb = {
   past_simple_variants: string[];
   past_participle: string;
   past_participle_variants: string[];
+  cefr_level?: string | null;
+  translation_pl?: string | null;
 };
 
 type TargetForm = "past_simple" | "past_participle";
@@ -74,6 +76,18 @@ type SessionSummary = {
 
 export type TrainMode = "both" | "past_simple" | "past_participle";
 type StartMode = "manual" | "targeted";
+
+function cefrColor(level?: string | null): string {
+  switch (level) {
+    case "A1": return "bg-emerald-100 text-emerald-700";
+    case "A2": return "bg-teal-100 text-teal-700";
+    case "B1": return "bg-sky-100 text-sky-700";
+    case "B2": return "bg-indigo-100 text-indigo-700";
+    case "C1": return "bg-violet-100 text-violet-700";
+    case "C2": return "bg-purple-100 text-purple-700";
+    default:   return "bg-slate-100 text-slate-500";
+  }
+}
 
 const cardBase =
   "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
@@ -577,7 +591,7 @@ export default function IrregularVerbsTrainClient(props: {
 
   if (startLoading) {
     return (
-      <div className="mx-auto max-w-xl">
+      <div className="mx-auto max-w-2xl">
         <header className="mb-5">{backLink}</header>
         <div className={`${cardBase} animate-pulse`}>
           <div className="h-4 w-32 rounded bg-slate-100" />
@@ -593,7 +607,7 @@ export default function IrregularVerbsTrainClient(props: {
 
   if (sessionComplete) {
     return (
-      <div className="mx-auto max-w-xl">
+      <div className="mx-auto max-w-2xl">
         <header className="mb-5">
           {backLink}
           <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Sesja zakończona</h1>
@@ -738,7 +752,7 @@ export default function IrregularVerbsTrainClient(props: {
 
   if (!currentVerb) {
     return (
-      <div className="mx-auto max-w-xl">
+      <div className="mx-auto max-w-2xl">
         <header className="mb-5">{backLink}</header>
         {errorBlock}
         <div className={cardBase}>
@@ -753,7 +767,7 @@ export default function IrregularVerbsTrainClient(props: {
   const effectivelyCorrect = result ? getEffectiveCorrect(result) : null;
 
   return (
-    <div className="mx-auto max-w-xl">
+    <div className="mx-auto max-w-2xl">
       <header className="mb-5">
         {backLink}
         <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
@@ -822,9 +836,17 @@ export default function IrregularVerbsTrainClient(props: {
                   ? "Podaj Past Simple"
                   : "Podaj Past Participle"}
             </div>
+            {currentVerb.cefr_level ? (
+              <span className={`mt-2 inline-block rounded-md px-2.5 py-1 text-sm font-bold tracking-wide ${cefrColor(currentVerb.cefr_level)}`}>
+                {currentVerb.cefr_level}
+              </span>
+            ) : null}
             <div className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
               {currentVerb.base}
             </div>
+            {currentVerb.translation_pl ? (
+              <div className="mt-1 text-sm text-slate-400">{currentVerb.translation_pl}</div>
+            ) : null}
           </div>
 
           {/* Input fields */}

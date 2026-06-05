@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { fetchVerbMeta } from "@/lib/lexicon/verbMeta";
 
 /**
  * POST /api/irregular-verbs/next
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
     // Get verb details
     const { data: verb, error: verbError } = await supabase
       .from("irregular_verbs")
-      .select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants")
+      .select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id")
       .eq("id", selectedVerbId)
       .single();
 
@@ -81,6 +82,8 @@ export async function POST(req: Request) {
       );
     }
 
+    const meta = await fetchVerbMeta((verb as { entry_id?: string | null }).entry_id, supabase);
+
     return NextResponse.json({
       id: verb.id,
       base: verb.base,
@@ -88,6 +91,8 @@ export async function POST(req: Request) {
       past_simple_variants: verb.past_simple_variants || [],
       past_participle: verb.past_participle,
       past_participle_variants: verb.past_participle_variants || [],
+      cefr_level: meta.cefr_level,
+      translation_pl: meta.translation_pl,
     });
   } catch (e: any) {
     console.error("[irregular-verbs/next] Error:", e);

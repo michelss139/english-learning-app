@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { batchFetchVerbMeta } from "@/lib/lexicon/verbMeta";
 import { TRAINING_CONTEXT_SUGGESTION } from "@/lib/suggestions/suggestionContext";
 
 type TrainMode = "both" | "past_simple" | "past_participle";
@@ -13,6 +14,8 @@ type FirstVerbDto = {
   past_simple_variants: string[];
   past_participle: string;
   past_participle_variants: string[];
+  cefr_level?: string | null;
+  translation_pl?: string | null;
 };
 
 type TargetItem = {
@@ -70,6 +73,8 @@ function toVerbDto(verb: {
   past_simple_variants: string[] | null;
   past_participle: string;
   past_participle_variants: string[] | null;
+  cefr_level?: string | null;
+  translation_pl?: string | null;
 }): FirstVerbDto {
   return {
     id: verb.id,
@@ -78,6 +83,8 @@ function toVerbDto(verb: {
     past_simple_variants: verb.past_simple_variants ?? [],
     past_participle: verb.past_participle,
     past_participle_variants: verb.past_participle_variants ?? [],
+    cefr_level: verb.cefr_level ?? null,
+    translation_pl: verb.translation_pl ?? null,
   };
 }
 
@@ -131,7 +138,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
 
       const { data: verbs, error: verbsError } = await supabase
         .from("irregular_verbs")
-        .select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants")
+        .select("id, base, base_norm, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id")
         .in("base_norm", tokens);
 
       if (verbsError) {
@@ -151,10 +158,11 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         );
       }
 
-      const sessionItems: SessionItemDto[] = ordered.map((verb) => ({
-        verb: toVerbDto(verb),
-        form: "both",
-      }));
+      const metaMap = await batchFetchVerbMeta(ordered.map((v) => (v as { entry_id?: string | null }).entry_id), supabase);
+      const sessionItems: SessionItemDto[] = ordered.map((verb) => {
+        const meta = metaMap.get((verb as { entry_id?: string | null }).entry_id ?? "") ?? {};
+        return { verb: toVerbDto({ ...verb, ...meta }), form: "both" };
+      });
 
       const sessionId = createSessionId();
       const { error: sessionInsertErr } = await supabase.from("training_sessions").insert({
@@ -226,7 +234,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
       const targetVerbIds = Array.from(new Set(targets.map((target) => target.verbId)));
       const { data: verbs, error: verbsError } = await supabase
         .from("irregular_verbs")
-        .select("id, base, past_simple, past_simple_variants, past_participle, past_participle_variants")
+        .select("id, base, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id")
         .in("id", targetVerbIds);
 
       if (verbsError) {
@@ -237,7 +245,11 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
         );
       }
 
-      const verbMap = new Map((verbs ?? []).map((verb) => [verb.id, toVerbDto(verb)]));
+      const metaMapT = await batchFetchVerbMeta((verbs ?? []).map((v) => (v as { entry_id?: string | null }).entry_id), supabase);
+      const verbMap = new Map((verbs ?? []).map((verb) => {
+        const meta = metaMapT.get((verb as { entry_id?: string | null }).entry_id ?? "") ?? {};
+        return [verb.id, toVerbDto({ ...verb, ...meta })];
+      }));
       const missingTarget = targets.find((target) => !verbMap.has(target.verbId));
       if (missingTarget) {
         return NextResponse.json(
@@ -311,7 +323,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
 
     const { data: verbs, error: verbsError } = await supabase
       .from("irregular_verbs")
-      .select("id, base, past_simple, past_simple_variants, past_participle, past_participle_variants")
+      .select("id, base, past_simple, past_simple_variants, past_participle, past_participle_variants, entry_id")
       .in("id", pinnedIds);
 
     if (verbsError || !verbs?.length) {
@@ -323,7 +335,9 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
     }
 
     const randomIndex = Math.floor(Math.random() * verbs.length);
-    const selectedVerb = verbs[randomIndex];
+    const selectedVerb = verbs[randomIndex]!;
+    const metaMapM = await batchFetchVerbMeta([((selectedVerb) as { entry_id?: string | null }).entry_id], supabase);
+    const selectedMeta = metaMapM.get(((selectedVerb) as { entry_id?: string | null }).entry_id ?? "") ?? {};
 
     const sessionId = createSessionId();
 
@@ -352,7 +366,7 @@ export async function POST(req: Request): Promise<NextResponse<StartResponse | E
       );
     }
 
-    const firstVerb: FirstVerbDto = toVerbDto(selectedVerb);
+    const firstVerb: FirstVerbDto = toVerbDto({ ...selectedVerb, ...selectedMeta });
 
     return NextResponse.json({
       sessionId,
