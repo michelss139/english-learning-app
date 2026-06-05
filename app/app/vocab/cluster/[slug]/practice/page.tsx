@@ -67,6 +67,7 @@ export default async function VocabClusterPracticePage({ params, searchParams }:
       trainingEntryContext={trainingEntryContext}
       initialCluster={result.data.cluster}
       initialPatterns={result.data.patterns}
+      initialExamples={result.data.examples}
       initialQuestions={result.data.tasks}
       view="practice"
     />

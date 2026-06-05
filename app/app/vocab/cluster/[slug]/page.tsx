@@ -81,6 +81,7 @@ export default async function VocabClusterPage({ params, searchParams }: PagePro
       trainingEntryContext={trainingEntryContext}
       initialCluster={result.data.cluster}
       initialPatterns={result.data.patterns}
+      initialExamples={result.data.examples}
       initialQuestions={result.data.tasks}
       view="overview"
     />

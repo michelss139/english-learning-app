@@ -20,6 +20,8 @@ import {
   getVocabClusterTheoryHighlightRegex,
 } from "@/lib/vocab/clusterTheoryHighlight";
 import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
+import { TileWithSidebar } from "@/app/app/grammar/_components/TileWithSidebar";
+import type { ClusterExample } from "@/lib/vocab/clusterLoader";
 
 const cardBase =
   "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
@@ -78,6 +80,7 @@ export default function ClusterClient({
   trainingEntryContext,
   initialCluster,
   initialPatterns,
+  initialExamples = [],
   initialQuestions,
   view = "overview",
 }: {
@@ -87,6 +90,7 @@ export default function ClusterClient({
   trainingEntryContext?: TrainingEntryContext;
   initialCluster: ClusterMeta;
   initialPatterns: ClusterPattern[];
+  initialExamples?: ClusterExample[];
   initialQuestions: ClusterTask[];
   view?: "overview" | "practice";
 }) {
@@ -499,47 +503,179 @@ export default function ClusterClient({
 
   const pct = summaryTotal > 0 ? Math.round(summaryAccuracy * 100) : 0;
 
-  return (
-    <main className="space-y-6">
-      {!isPracticeView ? (
-        <header className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-stretch lg:justify-between">
-            <div className="min-w-0 flex-1 space-y-4">
-              <div className="space-y-1">
-                <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
-                  Typowe błędy: {initialCluster.title || slug.replace(/-/g, " / ")}
-                </h1>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  {masteryStatusText ? (
-                    <span className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-900">
-                      {masteryStatusText}
-                    </span>
-                  ) : null}
-                  <span className="text-sm text-slate-600">
-                    {mastery.stable_days}/{mastery.practiced_days} stabilnych dni
-                  </span>
-                </div>
-                <div className="mt-2 text-sm text-slate-600">
-                  Łączna skuteczność:{" "}
-                  <span className="font-medium text-slate-900">
-                    {mastery.rolling_accuracy != null ? Math.round(mastery.rolling_accuracy * 100) : 0}%
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex shrink-0 flex-col justify-start gap-2 sm:flex-row sm:items-start lg:flex-col lg:items-end">
-              <a className="tile-frame tile-frame-practice-cta" href={withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)}>
-                <span className={mainActionTileClass}>Ćwicz</span>
-              </a>
-              <a className="tile-frame" href="/app/vocab">
-                <span className={backToVocabTileClass}>← Trening słówek</span>
-              </a>
-            </div>
+  // ── Overview sidebar sections ──────────────────────────────────────────────
+  type OverviewSection = "roznica" | "wzorce" | "przyklady" | "popraw";
+
+  const overviewItems: Array<{ id: OverviewSection; title: string }> = [
+    { id: "roznica",   title: "Różnica" },
+    ...(patterns.length > 0             ? [{ id: "wzorce"   as const, title: "Wzorce" }]   : []),
+    ...(initialExamples.length > 0      ? [{ id: "przyklady" as const, title: "Przykłady" }] : []),
+    { id: "popraw",    title: "Popraw błąd" },
+  ];
+
+  const correctionExamples = initialQuestions.filter((q) => q.task_type === "correction").slice(0, 4);
+
+  function renderOverviewSection(id: OverviewSection): React.ReactNode {
+    if (id === "roznica") {
+      return (
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
+              {initialCluster.title || slug.replace(/-/g, " / ")}
+            </h2>
+            {initialCluster.learning_goal && (
+              <p className="mt-1 text-sm text-slate-500">{initialCluster.learning_goal}</p>
+            )}
           </div>
-        </header>
+          {initialCluster.theory_summary && (
+            <div className="rounded-xl border border-sky-200 bg-sky-50/60 p-4 text-sm font-medium text-slate-800">
+              {initialCluster.theory_summary}
+            </div>
+          )}
+          {initialCluster.theory_md && (
+            <div className="space-y-2">
+              {renderClusterTheoryMarkdown(initialCluster.theory_md)}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (id === "wzorce") {
+      return (
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Wzorce użycia</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {patterns.map((p) => (
+              <div key={p.id} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-1.5">
+                <div className="text-sm font-semibold text-slate-900">{p.title}</div>
+                <div className="font-mono text-sm text-[#178CF2]">{p.pattern_en}</div>
+                {p.pattern_pl && <div className="text-xs text-slate-500">{p.pattern_pl}</div>}
+                {p.usage_note && <div className="text-xs text-slate-600">{p.usage_note}</div>}
+                {p.contrast_note && (
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs text-amber-800">
+                    {p.contrast_note}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (id === "przyklady") {
+      // Group by focus_term
+      const grouped = new Map<string, ClusterExample[]>();
+      for (const ex of initialExamples) {
+        const key = ex.focus_term ?? "inne";
+        const arr = grouped.get(key) ?? [];
+        arr.push(ex);
+        grouped.set(key, arr);
+      }
+      return (
+        <div className="space-y-5">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Przykłady zdań</h2>
+          {[...grouped.entries()].map(([term, exs]) => (
+            <div key={term} className="space-y-2">
+              <div className="text-xs font-bold uppercase tracking-[0.08em] text-slate-400">{term}</div>
+              <div className="space-y-2">
+                {exs.slice(0, 6).map((ex) => (
+                  <div key={ex.id} className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
+                    <p className="text-sm font-medium text-slate-900">{ex.example_en}</p>
+                    {ex.example_pl && <p className="mt-0.5 text-xs text-slate-400">{ex.example_pl}</p>}
+                    {ex.note && <p className="mt-1 text-xs italic text-slate-400">{ex.note}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (id === "popraw") {
+      return (
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Popraw błąd</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Typowe błędy, które popełniają Polacy. Znajdź i popraw.
+            </p>
+          </div>
+          {correctionExamples.length === 0 ? (
+            <p className="text-sm text-slate-400">Brak przykładów korekcji w tym klastrze.</p>
+          ) : (
+            <div className="space-y-3">
+              {correctionExamples.map((q) => (
+                <div key={q.id} className="rounded-xl border border-rose-200/70 bg-rose-50/60 p-4 space-y-2">
+                  <div className="flex items-start gap-2">
+                    <WrongIcon size={16} />
+                    <p className="text-sm font-medium text-rose-800">{q.source_text}</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CorrectIcon size={16} />
+                    <p className="text-sm font-medium text-emerald-800">{q.expected_answer}</p>
+                  </div>
+                  {q.explanation && (
+                    <p className="text-xs text-slate-500 pl-6">{q.explanation}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="pt-2">
+            <a
+              href={withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)}
+              className="inline-flex items-center rounded-xl border border-slate-900 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50"
+            >
+              Ćwicz wszystkie typy →
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  const masteryAccessory = (
+    <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+      {masteryStatusText && (
+        <span className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-sm font-medium text-slate-700 shadow-sm">
+          {masteryStatusText}
+        </span>
+      )}
+      <span>{mastery.rolling_accuracy != null ? Math.round(mastery.rolling_accuracy * 100) : 0}% skuteczności</span>
+    </div>
+  );
+
+  return (
+    <>
+      {!isPracticeView ? (
+        <TileWithSidebar<OverviewSection>
+          title={`${initialCluster.title || slug.replace(/-/g, " / ")}`}
+          description={`Klaster słownictwa — naucz się rozróżniać podobne czasowniki`}
+          backHref="/app/vocab"
+          backLabel="← Trening słówek"
+          items={overviewItems}
+          renderContent={(item) => renderOverviewSection(item.id)}
+          defaultItemId="roznica"
+          asideLabel="Sekcje"
+          headerAccessory={
+            <div className="flex flex-wrap items-center gap-3">
+              {masteryAccessory}
+              <a
+                href={withSuggestionCtx(`/app/vocab/cluster/${slug}/practice`)}
+                className="inline-flex items-center rounded-xl border border-slate-900 bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50"
+              >
+                Ćwicz →
+              </a>
+            </div>
+          }
+        />
       ) : (
+        <main className="space-y-6">
         <header className="mb-5">
           <a
             href={withSuggestionCtx(`/app/vocab/cluster/${slug}`)}
@@ -551,44 +687,6 @@ export default function ClusterClient({
             Ćwicz: {initialCluster.title || slug.replace(/-/g, " / ")}
           </h1>
         </header>
-      )}
-
-      {showTheorySection ? (
-        <section className={`${cardBase} space-y-3`}>
-          <div>
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Teoria</h2>
-            <p className="text-sm text-slate-600">Krótka ściąga przed ćwiczeniem.</p>
-          </div>
-          {initialCluster.theory_summary ? (
-            <div className="space-y-2 text-sm leading-relaxed text-slate-700">
-              {renderClusterTheoryMarkdown(initialCluster.theory_summary)}
-            </div>
-          ) : null}
-          {initialCluster.theory_md ? (
-            <div className="space-y-2">{renderClusterTheoryMarkdown(initialCluster.theory_md)}</div>
-          ) : null}
-        </section>
-      ) : null}
-
-      {!isPracticeView && patterns.length ? (
-        <section className={`${cardBase} space-y-4`}>
-          <div>
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Core patterns</h2>
-            <p className="text-sm text-slate-600">Najważniejsze wzorce użycia w tym clusterze.</p>
-          </div>
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-            {patterns.map((pattern) => (
-              <article key={pattern.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-                <h3 className="font-medium text-slate-900">{pattern.title}</h3>
-                <div className="text-sm font-medium text-slate-800">{pattern.pattern_en}</div>
-                {pattern.pattern_pl ? <div className="text-sm text-slate-600">{pattern.pattern_pl}</div> : null}
-                {pattern.usage_note ? <div className="text-sm text-slate-600">{pattern.usage_note}</div> : null}
-                {pattern.contrast_note ? <div className="text-sm text-slate-500">{pattern.contrast_note}</div> : null}
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       {isPracticeView && startLoading && !error ? (
         <div className={`${cardBase} animate-pulse`}>
@@ -687,9 +785,16 @@ export default function ClusterClient({
           </div>
 
           {current.source_text ? (
-            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800">
-              {current.source_text}
-            </div>
+            current.task_type === "correction" ? (
+              <div className="rounded-xl border border-rose-200 bg-rose-50/70 px-4 py-3 space-y-1">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-rose-400">Błędne zdanie</div>
+                <p className="text-sm font-medium text-rose-900">{current.source_text}</p>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800">
+                {current.source_text}
+              </div>
+            )
           ) : null}
 
           {isChoiceTask ? (
@@ -939,6 +1044,8 @@ export default function ClusterClient({
           </div>
         </section>
       ) : null}
-    </main>
+        </main>
+      )}
+    </>
   );
 }

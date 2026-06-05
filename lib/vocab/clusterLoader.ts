@@ -14,6 +14,15 @@ export type ClusterPattern = {
   sort_order: number;
 };
 
+export type ClusterExample = {
+  id: string;
+  example_en: string;
+  example_pl: string | null;
+  focus_term: string | null;
+  note: string | null;
+  sort_order: number;
+};
+
 export type ClusterMastery = {
   practiced_days: number;
   stable_days: number;
@@ -120,6 +129,7 @@ export type ClusterPageData = {
     mastery: ClusterMastery;
   };
   patterns: ClusterPattern[];
+  examples: ClusterExample[];
   tasks: ClusterTask[];
 };
 
@@ -141,9 +151,9 @@ type CountRow = {
 const VISIBLE_VOCAB_CLUSTER_SLUGS = new Set(["make-do", "bring-take", "hear-listen", "say-tell"]);
 const CLUSTER_SESSION_SIZE = 10;
 const CLUSTER_TARGET_COUNTS: Record<ClusterTaskType, number> = {
-  choice: 6,
-  correction: 0,
-  translation: 4,
+  choice: 5,
+  correction: 2,
+  translation: 3,
 };
 
 const EMPTY_MASTERY: ClusterMastery = {
@@ -790,12 +800,18 @@ export async function loadClusterPageData(params: {
   const cluster = clusterRaw as ClusterBaseRow;
   const unlockState = ensureClusterUnlocked(supabase, studentId, cluster);
 
-  const [patternsRes, tasksRes, masteryMap] = await Promise.all([
+  const [patternsRes, examplesRes, tasksRes, masteryMap] = await Promise.all([
     supabase
       .from("vocab_cluster_patterns")
       .select("id, title, pattern_en, pattern_pl, usage_note, contrast_note, sort_order")
       .eq("cluster_id", cluster.id)
       .order("sort_order", { ascending: true }),
+    supabase
+      .from("vocab_cluster_examples")
+      .select("id, example_en, example_pl, focus_term, note, sort_order")
+      .eq("cluster_id", cluster.id)
+      .order("sort_order", { ascending: true })
+      .limit(24),
     supabase
       .from("vocab_cluster_questions")
       .select(
@@ -803,13 +819,14 @@ export async function loadClusterPageData(params: {
       )
       .eq("cluster_id", cluster.id)
       .eq("is_active", true)
-      .in("task_type", ["choice", "translation"])
+      .in("task_type", ["choice", "translation", "correction"])
       .order("sort_order", { ascending: true })
       .order("last_used_at", { ascending: true, nullsFirst: true }),
     loadMasteryMap(supabase, studentId, [slug]),
   ]);
 
   if (patternsRes.error) throw new Error(patternsRes.error.message);
+  if (examplesRes.error) throw new Error(examplesRes.error.message);
   if (tasksRes.error) throw new Error(tasksRes.error.message);
 
   const sessionRows = composeClusterSession((tasksRes.data ?? []) as ClusterTaskRow[]);
@@ -845,6 +862,7 @@ export async function loadClusterPageData(params: {
         mastery: masteryMap.get(slug) ?? EMPTY_MASTERY,
       },
       patterns: (patternsRes.data ?? []) as ClusterPattern[],
+      examples: (examplesRes.data ?? []) as ClusterExample[],
       tasks,
     },
   };
