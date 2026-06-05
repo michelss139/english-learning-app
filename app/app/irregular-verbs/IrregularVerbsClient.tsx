@@ -14,9 +14,21 @@ export type IrregularVerbDto = {
   past_participle: string;
   past_participle_variants: string[];
   pinned: boolean;
-  /** Polish translation (resolved from lexicon or fallback). May be null. */
   translation_pl?: string | null;
+  cefr_level?: string | null;
 };
+
+function cefrColor(level?: string | null): string {
+  switch (level) {
+    case "A1": return "bg-emerald-100 text-emerald-700";
+    case "A2": return "bg-teal-100 text-teal-700";
+    case "B1": return "bg-sky-100 text-sky-700";
+    case "B2": return "bg-indigo-100 text-indigo-700";
+    case "C1": return "bg-violet-100 text-violet-700";
+    case "C2": return "bg-purple-100 text-purple-700";
+    default:   return "bg-slate-100 text-slate-500";
+  }
+}
 
 const TRAIN_MODES: { id: TrainMode; label: string; short: string }[] = [
   { id: "both", label: "Past Simple + Past Participle", short: "PS + PP" },
@@ -76,56 +88,51 @@ function VerbTile({
       type="button"
       onClick={() => onTogglePin(verb.id)}
       disabled={isToggling}
-      data-pinned={pinned ? "true" : "false"}
       aria-pressed={pinned}
       aria-label={`${verb.base} (${verb.past_simple}, ${verb.past_participle})${pinned ? " — przypięty" : ""}`}
-      className="verb-tile group flex aspect-[5/4] w-full flex-col p-4 text-left disabled:opacity-60"
+      className={`group relative flex w-full flex-col rounded-2xl border p-4 text-left transition-all duration-150 disabled:opacity-60 ${
+        pinned
+          ? "border-emerald-300/70 bg-emerald-50/60 shadow-sm shadow-emerald-100"
+          : "border-slate-200/70 bg-white/90 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:border-slate-300 hover:shadow-md"
+      }`}
     >
+      {/* Pin indicator */}
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute right-2.5 top-2.5 z-[2] inline-flex h-6 w-6 items-center justify-center rounded-full border text-[11px] transition-colors ${
+        className={`absolute right-2.5 top-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[10px] transition-colors ${
           pinned
             ? "border-emerald-500/60 bg-emerald-500 text-white"
-            : "border-slate-300 bg-white/80 text-slate-400 group-hover:border-slate-500 group-hover:text-slate-700"
+            : "border-slate-200 bg-white/80 text-slate-300 group-hover:border-slate-400 group-hover:text-slate-500"
         }`}
       >
         <PinIcon pinned={pinned} />
       </span>
 
-      <div className="verb-rest">
-        <span className="text-lg font-semibold tracking-tight text-slate-900 sm:text-xl">
+      {/* CEFR + base form */}
+      <div className="mb-3">
+        {verb.cefr_level && (
+          <span className={`mb-1.5 inline-block rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
+            {verb.cefr_level}
+          </span>
+        )}
+        <div className="text-xl font-bold tracking-tight text-slate-900">
           {verb.base}
-        </span>
+        </div>
+        {verb.translation_pl && (
+          <div className="mt-0.5 truncate text-xs text-slate-400">{verb.translation_pl}</div>
+        )}
       </div>
 
-      <div className="verb-detail">
-        <div className="verb-reveal verb-reveal-1 flex items-baseline gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-            Past
-          </span>
-          <span className="text-sm font-medium text-slate-700">{verb.past_simple}</span>
-          {verb.past_simple_variants.length > 0 && (
-            <span className="text-[11px] text-slate-400">
-              / {verb.past_simple_variants.join(", ")}
-            </span>
-          )}
+      {/* Forms */}
+      <div className="mt-auto space-y-1">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 shrink-0">Past</span>
+          <span className="truncate text-sm font-medium text-slate-700">{verb.past_simple}</span>
         </div>
-        <div className="verb-reveal verb-reveal-2 flex items-baseline gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-            PP
-          </span>
-          <span className="text-sm font-medium text-slate-700">{verb.past_participle}</span>
-          {verb.past_participle_variants.length > 0 && (
-            <span className="text-[11px] text-slate-400">
-              / {verb.past_participle_variants.join(", ")}
-            </span>
-          )}
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 shrink-0">PP</span>
+          <span className="truncate text-sm font-medium text-slate-700">{verb.past_participle}</span>
         </div>
-        {verb.translation_pl ? (
-          <div className="verb-reveal verb-reveal-3 max-w-full truncate px-2 text-xs italic leading-snug text-slate-500">
-            {verb.translation_pl}
-          </div>
-        ) : null}
       </div>
     </button>
   );
@@ -396,7 +403,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
           {search ? "Nie znaleziono czasowników." : "Brak czasowników."}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {filtered.map((verb) => (
             <VerbTile
               key={verb.id}
