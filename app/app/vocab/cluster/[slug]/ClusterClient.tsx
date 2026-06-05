@@ -676,6 +676,7 @@ export default function ClusterClient({
         />
       ) : (
         <main className="space-y-6">
+        <div className="max-w-2xl mx-auto">
         <header className="mb-5">
           <a
             href={withSuggestionCtx(`/app/vocab/cluster/${slug}`)}
@@ -1044,6 +1045,7 @@ export default function ClusterClient({
           </div>
         </section>
       ) : null}
+        </div>
         </main>
       )}
     </>
