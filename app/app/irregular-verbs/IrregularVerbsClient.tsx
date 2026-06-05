@@ -96,10 +96,10 @@ function VerbTile({
           : "border-slate-200/70 bg-white/90 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:border-slate-300 hover:shadow-md"
       }`}
     >
-      {/* Pin indicator */}
+      {/* Pin indicator — lewy górny róg */}
       <span
         aria-hidden="true"
-        className={`absolute right-2.5 top-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[10px] transition-colors ${
+        className={`absolute left-2.5 top-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[10px] transition-colors ${
           pinned
             ? "border-emerald-500/60 bg-emerald-500 text-white"
             : "border-slate-200 bg-white/80 text-slate-300 group-hover:border-slate-400 group-hover:text-slate-500"
@@ -108,13 +108,15 @@ function VerbTile({
         <PinIcon pinned={pinned} />
       </span>
 
-      {/* CEFR + base form */}
-      <div className="mb-3">
-        {verb.cefr_level && (
-          <span className={`mb-1.5 inline-block rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
-            {verb.cefr_level}
-          </span>
-        )}
+      {/* CEFR — prawy górny róg */}
+      {verb.cefr_level && (
+        <span className={`absolute right-2.5 top-2.5 rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
+          {verb.cefr_level}
+        </span>
+      )}
+
+      {/* Base form + translation */}
+      <div className="mb-3 pt-6">
         <div className="text-xl font-bold tracking-tight text-slate-900">
           {verb.base}
         </div>
