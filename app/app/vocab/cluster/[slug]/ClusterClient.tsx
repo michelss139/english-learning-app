@@ -447,45 +447,78 @@ export default function ClusterClient({
     }
   }
 
-  function renderClusterTheoryMarkdown(text: string) {
+  function renderInlineMarkdown(text: string, key: string): React.ReactNode {
     const focusRe = getVocabClusterTheoryHighlightRegex(slug);
+    // Replace ❌ and ✅ with branded icons, handle **bold**, *italic*, ~~strike~~
+    const parts: React.ReactNode[] = [];
+    // Split on markdown tokens and icons
+    const tokenRe = /(\*\*[^*]+\*\*|\*[^*]+\*|~~[^~]+~~|❌|✅)/g;
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+    let partIdx = 0;
 
+    while ((match = tokenRe.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        const plain = text.slice(lastIndex, match.index);
+        parts.push(<Fragment key={`${key}-t-${partIdx++}`}>{plain}</Fragment>);
+      }
+      const token = match[0];
+      if (token === "❌") {
+        parts.push(<WrongIcon key={`${key}-t-${partIdx++}`} size={14} />);
+      } else if (token === "✅") {
+        parts.push(<CorrectIcon key={`${key}-t-${partIdx++}`} size={14} />);
+      } else if (token.startsWith("**")) {
+        parts.push(<strong key={`${key}-t-${partIdx++}`} className="font-semibold text-slate-900">{token.slice(2, -2)}</strong>);
+      } else if (token.startsWith("*")) {
+        parts.push(<em key={`${key}-t-${partIdx++}`} className="italic">{token.slice(1, -1)}</em>);
+      } else if (token.startsWith("~~")) {
+        parts.push(<span key={`${key}-t-${partIdx++}`} className="line-through text-slate-400">{token.slice(2, -2)}</span>);
+      }
+      lastIndex = match.index + token.length;
+    }
+    if (lastIndex < text.length) {
+      parts.push(<Fragment key={`${key}-t-${partIdx++}`}>{text.slice(lastIndex)}</Fragment>);
+    }
+
+    // Apply focus highlight if applicable
+    if (!focusRe) return parts;
+    return parts.map((p, i) => {
+      if (typeof p !== "object") return p;
+      return <Fragment key={i}>{p}</Fragment>;
+    });
+  }
+
+  function renderClusterTheoryMarkdown(text: string) {
     return text.split("\n").map((line, idx) => {
       const processed = applyMakeDoTheoryLeadCapitalize(line, slug);
-      const key = `${idx}-${processed}`;
-
-      const lineBody =
-        !focusRe ? (
-          processed
-        ) : (
-          processed.split(focusRe).map((part, partIdx) => {
-            if (partIdx % 2 === 1) {
-              return (
-                <strong key={`${key}-p-${partIdx}`} className="font-semibold text-slate-950">
-                  „{part}"
-                </strong>
-              );
-            }
-            return <Fragment key={`${key}-p-${partIdx}`}>{part}</Fragment>;
-          })
-        );
+      const key = `line-${idx}`;
 
       if (!processed.trim()) {
-        return <div key={key} className="h-4" />;
+        return <div key={key} className="h-3" />;
+      }
+
+      // Section header: **WORD** = ... or **WORD** alone
+      if (/^\*\*[A-Z/ ]+\*\*/.test(processed)) {
+        return (
+          <div key={key} className="mt-4 first:mt-0 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-900">
+            {renderInlineMarkdown(processed, key)}
+          </div>
+        );
       }
 
       if (processed.startsWith("- ")) {
+        const content = processed.slice(2);
         return (
-          <div key={key} className="flex gap-2 text-sm leading-relaxed text-slate-700">
-            <span className="text-slate-400">•</span>
-            <span>{lineBody}</span>
+          <div key={key} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700 pl-1">
+            <span className="mt-0.5 shrink-0 text-slate-300">•</span>
+            <span>{renderInlineMarkdown(content, key)}</span>
           </div>
         );
       }
 
       return (
         <p key={key} className="text-sm leading-relaxed text-slate-700">
-          {lineBody}
+          {renderInlineMarkdown(processed, key)}
         </p>
       );
     });
