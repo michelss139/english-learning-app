@@ -148,7 +148,18 @@ type CountRow = {
   is_active?: boolean | null;
 };
 
-const VISIBLE_VOCAB_CLUSTER_SLUGS = new Set(["make-do", "bring-take", "hear-listen", "say-tell"]);
+const VISIBLE_VOCAB_CLUSTER_SLUGS = new Set([
+  "make-do",
+  "bring-take",
+  "hear-listen",
+  "say-tell",
+  "get-take",
+  "lend-borrow-rent-hire",
+  "say-tell-speak-talk",
+  "see-look-watch",
+  "go-come",
+  "know-find-out-learn",
+]);
 const CLUSTER_SESSION_SIZE = 10;
 const CLUSTER_TARGET_COUNTS: Record<ClusterTaskType, number> = {
   choice: 5,
