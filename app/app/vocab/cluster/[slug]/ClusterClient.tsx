@@ -579,12 +579,11 @@ export default function ClusterClient({
           {[...grouped.entries()].map(([term, exs]) => (
             <div key={term} className="space-y-2">
               <div className="text-xs font-bold uppercase tracking-[0.08em] text-slate-400">{term}</div>
-              <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
                 {exs.slice(0, 6).map((ex) => (
                   <div key={ex.id} className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
                     <p className="text-sm font-medium text-slate-900">{ex.example_en}</p>
                     {ex.example_pl && <p className="mt-0.5 text-xs text-slate-400">{ex.example_pl}</p>}
-                    {ex.note && <p className="mt-1 text-xs italic text-slate-400">{ex.note}</p>}
                   </div>
                 ))}
               </div>
