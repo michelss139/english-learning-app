@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 import {
   generateChallenge,
   validateChallengeAnswer,
@@ -152,8 +153,8 @@ function ChallengePanel({
               : "border-rose-200 bg-rose-50 text-rose-800"
           }`}
         >
-          <p className="font-medium">
-            {challengeFeedback.correct ? "Poprawnie! ✓" : "Niepoprawnie."}
+          <p className="flex items-center gap-1.5 font-medium">
+            {challengeFeedback.correct ? <><CorrectIcon size={18} /> Poprawnie!</> : <><WrongIcon size={18} /> Niepoprawnie.</>}
           </p>
           {!challengeFeedback.correct && (
             <p className="mt-1">

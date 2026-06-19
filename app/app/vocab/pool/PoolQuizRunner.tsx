@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type QuizItem = {
   senseId: string;
@@ -323,10 +324,10 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
               </span>
               <span className="flex-1">{option}</span>
               {isAnswered && isCorrectOpt && (
-                <span className="ml-auto text-emerald-600 text-base">✓</span>
+                <span className="ml-auto"><CorrectIcon size={18} /></span>
               )}
               {isAnswered && isSelected && !isCorrectOpt && (
-                <span className="ml-auto text-rose-500 text-base">✗</span>
+                <span className="ml-auto"><WrongIcon size={18} /></span>
               )}
             </button>
           );
