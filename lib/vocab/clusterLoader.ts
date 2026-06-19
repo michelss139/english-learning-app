@@ -159,6 +159,7 @@ const VISIBLE_VOCAB_CLUSTER_SLUGS = new Set([
   "see-look-watch",
   "go-come",
   "know-find-out-learn",
+  "job-work-career",
 ]);
 const CLUSTER_SESSION_SIZE = 10;
 const CLUSTER_TARGET_COUNTS: Record<ClusterTaskType, number> = {
