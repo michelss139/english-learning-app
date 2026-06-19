@@ -160,6 +160,9 @@ const VISIBLE_VOCAB_CLUSTER_SLUGS = new Set([
   "go-come",
   "know-find-out-learn",
   "job-work-career",
+  "travel-trip-journey",
+  "house-home",
+  "price-cost-fee-charge",
 ]);
 const CLUSTER_SESSION_SIZE = 10;
 const CLUSTER_TARGET_COUNTS: Record<ClusterTaskType, number> = {
