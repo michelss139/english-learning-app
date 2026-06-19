@@ -565,30 +565,22 @@ export default function ClusterClient({
     }
 
     if (id === "przyklady") {
-      // Group by focus_term
-      const grouped = new Map<string, ClusterExample[]>();
-      for (const ex of initialExamples) {
-        const key = ex.focus_term ?? "inne";
-        const arr = grouped.get(key) ?? [];
-        arr.push(ex);
-        grouped.set(key, arr);
-      }
       return (
-        <div className="space-y-5">
+        <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Przykłady zdań</h2>
-          {[...grouped.entries()].map(([term, exs]) => (
-            <div key={term} className="space-y-2">
-              <div className="text-xs font-bold uppercase tracking-[0.08em] text-slate-400">{term}</div>
-              <div className="grid grid-cols-2 gap-2">
-                {exs.slice(0, 6).map((ex) => (
-                  <div key={ex.id} className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
-                    <p className="text-sm font-medium text-slate-900">{ex.example_en}</p>
-                    {ex.example_pl && <p className="mt-0.5 text-xs text-slate-400">{ex.example_pl}</p>}
-                  </div>
-                ))}
+          <div className="grid grid-cols-3 gap-2">
+            {initialExamples.map((ex) => (
+              <div key={ex.id} className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm flex flex-col gap-1.5">
+                {ex.focus_term && (
+                  <span className="inline-block self-start rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide bg-slate-100 text-slate-500">
+                    {ex.focus_term}
+                  </span>
+                )}
+                <p className="text-sm font-medium text-slate-900 leading-snug">{ex.example_en}</p>
+                {ex.example_pl && <p className="text-xs text-slate-400">{ex.example_pl}</p>}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       );
     }
