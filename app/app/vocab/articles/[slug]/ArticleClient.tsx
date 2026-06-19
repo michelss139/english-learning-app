@@ -14,19 +14,25 @@ export type ArticleDetailDto = {
   questions: { level: string; question: string; sort_order: number }[];
 };
 
-type Level = "A1" | "B1" | "C1";
-const LEVELS: Level[] = ["A1", "B1", "C1"];
+type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 const LEVEL_TAB_ACTIVE: Record<Level, string> = {
   A1: "bg-emerald-600 text-white border-emerald-600",
+  A2: "bg-teal-600 text-white border-teal-600",
   B1: "bg-sky-600 text-white border-sky-600",
+  B2: "bg-blue-700 text-white border-blue-700",
   C1: "bg-violet-600 text-white border-violet-600",
+  C2: "bg-purple-700 text-white border-purple-700",
 };
 
 const LEVEL_BADGE: Record<Level, string> = {
   A1: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  A2: "bg-teal-50 text-teal-700 border-teal-200",
   B1: "bg-sky-50 text-sky-700 border-sky-200",
+  B2: "bg-blue-50 text-blue-700 border-blue-200",
   C1: "bg-violet-50 text-violet-700 border-violet-200",
+  C2: "bg-purple-50 text-purple-700 border-purple-200",
 };
 
 function MessageCircleIcon({ className }: { className?: string }) {
@@ -61,7 +67,7 @@ function renderBody(text: string) {
 
 export default function ArticleClient({ article }: { article: ArticleDetailDto }) {
   const availableLevels = LEVELS.filter((l) => article.levels.some((al) => al.level === l));
-  const defaultLevel: Level = availableLevels.includes("B1") ? "B1" : (availableLevels[0] ?? "B1");
+  const defaultLevel: Level = availableLevels.includes("B2") ? "B2" : availableLevels.includes("B1") ? "B1" : (availableLevels[0] ?? "B1");
   const [activeLevel, setActiveLevel] = useState<Level>(defaultLevel);
 
   const currentLevel = article.levels.find((l) => l.level === activeLevel);

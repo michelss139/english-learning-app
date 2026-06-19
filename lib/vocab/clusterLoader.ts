@@ -537,12 +537,12 @@ function buildTypeOrder(counts: Record<ClusterTaskType, number>): ClusterTaskTyp
 }
 
 function composeClusterSession(rows: ClusterTaskRow[]): ClusterTaskRow[] {
-  const activeRows = rows.filter((row) => row.is_active !== false && (row.task_type ?? "choice") !== "correction");
+  const activeRows = rows.filter((row) => row.is_active !== false);
   if (activeRows.length === 0) return [];
 
   const pools: Record<ClusterTaskType, ClusterTaskRow[]> = {
     choice: activeRows.filter((row) => (row.task_type ?? "choice") === "choice"),
-    correction: [],
+    correction: activeRows.filter((row) => row.task_type === "correction"),
     translation: activeRows.filter((row) => row.task_type === "translation"),
   };
 
@@ -556,7 +556,7 @@ function composeClusterSession(rows: ClusterTaskRow[]): ClusterTaskRow[] {
   selected.choice = orderChoiceTasks(choicePick.selected);
   pools.choice = choicePick.remaining;
 
-  for (const type of ["translation"] as const) {
+  for (const type of ["translation", "correction"] as const) {
     const { picked, rest } = sampleRows(pools[type], Math.min(CLUSTER_TARGET_COUNTS[type], pools[type].length));
     selected[type] = shuffleArray(picked);
     pools[type] = rest;
@@ -564,7 +564,7 @@ function composeClusterSession(rows: ClusterTaskRow[]): ClusterTaskRow[] {
 
   while (Object.values(selected).reduce((sum, items) => sum + items.length, 0) < CLUSTER_SESSION_SIZE) {
     const candidates = (Object.keys(pools) as ClusterTaskType[])
-      .filter((type) => type !== "correction" && pools[type].length > 0)
+      .filter((type) => pools[type].length > 0)
       .sort((a, b) => selected[a].length - selected[b].length);
 
     if (candidates.length === 0) break;
@@ -587,13 +587,13 @@ function composeClusterSession(rows: ClusterTaskRow[]): ClusterTaskRow[] {
 
   const typeOrder = buildTypeOrder({
     choice: selected.choice.length,
-    correction: 0,
+    correction: selected.correction.length,
     translation: selected.translation.length,
   });
 
   const finalPools: Record<ClusterTaskType, ClusterTaskRow[]> = {
     choice: [...selected.choice],
-    correction: [],
+    correction: shuffleArray(selected.correction),
     translation: shuffleArray(selected.translation),
   };
 

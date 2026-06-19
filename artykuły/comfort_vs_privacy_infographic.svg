@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" font-family="system-ui, -apple-system, sans-serif">
+  <!-- Background -->
+  <rect width="900" height="560" fill="#0F172A"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="300" y1="0" x2="300" y2="560" stroke="#1E293B" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="560" stroke="#1E293B" stroke-width="1"/>
+  <line x1="0" y1="186" x2="900" y2="186" stroke="#1E293B" stroke-width="1"/>
+  <line x1="0" y1="373" x2="900" y2="373" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="900" height="4" fill="#178CF2"/>
+
+  <!-- Title area -->
+  <rect x="40" y="28" width="820" height="90" rx="12" fill="#1E293B"/>
+  <text x="450" y="63" text-anchor="middle" font-size="11" font-weight="600" letter-spacing="3" fill="#178CF2" text-transform="uppercase">COMFORT VS PRIVACY</text>
+  <text x="450" y="91" text-anchor="middle" font-size="22" font-weight="700" fill="#F8FAFC">We Gave Our Privacy Away — And We Knew It</text>
+
+  <!-- Column 1: Smart Speakers -->
+  <rect x="20" y="138" width="260" height="200" rx="12" fill="#1E293B"/>
+  <!-- Icon: speaker/microphone -->
+  <circle cx="150" cy="173" r="20" fill="#178CF2" fill-opacity="0.15"/>
+  <rect x="143" y="160" width="14" height="20" rx="7" fill="#178CF2"/>
+  <path d="M138 175 Q138 186 150 186 Q162 186 162 175" stroke="#178CF2" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <line x1="150" y1="186" x2="150" y2="193" stroke="#178CF2" stroke-width="2"/>
+  <line x1="143" y1="193" x2="157" y2="193" stroke="#178CF2" stroke-width="2"/>
+
+  <text x="150" y="215" text-anchor="middle" font-size="13" font-weight="700" fill="#F1F5F9">Smart Speakers</text>
+  <text x="150" y="237" text-anchor="middle" font-size="28" font-weight="800" fill="#178CF2">1 in 3</text>
+  <text x="150" y="257" text-anchor="middle" font-size="11" fill="#94A3B8">US households own</text>
+  <text x="150" y="272" text-anchor="middle" font-size="11" fill="#94A3B8">a smart speaker (2024)</text>
+  <rect x="50" y="285" width="200" height="1" fill="#334155"/>
+  <text x="150" y="304" text-anchor="middle" font-size="10" fill="#64748B">Amazon Echo records</text>
+  <text x="150" y="319" text-anchor="middle" font-size="10" fill="#64748B">conversations 24/7</text>
+
+  <!-- Column 2: Data Tracking -->
+  <rect x="320" y="138" width="260" height="200" rx="12" fill="#1E293B"/>
+  <!-- Icon: location pin -->
+  <circle cx="450" cy="168" r="10" fill="none" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="450" cy="168" r="4" fill="#F59E0B"/>
+  <path d="M450 178 L443 193" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M450 178 L457 193" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+
+  <text x="450" y="215" text-anchor="middle" font-size="13" font-weight="700" fill="#F1F5F9">Your Location Data</text>
+  <text x="450" y="237" text-anchor="middle" font-size="28" font-weight="800" fill="#F59E0B">Every</text>
+  <text x="450" y="257" text-anchor="middle" font-size="28" font-weight="800" fill="#F59E0B">Journey</text>
+  <text x="450" y="277" text-anchor="middle" font-size="10" fill="#94A3B8">Google Maps Timeline records</text>
+  <rect x="350" y="285" width="200" height="1" fill="#334155"/>
+  <text x="450" y="304" text-anchor="middle" font-size="10" fill="#64748B">Every shop · Every city</text>
+  <text x="450" y="319" text-anchor="middle" font-size="10" fill="#64748B">Stored on company servers</text>
+
+  <!-- Column 3: Loyalty Cards -->
+  <rect x="620" y="138" width="260" height="200" rx="12" fill="#1E293B"/>
+  <!-- Icon: card -->
+  <rect x="625" y="158" width="50" height="32" rx="4" fill="none" stroke="#10B981" stroke-width="2"/>
+  <rect x="625" y="165" width="50" height="8" fill="#10B981" fill-opacity="0.3"/>
+  <circle cx="643" cy="178" r="3" fill="#10B981"/>
+
+  <text x="750" y="215" text-anchor="middle" font-size="13" font-weight="700" fill="#F1F5F9">Loyalty Cards</text>
+  <text x="750" y="237" text-anchor="middle" font-size="13" fill="#94A3B8">You get</text>
+  <text x="750" y="257" text-anchor="middle" font-size="24" font-weight="800" fill="#10B981">discounts</text>
+  <text x="750" y="277" text-anchor="middle" font-size="13" fill="#94A3B8">They get</text>
+  <rect x="650" y="285" width="200" height="1" fill="#334155"/>
+  <text x="750" y="304" text-anchor="middle" font-size="10" fill="#64748B">Your shopping habits · diet</text>
+  <text x="750" y="319" text-anchor="middle" font-size="10" fill="#64748B">medicine · lifestyle</text>
+
+  <!-- Row 2 -->
+
+  <!-- Cookie Banners -->
+  <rect x="20" y="355" width="260" height="185" rx="12" fill="#1E293B"/>
+  <rect x="55" y="375" width="190" height="60" rx="6" fill="#0F172A" stroke="#334155" stroke-width="1"/>
+  <text x="150" y="396" text-anchor="middle" font-size="9" fill="#94A3B8">This website uses cookies</text>
+  <rect x="65" y="403" width="80" height="18" rx="4" fill="#178CF2"/>
+  <text x="105" y="416" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Accept All</text>
+  <rect x="155" y="403" width="80" height="18" rx="4" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="195" y="416" text-anchor="middle" font-size="7" fill="#64748B">Manage Prefs</text>
+
+  <text x="150" y="455" text-anchor="middle" font-size="13" font-weight="700" fill="#F1F5F9">Cookie Banners</text>
+  <text x="150" y="473" text-anchor="middle" font-size="11" fill="#94A3B8">Designed to make you</text>
+  <text x="150" y="489" text-anchor="middle" font-size="11" fill="#EF4444">click "Accept All"</text>
+  <text x="150" y="511" text-anchor="middle" font-size="10" fill="#64748B">Dark patterns exploit</text>
+  <text x="150" y="526" text-anchor="middle" font-size="10" fill="#64748B">human psychology</text>
+
+  <!-- AI Tools -->
+  <rect x="320" y="355" width="260" height="185" rx="12" fill="#1E293B"/>
+  <!-- Icon: AI chip -->
+  <rect x="430" y="368" width="40" height="40" rx="6" fill="none" stroke="#A78BFA" stroke-width="2"/>
+  <text x="450" y="394" text-anchor="middle" font-size="18" fill="#A78BFA">AI</text>
+
+  <text x="450" y="430" text-anchor="middle" font-size="13" font-weight="700" fill="#F1F5F9">AI Tools</text>
+  <text x="450" y="449" text-anchor="middle" font-size="11" fill="#94A3B8">Need access to your</text>
+
+  <text x="390" y="471" text-anchor="middle" font-size="10" fill="#A78BFA">📧 emails</text>
+  <text x="450" y="471" text-anchor="middle" font-size="10" fill="#A78BFA">📁 files</text>
+  <text x="510" y="471" text-anchor="middle" font-size="10" fill="#A78BFA">👥 contacts</text>
+
+  <text x="450" y="493" text-anchor="middle" font-size="11" fill="#94A3B8">to be truly useful</text>
+  <rect x="350" y="503" width="200" height="1" fill="#334155"/>
+  <text x="450" y="521" text-anchor="middle" font-size="10" fill="#64748B">Productivity gain =</text>
+  <text x="450" y="536" text-anchor="middle" font-size="10" fill="#64748B">deep organisational access</text>
+
+  <!-- The Deal We Made -->
+  <rect x="620" y="355" width="260" height="185" rx="12" fill="#178CF2" fill-opacity="0.08" stroke="#178CF2" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="750" y="385" text-anchor="middle" font-size="11" font-weight="600" letter-spacing="2" fill="#178CF2">THE KEY INSIGHT</text>
+  <rect x="660" y="393" width="180" height="1" fill="#178CF2" fill-opacity="0.3"/>
+
+  <text x="750" y="420" text-anchor="middle" font-size="16" font-weight="700" fill="#F1F5F9">Privacy wasn't</text>
+  <text x="750" y="442" text-anchor="middle" font-size="16" font-weight="700" fill="#F1F5F9">taken from us.</text>
+  <rect x="680" y="455" width="140" height="2" fill="#178CF2"/>
+  <text x="750" y="480" text-anchor="middle" font-size="22" font-weight="800" fill="#178CF2">We agreed</text>
+  <text x="750" y="502" text-anchor="middle" font-size="22" font-weight="800" fill="#178CF2">to it.</text>
+
+  <text x="750" y="528" text-anchor="middle" font-size="10" fill="#64748B">Comfort &gt; Privacy</text>
+
+  <!-- Footer -->
+  <text x="450" y="553" text-anchor="middle" font-size="10" fill="#475569">LANGBracket · Comfort vs Privacy · B2</text>
+</svg>

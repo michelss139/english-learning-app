@@ -497,6 +497,16 @@ export default function ClusterClient({
         return <div key={key} className="h-3" />;
       }
 
+      // Markdown headings: ## or ###
+      if (/^#{2,3} /.test(processed)) {
+        const headingText = processed.replace(/^#{2,3} /, "");
+        return (
+          <p key={key} className="mt-4 first:mt-0 text-sm font-bold text-slate-800">
+            {renderInlineMarkdown(headingText, key)}
+          </p>
+        );
+      }
+
       // Section header: **WORD** = ... or **WORD** alone
       if (/^\*\*[A-Z/ ]+\*\*/.test(processed)) {
         return (

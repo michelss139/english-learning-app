@@ -14,8 +14,11 @@ export type ArticleDto = {
 
 const LEVEL_COLORS: Record<string, string> = {
   A1: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  A2: "bg-teal-50 text-teal-700 border-teal-200",
   B1: "bg-sky-50 text-sky-700 border-sky-200",
+  B2: "bg-blue-50 text-blue-700 border-blue-200",
   C1: "bg-violet-50 text-violet-700 border-violet-200",
+  C2: "bg-purple-50 text-purple-700 border-purple-200",
 };
 
 function formatDate(iso: string | null): string {

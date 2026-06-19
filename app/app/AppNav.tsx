@@ -38,6 +38,8 @@ export default function AppNav({ isAdmin, displayName, avatarSrc }: AppNavProps)
 
   const dashboardActive = pathname === "/app";
   const lessonsActive = pathname === "/app/lessons" || pathname.startsWith("/app/lessons/");
+  const vocabActive = pathname.startsWith("/app/vocab");
+  const grammarActive = pathname.startsWith("/app/grammar");
   const profileActive = pathname.startsWith("/app/profile");
   const settingsActive = pathname.startsWith("/app/settings");
 
@@ -48,6 +50,8 @@ export default function AppNav({ isAdmin, displayName, avatarSrc }: AppNavProps)
     >
       <div className="flex flex-wrap items-center gap-0.5 sm:gap-1">
         <NavItem href="/app" label="Dashboard" isActive={dashboardActive} />
+        <NavItem href="/app/vocab" label="Słownictwo" isActive={vocabActive} />
+        <NavItem href="/app/grammar" label="Gramatyka" isActive={grammarActive} />
         <NavItem href="/app/lessons" label="Lekcje" isActive={lessonsActive} />
         <NavItem href="/app/profile" label="Profil" isActive={profileActive} />
         <NavItem href="/app/settings" label="Ustawienia" isActive={settingsActive} />
