@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -129,19 +130,19 @@ function MistakesContent() {
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Podwójne przeczenie z unless</p>
-          <p>❌ Unless you don&apos;t hurry, you will miss the bus.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> Unless you don&apos;t hurry, you will miss the bus.</p>
           <p>✔ Unless you hurry, you will miss the bus.</p>
           <p className="text-slate-600">Unless już zawiera przeczenie – nie dodajemy don&apos;t.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Mylenie in case z if</p>
-          <p>❌ Take an umbrella if it rains.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> Take an umbrella if it rains.</p>
           <p>✔ Take an umbrella in case it rains.</p>
           <p className="text-slate-600">In case = na wypadek gdyby (przygotowanie); if = gdy (warunek).</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
           <p className="font-medium text-slate-900">Future po connectorze</p>
-          <p>❌ As long as you will finish your work, you can go.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> As long as you will finish your work, you can go.</p>
           <p>✔ As long as you finish your work, you can go.</p>
           <p className="text-slate-600">Po connectorach warunkowych używamy Present Simple, nie will.</p>
         </div>
@@ -173,7 +174,7 @@ function CompareContent() {
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-3 text-sm space-y-1">
           <p className="text-slate-600">Najczęstszy błąd:</p>
-          <p>❌ Unless you don&apos;t hurry, you will miss the bus.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> Unless you don&apos;t hurry, you will miss the bus.</p>
           <p>✔ Unless you hurry, you will miss the bus.</p>
         </div>
       </div>

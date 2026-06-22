@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey = "definition" | "construction" | "usage" | "futurePlans" | "mistakes" | "compare";
 
@@ -78,7 +79,7 @@ function ConstructionContent() {
           są obowiązkowe.
         </p>
         <div className="mt-3 space-y-2 text-sm text-slate-800">
-          <p>❌ She working.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> She working.</p>
           <p>✔ She is working.</p>
         </div>
       </section>
@@ -129,9 +130,9 @@ function MistakesContent() {
     <section>
       <h2 className="mb-3 text-lg font-semibold text-slate-900">Błędy</h2>
       <ul className="space-y-2 text-sm text-slate-800">
-        <li>❌ I am knowing him.</li>
+        <li className="flex items-center gap-1.5"><WrongIcon size={16} /> I am knowing him.</li>
         <li>✔ I know him.</li>
-        <li>❌ I am loving this song.</li>
+        <li className="flex items-center gap-1.5"><WrongIcon size={16} /> I am loving this song.</li>
         <li>✔ I love this song.</li>
       </ul>
       <p className="mt-3 text-sm example-muted">Nie wszystkie czasowniki naturalnie występują w formie -ing.</p>

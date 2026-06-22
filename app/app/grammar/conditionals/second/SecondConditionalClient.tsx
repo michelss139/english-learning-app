@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -127,22 +128,22 @@ function MistakesContent() {
       </p>
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I had more time, I will travel more.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I had more time, I will travel more.</p>
           <p>✔ If I had more time, I would travel more.</p>
           <p className="text-slate-600">W Second Conditional używamy would, nie will.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I have more time, I would travel more.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I have more time, I would travel more.</p>
           <p>✔ If I had more time, I would travel more.</p>
           <p className="text-slate-600">Po if używamy Past Simple, nie Present Simple.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I would have time, I would help you.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I would have time, I would help you.</p>
           <p>✔ If I had time, I would help you.</p>
           <p className="text-slate-600">Nie używamy would w części z if.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I was you, I would talk to him.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I was you, I would talk to him.</p>
           <p>✔ If I were you, I would talk to him.</p>
           <p className="text-slate-600">W formalnej konstrukcji używamy were zamiast was.</p>
         </div>

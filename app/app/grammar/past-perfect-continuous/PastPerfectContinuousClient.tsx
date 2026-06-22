@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -165,17 +166,17 @@ function MistakesContent() {
       <h2 className="text-lg font-semibold text-slate-900">Błędy</h2>
       <div className="space-y-2 text-slate-800">
         <p>
-          ❌ She had been work all day.
+          <WrongIcon size={16} /> She had been work all day.
           <br />
           ✔ She had been work<span className="verb-ending">ing</span> all day.
         </p>
         <p>
-          ❌ She had working before I arrived.
+          <WrongIcon size={16} /> She had working before I arrived.
           <br />
           ✔ She had been work<span className="verb-ending">ing</span> before I arrived.
         </p>
         <p>
-          ❌ She was tired because she worked all day.
+          <WrongIcon size={16} /> She was tired because she worked all day.
           <br />
           ✔ She was tired because she had been work<span className="verb-ending">ing</span> all day.
         </p>

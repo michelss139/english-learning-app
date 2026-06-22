@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { TileWithSidebar, type SidebarItem } from "../../_components/TileWithSidebar";
 import type { ModalWordData, ModalMistake } from "@/lib/grammar/modalVerbContent";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 // Modals supported by the Sentence Builder
 const SENTENCE_BUILDER_MODALS = new Set(["can", "could", "should", "must", "might", "may", "would"]);
@@ -149,8 +150,8 @@ function MistakesSection({ word }: { word: ModalWordData }) {
               key={i}
               className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
             >
-              <p className="text-sm text-rose-700">❌ {m.bad}</p>
-              <p className="text-sm text-emerald-700">✅ {m.good}</p>
+              <p className="flex items-center gap-1.5 text-sm text-rose-700"><WrongIcon size={16} /> {m.bad}</p>
+              <p className="flex items-center gap-1.5 text-sm text-emerald-700"><CorrectIcon size={16} /> {m.good}</p>
               {m.note && (
                 <p className="mt-1.5 text-xs text-slate-500">{m.note}</p>
               )}

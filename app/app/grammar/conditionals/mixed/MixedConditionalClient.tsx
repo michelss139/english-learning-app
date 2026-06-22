@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -136,17 +137,17 @@ function MistakesContent() {
       </p>
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I had studied medicine, I would have been a doctor now.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I had studied medicine, I would have been a doctor now.</p>
           <p>✔ If I had studied medicine, I would be a doctor now.</p>
           <p className="text-slate-600">Third Conditional zamiast Mixed – rezultat dotyczy teraźniejszości.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I studied medicine, I would be a doctor now.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I studied medicine, I would be a doctor now.</p>
           <p>✔ If I had studied medicine, I would be a doctor now.</p>
           <p className="text-slate-600">Second Conditional zamiast Mixed – warunek dotyczy przeszłości.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I were more careful, I would not made that mistake.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I were more careful, I would not made that mistake.</p>
           <p>✔ If I were more careful, I would not have made that mistake.</p>
           <p className="text-slate-600">Błąd w konstrukcji rezultatu – trzeba mieć would have + past participle.</p>
         </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -114,22 +115,22 @@ function MistakesContent() {
       </p>
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I knew about the meeting, I would have come.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I knew about the meeting, I would have come.</p>
           <p>✔ If I had known about the meeting, I would have come.</p>
           <p className="text-slate-600">Po if używamy Past Perfect, nie Past Simple.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I would have known, I would have come.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I would have known, I would have come.</p>
           <p>✔ If I had known, I would have come.</p>
           <p className="text-slate-600">Nie używamy would w części z if.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If she had studied more, she would passed the exam.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If she had studied more, she would passed the exam.</p>
           <p>✔ If she had studied more, she would have passed the exam.</p>
           <p className="text-slate-600">W rezultacie używamy would have + past participle.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I had more time yesterday, I would help you.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I had more time yesterday, I would help you.</p>
           <p>✔ If I had had more time yesterday, I would have helped you.</p>
           <p className="text-slate-600">To błąd wynikający z mieszania Second i Third Conditional.</p>
         </div>

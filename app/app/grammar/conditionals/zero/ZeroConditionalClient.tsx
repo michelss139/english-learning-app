@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -112,27 +113,27 @@ function MistakesContent() {
       </p>
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If you heat ice, it will melt.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If you heat ice, it will melt.</p>
           <p>✔ If you heat ice, it melts.</p>
           <p className="text-slate-600">W Zero Conditional używamy Present Simple w obu częściach, nie will.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If she eat too much sugar, she gain weight.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If she eat too much sugar, she gain weight.</p>
           <p>✔ If she eats too much sugar, she gains weight.</p>
           <p className="text-slate-600">Trzecia osoba liczby pojedynczej wymaga końcówki -s.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If it will rain, the ground gets wet.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If it will rain, the ground gets wet.</p>
           <p>✔ If it rains, the ground gets wet.</p>
           <p className="text-slate-600">Po if nie używamy will – tylko Present Simple.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If he drink coffee at night, he sleep badly.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If he drink coffee at night, he sleep badly.</p>
           <p>✔ If he drinks coffee at night, he sleeps badly.</p>
           <p className="text-slate-600">Nie pomijamy końcówki -s w trzeciej osobie.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If you heated water to 100°C, it boils.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If you heated water to 100°C, it boils.</p>
           <p>✔ If you heat water to 100°C, it boils.</p>
           <p className="text-slate-600">Zero Conditional opisuje stałe fakty – obie części w Present Simple.</p>
         </div>

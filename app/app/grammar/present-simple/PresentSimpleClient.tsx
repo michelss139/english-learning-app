@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey = "definition" | "construction" | "doDoes" | "words" | "mistakes" | "compare";
 
@@ -120,10 +121,10 @@ function MistakesContent() {
     <section>
       <h2 className="mb-3 text-lg font-semibold text-slate-900">Błędy</h2>
       <ul className="space-y-2 text-sm text-slate-800">
-        <li>❌ Does she works? → ✔ Does she work?</li>
-        <li>❌ She don&apos;t like coffee. → ✔ She doesn&apos;t like coffee.</li>
-        <li>❌ He work here. → ✔ He works here.</li>
-        <li>❌ Do he like it? → ✔ Does he like it?</li>
+        <li className="flex items-center gap-1.5"><WrongIcon size={16} /> Does she works? → ✔ Does she work?</li>
+        <li className="flex items-center gap-1.5"><WrongIcon size={16} /> She don&apos;t like coffee. → ✔ She doesn&apos;t like coffee.</li>
+        <li className="flex items-center gap-1.5"><WrongIcon size={16} /> He work here. → ✔ He works here.</li>
+        <li className="flex items-center gap-1.5"><WrongIcon size={16} /> Do he like it? → ✔ Does he like it?</li>
       </ul>
       <Link
         href="/app/vocab/cluster/tenses"

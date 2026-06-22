@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type SectionKey =
   | "definition"
@@ -146,21 +147,21 @@ function MistakesContent() {
       </p>
       <div className="space-y-4 text-sm text-slate-800">
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If it will rain, we will stay at home.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If it will rain, we will stay at home.</p>
           <p>✔ If it rains, we will stay at home.</p>
           <p className="text-slate-600">Po if używamy Present Simple, a nie future.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If you study, you pass the exam.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If you study, you pass the exam.</p>
           <p>✔ If you study, you will pass the exam.</p>
           <p className="text-slate-600">Jeżeli mówimy o przyszłości, rezultat zwykle zawiera will.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If you will study, you will pass the exam.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If you will study, you will pass the exam.</p>
           <p>✔ If you study, you will pass the exam.</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-2">
-          <p>❌ If I will have time, I would help you.</p>
+          <p className="flex items-center gap-1.5"><WrongIcon size={16} /> If I will have time, I would help you.</p>
           <p>✔ If I have time, I will help you.</p>
           <p className="text-slate-600">To błąd wynikający z mieszania First i Second Conditional.</p>
         </div>
