@@ -94,38 +94,45 @@ export default function VocabHubPage() {
         {TILES.map((tile) => {
           const isActive = hovered === tile.id;
           return (
-            <Link
+            <div
               key={tile.id}
-              href={tile.href}
               onMouseEnter={() => setHovered(tile.id)}
-              className={`group relative flex h-full flex-col justify-between gap-5 rounded-2xl border p-5 backdrop-blur-sm transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out ${
-                isActive
-                  ? "-translate-y-px border-slate-800/35 bg-white shadow-[0_6px_24px_rgba(15,23,42,0.07)]"
-                  : "border-slate-800/20 bg-slate-50/90 shadow-none"
+              className={`rounded-[18px] bg-gradient-to-br from-sky-400 to-blue-700 p-[2px] transition-[box-shadow,transform] duration-200 ease-out ${
+                isActive ? "-translate-y-px shadow-[0_6px_24px_rgba(15,23,42,0.10)]" : "shadow-none"
               }`}
             >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                    {tile.eyebrow}
-                  </span>
-                  <ChevronRight
-                    className={`text-slate-300 transition-[color,transform] duration-200 ease-out ${
-                      isActive ? "translate-x-1 text-slate-700" : ""
-                    }`}
-                  />
+              <Link
+                href={tile.href}
+                className={`group relative flex h-full flex-col justify-between gap-5 rounded-2xl p-5 transition-[background-color] duration-200 ease-out ${
+                  isActive ? "bg-white" : "bg-slate-50"
+                }`}
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                      {tile.eyebrow}
+                    </span>
+                    <ChevronRight
+                      className={`text-slate-300 transition-[color,transform] duration-200 ease-out ${
+                        isActive ? "translate-x-1 text-slate-700" : ""
+                      }`}
+                    />
+                  </div>
+                  <div className="relative inline-block overflow-hidden rounded-xl bg-gradient-to-br from-sky-400 to-blue-700 px-3.5 py-2 ring-1 ring-inset ring-white/20">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                    <h2 className="relative text-xl font-black tracking-tight drop-shadow-sm" style={{ color: "#fff" }}>
+                      {tile.title}
+                    </h2>
+                  </div>
+                  <p className="text-sm leading-snug text-slate-600">
+                    {tile.description}
+                  </p>
                 </div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-900">
-                  {tile.title}
-                </h2>
-                <p className="text-sm leading-snug text-slate-600">
-                  {tile.description}
-                </p>
-              </div>
-              <span className="text-xs font-semibold text-slate-500 transition-colors duration-200 group-hover:text-slate-900">
-                Otwórz →
-              </span>
-            </Link>
+                <span className="text-xs font-semibold text-slate-500 transition-colors duration-200 group-hover:text-slate-900">
+                  Otwórz →
+                </span>
+              </Link>
+            </div>
           );
         })}
       </section>

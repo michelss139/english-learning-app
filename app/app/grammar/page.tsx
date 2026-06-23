@@ -104,14 +104,14 @@ export default function GrammarHubPage() {
             <div
               key={tile.id}
               onMouseEnter={() => setHovered(tile.id)}
-              className={`rounded-[17px] bg-gradient-to-br from-emerald-400 to-teal-700 p-px transition-[box-shadow,transform] duration-200 ease-out ${
+              className={`rounded-[18px] bg-gradient-to-br from-emerald-400 to-teal-700 p-[2px] transition-[box-shadow,transform] duration-200 ease-out ${
                 isActive ? "-translate-y-px shadow-[0_6px_24px_rgba(15,23,42,0.10)]" : "shadow-none"
               }`}
             >
             <Link
               href={tile.href}
-              className={`group relative flex h-full flex-col justify-between gap-5 rounded-2xl p-5 backdrop-blur-sm transition-[background-color] duration-200 ease-out ${
-                isActive ? "bg-white" : "bg-slate-50/90"
+              className={`group relative flex h-full flex-col justify-between gap-5 rounded-2xl p-5 transition-[background-color] duration-200 ease-out ${
+                isActive ? "bg-white" : "bg-slate-50"
               }`}
             >
               <div className="space-y-2">
@@ -125,9 +125,12 @@ export default function GrammarHubPage() {
                     }`}
                   />
                 </div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-900">
-                  {tile.title}
-                </h2>
+                <div className="relative inline-block overflow-hidden rounded-xl bg-gradient-to-br from-emerald-400 to-teal-700 px-3.5 py-2 ring-1 ring-inset ring-white/20">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                  <h2 className="relative text-xl font-black tracking-tight drop-shadow-sm" style={{ color: "#fff" }}>
+                    {tile.title}
+                  </h2>
+                </div>
                 <p className="text-sm leading-snug text-slate-600">
                   {tile.description}
                 </p>

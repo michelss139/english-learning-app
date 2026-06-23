@@ -348,6 +348,8 @@ export default function PackTrainingClient(props: {
   const [summary, setSummary] = useState<SessionSummary | null>(null);
   const [assignmentToast, setAssignmentToast] = useState("");
   const [optimisticXpAwarded, setOptimisticXpAwarded] = useState<number>(0);
+  const [displayedXp, setDisplayedXp] = useState(0);
+  const [xpBarWidth, setXpBarWidth] = useState(0);
 
   const assignmentCompleteRef = useRef(false);
   const autoStartRef = useRef(false);
@@ -771,6 +773,34 @@ export default function PackTrainingClient(props: {
     return () => document.removeEventListener("keydown", handleKey);
   }, [checked, completed, goNext]);
 
+  // Animate XP counter and progress bar when completed screen appears
+  useEffect(() => {
+    if (!completed) return;
+    const xpTarget = award?.xp_awarded ?? optimisticXpAwarded ?? OPTIMISTIC_XP;
+    setDisplayedXp(0);
+    const duration = 1000;
+    const startTime = Date.now();
+    let rafId: number;
+    const tick = () => {
+      const elapsed = Date.now() - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplayedXp(Math.round(xpTarget * eased));
+      if (t < 1) { rafId = requestAnimationFrame(tick); }
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [completed, award, optimisticXpAwarded]);
+
+  useEffect(() => {
+    if (!completed || !award) return;
+    const pct = award.xp_to_next_level > 0
+      ? Math.min((award.xp_in_current_level / award.xp_to_next_level) * 100, 100)
+      : 0;
+    const timer = setTimeout(() => setXpBarWidth(pct), 200);
+    return () => clearTimeout(timer);
+  }, [completed, award]);
+
   // Award XP after completion
   useEffect(() => {
     if (!completed || !sessionId) return;
@@ -991,11 +1021,15 @@ export default function PackTrainingClient(props: {
   // ══════════════════════════════════════════════════════════════════════════
 
   if (completed) {
-    const optimisticXpLine = optimisticXpAwarded || OPTIMISTIC_XP;
+    const xpTarget = award?.xp_awarded ?? optimisticXpAwarded ?? OPTIMISTIC_XP;
+    const almostCount = sessionSummaryData?.almost.length ?? 0;
+    const knowWellCount = sessionSummaryData?.knowWell.length ?? summaryCorrect;
+    const needReviewCount = sessionSummaryData?.needReview.length ?? summaryWrong;
 
     return (
-      <div>
-        <header className="mb-5">
+      <div className="space-y-4">
+        {/* ── Header ── */}
+        <header>
           <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
             ← Fiszki
           </Link>
@@ -1006,37 +1040,74 @@ export default function PackTrainingClient(props: {
         {errorBlock}
         {toastBlock}
         {assignmentToast ? (
-          <div className="mb-5 rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-600">
+          <div className="rounded-2xl border border-slate-200/50 bg-white/90 px-4 py-2.5 text-xs text-slate-600">
             {assignmentToast}
           </div>
         ) : null}
 
-        <div className="space-y-5">
-          {/* ── 3-category summary ── */}
+        {/* ── CTA buttons — top ── */}
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => { setCompleted(false); setStarted(false); }}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+          >
+            Konfiguruj
+          </button>
+          <button
+            type="button"
+            onClick={() => void startSessionWithApi()}
+            disabled={startLoading}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+          >
+            Jeszcze raz
+          </button>
+          <button
+            type="button"
+            onClick={() => startSession(wrongItemsForRetry)}
+            disabled={wrongItemsForRetry.length === 0 || startLoading}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Ćwicz tylko błędne
+          </button>
+          <Link
+            href="/app/vocab/packs"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+          >
+            Wróć do fiszek
+          </Link>
+        </div>
+
+        {/* ── Wyniki + XP — side by side ── */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Wyniki */}
           <section className={cardBase}>
-            <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-              Wyniki
-            </h2>
+            <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Wyniki</h2>
             <div className="space-y-2">
-              <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-4 py-3">
-                <span className="text-sm font-medium text-emerald-700">✅ Znam dobrze</span>
-                <span className="text-sm font-bold tabular-nums text-emerald-800">
-                  {sessionSummaryData?.knowWell.length ?? summaryCorrect} słówek
+              <div className="flex items-center justify-between rounded-xl bg-emerald-50 px-3 py-2.5">
+                <span className="flex items-center gap-2 text-sm font-medium text-emerald-700">
+                  <CorrectIcon size={18} /> Znam dobrze
                 </span>
+                <span className="text-sm font-bold tabular-nums text-emerald-800">{knowWellCount}</span>
               </div>
-              {(sessionSummaryData?.almost.length ?? 0) > 0 ? (
-                <div className="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3">
-                  <span className="text-sm font-medium text-amber-700">⚠️ Prawie</span>
-                  <span className="text-sm font-bold tabular-nums text-amber-800">
-                    {sessionSummaryData?.almost.length} słówek
+              {almostCount > 0 ? (
+                <div className="flex items-center justify-between rounded-xl bg-amber-50 px-3 py-2.5">
+                  <span className="flex items-center gap-2 text-sm font-medium text-amber-700">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ display: "inline-block", flexShrink: 0 }}>
+                      <circle cx="12" cy="12" r="9" fill="#fef3c7" stroke="#f59e0b" strokeWidth="1.6" />
+                      <path d="M12 8v5" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" />
+                      <circle cx="12" cy="15.5" r="1.1" fill="#f59e0b" />
+                    </svg>
+                    Prawie
                   </span>
+                  <span className="text-sm font-bold tabular-nums text-amber-800">{almostCount}</span>
                 </div>
               ) : null}
-              <div className="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
-                <span className="text-sm font-medium text-rose-700">❌ Do powtórki</span>
-                <span className="text-sm font-bold tabular-nums text-rose-800">
-                  {sessionSummaryData?.needReview.length ?? summaryWrong} słówek
+              <div className="flex items-center justify-between rounded-xl bg-rose-50 px-3 py-2.5">
+                <span className="flex items-center gap-2 text-sm font-medium text-rose-700">
+                  <WrongIcon size={18} /> Do powtórki
                 </span>
+                <span className="text-sm font-bold tabular-nums text-rose-800">{needReviewCount}</span>
               </div>
             </div>
             <p className="mt-3 text-right text-xs text-slate-400">
@@ -1044,104 +1115,72 @@ export default function PackTrainingClient(props: {
             </p>
           </section>
 
-          {/* ── XP ── */}
+          {/* XP */}
           <section className={cardBase}>
             <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">XP</h2>
-            {award ? (
-              award.xp_awarded === 0 ? (
-                <p className="text-sm text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
-              ) : (
-                <p className="text-sm text-slate-600">
-                  <span className="font-semibold text-slate-900">+{award.xp_awarded} XP</span>
-                </p>
-              )
+            {award?.xp_awarded === 0 ? (
+              <p className="text-sm text-amber-700">{xpZeroSessionMessage(award.xp_skip_reason)}</p>
             ) : (
-              <p className="text-sm text-slate-600">
-                <span className="font-semibold text-slate-900">+{optimisticXpLine} XP</span>
-              </p>
+              <>
+                <p className="text-2xl font-bold tabular-nums text-slate-900">
+                  +{displayedXp} <span className="text-base font-semibold text-slate-400">XP</span>
+                </p>
+                {award ? (
+                  <>
+                    <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                      <div
+                        className="h-full rounded-full bg-[#178CF2] transition-all duration-1000 ease-out"
+                        style={{ width: `${xpBarWidth}%` }}
+                      />
+                    </div>
+                    <p className="mt-1.5 text-xs text-slate-400">
+                      Poziom {award.level} · {award.xp_in_current_level}/{award.xp_to_next_level} XP
+                    </p>
+                  </>
+                ) : awardError ? (
+                  <p className="mt-1 text-xs text-rose-500">{awardError}</p>
+                ) : (
+                  <div className="mt-3 h-2 w-full rounded-full bg-slate-100" />
+                )}
+              </>
             )}
-            {award ? (
-              <p className="mt-1 text-xs text-slate-400">
-                Poziom {award.level} · {award.xp_in_current_level}/{award.xp_to_next_level} XP
-              </p>
-            ) : awardError ? (
-              <p className="mt-1 text-xs text-rose-500">{awardError}</p>
+            {award?.newly_awarded_badges?.length ? (
+              <div className="mt-3 border-t border-slate-100 pt-3">
+                <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">Nowe odznaki</p>
+                {award.newly_awarded_badges.map((badge) => (
+                  <p key={badge.slug} className="text-xs text-slate-700">
+                    {badge.title}{badge.description ? ` — ${badge.description}` : ""}
+                  </p>
+                ))}
+              </div>
             ) : null}
           </section>
-
-          {award?.newly_awarded_badges?.length ? (
-            <section className={cardBase}>
-              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Nowe odznaki</h2>
-              {award.newly_awarded_badges.map((badge) => (
-                <p key={badge.slug} className="text-sm text-slate-700">
-                  {badge.title}{badge.description ? ` — ${badge.description}` : ""}
-                </p>
-              ))}
-            </section>
-          ) : null}
-
-          {/* ── Recommendations ── */}
-          {loadingRecs ? <p className="text-xs text-slate-400">Pobieram rekomendacje…</p> : null}
-          {!loadingRecs && recommendations.length > 0 ? (
-            <section className={cardBase}>
-              <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Dodaj do puli</h2>
-              <ul className="mb-4 space-y-1.5">
-                {recommendations.map((item) => (
-                  <li key={item.sense_id} className="flex items-baseline justify-between rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                    <span className="font-medium text-slate-800">{item.lemma ?? "—"}</span>
-                    <span className="text-xs text-slate-400">{item.translation_pl ?? "—"}</span>
-                  </li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                onClick={() => void addRecommendations()}
-                disabled={adding}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
-              >
-                {adding ? "Dodaję…" : "Dodaj do mojej puli"}
-              </button>
-              {addStatus ? <p className="mt-2 text-xs text-slate-500">{addStatus}</p> : null}
-            </section>
-          ) : null}
-
-          {/* ── Action buttons ── */}
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                // Go back to config screen (card statuses will persist)
-                setCompleted(false);
-                setStarted(false);
-              }}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-            >
-              Konfiguruj
-            </button>
-            <button
-              type="button"
-              onClick={() => void startSessionWithApi()}
-              disabled={startLoading}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
-            >
-              Jeszcze raz
-            </button>
-            <button
-              type="button"
-              onClick={() => startSession(wrongItemsForRetry)}
-              disabled={wrongItemsForRetry.length === 0 || startLoading}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Ćwicz tylko błędne
-            </button>
-            <Link
-              href="/app/vocab/packs"
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-            >
-              Wróć do fiszek
-            </Link>
-          </div>
         </div>
+
+        {/* ── Dodaj do puli ── */}
+        {loadingRecs ? <p className="text-xs text-slate-400">Pobieram rekomendacje…</p> : null}
+        {!loadingRecs && recommendations.length > 0 ? (
+          <section className={cardBase}>
+            <h2 className="mb-3 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">Dodaj do puli</h2>
+            <ul className="mb-3 grid grid-cols-2 gap-x-4 gap-y-1">
+              {recommendations.map((item) => (
+                <li key={item.sense_id} className="flex items-baseline justify-between gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-slate-50">
+                  <span className="font-medium text-slate-800">{item.lemma ?? "—"}</span>
+                  <span className="text-xs text-slate-400">{item.translation_pl ?? "—"}</span>
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              onClick={() => void addRecommendations()}
+              disabled={adding}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
+            >
+              {adding ? "Dodaję…" : "Dodaj do mojej puli"}
+            </button>
+            {addStatus ? <p className="mt-2 text-xs text-slate-500">{addStatus}</p> : null}
+          </section>
+        ) : null}
       </div>
     );
   }
