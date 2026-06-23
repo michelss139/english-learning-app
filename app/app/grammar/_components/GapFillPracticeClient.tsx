@@ -37,7 +37,7 @@ type AwardResult = {
 const ROUND_SIZE = 3;
 
 const cardBase =
-  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
+  "rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-6 shadow-sm";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -337,45 +337,16 @@ export function GapFillPracticeClient({
       {phase === "question" && currentQuestion && (
         <section className={`${cardBase} space-y-4`}>
           {/* Progress */}
-          <div className="flex items-end justify-between">
-            <span className="text-sm text-slate-500">
-              <span className="text-lg font-bold text-slate-800">{roundIndex + 1}</span>
-              <span className="text-slate-400"> / {ROUND_SIZE}</span>
+          <div className="flex items-center gap-3">
+            <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
+              <div
+                className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-[width] duration-300"
+                style={{ width: `${((roundIndex) / ROUND_SIZE) * 100}%` }}
+              />
+            </div>
+            <span className="shrink-0 text-xs font-medium tabular-nums text-slate-400">
+              {roundIndex + 1} / {ROUND_SIZE}
             </span>
-            {totalAnswered > 0 && (
-              <div className="text-right">
-                <div
-                  className={`text-2xl font-black leading-none tabular-nums ${
-                    pct >= 70 ? "text-emerald-500" : pct >= 40 ? "text-amber-500" : "text-orange-500"
-                  }`}
-                >
-                  {pct}%
-                </div>
-                <div className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
-                  poprawnych
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Dot progress bar */}
-          <div className="flex flex-wrap gap-1">
-            {roundQuestions.map((_, i) => {
-              const done = i < roundIndex || (i === roundIndex && isAnswered);
-              const active = i === roundIndex;
-              return (
-                <span
-                  key={i}
-                  className={`h-2 rounded-full transition-all duration-500 ${
-                    done
-                      ? "w-6 bg-emerald-400"
-                      : active
-                        ? "w-6 bg-sky-400"
-                        : "w-2 bg-slate-200"
-                  }`}
-                />
-              );
-            })}
           </div>
 
           {/* Eyebrow + Prompt */}
@@ -444,20 +415,24 @@ export function GapFillPracticeClient({
               type="button"
               onClick={() => void handleSubmit()}
               disabled={!inputValue.trim() || isSubmitting}
-              className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 py-3 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg disabled:opacity-60"
+              className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 py-3 text-sm font-bold transition hover:brightness-110 disabled:opacity-60"
               style={{ color: "#fff" }}
             >
               <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
               <span className="relative">Sprawdź</span>
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={handleNext}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-            >
-              {roundIndex + 1 < ROUND_SIZE ? "Dalej →" : "Podsumowanie →"}
-            </button>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={handleNext}
+                className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110"
+                style={{ color: "#fff" }}
+              >
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="relative">{roundIndex + 1 < ROUND_SIZE ? "Dalej →" : "Podsumowanie →"}</span>
+              </button>
+            </div>
           )}
         </section>
       )}
@@ -516,7 +491,7 @@ export function GapFillPracticeClient({
             <button
               type="button"
               onClick={handleContinue}
-              className="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-5 py-2.5 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105"
+              className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110"
               style={{ color: "#fff" }}
             >
               <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
@@ -609,7 +584,7 @@ export function GapFillPracticeClient({
             <button
               type="button"
               onClick={handleRestart}
-              className="relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 px-5 py-2.5 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105"
+              className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110"
               style={{ color: "#fff" }}
             >
               <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />

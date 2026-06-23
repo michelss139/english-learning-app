@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase/client";
 import PoolTrainingRunner, { type PoolTrainingCard } from "../pool/PoolTrainingRunner";
 
 const cardBase =
-  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200";
+  "rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm";
 
 function parseSenseIds(raw: string | null): string[] {
   if (!raw) return [];
@@ -125,7 +125,7 @@ export default function VocabSensePracticeClient() {
         <button
           type="button"
           onClick={() => void startTraining()}
-          className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-sky-400 to-blue-700 py-3 text-sm font-bold shadow-md shadow-blue-200/50 ring-1 ring-inset ring-white/20 transition hover:brightness-105 hover:shadow-lg"
+          className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 py-3 text-sm font-bold transition hover:brightness-110"
           style={{ color: "#fff" }}
         >
           <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />

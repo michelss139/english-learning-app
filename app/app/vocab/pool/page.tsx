@@ -831,7 +831,7 @@ function VocabPoolInner() {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-3">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Moja pula</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Moje słówka</h1>
             {/* Stats pills */}
             {poolCounts && (poolCounts.review + poolCounts.learning + poolCounts.new + poolCounts.mastered) > 0 ? (
               <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -922,7 +922,9 @@ function VocabPoolInner() {
       ) : null}
 
       {tab === "quiz" ? (
-        <PoolQuizRunner onExit={() => navigateTab("train")} />
+        <div className="mx-auto max-w-xl">
+          <PoolQuizRunner onExit={() => navigateTab("train")} />
+        </div>
       ) : null}
 
       {tab === "words" ? <PoolTab /> : null}

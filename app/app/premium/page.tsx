@@ -114,9 +114,6 @@ export default function PremiumHubPage() {
                     {tile.description}
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-slate-500 transition-colors duration-200 group-hover:text-slate-900">
-                  Otwórz →
-                </span>
               </Link>
             </div>
           );

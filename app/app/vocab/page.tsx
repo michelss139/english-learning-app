@@ -17,7 +17,7 @@ const TILES: Tile[] = [
   {
     id: "pool",
     eyebrow: "Trening",
-    title: "Moja pula",
+    title: "Moje słówka",
     description: "Twoje aktywne słownictwo — ćwicz powtórkami rozłożonymi w czasie.",
     href: "/app/vocab/pool",
   },
@@ -128,9 +128,6 @@ export default function VocabHubPage() {
                     {tile.description}
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-slate-500 transition-colors duration-200 group-hover:text-slate-900">
-                  Otwórz →
-                </span>
               </Link>
             </div>
           );
