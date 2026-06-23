@@ -624,7 +624,7 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
             </div>
 
             {/* Seria nauki — flat card, natural height */}
-            <div className="shrink-0 rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
+            <Link href="/app/profile" className="shrink-0 rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm transition hover:border-slate-300 hover:shadow-md hover:-translate-y-px">
               <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">
                 Seria nauki
               </h2>
@@ -633,7 +633,7 @@ export default function DashboardClient({ profile, initialStreak }: DashboardCli
                 bestStreak={streak?.best_streak ?? 0}
                 weekActivity={weekActivity}
               />
-            </div>
+            </Link>
 
           </div>
         </div>
