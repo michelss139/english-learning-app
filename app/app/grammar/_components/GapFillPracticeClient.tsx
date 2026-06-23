@@ -337,16 +337,41 @@ export function GapFillPracticeClient({
       {phase === "question" && currentQuestion && (
         <section className={`${cardBase} space-y-4`}>
           {/* Progress */}
-          <div className="flex items-center gap-3">
-            <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-              <div
-                className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-[width] duration-300"
-                style={{ width: `${((roundIndex) / ROUND_SIZE) * 100}%` }}
-              />
+          <div className="space-y-2">
+            <div className="flex items-end justify-between">
+              <span className="text-base text-slate-500">
+                <span className="text-xl font-bold text-slate-800">{roundIndex + 1}</span>
+                <span className="text-slate-400"> / {ROUND_SIZE}</span>
+              </span>
+              <div className="text-right">
+                <div className={`text-3xl font-black leading-none tabular-nums ${
+                  totalAnswered === 0 ? "text-slate-300"
+                  : pct >= 70 ? "text-emerald-500"
+                  : pct >= 40 ? "text-amber-500"
+                  : "text-orange-500"
+                }`}>
+                  {totalAnswered === 0 ? "—" : `${pct}%`}
+                </div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+                  poprawnych
+                </div>
+              </div>
             </div>
-            <span className="shrink-0 text-xs font-medium tabular-nums text-slate-400">
-              {roundIndex + 1} / {ROUND_SIZE}
-            </span>
+            <div className="flex flex-wrap gap-1">
+              {Array.from({ length: ROUND_SIZE }).map((_, i) => {
+                const isAnsweredCorrect = i < roundIndex && roundResults[i]?.correct === true;
+                const isAnsweredWrong = i < roundIndex && roundResults[i]?.correct === false;
+                const isCurrent = i === roundIndex;
+                return (
+                  <span key={i} className={`h-2 rounded-full transition-all duration-500 ${
+                    isAnsweredCorrect ? "w-6 bg-emerald-400"
+                    : isAnsweredWrong ? "w-6 bg-orange-400"
+                    : isCurrent ? "w-6 bg-sky-400"
+                    : "w-2 bg-slate-200"
+                  }`} />
+                );
+              })}
+            </div>
           </div>
 
           {/* Eyebrow + Prompt */}

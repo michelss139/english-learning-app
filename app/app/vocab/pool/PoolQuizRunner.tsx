@@ -64,6 +64,7 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [score, setScore] = useState({ correct: 0, wrong: 0 });
+  const [results, setResults] = useState<boolean[]>([]);
   const [errorMsg, setErrorMsg] = useState("");
 
   const loadItems = useCallback(async () => {
@@ -71,6 +72,7 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
     setCurrentIndex(0);
     setSelectedOption(null);
     setScore({ correct: 0, wrong: 0 });
+    setResults([]);
 
     try {
       const session = await supabase.auth.getSession();
@@ -164,6 +166,7 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
       correct: prev.correct + (isCorrect ? 1 : 0),
       wrong: prev.wrong + (isCorrect ? 0 : 1),
     }));
+    setResults((prev) => [...prev, isCorrect]);
 
     await registerAnswer(q.senseId, isCorrect);
   };
@@ -180,7 +183,9 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
   };
 
   const q = questions[currentIndex];
-  const progress = questions.length > 0 ? (currentIndex / questions.length) * 100 : 0;
+  const total = questions.length;
+  const answeredCount = score.correct + score.wrong;
+  const percentCorrect = answeredCount > 0 ? Math.round((score.correct / answeredCount) * 100) : 0;
 
   // ── Loading ───────────────────────────────────────────────────────────────
   if (state === "loading") {
@@ -265,22 +270,60 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
   return (
     <div className="space-y-4">
       {/* Progress */}
-      <div className="flex items-center gap-3">
-        <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-          <div
-            className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-[width] duration-300"
-            style={{ width: `${progress}%` }}
-          />
+      <div className="space-y-2">
+        <div className="flex items-end justify-between">
+          <span className="text-base text-slate-500">
+            <span className="text-xl font-bold text-slate-800">{currentIndex + 1}</span>
+            <span className="text-slate-400"> / {total}</span>
+          </span>
+          <div className="flex items-end gap-4">
+            <div className="text-right">
+              <div className={`text-3xl font-black leading-none tabular-nums ${
+                answeredCount === 0 ? "text-slate-300"
+                : percentCorrect >= 70 ? "text-emerald-500"
+                : percentCorrect >= 40 ? "text-amber-500"
+                : "text-orange-500"
+              }`}>
+                {answeredCount === 0 ? "—" : `${percentCorrect}%`}
+              </div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+                poprawnych
+              </div>
+            </div>
+            <button
+              onClick={onExit}
+              className="shrink-0 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+            >
+              Zakończ
+            </button>
+          </div>
         </div>
-        <span className="shrink-0 text-xs font-medium tabular-nums text-slate-400">
-          {currentIndex + 1} / {questions.length}
-        </span>
-        <button
-          onClick={onExit}
-          className="shrink-0 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
-        >
-          Zakończ
-        </button>
+        {total <= 25 ? (
+          <div className="flex flex-wrap gap-1">
+            {Array.from({ length: total }).map((_, i) => {
+              const isAnsweredCorrect = i < currentIndex && results[i] === true;
+              const isAnsweredWrong = i < currentIndex && results[i] === false;
+              const isCurrent = i === currentIndex;
+              return (
+                <span key={i} className={`h-2 rounded-full transition-all duration-500 ${
+                  isAnsweredCorrect ? "w-6 bg-emerald-400"
+                  : isAnsweredWrong ? "w-6 bg-orange-400"
+                  : isCurrent ? "w-6 bg-sky-400"
+                  : "w-2 bg-slate-200"
+                }`} />
+              );
+            })}
+          </div>
+        ) : (
+          <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div className="flex h-full">
+              <div className="bg-emerald-400 transition-all duration-500"
+                style={{ width: `${total ? (score.correct / total) * 100 : 0}%` }} />
+              <div className="bg-orange-400 transition-all duration-500"
+                style={{ width: `${total ? (score.wrong / total) * 100 : 0}%` }} />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Question card */}

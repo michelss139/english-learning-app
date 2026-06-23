@@ -108,6 +108,7 @@ export default function ClusterClient({
   const [textAnswer, setTextAnswer] = useState("");
   const [checked, setChecked] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
+  const [questionResults, setQuestionResults] = useState<boolean[]>([]);
   const [completed, setCompleted] = useState(false);
   const [eventLogErrors, setEventLogErrors] = useState(0);
   const [sessionId, setSessionId] = useState("");
@@ -173,6 +174,7 @@ export default function ClusterClient({
       setTextAnswer("");
       setChecked(false);
       setCorrectCount(0);
+      setQuestionResults([]);
       setCompleted(false);
       setEventLogErrors(0);
       setAward(null);
@@ -245,6 +247,7 @@ export default function ClusterClient({
       isCorrect = isClusterTaskAnswerCorrect(current, submitted);
     }
     if (isCorrect) setCorrectCount((c) => c + 1);
+    setQuestionResults((prev) => [...prev, isCorrect]);
 
     if (!isTranslation) {
       setQuestions((prev) =>
@@ -545,6 +548,8 @@ export default function ClusterClient({
   const masteryStatusText = masteryLabel(mastery.mastery_state);
 
   const pct = summaryTotal > 0 ? Math.round(summaryAccuracy * 100) : 0;
+  const answeredSoFar = questionResults.length;
+  const percentCorrectSoFar = answeredSoFar > 0 ? Math.round((correctCount / answeredSoFar) * 100) : 0;
 
   // ── Overview sidebar sections ──────────────────────────────────────────────
   type OverviewSection = "roznica" | "wzorce" | "przyklady" | "popraw";
@@ -765,16 +770,52 @@ export default function ClusterClient({
       {isPracticeView && !error && !completed && current ? (
         <section className={`${cardBase} space-y-4`}>
           {/* Progress */}
-          <div className="flex items-center gap-3">
-            <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-              <div
-                className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-[width] duration-300"
-                style={{ width: `${(currentIndex / total) * 100}%` }}
-              />
+          <div className="space-y-2">
+            <div className="flex items-end justify-between">
+              <span className="text-base text-slate-500">
+                <span className="text-xl font-bold text-slate-800">{currentIndex + 1}</span>
+                <span className="text-slate-400"> / {total}</span>
+              </span>
+              <div className="text-right">
+                <div className={`text-3xl font-black leading-none tabular-nums ${
+                  answeredSoFar === 0 ? "text-slate-300"
+                  : percentCorrectSoFar >= 70 ? "text-emerald-500"
+                  : percentCorrectSoFar >= 40 ? "text-amber-500"
+                  : "text-orange-500"
+                }`}>
+                  {answeredSoFar === 0 ? "—" : `${percentCorrectSoFar}%`}
+                </div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+                  poprawnych
+                </div>
+              </div>
             </div>
-            <span className="shrink-0 text-xs font-medium tabular-nums text-slate-400">
-              {currentIndex + 1} / {total}
-            </span>
+            {total <= 25 ? (
+              <div className="flex flex-wrap gap-1">
+                {Array.from({ length: total }).map((_, i) => {
+                  const isAnsweredCorrect = i < currentIndex && questionResults[i] === true;
+                  const isAnsweredWrong = i < currentIndex && questionResults[i] === false;
+                  const isCurrent = i === currentIndex;
+                  return (
+                    <span key={i} className={`h-2 rounded-full transition-all duration-500 ${
+                      isAnsweredCorrect ? "w-6 bg-emerald-400"
+                      : isAnsweredWrong ? "w-6 bg-orange-400"
+                      : isCurrent ? "w-6 bg-sky-400"
+                      : "w-2 bg-slate-200"
+                    }`} />
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                <div className="flex h-full">
+                  <div className="bg-emerald-400 transition-all duration-500"
+                    style={{ width: `${total ? (correctCount / total) * 100 : 0}%` }} />
+                  <div className="bg-orange-400 transition-all duration-500"
+                    style={{ width: `${total ? ((answeredSoFar - correctCount) / total) * 100 : 0}%` }} />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Eyebrow + Prompt */}
