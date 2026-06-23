@@ -377,22 +377,47 @@ export default function PoolQuizRunner({ onExit }: { onExit: () => void }) {
         })}
       </div>
 
-      {/* Next */}
+      {/* Feedback + Next */}
       {isAnswered && (
-        <div className="flex items-center justify-between">
-          <span className={`text-sm font-semibold ${selectedOption === q.correctIndex ? "text-emerald-700" : "text-rose-700"}`}>
-            {selectedOption === q.correctIndex ? "Dobrze!" : `Poprawnie: ${q.correctTranslation}`}
-          </span>
-          <button
-            onClick={handleNext}
-            className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110"
-            style={{ color: "#fff" }}
-          >
-            <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
-            <span className="relative">
-              {currentIndex + 1 >= questions.length ? "Wynik →" : "Dalej →"}
-            </span>
-          </button>
+        <div className="space-y-3">
+          {selectedOption === q.correctIndex ? (
+            <div className="rounded-xl bg-emerald-50 px-4 py-3 space-y-1">
+              <p className="flex items-center gap-1.5 text-base font-semibold text-emerald-700">
+                <CorrectIcon size={20} /> Poprawnie!
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-xl bg-orange-50/80 px-4 py-3.5 space-y-3">
+              <div className="flex items-start gap-3">
+                <WrongIcon size={28} />
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest text-orange-500">Twoja odpowiedź</p>
+                  <p className="mt-0.5 text-lg font-semibold text-red-600">
+                    {selectedOption !== null ? q.options[selectedOption] : "—"}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CorrectIcon size={32} />
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Poprawnie</p>
+                  <p className="mt-0.5 text-lg font-bold text-slate-900">{q.correctTranslation}</p>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="flex justify-end">
+            <button
+              onClick={handleNext}
+              className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110"
+              style={{ color: "#fff" }}
+            >
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="relative">
+                {currentIndex + 1 >= questions.length ? "Wynik →" : "Dalej →"}
+              </span>
+            </button>
+          </div>
         </div>
       )}
     </div>
