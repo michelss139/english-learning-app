@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import { TestItem } from "@/lib/vocab/testLoader";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 type TestItemWithMode = TestItem & {
   questionMode: "en-pl" | "pl-en"; // Determined per item
@@ -430,161 +431,223 @@ function VocabTestInner() {
     setFeedbackTone("neutral");
   };
 
-  if (loading) return <main>Ładuję test…</main>;
+  if (loading) {
+    return (
+      <main className="mx-auto max-w-xl">
+        <div className="flex items-center justify-center py-16">
+          <div className="text-sm text-slate-500">Ładuję test…</div>
+        </div>
+      </main>
+    );
+  }
 
   const questionMode = current?.questionMode || "en-pl";
   const isEnPl = questionMode === "en-pl";
   const promptText = isEnPl ? current?.term_en : current?.translation_pl;
   const placeholderText = isEnPl ? "Twoja odpowiedź (PL)" : "Twoja odpowiedź (EN)";
+  const progress = total > 0 ? (currentIndex / total) * 100 : 0;
 
   return (
-    <main className="space-y-6">
-      <header className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Test słówek</h1>
-            <p className="text-base text-emerald-100/80">
-              Tryb: <span className="font-medium text-slate-900">{isEnPl ? "EN → PL" : "PL → EN"}</span>
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
-              href="/app/vocab/pool"
-            >
-              ← Trening słówek
-            </a>
-            <a
-              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-medium text-slate-900/90 hover:bg-white/10 hover:text-slate-900 transition"
-              href="/app"
-            >
-              Panel
-            </a>
-          </div>
+    <main className="mx-auto max-w-xl space-y-5">
+      {/* Header */}
+      <header className="flex items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Test słówek</h1>
+        </div>
+        <div className="flex gap-2">
+          <a
+            href="/app/vocab/pool"
+            className="rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            ← Trening słówek
+          </a>
+          <a
+            href="/app"
+            className="rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            Panel
+          </a>
         </div>
       </header>
 
-      {error ? (
-        <div className="rounded-2xl border-2 border-rose-400/30 bg-rose-400/10 p-4">
-          <p className="text-sm text-rose-100">
-            <span className="font-semibold">Błąd: </span>
-            {error}
-          </p>
+      {/* Error */}
+      {error && (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+          <span className="font-semibold">Błąd: </span>{error}
         </div>
-      ) : null}
+      )}
 
-      {!error && !completed && current ? (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
-          <div className="flex items-center justify-between text-sm text-slate-900/75">
-            <span>
-              Pytanie <span className="font-medium text-slate-900">{currentIndex + 1}</span>/{total}
-            </span>
-            <span>
-              Poprawne: <span className="font-medium text-slate-900">{correctCount}</span>
+      {/* Question */}
+      {!error && !completed && current && (
+        <div className="space-y-4">
+          {/* Progress bar */}
+          <div className="flex items-center gap-3">
+            <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
+              <div
+                className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-[width] duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="shrink-0 text-xs font-medium tabular-nums text-slate-400">
+              {currentIndex + 1} / {total}
             </span>
           </div>
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4 space-y-3">
-            <div className="space-y-2">
-              <div className="text-xs text-slate-900/60 uppercase tracking-wide">
-                {isEnPl ? "Angielski → Polski" : "Polski → Angielski"}
-              </div>
-              <div className="text-xl font-semibold tracking-tight text-slate-900">{promptText || "—"}</div>
-            </div>
+          {/* Prompt card */}
+          <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-6 text-center shadow-sm">
+            <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400">
+              {isEnPl ? "Angielski → Polski" : "Polski → Angielski"}
+            </p>
+            <p className="mt-3 text-3xl font-black tracking-tight text-slate-900">
+              {promptText || "—"}
+            </p>
+          </div>
 
-            <form
-              className="space-y-3"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!checked) checkAnswer();
-                else goNext();
-              }}
-            >
-              <input
-                className="w-full rounded-2xl border-2 border-white/10 bg-black/10 px-3 py-2 text-slate-900 placeholder:text-slate-900/40 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
-                placeholder={placeholderText}
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                disabled={checked}
-                autoFocus
-              />
+          {/* Answer form */}
+          <form
+            className="space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!checked) checkAnswer();
+              else goNext();
+            }}
+          >
+            <input
+              className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400/40 ${
+                checked
+                  ? feedbackTone === "good"
+                    ? "border-emerald-300 bg-emerald-50"
+                    : feedbackTone === "bad"
+                    ? "border-rose-300 bg-rose-50"
+                    : "border-slate-200 bg-slate-50"
+                  : "border-slate-200 bg-white hover:border-slate-300"
+              }`}
+              placeholder={placeholderText}
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              disabled={checked}
+              autoFocus
+            />
 
-              {checked ? (
-                <div className={`rounded-2xl border-2 px-4 py-3 text-sm ${pill(feedbackTone)}`}>
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="font-medium">{feedback}</p>
-                    <span className="rounded-xl border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold">
-                      {feedbackTone === "good" ? "OK" : feedbackTone === "bad" ? "BŁĄD" : "INFO"}
-                    </span>
-                  </div>
-
-                  {feedbackTone === "bad" && current ? (
-                    <p className="mt-2">
+            {/* Feedback */}
+            {checked && (
+              <div
+                className={`flex items-start gap-2.5 rounded-xl border px-4 py-3 text-sm ${
+                  feedbackTone === "good"
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+                    : feedbackTone === "bad"
+                    ? "border-rose-300 bg-rose-50 text-rose-700"
+                    : "border-slate-200 bg-slate-50 text-slate-700"
+                }`}
+              >
+                <span className="mt-px shrink-0">
+                  {feedbackTone === "good" ? (
+                    <CorrectIcon size={18} />
+                  ) : feedbackTone === "bad" ? (
+                    <WrongIcon size={18} />
+                  ) : null}
+                </span>
+                <div>
+                  <p className="font-medium">{feedback}</p>
+                  {feedbackTone === "bad" && current && (
+                    <p className="mt-0.5 text-rose-600">
                       Poprawna odpowiedź:{" "}
-                      <span className="font-medium text-slate-900">
-                        {isEnPl ? current.translation_pl || "-" : current.term_en}
+                      <span className="font-semibold">
+                        {isEnPl ? current.translation_pl || "—" : current.term_en}
                       </span>
                     </p>
-                  ) : null}
+                  )}
                 </div>
-              ) : (
-                <p className="text-xs text-slate-900/60">
-                  {isEnPl
-                    ? "Wskazówka: jeśli jest kilka poprawnych tłumaczeń, wpisz jedno z nich (w bazie są oddzielone średnikiem ;)."
-                    : "Wpisz dokładnie słówko po angielsku (jak w bazie)."}
-                </p>
-              )}
+              </div>
+            )}
 
+            {!checked && (
+              <p className="text-xs text-slate-400">
+                {isEnPl
+                  ? "Jeśli jest kilka tłumaczeń, wpisz jedno z nich."
+                  : "Wpisz dokładnie słówko po angielsku."}
+              </p>
+            )}
+
+            <div className="flex items-center justify-between gap-3">
+              {checked ? (
+                <span className={`text-sm font-semibold ${feedbackTone === "good" ? "text-emerald-700" : "text-rose-700"}`}>
+                  {feedbackTone === "good" ? "Dobrze!" : `Poprawnie: ${isEnPl ? current.translation_pl || "—" : current.term_en}`}
+                </span>
+              ) : (
+                <span className="text-xs text-slate-400 tabular-nums">
+                  Poprawne: {correctCount}
+                </span>
+              )}
               <button
-                className={`relative inline-flex items-center justify-center overflow-hidden rounded-xl px-4 py-2 font-bold shadow-md ring-1 ring-inset ring-white/20 transition disabled:opacity-60 ${
-                  checked
-                    ? "border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 shadow-none ring-0"
-                    : "bg-gradient-to-r from-sky-400 to-blue-700 shadow-blue-200/50 hover:brightness-105 hover:shadow-lg"
-                }`}
-                style={checked ? {} : { color: "#fff" }}
                 type="submit"
                 disabled={!current}
+                className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110 disabled:opacity-60"
+                style={{ color: "#fff" }}
               >
-                {!checked && <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />}
-                <span className="relative">{checked ? (currentIndex === total - 1 ? "Zakończ" : "Dalej") : "Sprawdź"}</span>
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="relative">
+                  {checked
+                    ? currentIndex === total - 1
+                      ? "Wynik →"
+                      : "Dalej →"
+                    : "Sprawdź"}
+                </span>
               </button>
-            </form>
-          </div>
-        </section>
-      ) : null}
+            </div>
+          </form>
+        </div>
+      )}
 
-      {!error && completed ? (
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-sm p-5 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900">Wynik</h2>
-            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-slate-900">
-              {correctCount} / {total}
-            </span>
+      {/* Results */}
+      {!error && completed && (
+        <div className="space-y-4">
+          {/* Score card */}
+          <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-8 text-center shadow-sm">
+            <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400">Wynik testu</p>
+            <p className="mt-3 text-5xl" role="img">
+              {total > 0 && correctCount / total >= 0.8 ? "🎉" : correctCount / total >= 0.5 ? "💪" : "📚"}
+            </p>
+            <p className="mt-3 text-4xl font-black tracking-tight text-slate-900">
+              {total > 0 ? Math.round((correctCount / total) * 100) : 0}%
+            </p>
+            <p className="mt-1 text-sm text-slate-500">
+              {correctCount} z {total} poprawnych
+            </p>
           </div>
 
+          {/* Mistakes */}
           {mistakes.length === 0 ? (
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-emerald-100">
-              Brak błędów. Świetnie!
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center text-sm font-medium text-emerald-800">
+              Brak błędów — świetnie!
             </div>
           ) : (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-slate-900">Twoje błędy:</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400">
+                Twoje błędy
+              </p>
               <ul className="space-y-2">
                 {mistakes.map((m, idx) => (
                   <li
                     key={`${m.term}-${idx}`}
-                    className="rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-200/70 bg-white px-4 py-3 text-sm shadow-sm"
                   >
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="font-medium text-slate-900">{m.term}</div>
-                      <span className="px-2 py-0.5 rounded-lg border border-white/20 bg-white/10 text-xs text-slate-900/70">
+                    <div className="flex items-center gap-2">
+                      <WrongIcon size={16} />
+                      <span className="font-semibold text-slate-900">{m.term}</span>
+                      <span className="rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
                         {m.questionMode === "en-pl" ? "EN→PL" : "PL→EN"}
                       </span>
                     </div>
-                    <div className="text-slate-900/75">
-                      Poprawna: <span className="text-slate-900">{m.expected}</span> • Twoja:{" "}
-                      <span className="text-slate-900">{m.given}</span>
+                    <div className="mt-1.5 flex flex-wrap gap-x-3 text-xs text-slate-500">
+                      <span>
+                        Poprawna:{" "}
+                        <span className="font-medium text-emerald-700">{m.expected}</span>
+                      </span>
+                      <span>
+                        Twoja:{" "}
+                        <span className="font-medium text-rose-600">{m.given}</span>
+                      </span>
                     </div>
                   </li>
                 ))}
@@ -592,35 +655,42 @@ function VocabTestInner() {
             </div>
           )}
 
-          <div className="rounded-2xl border-2 border-white/10 bg-white/5 p-4">
-            {saveError ? (
-              <p className="text-sm text-rose-100">Błąd zapisu wyniku: {saveError}</p>
-            ) : savingResult ? (
-              <p className="text-sm text-slate-900/75">Zapisuję wynik…</p>
-            ) : (
-              <p className="text-sm text-slate-900/75">Wynik zapisany.</p>
-            )}
+          {/* Save status */}
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500">
+            {saveError
+              ? <span className="text-rose-600">Błąd zapisu: {saveError}</span>
+              : savingResult
+              ? "Zapisuję wynik…"
+              : "Wynik zapisany."}
           </div>
 
           {eventLogErrors > 0 && (
-            <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-400/10 p-4">
-              <p className="text-sm text-amber-100">
-                <span className="font-semibold">Uwaga: </span>
-                Nie udało się zapisać {eventLogErrors} {eventLogErrors === 1 ? "zdarzenia" : "zdarzeń"} do historii. Wynik testu został zapisany, ale statystyki mogą być niepełne.
-              </p>
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+              <span className="font-semibold">Uwaga: </span>
+              Nie udało się zapisać {eventLogErrors}{" "}
+              {eventLogErrors === 1 ? "zdarzenia" : "zdarzeń"} do historii. Statystyki mogą być niepełne.
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2">
+          {/* Actions */}
+          <div className="flex justify-center gap-3">
             <a
-              className="rounded-xl border-2 border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-white/15 transition"
-              href="/app/vocab"
+              href="/app/vocab/pool"
+              className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
             >
-              Wróć do treningu
+              ← Trening słówek
+            </a>
+            <a
+              href="/app/vocab"
+              className="relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-2.5 text-sm font-bold transition hover:brightness-110"
+              style={{ color: "#fff" }}
+            >
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="relative">Słownictwo →</span>
             </a>
           </div>
-        </section>
-      ) : null}
+        </div>
+      )}
     </main>
   );
 }
