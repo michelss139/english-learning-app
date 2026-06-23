@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-type TileId = "irregular" | "tenses" | "stative" | "conditionals" | "modal";
+type TileId = "tenses" | "stative" | "conditionals" | "modal";
 
 type Tile = {
   id: TileId;
@@ -14,13 +14,6 @@ type Tile = {
 };
 
 const TILES: Tile[] = [
-  {
-    id: "irregular",
-    eyebrow: "Trening",
-    title: "Czasowniki nieregularne",
-    description: "Past simple i past participle — trenuj formy i wzorce użycia.",
-    href: "/app/irregular-verbs",
-  },
   {
     id: "tenses",
     eyebrow: "Teoria",

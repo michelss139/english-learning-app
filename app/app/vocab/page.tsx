@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-type TileId = "pool" | "packs" | "clusters" | "articles";
+type TileId = "pool" | "packs" | "clusters" | "articles" | "irregular";
 
 type Tile = {
   id: TileId;
@@ -41,6 +41,13 @@ const TILES: Tile[] = [
     title: "Artykuły",
     description: "Teksty edukacyjne na poziomach A1, B1 i C1 z glossariuszem i pytaniami do dyskusji.",
     href: "/app/vocab/articles",
+  },
+  {
+    id: "irregular",
+    eyebrow: "Trening",
+    title: "Czasowniki nieregularne",
+    description: "Past simple i past participle — trenuj formy i wzorce użycia.",
+    href: "/app/irregular-verbs",
   },
 ];
 
