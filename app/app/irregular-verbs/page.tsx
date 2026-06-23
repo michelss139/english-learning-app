@@ -35,10 +35,25 @@ export default async function IrregularVerbsPage() {
   const pinnedSet = new Set((pinnedRows ?? []).map((r) => r.irregular_verb_id));
 
   const verbRows = verbs ?? [];
-  const [verbIdToTranslation, metaMap] = await Promise.all([
+  const entryIds = verbRows.map((v) => v.entry_id).filter(Boolean) as string[];
+
+  const [verbIdToTranslation, metaMap, sensesData] = await Promise.all([
     loadTranslationsForIrregularVerbs(supabase, verbRows),
     batchFetchVerbMeta(verbRows.map((v) => v.entry_id), supabase),
+    entryIds.length > 0
+      ? supabase
+          .from("lexicon_senses")
+          .select("id, entry_id, lexicon_examples(example_en)")
+          .in("entry_id", entryIds)
+      : Promise.resolve({ data: [] }),
   ]);
+
+  const entryIdToExample = new Map<string, string>();
+  for (const sense of (sensesData.data ?? []) as Array<{ id: string; entry_id: string; lexicon_examples: Array<{ example_en: string | null }> }>) {
+    if (!entryIdToExample.has(sense.entry_id) && sense.lexicon_examples?.[0]?.example_en) {
+      entryIdToExample.set(sense.entry_id, sense.lexicon_examples[0].example_en);
+    }
+  }
 
   const payload: IrregularVerbDto[] = verbRows.map((v) => {
     const meta = metaMap.get(v.entry_id ?? "") ?? {};
@@ -52,6 +67,7 @@ export default async function IrregularVerbsPage() {
       pinned: pinnedSet.has(v.id),
       translation_pl: verbIdToTranslation.get(v.id) ?? null,
       cefr_level: (meta as { cefr_level?: string | null }).cefr_level ?? null,
+      example_en: v.entry_id ? (entryIdToExample.get(v.entry_id) ?? null) : null,
     };
   });
 

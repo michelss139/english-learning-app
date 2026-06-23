@@ -551,6 +551,8 @@ export default function ClusterClient({
   const answeredSoFar = questionResults.length;
   const percentCorrectSoFar = answeredSoFar > 0 ? Math.round((correctCount / answeredSoFar) * 100) : 0;
 
+  const [flippedExamples, setFlippedExamples] = useState<Set<string>>(new Set());
+
   // ── Overview sidebar sections ──────────────────────────────────────────────
   type OverviewSection = "roznica" | "wzorce" | "przyklady" | "popraw";
 
@@ -617,17 +619,63 @@ export default function ClusterClient({
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Przykłady zdań</h2>
           <div className="grid grid-cols-3 gap-2">
-            {initialExamples.map((ex) => (
-              <div key={ex.id} className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm flex flex-col gap-1.5">
-                {ex.focus_term && (
-                  <span className="inline-block self-start rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide bg-slate-100 text-slate-500">
-                    {ex.focus_term}
-                  </span>
-                )}
-                <p className="text-sm font-medium text-slate-900 leading-snug">{ex.example_en}</p>
-                {ex.example_pl && <p className="text-xs text-slate-400">{ex.example_pl}</p>}
-              </div>
-            ))}
+            {initialExamples.map((ex) => {
+              const isFlipped = flippedExamples.has(ex.id);
+              return (
+                <div
+                  key={ex.id}
+                  onClick={() =>
+                    setFlippedExamples((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(ex.id)) next.delete(ex.id);
+                      else next.add(ex.id);
+                      return next;
+                    })
+                  }
+                  className="cursor-pointer select-none"
+                  style={{ perspective: "800px", minHeight: "120px" }}
+                >
+                  <div
+                    className="relative w-full h-full"
+                    style={{
+                      transformStyle: "preserve-3d",
+                      transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
+                      transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                      minHeight: "120px",
+                    }}
+                  >
+                    {/* Front */}
+                    <div
+                      className="absolute inset-0 rounded-xl border border-slate-100 bg-white p-3 shadow-sm flex flex-col gap-1.5"
+                      style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+                    >
+                      {ex.focus_term && (
+                        <span className="inline-block self-start rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide bg-slate-100 text-slate-500">
+                          {ex.focus_term}
+                        </span>
+                      )}
+                      <p className="text-sm font-medium text-slate-900 leading-snug flex-1">{ex.example_en}</p>
+                      <p className="text-[9px] text-slate-300 mt-auto">Kliknij →</p>
+                    </div>
+                    {/* Back */}
+                    <div
+                      className="absolute inset-0 rounded-xl border border-sky-200 bg-sky-50 p-3 flex items-center justify-center"
+                      style={{
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        transform: "rotateY(180deg)",
+                      }}
+                    >
+                      {ex.example_pl ? (
+                        <p className="text-sm italic text-sky-800 text-center leading-snug">{ex.example_pl}</p>
+                      ) : (
+                        <p className="text-xs text-slate-400 text-center">Brak przykładu</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       );

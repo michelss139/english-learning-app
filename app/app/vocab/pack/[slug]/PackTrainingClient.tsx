@@ -264,19 +264,24 @@ function FlipCard({
             </span>
           </div>
           <p className="text-sm text-slate-500 text-center truncate">{item.translation_pl ?? "—"}</p>
+          <p className="mt-1 text-[9px] text-slate-300 text-center">Kliknij →</p>
         </div>
         {/* Back */}
         <div
-          className={`absolute inset-0 rounded-xl border ${borderColor} bg-slate-50 p-3 flex items-center justify-center`}
+          className={`absolute inset-0 rounded-xl border ${borderColor} bg-slate-50 p-3 flex flex-col justify-center gap-1.5`}
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           {item.example_en ? (
-            <p className="text-xs italic text-slate-600 text-center line-clamp-4 leading-snug">
+            <p className="text-xs italic text-slate-600 text-center line-clamp-3 leading-snug">
               &ldquo;{item.example_en}&rdquo;
             </p>
-          ) : (
+          ) : null}
+          {item.definition_en ? (
+            <p className="text-[10px] text-slate-400 text-center line-clamp-2 leading-snug">{item.definition_en}</p>
+          ) : null}
+          {!item.example_en && !item.definition_en ? (
             <p className="text-xs text-slate-400 text-center">Brak przykładu</p>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

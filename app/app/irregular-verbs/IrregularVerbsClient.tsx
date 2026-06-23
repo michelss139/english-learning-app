@@ -16,6 +16,7 @@ export type IrregularVerbDto = {
   pinned: boolean;
   translation_pl?: string | null;
   cefr_level?: string | null;
+  example_en?: string | null;
 };
 
 function cefrColor(level?: string | null): string {
@@ -83,60 +84,97 @@ function VerbTile({
   isToggling: boolean;
   onTogglePin: (id: string) => void;
 }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const borderClass = pinned
+    ? "border-emerald-300/70 shadow-sm shadow-emerald-100"
+    : "border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:border-slate-300 hover:shadow-md";
+
   return (
-    <button
-      type="button"
-      onClick={() => onTogglePin(verb.id)}
-      disabled={isToggling}
-      aria-pressed={pinned}
+    <div
+      className={`group relative rounded-2xl border transition-all duration-150 cursor-pointer select-none ${borderClass}`}
+      style={{ perspective: "800px", minHeight: "160px" }}
+      onClick={() => setIsFlipped((f) => !f)}
       aria-label={`${verb.base} (${verb.past_simple}, ${verb.past_participle})${pinned ? " — przypięty" : ""}`}
-      className={`group relative flex w-full flex-col rounded-2xl border p-4 text-left transition-all duration-150 disabled:opacity-60 ${
-        pinned
-          ? "border-emerald-300/70 bg-emerald-50/60 shadow-sm shadow-emerald-100"
-          : "border-slate-200/70 bg-white/90 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:border-slate-300 hover:shadow-md"
-      }`}
     >
-      {/* Pin indicator — lewy górny róg */}
-      <span
-        aria-hidden="true"
-        className={`absolute left-2.5 top-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[10px] transition-colors ${
-          pinned
-            ? "border-emerald-500/60 bg-emerald-500 text-white"
-            : "border-slate-200 bg-white/80 text-slate-300 group-hover:border-slate-400 group-hover:text-slate-500"
-        }`}
+      <div
+        className="relative w-full h-full"
+        style={{
+          transformStyle: "preserve-3d",
+          transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1)",
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          minHeight: "160px",
+        }}
       >
-        <PinIcon pinned={pinned} />
-      </span>
+        {/* Front */}
+        <div
+          className={`absolute inset-0 rounded-2xl p-4 flex flex-col ${pinned ? "bg-emerald-50/60" : "bg-white/90"}`}
+          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+        >
+          {/* Pin button — lewy górny róg */}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onTogglePin(verb.id); }}
+            disabled={isToggling}
+            aria-pressed={pinned}
+            className={`absolute left-2.5 top-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full border text-[10px] transition-colors disabled:opacity-60 ${
+              pinned
+                ? "border-emerald-500/60 bg-emerald-500 text-white"
+                : "border-slate-200 bg-white/80 text-slate-300 group-hover:border-slate-400 group-hover:text-slate-500"
+            }`}
+          >
+            <PinIcon pinned={pinned} />
+          </button>
 
-      {/* CEFR — prawy górny róg */}
-      {verb.cefr_level && (
-        <span className={`absolute right-2.5 top-2.5 rounded px-2 py-1 text-[13px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
-          {verb.cefr_level}
-        </span>
-      )}
+          {/* CEFR — prawy górny róg */}
+          {verb.cefr_level && (
+            <span className={`absolute right-2.5 top-2.5 rounded px-2 py-1 text-[13px] font-bold tracking-wide ${cefrColor(verb.cefr_level)}`}>
+              {verb.cefr_level}
+            </span>
+          )}
 
-      {/* Base form + translation */}
-      <div className="mb-3 pt-6">
-        <div className="text-xl font-bold tracking-tight text-slate-900">
-          {verb.base}
+          {/* Base form + translation */}
+          <div className="mb-3 pt-6">
+            <div className="text-xl font-bold tracking-tight text-slate-900">{verb.base}</div>
+            {verb.translation_pl && (
+              <div className="mt-0.5 truncate text-xs text-slate-400">{verb.translation_pl}</div>
+            )}
+          </div>
+
+          {/* Forms */}
+          <div className="mt-auto space-y-1">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 shrink-0">Past</span>
+              <span className="truncate text-sm font-medium text-slate-700">{verb.past_simple}</span>
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 shrink-0">PP</span>
+              <span className="truncate text-sm font-medium text-slate-700">{verb.past_participle}</span>
+            </div>
+          </div>
+          <p className="mt-2 text-[9px] text-slate-300 text-right">Kliknij →</p>
         </div>
-        {verb.translation_pl && (
-          <div className="mt-0.5 truncate text-xs text-slate-400">{verb.translation_pl}</div>
-        )}
+
+        {/* Back */}
+        <div
+          className="absolute inset-0 rounded-2xl bg-slate-800 p-4 flex flex-col items-center justify-center gap-2"
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
+        >
+          <p className="text-base font-bold text-white">{verb.base}</p>
+          {verb.example_en ? (
+            <p className="text-xs italic text-slate-300 text-center leading-snug line-clamp-4">
+              &ldquo;{verb.example_en}&rdquo;
+            </p>
+          ) : (
+            <p className="text-xs text-slate-500 text-center">Brak przykładu</p>
+          )}
+        </div>
       </div>
-
-      {/* Forms */}
-      <div className="mt-auto space-y-1">
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 shrink-0">Past</span>
-          <span className="truncate text-sm font-medium text-slate-700">{verb.past_simple}</span>
-        </div>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 shrink-0">PP</span>
-          <span className="truncate text-sm font-medium text-slate-700">{verb.past_participle}</span>
-        </div>
-      </div>
-    </button>
+    </div>
   );
 }
 
