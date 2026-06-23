@@ -1,4 +1,4 @@
-const AVATAR_COUNT = 9;
+const AVATAR_COUNT = 12;
 
 export const DEFAULT_AVATARS = Array.from({ length: AVATAR_COUNT }, (_, idx) => {
   const id = String(idx + 1).padStart(2, "0");

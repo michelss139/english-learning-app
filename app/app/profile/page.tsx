@@ -163,138 +163,98 @@ export default async function ProfilePage() {
         </div>
       </header>
 
-      {/* ── Strefa 2: Dwie kolumny ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      {/* ── Strefa 2: 4 kafelki w siatce 2×2 ── */}
+      <div className="grid grid-cols-2 gap-4">
 
-        {/* Kolumna lewa — Moje lekcje */}
+        {/* [1,1] Moje lekcje */}
         <div className="flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_4px_24px_rgba(251,146,60,0.28)]">
-          {/* Nagłówek na gradiencie */}
           <div className="flex shrink-0 items-center px-5 py-4">
-            <h2 className="text-2xl font-black tracking-tight" style={{ color: "#fff" }}>Moje lekcje</h2>
+            <h2 className="text-2xl font-black tracking-tight text-white">Moje lekcje</h2>
           </div>
-
-          {/* Białe wnętrze z 3px pomarańczową ramką */}
           <div className="m-[3px] flex flex-1 flex-col rounded-xl bg-white p-5">
-
-            {/* Ostatnia lekcja */}
-            <p style={{ fontSize: 11, letterSpacing: "0.08em" }} className="font-bold uppercase text-slate-400">
-              Ostatnia lekcja
-            </p>
+            <p style={{ fontSize: 11, letterSpacing: "0.08em" }} className="font-bold uppercase text-slate-400">Ostatnia lekcja</p>
             {lastLesson ? (
               <>
                 <p className="mt-1 text-[13px] text-slate-400">{fmtDate(lastLesson.lesson_date)}</p>
-                <p className="mt-0.5 text-[17px] font-medium leading-snug text-slate-800">
-                  {lastLesson.topic || "Brak tematu"}
-                </p>
-                <a
-                  href={`/app/lessons/${lastLesson.id}`}
-                  className="mt-3 inline-block rounded-lg border border-slate-200 px-4 py-2 text-[13px] text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
-                >
-                  ← Zobacz notatki
-                </a>
+                <p className="mt-0.5 text-[17px] font-medium leading-snug text-slate-800">{lastLesson.topic || "Brak tematu"}</p>
+                <a href={`/app/lessons/${lastLesson.id}`} className="mt-3 inline-block rounded-lg border border-slate-200 px-4 py-2 text-[13px] text-slate-600 transition hover:border-slate-300 hover:bg-slate-50">← Zobacz notatki</a>
               </>
             ) : (
               <p className="mt-1 text-sm italic text-slate-400">Brak ostatniej lekcji</p>
             )}
-
-            {/* Separator */}
             <div className="my-4 h-px bg-slate-100" />
-
-            {/* Następna lekcja */}
-            <p style={{ fontSize: 11, letterSpacing: "0.08em" }} className="font-bold uppercase text-slate-400">
-              Następna lekcja
-            </p>
+            <p style={{ fontSize: 11, letterSpacing: "0.08em" }} className="font-bold uppercase text-slate-400">Następna lekcja</p>
             {nextLesson ? (
               <>
                 <p className="mt-1 text-[13px] text-slate-400">{fmtDate(nextLesson.lesson_date)}</p>
-                <p className="mt-0.5 text-[17px] font-medium leading-snug text-slate-800">
-                  {nextLesson.topic || "Brak tematu"}
-                </p>
+                <p className="mt-0.5 text-[17px] font-medium leading-snug text-slate-800">{nextLesson.topic || "Brak tematu"}</p>
               </>
             ) : (
               <p className="mt-1 text-sm italic text-slate-400">Brak zaplanowanych lekcji</p>
             )}
-
           </div>
-
         </div>
 
-        {/* Karta Ranga — osobny kafelek pod lekcjami */}
+        {/* [1,2] Ranga */}
         <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
-          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">
-            Ranga
-          </h2>
+          <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Ranga</h2>
           <div className="flex items-center gap-2">
             <i className={rank.icon} style={{ fontSize: 22, color: "#178CF2" }} />
             <span className="text-3xl font-bold tracking-tight text-slate-900">{rank.label}</span>
           </div>
         </div>
 
-        {/* Kolumna prawa — Statystyki + Seria */}
-        <div className="flex flex-col" style={{ gap: 12 }}>
-
-          {/* Statystyki + Odznaki — jeden kafelek, dwie kolumny */}
-          <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
-            <div className="grid grid-cols-2 gap-4">
-
-              {/* Lewa kolumna — Statystyki */}
-              <div className="flex flex-col gap-2">
-                <h2 className="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Statystyki</h2>
-                {[
-                  { icon: "ti-book-2",        color: "#178CF2", label: "Słówka opanowane",      value: wordsMastered.toLocaleString("pl-PL") },
-                  { icon: "ti-calendar-stats", color: "#0F6E56", label: "Słówka w tym miesiącu", value: wordsThisMonth.toLocaleString("pl-PL") },
-                  { icon: "ti-trophy",         color: "#FA8C27", label: "Najlepsza seria",        value: `${bestStreak} dni` },
-                ].map(({ icon, color, label, value }) => (
-                  <div
-                    key={label}
-                    className="flex items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2 shadow-sm"
-                  >
-                    <i className={icon} style={{ fontSize: 20, color }} />
-                    <div>
-                      <p className="text-[10px] text-slate-400">{label}</p>
-                      <p className="text-lg font-semibold leading-tight" style={{ color }}>{value}</p>
+        {/* [2,1] Statystyki + Odznaki */}
+        <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <h2 className="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Statystyki</h2>
+              {[
+                { icon: "ti-book-2",         color: "#178CF2", label: "Słówka opanowane",      value: wordsMastered.toLocaleString("pl-PL") },
+                { icon: "ti-calendar-stats", color: "#0F6E56", label: "Słówka w tym miesiącu", value: wordsThisMonth.toLocaleString("pl-PL") },
+                { icon: "ti-trophy",         color: "#FA8C27", label: "Najlepsza seria",        value: `${bestStreak} dni` },
+              ].map(({ icon, color, label, value }) => (
+                <div key={label} className="flex items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2 shadow-sm">
+                  <i className={icon} style={{ fontSize: 20, color }} />
+                  <div>
+                    <p className="text-[10px] text-slate-400">{label}</p>
+                    <p className="text-lg font-semibold leading-tight" style={{ color }}>{value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <h2 className="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Odznaki</h2>
+              <div className="grid grid-cols-3 gap-2">
+                {BADGE_DEFS.map((badge) => (
+                  <div key={badge.id} className="flex flex-col items-center gap-1.5">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
+                      <i className={badge.icon} style={{ fontSize: 18, color: "#cbd5e1" }} />
                     </div>
+                    <span className="text-center text-[9px] leading-tight text-slate-300">{badge.label}</span>
                   </div>
                 ))}
               </div>
-
-              {/* Prawa kolumna — Odznaki */}
-              <div className="flex flex-col gap-2">
-                <h2 className="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Odznaki</h2>
-                <div className="grid grid-cols-3 gap-2">
-                  {BADGE_DEFS.map((badge) => (
-                    <div key={badge.id} className="flex flex-col items-center gap-1.5">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-                        <i className={badge.icon} style={{ fontSize: 18, color: "#cbd5e1" }} />
-                      </div>
-                      <span className="text-center text-[9px] leading-tight text-slate-300">
-                        {badge.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
             </div>
           </div>
-
-          {/* Karta Seria nauki */}
-          <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
-            <h2
-              className="flex items-center gap-1.5"
-              style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-tertiary)", marginBottom: "0.75rem" }}
-            >
-              <i className="ti-flame" style={{ fontSize: 14, color: "#FA8C27" }} />
-              Seria nauki
-            </h2>
-            <StreakWidget
-              currentStreak={currentStreak}
-              bestStreak={bestStreak}
-              weekActivity={weekActivity}
-            />
-          </div>
-
         </div>
+
+        {/* [2,2] Seria nauki */}
+        <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
+          <h2
+            className="flex items-center gap-1.5"
+            style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-tertiary)", marginBottom: "0.75rem" }}
+          >
+            <i className="ti-flame" style={{ fontSize: 14, color: "#FA8C27" }} />
+            Seria nauki
+          </h2>
+          <StreakWidget
+            currentStreak={currentStreak}
+            bestStreak={bestStreak}
+            weekActivity={weekActivity}
+          />
+        </div>
+
       </div>
 
       {/* ── Sekcja Odznaki — ukryta, do dopracowania ── */}
