@@ -23,7 +23,7 @@ const TILES: Tile[] = [
   },
   {
     id: "tenses",
-    eyebrow: "Reference",
+    eyebrow: "Teoria",
     title: "Czasy",
     description: "Teoria i schemat każdego czasu: present, past, future.",
     href: "/app/grammar/tenses",
@@ -37,14 +37,14 @@ const TILES: Tile[] = [
   },
   {
     id: "conditionals",
-    eyebrow: "Reference",
+    eyebrow: "Teoria",
     title: "Conditionals",
     description: "Zdania warunkowe: Zero, First, Second, Third oraz Mixed.",
     href: "/app/grammar/conditionals",
   },
   {
     id: "modal",
-    eyebrow: "Reference",
+    eyebrow: "Teoria",
     title: "Modal Verbs",
     description: "Can, could, must, should — modalność według funkcji i słowa.",
     href: "/app/grammar/modal-verbs",
@@ -101,14 +101,17 @@ export default function GrammarHubPage() {
         {TILES.map((tile) => {
           const isActive = hovered === tile.id;
           return (
-            <Link
+            <div
               key={tile.id}
-              href={tile.href}
               onMouseEnter={() => setHovered(tile.id)}
-              className={`group relative flex h-full flex-col justify-between gap-5 rounded-2xl border p-5 backdrop-blur-sm transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out ${
-                isActive
-                  ? "-translate-y-px border-slate-800/35 bg-white shadow-[0_6px_24px_rgba(15,23,42,0.07)]"
-                  : "border-slate-800/20 bg-slate-50/90 shadow-none"
+              className={`rounded-[17px] bg-gradient-to-br from-emerald-400 to-teal-700 p-px transition-[box-shadow,transform] duration-200 ease-out ${
+                isActive ? "-translate-y-px shadow-[0_6px_24px_rgba(15,23,42,0.10)]" : "shadow-none"
+              }`}
+            >
+            <Link
+              href={tile.href}
+              className={`group relative flex h-full flex-col justify-between gap-5 rounded-2xl p-5 backdrop-blur-sm transition-[background-color] duration-200 ease-out ${
+                isActive ? "bg-white" : "bg-slate-50/90"
               }`}
             >
               <div className="space-y-2">
@@ -133,6 +136,7 @@ export default function GrammarHubPage() {
                 Otwórz →
               </span>
             </Link>
+            </div>
           );
         })}
       </section>
