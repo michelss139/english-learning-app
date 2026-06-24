@@ -352,17 +352,22 @@ export default function PacksClient({
                 <button
                   key={m}
                   type="button"
-                  className={`rounded-xl px-5 py-3 text-base font-semibold transition-all duration-150 ${
-                    active
-                      ? "border border-slate-300 bg-white text-slate-900 shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                      : "border border-slate-200/60 bg-transparent text-slate-400 hover:border-slate-300 hover:text-slate-600"
-                  }`}
                   onClick={() => {
                     setVocabMode(m);
                     localStorage.setItem(STORAGE_KEY, m);
                   }}
+                  className="transition-all duration-150"
                 >
-                  {label}
+                  {active ? (
+                    <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-sky-400 to-blue-700 px-5 py-2.5 ring-1 ring-inset ring-white/20">
+                      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                      <span className="relative text-base font-black tracking-tight" style={{ color: "#fff" }}>{label}</span>
+                    </div>
+                  ) : (
+                    <div className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-base font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-800">
+                      {label}
+                    </div>
+                  )}
                 </button>
               );
             })}
@@ -390,21 +395,26 @@ export default function PacksClient({
         </div>
 
         {/* Row 2: POS filter */}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {(["all", "nouns", "verbs", "adjectives", "phrasal_verbs"] as PosFilter[]).map((f) => {
             const active = posFilter === f;
             return (
               <button
                 key={f}
                 type="button"
-                className={`rounded-lg px-3.5 py-1.5 text-sm font-medium transition-all duration-150 ${
-                  active
-                    ? "border border-slate-300 bg-white text-slate-900 shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-                    : "border border-slate-200 bg-transparent text-slate-400 hover:border-slate-300 hover:text-slate-600"
-                }`}
                 onClick={() => setPosFilter(f)}
+                className="transition-all duration-150"
               >
-                {POS_FILTER_LABELS[f]}
+                {active ? (
+                  <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-sky-400 to-blue-600 px-3.5 py-1.5 ring-1 ring-inset ring-white/20">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
+                    <span className="relative text-sm font-semibold" style={{ color: "#fff" }}>{POS_FILTER_LABELS[f]}</span>
+                  </div>
+                ) : (
+                  <div className="rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-600 hover:border-slate-300 hover:text-slate-800">
+                    {POS_FILTER_LABELS[f]}
+                  </div>
+                )}
               </button>
             );
           })}

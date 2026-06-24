@@ -24,7 +24,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role, username, email, avatar_url")
+    .select("role, username, email, avatar_url, professor_hidden, professor_seen_tips")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -66,7 +66,12 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
 
       <CurrentWordProvider>
         <div className="relative mx-auto max-w-[1280px] px-6 pb-10 pt-[7.25rem] sm:pt-28">{children}</div>
-        <GlobalCoach sentenceBuilderVerbs={sentenceBuilderVerbs} />
+        <GlobalCoach
+          sentenceBuilderVerbs={sentenceBuilderVerbs}
+          professorHiddenInitial={profile?.professor_hidden ?? false}
+          seenTipsInitial={(profile?.professor_seen_tips as string[] | null) ?? []}
+          userId={user.id}
+        />
       </CurrentWordProvider>
     </div>
   );

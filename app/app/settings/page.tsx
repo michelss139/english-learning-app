@@ -38,6 +38,14 @@ export default function SettingsPage() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadPreview, setUploadPreview] = useState("");
   const [reportText, setReportText] = useState("");
+  const [professorHidden, setProfessorHiddenState] = useState(false);
+
+  const toggleProfessor = async (hide: boolean) => {
+    if (!profile?.id) return;
+    setProfessorHiddenState(hide);
+    window.dispatchEvent(new CustomEvent("professor-visibility-change", { detail: hide }));
+    await supabase.from("profiles").update({ professor_hidden: hide }).eq("id", profile.id);
+  };
 
   useEffect(() => {
     const run = async () => {
@@ -48,6 +56,8 @@ export default function SettingsPage() {
         setUsername(prof.username ?? "");
         setEmail(prof.email ?? "");
         setSelectedAvatar(prof.avatar_url ?? "");
+        const { data: extra } = await supabase.from("profiles").select("professor_hidden").eq("id", prof.id).maybeSingle();
+        setProfessorHiddenState(extra?.professor_hidden ?? false);
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : "Nie udało się wczytać ustawień.");
       } finally {
@@ -230,6 +240,18 @@ export default function SettingsPage() {
             >
               {saving ? "Zapisuję…" : "Zapisz zmiany"}
             </button>
+
+            <label className="mt-2 flex cursor-pointer items-center gap-3">
+              <div
+                onClick={() => toggleProfessor(!professorHidden)}
+                className={`relative h-5 w-9 rounded-full transition-colors ${professorHidden ? "bg-slate-300" : "bg-[#178CF2]"}`}
+              >
+                <div className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform ${professorHidden ? "translate-x-0.5" : "translate-x-4"}`} />
+              </div>
+              <span className="text-sm text-slate-700">
+                {professorHidden ? "Profesor LangBracket jest ukryty" : "Profesor LangBracket jest widoczny"}
+              </span>
+            </label>
           </section>
 
 
@@ -237,7 +259,7 @@ export default function SettingsPage() {
 
         {/* Prawa kolumna: Pomoc + Konto */}
         <div className="flex flex-col">
-          <section className={`${cardBase} flex-1`}>
+          <section className={`${cardBase} flex-1 flex flex-col`}>
             <h2 className={sectionLabel}>Pomoc i konto</h2>
             <p className="mb-3 text-sm text-slate-600">
               Kontakt do admina:{" "}
@@ -245,11 +267,10 @@ export default function SettingsPage() {
                 michal.surmacz139@gmail.com
               </a>
             </p>
-            <div className="mb-4 space-y-2">
-              <label className="text-xs font-medium text-slate-600">Zgłoś problem lub zadaj pytanie</label>
+            <div className="flex flex-1 flex-col gap-2">
+              <label className="text-sm font-semibold text-slate-700">Zgłoś problem lub zadaj pytanie</label>
               <textarea
-                className={`${inputBase} resize-none`}
-                rows={3}
+                className={`${inputBase} flex-1 resize-none`}
                 value={reportText}
                 onChange={(e) => setReportText(e.target.value)}
                 placeholder="Opisz problem lub wpisz pytanie…"
@@ -267,7 +288,7 @@ export default function SettingsPage() {
                 Wyślij
               </button>
             </div>
-            <div className="border-t border-slate-100 pt-4 flex flex-col gap-3">
+            <div className="mt-4 border-t border-slate-100 pt-4 flex flex-col gap-3">
               <button type="button" className={btnSecondary} onClick={logoutEverywhere}>
                 Wyloguj ze wszystkich sesji
               </button>
