@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { PackCompletionBadge } from "@/lib/vocab/packCompletionBadge";
 import {
@@ -103,20 +103,6 @@ function PackCompletionGlyph({ badge }: { badge: PackCompletionBadge }) {
   );
 }
 
-function ChevronDown({ open, className }: { open: boolean; className?: string }) {
-  return (
-    <svg
-      className={`${className ?? ""} transition-transform duration-200 ${open ? "" : "-rotate-90"}`}
-      width="14"
-      height="14"
-      viewBox="0 0 16 16"
-      fill="none"
-    >
-      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function groupPacksBySection(packs: PackDto[], mode: VocabMode) {
   const map = new Map<string, PackDto[]>();
   for (const p of packs) {
@@ -170,87 +156,65 @@ function applySectionSearch(
     .filter((g) => g.packs.length > 0);
 }
 
-function PackSection({
-  label,
-  sectionKey,
-  packs,
-  mode,
-  sectionSurfaceClassName,
+type SectionGroup = { key: string; label: string; packs: PackDto[] };
+
+/** Pozycja listy kategorii po prawej — aktywna ma niebieski gradient. */
+function CategoryListItem({
+  group,
+  isActive,
+  onSelect,
 }: {
-  label: string;
-  sectionKey: string;
-  packs: PackDto[];
-  mode: VocabMode;
-  sectionSurfaceClassName?: string;
+  group: SectionGroup;
+  isActive: boolean;
+  onSelect: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-
-  if (packs.length === 0) return null;
-
-  const preview = packs.slice(0, 3);
-  const showToggle = packs.length > 3;
-  const visible = open ? packs : preview;
-
-  const surface = sectionSurfaceClassName ?? cardBase;
-
   return (
-    <section className={surface}>
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        className="mb-4 flex w-full items-center gap-2.5 text-left"
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`group/cat flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-all duration-150 ${
+        isActive
+          ? "bg-gradient-to-br from-sky-400 to-blue-600 ring-1 ring-inset ring-white/20"
+          : "hover:bg-slate-50"
+      }`}
+    >
+      <span className={isActive ? "rounded-lg bg-white/15 p-0.5" : ""}>
+        <CategoryIcon section={group.key} size={26} />
+      </span>
+      <span
+        className="min-w-0 flex-1 truncate text-sm font-bold tracking-tight"
+        style={isActive ? { color: "#fff" } : { color: "#0f172a" }}
       >
-        <ChevronDown open={open} className="mt-1 h-5 w-5 shrink-0 text-neutral-700" />
-        <CategoryIcon section={sectionKey} size={32} />
-        <h2 className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="text-xl font-black leading-tight tracking-tight text-neutral-900 sm:text-2xl">
-            {label}
-          </span>
-          <span className="text-sm font-semibold tabular-nums text-slate-500 sm:text-base">{packs.length}</span>
-        </h2>
-      </button>
-      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((pack) => (
-          <li key={pack.id}>
-            <Link
-              href={packHref(pack.slug, mode)}
-              className="group/row flex h-full flex-col justify-between rounded-xl border border-slate-100 px-4 py-3.5 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <span className="min-w-0 flex-1 text-sm font-medium text-slate-800">{pack.presentation_title}</span>
-                <div className="mt-0.5 flex shrink-0 items-center gap-1.5">
-                  <PackCompletionGlyph badge={pack.completion_badge} />
-                  <ChevronRight className="shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
-                </div>
-              </div>
-              <div className="mt-2">
-                <span className="text-xs font-medium tabular-nums text-slate-600">
-                  {pack.item_count} {polishFiszkiForm(pack.item_count)}
-                </span>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      {showToggle && !open ? (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="mt-3 text-xs font-medium text-slate-400 transition-colors hover:text-slate-600"
-        >
-          Pokaż wszystkie ({packs.length})
-        </button>
-      ) : null}
-      {showToggle && open ? (
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="mt-3 text-xs font-medium text-slate-400 transition-colors hover:text-slate-600"
-        >
-          Zwiń
-        </button>
-      ) : null}
-    </section>
+        {group.label}
+      </span>
+      <span
+        className="shrink-0 text-xs font-semibold tabular-nums"
+        style={isActive ? { color: "rgba(255,255,255,0.8)" } : { color: "#94a3b8" }}
+      >
+        {group.packs.length}
+      </span>
+    </button>
+  );
+}
+
+/** Pojedynczy kafelek podkategorii (paczki) w panelu głównym. */
+function SubcategoryTile({ pack, mode }: { pack: PackDto; mode: VocabMode }) {
+  return (
+    <Link
+      href={packHref(pack.slug, mode)}
+      className="group/row flex flex-col gap-1.5 rounded-xl border border-slate-100 bg-white px-3.5 py-3 transition-all duration-150 hover:-translate-y-px hover:border-slate-200 hover:bg-slate-50 hover:shadow-[0_4px_14px_rgba(15,23,42,0.06)]"
+    >
+      <div className="flex items-center gap-1.5">
+        <PackCompletionGlyph badge={pack.completion_badge} />
+        <span className="min-w-0 flex-1 truncate text-sm font-medium text-slate-800">
+          {pack.presentation_title}
+        </span>
+        <ChevronRight className="shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
+      </div>
+      <span className="pl-[26px] text-xs font-medium tabular-nums text-slate-500">
+        {pack.item_count} {polishFiszkiForm(pack.item_count)}
+      </span>
+    </Link>
   );
 }
 
@@ -314,6 +278,36 @@ export default function PacksClient({
     return applySectionSearch(grouped, normalizedQuery);
   }, [activePacks, vocabMode, normalizedQuery]);
 
+  // Master-detail: aktywna kategoria + płynne przejście panelu
+  const [activeSection, setActiveSection] = useState<string>("");
+  const [panelVisible, setPanelVisible] = useState(true);
+  const transitionRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Utrzymaj aktywną kategorię w obrębie dostępnych grup
+  useEffect(() => {
+    if (sectionGroups.length === 0) {
+      setActiveSection("");
+      return;
+    }
+    if (!sectionGroups.some((g) => g.key === activeSection)) {
+      setActiveSection(sectionGroups[0].key);
+    }
+  }, [sectionGroups, activeSection]);
+
+  useEffect(() => () => {
+    if (transitionRef.current) clearTimeout(transitionRef.current);
+  }, []);
+
+  const selectSection = (key: string) => {
+    if (key === activeSection) return;
+    if (transitionRef.current) clearTimeout(transitionRef.current);
+    setPanelVisible(false);
+    transitionRef.current = setTimeout(() => {
+      setActiveSection(key);
+      requestAnimationFrame(() => setPanelVisible(true));
+    }, 160);
+  };
+
   const visibleArchived = useMemo(() => {
     if (!isAdmin || archivedForMode.length === 0) return [];
     const ql = normalizedQuery;
@@ -327,6 +321,15 @@ export default function PacksClient({
   }, [archivedForMode, isAdmin, normalizedQuery]);
 
   const hasVisibleSections = sectionGroups.length > 0 || visibleArchived.length > 0;
+
+  const archivedGroup: SectionGroup | null =
+    isAdmin && visibleArchived.length > 0
+      ? { key: "__other__", label: "Zarchiwizowane", packs: visibleArchived }
+      : null;
+  const activeGroup =
+    (activeSection === "__other__" ? archivedGroup : null) ??
+    sectionGroups.find((g) => g.key === activeSection) ??
+    sectionGroups[0];
 
   return (
     <div>
@@ -430,19 +433,63 @@ export default function PacksClient({
           <p className="text-sm text-slate-400">Brak wyników pasujących do wyszukiwania.</p>
         </div>
       ) : (
-        <div className="space-y-5">
-          {sectionGroups.map(({ key, label, packs }) => (
-            <PackSection key={key} sectionKey={key} label={label} packs={packs} mode={vocabMode} />
-          ))}
-          {isAdmin && visibleArchived.length > 0 ? (
-            <PackSection
-              sectionKey="__other__"
-              label="Zarchiwizowane"
-              packs={visibleArchived}
-              mode={vocabMode}
-              sectionSurfaceClassName={`${cardBase} border-dashed border-slate-200/90 bg-slate-50/70`}
-            />
-          ) : null}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2.4fr_1fr] lg:items-start">
+          {/* ── Panel główny: podkategorie wybranej kategorii (stała wysokość) ── */}
+          <section className={`${cardBase} flex flex-col lg:h-[600px]`}>
+            {activeGroup ? (
+              <div
+                className={`flex min-h-0 flex-1 flex-col transition-all duration-200 ${
+                  panelVisible ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0"
+                }`}
+              >
+                {/* Nagłówek panelu */}
+                <div className="mb-4 flex shrink-0 items-center gap-2.5">
+                  <CategoryIcon section={activeGroup.key} size={34} />
+                  <h2 className="flex min-w-0 flex-1 items-baseline gap-2">
+                    <span className="text-xl font-black tracking-tight text-neutral-900 sm:text-2xl">
+                      {activeGroup.label}
+                    </span>
+                    <span className="text-sm font-semibold tabular-nums text-slate-500">
+                      {activeGroup.packs.length}
+                    </span>
+                  </h2>
+                </div>
+
+                {/* Kafelki podkategorii — scroll wewnątrz panelu */}
+                <div className="grid min-h-0 flex-1 auto-rows-min grid-cols-1 content-start gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+                  {activeGroup.packs.map((pack) => (
+                    <SubcategoryTile key={pack.id} pack={pack} mode={vocabMode} />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-slate-400">Wybierz kategorię z listy.</p>
+            )}
+          </section>
+
+          {/* ── Lista kategorii głównych (ta sama wysokość, scroll wewnętrzny) ── */}
+          <aside className="flex flex-col rounded-2xl border border-slate-200/50 bg-white/90 p-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-sm lg:h-[600px] lg:sticky lg:top-28">
+            <div className="mb-1.5 shrink-0 px-2 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
+              Kategorie
+            </div>
+            <div className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto pr-1">
+              {sectionGroups.map((group) => (
+                <CategoryListItem
+                  key={group.key}
+                  group={group}
+                  isActive={group.key === activeSection}
+                  onSelect={() => selectSection(group.key)}
+                />
+              ))}
+              {isAdmin && visibleArchived.length > 0 ? (
+                <CategoryListItem
+                  group={{ key: "__other__", label: "Zarchiwizowane", packs: visibleArchived }}
+                  isActive={activeSection === "__other__"}
+                  onSelect={() => selectSection("__other__")}
+                />
+              ) : null}
+            </div>
+          </aside>
         </div>
       )}
     </div>
