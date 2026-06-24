@@ -347,7 +347,7 @@ export default function PacksClient({
           <div className="flex gap-2">
             {(["daily", "precise"] as VocabMode[]).map((m) => {
               const active = vocabMode === m;
-              const label = m === "daily" ? "Daily" : "Precise";
+              const label = m === "daily" ? "Codzienne" : "Szczegółowe";
               return (
                 <button
                   key={m}
