@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 import { useState } from "react";
 
 type TileId = "pool" | "packs" | "clusters" | "articles" | "irregular";
@@ -86,12 +87,7 @@ export default function VocabHubPage() {
             Od czego chcesz zacząć?
           </p>
         </div>
-        <Link
-          href="/app"
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          ← Panel ucznia
-        </Link>
+        <BackButton href="/app" />
       </header>
 
       <section

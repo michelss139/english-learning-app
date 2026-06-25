@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { BackButton } from "@/app/_components/BackButton";
 import { supabase } from "@/lib/supabase/client";
 import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
 import SenseSelectionModal from "../../SenseSelectionModal";
@@ -442,12 +443,7 @@ export default function VocabLessonPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <a
-              className="rounded-xl border border-slate-200/15 bg-white/10 px-4 py-2 font-medium text-slate-900 hover:bg-white/15 transition"
-              href="/app/vocab"
-            >
-              ← Trening słówek
-            </a>
+            <BackButton href="/app/vocab" />
             <a
               className="rounded-xl border border-slate-200 bg-white px-4 py-2 font-medium text-slate-900/90 hover:bg-slate-50 hover:text-slate-900 transition"
               href="/app"

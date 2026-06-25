@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 
 export type ArticleDetailDto = {
   slug: string;
@@ -78,12 +79,7 @@ export default function ArticleClient({ article }: { article: ArticleDetailDto }
     <main className="mx-auto max-w-[760px] space-y-8 pb-16">
       {/* Back */}
       <div>
-        <Link
-          href="/app/vocab/articles"
-          className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-        >
-          ← Artykuły
-        </Link>
+        <BackButton href="/app/vocab/articles" />
       </div>
 
       {/* Header */}

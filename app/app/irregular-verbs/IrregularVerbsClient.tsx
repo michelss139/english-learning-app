@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { BackButton } from "@/app/_components/BackButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -318,12 +319,7 @@ export default function IrregularVerbsClient({ verbs }: { verbs: IrregularVerbDt
           </div>
         </div>
 
-        <Link
-          href="/app/grammar"
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          ← Gramatyka
-        </Link>
+        <BackButton href="/app/grammar" />
       </header>
 
       {error ? (

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getGrammarPracticeExercise, type GrammarPracticeQuestion } from "@/lib/grammar/practice";
@@ -314,10 +315,8 @@ export function InputPracticeClient({
     <main className="mx-auto max-w-xl space-y-5">
       {/* Header */}
       <header className="mb-5">
-        <a href={mapHref} className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
-          ← {mapLabel}
-        </a>
-        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
+        <BackButton href={mapHref} />
+        <h1 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">
           Ćwiczenie: {title}
         </h1>
       </header>
@@ -607,12 +606,7 @@ export function InputPracticeClient({
               <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
               <span className="relative">Jeszcze raz</span>
             </button>
-            <Link
-              href={mapHref}
-              className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-            >
-              ← Wróć do teorii
-            </Link>
+            <BackButton href={mapHref} label="Wróć do teorii" />
           </div>
         </section>
       )}

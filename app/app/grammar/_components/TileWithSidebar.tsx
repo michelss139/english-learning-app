@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 
 export type SidebarItem<T = string> = {
   id: T;
@@ -73,12 +74,7 @@ export function TileWithSidebar<T extends string>({
           )}
           {headerAccessory && <div className="pt-1">{headerAccessory}</div>}
         </div>
-        <Link
-          href={backHref}
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          {backLabel}
-        </Link>
+        <BackButton href={backHref} />
       </header>
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_1fr] lg:gap-5">

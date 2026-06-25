@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { BackButton } from "@/app/_components/BackButton";
 import Link from "next/link";
 import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
@@ -220,12 +221,7 @@ export function ZeroConditionalClient() {
             </Link>
           </div>
         </div>
-        <Link
-          href="/app/grammar/conditionals"
-          className="inline-flex items-center self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-        >
-          ← Wróć do Conditionals
-        </Link>
+        <BackButton href="/app/grammar/conditionals" />
       </header>
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-[3fr_1fr]">

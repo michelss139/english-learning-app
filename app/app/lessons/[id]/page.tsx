@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
@@ -1094,12 +1095,9 @@ export default function LessonDetailPage() {
       <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
         <div className="rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
           <p className="text-sm text-rose-700">Nie znaleziono lekcji.</p>
-          <Link
-            href="/app/lessons"
-            className="mt-2 inline-block text-xs font-medium text-slate-500 transition-colors hover:text-slate-700"
-          >
-            ← Wróć do kalendarza
-          </Link>
+          <div className="mt-3">
+            <BackButton href="/app/lessons" label="Wróć do kalendarza" />
+          </div>
         </div>
       </main>
     );
@@ -1118,13 +1116,8 @@ export default function LessonDetailPage() {
       <header className="flex shrink-0 flex-col gap-2">
         <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
           <div>
-            <Link
-              href="/app/lessons"
-              className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-            >
-              ← Wróć do kalendarza
-            </Link>
-            <h1 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-900">{dateLine}</h1>
+            <BackButton href="/app/lessons" label="Wróć do kalendarza" />
+            <h1 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">{dateLine}</h1>
             {counterpartyLine && "solo" in counterpartyLine ? (
               <p className="mt-1.5 text-xs text-slate-500">Lekcja osobista</p>
             ) : counterpartyLine && "label" in counterpartyLine ? (

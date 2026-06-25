@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getOrCreateProfile, type Profile } from "@/lib/auth/profile";
@@ -337,13 +338,8 @@ function NewLessonInner() {
   return (
     <main className="mx-auto flex h-[calc(100dvh-10.5rem)] max-h-[calc(100dvh-10.5rem)] w-full max-w-4xl flex-col gap-3 min-h-0">
       <header className="shrink-0">
-        <Link
-          href="/app/lessons"
-          className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-        >
-          ← Wróć do kalendarza
-        </Link>
-        <h1 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-900">Nowa lekcja</h1>
+        <BackButton href="/app/lessons" label="Wróć do kalendarza" />
+        <h1 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">Nowa lekcja</h1>
       </header>
 
       {error ? (

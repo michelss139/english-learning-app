@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 
 export type ArticleDto = {
   id: string;
@@ -90,13 +91,8 @@ export default function ArticlesClient({
       <header className="px-1 py-1">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <div className="mb-1">
-              <Link
-                href="/app/vocab"
-                className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-              >
-                ← Słownictwo
-              </Link>
+            <div className="mb-2">
+              <BackButton href="/app/vocab" />
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Artykuły</h1>
             <p className="text-base font-medium text-slate-600">

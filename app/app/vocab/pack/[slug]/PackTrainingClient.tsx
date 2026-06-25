@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/app/_components/BackButton";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
@@ -922,10 +923,8 @@ export default function PackTrainingClient(props: {
       return (
         <div>
           <header className="mb-5">
-            <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
-              ← Fiszki
-            </Link>
-            <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
+            <BackButton href="/app/vocab/packs" />
+            <h1 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
           </header>
           <div className={`${cardBase} animate-pulse`}>
             <div className="h-4 w-48 rounded bg-slate-100" />
@@ -938,10 +937,8 @@ export default function PackTrainingClient(props: {
     return (
       <div>
         <header className="mb-5">
-          <Link href="/app/vocab/packs" className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700">
-            ← Fiszki
-          </Link>
-          <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
+          <BackButton href="/app/vocab/packs" />
+          <h1 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">{pack.title ?? slug}</h1>
           <p className="mt-0.5 text-xs font-medium text-slate-400">{pack.description ?? "Ćwicz szybkie tłumaczenia"}</p>
           {allItems.length > 0 ? (
             <p className="mt-2 text-sm font-medium tabular-nums text-slate-600">

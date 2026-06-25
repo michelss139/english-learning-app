@@ -784,12 +784,7 @@ export default function ClusterClient({
             >
               Spróbuj ponownie
             </button>
-            <a
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-              href="/app/vocab"
-            >
-              ← Trening słówek
-            </a>
+            <BackButton href="/app/vocab" />
           </div>
         </div>
       ) : null}
@@ -1135,12 +1130,7 @@ export default function ClusterClient({
               <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent" />
               <span className="relative">Jeszcze raz</span>
             </button>
-            <a
-              className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-              href="/app/vocab"
-            >
-              ← Trening słówek
-            </a>
+            <BackButton href="/app/vocab" />
           </div>
         </section>
       ) : null}

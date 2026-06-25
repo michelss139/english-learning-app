@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type BackButtonProps = {
   href: string;
   label?: string;
@@ -5,17 +7,17 @@ type BackButtonProps = {
 };
 
 /**
- * Elegant, consistent back button — white card with subtle border + shadow,
- * matching the "Wyloguj" button in the top nav. Same font size (text-sm).
+ * Canonical back button used across the whole app — elegant white card with a
+ * subtle border + shadow, same size as the top-nav "Wyloguj" button (text-sm).
  */
 export function BackButton({ href, label = "Wróć", className = "" }: BackButtonProps) {
   return (
-    <a
+    <Link
       href={href}
-      className={`inline-flex items-center gap-1.5 rounded-lg border border-slate-200/90 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 ${className}`}
+      className={`inline-flex items-center gap-1.5 self-start rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 ${className}`}
     >
       <span aria-hidden="true">←</span>
       {label}
-    </a>
+    </Link>
   );
 }
