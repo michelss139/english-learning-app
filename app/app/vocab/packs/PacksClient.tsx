@@ -334,14 +334,7 @@ export default function PacksClient({
   return (
     <div>
       <header className="mb-5">
-        <Link
-          href="/app/vocab"
-          className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-        >
-          ← Słownictwo
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Fiszki</h1>
-        <p className="mt-0.5 text-xs font-medium text-slate-400">Szybkie powtórki na podstawie fiszek</p>
+        <h1 className="text-lg font-semibold tracking-tight text-slate-900">Fiszki</h1>
       </header>
 
       <div className="mb-5 flex flex-col gap-3">
@@ -435,7 +428,7 @@ export default function PacksClient({
       ) : (
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2.4fr_1fr] lg:items-start">
           {/* ── Panel główny: podkategorie wybranej kategorii (stała wysokość) ── */}
-          <section className={`${cardBase} flex flex-col lg:h-[600px]`}>
+          <section className={`${cardBase} flex flex-col lg:h-[540px]`}>
             {activeGroup ? (
               <div
                 className={`flex min-h-0 flex-1 flex-col transition-all duration-200 ${
@@ -468,7 +461,7 @@ export default function PacksClient({
           </section>
 
           {/* ── Lista kategorii głównych (ta sama wysokość, scroll wewnętrzny) ── */}
-          <aside className="flex flex-col rounded-2xl border border-slate-200/50 bg-white/90 p-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-sm lg:h-[600px] lg:sticky lg:top-28">
+          <aside className="flex flex-col rounded-2xl border border-slate-200/50 bg-white/90 p-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-sm lg:h-[540px] lg:sticky lg:top-28">
             <div className="mb-1.5 shrink-0 px-2 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
               Kategorie
             </div>

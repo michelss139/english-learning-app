@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export type ClusterDto = {
   id: string;
@@ -26,8 +25,19 @@ export type ClusterDto = {
   };
 };
 
+type MasteryState = ClusterDto["mastery"]["mastery_state"];
+
 const cardBase =
-  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)]";
+  "rounded-2xl bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5";
+
+const MASTERY_CONFIG: Record<MasteryState, { pct: number; color: string; label: string }> = {
+  new: { pct: 0, color: "#cbd5e1", label: "Nowe" },
+  building: { pct: 0.34, color: "#f59e0b", label: "W trakcie" },
+  stable: { pct: 0.67, color: "#0ea5e9", label: "Dobrze idzie" },
+  mastered: { pct: 1, color: "#10b981", label: "Opanowane" },
+};
+
+const MASTERY_ORDER: MasteryState[] = ["new", "building", "stable", "mastered"];
 
 function ChevronRight({ className }: { className?: string }) {
   return (
@@ -37,209 +47,102 @@ function ChevronRight({ className }: { className?: string }) {
   );
 }
 
-export default function ClustersClient({ clusters }: { clusters: ClusterDto[] }) {
-  const router = useRouter();
-  const [error, setError] = useState("");
-  const [togglingSlugs, setTogglingSlugs] = useState<Set<string>>(new Set());
-
-  const [localPinned, setLocalPinned] = useState<Set<string>>(
-    () => new Set(clusters.filter((c) => c.pinned).map((c) => c.slug)),
+/** Pierścień postępu, który wypełnia się wraz z opanowaniem klastra. */
+function MasteryRing({ state, size = 20 }: { state: MasteryState; size?: number }) {
+  const cfg = MASTERY_CONFIG[state];
+  const r = 7;
+  const c = 2 * Math.PI * r;
+  return (
+    <span className="shrink-0" title={cfg.label} aria-label={cfg.label}>
+      <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <circle cx="10" cy="10" r={r} fill="none" stroke="#e2e8f0" strokeWidth="2" />
+        {state === "mastered" ? (
+          <>
+            <circle cx="10" cy="10" r={r} fill="none" stroke={cfg.color} strokeWidth="2" />
+            <path
+              d="M6.6 10.2l2.1 2.1 4.1-4.5"
+              stroke={cfg.color}
+              strokeWidth="2"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </>
+        ) : cfg.pct > 0 ? (
+          <circle
+            cx="10"
+            cy="10"
+            r={r}
+            fill="none"
+            stroke={cfg.color}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeDasharray={`${c * cfg.pct} ${c}`}
+            transform="rotate(-90 10 10)"
+          />
+        ) : null}
+      </svg>
+    </span>
   );
+}
 
-  const recommended = useMemo(
-    () => clusters.filter((c) => c.is_recommended),
-    [clusters],
-  );
-  const unlockable = useMemo(
-    () => clusters.filter((c) => c.is_unlockable),
-    [clusters],
-  );
-
-  const recommendedSorted = useMemo(() => {
-    return [...recommended].sort((a, b) => Number(localPinned.has(b.slug)) - Number(localPinned.has(a.slug)));
-  }, [recommended, localPinned]);
-
-  const unlockableSorted = useMemo(() => {
-    return [...unlockable].sort((a, b) => Number(localPinned.has(b.slug)) - Number(localPinned.has(a.slug)));
-  }, [unlockable, localPinned]);
-
-  function optimisticToggle(slug: string) {
-    setLocalPinned((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
-      return next;
-    });
-  }
-
-  async function togglePin(slug: string) {
-    if (togglingSlugs.has(slug)) return;
-    setError("");
-
-    const before = new Set(localPinned);
-    optimisticToggle(slug);
-
-    setTogglingSlugs((prev) => new Set(prev).add(slug));
-    try {
-      const res = await fetch("/api/vocab/clusters/pin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug }),
-      });
-      if (!res.ok) {
-        const errData = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(errData?.error ?? `HTTP ${res.status}`);
-      }
-    } catch (e: unknown) {
-      setLocalPinned(before);
-      setError(e instanceof Error ? e.message : "Nieznany błąd");
-    } finally {
-      setTogglingSlugs((prev) => {
-        const next = new Set(prev);
-        next.delete(slug);
-        return next;
-      });
-    }
-  }
-
-  function pinButton(slug: string) {
-    const pinned = localPinned.has(slug);
-    const isToggling = togglingSlugs.has(slug);
-
-    return (
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          void togglePin(slug);
-        }}
-        disabled={isToggling}
-        className={`shrink-0 rounded-lg p-1.5 transition ${
-          pinned
-            ? "text-slate-700 hover:bg-slate-100"
-            : "text-slate-300 hover:bg-slate-50 hover:text-slate-500"
-        } ${isToggling ? "opacity-60" : ""}`}
-        aria-pressed={pinned}
-        aria-label={pinned ? "Odepnij" : "Przypnij"}
-        title={pinned ? "Przypięte" : "Przypnij"}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill={pinned ? "currentColor" : "none"}
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 2v20" />
-          <path d="M12 2l-4 4H4l2 8h4l2-4 2 4h4l2-8h-4z" />
-        </svg>
-      </button>
-    );
-  }
-
-  function masteryBadge(cluster: ClusterDto) {
-    const state = cluster.mastery.mastery_state;
-
-    const config = {
-      mastered: { label: "Opanowane", dot: "bg-slate-800", text: "text-slate-700" },
-      stable: { label: "Dobrze idzie", dot: "bg-slate-500", text: "text-slate-600" },
-      building: { label: "W trakcie", dot: "bg-slate-300", text: "text-slate-500" },
-      new: { label: "Nowe", dot: "bg-slate-200", text: "text-slate-400" },
-    }[state];
-
-    return (
-      <span className={`inline-flex items-center gap-1.5 ${config.text}`}>
-        <span className={`inline-block h-1.5 w-1.5 rounded-full ${config.dot}`} aria-hidden />
-        <span className="text-[10px] font-semibold">{config.label}</span>
+function ClusterTile({ cluster }: { cluster: ClusterDto }) {
+  return (
+    <Link
+      href={`/app/vocab/cluster/${cluster.slug}`}
+      className="group/row flex flex-col gap-2 rounded-xl border border-slate-100 bg-white px-4 py-3.5 transition-all duration-150 hover:-translate-y-px hover:border-slate-200 hover:bg-slate-50 hover:shadow-[0_4px_14px_rgba(15,23,42,0.06)]"
+    >
+      <div className="flex items-center gap-2.5">
+        <MasteryRing state={cluster.mastery.mastery_state} size={23} />
+        <span className="min-w-0 flex-1 truncate text-base font-medium text-slate-800">{cluster.title}</span>
+        <ChevronRight className="shrink-0 text-slate-300 transition-colors group-hover/row:text-slate-500" />
+      </div>
+      <span className="pl-[33px] text-[13px] font-medium tabular-nums text-slate-400">
+        {cluster.tasks_count} zadań · {cluster.patterns_count} wzorców
       </span>
-    );
-  }
+    </Link>
+  );
+}
 
-  function clusterCard(cluster: ClusterDto) {
-    return (
-      <li key={cluster.id}>
-        <div
-          onClick={() => router.push(`/app/vocab/cluster/${cluster.slug}`)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              router.push(`/app/vocab/cluster/${cluster.slug}`);
-            }
-          }}
-          role="button"
-          tabIndex={0}
-          className="group/row flex h-full cursor-pointer flex-col justify-between rounded-xl border border-slate-100 px-4 py-3.5 transition-all duration-150 hover:border-slate-200 hover:bg-slate-50"
-        >
-          <div className="flex items-start justify-between gap-2">
-            <div className="text-sm font-medium text-slate-800">{cluster.title}</div>
-            {pinButton(cluster.slug)}
-          </div>
-          <div className="mt-2 flex items-center justify-between gap-2">
-            <span className="text-[11px] text-slate-400">
-              {cluster.tasks_count} zadań · {cluster.patterns_count} wzorców
-            </span>
-            {masteryBadge(cluster)}
-          </div>
-        </div>
-      </li>
-    );
-  }
+export default function ClustersClient({ clusters }: { clusters: ClusterDto[] }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
-    <div className="origin-top scale-110">
+    <div>
       <header className="mb-5">
-        <Link
-          href="/app/vocab"
-          className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-        >
-          ← Słownictwo
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">Typowe błędy</h1>
-        <p className="mt-0.5 text-xs font-medium text-slate-400">Ćwicz wybór właściwego słowa w kontekście</p>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">Pułapki</h1>
       </header>
-
-      {error ? (
-        <div className="mb-5 rounded-2xl border border-rose-200/80 bg-rose-50/80 px-4 py-3">
-          <p className="text-sm text-rose-700">
-            <span className="font-semibold">Błąd: </span>
-            {error}
-          </p>
-        </div>
-      ) : null}
 
       {clusters.length === 0 ? (
         <div className={cardBase}>
           <p className="text-sm text-slate-400">Brak dostępnych zestawów.</p>
         </div>
       ) : (
-        <div className="space-y-5">
-          {recommendedSorted.length > 0 ? (
-            <section className={cardBase}>
-              <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-                Zalecane
-              </h2>
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {recommendedSorted.map((c) => clusterCard(c))}
-              </ul>
-            </section>
-          ) : null}
+        <section className={cardBase}>
+          {/* Legenda 4 stanów */}
+          <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+            {MASTERY_ORDER.map((state) => (
+              <span key={state} className="inline-flex items-center gap-1.5">
+                <MasteryRing state={state} size={18} />
+                <span className="text-[13px] font-medium text-slate-500">{MASTERY_CONFIG[state].label}</span>
+              </span>
+            ))}
+          </div>
 
-          {unlockableSorted.length > 0 ? (
-            <section className={cardBase}>
-              <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
-                Dostępne
-              </h2>
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {unlockableSorted.map((c) => clusterCard(c))}
-              </ul>
-            </section>
-          ) : null}
-        </div>
+          {/* Siatka klastrów */}
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {clusters.map((cluster, i) => (
+              <div
+                key={cluster.id}
+                className={`transition-all duration-300 ${mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+                style={{ transitionDelay: `${Math.min(i * 35, 350)}ms` }}
+              >
+                <ClusterTile cluster={cluster} />
+              </div>
+            ))}
+          </div>
+        </section>
       )}
     </div>
   );
