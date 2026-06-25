@@ -102,6 +102,7 @@ type ClusterTaskValidationShape = {
   target_tokens?: string[] | null;
   choices?: string[];
   explanation?: string | null;
+  source_text?: string | null;
 };
 
 function resolveCorrectChoiceString(task: ClusterTaskValidationShape): string {
@@ -207,6 +208,100 @@ function expandLemmaFamily(token: string): string[] {
   return [normalized];
 }
 
+/** Reverse map: each family member (e.g. "went") → its full family array. */
+const TOKEN_TO_FAMILY: Map<string, string[]> = (() => {
+  const map = new Map<string, string[]>();
+  for (const family of Object.values(LEMMA_FAMILIES)) {
+    for (const member of family) map.set(member, family);
+  }
+  return map;
+})();
+
+/** Family of any token (member or base). Falls back to the token itself. */
+function familyOfToken(token: string): string[] {
+  const normalized = normalizeClusterAnswer(token);
+  if (!normalized) return [];
+  return TOKEN_TO_FAMILY.get(normalized) ?? [normalized];
+}
+
+const CORRECTION_COVERAGE_THRESHOLD = 0.6;
+
+/**
+ * Forgiving grading for "correction" tasks. The key is the diff between the
+ * wrong source sentence and the expected answer:
+ *   key tokens   = words present in expected but not in source (the fix)
+ *   wrong tokens = words present in source but not in expected (the mistake)
+ *
+ * An answer is accepted when it (a) makes the fix, (b) keeps no uncorrected
+ * mistake, and (c) covers ≥60% of the expected sentence (anti-garbage guard).
+ *
+ * Form tolerance is automatic: if a key and wrong token share a lemma family
+ * the correction is grammatical (works→work) and the exact form is required;
+ * otherwise it is a word choice (come→go) and any family form is accepted.
+ */
+function evaluateClusterCorrection(
+  task: ClusterTaskValidationShape,
+  submittedAnswer: string,
+): TranslationEvaluationResult {
+  const normalizedSubmitted = normalizeClusterAnswer(submittedAnswer);
+  const reject: TranslationEvaluationResult = {
+    cluster_correct: false,
+    sentence_exact: false,
+    diff: [],
+  };
+
+  if (!normalizedSubmitted) return reject;
+  if (isExactMatch(task, normalizedSubmitted)) {
+    return { cluster_correct: true, sentence_exact: true, diff: [] };
+  }
+
+  const expected = task.expected_answer ?? resolveCorrectChoiceString(task) ?? "";
+  const source = task.source_text ?? "";
+  if (!expected || !source) return reject;
+
+  const submittedTokens = new Set(tokenizeClusterAnswer(submittedAnswer));
+  const expectedTokens = tokenizeClusterAnswer(expected);
+  const sourceSet = new Set(tokenizeClusterAnswer(source));
+  const expectedSet = new Set(expectedTokens);
+
+  const keyTokens = [...expectedSet].filter((t) => !sourceSet.has(t));
+  const wrongTokens = [...sourceSet].filter((t) => !expectedSet.has(t));
+
+  // "Already correct" sentences (no diff) only pass on exact match — handled above.
+  if (keyTokens.length === 0 && wrongTokens.length === 0) return reject;
+
+  const isFormPair = (a: string, b: string) => familyOfToken(a).includes(normalizeClusterAnswer(b));
+
+  // (b) No uncorrected mistake left in the answer.
+  for (const wrong of wrongTokens) {
+    const sharesWithKey = keyTokens.some((k) => isFormPair(wrong, k));
+    if (sharesWithKey) {
+      if (submittedTokens.has(wrong)) return reject; // kept the exact wrong form
+    } else if (familyOfToken(wrong).some((t) => submittedTokens.has(t))) {
+      return reject; // any form of the wrong word
+    }
+  }
+
+  // (a) The fix was actually made.
+  for (const key of keyTokens) {
+    const sharesWithWrong = wrongTokens.some((w) => isFormPair(key, w));
+    if (sharesWithWrong) {
+      if (!submittedTokens.has(key)) return reject; // need the exact corrected form
+    } else if (!familyOfToken(key).some((t) => submittedTokens.has(t))) {
+      return reject; // need some form of the right word
+    }
+  }
+
+  // (c) Coverage guard against garbage.
+  const covered = expectedTokens.filter((t) =>
+    familyOfToken(t).some((f) => submittedTokens.has(f)),
+  ).length;
+  const coverage = expectedTokens.length ? covered / expectedTokens.length : 0;
+  if (coverage < CORRECTION_COVERAGE_THRESHOLD) return reject;
+
+  return { cluster_correct: true, sentence_exact: false, diff: [] };
+}
+
 export function extractClusterKeyPhrase(explanation: string | null | undefined): string | null {
   if (!explanation) return null;
 
@@ -293,6 +388,10 @@ export function evaluateClusterTranslation(
   const taskType = task.task_type ?? "choice";
   const normalizedSubmitted = normalizeClusterAnswer(submittedAnswer);
   const canonicalAnswer = task.expected_answer ?? resolveCorrectChoiceString(task) ?? "";
+
+  if (taskType === "correction") {
+    return evaluateClusterCorrection(task, submittedAnswer);
+  }
 
   if (taskType !== "translation") {
     const clusterCorrect =

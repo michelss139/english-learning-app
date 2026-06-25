@@ -20,6 +20,7 @@ import {
   getVocabClusterTheoryHighlightRegex,
 } from "@/lib/vocab/clusterTheoryHighlight";
 import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
+import { BackButton } from "@/app/_components/BackButton";
 import { TileWithSidebar } from "@/app/app/grammar/_components/TileWithSidebar";
 import type { ClusterExample } from "@/lib/vocab/clusterLoader";
 
@@ -219,7 +220,8 @@ export default function ClusterClient({
     checkingRef.current = true;
 
     const isTranslation = current.task_type === "translation";
-    const submitted = isTranslation ? textAnswer : choice;
+    const isCorrection = current.task_type === "correction";
+    const submitted = isTranslation || isCorrection ? textAnswer : choice;
     setSelectedChoice(submitted);
 
     const correctChoiceStr =
@@ -242,6 +244,10 @@ export default function ClusterClient({
             : q
         )
       );
+    } else if (isCorrection) {
+      const evalResult = evaluateClusterTranslation(current, submitted);
+      setTranslationFeedback(evalResult);
+      isCorrect = evalResult.cluster_correct;
     } else {
       setTranslationFeedback(null);
       isCorrect = isClusterTaskAnswerCorrect(current, submitted);
@@ -436,17 +442,6 @@ export default function ClusterClient({
       case "new":
       default:
         return null;
-    }
-  }
-
-  function taskLabel(taskType: ClusterTask["task_type"]): string {
-    switch (taskType) {
-      case "correction":
-        return "Popraw zdanie";
-      case "translation":
-        return "Tłumaczenie";
-      default:
-        return "Wybór odpowiedzi";
     }
   }
 
@@ -765,13 +760,8 @@ export default function ClusterClient({
         <main className="space-y-6">
         <div className="max-w-2xl mx-auto">
         <header className="mb-5">
-          <a
-            href={withSuggestionCtx(`/app/vocab/cluster/${slug}`)}
-            className="text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-          >
-            ← Teoria
-          </a>
-          <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-900">
+          <BackButton href={withSuggestionCtx(`/app/vocab/cluster/${slug}`)} />
+          <h1 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">
             Ćwicz: {initialCluster.title || slug.replace(/-/g, " / ")}
           </h1>
         </header>
@@ -866,12 +856,9 @@ export default function ClusterClient({
             )}
           </div>
 
-          {/* Eyebrow + Prompt */}
+          {/* Prompt */}
           <div>
-            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              {taskLabel(current.task_type)}
-            </div>
-            <div className="mt-3 text-xl font-bold tracking-tight text-slate-900 leading-snug">
+            <div className="text-xl font-bold tracking-tight text-slate-900 leading-snug">
               {current.prompt}
             </div>
             {current.instruction ? (
@@ -926,10 +913,10 @@ export default function ClusterClient({
           ) : (
             <div className="space-y-3">
               <input
-                className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-300 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5"
+                className="w-full rounded-xl border border-slate-100 bg-white/80 px-4 py-3.5 text-center text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:placeholder:text-transparent"
                 value={textAnswer}
                 onChange={(e) => setTextAnswer(e.target.value)}
-                placeholder={current.task_type === "translation" ? "Wpisz tłumaczenie po angielsku" : "Wpisz poprawioną wersję"}
+                placeholder="Odpowiedź"
                 disabled={checked}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !checked && textAnswer.trim()) {
@@ -953,11 +940,15 @@ export default function ClusterClient({
 
           {checked && (() => {
             const wasCorrect =
-              current.task_type === "translation"
+              current.task_type === "translation" || current.task_type === "correction"
                 ? translationFeedback?.cluster_correct === true
                 : selectedChoice
                   ? isClusterTaskAnswerCorrect(current, selectedChoice)
                   : false;
+            const isCorrectionForgiving =
+              current.task_type === "correction" &&
+              translationFeedback?.cluster_correct === true &&
+              translationFeedback?.sentence_exact === false;
             const displayChoiceStr =
               typeof current.correct_choice === "number" && Array.isArray(current.choices)
                 ? current.choices[current.correct_choice] ?? ""
@@ -982,6 +973,16 @@ export default function ClusterClient({
                         ? "Czasownik poprawny — sprawdź pozostałe słowa:"
                         : "Poprawnie!"}
                     </p>
+                    {isCorrectionForgiving ? (
+                      <div className="pt-0.5">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600/70">
+                          Pełne poprawne zdanie
+                        </p>
+                        <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                          {current.expected_answer ?? current.answer}
+                        </p>
+                      </div>
+                    ) : null}
                     {isTranslationWithDiff && selectedChoice ? (
                       <p className="text-sm text-slate-700">
                         {selectedChoice.trim().split(/\s+/).map((token, i) => {
