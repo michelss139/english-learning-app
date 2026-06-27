@@ -37,7 +37,7 @@ type Body = {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const MODEL = "claude-sonnet-4-5";
+const MODEL = "claude-sonnet-4-6";
 const MAX_TOKENS = 1200;
 const GENERATION_ATTEMPTS = 3;
 

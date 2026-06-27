@@ -3,7 +3,8 @@
 import Link from "next/link";
 import type { GrammarTense } from "@/lib/grammar/types";
 import { TileWithSidebar, type SidebarItem } from "./TileWithSidebar";
-import TenseExamplesWidget from "@/components/grammar/TenseExamplesWidget";
+import { StructureCard, getAuxiliaryPattern } from "./StructureCard";
+import { CorrectIcon, WrongIcon } from "@/app/_components/FeedbackIcons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -110,56 +111,34 @@ function parseUsage(text: string): { paragraphs: string[]; question: string | nu
 
 function UsageSection({ usage }: { usage: string }) {
   const { paragraphs, question } = parseUsage(usage);
+  const questionText = question
+    ? question.replace(/^\s*Pytanie\s+kontrolne\s*:\s*/i, "").trim()
+    : null;
   return (
     <div className="space-y-4">
       <SectionHeader>Użycie</SectionHeader>
-      <div className="space-y-2">
-        {paragraphs.map((p, i) => (
-          <p key={i} className="text-sm text-slate-700">
-            {p}
-          </p>
-        ))}
-      </div>
-      {question && (
-        <Card tone="sky">
-          <p className="text-sm font-medium text-sky-900">{question}</p>
-        </Card>
-      )}
-    </div>
-  );
-}
-
-function StructureRow({
-  label,
-  text,
-}: {
-  label: string;
-  text: string;
-}) {
-  if (!text?.trim()) return null;
-  const { pattern, examples } = parseStructureField(text);
-  return (
-    <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-      {/* Label */}
-      <div className="border-b border-slate-100 bg-slate-50 px-4 py-2">
-        <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
-          {label}
-        </span>
-      </div>
-      {/* Pattern */}
-      <div className="px-4 py-3">
-        <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-slate-800">
-          {pattern}
-        </pre>
-      </div>
-      {/* Examples */}
-      {examples.length > 0 && (
-        <div className="border-t border-slate-100 bg-slate-50/50 px-4 py-2.5 space-y-1">
-          {examples.map((ex, i) => (
-            <p key={i} className="text-sm italic text-slate-600">
-              {ex}
+      {paragraphs.length > 0 && (
+        <div className="space-y-2.5 rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+          {paragraphs.map((p, i) => (
+            <p
+              key={i}
+              className={
+                i === 0
+                  ? "text-lg font-medium leading-relaxed text-slate-800"
+                  : "text-base leading-relaxed text-slate-600"
+              }
+            >
+              {p}
             </p>
           ))}
+        </div>
+      )}
+      {questionText && (
+        <div className="rounded-xl border border-sky-200 bg-sky-50/60 p-4">
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-sky-500">
+            Pytanie kontrolne
+          </p>
+          <p className="text-base font-medium text-sky-900">{questionText}</p>
         </div>
       )}
     </div>
@@ -169,30 +148,40 @@ function StructureRow({
 function StructureSection({
   structure,
   auxiliary,
+  slug,
 }: {
   structure: GrammarTense["content"]["structure"];
   auxiliary: string;
+  slug: string;
 }) {
+  const aff = parseStructureField(structure.affirmative ?? "");
+  const neg = parseStructureField(structure.negative ?? "");
+  const qst = parseStructureField(structure.question ?? "");
   return (
     <div className="space-y-4">
       <SectionHeader>Konstrukcja</SectionHeader>
 
-      <div className="space-y-3">
-        <StructureRow label="Twierdzenie (Affirmative)" text={structure.affirmative} />
-        <StructureRow label="Przeczenie (Negative)" text={structure.negative} />
-        <StructureRow label="Pytanie (Question)" text={structure.question} />
+      <div className="flex flex-col gap-2.5">
+        {structure.affirmative?.trim() && (
+          <StructureCard label="Twierdzenie (Affirmative)" pattern={aff.pattern} examples={aff.examples} slug={slug} />
+        )}
+        {structure.negative?.trim() && (
+          <StructureCard label="Przeczenie (Negative)" pattern={neg.pattern} examples={neg.examples} slug={slug} />
+        )}
+        {structure.question?.trim() && (
+          <StructureCard label="Pytanie (Question)" pattern={qst.pattern} examples={qst.examples} slug={slug} />
+        )}
       </div>
 
       {auxiliary?.trim() && (
-        <div className="space-y-1.5">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 px-1">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3">
+          <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-amber-600">
+            <i className="ti-bulb" style={{ fontSize: 14 }} />
             Słówko pomocnicze
           </p>
-          <Card tone="warn">
-            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-amber-900">
-              {auxiliary.trim()}
-            </pre>
-          </Card>
+          <pre className="whitespace-pre-wrap font-sans text-base leading-relaxed text-slate-700">
+            {auxiliary.trim()}
+          </pre>
         </div>
       )}
     </div>
@@ -226,7 +215,7 @@ function KeywordsSection({
           {items.map((item, i) => (
             <div
               key={i}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+              className="rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-2.5 text-base text-slate-700"
             >
               {item}
             </div>
@@ -252,15 +241,17 @@ function MistakesSection({
       {warnings.length > 0 && (
         <div className="space-y-2">
           <SectionHeader>Uwaga — to myli</SectionHeader>
-          <Card tone="warn">
-            <ul className="space-y-2">
-              {warnings.map((w, i) => (
-                <li key={i} className="text-sm text-amber-900">
-                  {w}
-                </li>
-              ))}
-            </ul>
-          </Card>
+          <div className="space-y-2">
+            {warnings.map((w, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3"
+              >
+                <i className="ti-alert-triangle mt-0.5 shrink-0" style={{ fontSize: 16, color: "#f59e0b" }} />
+                <p className="text-base text-slate-700">{w}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -272,17 +263,23 @@ function MistakesSection({
               "note" in m ? (
                 <div
                   key={i}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700"
+                  className="rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-base text-slate-700"
                 >
                   {m.note}
                 </div>
               ) : (
                 <div
                   key={i}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.03)]"
+                  className="space-y-1.5 rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3"
                 >
-                  <p className="text-sm text-rose-700">❌ {m.bad}</p>
-                  <p className="text-sm text-emerald-700">✅ {m.good}</p>
+                  <p className="flex items-start gap-2 text-base text-rose-700">
+                    <WrongIcon size={16} />
+                    <span>{m.bad}</span>
+                  </p>
+                  <p className="flex items-start gap-2 text-base text-emerald-700">
+                    <CorrectIcon size={16} />
+                    <span>{m.good}</span>
+                  </p>
                 </div>
               ),
             )}
@@ -290,6 +287,26 @@ function MistakesSection({
         </div>
       )}
     </div>
+  );
+}
+
+/** Dialog line with the tense's characteristic auxiliaries highlighted. */
+function DialogLine({ line, slug }: { line: string; slug?: string }) {
+  const pattern = slug ? getAuxiliaryPattern(slug) : null;
+  if (!pattern || !line.trim()) return <>{line || " "}</>;
+  const parts = line.split(pattern);
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <strong key={i} className="font-bold text-[#178CF2]">
+            {part}
+          </strong>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
   );
 }
 
@@ -303,7 +320,7 @@ function ExamplesSection({ examples, dialog, tenseSlug }: { examples: string; di
           <Card>
             <ul className="space-y-1.5">
               {exList.map((ex, i) => (
-                <li key={i} className="text-sm text-slate-700">
+                <li key={i} className="text-base text-slate-700">
                   {ex}
                 </li>
               ))}
@@ -312,14 +329,16 @@ function ExamplesSection({ examples, dialog, tenseSlug }: { examples: string; di
         </div>
       )}
 
-      {tenseSlug && <TenseExamplesWidget tense={tenseSlug} limit={6} title="Przykłady z bazy zdań" />}
-
       {dialog?.trim() && (
         <div className="space-y-2">
           <SectionHeader>Dialog w praktyce</SectionHeader>
           <Card>
-            <div className="whitespace-pre-line font-mono text-sm text-slate-700">
-              {dialog.trim()}
+            <div className="space-y-1 font-mono text-base text-slate-700">
+              {dialog.trim().split("\n").map((line, i) => (
+                <div key={i}>
+                  <DialogLine line={line} slug={tenseSlug} />
+                </div>
+              ))}
             </div>
           </Card>
         </div>
@@ -342,7 +361,7 @@ function CompareSection({
     return (
       <div className="space-y-2">
         <SectionHeader>Porównaj</SectionHeader>
-        <p className="text-sm text-slate-400">Brak dostępnych porównań.</p>
+        <p className="text-base text-slate-400">Brak dostępnych porównań.</p>
       </div>
     );
   }
@@ -357,7 +376,7 @@ function CompareSection({
               <Link
                 key={`${c.tense1}-${c.tense2}`}
                 href={`/app/grammar/compare?tense1=${c.tense1}&tense2=${c.tense2}`}
-                className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm transition hover:-translate-y-px hover:border-slate-300 hover:bg-slate-50"
+                className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition hover:-translate-y-px hover:border-slate-300 hover:bg-slate-50"
               >
                 <span className="font-medium text-slate-800">{c.title}</span>
                 {c.description && (
@@ -379,7 +398,7 @@ function CompareSection({
               <Link
                 key={link.slug}
                 href={`/app/grammar/${link.slug}`}
-                className="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm transition hover:-translate-y-px hover:border-slate-400 hover:text-slate-900"
+                className="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-base text-slate-700 shadow-sm transition hover:-translate-y-px hover:border-slate-400 hover:text-slate-900"
               >
                 <span className="font-medium">{link.title}</span>
                 {link.description && (
@@ -402,23 +421,13 @@ export function TenseDetailClient({ tense }: { tense: GrammarTense }) {
   const practiceHref = `/app/grammar/${tense.slug}/practice`;
   const c = tense.content;
 
-  const headerAccessory = (
-    <div className="flex flex-wrap gap-2 pt-1">
-      <Link
-        href={practiceHref}
-        className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
-      >
-        Ćwicz {tense.title}
-      </Link>
-      {tense.courseLink && (
-        <Link
-          href={tense.courseLink}
-          className="inline-flex items-center rounded-xl border border-slate-200 bg-transparent px-4 py-2 text-sm font-medium text-slate-500 transition hover:text-slate-800"
-        >
-          Pełny kurs →
-        </Link>
-      )}
-    </div>
+  const tileHeader = (
+    <Link
+      href={practiceHref}
+      className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
+    >
+      Ćwicz {tense.title} →
+    </Link>
   );
 
   const renderSection = (item: SidebarItem<SectionId>) => {
@@ -426,7 +435,7 @@ export function TenseDetailClient({ tense }: { tense: GrammarTense }) {
       case "usage":
         return <UsageSection usage={c.usage} />;
       case "structure":
-        return <StructureSection structure={c.structure} auxiliary={c.auxiliary} />;
+        return <StructureSection structure={c.structure} auxiliary={c.auxiliary} slug={tense.slug} />;
       case "keywords":
         return (
           <KeywordsSection characteristicWords={c.characteristicWords} chips={c.chips} />
@@ -452,13 +461,12 @@ export function TenseDetailClient({ tense }: { tense: GrammarTense }) {
   return (
     <TileWithSidebar<SectionId>
       title={tense.title}
-      description={tense.description}
       backHref="/app/grammar/tenses"
       backLabel="← Wróć do czasów"
       items={SECTIONS}
       defaultItemId="usage"
       asideLabel="Sekcje"
-      headerAccessory={headerAccessory}
+      tileHeader={tileHeader}
       renderContent={renderSection}
     />
   );

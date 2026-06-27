@@ -9,26 +9,31 @@ type AppNavProps = {
   avatarSrc: string;
 };
 
-function NavItem({
+function GradientNavItem({
   href,
   label,
+  gradient,
   isActive,
 }: {
   href: string;
   label: string;
+  gradient: string;
   isActive: boolean;
 }) {
   return (
     <Link
       href={href}
-      className={`rounded-lg px-2.5 py-2 text-sm font-medium transition-colors sm:px-3 ${
-        isActive
-          ? "bg-slate-900/[0.06] text-slate-900"
-          : "text-slate-600 hover:bg-slate-900/[0.04] hover:text-slate-900"
-      }`}
       aria-current={isActive ? "page" : undefined}
+      className={`group relative overflow-hidden rounded-xl bg-gradient-to-br ${gradient} px-4 py-2 ring-1 ring-inset ring-white/20 transition-all duration-200 hover:-translate-y-px ${
+        isActive
+          ? "shadow-[0_4px_16px_rgba(15,23,42,0.18)] ring-white/40"
+          : "shadow-sm hover:shadow-md"
+      }`}
     >
-      {label}
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+      <span className="relative text-[15px] font-black tracking-tight drop-shadow-sm" style={{ color: "#fff" }}>
+        {label}
+      </span>
     </Link>
   );
 }
@@ -36,25 +41,21 @@ function NavItem({
 export default function AppNav({ isAdmin, displayName, avatarSrc }: AppNavProps) {
   const pathname = usePathname() || "";
 
-  const dashboardActive = pathname === "/app";
   const lessonsActive = pathname === "/app/lessons" || pathname.startsWith("/app/lessons/");
   const vocabActive = pathname.startsWith("/app/vocab");
   const grammarActive = pathname.startsWith("/app/grammar");
-  const profileActive = pathname.startsWith("/app/profile");
-  const settingsActive = pathname.startsWith("/app/settings");
+  const storyActive = pathname.startsWith("/app/story-generator");
 
   return (
     <nav
       className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-2"
       aria-label="Główna nawigacja"
     >
-      <div className="flex flex-wrap items-center gap-0.5 sm:gap-1">
-        <NavItem href="/app" label="Dashboard" isActive={dashboardActive} />
-        <NavItem href="/app/vocab" label="Słownictwo" isActive={vocabActive} />
-        <NavItem href="/app/grammar" label="Gramatyka" isActive={grammarActive} />
-        <NavItem href="/app/lessons" label="Lekcje" isActive={lessonsActive} />
-        <NavItem href="/app/profile" label="Profil" isActive={profileActive} />
-        <NavItem href="/app/settings" label="Ustawienia" isActive={settingsActive} />
+      <div className="flex flex-wrap items-center gap-2">
+        <GradientNavItem href="/app/grammar" label="Gramatyka" gradient="from-emerald-400 to-teal-700" isActive={grammarActive} />
+        <GradientNavItem href="/app/vocab" label="Słownictwo" gradient="from-sky-400 to-blue-700" isActive={vocabActive} />
+        <GradientNavItem href="/app/lessons" label="Lekcje" gradient="from-amber-400 to-orange-500" isActive={lessonsActive} />
+        <GradientNavItem href="/app/story-generator" label="Story Generator" gradient="from-indigo-400 to-violet-700" isActive={storyActive} />
         {isAdmin ? (
           <Link
             href="/admin/courses"

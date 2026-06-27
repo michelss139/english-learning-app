@@ -744,6 +744,7 @@ export default function ClusterClient({
           renderContent={(item) => renderOverviewSection(item.id)}
           defaultItemId="roznica"
           asideLabel="Sekcje"
+          accentGradient="from-sky-400 to-blue-600"
           headerAccessory={
             <div className="flex flex-wrap items-center gap-3">
               {masteryAccessory}

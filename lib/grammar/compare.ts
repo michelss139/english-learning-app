@@ -3,7 +3,7 @@
  */
 
 import { GrammarTenseSlug, GrammarTense } from "./types";
-import { getGrammarTenseBySlug } from "./content";
+import { getGrammarTenseBySlug, getAllGrammarTenses } from "./content";
 
 export type ComparisonData = {
   tense1: GrammarTense;
@@ -11,6 +11,68 @@ export type ComparisonData = {
   title: string;
   description?: string;
 };
+
+export type ComparisonListItem = {
+  tense1: GrammarTenseSlug;
+  tense2: GrammarTenseSlug;
+  title: string;
+  group: string;
+};
+
+const CONDITIONAL_COMPARE_SLUGS = new Set<string>([
+  "zero-conditional",
+  "first-conditional",
+  "second-conditional",
+  "third-conditional",
+  "mixed-conditional",
+]);
+
+const COMPARISON_GROUP_ORDER = ["Present", "Past", "Future", "Mieszane", "Conditionals"];
+
+function comparisonGroup(t1: string, t2: string): string {
+  if (CONDITIONAL_COMPARE_SLUGS.has(t1) && CONDITIONAL_COMPARE_SLUGS.has(t2)) return "Conditionals";
+  const cat = (s: string) =>
+    s.startsWith("present-") ? "present" : s.startsWith("past-") ? "past" : s.startsWith("future-") ? "future" : "other";
+  const c1 = cat(t1);
+  const c2 = cat(t2);
+  if (c1 === c2 && c1 !== "other") {
+    return c1 === "present" ? "Present" : c1 === "past" ? "Past" : "Future";
+  }
+  return "Mieszane";
+}
+
+export function comparisonKey(t1: string, t2: string): string {
+  return [t1, t2].sort().join("__");
+}
+
+/** All available comparisons across every tense, de-duplicated and grouped. */
+export function getAllComparisons(): ComparisonListItem[] {
+  const seen = new Set<string>();
+  const out: ComparisonListItem[] = [];
+  for (const tense of getAllGrammarTenses()) {
+    for (const c of tense.content.comparisons ?? []) {
+      const key = comparisonKey(c.tense1, c.tense2);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({
+        tense1: c.tense1 as GrammarTenseSlug,
+        tense2: c.tense2 as GrammarTenseSlug,
+        title: c.title,
+        group: comparisonGroup(c.tense1, c.tense2),
+      });
+    }
+  }
+  return out;
+}
+
+/** Comparisons grouped into ordered sections. */
+export function getGroupedComparisons(): { group: string; items: ComparisonListItem[] }[] {
+  const all = getAllComparisons();
+  return COMPARISON_GROUP_ORDER.map((group) => ({
+    group,
+    items: all.filter((c) => c.group === group),
+  })).filter((g) => g.items.length > 0);
+}
 
 /**
  * Get comparison data for two tenses

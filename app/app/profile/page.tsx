@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
@@ -161,6 +162,16 @@ export default async function ProfilePage() {
             {levelInfo.xp_in_current_level} / {levelInfo.xp_to_next_level} XP
           </span>
         </div>
+
+        {/* Ustawienia — koło zębate */}
+        <Link
+          href="/app/settings"
+          aria-label="Ustawienia"
+          title="Ustawienia"
+          className="ml-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200/90 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+        >
+          <i className="ti-settings" style={{ fontSize: 20 }} />
+        </Link>
       </header>
 
       {/* ── Strefa 2: 4 kafelki w siatce 2×2 ── */}
@@ -195,55 +206,53 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        {/* [1,2] Ranga */}
+        {/* [1,2] Ranga + Odznaki */}
         <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
           <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Ranga</h2>
           <div className="flex items-center gap-2">
             <i className={rank.icon} style={{ fontSize: 22, color: "#178CF2" }} />
             <span className="text-3xl font-bold tracking-tight text-slate-900">{rank.label}</span>
           </div>
-        </div>
-
-        {/* [2,1] Statystyki + Odznaki */}
-        <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <h2 className="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Statystyki</h2>
-              {[
-                { icon: "ti-book-2",         color: "#178CF2", label: "Słówka opanowane",      value: wordsMastered.toLocaleString("pl-PL") },
-                { icon: "ti-calendar-stats", color: "#0F6E56", label: "Słówka w tym miesiącu", value: wordsThisMonth.toLocaleString("pl-PL") },
-                { icon: "ti-trophy",         color: "#FA8C27", label: "Najlepsza seria",        value: `${bestStreak} dni` },
-              ].map(({ icon, color, label, value }) => (
-                <div key={label} className="flex items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2 shadow-sm">
-                  <i className={icon} style={{ fontSize: 20, color }} />
-                  <div>
-                    <p className="text-[10px] text-slate-400">{label}</p>
-                    <p className="text-lg font-semibold leading-tight" style={{ color }}>{value}</p>
+          <div className="mt-5">
+            <h2 className="mb-2 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Odznaki</h2>
+            <div className="grid grid-cols-6 gap-2">
+              {BADGE_DEFS.map((badge) => (
+                <div key={badge.id} className="flex flex-col items-center gap-1.5">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
+                    <i className={badge.icon} style={{ fontSize: 18, color: "#cbd5e1" }} />
                   </div>
+                  <span className="text-center text-[9px] leading-tight text-slate-300">{badge.label}</span>
                 </div>
               ))}
-            </div>
-            <div className="flex flex-col gap-2">
-              <h2 className="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Odznaki</h2>
-              <div className="grid grid-cols-3 gap-2">
-                {BADGE_DEFS.map((badge) => (
-                  <div key={badge.id} className="flex flex-col items-center gap-1.5">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-                      <i className={badge.icon} style={{ fontSize: 18, color: "#cbd5e1" }} />
-                    </div>
-                    <span className="text-center text-[9px] leading-tight text-slate-300">{badge.label}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
 
+        {/* [2,1] Statystyki */}
+        <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-4 shadow-sm">
+          <h2 className="mb-2 text-xs font-bold uppercase tracking-[0.08em] text-slate-400">Statystyki</h2>
+          <div className="flex flex-col gap-2">
+            {[
+              { icon: "ti-book-2",         color: "#178CF2", label: "Słówka opanowane",      value: wordsMastered.toLocaleString("pl-PL") },
+              { icon: "ti-calendar-stats", color: "#0F6E56", label: "Słówka w tym miesiącu", value: wordsThisMonth.toLocaleString("pl-PL") },
+              { icon: "ti-trophy",         color: "#FA8C27", label: "Najlepsza seria",        value: `${bestStreak} dni` },
+            ].map(({ icon, color, label, value }) => (
+              <div key={label} className="flex items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2 shadow-sm">
+                <i className={icon} style={{ fontSize: 20, color }} />
+                <div>
+                  <p className="text-[10px] text-slate-400">{label}</p>
+                  <p className="text-lg font-semibold leading-tight" style={{ color }}>{value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* [2,2] Seria nauki */}
-        <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-50 to-white p-4 shadow-sm">
           <h2
             className="flex items-center gap-1.5"
-            style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-tertiary)", marginBottom: "0.75rem" }}
+            style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-tertiary)", marginBottom: "0.5rem" }}
           >
             <i className="ti-flame" style={{ fontSize: 14, color: "#FA8C27" }} />
             Seria nauki

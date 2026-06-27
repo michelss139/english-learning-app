@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BackButton } from "@/app/_components/BackButton";
 import Link from "next/link";
 import type { GrammarTense, GrammarTenseSlug } from "@/lib/grammar/types";
+import { StructureCard } from "@/app/app/grammar/_components/StructureCard";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -88,135 +89,6 @@ function parseFormulaAndExample(
   return { formula, example };
 }
 
-// ─── Auxiliary-verb highlighting ──────────────────────────────────────────────
-
-/**
- * Returns a regex with ONE capturing group so that `text.split(pattern)`
- * gives alternating [plain, match, plain, …] — odd indices are the highlights.
- *
- * Multi-word phrases (e.g. "won't have been") come BEFORE their sub-phrases
- * so the longer match wins in alternation.
- */
-function getAuxiliaryPattern(slug: string): RegExp | null {
-  switch (slug) {
-    case "present-simple":
-      return /\b(don't|doesn't|do|does)\b/gi;
-    case "present-continuous":
-      return /\b(am not|isn't|aren't|am|is|are)\b/gi;
-    case "past-simple":
-      return /\b(didn't|did)\b/gi;
-    case "past-continuous":
-      return /\b(wasn't|weren't|was|were)\b/gi;
-    case "past-perfect":
-      return /\b(hadn't|had)\b/gi;
-    case "past-perfect-continuous":
-      return /\b(hadn't been|had been|hadn't|had)\b/gi;
-    case "present-perfect":
-      return /\b(haven't|hasn't|have|has)\b/gi;
-    case "present-perfect-continuous":
-      return /\b(haven't been|hasn't been|have been|has been)\b/gi;
-    case "future-simple":
-      return /\b(won't|will)\b/gi;
-    case "future-continuous":
-      return /\b(won't be|will be)\b/gi;
-    case "future-perfect-simple":
-      return /\b(won't have|will have)\b/gi;
-    case "future-perfect-continuous":
-      return /\b(won't have been|will have been)\b/gi;
-    case "zero-conditional":
-      return /\b(if|when)\b/gi;
-    case "first-conditional":
-      return /\b(won't|will|if)\b/gi;
-    case "second-conditional":
-      return /\b(wouldn't|would|if)\b/gi;
-    case "third-conditional":
-      return /\b(wouldn't have|would have|if)\b/gi;
-    default:
-      return null;
-  }
-}
-
-// ─── Highlighted text atoms ───────────────────────────────────────────────────
-
-/** Formula line — medium weight; highlights are bold */
-function HighlightedFormula({ text, slug }: { text: string; slug: string }) {
-  const pattern = getAuxiliaryPattern(slug);
-  if (!text) return null;
-  if (!pattern) {
-    return (
-      <span className="text-sm font-medium text-slate-800 leading-snug">{text}</span>
-    );
-  }
-  const parts = text.split(pattern);
-  return (
-    <span className="text-sm font-medium text-slate-800 leading-snug">
-      {parts.map((part, i) =>
-        i % 2 === 1 ? (
-          <strong key={i} className="font-bold text-slate-900">
-            {part}
-          </strong>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </span>
-  );
-}
-
-/** Example sentence — italic; highlights are un-italicised semibold */
-function HighlightedExample({ text, slug }: { text: string; slug: string }) {
-  const pattern = getAuxiliaryPattern(slug);
-  if (!text) return null;
-  if (!pattern) {
-    return (
-      <span className="text-sm italic text-slate-400">{text}</span>
-    );
-  }
-  const parts = text.split(pattern);
-  return (
-    <span className="text-sm italic text-slate-400">
-      {parts.map((part, i) =>
-        i % 2 === 1 ? (
-          <span key={i} className="not-italic font-semibold text-slate-600">
-            {part}
-          </span>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </span>
-  );
-}
-
-// ─── Table row ────────────────────────────────────────────────────────────────
-
-function StructureRow({
-  type,
-  data,
-  slug,
-  isLast,
-}: {
-  type: string;
-  data: { formula: string; example: string };
-  slug: string;
-  isLast?: boolean;
-}) {
-  if (!data.formula) return null;
-  return (
-    <tr className={isLast ? "" : "border-b border-slate-200/60"}>
-      <td className="px-4 py-3.5 text-[12px] font-bold uppercase tracking-[0.1em] text-slate-400 align-top whitespace-nowrap w-[26%]">
-        {type}
-      </td>
-      <td className="px-4 py-3.5 align-top">
-        <div className="space-y-1">
-          <HighlightedFormula text={data.formula} slug={slug} />
-          <HighlightedExample text={data.example} slug={slug} />
-        </div>
-      </td>
-    </tr>
-  );
-}
-
 // ─── Tense content panel ──────────────────────────────────────────────────────
 
 function TenseContent({ tense }: { tense: GrammarTense }) {
@@ -255,45 +127,12 @@ function TenseContent({ tense }: { tense: GrammarTense }) {
         </Link>
       </div>
 
-      {/* Structure table */}
+      {/* Structure — soft cards */}
       {s && (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-          <table className="w-full min-w-[320px] border-collapse text-left">
-            <thead>
-              <tr className="border-b border-slate-200 bg-slate-50/80">
-                <th className="w-[26%] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
-                  Typ
-                </th>
-                <th className="px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
-                  Wzór &amp; Przykład
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <StructureRow
-                type="Affirmative"
-                data={affData}
-                slug={tense.slug}
-                isLast={!hasNeg && !hasQ}
-              />
-              {hasNeg && (
-                <StructureRow
-                  type="Negative"
-                  data={negData!}
-                  slug={tense.slug}
-                  isLast={!hasQ}
-                />
-              )}
-              {hasQ && (
-                <StructureRow
-                  type="Question"
-                  data={qData!}
-                  slug={tense.slug}
-                  isLast
-                />
-              )}
-            </tbody>
-          </table>
+        <div className="flex flex-col gap-2.5">
+          <StructureCard label="Affirmative" pattern={affData.formula} examples={affData.example ? [affData.example] : []} slug={tense.slug} />
+          {hasNeg && <StructureCard label="Negative" pattern={negData!.formula} examples={negData!.example ? [negData!.example] : []} slug={tense.slug} />}
+          {hasQ && <StructureCard label="Question" pattern={qData!.formula} examples={qData!.example ? [qData!.example] : []} slug={tense.slug} />}
         </div>
       )}
     </div>
@@ -354,53 +193,29 @@ export function TensesClient({ tenses }: TensesClientProps) {
 
   return (
     <main className="space-y-5">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-1.5">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasy</h1>
-          <p className="max-w-2xl text-sm text-slate-600">
-            Wybierz czas z listy — zobacz schemat zdania twierdzącego, przeczenia i pytania, a
-            następnie otwórz pełną teorię.
-          </p>
-        </div>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Czasy</h1>
         <BackButton href="/app/grammar" />
       </header>
 
-      {/* Story Generator callout */}
-      <Link
-        href="/app/story-generator"
-        className="group flex items-center justify-between gap-4 rounded-2xl border border-violet-200/80 bg-violet-50/60 px-5 py-3.5 transition-all hover:border-violet-300 hover:bg-violet-50 hover:shadow-sm"
-      >
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-violet-900">
-            AI Story Generator
-          </p>
-          <p className="mt-0.5 text-xs text-violet-600">
-            Ćwicz rozróżnianie czasów w kontekście — uzupełniaj luki w historii generowanej przez AI.
-          </p>
-        </div>
-        <span className="shrink-0 rounded-xl border border-violet-300 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 shadow-sm transition group-hover:border-violet-400 group-hover:text-violet-900">
-          Wypróbuj →
-        </span>
-      </Link>
-
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_1fr] lg:gap-5">
-        {/* Main content panel */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
+      <section className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[2.4fr_1fr] lg:gap-5">
+        {/* Main content panel — stała wysokość, scroll wewnętrzny */}
+        <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6 lg:h-[560px]">
           <div
-            className={`transition-opacity duration-200 ${
-              isVisible ? "opacity-100" : "opacity-0"
+            className={`min-h-0 flex-1 overflow-y-auto pr-1 transition-all duration-200 ${
+              isVisible ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0"
             }`}
           >
             {renderedTense && <TenseContent tense={renderedTense} />}
           </div>
         </div>
 
-        {/* Category sidebar */}
-        <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-          <div className="mb-2 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
+        {/* Category sidebar — ta sama wysokość, scroll wewnętrzny */}
+        <aside className="flex flex-col rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:h-[560px] lg:sticky lg:top-28">
+          <div className="mb-2 shrink-0 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
             Kategorie
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
             {grouped.map(({ category, tenses: catTenses }) => {
               const isExpanded = expandedCategories.has(category);
               return (
@@ -440,13 +255,18 @@ export function TensesClient({ tenses }: TensesClientProps) {
                             type="button"
                             onClick={() => selectTense(t.slug)}
                             data-active={isActive ? "true" : "false"}
-                            className={`grammar-aside-item px-3 py-1.5 text-left text-[13px] ${
+                            className={`relative overflow-hidden rounded-lg px-3 py-1.5 text-left text-[13px] transition-all duration-150 ${
                               isActive
-                                ? "font-semibold text-slate-900"
-                                : "font-medium text-slate-600 hover:text-slate-900"
+                                ? "bg-gradient-to-br from-emerald-400 to-teal-600 ring-1 ring-inset ring-white/20"
+                                : "font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                             }`}
                           >
-                            {t.title}
+                            {isActive ? (
+                              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+                            ) : null}
+                            <span className="relative font-semibold" style={isActive ? { color: "#fff" } : undefined}>
+                              {t.title}
+                            </span>
                           </button>
                         );
                       })}

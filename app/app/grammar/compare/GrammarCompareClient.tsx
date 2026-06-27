@@ -1,451 +1,324 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase/client";
-import { getOrCreateProfile, Profile } from "@/lib/auth/profile";
-import { getComparison, getComparisonCacheKey } from "@/lib/grammar/compare";
 import Link from "next/link";
-import type { GrammarTenseSlug } from "@/lib/grammar/types";
+import { supabase } from "@/lib/supabase/client";
+import {
+  getComparison,
+  getComparisonCacheKey,
+  getGroupedComparisons,
+  comparisonKey,
+  type ComparisonListItem,
+} from "@/lib/grammar/compare";
+import { HighlightedFormula, HighlightedExample } from "@/app/app/grammar/_components/StructureCard";
+import { BackButton } from "@/app/_components/BackButton";
+import type { GrammarTense, GrammarTenseSlug } from "@/lib/grammar/types";
 
-function ContentTile({ title, children }: { title: string; children: React.ReactNode }) {
+// ─── Cell helpers ─────────────────────────────────────────────────────────────
+
+function usageShort(t: GrammarTense): string {
+  return t.content.usage
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(" ");
+}
+
+function structurePattern(t: GrammarTense): string {
+  return t.content.structure.affirmative
+    .split(/\n\s*Przykłady/i)[0]
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .join("  ·  ");
+}
+
+function firstExample(t: GrammarTense): string {
+  return t.content.examples.split(/\n+/).map((s) => s.trim()).filter(Boolean)[0] ?? "";
+}
+
+function warningShort(t: GrammarTense): string {
+  return t.content.confusionWarnings.split(/\n+/).map((s) => s.trim()).filter(Boolean)[0] ?? "";
+}
+
+// ─── Aspect row ───────────────────────────────────────────────────────────────
+
+function AspectRow({
+  label,
+  cell1,
+  cell2,
+}: {
+  label: string;
+  cell1: React.ReactNode;
+  cell2: React.ReactNode;
+}) {
   return (
-    <div className="tile-frame">
-      <div className="tile-core p-4">
-        <h3 className="mb-2 text-sm font-medium text-slate-900">{title}</h3>
-        {children}
-      </div>
+    <div className="grid grid-cols-[96px_1fr_1fr] gap-x-3 border-b border-slate-100 py-3 last:border-b-0">
+      <div className="pt-0.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-400">{label}</div>
+      <div className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2">{cell1}</div>
+      <div className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2">{cell2}</div>
     </div>
   );
 }
 
+function ChipsCell({ tense }: { tense: GrammarTense }) {
+  const chips = (tense.content.chips ?? []).slice(0, 4);
+  if (chips.length === 0) return <span className="text-sm text-slate-400">—</span>;
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {chips.map((c) => (
+        <span
+          key={c.text}
+          title={c.description}
+          className="inline-flex items-center rounded-md border border-slate-200 bg-white px-2 py-0.5 text-xs font-medium text-slate-700"
+        >
+          {c.text}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
 export default function GrammarCompareClient() {
   const searchParams = useSearchParams();
+  const grouped = useMemo(() => getGroupedComparisons(), []);
+  const allItems = useMemo(() => grouped.flatMap((g) => g.items), [grouped]);
 
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const urlT1 = searchParams.get("tense1");
+  const urlT2 = searchParams.get("tense2");
+  const initialKey =
+    urlT1 && urlT2 && allItems.some((i) => comparisonKey(i.tense1, i.tense2) === comparisonKey(urlT1, urlT2))
+      ? comparisonKey(urlT1, urlT2)
+      : allItems[0]
+        ? comparisonKey(allItems[0].tense1, allItems[0].tense2)
+        : "";
 
-  const tense1Slug = (searchParams.get("tense1") || "") as GrammarTenseSlug;
-  const tense2Slug = (searchParams.get("tense2") || "") as GrammarTenseSlug;
+  const [activeKey, setActiveKey] = useState(initialKey);
+  const [renderedKey, setRenderedKey] = useState(initialKey);
+  const [isVisible, setIsVisible] = useState(true);
+  const transitionRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [aiDialogLoading, setAiDialogLoading] = useState(false);
   const [aiDialog, setAiDialog] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const prof = await getOrCreateProfile();
-        setProfile(prof);
-      } catch (e: any) {
-        setError(e?.message ?? "Błąd ładowania");
-      } finally {
-        setLoading(false);
-      }
-    };
-    run();
+  useEffect(() => () => {
+    if (transitionRef.current) clearTimeout(transitionRef.current);
   }, []);
 
-  const comparison = tense1Slug && tense2Slug ? getComparison(tense1Slug, tense2Slug) : null;
+  const keyOf = (i: ComparisonListItem) => comparisonKey(i.tense1, i.tense2);
+  const renderedItem = allItems.find((i) => keyOf(i) === renderedKey) ?? allItems[0];
 
-  const handleGenerateAIDialog = async () => {
-    if (!tense1Slug || !tense2Slug) return;
+  const select = (i: ComparisonListItem) => {
+    const next = keyOf(i);
+    if (next === activeKey) return;
+    if (transitionRef.current) clearTimeout(transitionRef.current);
+    setActiveKey(next);
+    setIsVisible(false);
+    setAiDialog(null);
+    setAiError(null);
+    transitionRef.current = setTimeout(() => {
+      setRenderedKey(next);
+      requestAnimationFrame(() => setIsVisible(true));
+    }, 180);
+  };
 
-    setAiDialogLoading(true);
+  const generateAIDialog = async (t1: GrammarTenseSlug, t2: GrammarTenseSlug) => {
+    setAiLoading(true);
     setAiError(null);
     try {
       const session = await supabase.auth.getSession();
       const token = session?.data?.session?.access_token;
-
       if (!token) {
         setAiError("Musisz być zalogowany");
-        setAiDialogLoading(false);
         return;
       }
-
-      const cacheKey = getComparisonCacheKey(tense1Slug, tense2Slug);
-
+      const cacheKey = getComparisonCacheKey(t1, t2);
       const cacheRes = await fetch(`/api/grammar/ai-dialog?key=${encodeURIComponent(cacheKey)}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       if (cacheRes.ok) {
         const cacheData = await cacheRes.json();
         if (cacheData.ok && cacheData.cached && cacheData.dialog) {
           setAiDialog(cacheData.dialog);
-          setAiDialogLoading(false);
           return;
         }
       }
-
       const genRes = await fetch("/api/grammar/ai-dialog", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tense1: tense1Slug,
-          tense2: tense2Slug,
-        }),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ tense1: t1, tense2: t2 }),
       });
-
       if (!genRes.ok) {
-        const errorData = await genRes.json();
-        throw new Error(errorData.error || "Błąd generowania dialogu");
+        const errData = await genRes.json().catch(() => null);
+        throw new Error(errData?.error || "Błąd generowania dialogu");
       }
-
       const genData = await genRes.json();
-      if (genData.ok && genData.dialog) {
-        setAiDialog(genData.dialog);
-      } else {
-        throw new Error("Nie udało się wygenerować dialogu");
-      }
-    } catch (e: any) {
-      setAiError(e?.message || "Błąd generowania dialogu AI");
+      if (genData.ok && genData.dialog) setAiDialog(genData.dialog);
+      else throw new Error("Nie udało się wygenerować dialogu");
+    } catch (e: unknown) {
+      setAiError(e instanceof Error ? e.message : "Błąd generowania dialogu AI");
     } finally {
-      setAiDialogLoading(false);
+      setAiLoading(false);
     }
   };
 
-  if (loading) return <main>Ładuję…</main>;
-
-  if (!tense1Slug || !tense2Slug) {
-    return (
-      <main className="space-y-6">
-        <header className="px-1 py-1">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Porównywarka czasów</h1>
-              <p className="text-base text-slate-600">Brak parametrów porównania</p>
-            </div>
-            <Link className="tile-frame" href="/app/grammar">
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Spis treści
-              </span>
-            </Link>
-          </div>
-        </header>
-        <section className="tile-frame">
-          <div className="tile-core p-5">
-            <p className="text-slate-700">Wybierz czasy do porównania z kart czasów gramatycznych.</p>
-          </div>
-        </section>
-      </main>
-    );
-  }
-
-  if (!comparison) {
-    return (
-      <main className="space-y-6">
-        <header className="px-1 py-1">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Porównywarka czasów</h1>
-              <p className="text-base text-slate-600">Nie znaleziono porównania</p>
-            </div>
-            <Link className="tile-frame" href="/app/grammar">
-              <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-                ← Spis treści
-              </span>
-            </Link>
-          </div>
-        </header>
-        <section className="tile-frame">
-          <div className="tile-core p-5">
-            <p className="text-slate-700">
-              Porównanie między &quot;{tense1Slug}&quot; a &quot;{tense2Slug}&quot; nie jest dostępne.
-            </p>
-          </div>
-        </section>
-      </main>
-    );
-  }
-
-  const { tense1, tense2, title, description } = comparison;
-  const chips1 = tense1.content.chips ?? [];
-  const chips2 = tense2.content.chips ?? [];
-  const example1 = tense1.content.examples.split("\n").filter((l) => l.trim())[0] ?? "";
-  const example2 = tense2.content.examples.split("\n").filter((l) => l.trim())[0] ?? "";
-
-  const theoryLink1 = tense1.theoryLink ?? `/app/grammar/${tense1.slug}`;
-  const theoryLink2 = tense2.theoryLink ?? `/app/grammar/${tense2.slug}`;
-  const isConditionalsCompare =
-    ["zero-conditional", "first-conditional", "second-conditional", "third-conditional"].includes(tense1Slug) &&
-    ["zero-conditional", "first-conditional", "second-conditional", "third-conditional"].includes(tense2Slug);
-  const backHref = isConditionalsCompare ? "/app/grammar/conditionals" : "/app/grammar";
+  const comparison = renderedItem ? getComparison(renderedItem.tense1, renderedItem.tense2) : null;
 
   return (
-    <main className="space-y-6">
-      <header className="px-1 py-1">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">{title}</h1>
-            {description && <p className="text-base text-slate-600">{description}</p>}
-          </div>
-          <Link className="tile-frame" href={backHref}>
-            <span className="tile-core inline-flex items-center rounded-[11px] px-4 py-2 font-medium text-slate-700">
-              ← Spis treści
-            </span>
-          </Link>
-        </div>
+    <main className="space-y-5">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Porównywarka czasów</h1>
+        <BackButton href="/app/grammar" />
       </header>
 
-      {error ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-700">{error}</div>
-      ) : null}
-
-      {/* Side-by-side comparison */}
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Tense 1 */}
-        <div className="tile-frame">
-          <div className="tile-core p-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-slate-900">{tense1.title}</h2>
-              <Link
-                href={theoryLink1}
-                className="text-sm text-slate-600 underline hover:text-slate-900"
-              >
-                Zobacz pełną teorię →
-              </Link>
-            </div>
-
-            <div className="space-y-4">
-              <ContentTile title="Po co używamy">
-                <div className="whitespace-pre-line text-sm text-slate-700">
-                  {tense1.content.usage.split("\n").slice(0, 3).join("\n")}...
-                </div>
-              </ContentTile>
-
-              {chips1.length > 0 && (
-                <ContentTile title="Charakterystyczne słowa">
-                  <div className="flex flex-wrap gap-2">
-                    {chips1.slice(0, 5).map((chip, index) => (
-                      <span
-                        key={index}
-                        className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-700"
-                        title={chip.description}
-                      >
-                        {chip.text}
-                      </span>
-                    ))}
+      <section className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[2.4fr_1fr] lg:gap-5">
+        {/* Main tile */}
+        <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6 lg:h-[600px]">
+          {comparison ? (
+            <div
+              className={`min-h-0 flex-1 overflow-y-auto pr-1 transition-all duration-200 ${
+                isVisible ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0"
+              }`}
+            >
+              {/* AI premium feature — top */}
+              <div className="mb-4">
+                <button
+                  type="button"
+                  onClick={() => renderedItem && generateAIDialog(renderedItem.tense1, renderedItem.tense2)}
+                  disabled={aiLoading}
+                  className="group relative inline-flex overflow-hidden rounded-xl bg-gradient-to-br from-indigo-400 to-violet-700 px-4 py-2.5 ring-1 ring-inset ring-white/20 shadow-sm transition-all duration-200 hover:-translate-y-px hover:shadow-md disabled:opacity-60"
+                >
+                  <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+                  <span className="relative text-[15px] font-black tracking-tight drop-shadow-sm" style={{ color: "#fff" }}>
+                    {aiLoading ? "Generuję…" : "Dialog kontrastowy AI"}
+                  </span>
+                </button>
+                {aiError && (
+                  <div className="mt-3 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">{aiError}</div>
+                )}
+                {aiDialog && (
+                  <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+                    <div className="space-y-1 font-mono text-sm text-slate-800">
+                      {aiDialog.split("\n").map((line, i) => (
+                        <div
+                          key={i}
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              line.replace(/\*\*(.+?)\*\*/g, '<span class="font-semibold text-slate-900">$1</span>') ||
+                              "&nbsp;",
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </ContentTile>
-              )}
+                )}
+              </div>
 
-              <ContentTile title="Struktura">
-                <div className="whitespace-pre-line font-mono text-xs text-slate-800">
-                  {tense1.content.structure.affirmative.split("\n").slice(0, 2).join("\n")}
-                </div>
-              </ContentTile>
+              {/* Title */}
+              <h2 className="mb-3 text-2xl font-semibold tracking-tight text-slate-900">{comparison.title}</h2>
 
-              <ContentTile title="Przykład">
-                <div className="text-sm text-slate-800">{example1}</div>
-              </ContentTile>
-            </div>
-          </div>
-        </div>
-
-        {/* Tense 2 */}
-        <div className="tile-frame">
-          <div className="tile-core p-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-slate-900">{tense2.title}</h2>
-              <Link
-                href={theoryLink2}
-                className="text-sm text-slate-600 underline hover:text-slate-900"
-              >
-                Zobacz pełną teorię →
-              </Link>
-            </div>
-
-            <div className="space-y-4">
-              <ContentTile title="Po co używamy">
-                <div className="whitespace-pre-line text-sm text-slate-700">
-                  {tense2.content.usage.split("\n").slice(0, 3).join("\n")}...
-                </div>
-              </ContentTile>
-
-              {chips2.length > 0 && (
-                <ContentTile title="Charakterystyczne słowa">
-                  <div className="flex flex-wrap gap-2">
-                    {chips2.slice(0, 5).map((chip, index) => (
-                      <span
-                        key={index}
-                        className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-700"
-                        title={chip.description}
-                      >
-                        {chip.text}
-                      </span>
-                    ))}
+              {/* Header row: tense names */}
+              <div className="grid grid-cols-[96px_1fr_1fr] gap-x-3 border-b-2 border-slate-200 pb-2">
+                <div />
+                {[comparison.tense1, comparison.tense2].map((t) => (
+                  <div key={t.slug} className="flex items-baseline justify-between gap-2">
+                    <span className="text-base font-bold text-slate-900">{t.title}</span>
+                    <Link
+                      href={`/app/grammar/${t.slug}`}
+                      className="shrink-0 text-xs font-medium text-[#178CF2] hover:underline"
+                    >
+                      teoria →
+                    </Link>
                   </div>
-                </ContentTile>
-              )}
+                ))}
+              </div>
 
-              <ContentTile title="Struktura">
-                <div className="whitespace-pre-line font-mono text-xs text-slate-800">
-                  {tense2.content.structure.affirmative.split("\n").slice(0, 2).join("\n")}
-                </div>
-              </ContentTile>
-
-              <ContentTile title="Przykład">
-                <div className="text-sm text-slate-800">{example2}</div>
-              </ContentTile>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Detailed comparison section */}
-      <section className="tile-frame">
-        <div className="tile-core p-6 space-y-4">
-          <h2 className="text-xl font-semibold text-slate-900">Różnice i podobieństwa</h2>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="space-y-3">
-              <h3 className="text-lg font-medium text-slate-900">{tense1.title}</h3>
-              <div className="space-y-3">
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-sm font-medium text-slate-900">Intencja</p>
-                  <p className="mt-1 whitespace-pre-line text-sm text-slate-700">
-                    {(tense1.content.intention ?? tense1.content.usage).split("\n").slice(0, 2).join("\n")}
+              {/* Aspect rows */}
+              <AspectRow
+                label="Użycie"
+                cell1={<p className="text-[15px] leading-relaxed text-slate-600">{usageShort(comparison.tense1)}</p>}
+                cell2={<p className="text-[15px] leading-relaxed text-slate-600">{usageShort(comparison.tense2)}</p>}
+              />
+              <AspectRow
+                label="Struktura"
+                cell1={<HighlightedFormula text={structurePattern(comparison.tense1)} slug={comparison.tense1.slug} />}
+                cell2={<HighlightedFormula text={structurePattern(comparison.tense2)} slug={comparison.tense2.slug} />}
+              />
+              <AspectRow
+                label="Słowa"
+                cell1={<ChipsCell tense={comparison.tense1} />}
+                cell2={<ChipsCell tense={comparison.tense2} />}
+              />
+              <AspectRow
+                label="Przykład"
+                cell1={<HighlightedExample text={firstExample(comparison.tense1)} slug={comparison.tense1.slug} />}
+                cell2={<HighlightedExample text={firstExample(comparison.tense2)} slug={comparison.tense2.slug} />}
+              />
+              <AspectRow
+                label="Uwaga"
+                cell1={
+                  <p className="flex items-start gap-1.5 text-[15px] text-slate-600">
+                    <i className="ti-alert-triangle mt-0.5 shrink-0" style={{ fontSize: 16, color: "#f59e0b" }} />
+                    <span>{warningShort(comparison.tense1)}</span>
                   </p>
-                </div>
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                  <p className="text-sm font-medium text-slate-900">Uwaga</p>
-                  <p className="mt-1 whitespace-pre-line text-sm text-amber-900">
-                    {tense1.content.confusionWarnings.split("\n").slice(0, 2).join("\n")}
+                }
+                cell2={
+                  <p className="flex items-start gap-1.5 text-[15px] text-slate-600">
+                    <i className="ti-alert-triangle mt-0.5 shrink-0" style={{ fontSize: 16, color: "#f59e0b" }} />
+                    <span>{warningShort(comparison.tense2)}</span>
                   </p>
-                </div>
-              </div>
+                }
+              />
             </div>
-
-            <div className="space-y-3">
-              <h3 className="text-lg font-medium text-slate-900">{tense2.title}</h3>
-              <div className="space-y-3">
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-sm font-medium text-slate-900">Intencja</p>
-                  <p className="mt-1 whitespace-pre-line text-sm text-slate-700">
-                    {(tense2.content.intention ?? tense2.content.usage).split("\n").slice(0, 2).join("\n")}
-                  </p>
-                </div>
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                  <p className="text-sm font-medium text-slate-900">Uwaga</p>
-                  <p className="mt-1 whitespace-pre-line text-sm text-amber-900">
-                    {tense2.content.confusionWarnings.split("\n").slice(0, 2).join("\n")}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Różnica w użyciu "would" - tylko dla Second vs Third Conditional */}
-      {(tense1Slug === "second-conditional" && tense2Slug === "third-conditional") ||
-      (tense1Slug === "third-conditional" && tense2Slug === "second-conditional") ? (
-        <section className="tile-frame">
-          <div className="tile-core p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-slate-900">Różnica w użyciu &quot;would&quot;</h2>
-            <p className="text-slate-700">
-              W obu konstrukcjach pojawia się czasownik <strong>would</strong>, ale jego funkcja jest inna.
-            </p>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-                <p className="text-sm font-medium text-slate-900">Second Conditional</p>
-                <p className="font-mono text-xs text-slate-800">would + infinitive</p>
-                <p className="text-sm text-slate-700">
-                  Opisuje rezultat, który mógłby wydarzyć się teraz lub w przyszłości.
-                </p>
-                <p className="text-sm text-slate-800 italic">If I had more time, I would travel more.</p>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2">
-                <p className="text-sm font-medium text-slate-900">Third Conditional</p>
-                <p className="font-mono text-xs text-slate-800">would have + past participle</p>
-                <p className="text-sm text-slate-700">
-                  Opisuje rezultat, który mógłby wydarzyć się w przeszłości, ale się nie wydarzył.
-                </p>
-                <p className="text-sm text-slate-800 italic">If I had studied harder, I would have passed the exam.</p>
-              </div>
-            </div>
-            <p className="text-sm text-slate-600">
-              W obu konstrukcjach &quot;would&quot; działa jako czasownik modalny.
-            </p>
-            <Link
-              href="/app/grammar/modals/would"
-              className="text-slate-700 underline hover:text-slate-900 font-medium"
-            >
-              Dowiedz się więcej o czasowniku modalnym &quot;would&quot; →
-            </Link>
-          </div>
-        </section>
-      ) : null}
-
-      {/* AI Dialog section */}
-      <section className="tile-frame">
-        <div className="tile-core p-6 space-y-4">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-xl font-semibold text-slate-900">Dialog kontrastowy (AI)</h2>
-            <button
-              className="rounded-xl border-2 border-slate-900 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-slate-50 disabled:opacity-60"
-              onClick={handleGenerateAIDialog}
-              disabled={aiDialogLoading}
-            >
-              {aiDialogLoading ? "Generuję…" : "Wygeneruj dialog AI (zapis do cache)"}
-            </button>
-          </div>
-
-          {aiError && (
-            <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
-              {aiError}
-            </div>
-          )}
-          {aiDialog && (
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <div className="space-y-1 font-mono text-sm text-slate-800">
-                {aiDialog.split("\n").map((line, index) => {
-                  const highlighted = line.replace(
-                    /\*\*(.+?)\*\*/g,
-                    '<span class="font-semibold text-slate-900">$1</span>'
-                  );
-                  return (
-                    <div key={index} dangerouslySetInnerHTML={{ __html: highlighted || "&nbsp;" }} />
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {!aiDialog && !aiError && (
-            <p className="text-sm text-slate-600">
-              Kliknij przycisk powyżej, aby wygenerować dialog kontrastowy pokazujący różnice między
-              tymi czasami. Dialog będzie zapisany w cache i dostępny przy następnych odwiedzinach.
-            </p>
+          ) : (
+            <p className="text-sm text-slate-400">Wybierz porównanie z listy.</p>
           )}
         </div>
-      </section>
 
-      {/* Quick links */}
-      <section className="tile-frame">
-        <div className="tile-core p-5">
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={theoryLink1}
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
-            >
-              Pełna teoria: {tense1.title} →
-            </Link>
-            <Link
-              href={theoryLink2}
-              className="rounded-xl border border-slate-900 bg-white px-4 py-2 font-medium text-slate-900 transition hover:bg-slate-50"
-            >
-              Pełna teoria: {tense2.title} →
-            </Link>
+        {/* Grouped comparison list */}
+        <aside className="flex flex-col rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] lg:h-[600px] lg:sticky lg:top-28">
+          <div className="mb-2 shrink-0 px-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
+            Porównania
           </div>
-        </div>
+          <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
+            {grouped.map((g) => (
+              <div key={g.group}>
+                <div className="mb-1 px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-300">
+                  {g.group}
+                </div>
+                <div className="flex flex-col gap-1">
+                  {g.items.map((item) => {
+                    const isActive = keyOf(item) === activeKey;
+                    return (
+                      <button
+                        key={keyOf(item)}
+                        type="button"
+                        onClick={() => select(item)}
+                        className={`relative overflow-hidden rounded-lg px-3 py-2 text-left text-sm leading-snug transition-all duration-150 ${
+                          isActive
+                            ? "bg-gradient-to-br from-emerald-400 to-teal-600 ring-1 ring-inset ring-white/20"
+                            : "font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                        }`}
+                      >
+                        {isActive ? (
+                          <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+                        ) : null}
+                        <span className="relative font-semibold" style={isActive ? { color: "#fff" } : undefined}>
+                          {item.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </aside>
       </section>
     </main>
   );

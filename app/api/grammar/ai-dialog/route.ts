@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import type { GrammarTenseSlug } from "@/lib/grammar/types";
 
@@ -8,109 +9,63 @@ function requiredEnv(key: string): string {
   return value;
 }
 
+const DIALOG_MODEL = "claude-sonnet-4-6";
+
 type Body = {
   tense1: string;
   tense2: string;
   force?: boolean;
 };
 
-async function openaiGenerateDialog(params: {
+async function generateDialog(params: {
   tense1: string;
   tense2: string;
   tense1Title: string;
   tense2Title: string;
   isComparison: boolean;
 }) {
-  const apiKey = requiredEnv("OPENAI_API_KEY");
-  const model = "gpt-4o-mini"; // Fast and cost-effective
+  const apiKey = requiredEnv("ANTHROPIC_API_KEY");
+  const client = new Anthropic({ apiKey });
 
-  let prompt: string;
+  const prompt =
+    params.isComparison && params.tense1 !== params.tense2
+      ? `Write a short, natural English dialogue (5-7 lines) for A2/B1 learners that clearly CONTRASTS two tenses: ${params.tense1Title} and ${params.tense2Title}.
 
-  if (params.isComparison && params.tense1 !== params.tense2) {
-    // Comparison dialog
-    prompt = `Generate a short English dialogue (4-6 lines) for A2/B1 level learners that contrasts two grammatical tenses: ${params.tense1Title} and ${params.tense2Title}.
+Rules:
+- Everyday, realistic situation (work, travel, home, plans…).
+- Each line starts with "A:" or "B:".
+- Use **bold** ONLY on the verb form that demonstrates one of the two tenses.
+- Make the contrast obvious: some lines use ${params.tense1Title}, others ${params.tense2Title}.
+- Simple, correct A2/B1 English. No translations, no explanations.
 
-Requirements:
-- Level: A2/B1 (simple, clear English)
-- Length: 4-6 lines of dialogue between two people
-- Purpose: Show the difference between ${params.tense1Title} and ${params.tense2Title} in natural conversation
-- Highlight verb forms: Use **bold** to mark verb forms that demonstrate each tense
-- Natural and practical: Use everyday situations
-- Clear contrast: Make it obvious when each tense is used
+Return ONLY the dialogue lines, nothing else.`
+      : `Write a short, natural English dialogue (5-7 lines) for A2/B1 learners that clearly demonstrates the ${params.tense1Title} tense.
 
-Format: Return ONLY the dialogue text, with each line on a new line. Use **bold** for verb forms.
+Rules:
+- Everyday, realistic situation.
+- Each line starts with "A:" or "B:".
+- Use **bold** ONLY on the verb forms that demonstrate ${params.tense1Title}.
+- Simple, correct A2/B1 English. No translations, no explanations.
 
-Example format:
-A: I **work** every day.
-B: I **am working** right now.
-A: I **worked** yesterday.
-B: I **have worked** here for two years.
+Return ONLY the dialogue lines, nothing else.`;
 
-Generate the dialogue:`;
-  } else {
-    // Single tense dialog
-    prompt = `Generate a short English dialogue (4-6 lines) for A2/B1 level learners demonstrating the ${params.tense1Title} tense.
-
-Requirements:
-- Level: A2/B1 (simple, clear English)
-- Length: 4-6 lines of dialogue between two people
-- Purpose: Show practical usage of ${params.tense1Title} in natural conversation
-- Highlight verb forms: Use **bold** to mark verb forms that demonstrate ${params.tense1Title}
-- Natural and practical: Use everyday situations
-- Clear examples: Make it obvious when ${params.tense1Title} is used
-
-Format: Return ONLY the dialogue text, with each line on a new line. Use **bold** for verb forms.
-
-Example format (for Present Simple):
-A: I **work** every day.
-B: What time do you **start**?
-A: I **start** at nine o'clock.
-B: Do you **like** your job?
-
-Generate the dialogue:`;
-  }
-
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.7,
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful English language teacher. Generate clear, educational dialogues for language learners.",
-        },
-        { role: "user", content: prompt.trim() },
-      ],
-    }),
+  const msg = await client.messages.create({
+    model: DIALOG_MODEL,
+    max_tokens: 600,
+    system:
+      "You are an expert English teacher. You write clear, natural, level-appropriate dialogues that make grammar visible. You output only the dialogue, never commentary.",
+    messages: [{ role: "user", content: prompt }],
   });
 
-  const text = await res.text();
-  if (!res.ok) {
-    throw new Error(`OpenAI HTTP ${res.status}: ${text}`);
-  }
+  const content = msg.content
+    .filter((b): b is Anthropic.TextBlock => b.type === "text")
+    .map((b) => b.text)
+    .join("")
+    .trim();
 
-  let json: any;
-  try {
-    json = JSON.parse(text);
-  } catch {
-    throw new Error(`OpenAI response not JSON: ${text}`);
-  }
+  if (!content) throw new Error("Model returned empty content.");
 
-  const content = json?.choices?.[0]?.message?.content;
-  if (typeof content !== "string" || !content.trim()) {
-    throw new Error("OpenAI returned empty content.");
-  }
-
-  return {
-    dialog: content.trim(),
-    model,
-    usage: json?.usage || {},
-  };
+  return { dialog: content, model: DIALOG_MODEL };
 }
 
 /**
@@ -250,9 +205,9 @@ export async function POST(req: Request) {
       tense2Title = tense2Data.title;
     }
 
-    // Generate with OpenAI
+    // Generate with Anthropic (Sonnet)
     const isComparison = tense1 !== tense2;
-    const gen = await openaiGenerateDialog({
+    const gen = await generateDialog({
       tense1,
       tense2,
       tense1Title,
