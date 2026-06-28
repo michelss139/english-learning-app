@@ -290,24 +290,61 @@ function MistakesSection({
   );
 }
 
-/** Dialog line with the tense's characteristic auxiliaries highlighted. */
+/**
+ * Highlight ranges for a dialog line: the tense's characteristic auxiliary AND
+ * the lexical (main) verb that follows it. The main verb is the first word after
+ * the auxiliary phrase, skipping "not"/n't and an -ly adverb — so "I am cooking"
+ * highlights both "am" and "cooking"; "have been cooking" -> "have been" + "cooking".
+ */
+function dialogHighlightRanges(line: string, slug?: string): [number, number][] {
+  if (!slug) return [];
+  const aux = getAuxiliaryPattern(slug);
+  if (!aux) return [];
+  const re = new RegExp(aux.source, aux.flags.includes("g") ? aux.flags : aux.flags + "g");
+  const ranges: [number, number][] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(line)) !== null) {
+    if (m[0].length === 0) {
+      re.lastIndex++;
+      continue;
+    }
+    const auxEnd = m.index + m[0].length;
+    ranges.push([m.index, auxEnd]);
+    const rest = line.slice(auxEnd);
+    const mv = rest.match(/^(\s+(?:not\s+|(?:i|you|he|she|it|we|they)\s+)?(?:[a-z]+ly\s+)?)([a-z][a-z'\u2019]*)/i);
+    if (mv) {
+      const start = auxEnd + mv[1].length;
+      ranges.push([start, start + mv[2].length]);
+    }
+  }
+  ranges.sort((a, b) => a[0] - b[0]);
+  const merged: [number, number][] = [];
+  for (const r of ranges) {
+    const last = merged[merged.length - 1];
+    if (last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
+    else merged.push([r[0], r[1]]);
+  }
+  return merged;
+}
+
+/** Dialog line with the tense's characteristic verb forms highlighted. */
 function DialogLine({ line, slug }: { line: string; slug?: string }) {
-  const pattern = slug ? getAuxiliaryPattern(slug) : null;
-  if (!pattern || !line.trim()) return <>{line || " "}</>;
-  const parts = line.split(pattern);
-  return (
-    <>
-      {parts.map((part, i) =>
-        i % 2 === 1 ? (
-          <strong key={i} className="font-bold text-[#178CF2]">
-            {part}
-          </strong>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </>
-  );
+  if (!line.trim()) return <>{line || " "}</>;
+  const ranges = dialogHighlightRanges(line, slug);
+  if (ranges.length === 0) return <>{line}</>;
+  const nodes: React.ReactNode[] = [];
+  let cursor = 0;
+  ranges.forEach(([s, e], i) => {
+    if (cursor < s) nodes.push(<span key={`p${i}`}>{line.slice(cursor, s)}</span>);
+    nodes.push(
+      <strong key={`h${i}`} className="font-bold text-[#178CF2]">
+        {line.slice(s, e)}
+      </strong>,
+    );
+    cursor = e;
+  });
+  if (cursor < line.length) nodes.push(<span key="tail">{line.slice(cursor)}</span>);
+  return <>{nodes}</>;
 }
 
 function ExamplesSection({ examples, dialog, tenseSlug }: { examples: string; dialog: string; tenseSlug?: string }) {
